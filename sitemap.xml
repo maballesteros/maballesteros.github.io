@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>/articles/vertx3-kotlin-rest-jdbc-tutorial/</loc>
+    <lastmod>2015-11-15T00:00:00+01:00</lastmod>
+  </url>
+  <url>
+    <loc>/blog/moved-to-akamon/</loc>
+    <lastmod>2014-04-01T00:00:00+02:00</lastmod>
+  </url>
+  <url>
+    <loc>/experiments/plain-kb/</loc>
+    <lastmod>2013-10-22T00:00:00+02:00</lastmod>
+  </url>
+  <url>
+    <loc>/about/</loc>
+  </url>
+  <url>
+    <loc>/blog/</loc>
+  </url>
+  <url>
+    <loc>/experiments/</loc>
+  </url>
+  <url>
+    <loc>/</loc>
+  </url>
+  <url>
+    <loc>/projects/</loc>
+  </url>
+  <url>
+    <loc>/posts/</loc>
+  </url>
+  <url>
+    <loc>/articles/</loc>
+  </url>
+  <url>
+    <loc>/experiments/KB/KB.html</loc>
+    <lastmod>2013-10-22T08:29:11+02:00</lastmod>
+  </url>
+  <url>
+    <loc>/experiments/KB/TestPaper.html</loc>
+    <lastmod>2013-10-20T07:19:29+02:00</lastmod>
+  </url>
+</urlset>

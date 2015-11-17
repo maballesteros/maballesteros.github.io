@@ -1,0 +1,180 @@
+﻿<definitions>
+
+<!-- ====================================================================================== -->
+<definition>
+<dt stared keywords="relaciones binarias">Relaciones binarias entre conjuntos</dt>
+<dd>
+<h4>Relación</h4>
+<p>Se define <em>relación</em> $G$ como un subconjunto del producto $A \times B$. Para cada $(x, y) \in G$ decimos $xRy$ ($x$ relacionado con $y$)</p>
+<p>Un cierto $x \in A$ puede estar relacionado con muchos $y \in B$. A todos los elementos de $B$ relacionados con $x$ se les denomina <em>imágen</em> de $x$ por $R$.</p>
+<p>De la misma forma, un cierto $y \in B$ puede estar relacionado con varios elementos de $A$, y les denominaremos como el <em>original</em> de $y$ por $R$.</p>
+<p>A las relaciones se les denominan también <em>correspondencias</em>, <em>transformaciones</em>, o <em>funciones</em>.</p>
+
+<script type="text/javascript">
+	paperScript('correspondencia', function(p) {
+		vennDiagrams(0, 0, [
+			{a0:{to:['b0', 'b1']}, a1:{to:'b2'}, a2:{to:'b2'}, a3:{to:'b3'}, a4:{}  },
+			{b0:{}, b1:{}, b2:{}, b3:{}, b4:{} }
+		], 'Relación/Correspondencia');
+	});
+</script>	
+<canvas id="correspondencia" height="200px" width="250px"></canvas>	
+
+
+<h4>Correspondencia unívoca</h4>
+<p>Diremos que una relación es una correspondencia unívoca cuando a cada $x \in A$ le corresponde a lo sumo un $y \in B$</p>
+
+<script type="text/javascript">
+	paperScript('correspondenciaUnivoca', function(p) {
+		vennDiagrams(0, 0, [
+			{a0:{to:'b0'}, a1:{to:'b0'}, a2:{to:'b1'}, a3:{to:'b3'}, a4:{}  },
+			{b0:{}, b1:{}, b2:{}, b3:{}, b4:{} }
+		], 'Correspondencia unívoca');
+	});
+</script>	
+<canvas id="correspondenciaUnivoca" height="200px" width="250px"></canvas>	
+
+
+<h4>Aplicación</h4>
+<p>Una <em>aplicación<em> es una correspondencia unívoca en la que todos los elementos de $A$ tienen imágen.</p>
+
+<script type="text/javascript">
+	paperScript('aplicacion', function(p) {
+		vennDiagrams(0, 0, [
+			{a0:{to:'b0'}, a1:{to:'b0'}, a2:{to:'b1'}, a3:{to:'b3'}, a4:{to:'b4'}  },
+			{b0:{}, b1:{}, b2:{}, b3:{}, b4:{} }
+		], 'Aplicación');
+	});
+</script>	
+<canvas id="aplicacion" height="200px" width="250px"></canvas>	
+
+
+<h4>Aplicación sobreyectiva</h4>
+<p>Una aplicación $f$ de $A$ sobre $B$ será sobreyectiva cuando $\forall y \in B, \exists x \in A / f(x) = y$, esto es, que para todo elemento de $B$ existe un elemento de $A$ que se relaciona con él.</p>
+
+<script type="text/javascript">
+	paperScript('aplicacionSobreyectiva', function(p) {
+		vennDiagrams(0, 0, [
+			{a0:{to:'b0'}, a1:{to:'b0'}, a2:{to:'b1'}, a3:{to:'b3'}, a4:{to:'b4'}, a5:{to:'b2'}  },
+			{b0:{}, b1:{}, b2:{}, b3:{}, b4:{} }
+		], 'Aplicación sobreyectiva');
+	});
+</script>	
+<canvas id="aplicacionSobreyectiva" height="200px" width="250px"></canvas>	
+
+
+
+<h4>Aplicación inyectiva</h4>
+<p>Una aplicación $f$ de $A$ sobre $B$ será inyectiva cuando $\forall y \in im(f), \exists! x \in A / f(x) = y$.</p>
+
+<script type="text/javascript">
+	paperScript('aplicacionInyectiva', function(p) {
+		vennDiagrams(0, 0, [
+			{a0:{to:'b0'}, a1:{to:'b2'}, a2:{to:'b1'}, a3:{to:'b3'}, a4:{to:'b4'}  },
+			{b0:{}, b1:{}, b2:{}, b3:{}, b4:{}, b5:{}  }
+		], 'Aplicación inyectiva');
+	});
+</script>	
+<canvas id="aplicacionInyectiva" height="200px" width="250px"></canvas>	
+
+
+<h4>Aplicación biyectiva</h4>
+<p>Una aplicación $f$ de $A$ sobre $B$ será biyectiva cuando sea al mismo tiempo sobreyectiva e inyectiva.</p>
+
+<h4>Diferencias entre relación, correspondencia unívoca, y aplicación</h4>
+<p>En una relación, un elemento del conjunto origen puede relacionarse con uno o más elementos en destino.</p>
+<p>La correspondencia unívoca restringe la relación a que un elemento en origen <u>puede</u> relacionarse sólo un único elemento en destino(de ahí lo de unívoca).</p>
+<p>En ninguno de los dos casos es obligatorio que exista una relación para cada elemento del origen. Ahí es donde entra la aplicación: todos los elementos del origen <u>deben</u> (en vez de pueden) tener un único elemento en destino</p>
+<p>La aplicación sobreyectiva asegura que <u>todos</u> los elementos del destino están cubiertos, pero puede que por más de un elemento en origen.</p>
+<p>La aplicación inyectiva asegura que a cada elemento del destino que está relacionado, lo está sólo con un único elemento en origen.</p>
+<p>Finalmente la aplicación biyectiva, que combina las dos previas, asegura que todos los elementos en destino están cubiertos, y que lo están por un único elemento en origen.</p>
+
+<blockquote>
+<small>En este asunto el tamaño de los conjuntos es muy importante. Por ejemplo, si $A$ tiene más elementos que $B$ una aplicación no puede ser inyectiva, dado que algún elemento de $B$ tendría dos o más orígenes en $A$. De forma similar, si $A$ tiene menos elementos que $B$, la aplicación no puede ser sobreyectiva, dado que a algún elemento de $B$ no le llegará "flecha" (de un elemento de $A$ sólo puede salir 1 flecha)</small>
+</blockquote>
+
+<h4>Ejemplos</h4>
+
+<blockquote>
+<b>1) Verificar que la relación entre $A=\mathbb{N}$ y $B=\{\mathbb{N} pares\}$ definida por $f(x) = 2x$ es una aplicación biyectiva</b>
+<small>Para verificar que es aplicación biyectiva vamos a comprobar que cumple la definición de ser inyectiva y sobreyectiva:
+<br/><b>Sobreyectiva:</b>
+	$$\forall y \in B, \exists x \in A / f(x) = y \ \ \iff \ \ \forall y \in B, \exists x \in A / 2x = y$$
+Como $y \in B$ es un número par, $x$ será un número entero que cumple, por tanto, $x \in \mathbb{N}$
+<br/><b>Inyectiva:</b>
+	$$\forall y \in im(f), \exists! x \in A / f(x) = y \ \ \iff \ \ \forall y \in im(f), \exists! x \in A / 2x = y$$
+Y se cumple porque $x = \frac{y}{2}$ es único dado un cierto $y$ 
+</small>
+</blockquote>
+
+
+<blockquote>
+<b>2) Verificar que la relación entre $A=\mathbb{N}$ y $B=\{1, -1\}$ definida por $f(x) = (-1)^x$ es una aplicación sobreyectiva no inyectiva</b>
+<small>Comprobamos cada caso:
+<br/><b>Sobreyectiva:</b>
+	$$\forall y \in B, \exists x \in A / f(x) = y$$
+Lo que es cierto porque podemos encontrar un ejemplo de $x \in A$ para los dos elementos de $B$: 
+	$$1 \in B \implies \ \ f(0)=(-1)^0=1$$
+	$$-1 \in B \implies \ \ f(1)=(-1)^1=-1$$
+<br/><b>NO inyectiva:</b>
+	$$(-1)^0 = (-1)^2$$
+Por lo que no se cumple que exista un único elemento de $A$ para cada elemento de $B$ (hemos encontrado dos, el 0 y el 2, cuya imágen es el mismo elemento en $B$)
+</small>
+</blockquote>
+
+
+<blockquote>
+<b>3) Verificar que la relación entre $A=\mathbb{N}$ y $B=\mathbb{N}$ definida por $f(x) = 2x$ es una aplicación inyectiva y no sobreyectiva.</b>
+<small>Comprobamos cada caso:
+<br/><b>NO obreyectiva:</b>
+	$$\forall y \in B, \exists x \in A / f(x) = y$$
+Lo que NO es cierto porque ninguno de los $x impares \in B$ tienen un origen en $A$ (p.e., $\not\exists x \in A / f(x) = 1$)
+
+<br/><b>Inyectiva:</b>
+La imágen de $A$ por $f$ son los números naturales pares, y para cada uno de ellos sólo existe un único número natural que pueda ser origen: el número mitad. Por tanto, cumple la condición de inyectiva.
+</small>
+</blockquote>
+
+
+<h4>Inversa de una aplicación biyectiva</h4>
+<p>La inversa de una aplicación biyectiva es otr aplicación biyectiva $f^{-1}$ tal que:
+	$$f^{-1} \circ f = Id \ \ \implies \ \ f^{-1}(f(x)) = x, \ \ \forall x \in A$$
+</p>
+
+
+<blockquote>
+<b>1) Obtener la inversa de $f(x)=2x+1$</b>
+<small>Si llamamos $y=f(x)$ y despejamos la x obtenemos $x=\frac{y-1}{2}$ que es la inversa $f^{-1}$ como podemos podemos comprobar a continuación:
+	$$f(f^{-1}(x)) = 2(\frac{x-1}{2})+1 = x$$
+</small>
+</blockquote>
+
+
+<h4>Identidad de funciones</h4>
+<p>Sea $A \xrightarrow{f,g} B$, se dice que $f$ y $g$ son idénticas sobre $C \subset A$ (subconjunto de $A$ donde están definidas ambas funciones) cuando:
+<ol>
+	<li>$C \subset or(f) \land C \subset or(g)$. Notar que pueden ser idénticas en un intervalo (p.e. con funciones de variable real) y no serlo en el resto de su dominio. Esta condición es equivalente a $C \subset or(f) \cap or(g)$, esto es, $C$ está incluido en la intersección de los orígenes.</li>
+	<li>$\forall x \in C, \ \ f(x) = g(x)$</li>
+</ol>
+</p>
+<p>Además, se dice que son <em>estrictamente idénticas</em> cuando se cumple que $or(f) = or(g)$</p>
+
+</dd>
+</definition>
+<!-- ====================================================================================== -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</definitions>
