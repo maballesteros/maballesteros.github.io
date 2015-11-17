@@ -6,7 +6,6 @@ url:
 
 
 # Jekyll configuration
-destination:  ../
 permalink:   /:categories/:title/
 markdown:    kramdown
 highlighter: pygments
