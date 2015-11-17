@@ -177,69 +177,9 @@ object Vertx3KotlinRestJdbcTutorial {
 
 ### Step 3: In-memory REST User repository (with simplified REST definitions)
 
-In the [third step](https://github.com/maballesteros/vertx3-kotlin-rest-jdbc-tutorial/blob/master/step03/src/tutorial03.kt) we'll just simplify REST definitions.
+In the [third step](https://github.com/maballesteros/vertx3-kotlin-rest-jdbc-tutorial/blob/master/step03/src/tutorial03.kt) we'll just simplify REST definitions. We'll spend some time mapping backend services to REST endpoints, so the easier, the best.
 
-We want to go from this code:
-
-{% highlight kotlin linenos %}
-{% raw %}
-@JvmStatic fun main(args: Array<String>) {
-    val port = 9000
-    val vertx = Vertx.vertx()
-    val server = vertx.createHttpServer()
-    val router = Router.router(vertx)
-    router.route().handler(BodyHandler.create())
-    val userService = MemoryUserService()
-
-    router.get("/:userId").handler { ctx ->
-        val userId = ctx.request().getParam("userId")
-        jsonResponse(ctx, userService.getUser(userId))
-    }
-
-    router.post("/").handler { ctx ->
-        val user = jsonRequest<User>(ctx, User::class)
-        jsonResponse(ctx, userService.addUser(user))
-    }
-
-    router.delete("/:userId").handler { ctx ->
-        val userId = ctx.request().getParam("userId")
-        jsonResponse(ctx, userService.remUser(userId))
-    }
-
-    server.requestHandler { router.accept(it) }.listen(port) {
-        if (it.succeeded()) println("Server listening at $port")
-        else println(it.cause())
-    }
-}
-{% endraw %}
-{% endhighlight %}
-
-To this one, much more compact and semantic:
-
-{% highlight kotlin linenos %}
-{% raw %}
-@JvmStatic fun main(args: Array<String>) {
-    val port = 9000
-    val vertx = Vertx.vertx()
-    val userService = MemoryUserService()
-
-    vertx.createHttpServer().restAPI(vertx) {
-
-        get("/:userId") { send(userService.getUser(param("userId"))) }
-
-        post("/") { send(userService.addUser(bodyAs(User::class))) }
-
-        delete("/:userId") { send(userService.remUser(param("userId"))) }
-
-    }.listen(port) {
-        if (it.succeeded()) println("Server listening at $port")
-        else println(it.cause())
-    }
-}
-{% endraw %}
-{% endhighlight %}
-
-Let's compare both kind of definitions side by side:
+Let's compare two valid code samples. The first one is our current codebase, and the second one, what we would like to achieve:
 
 {% highlight kotlin linenos %}
 {% raw %}
@@ -253,7 +193,7 @@ router.post("/").handler { ctx ->
     jsonResponse(ctx, userService.addUser(user))
 }
 
-----------
+---------->
 
 get("/:userId") { send(userService.getUser(param("userId"))) }
 
@@ -304,5 +244,196 @@ fun RoutingContext.send<T>(future: Future<T>) {
 
 ### Step 4: JDBC backend REST User repository
 
+In the [fourth step](https://github.com/maballesteros/vertx3-kotlin-rest-jdbc-tutorial/blob/master/step04/src/tutorial04.kt) we add a JDBC backend. This requires some infrastructure code to keep things simple.
+
+Let's checkout the JDBC implementation:
+
+{% highlight kotlin linenos %}
+{% raw %}
+class JdbcUserService(private val client: JDBCClient): UserService {
+
+    init {
+        client.execute("""
+        CREATE TABLE USERS
+            (ID VARCHAR(25) NOT NULL,
+            FNAME VARCHAR(25) NOT NULL,
+            LNAME VARCHAR(25) NOT NULL)
+        """).setHandler {
+            val user = User("1", "user1_fname", "user1_lname")
+            addUser(user)
+            println("Added user $user")
+        }
+    }
+
+    override fun getUser(id: String): Future<User> =
+        client.queryOne("SELECT ID, FNAME, LNAME FROM USERS WHERE ID=?", listOf(id)) {
+            it.results.map { User(it.getString(0), it.getString(1), it.getString(2)) }.first()
+        }
+
+
+    override fun addUser(user: User): Future<Unit> =
+        client.update("INSERT INTO USERS (ID, FNAME, LNAME) VALUES (?, ?, ?)",
+                listOf(user.id, user.fname, user.lname))
+
+
+    override fun remUser(id: String): Future<Unit> =
+        client.update("DELETE FROM USERS WHERE ID = ?", listOf(id))
+}
+{% endraw %}
+{% endhighlight %}
+
+Easy right? Note that we *must* provide a `JDBCClient` at construction time. Here's the code added to the `main()` to build the JDBC client and connect it to a real database:
+
+{% highlight kotlin linenos %}
+{% raw %}
+val client = JDBCClient.createShared(vertx, JsonObject()
+        .put("url", "jdbc:hsqldb:mem:test?shutdown=true")
+        .put("driver_class", "org.hsqldb.jdbcDriver")
+        .put("max_pool_size", 30));
+val userService = JdbcUserService(client)
+// val userService = MemoryUserService()
+{% endraw %}
+{% endhighlight %}
+
+In this tutorial we use [hsqldb](http://hsqldb.org/), a Java database frequently used in db layer testing, as it provides an *in-memory* implementation that comes handy.
+
+Vertx JDBC support doesn't come with so simple APIs. Again, some Kotlin extension methods and functional programming help to keep things simple (look at [db_utils.kt](https://github.com/maballesteros/vertx3-kotlin-rest-jdbc-tutorial/blob/master/step04/src/db_utils.kt)).
 
 ### Step 5: JDBC backend REST User repository (with Promises and more Kotlin sugar)
+
+In the [fifth step](https://github.com/maballesteros/vertx3-kotlin-rest-jdbc-tutorial/blob/master/step05/src/tutorial05.kt) we add more infrastructure code to simplify even more, and let the beast scale better with complexity.
+
+In previous examples we've used the `Future<T>` type provided by Vertx. It gives you a quite familiar way to subscribe to *future* results, so whenever it is available, you can query it for success or failure and take any additional action.
+
+But the `Future<T>` type lacks some important features that are very important to scale out of the simple examples shown here:
+
+  - Composability: you cannot *chain* `Future<T>` types
+  - Synchronization: you cannot *wait* to several futures to finish, and act after the last one.
+
+Well, I'm not completely fair: you can, indeed... but with a lot of boilerplate code that would give you an unmanageable code.
+
+So, what's the alternative? The [Promise pattern](http://www.html5rocks.com/en/tutorials/es6/promises/) solves all this, and is a *the facto* standard for handling asynchronous code.
+
+First, we need a [Promise implementation in Kotlin that hooks to the Vertx event loop](https://github.com/maballesteros/vertx3-kotlin-rest-jdbc-tutorial/blob/master/step05/src/promise.kt).
+
+Then we can redefine our codebase on this asynchronous pattern. Let's start by redefining the service API (easy, just change `Future<T>` to `Promise<T>`):
+
+{% highlight kotlin linenos %}
+{% raw %}
+data class User(val id:String, val fname: String, val lname: String)
+
+interface UserService {
+
+    fun getUser(id: String): Promise<User?>
+    fun addUser(user: User): Promise<Unit>
+    fun remUser(id: String): Promise<Unit>
+}
+{% endraw %}
+{% endhighlight %}
+
+The service JDBC implementation it's also quite similar. Note the change in the `init()` method, where we start using the composition operations `.pipe()` and `.then()` to chain asynchronous actions in a quite semantic way:
+
+{% highlight kotlin linenos %}
+{% raw %}
+class JdbcUserService(private val client: JDBCClient): UserService {
+
+    init {
+        val user = User("1", "user1_fname", "user1_lname")
+        client.execute("""
+            CREATE TABLE USERS
+                (ID VARCHAR(25) NOT NULL,
+                FNAME VARCHAR(25) NOT NULL,
+                LNAME VARCHAR(25) NOT NULL)
+            """)
+        .pipe { addUser(user) }
+        .then { println("Added user $user") }
+    }
+
+    override fun getUser(id: String): Promise<User?> =
+        client.queryOne("SELECT ID, FNAME, LNAME FROM USERS WHERE ID=?", listOf(id)) {
+            User(it.getString(0), it.getString(1), it.getString(2))
+        }
+
+
+    override fun addUser(user: User): Promise<Unit> =
+        client.update("INSERT INTO USERS (ID, FNAME, LNAME) VALUES (?, ?, ?)",
+                listOf(user.id, user.fname, user.lname)).then {  }
+
+
+    override fun remUser(id: String): Promise<Unit> =
+        client.update("DELETE FROM USERS WHERE ID = ?", listOf(id)).then {  }
+}
+{% endraw %}
+{% endhighlight %}
+
+We use:
+
+  - `.then()`: when the next action returns an immediate result.
+  - `.pipe()`: when the next action returns a `Promise<T>` also, and we want to chain on it.
+
+In JavaScript promises you just have a `.then()` operation, but Java being typed requires to distinguish both cases.
+
+Promises pattern simplify not only the user code, but also the infrastructure code. Compare the [future based infrastructure](https://github.com/maballesteros/vertx3-kotlin-rest-jdbc-tutorial/blob/master/step04/src/db_utils.kt) for database with the [promise based one](https://github.com/maballesteros/vertx3-kotlin-rest-jdbc-tutorial/blob/master/step05/src/db_utils.kt). As you can see, promises mix well with functional code.
+
+----
+
+In this step we simplified even more the REST API definition:
+
+{% highlight kotlin linenos %}
+{% raw %}
+val dbConfig = JsonObject()
+        .put("url", "jdbc:hsqldb:mem:test?shutdown=true")
+        .put("driver_class", "org.hsqldb.jdbcDriver")
+        .put("max_pool_size", 30)
+
+object Vertx3KotlinRestJdbcTutorial {
+
+    @JvmStatic fun main(args: Array<String>) {
+        val vertx = promisedVertx()
+
+        val client = JDBCClient.createShared(vertx, dbConfig);
+        val userService = JdbcUserService(client)
+
+        vertx.restApi(9000) {
+
+            get("/:userId") { send(userService.getUser(param("userId"))) }
+
+            post("/") { send(userService.addUser(bodyAs(User::class))) }
+
+            delete("/:userId") { send(userService.remUser(param("userId"))) }
+
+        }
+    }
+}
+{% endraw %}
+{% endhighlight %}
+
+This gives us a simpler view of the exposed REST API, removing all the boilerplate code to extension methods:
+
+{% highlight kotlin linenos %}
+{% raw %}
+fun Vertx.restApi(port: Int, body: Router.() -> Unit) {
+    createHttpServer().restApi(this, body).listen(port) {
+        if (it.succeeded()) println("Server listening at $port")
+        else println(it.cause())
+    }
+}
+
+fun HttpServer.restApi(vertx: Vertx, body: Router.() -> Unit): HttpServer {
+    val router = Router.router(vertx)
+    router.route().handler(BodyHandler.create())  // Required for RoutingContext.bodyAsString
+    router.body()
+    requestHandler { router.accept(it) }
+    return this
+}
+
+fun Router.get(path: String, rctx:RoutingContext.() -> Unit) = get(path).handler { it.rctx() }
+fun Router.post(path: String, rctx:RoutingContext.() -> Unit) = post(path).handler { it.rctx() }
+fun Router.put(path: String, rctx:RoutingContext.() -> Unit) = put(path).handler { it.rctx() }
+fun Router.delete(path: String, rctx:RoutingContext.() -> Unit) = delete(path).handler { it.rctx() }
+{% endraw %}
+{% endhighlight %}
+
+### Summing up
+
+In this tutorial we saw how to build a simple asynchronous REST API using Vertx and Kotlin. We started with a simple "Hello world!" HTTP server, and ended with a real asynchronous REST API leveraging good Kotlin sugar and the Promise pattern for asynchronous programming.
