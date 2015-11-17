@@ -1,0 +1,18 @@
+﻿<definitions>
+
+<definition>
+<dt stared>Matemáticas</dt>
+<dd>
+
+
+
+<p>A continuación se introducen los {{conjuntos}}, formados por elementos que pertenecen ({{signo de pertenencia}}) a él. Se introduce la {{igualdad de conjuntos}} (todos los elementos de un conjunto están en el otro y viceversa), y de ahí los {{subconjuntos}}, la {{inclusión de conjuntos}} y su {{transitividad}}. </p>
+
+<p>Dado que un subconjunto puede ser el propio conjunto, se distinguen el subconjunto de {{contenido estricto}}. Vemos también las {{partes disjuntas de un conjunto}}, y un ejemplo inmediato: el {{complementario de un subconjunto}}. Surge también de forma natural el {{conjunto vacío}} y el {{conjunto potencia}} de un conjunto.</p>
+
+<p>Una vez definidos los conceptos de conjuntos y subconjuntos, se repasan las {{operaciones entre conjuntos}}.</p>
+
+</dd>
+</definition>
+
+</definitions>

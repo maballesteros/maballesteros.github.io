@@ -1,0 +1,19 @@
+# Site navigation links
+
+- title: About me
+  url: /about/
+
+- title: Blog
+  url: /blog/
+
+- title: Articles
+  url: /articles/
+
+- title: Projects
+  url: /projects/
+
+- title: Experiments
+  url: /experiments/
+
+- title: All
+  url: /posts/

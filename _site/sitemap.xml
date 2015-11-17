@@ -19,19 +19,22 @@
     <loc>/blog/</loc>
   </url>
   <url>
-    <loc>/experiments/</loc>
-  </url>
-  <url>
-    <loc>/</loc>
-  </url>
-  <url>
-    <loc>/projects/</loc>
+    <loc>/articles/</loc>
   </url>
   <url>
     <loc>/posts/</loc>
   </url>
   <url>
-    <loc>/articles/</loc>
+    <loc>/projects/</loc>
+  </url>
+  <url>
+    <loc>/theme-setup/</loc>
+  </url>
+  <url>
+    <loc>/</loc>
+  </url>
+  <url>
+    <loc>/experiments/</loc>
   </url>
   <url>
     <loc>/experiments/KB/KB.html</loc>

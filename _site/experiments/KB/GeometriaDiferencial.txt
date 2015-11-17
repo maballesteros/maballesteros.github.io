@@ -1,0 +1,202 @@
+﻿<definitions>
+
+
+<definition>
+<dt stared keywords="geometría diferencial">Geometría diferencial</dt>
+<dd>
+
+<p>Con la geometría de Euclides se estudian relaciones entre longitudes y ángulos en el espacio, el plano, etc. Después viene la geometría analítica, en la que se introducen sistemas de coordenadas, intersecciones, perpendicularidad, etc.</p>
+
+<p>El paso sigiente es la {{geometría diferencial}} que se aplica a figuras complejas que se pueden describir por funciones derivables. Tras la introducción se estudian curvas y superficies en el espacio.</p>
+
+<p>Después llegaremos al cálculo tensorial en dos partes: propiedades generales y derivadas de tensores. Veremos campos tensoriales y derivadas en estos campos.</p>
+
+<p>La geometría diferencial se recoge en los siguientes puntos:
+<ul>
+	<li>Geometría en un dominio del espacio. Nociones fundamentales.
+		<ul>
+			<li>{{Espacio afín}} $\mathbb{R}^n$</li>
+			<li>{{Espacio vectorial euclídeo}} $\mathbb{R}^n$</li>
+			<li>{{Coordenadas cartesianas en el espacio afin}} $\mathbb{R}^n$</li>
+		</ul>
+	</li>
+	<li>Teoría de superficies</li>
+	<li>Tensores. Teoría algebraica</li>
+	<li>Cálculo diferencial sobre los tensores </li>
+</ul>
+</p>
+
+</dd>
+</definition>
+
+<!-- ============================================================================ -->
+<definition>
+<dt keywords="espacio afín">Espacio afín $\mathbb{R}^n$</dt>
+<dd>
+<p>Se llama espacio afin a la terna $(E, V, +)$, tal que:
+<ul>
+	<li>$E$ un conjunto de elementos a los que llamaremos <em>puntos</em>,</li>
+	<li>$V$ un espacio vectorial,</li>
+	<li>y $+$ a una ley de composición externa entre puntos y vectores $VxE \to E$, tal que:
+		<ol>
+			<li>$\forall \vec{a}, \vec{b} \in V, P \in E \ \ \to \ \ \vec{a} + (\vec{b} + P) = (\vec{a} + \vec{b}) + P$</li>
+			<li>$\forall P \in E, \ \ \to \ \ \vec{0} + P = P$, siendo $\vec{0}$ el neutro de la suma de vectores.</li>
+			<li>$\forall P, Q \in E, \ \ \exists ! \vec{a} \in V \ \ / \ \ P + \vec{a} = Q$</li>
+		</ol>
+	</li>
+</ul>
+</p>
+
+<p>El punto 3 nos dice que sólo hay un vector que me permite ir de $P$ a $Q$, esto es, sólo hay un vector que los une. Este {{axioma}} nos permite nombrarlo como $\vec{PQ}$:
+	$$\forall P,Q \in E \ \ \to \ \ \exists ! \vec{PQ} \in V \ \ / \ \ P + \vec{PQ} = Q$$
+</p>
+
+<p>¿Qué pasa si fijamos un punto en el espacio? Pues que tenemos una correspondencia biunívoca entre todos los vectores que empiezan en ese punto y los puntos de E:
+	$$0 \in E, \ \ P \in E \leftrightarrow {{ \vec{0P} / P \in E }} \leftrightarrow V $$
+</p>
+
+<p>Como consecuencia de esto (fijando un punto) tenemos una correspndencia biunívoca entre puntos y vectores de $V$:
+	$$P \in E \leftrightarrow \vec{a} \in V$$
+Notar que esta correspondencia no la tenemos al principio, y que surge cuando fijamos un punto.</p>
+
+<p>Si $V$ es espacio vectorial real de dimensión $n$, diremos que el espacio afín es un espacio afín de dimensión $n$ y lo representaremos por $\mathbb{R}^n$</p>
+
+</dd>
+</definition>
+
+
+
+<!-- ============================================================================ -->
+<definition>
+<dt keywords="Espacio vectorial euclídeo">Espacio vectorial euclídeo $\mathbb{R}^n$</dt>
+<dd>
+<p>Todavía no podemos hablar de distancias. Si suponemos que el espacio afín es euclídeo, se puede introducir un producto escalar euclídeo y se podrá hablar de distancias y ángulos.</p>
+
+<p>Decimos que el espacio vectorial es euclídeo si podemos definir el producto escalar euclídeo en $V$ que es una aplicación,
+	$$V \times V \to \mathbb{R} \ \ / \ \ (\vec{a}, \vec{b}) \to <\vec{a}, \vec{b}>$$
+que asocia a cada pareja de vectores un escalar real, y se cumplen las siguientes propiedades:
+	<ol>
+		<li><b>Linealidad</b>: $\forall \vec{a},\vec{b},\vec{c} \in V$, $\forall \lambda, \mu \in \mathbb{R}$ $\to <\vec{a}, \lambda\vec{b} + \mu\vec{c}> = \lambda<\vec{a},\vec{b}> + \mu<\vec{a},\vec{c}>$</li>
+		<li><b>Conmutatividad</b>: $<\vec{a},\vec{b}> = <\vec{b},\vec{a}>$</li>
+		<li>$<\vec{a},\vec{a}> \ge 0$ y $<\vec{a},\vec{a}> = 0 \iff \vec{a}=\vec{0}$</li>
+	</ol>
+</p>
+
+<p>Siempre podemos encontrar bases ortonormales para nuestro espacio. ¿Qué quiere decir esto? Si $V$ es un espacio vectorial euclídeo real de dimensión $n$, sabemos que existen bases ortonormales $B = \{\vec{e}_i\}^n_{i=1}$ $/ \ \ <\vec{e}_i,\vec{e}_j> = \delta_{ij}$</p>
+
+<p>Esto nos permite introducir coordenadas cartesianas en el espacio afin donde queremos trabajar. Recordemos que al tener un espacio vectorial euclídeo $V$ y una base ortonormal $B$, podemos expresar el producto escalar de dos vectores $\vec{a}=\sum_{i=1}^n a^i \vec{e}_i$ y $\vec{b}=\sum_{j=1}^n b^j \vec{e}_j$ como:
+	$$<\vec{a},\vec{b}> = \sum_{i,j}^n a^i b^j <\vec{e}_i,\vec{e}_j>$$
+	$$= \sum_{i,j}^n a^i b^j \delta_{ij}$$
+	$$= \sum_{i=1}^n a^i b^i$$
+	$$= a^1 b^1 + a^2 b^2 + . . . + a^n b^n$$
+</p>
+
+<p>Podemos definir ahora el módulo de un vector. Dado $\vec{a} \in V$ podemos definir el módulo como $||\vec{a} || = +\sqrt{<\vec{a},\vec{a}>} \ge 0$</p>
+
+<p>Se puede demostrar la desigualdad de Cauchy-Schwartz que dice:
+	$$\forall \vec{a},\vec{b} \in V, \ \ |<\vec{a},\vec{b}>| \le |\vec{a}| \cdot |\vec{b}|$$
+</p>
+
+<p>Una consecuencia importante es que esto nos permite definir un ángulo entre dos vectores de cualquier tipo (vectores en el espacio, polinomios, u otros más abstractos):
+	$$-1 \le cos(\varphi) \equiv \frac{<\vec{a},\vec{b}>}{|\vec{a}| \cdot |\vec{b}|} \le 1$$
+donde $\varphi$ es el ángulo entre $\vec{a}$ y $\vec{b}$ con $\varphi \in [0, \pi]$
+</p>
+<p>Esta definición puede parecer extraña, pero permite definir ángulos en espacios vectoriales abstractos donde la interpretación geométrica no es inmediata.</p>
+
+</dd>
+</definition>
+
+
+
+
+
+<!-- ============================================================================ -->
+<definition>
+<dt stared keywords="coordenadas cartesianas en el espacio afin">Coordenadas cartesianas en un espacio afín $\mathbb{R}^n$</dt>
+<dd>
+<p>Tomamos un punto fijo $O \in E$ al que llamaremos <em>origen</em> y una base ortonormal (no es necesario que sea ortonormal) del espacio vectorial $B = \{\vec{e}_i\}^n_{i=1}$. A la unión de ambos se le llama sistema de referencia:
+	$$S = \bigg\{ O, \left\{ \vec{e}_1,\vec{e}_2,\dots,\vec{e}_n \right\} \bigg\}$$
+</p>
+
+<p>Como recordamos, $\forall P \in E, \ \ P = O + \vec{OP}$, con un vector $\vec{OP}$ que podemos expresar en términos de la base como
+	$$ \vec{OP} = x^1\vec{e}_1 + x^2\vec{e}_2 + \dots +  x^n\vec{e}_n$$
+donde $x^i$ son números reales. Esto me permite hacer una biyección entre puntos $P$ y n-tuplas,
+	$$ P \leftrightarrow (x^1, x^2, \dots, x^n)$$
+A estas n-tuplas les llamaremos coordenadas cartesianas de $P$ en la base $B$.
+</p>
+
+<p>Podemos generalizarlo a dos puntos cualquiera $P,Q \in E$ con coordenadas $P=(x^1, x^2, \dots, x^n)$ y $Q=(y^1, y^2, \dots, y^n)$. ¿Cuáles serían las componentes del vector $\vec{PQ}$? Como hemos visto, $Q = P + \vec{PQ}$ y como $P = O + \vec{OP}$ y $Q = O + \vec{OQ}$ podemos decir
+	$$(O + \vec{OQ}) = (O + \vec{OP}) + \vec{PQ}$$
+	$$\vec{OQ} = \vec{OP} + \vec{PQ}$$
+	$$\vec{PQ} = \vec{OQ} - \vec{OP}$$
+y como $\vec{OP} = x^1\vec{e}_1 + x^2\vec{e}_2 + \dots +  x^n\vec{e}_n$ y $\vec{OQ} = y^1\vec{e}_1 + y^2\vec{e}_2 + \dots +  y^n\vec{e}_n$, podemos concluir que
+	$$\vec{PQ} = (y^1-x^1)\vec{e}_1 + (y^2-x^2)\vec{e}_2 + \dots + (y^n-x^n)\vec{e}_n$$
+</p>
+
+<b>Ejemplo 1: El plano $\mathbb{R}^2$</b>
+<p>Para construir coordenadas cartesianas necesitamos: un origen, y 2 direcciones perpendiculares. Para cada dirección tomamos dos vectores unitarios. Esto es generalizable a 3 dimensiones.</p>
+
+<script type="text/javascript">
+
+	// Get a reference to the canvas object
+	var canvas = document.getElementById('MATH-GEOM_DIF-CoordenadasEnEspacioAfin-1');
+	// Create an empty project and a view for the canvas:
+	paper.setup(canvas);
+
+	// Ejes de coordenadas en R^2
+	var ejeX = new paper.Path([new paper.Point(0, 130), new paper.Point(300, 130)]);
+	ejeX.strokeColor = 'black';
+	var ejeY = new paper.Path([new paper.Point(20, 0), new paper.Point(20, 150)]);
+	ejeY.strokeColor = 'black';
+	
+	
+	// Vector P
+	var vector = function(x, y, x0, y0) {
+		if (x0 == undefined) x0 = 0;
+		if (y0 == undefined) y0 = 0;
+		var vectorStart = new paper.Point(x0, y0);
+		var vector = new paper.Point(x-x0, y-y0);
+		var arrowVector = vector.normalize(10);
+		var end = vectorStart + vector;
+		vectorItem = new paper.Group(
+				new paper.Path(vectorStart, end),
+				new paper.Path(
+					end + arrowVector.rotate(135),
+					end,
+					end + arrowVector.rotate(-135)
+				)
+			);
+		vectorItem.strokeWidth = 3;
+		vectorItem.strokeColor = '#e4141b';
+		//var v = new paper.Path([new paper.Point(20, 130), new paper.Point(150, 60)])
+		//v.strokeWidth = 3;
+		//v.strokeColor = '#e4141b';
+	}
+	
+	vector(150, 60, 20, 130);
+
+	// Draw the view now:
+	paper.view.draw();
+
+</script>
+	
+<canvas id="MATH-GEOM_DIF-CoordenadasEnEspacioAfin-1" height="200px" width="300px"></canvas>
+
+
+
+</dd>
+</definition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</definitions>

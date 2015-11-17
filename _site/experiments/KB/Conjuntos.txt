@@ -1,0 +1,390 @@
+﻿<definitions>
+
+
+<definition>
+<dt stared keywords="conjuntos,conjunto">Conjuntos</dt>
+<dd>
+<p>Un conjunto es la reunión en un todo de determinados objetos bien definidos y diferenciables entre sí (Cantor):
+<ul>
+	<li>Para que un objeto esté correctamente definido es necesario que de cada objeto se pueda decir sin ambigüedad si pertenece (ver signo de pertenencia) o no al conjunto.</li>
+	<li>Si un objeto pertenece al un conjunto, entonces es un sólo elemento del conjunto (no hay duplicados, todos los elementos son distintos).</li>
+	<li>Se postula ({{axioma}}) que un conjunto no puede ser uno de los elementos que lo forman.</li>
+</ul>
+</p>
+
+<h4>Definición de conjuntos</h4>
+<p>Para definir un conjunto hay que precisar cuáles son todos los elementos que lo forman, y esto puede hacerse de dos formas:
+<ul>
+	<li><em>Por extensión.</em> Enumerando, uno a uno, todos sus elementos. Por ejemplo, el conjunto $A$ formado por los elementos $a$, $b$, $c$, y $d$, se representará escribiendo $A = \{a, b, c, d\}$</li>
+	<li><em>Por comprensión.</em> Definiendo sus elementos por las propiedades que los caracterizan. Ejemplos:
+		<ul>
+			<li>El conjunto $B$ de todos los puntos del plano situados en el interior de la circunferencia de centro el origen y radio la unidad, se designará mediante $B = \{p(x,y) \ | \ x^2 + y^2 \lt 1 \}$</li>
+		</ul>
+	</li>
+</ul>
+</p>
+<p>
+
+<h4>Signo de pertenencia</h4>
+<p>
+Para indicar que $a$ es un elemento del {{conjunto}} $A$ emplearemos el símbolo $\in$, y lo escribiremos como
+	$$a \in A$$
+o de forma alternativa
+	$$A \ni a$$
+</p>
+
+<h4>Igualdad de conjuntos</h4>
+<p>Dos {{conjuntos}} $A$ y $B$ se dirá que son iguales cuando estén constituidos por los mismos elementos, y se representará como $A = B$. Para verificarlo, habrá que comprobar que todo elemento del primer conjunto lo es también del segundo, y al revés.</p>
+<p>Si dos conjuntos son iguales, toda afirmación válida para el primero lo será para el segundo, pudiendo ser considerados como un mismo ente.</p>
+<p>Cuando dos conjuntos NO sean iguales se representará como $A \not = B$.</p>
+
+
+<h4>Temas relacionados:</h4>
+	<ul>
+		<li>{{Subconjuntos}}</li>
+		<li>{{Conjuntos especiales}}: Complementario, conjunto vacío, universal, y potencia de un conjunto</li>
+		<li>{{Operaciones entre conjuntos}}</li>
+	</ul>
+
+
+</dd>
+</definition>
+
+
+
+<definition>
+<dt keywords="subconjunto,subconjuntos,inclusión,inclusión de conjuntos">Subconjuntos de un conjunto</dt>
+<dd>
+<p>Dado un {{conjunto}} $C$ se llama subconjunto de $C$ a todo conjunto cuyos elementos lo sean también de $C$:
+	$$a \in A \implies a \in C$$ 
+Los subconjuntos de un conjunto $C$ se llaman también <em>partes</em> de $C$. También se dice que un subconjunto de $C$ está <em>incluido</em> en $C$.</p>
+<p>Para expresar que $A$ es un subconjunto de $C$ se recurre al signo $\subset$,
+	$$A \subset C$$
+o bien,
+	$$C \supset A$$
+</p>
+
+<h4>Tipos de inclusión</h4>
+<p>
+<ul>
+	<li><em>Inclusión impropia</em> Según la definición de {{subconjunto}}, todo conjunto es subconjunto de sí mismo: $C \subset C$</li>
+	<li><em>Inclusión propia</em> Se dice que $A$ es un subconjunto propio o que está estrictamente contenido en $C$ si se cumple,
+	$A \subset C \land A \neq C$ esto es, si $A$ es subconjunto de $C$ y existe al menos un elemento de $C$ que no está en $A$.</li>
+</ul>
+<p>Para diferenciar la {{inclusión}} del contenido estricto se usa en ocasiones $\subseteq$ y $\subset$ respectivamente.</p>
+
+<h4>Propiedades de la inclusión</h4>
+<p>
+Las propiedades de la inclusión son las siguientes:
+<ol>
+	<li><em>Propiedad reflexiva</em> $\forall A, \ \ A \subset A$, que hemos denominado inclusión impropia</li>
+	<li><em>Propiedad simétrica</em> $A \subset B \land B \subset A \ \ \implies \ \ A = B$ </li>
+	<li><em>Propiedad transitiva</em> $A \subset B \land B \subset C \ \ \implies \ \ A \subset C$ </li>
+</ol>
+</p>
+
+<b>Demostración de 1) la propiedad reflexiva</b>
+<p>
+Dado que $(x \in A \implies x \in A) \implies A \subset A$.
+</p>
+
+<b>Demostración de 2) la propiedad simétrica</b>
+<p>
+Si se cumple $A \subset B \land B \subset A$, entonces $\forall x \in A \implies x \in B$ y también $\forall y \in B \implies y \in A$, pero esto es justo la definición de igualdad: que todo elemento de un conjunto esté en el otro y viceversa.
+</p>
+
+<b>Demostración de 3) la transitividad de la inclusión de conjuntos</b>
+<p>
+De la definición de $A \subset B$ y $B \subset C$:
+	$$A \subset B \ \ \equiv \ \ x \in A \implies x \in B$$
+	$$B \subset C \ \ \equiv \ \ x \in B \implies x \in C$$
+
+Dado que ambas son verdaderas, se sigue que:
+	$$x \in A \implies x \in C \ \ \equiv \ \ A \subset C$$
+</p>
+
+
+<h4>Partes disjuntas de un conjunto</h4>
+<p>Dos {{subconjuntos}} $A$ y $B$ de un {{conjunto}} $C$ se dice que son partes disjuntas si no tienen nungún elemento en común:
+	$$(a \in A \implies a \not \in B) \land (b \in B \implies b \not \in A)$$
+</p>
+
+</dd>
+</definition>
+
+
+
+
+
+
+<definition>
+<dt keywords="Conjuntos especiales">Conjunto vacío, universal, y potencia de un conjunto</dt>
+<dd>
+
+<h4>Conjunto vacío</h4>
+<p>Llamamos conjunto vacío a un {{conjunto}} carente de elementos y lo representaremos con el símbolo $\phi$. Notar que el {{complementario}} de $C$ en $C$ es el conjunto vacío: $\forall C, C-C=\phi$</p>
+
+<h4>Conjunto potencia de un conjunto</h4>
+<p>Dado un {{conjunto}} $C$, llamaremos conjunto potencia de $C$ al conjunto de los {{subconjuntos}} de $C$ y lo representaremos por:
+	$$ {\cal P}(C) $$
+Así pues, 
+	$$A \subset C \ \ \equiv \ \ A \in {\cal P}(C)$$
+Como el propio conjunto y el conjunto vacío también son subconjuntos, también se cumple que 
+	$$\forall C, \ \ \ C \in {\cal P}(C)  \land \phi \in {\cal P}(C)$$
+</p>
+
+<blockquote>
+<b>Ejercicio: En un conjunto finito (esto es, con un número finito de elementos), ¿cuántos elementos tiene ${\cal P}(C)$?</b>
+<small>
+Es un ejercicio de combinatoria: en primer lugar estará el conjunto vacío $\phi$, luego los cada uno de los elementos por separado, esto es, las combinaciones de $n$ elementos tomadas de $1$ en $1$, luego las combinaciones de los $n$ elementos tomados de $2$ en $2$, etc.
+	$$\phi + C_n^1 + C_n^2 + \dots + C_n^n$$
+	$$= {n \choose 0} + {n \choose 1} + {n \choose 2} + \dots + {n \choose n}$$
+	$$= 2^n$$
+</small>
+</blockquote>
+
+<h4>Conjunto universal o referencial</h4>
+<p>En ocasiones, cuando se manejan varios {{conjuntos}}, es cómodo utilizar un conjunto que los contenga a todos ellos: a este conjunto le llamaremos conjunto universal o referencial.
+</p>
+
+</dd>
+</definition>
+
+
+<definition>
+<dt keywords="operaciones entre conjuntos,unión,intersección">Operaciones entre conjuntos</dt>
+<dd>
+<h4>Unión e intersección de conjuntos</h4>
+<p>La unión de dos conjuntos $A$ y $B$ es una ley de composición interna (i.e., la unión de dos conjuntos es otro conjunto) que se denota por
+	$$A \cup B$$
+y se define formalmente como
+
+	$$A \cup B \ \ = \ \ \{x \in U \ | \ x \in A \lor x \in B\}$$
+
+siendo $U$ el {{conjunto universal}} o referencial.
+</p>
+
+
+<p>Se llama intersección de dos conjuntos $A$ y $B$ al conjunto formado por aquellos elementos que pertenecen a ambos conjuntos, y se denota por:
+	$$A \cap B$$
+y se define formalmente como;
+
+	$$A \cap B \ \ = \ \ \{x \in U \ | \ x \in A \land x \in B\}$$
+
+siendo $U$ el {{conjunto universal}} o referencial.
+</p>
+
+<h5>Propiedades de la unión e intersección de conjuntos</h5>
+
+<em>Conmutatividad</em>
+	$$A \cup B  =  B \cup A, \ \ \ \ \ A \cap B  =  B \cap A$$
+
+<em>Asociatividad</em>
+	$$A \cup (B \cup C)  =  (A \cup B) \cup C, \ \ \ \ \ A \cap (B \cap C)  =  (A \cap B) \cap C$$
+
+<em>Idempotencia</em>
+	$$A \cup A  =  A, \ \ \ \ \ A \cap A  =  A$$
+
+<em>Absorción</em>
+	$$A \cup (A \cap B)  =  A, \ \ \ \ \ A \cap (A \cup B)  =  A$$
+
+<em>Distributividad</em>
+	$$A \cap (B \cup C)  =  (A \cap B) \cup (A \cap C)$$
+	$$A \cup (B \cap C)  =  (A \cup B) \cap (A \cup C)$$
+
+<em>Otras</em>
+	$$A \cup U = U$$
+	$$A \cap U = A$$
+
+
+<blockquote>
+<b>Ejercicio: Demostrar la asociatividad de la unión de dos conjuntos</b>
+<small>
+Se trata de demostrar que $A \cup (B \cup C) = (A \cup B) \cup C$
+	$$A \cup (B \cup C)$$
+	$$= A \cup \{x \in U \ | \ x \in B \lor x \in C\}$$
+	$$= \{x \in U \ | \ x \in A \lor (x \in B \lor x \in C)\}$$
+	$$= \{x \in U \ | \ (x \in A \lor x \in B) \lor x \in C)\}$$
+	$$= \{x \in U \ | \ x \in A \lor x \in B\} \cup C$$
+	$$= (A \cup B) \cup C$$
+La asociatividad de la intersección se prueba igual, pero en vez de $\lor$ la relación es $\land$. De hecho, podemos decir que la asociatividad de la unión y la intersección viene heredada de la asociatividad de estas operaciones binarias.
+</small>
+</blockquote>
+
+
+<h4>Complementariedad</h4>
+<p>Si $A$ es un {{subconjunto}} de $C$, se llama complementario de $A$ en $C$ al subconjunto de $C$ constituido por todos los elementos de $C$ que no están en $A$.</p>
+<p>Se representa como $\complement A$, como $A'$, o también como $\bar{A}$. También es frecuente representarlo como $C-A$.</p>
+<b>Demostración de $(A')' = A$</b>
+
+<h5>Propiedades de la complementariedad</h5>
+<ol>
+	<li>$\bar{\phi} = U, \ \ \bar{U} = \phi$</li>
+	<li>$\bar{\bar{X}} = X$</li>
+	<li>$A \cup \bar{A} = U$</li>
+	<li>$A \cap \bar{A} = \phi$</li>
+	<li><em>Leyes de Morgan</em>
+		<ul>
+			<li>$(A \cap B)' = A' \cup B'$</li>
+			<li>$(A \cup B)' = A' \cap B'$</li>
+		</ul>
+	</li>
+</ol>
+	
+
+
+<script type="text/javascript">
+
+	// Get a reference to the canvas object
+	var canvas = document.getElementById('leyesDeMorganCanvas');
+	// Create an empty project and a view for the canvas:
+	paper.setup(canvas);
+
+	// Creamos un círculo para A
+	var setU = new paper.Path.Rectangle(new paper.Point(45, 10), new paper.Size(150, 150));
+	setU.fillColor = 'black';
+	
+	// Creamos un círculo para A
+	var setA = new paper.Path.Circle(new paper.Point(100, 70), 50);
+	setA.fillColor = '#c9c9ff';
+	setA.strokeColor = 'black';
+	setA.opacity = 0.5;
+
+	// Creamos un círculo para B
+	var setB = new paper.Path.Circle(new paper.Point(140, 70), 50);
+	setB.fillColor = '#ffc9c9';
+	setB.strokeColor = 'black';
+	setB.opacity = 0.5;
+
+
+	// Draw the view now:
+	paper.view.draw();
+
+</script>
+	
+<canvas id="leyesDeMorganCanvas" height="200px"></canvas>	
+	
+	
+	
+	
+</dd>
+</definition>
+
+
+
+
+
+
+
+<!-- ====================================================================================== -->
+<definition>
+<dt keywords="producto de conjuntos">Producto de dos conjuntos</dt>
+<dd>
+<p>Se define el <em>producto</em> de dos conjuntos $A$, $B$ como
+	$$A \times B = \{ (x, y) / x \in A \land y \in B \}$$
+esto es, el conjunto de pares $(x, y)$ tales que $x \in A$ e $y \in B$
+</p>
+<h5>Propiedades del producto</h5>
+<ol>
+	<li>$(C \subset A) \land (D \subset B) \ \ \implies \ \ (C \times D) \subset (A \times B)$</li>
+	<li>$A \times (B \cup C) = (A \times B) \cup (A \times C)$ Distributividad del producto respecto de la unión.</li>
+	<li>$A \times (B \cap C) = (A \times B) \cap (A \times C)$ Distributividad del producto respecto de la intersección.</li>
+</ol>
+
+
+<blockquote>
+<b>Ejemplo visual de la propiedad 1</b>
+<small>Estas propiedades se entienden mejor si se visualizan como los dos ejes del plano y consideramos los conjuntos como segmentos, y los productos como las áreas rectangulares del cruce. Por ejemplo, representamos $A$ como un segmento vertical negro y $B$ como un segmento horizontal negro. Sus subconjuntos $C \subset A$ y $D \subset B$ los representamos como segmentos en color rojo</small>
+<small>El producto $A \times B$ se corresponde con el área rectangular en azul, mientras que el producto $C \times D$ es el área rojiza. Visualmente se ve con claridad que $(C \times D) \subset (A \times B)$, como queríamos mostrar.</small>
+
+<script type="text/javascript">
+
+	// Get a reference to the canvas object
+	var canvas = document.getElementById('propiedadesDelProductoDeConjuntos-1');
+	// Create an empty project and a view for the canvas:
+	paper.setup(canvas);
+
+	
+	// Creamos un eje vertical para A y un subconjunto C
+	var setA = new paper.Path(new paper.Point(10, 140), new paper.Point(10, 0));
+	setA.strokeColor = 'black';	
+	var setC = new paper.Path(new paper.Point(10, 100), new paper.Point(10, 50));
+	setC.strokeWidth = 3;
+	setC.strokeColor = 'red';
+	
+	
+	// Creamos un eje horizontal para B y un subconjunto D
+	var setB = new paper.Path(new paper.Point(20, 150), new paper.Point(200, 150));
+	setB.strokeColor = 'black';
+	var setD = new paper.Path(new paper.Point(40, 150), new paper.Point(150, 150));
+	setD.strokeWidth = 3;
+	setD.strokeColor = 'red';
+	
+	var setBA = new paper.Path.Rectangle(new paper.Point(20, 2), new paper.Point(200, 140));
+	setBA.fillColor = '#e9e9ff';	
+	setBA.selected = true;
+	
+	var setCD = new paper.Path.Rectangle(new paper.Point(40, 50), new paper.Point(150, 100));
+	setCD.fillColor = '#ffc9c9';	
+	setCD.selected = true;
+
+	// Draw the view now:
+	paper.view.draw();
+
+</script>
+	
+<canvas id="propiedadesDelProductoDeConjuntos-1" height="160px"></canvas>	
+</blockquote>
+
+
+<blockquote>
+<b>Ejemplo visual de las propiedades 2 y 3</b>
+<small>Siguiendo con el ejemplo, vamos a separar un poco los segmentos (conjuntos) para ver la distributividad de la unión e intersección respecto del producto.</small>
+<small>La idea clave es que es lo mismo unir/intersectar primero los segmentos y luego obtener el producto, que obtener los productos y unir/intersectar después. De nuevo, visualmente se ve con gran claridad.</small>
+
+<script type="text/javascript">
+
+	// Get a reference to the canvas object
+	var canvas = document.getElementById('propiedadesDelProductoDeConjuntos-2');
+	// Create an empty project and a view for the canvas:
+	paper.setup(canvas);
+
+	
+	// Creamos un eje vertical para A y un subconjunto C
+	var setA = new paper.Path(new paper.Point(10, 0), new paper.Point(10, 90));
+	setA.strokeWidth = 3;
+	setA.strokeColor = 'black';	
+	var setC = new paper.Path(new paper.Point(12, 70), new paper.Point(12, 140));
+	setC.strokeWidth = 3;
+	setC.strokeColor = 'red';
+	
+	
+	// Creamos un eje horizontal para B y un subconjunto D
+	var setB = new paper.Path(new paper.Point(20, 150), new paper.Point(130, 150));
+	setB.strokeWidth = 3;
+	setB.strokeColor = 'black';
+	var setD = new paper.Path(new paper.Point(100, 152), new paper.Point(180, 152));
+	setD.strokeWidth = 3;
+	setD.strokeColor = 'red';
+	
+	var setBA = new paper.Path.Rectangle(new paper.Point(20, 2), new paper.Point(130, 90));
+	setBA.fillColor = '#e9e9ff';	
+	setBA.selected = true;
+	
+	var setCD = new paper.Path.Rectangle(new paper.Point(100, 70), new paper.Point(180, 140));
+	setCD.fillColor = '#ffc9c9';	
+	setCD.selected = true;
+
+	// Draw the view now:
+	paper.view.draw();
+
+</script>
+	
+<canvas id="propiedadesDelProductoDeConjuntos-2" height="160px"></canvas>	
+</blockquote>
+
+</dd>
+</definition>
+<!-- ====================================================================================== -->
+
+</definitions>
