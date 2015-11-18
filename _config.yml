@@ -2,7 +2,7 @@
 
 title:            Miguel Ángel Ballesteros
 locale:           en_US
-url:
+url:              http://maballesteros.com
 
 
 # Jekyll configuration
@@ -29,7 +29,7 @@ owner:
   avatar: mike.jpg
   bio: "Maker, that uses software to build great ideas. Manager, that encourage and develop people to achieve sounded goals. Father, that loves family. Learner, never ever stop learner."
   email: maballesteros@gmail.com
-  disqus-shortname:
+  disqus-shortname: miguelngelballesterosvelasco
   twitter: #username
   facebook: #username
   google:
