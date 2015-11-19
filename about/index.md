@@ -137,7 +137,7 @@ Tissat era una empresa de desarrollo y explotación de nuevas tecnologías (Inte
 
 Trabaja como consultor tecnológico y arquitecto Java, participando en proyectos como SERVEF-Actualicación de Currículum, Infoville21 (Comunidades Virtuales en Internet), CASER-PAP (CRM para compañías de seguros). En este periodo, fruto de una marcada creencia en la reutilización y la calidad del software, crea piezas de construcción de alto valor añadido para la compañía (frameworks), que son reaprovechadas después en múltiples proyectos:
 
-  - WAM (2001, 2002, 2003, 2004): Web Application Maker. Framework propietario similar a las actuales JSF, pero creado antes de que naciera Struts. Durante años ha permitido afrontar proyectos con una importantísima ventaja competitiva. Actualmente sustituido por JSF.
+  - [WAM (2001, 2002, 2003, 2004): Web Application Maker](/projects/wam/). Framework propietario similar a las actuales JSF, pero creado antes de que naciera Struts. Durante años ha permitido afrontar proyectos con una importantísima ventaja competitiva. Actualmente sustituido por JSF.
 
   - DBFramework (2001, 2002): Herramienta de mapeo objeto-relacional, que genera todas las clases Java de acceso a BBDD. Junto con WAM, esta herramienta tuvo un tremendo impacto en los tiempos de desarrollo de nuestros proyectos. La capa de persistencia se genera automáticamente según un patrón de diseño bien estudiado, aportando reducción en tiempo, uniformidad del código, y total ausencia de errores de codificación.
 
