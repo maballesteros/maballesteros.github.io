@@ -147,7 +147,7 @@ Trabaja como consultor tecnológico y arquitecto Java, participando en proyectos
 
   - WSF (2002): Web Service Framework. Proyecto metodológico en el que se recopilan las mejores prácticas actuales para el manejo de webservices. Aglutina conocimiento y librerías para abordar cualquier proyecto de integración basada en webservices, con autenticación/autorización, seguridad SSL, y cualquier plataforma (entornos Microsoft, entornos Java, Lotus Domino, Cold Fusion, etc.).
 
-  - JEC (2003): Java Expression Compiler. Sucesor de OQL, evaluador de expresiones de navegación por objetos. Donado a la comunidad Open Source (http://jec.sourceforge.net/)
+  - JEC (2003): Java Expression Compiler. Sucesor de OQL, evaluador de expresiones de navegación por objetos. Donado a la comunidad Open Source [http://jec.sourceforge.net/](http://jec.sourceforge.net/)
 
 #### Junio 2000 – Junio 2001: Analista/programador Java senior.
 
@@ -190,7 +190,7 @@ Desarrolla una labor de dirección técnica y  humana sobre las 16 personas del 
 
   - 1995, Julio: Trabaja en un experimento sobre “Sonoluminiscencia” (emisión de luz a partir de ondas sonoras), guiado por un profesor del departamento de Física Aplicada de la U.V.
 
-  - 1995,  Junio: Gana  el  premio  Rotary  Valencia  por el trabajo “Medida de la permitividad dieléctrica en líquidos polares”. Dotado con 125.000 Pts.
+  - [1995,  Junio: Gana  el  premio  Rotary  Valencia  por el trabajo “Medida de la permitividad dieléctrica en líquidos polares”](/blog/rotary-prize/). Dotado con 125.000 Pts.
 
 ## PUBLICACIONES (6)
 
