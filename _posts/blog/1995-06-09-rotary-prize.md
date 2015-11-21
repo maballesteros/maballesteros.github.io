@@ -6,7 +6,7 @@ modified: 2015-11-19
 comments: true
 ---
 
-Today I won the [Rorary Valencia prize on physics](http://www.rotaryvalenciacentro.com/w-actividades/universidad/facultad_fisica/detalles/ediciones_anteriores.html) together my fellow Francisco Camarena Femenía.
+Today I won the [Rorary Valencia prize on physics](http://www.rotaryvalenciacentro.com/w-actividades/universidad/facultad_fisica/detalles/ediciones_anteriores.html) together my fellow [Francisco Camarena Femenía](http://personales.upv.es/~fracafe/web_Paco_Camarena/Bio.html).
 
 The prize was 125.000 Pts (750€ that was a big quantity in 1995 for a young guy of 20)
 
