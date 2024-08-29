@@ -2,7 +2,7 @@
 
 title:            Miguel Ángel Ballesteros
 locale:           en_US
-url:              http://maballesteros.com
+url:              https://maballesteros.com
 
 
 # Jekyll configuration
@@ -62,25 +62,25 @@ exclude: ["sample", "lib", "config.rb", "Capfile", "config", "log", "Rakefile", 
 defaults:
   -
     scope:
-      path: "articles"
+      path: "_posts/articles"
     values:
       layout: "post"
       categories: ["articles"]
   -
     scope:
-      path: "blog"
+      path: "_posts/blog"
     values:
       layout: "post"
       categories: ["blog"]
   -
     scope:
-      path: "experiments"
+      path: "_posts/experiments"
     values:
       layout: "post"
       categories: ["experiments"]
   -
     scope:
-      path: "projects"
+      path: "_posts/projects"
     values:
       layout: "post"
       categories: ["projects"]
