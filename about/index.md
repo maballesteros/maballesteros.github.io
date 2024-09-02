@@ -4,23 +4,13 @@ title: About me
 tags: [about]
 ---
 
-I'm a senior developer / project manager ([PMP®](http://www.pmi.org/Certification/Project-Management-Professional-PMP.aspx)), from the warm mediterranean city of [Valencia (Spain)](https://www.google.es/maps/place/Valencia).
+I’m the CTO and co-founder of [GoKoan](https://www.gokoan.com), a startup I launched in 2018 alongside my partners, Clara and Elena. GoKoan is an innovative online platform designed to help students prepare for competitive exams. Our platform is built around a proprietary algorithm that allows students to input their available study time and receive a customized daily study plan to ensure they are fully prepared by exam day. One of our key early successes was a trial conducted with students from the University of Valencia. The final exam results were significantly better for the students who used GoKoan, validating our approach and technology.
 
-My employers usually say about me that my key value for them is that I'm an off-road IT worker, spanning areas such:
+Since 2019, we’ve been heavily involved in AI, initially working with T5 models, which proved time-consuming for data collection, preparation, and training. However, gaining early access to the GPT-3 beta in late 2020 was a game-changer. It enabled us to perform hundreds of different tasks with experiments that took mere minutes. Since then, we’ve become experts in generative AI, applying it extensively to educational content creation, such as generating multiple-choice questions, flashcards, true/false activities, fill-in-the-blank exercises, and even summarizing study material. We’ve also developed AI tutors to assist our students, as we don’t have human teachers on staff.
 
-  - raw and hardcore development
-  - software architecture design
-  - functional / business analyst
-  - project management
-  - product design
+As we continue to grow GoKoan, my focus remains on advancing our AI capabilities and expanding the platform to provide even more value to our users. My core value proposition is to leverage cutting-edge technology to simplify complex problems, enabling students to achieve their goals more efficiently and effectively.
 
-...and performing quite well everywhere. I've been doing most of these activities for more than 15 years (started programming at the age of 13, now I'm 41), and every year I learnt something new.
-
-So, my core value proposition is *helping you -your company, your project, your idea- wherever you most need it, ...including identifying what's you real need*.
-
-Right now, and after a long period as PM in multinational IT companies, I enjoy a Tech Lead position at the game company [Akamon](http://akamon.com/), working at the game server infrastructure of our [Social Casino](https://www.superdataresearch.com/market-data/social-casino-metrics/) games. Here I've recovered my passion of software development that *make things simpler* -i.e., infrastructure software-, so other team members can focus on adding value to the company.
-
-If you're interested in more detail of any of the ideas you find here, want me to do a speech about a related issue, or anything else, please don't hesitate contacting me by e-mail or LinkedInd (see sidebar).
+If you’re interested in more details or want to discuss related topics, feel free to contact me via email or LinkedIn.
 
 ----
 
