@@ -1,0 +1,99 @@
+/* src/components/StoryCard.css */
+.story-card {
+  background: linear-gradient(160deg, rgba(30, 20, 50, 0.85), rgba(45, 30, 70, 0.75)); 
+  border-radius: 15px; 
+  padding: 25px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 10px rgba(171, 130, 255, 0.2) inset; 
+  border: 1px solid rgba(171, 130, 255, 0.3);
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; 
+  position: relative;
+  cursor: pointer; 
+}
+
+.story-card:focus-visible { 
+  outline: 3px solid rgba(171, 130, 255, 0.6);
+  outline-offset: 2px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.55), 0 0 12px rgba(200, 170, 255, 0.35) inset, 0 0 18px rgba(200, 170, 255, 0.15);
+}
+
+.story-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 15px rgba(200, 170, 255, 0.4) inset, 0 0 20px rgba(200, 170, 255, 0.2); 
+}
+
+.story-card::before { /* Shimmer effect */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  transform: skewX(-25deg);
+  transition: left 0.7s ease-in-out;
+}
+.story-card:hover::before {
+  left: 150%;
+}
+
+.story-card-image {
+  width: 100%;
+  height: 200px; 
+  object-fit: cover;
+  border-radius: 10px; 
+  margin-bottom: 18px;
+  background-color: #151020;
+  border: 1px solid rgba(171, 130, 255, 0.2);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+.story-card-image-placeholder {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(40,30,60,1), rgba(60,40,90,1)); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(171, 130, 255, 0.2);
+}
+.story-card-image-placeholder span {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 3.5em;
+  color: rgba(171, 130, 255, 0.4);
+  font-weight: 700;
+  text-shadow: 0 0 5px rgba(171, 130, 255, 0.2);
+}
+
+.story-card-content { 
+  flex-grow: 1; 
+}
+.story-card-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 400;
+  font-size: 1.6em;
+  color: #e8e0ff; 
+  margin: 0 0 10px 0;
+  text-shadow: 0 0 5px rgba(232, 224, 255, 0.4);
+}
+.story-card-world, .story-card-date, .story-card-details {
+  font-size: 0.95em;
+  color: #b0a0d0; 
+  margin-bottom: 6px;
+  font-weight: 400;
+}
+.story-card-details {
+  color: #c8b8e8;
+  font-style: normal;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .story-card { /* Only story-card specific media query part */
+    padding: 30px;
+  }
+}

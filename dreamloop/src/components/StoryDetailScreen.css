@@ -1,0 +1,224 @@
+/* src/components/StoryDetailScreen.css */
+.story-detail-screen { 
+  padding: 25px 0; 
+  text-align: center; 
+}
+
+/* Overriding general section h2 if needed, or use a specific class like .story-title-display */
+.story-detail-screen > h2:first-of-type { /* This targets the story title specifically */
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 700;
+  font-size: clamp(1.6em, 4vw, 2.2em); /* Same as .story-title-display from SetupScreen */
+  color: #f0d0ff; 
+  margin-bottom: 15px; 
+  text-shadow: 0 0 10px rgba(220, 180, 255, 0.7), 0 0 5px rgba(220, 180, 255, 0.5);
+} 
+
+.protagonist-info {
+  font-size: 1.1em;
+  color: #d8c8ff;
+  margin-bottom: 30px; 
+  text-align: center;
+  background-color: rgba(26, 15, 44, 0.5);
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(171, 130, 255, 0.2);
+  display: inline-block;
+}
+.protagonist-info strong {
+  color: #f0d0ff;
+  font-weight: 700;
+}
+
+.story-detail-section-title { /* For subheadings like "Preamble", "Initial Dream" */
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.4em, 3.8vw, 1.7em);
+  color: #d8c8ff;
+  margin-top: 45px; 
+  margin-bottom: 20px; 
+  text-align: center; 
+  text-shadow: 0 0 6px rgba(216, 200, 255, 0.3);
+}
+
+.story-detail-dream-figure { 
+  margin: 0 auto 35px auto; 
+  max-width: 100%;
+  width: clamp(300px, 80vw, 600px); 
+  background-color: #100818; 
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(171, 130, 255, 0.2);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+.story-detail-dream-figure img {
+  width: 100%;
+  height: auto; 
+  max-height: 70vh; 
+  object-fit: contain; 
+  display: block;
+  border-radius: 10px; 
+}
+
+.story-detail-preamble-text { 
+  font-family: 'Georgia', 'Times New Roman', serif; 
+  font-size: clamp(1.1em, 2.5vw, 1.25em); 
+  line-height: 1.85; 
+  color: #e8f0ff; 
+  text-align: justify; 
+  margin-top: 0; 
+  margin-bottom: 40px; 
+  max-width: 720px; 
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 15px; 
+}
+.story-detail-preamble-text p {
+  /* Ensure these paragraphs are styled distinctly from global section p */
+  margin-bottom: 1.4em; 
+  white-space: normal; 
+  text-align: justify;
+  color: #e8f0ff; 
+  font-family: inherit; 
+  font-size: inherit; 
+  line-height: inherit;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+.story-detail-preamble-text p:last-child {
+  margin-bottom: 0;
+}
+.story-detail-preamble-text p:empty,
+.story-detail-preamble-text p > br:only-child { 
+  display: none;
+}
+.story-detail-preamble-text p > .nbsp:only-child { 
+  display: none;
+}
+
+
+/* Chapter List in StoryDetailScreen */
+.story-detail-chapters-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 10px; 
+  max-width: 750px; 
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.story-detail-chapter-item {
+  background-color: rgba(30, 20, 50, 0.6);
+  border-radius: 10px;
+  margin-bottom: 20px; /* Increased gap */
+  border: 1px solid rgba(171, 130, 255, 0.2);
+  transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  overflow: hidden; 
+  padding: 0; 
+  display: flex; 
+  flex-direction: column; 
+  cursor: pointer;
+}
+
+.story-detail-chapter-item:hover, 
+.story-detail-chapter-item:focus-visible { /* Combined hover and focus-visible */
+  background-color: rgba(45, 30, 70, 0.75); 
+  border-color: rgba(171, 130, 255, 0.4); 
+  transform: translateY(-3px); 
+  outline: none; 
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+.story-detail-chapter-item:focus-visible { /* Add specific focus outline if needed, or rely on above */
+   box-shadow: 0 0 0 2px rgba(171, 130, 255, 0.5), 0 6px 15px rgba(0,0,0,0.3); 
+}
+
+.story-detail-chapter-item-image,
+.story-detail-chapter-item-image-placeholder {
+  width: 100%; 
+  height: 180px; 
+  object-fit: cover;
+  background-color: #2a1f3d; 
+  border-bottom: 1px solid rgba(171, 130, 255, 0.15); 
+  margin-bottom: 0; 
+}
+
+.story-detail-chapter-item-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 3em; 
+  color: rgba(171, 130, 255, 0.4);
+}
+
+.story-detail-chapter-item-content {
+  padding: 15px 20px; 
+  display: flex;
+  flex-direction: column;
+  gap: 6px; 
+  text-align: left; 
+}
+
+.story-detail-chapter-item-content strong { /* Chapter Title */
+  color: #e0d0ff;
+  display: block; 
+  font-weight: 600; 
+  font-size: 1.15em; 
+  font-family: 'Quicksand', sans-serif;
+  text-align: left; 
+  line-height: 1.3;
+}
+
+.story-detail-chapter-item-content .chapter-text-preview {
+  margin: 0;
+  font-size: 0.95em; 
+  color: #c8b8e8; 
+  line-height: 1.6; 
+  text-align: left; 
+  font-weight: 400;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: calc(1.6em * 4); 
+}
+
+.story-detail-chapter-item-content em { /* Status: Reflexión guardada/pendiente */
+  font-size: 0.9em; 
+  color: #b0a0d0;
+  font-weight: 500;
+  text-align: left;
+  font-style: normal; /* Often status is not italic */
+}
+.story-detail-chapter-item-content .chapter-date {
+  font-size: 0.85em; 
+  color: #9888b8; 
+  font-style: italic;
+  font-weight: 400;
+  text-align: left;
+}
+
+.no-chapters-message { 
+  font-size: 1.1em;
+  color: #c8b8e8;
+  margin-top: 15px; 
+  font-style: italic;
+  text-align: center;
+}
+
+.story-detail-actions {
+  margin-top: 40px; 
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+.story-detail-actions .cta-button { /* To ensure it uses CTA styles */
+   /* CTA styles are global, specific margin/layout handled by flex gap */
+}
+.story-detail-actions .modal-button-cancel { /* Re-using modal's cancel button style */
+  /* Modal cancel styles are global if defined that way, or copy relevant parts */
+}

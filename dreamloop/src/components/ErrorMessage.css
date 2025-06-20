@@ -1,0 +1,35 @@
+/* src/components/ErrorMessage.css */
+.error-message {
+  background-color: rgba(68, 34, 34, 0.8); 
+  border: 1px solid rgba(255, 107, 107, 0.7);
+  color: #ffcdd2;
+  padding: 20px 25px;
+  border-radius: 10px;
+  margin: 25px auto;
+  max-width: 90%;
+  text-align: left;
+  box-shadow: 0 3px 15px rgba(68,34,34,0.5);
+}
+.error-message h3 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  color: #ff9a9a; 
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.25em;
+}
+.error-message p { 
+  margin-bottom: 10px; 
+  font-size: 1em; 
+  color: #f8d0d0; 
+  text-align: left; 
+}
+.error-message p:last-child { 
+  margin-bottom: 0; 
+}
+
+@media (min-width: 600px) {
+  .error-message { 
+    max-width: 650px; 
+  }
+}

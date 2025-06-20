@@ -62,12 +62,6 @@ exclude: ["sample", "lib", "config.rb", "Capfile", "config", "log", "Rakefile", 
 defaults:
   -
     scope:
-      path: "_posts/articles"
-    values:
-      layout: "post"
-      categories: ["articles"]
-  -
-    scope:
       path: "_posts/blog"
     values:
       layout: "post"

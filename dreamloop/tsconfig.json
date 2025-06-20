@@ -1,0 +1,26 @@
+
+{
+  "compilerOptions": {
+    "target": "ES2020",         // Target moderno de JavaScript
+    "module": "ESNext",          // Usa módulos ES nativos
+    "jsx": "react-jsx",          // Soporte moderno para JSX en React
+    // "outDir": "./dist",      // Comentado: No se usa una carpeta de salida separada con el Makefile actual
+    "rootDir": ".",              // Directorio raíz de los fuentes
+    "moduleResolution": "bundler", // Estrategia moderna de resolución de módulos, similar a como lo hacen los bundlers
+    "esModuleInterop": true,     // Permite importaciones default de módulos commonjs
+    "strict": true,              // Habilita todos los chequeos estrictos de tipos
+    "skipLibCheck": true,        // Omite el chequeo de tipos de los archivos de declaración (.d.ts)
+    "allowJs": true,             // Permite que archivos JavaScript sean parte de tu proyecto
+    "resolveJsonModule": true,   // Permite importar módulos .json
+    "noEmit": false,             // Asegura que TypeScript genere archivos de salida (importante que sea 'false')
+    "forceConsistentCasingInFileNames": true // Evita problemas de mayúsculas/minúsculas en nombres de archivo
+  },
+  "include": [
+    "index.tsx",                 // Incluye el punto de entrada principal
+    "src/**/*"                   // Incluye todos los archivos dentro del directorio src
+  ],
+  "exclude": [
+    "node_modules",              // Excluye la carpeta node_modules
+    "dist"                       // Excluye la carpeta dist si se usara alternativamente
+  ]
+}

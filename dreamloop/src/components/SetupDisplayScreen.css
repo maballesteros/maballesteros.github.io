@@ -1,0 +1,176 @@
+/* src/components/SetupDisplayScreen.css */
+.setup-display-screen { 
+  padding: 25px 0; 
+}
+
+.setup-display-screen > h2 { /* General title for the screen */
+  margin-bottom: 30px; 
+} 
+
+.story-title-display { /* Used by SetupDisplay for main story title if available */
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 700;
+  font-size: clamp(1.6em, 4vw, 2.2em);
+  color: #f0d0ff; 
+  margin-bottom: 25px;
+  text-shadow: 0 0 10px rgba(220, 180, 255, 0.7), 0 0 5px rgba(220, 180, 255, 0.5);
+  text-align: center; /* Ensure it's centered */
+}
+
+/* Styles for Initial Dream Image in SetupDisplayScreen */
+.setup-display-screen .dream-image-section { 
+  margin-bottom: 40px;
+  border-radius: 12px;
+  padding: 15px 0; 
+  text-align: center; 
+}
+.setup-display-screen .dream-image-section h4 { 
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.35em, 3.5vw, 1.6em);
+  color: #d8c8ff; 
+  margin-top: 0;
+  margin-bottom: 18px;
+  text-shadow: 0 0 6px rgba(216, 200, 255, 0.3);
+}
+.setup-display-screen .dream-image-container { 
+  margin: 0 auto 25px auto; 
+  max-width: 100%;
+  width: clamp(300px, 80vw, 550px); 
+  aspect-ratio: 16 / 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #100818; 
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(171, 130, 255, 0.3);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
+.setup-display-screen .dream-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.9; 
+  transition: opacity 0.3s ease;
+}
+.setup-display-screen .dream-image-container:hover img {
+    opacity: 1;
+}
+/* Image caption specific to SetupDisplayScreen */
+.setup-display-screen .image-caption {
+  font-style: italic;
+  color: #c8b8e8;
+  text-align: center;
+  margin-top: -15px; /* Adjust if needed based on dream-image-container margin */
+  margin-bottom: 25px;
+  font-size: clamp(0.9em, 2vw, 1em);
+  line-height: 1.5;
+}
+.setup-display-screen .image-caption.fallback-caption {
+  font-size: 0.95em;
+  color: #b0a0d0;
+  margin-top: 8px;
+}
+
+
+/* Styles for Profile Details and Preamble in SetupDisplayScreen */
+.setup-display-screen .profile-details-section, 
+.setup-display-screen .preamble-section { 
+  margin-bottom: 40px;
+  border-radius: 12px;
+  padding: 15px; 
+  text-align: left;
+}
+.setup-display-screen .profile-details-section h4, 
+.setup-display-screen .preamble-section h4 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.35em, 3.5vw, 1.6em);
+  color: #d8c8ff; 
+  margin-top: 0;
+  margin-bottom: 18px;
+  text-shadow: 0 0 6px rgba(216, 200, 255, 0.3);
+  border-bottom: 1px solid rgba(171, 130, 255, 0.15); 
+  padding-bottom: 10px;
+}
+.setup-display-screen .profile-details-section h5 { 
+  color: #c8b8e8; 
+  font-size: clamp(1.15em, 3vw, 1.25em);
+  margin-top: 12px;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.setup-display-screen .profile-details { 
+  background-color: rgba(255, 255, 255, 0.02); 
+  border: 1px solid rgba(171, 130, 255, 0.15);
+  border-radius: 10px;
+  padding: 25px;
+  margin-top: 12px;
+}
+.setup-display-screen .profile-details p { 
+  color: #d8e0f8; 
+  margin-bottom: 12px; 
+  font-size: clamp(1.05em, 2.5vw, 1.1em); 
+  font-weight: 400; 
+  /* Resetting potential inheritance from global section p */
+  max-width: none;
+  text-align: left; /* Ensure it's left-aligned */
+  margin-left: 0;
+  margin-right: 0;
+}
+.setup-display-screen .profile-details p:last-of-type { 
+  margin-bottom: 0; 
+}
+.setup-display-screen .profile-name, 
+.setup-display-screen .profile-archetype, 
+.setup-display-screen .profile-theme { 
+  font-weight: 500; 
+  color: #e8f0ff; 
+}
+
+.setup-display-screen .preamble-text { 
+  font-size: clamp(1.05em, 2.8vw, 1.15em);
+  line-height: 1.8; 
+  color: #e0e8ff;
+  white-space: pre-wrap; 
+  text-align: justify;
+  background-color: rgba(255, 255, 255, 0.02);
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #ab82ff; 
+}
+.setup-display-screen .preamble-text p {
+  /* Inherits from .preamble-text, ensure no conflict with global section p */
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin-bottom: 1em; /* For paragraphs within preamble */
+  text-align: inherit;
+  max-width: none;
+}
+.setup-display-screen .preamble-text p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* Setup Display Screen specific for Regenerate Button */
+.regenerate-action-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.regenerate-button { /* This is a .secondary-action-button with specific gradient */
+   background: linear-gradient(145deg, #785a9b, #5f3f7c); 
+   color: #f0e8ff;
+}
+.regenerate-button:hover:not(:disabled) { /* Override secondary-action-button hover */
+   background: linear-gradient(145deg, #8c6fb3, #725291);
+   color: #ffffff;
+}
+
+/* For the main CTA button at the bottom of setup display */
+.setup-display-screen .main-cta-button { 
+  margin-top: 10px; 
+}

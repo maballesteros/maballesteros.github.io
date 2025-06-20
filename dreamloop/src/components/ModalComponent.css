@@ -1,0 +1,132 @@
+/* src/components/ModalComponent.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(10, 5, 20, 0.85); 
+  backdrop-filter: blur(8px); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000; 
+  padding: 20px;
+  animation: fadeInModal 0.3s ease-out;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-container {
+  background: linear-gradient(170deg, rgba(35, 25, 60, 0.95), rgba(55, 40, 85, 0.9)); 
+  padding: 30px 35px; 
+  border-radius: 18px; 
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px rgba(171, 130, 255, 0.3) inset; 
+  width: 100%;
+  max-width: 550px; 
+  border: 1px solid rgba(171, 130, 255, 0.4); 
+  text-align: left;
+  animation: slideInModal 0.4s ease-out;
+  position: relative;
+}
+
+@keyframes slideInModal {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(171, 130, 255, 0.2);
+}
+
+.modal-header #modal-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 700;
+  font-size: clamp(1.5em, 4vw, 1.9em);
+  color: #f0d0ff; 
+  margin: 0;
+  text-shadow: 0 0 8px rgba(220, 180, 255, 0.6);
+}
+
+.modal-close-button {
+  background: none !important; /* Override general button styles */
+  border: none !important;
+  color: #b0a0d0 !important;
+  font-size: 2.2em !important; 
+  font-weight: 300 !important;
+  padding: 0 5px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  transition: color 0.3s ease, transform 0.3s ease !important;
+  margin: 0 !important; 
+  text-transform: none !important; 
+  box-shadow: none !important; 
+  border-radius: 0 !important; /* Ensure no inherited border-radius from general button */
+  letter-spacing: normal !important;
+}
+
+.modal-close-button:hover {
+  color: #e8e0ff !important;
+  transform: rotate(90deg) scale(1.1) !important;
+  background: none !important; 
+  box-shadow: none !important; 
+}
+
+.modal-body {
+  margin-bottom: 30px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.modal-body p {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.05em, 2.5vw, 1.15em);
+  line-height: 1.75;
+  color: #e0e8ff;
+  margin: 0; 
+  text-align: left; 
+  font-weight: 400;
+  /* Resetting potential inheritance from global section p */
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end; 
+  gap: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(171, 130, 255, 0.2);
+}
+
+.modal-button { /* Inherits from global button, can add specifics here */
+  padding: 12px 25px; 
+  font-size: clamp(0.95em, 2.2vw, 1em);
+  border-radius: 20px; 
+  font-weight: 700;
+}
+
+.modal-button-confirm {
+  background: linear-gradient(145deg, #f39c12, #e67e22); 
+}
+.modal-button-confirm:hover:not(:disabled) {
+  background: linear-gradient(145deg, #f1c40f, #d35400);
+}
+
+.modal-button-cancel {
+  background: linear-gradient(145deg, #6c757d, #495057); 
+  color: #e0e8ff;
+}
+.modal-button-cancel:hover:not(:disabled) {
+  background: linear-gradient(145deg, #868e96, #5a6268);
+  color: #fff;
+}

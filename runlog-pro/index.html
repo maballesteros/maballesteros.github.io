@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RunLog Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'theme-primary': '#3E1F6B', // Deep Purple
+            'theme-primary-dark': '#2A0B4A', // Darker Purple (for nav, footer)
+            'theme-secondary': '#8C37F6', // Bright Purple (for highlights, buttons)
+            'theme-accent': '#E943A5', // Pink/Magenta (for primary buttons, interactive elements)
+            'theme-accent-orange': '#FF8C00', // Orange (for "Pro" in logo, special accents)
+            'theme-bg-main-start': '#1E0E38',
+            'theme-bg-main-end': '#301154',
+            'theme-card-bg': '#2F1A4F', // Card backgrounds
+            'theme-input-bg': '#251240', // Input field backgrounds
+            'theme-text-primary': '#E0D8F3', // Light Lavender/Off-white (main text)
+            'theme-text-secondary': '#B0A8C2', // Lighter Gray/Purple (secondary text, labels)
+            'theme-border-subtle': '#4A2F77', // Subtle borders
+            'theme-selected-day': '#C86EFA', // Selected day in a picker (if any, for consistency)
+
+            // Old colors, keep for potential direct usage or gradual phase-out if any component missed.
+            // It's better to replace these with theme-* colors.
+            primary: {
+              light: '#60a5fa',
+              DEFAULT: '#3b82f6',
+              dark: '#2563eb',
+            },
+            secondary: {
+              light: '#fde047',
+              DEFAULT: '#facc15',
+              dark: '#eab308',
+            },
+            accent: {
+              green: '#84cc16',
+              orange: '#f97316',
+              blue: '#38bdf8'
+            }
+          },
+          backgroundImage: {
+            'primary-gradient': 'linear-gradient(to right, #8C37F6, #E943A5)',
+          }
+        }
+      }
+    }
+  </script>
+
+<link rel="stylesheet" href="/index.css">
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "date-fns": "https://esm.sh/date-fns@^4.1.0",
+    "date-fns/": "https://esm.sh/date-fns@^4.1.0/",
+    "zustand": "https://esm.sh/zustand@^5.0.5",
+    "zustand/": "https://esm.sh/zustand@^5.0.5/",
+    "file-saver": "https://esm.sh/file-saver@^2.0.5",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.6.2",
+    "react-hook-form": "https://esm.sh/react-hook-form@^7.57.0",
+    "@hookform/resolvers/": "https://esm.sh/@hookform/resolvers@^5.0.1/",
+    "zod": "https://esm.sh/zod@^3.25.56",
+    "recharts": "https://esm.sh/recharts@^2.15.3"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/runlog-pro/assets/index-CAcMPlR-.js"></script>
+</head>
+<body class="bg-gradient-to-br from-theme-bg-main-start to-theme-bg-main-end text-theme-text-primary">
+  <div id="root"></div>
+</body>
+</html>

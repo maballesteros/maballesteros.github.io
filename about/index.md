@@ -194,7 +194,7 @@ Desarrolla una labor de dirección técnica y  humana sobre las 16 personas del 
 
   - 1996, Noviembre: “Programación de procesos pseudoconcurrentes en C++”, RPP-Nº24.
 
-  - 1996, Abril: [“256.000 colores en tu VGA. Explora este nuevo modo de trabajo con C”. RPP- Nº17](/articles/256000-colores-en-tu-VGA/)
+  - 1996, Abril: [“256.000 colores en tu VGA. Explora este nuevo modo de trabajo con C”. RPP- Nº17](/blog/256000-colores-en-tu-VGA/)
 
 ## CURSOS RECIBIDOS
 

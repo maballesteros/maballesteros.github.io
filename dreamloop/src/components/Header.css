@@ -1,0 +1,109 @@
+
+/* src/Header.css */
+
+/* App Global Header */
+.app-global-header {
+  width: 100%;
+  background-color: rgba(10, 5, 20, 0.6); /* Translucent dark purple */
+  padding: 15px 30px; /* Default padding */
+  box-shadow: 0 5px 25px rgba(44, 26, 75, 0.7); /* Softer, glowing shadow */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(171, 130, 255, 0.3); /* Subtle lilac border */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+}
+
+.header-title-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-right: auto;
+}
+
+.app-global-header h1 {
+  font-family: 'Cinzel Decorative', serif; /* Elegant, mystical title font */
+  font-size: clamp(2em, 5vw, 2.8em);
+  color: #f0d0ff; /* Light lavender/gold */
+  margin: 0;
+  text-shadow: 0 0 10px rgba(220, 180, 255, 0.8), 0 0 20px rgba(220, 180, 255, 0.5); /* Ethereal glow */
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+  font-weight: 700;
+}
+.header-title-button:hover h1 {
+  color: #fff0ff;
+  text-shadow: 0 0 15px rgba(240, 200, 255, 1), 0 0 30px rgba(240, 200, 255, 0.7);
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px; /* Adjusted gap for icon buttons */
+}
+
+.header-action-button {
+  background: linear-gradient(145deg, rgba(75, 42, 107, 0.8), rgba(50, 28, 71, 0.8));
+  color: #e0d8ff;
+  padding: 8px; /* Adjusted padding for icons */
+  font-size: 1.25rem; /* Controls icon size (approx 20px if root font-size is 16px) */
+  line-height: 1; /* Ensure consistent height */
+  font-family: 'Quicksand', sans-serif; /* Retained for consistency, less critical for icon-only */
+  font-weight: 500; /* Retained for consistency */
+  border-radius: 8px; 
+  border: 1px solid rgba(171, 130, 255, 0.4);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  display: inline-flex; /* Align icon nicely */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.header-action-button:hover:not(:disabled) {
+  background: linear-gradient(145deg, rgba(95, 62, 137, 0.9), rgba(70, 48, 91, 0.9));
+  border-color: rgba(200, 170, 255, 0.6);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(75, 42, 107, 0.5);
+}
+
+.header-action-button svg {
+  display: block; /* Ensures SVG behaves as expected */
+}
+
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .app-global-header {
+    padding: 12px 15px; 
+  }
+
+  .app-global-header h1 {
+    font-size: clamp(1.7em, 4.5vw, 2.2em); 
+  }
+
+  .header-actions {
+    gap: 8px; 
+  }
+
+  .header-action-button {
+    padding: 6px; 
+    font-size: 1.1rem; /* Slightly smaller icon */
+  }
+}
+
+@media (max-width: 400px) {
+  .app-global-header h1 {
+    font-size: clamp(1.5em, 4vw, 2em); 
+  }
+   .header-action-button {
+    padding: 5px; 
+    font-size: 1rem; /* Smallest icon */
+  }
+   .header-actions {
+    gap: 5px; 
+  }
+}

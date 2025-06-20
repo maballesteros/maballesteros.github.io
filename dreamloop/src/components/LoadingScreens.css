@@ -1,0 +1,38 @@
+/* src/components/LoadingScreens.css */
+/* Styles for full page loading sections */
+.loading-screen { 
+  padding: 50px 25px; 
+  text-align: center; /* Ensures content within is centered if not overridden */
+}
+
+/* Styles for the spinner when it's inside a .loading-screen */
+/* This assumes Spinner.css defines the spinner's appearance (border, animation) */
+.loading-screen .spinner {
+  margin: 35px auto; /* Centering the spinner */
+}
+
+.loading-screen em { /* Stylish text for loading messages */
+  color: #b0a0d0;
+  display: block;
+  margin-top: 18px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* Minimal loading variant, often used for inline or less intrusive loading */
+.loading-screen.minimal-loading { 
+  padding: 25px; 
+}
+
+.loading-screen.minimal-loading .spinner {
+  width: 35px; /* Smaller spinner */
+  height: 35px;
+  border-width: 3px; /* Thinner border */
+  margin: 18px auto; /* Adjusted margin */
+}
+
+.loading-screen.minimal-loading p { /* Text style for minimal loading */
+  font-size: 1em;
+  color: #b8a8d8;
+  margin-bottom: 0; /* Adjust as needed */
+}
