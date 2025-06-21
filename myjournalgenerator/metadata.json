@@ -1,0 +1,6 @@
+{
+  "name": "MyJournalGenerator",
+  "description": "A tool to generate personalized journals based on a mix of philosophies and life roles. It creates a custom index and daily/weekly entries with reflections, questions, and challenges.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}

@@ -22,4 +22,12 @@ permalink: /apps/
   </a>
 </article>
 
+<article>
+  <a href="/myjournalgenerator/dist/">
+    <img src="/myjournalgenerator/myjournalgen-sample1.png" alt="MyJournalGenerator">
+    <h2>MyJournalGenerator</h2>
+    <p>A tool to generate personalized journals based on a mix of philosophical traditions and life roles. It creates a custom index and daily/weekly entries with reflections, prompts, and challenges.</p>
+  </a>
+</article>
+
 </div>
