@@ -160,6 +160,35 @@ export default function PlannerView() {
 
   const calendarMatrix = useMemo(() => getCalendarMatrix(dayjs(monthAnchor)), [monthAnchor]);
 
+  const monthSessions = useMemo(() => {
+    const anchor = dayjs(monthAnchor);
+    return sessions
+      .filter((session) => {
+        const date = dayjs(session.date);
+        return date.year() === anchor.year() && date.month() === anchor.month();
+      })
+      .sort((a, b) => dayjs(a.date).valueOf() - dayjs(b.date).valueOf());
+  }, [sessions, monthAnchor]);
+
+  const monthlySessionsByDate = useMemo(
+    () => {
+      const groups = new Map<string, Session[]>();
+      monthSessions.forEach((session) => {
+        const key = dayjs(session.date).format('YYYY-MM-DD');
+        const list = groups.get(key) ?? [];
+        list.push(session);
+        groups.set(key, list);
+      });
+      return Array.from(groups.entries())
+        .sort((a, b) => dayjs(a[0]).valueOf() - dayjs(b[0]).valueOf())
+        .map(([date, list]) => ({
+          date,
+          sessions: list.slice().sort((lhs, rhs) => (lhs.title ?? '').localeCompare(rhs.title ?? '', 'es'))
+        }));
+    },
+    [monthSessions]
+  );
+
   const sessionsForSelectedDate = sessionsByDate.get(selectedDate) ?? [];
   useEffect(() => {
     if (sessionsForSelectedDate.length > 0) {
@@ -241,7 +270,7 @@ export default function PlannerView() {
         </div>
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[1.5fr_2fr]">
+      <div className="grid gap-6 lg:grid-cols-[1.5fr_1.5fr] xl:grid-cols-[1.6fr_1.4fr]">
         <section className="glass-panel flex flex-col gap-6 p-6">
           <div className="grid grid-cols-7 gap-2 text-center text-xs font-semibold uppercase tracking-wide text-white/50">
             {['L', 'M', 'X', 'J', 'V', 'S', 'D'].map((day) => (
@@ -302,57 +331,147 @@ export default function PlannerView() {
           </div>
         </section>
 
-        <section className="space-y-6">
-          <div className="glass-panel space-y-4 p-6">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-white/40">Sesiones en</p>
-                <h2 className="text-2xl font-semibold text-white">{dayjs(selectedDate).format('dddd, D [de] MMMM')}</h2>
-              </div>
-              <div className="flex gap-3">
-                <button type="button" onClick={handleCreateSession} className="btn-primary">
-                  + Nueva sesión
-                </button>
-              </div>
+        <section className="glass-panel flex flex-col gap-4 p-6">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/40">Sesiones del mes</p>
+              <h2 className="text-lg font-semibold text-white">{formatMonthTitle(monthAnchor)}</h2>
             </div>
-            <div className="space-y-3">
-              {sessionsForSelectedDate.length === 0 ? (
-                <div className="rounded-3xl border border-dashed border-white/15 p-10 text-center text-white/50">
-                  Aún no hay sesiones planificadas este día. Crea una con el botón superior.
-                </div>
-              ) : (
-                sessionsForSelectedDate.map((session) => (
-                  <SessionSummaryCard
-                    key={session.id}
-                    session={session}
-                    objectives={objectives}
-                    works={works}
-                    isActive={session.id === activeSessionId}
-                    onSelect={() => setActiveSessionId(session.id)}
-                    onDuplicate={() => handleDuplicateSession(session.id)}
-                    onDelete={() => handleDeleteSession(session.id)}
-                  />
-                ))
-              )}
-            </div>
+            <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
+              {monthSessions.length} {monthSessions.length === 1 ? 'sesión' : 'sesiones'}
+            </span>
           </div>
-
-          {activeSession && (
-            <div className="glass-panel p-6">
-              <SessionEditor
-                session={activeSession}
-                works={works}
-                objectives={objectives}
-                assistants={assistants}
-                onDateChange={(date) => {
-                  setSelectedDate(date);
-                  setMonthAnchor(dayjs(date).startOf('month').format('YYYY-MM-DD'));
-                }}
-              />
-            </div>
-          )}
+          <div className="custom-scrollbar -m-2 max-h-[32rem] space-y-3 overflow-y-auto p-2">
+            {monthlySessionsByDate.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-white/15 bg-white/5 p-6 text-sm text-white/50">
+                Aún no hay sesiones planificadas para este mes. Selecciona un día en el calendario para crear la primera.
+              </div>
+            ) : (
+              monthlySessionsByDate.map(({ date, sessions: list }) => {
+                const sessionCountLabel = list.length === 1 ? '1 sesión' : `${list.length} sesiones`;
+                return (
+                  <div
+                    key={date}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleSelectDate(date)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        handleSelectDate(date);
+                      }
+                    }}
+                    className={clsx(
+                      'cursor-pointer rounded-2xl border border-white/10 bg-white/5 p-3 text-sm transition hover:border-white/40 hover:bg-white/10',
+                      isSameDate(date, selectedDate) && 'border-sky-400/50 bg-sky-500/10 shadow shadow-sky-500/10'
+                    )}
+                  >
+                    <p className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/40">
+                      <span>{dayjs(date).format('ddd · D MMM')}</span>
+                      <span className="rounded-full border border-white/15 px-2 py-0.5 text-[9px] font-semibold tracking-[0.2em] text-white/50">
+                        {sessionCountLabel}
+                      </span>
+                    </p>
+                    <div className="mt-3 space-y-2 text-xs">
+                      {list.map((session) => {
+                        const description = (session.description ?? '').trim();
+                        const durationMinutes = session.workItems.reduce((total, item) => {
+                          const work = works.find((workItem) => workItem.id === item.workId);
+                          return total + (item.customDurationMinutes ?? work?.estimatedMinutes ?? 0);
+                      }, 0);
+                      return (
+                        <button
+                          key={session.id}
+                          type="button"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleSelectDate(date);
+                            setActiveSessionId(session.id);
+                          }}
+                          className={clsx(
+                            'flex w-full flex-col gap-1 rounded-xl border border-white/10 bg-slate-950/60 px-3 py-2 text-left transition hover:border-white/30 hover:text-white',
+                            session.id === activeSessionId && isSameDate(date, selectedDate) && 'border-sky-400/60 text-white'
+                          )}
+                        >
+                          <div className="flex w-full items-center justify-between gap-3">
+                            <span className="truncate font-medium">{session.title || 'Sesión sin título'}</span>
+                            <span className="text-[11px] uppercase tracking-wide text-white/40">
+                              {session.workItems.length} · {durationMinutes} min
+                            </span>
+                          </div>
+                          {description ? (
+                            <p
+                              className="text-[11px] leading-relaxed text-white/60"
+                              style={{
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical',
+                                overflow: 'hidden'
+                              }}
+                            >
+                              {description}
+                            </p>
+                          ) : null}
+                        </button>
+                      );
+                    })}
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
         </section>
       </div>
+
+      <section className="glass-panel space-y-4 p-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-white/40">Sesiones en</p>
+            <h2 className="text-2xl font-semibold text-white">{dayjs(selectedDate).format('dddd, D [de] MMMM')}</h2>
+          </div>
+          <div className="flex gap-3">
+            <button type="button" onClick={handleCreateSession} className="btn-primary">
+              + Nueva sesión
+            </button>
+          </div>
+        </div>
+        <div className="space-y-3">
+          {sessionsForSelectedDate.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-white/15 p-10 text-center text-white/50">
+              Aún no hay sesiones planificadas este día. Crea una con el botón superior.
+            </div>
+          ) : (
+            sessionsForSelectedDate.map((session) => (
+              <SessionSummaryCard
+                key={session.id}
+                session={session}
+                objectives={objectives}
+                works={works}
+                isActive={session.id === activeSessionId}
+                onSelect={() => setActiveSessionId(session.id)}
+                onDuplicate={() => handleDuplicateSession(session.id)}
+                onDelete={() => handleDeleteSession(session.id)}
+              />
+            ))
+          )}
+        </div>
+      </section>
+
+      {activeSession && (
+        <div className="glass-panel p-6">
+          <SessionEditor
+            session={activeSession}
+            works={works}
+            objectives={objectives}
+            assistants={assistants}
+            onDateChange={(date) => {
+              setSelectedDate(date);
+              setMonthAnchor(dayjs(date).startOf('month').format('YYYY-MM-DD'));
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
