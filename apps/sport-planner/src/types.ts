@@ -34,7 +34,9 @@ export interface SessionWork {
 export interface SessionAttendance {
   assistantId: string;
   status: AttendanceStatus;
+  actualStatus?: AttendanceStatus;
   notes?: string;
+  actualNotes?: string;
 }
 
 export interface Session {
@@ -92,6 +94,10 @@ export interface BackupSessionAttendance {
   status?: string;
   notas?: string;
   notes?: string;
+  actualStatus?: string;
+  estado_real?: string;
+  actualNotes?: string;
+  notas_reales?: string;
 }
 
 export interface BackupPayload {

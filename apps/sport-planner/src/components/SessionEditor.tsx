@@ -5,9 +5,15 @@ import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
 
 import { useAppStore } from '@/store/appStore';
-import type { Session, SessionWork, Work, Objective, Assistant } from '@/types';
+import type { Session, SessionWork, Work, Objective, Assistant, AttendanceStatus } from '@/types';
 import { ObjectiveChip } from './ObjectiveChip';
 import { MarkdownContent } from './MarkdownContent';
+
+const ATTENDANCE_LABELS: Record<AttendanceStatus, string> = {
+  present: 'Presente',
+  absent: 'Ausente',
+  pending: 'Pendiente'
+};
 
 interface SessionEditorProps {
   session: Session;
@@ -47,6 +53,8 @@ interface SortableWorkRowProps {
   onToggleExpanded: (id: string) => void;
   onRemove: (id: string) => void;
   onUpdateDetails: (id: string, patch: Partial<SessionWork>) => void;
+  replacementOptions: Work[];
+  onReplace: (newWorkId: string) => void;
 }
 
 function SortableWorkRow({
@@ -56,9 +64,12 @@ function SortableWorkRow({
   expanded,
   onToggleExpanded,
   onRemove,
-  onUpdateDetails
+  onUpdateDetails,
+  replacementOptions,
+  onReplace
 }: SortableWorkRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
+  const [swapOpen, setSwapOpen] = useState(false);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -127,6 +138,16 @@ function SortableWorkRow({
         <div className="flex items-center gap-2">
           <button
             type="button"
+            onClick={() => setSwapOpen((prev) => !prev)}
+            disabled={replacementOptions.length === 0}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition hover:border-sky-400/60 hover:text-white disabled:opacity-40"
+            aria-label="Intercambiar trabajo por otro de la misma categoría"
+            aria-expanded={swapOpen}
+          >
+            ⇆
+          </button>
+          <button
+            type="button"
             onClick={() => onRemove(item.id)}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-rose-500/40 text-rose-300 hover:border-rose-400 hover:text-rose-200"
             aria-label="Eliminar trabajo de la sesión"
@@ -135,6 +156,29 @@ function SortableWorkRow({
           </button>
         </div>
       </div>
+      {swapOpen && replacementOptions.length > 0 ? (
+        <div className="mt-3 space-y-2 rounded-2xl border border-white/10 bg-slate-950/70 p-3">
+          <p className="text-xs font-semibold text-white/70">
+            Sustituir por:
+          </p>
+          <div className="grid gap-1.5">
+            {replacementOptions.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => {
+                  onReplace(option.id);
+                  setSwapOpen(false);
+                }}
+                className="flex items-center justify-between gap-2 rounded-2xl border border-white/15 px-3 py-2 text-left text-xs font-semibold text-white/80 transition hover:border-sky-400/60 hover:text-white"
+              >
+                <span>{option.name}</span>
+                <span className="text-[11px] text-white/40">{option.estimatedMinutes} min</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
       {expanded && (
         <div className="grid gap-3 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
           <div className="grid gap-2">
@@ -209,6 +253,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
   const removeWorkFromSession = useAppStore((state) => state.removeWorkFromSession);
   const reorderSessionWork = useAppStore((state) => state.reorderSessionWork);
   const updateSessionWorkDetails = useAppStore((state) => state.updateSessionWorkDetails);
+  const replaceSessionWork = useAppStore((state) => state.replaceSessionWork);
   const setAttendanceStatus = useAppStore((state) => state.setAttendanceStatus);
 
   const [query, setQuery] = useState('');
@@ -353,18 +398,32 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                     Añade trabajos desde el catálogo con el buscador superior.
                   </div>
                 ) : (
-                  session.workItems.map((item) => (
-                    <SortableWorkRow
-                      key={item.id}
-                      item={item}
-                      work={workMap.get(item.workId)}
-                      objective={objectiveMap.get(workMap.get(item.workId)?.objectiveId ?? '')}
-                      expanded={expandedItems.has(item.id)}
-                      onToggleExpanded={toggleExpanded}
-                      onRemove={() => removeWorkFromSession(session.id, item.id)}
-                      onUpdateDetails={(id, patch) => updateSessionWorkDetails(session.id, id, patch)}
-                    />
-                  ))
+                  session.workItems.map((item) => {
+                    const currentWork = workMap.get(item.workId);
+                    const objective = currentWork
+                      ? objectiveMap.get(currentWork.objectiveId)
+                      : undefined;
+                    const replacementOptions = currentWork
+                      ? works.filter(
+                          (work) =>
+                            work.objectiveId === currentWork.objectiveId && work.id !== currentWork.id
+                        )
+                      : [];
+                    return (
+                      <SortableWorkRow
+                        key={item.id}
+                        item={item}
+                        work={currentWork}
+                        objective={objective}
+                        expanded={expandedItems.has(item.id)}
+                        onToggleExpanded={toggleExpanded}
+                        onRemove={() => removeWorkFromSession(session.id, item.id)}
+                        onUpdateDetails={(id, patch) => updateSessionWorkDetails(session.id, id, patch)}
+                        replacementOptions={replacementOptions}
+                        onReplace={(newWorkId) => replaceSessionWork(session.id, item.id, newWorkId)}
+                      />
+                    );
+                  })
                 )}
               </div>
             </SortableContext>
@@ -375,8 +434,10 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
       <section className="space-y-4">
         <header className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-white">Asistencia</h3>
-            <p className="text-sm text-white/60">Marca presencia por asistente. Esto se sincroniza con la vista de la sesión.</p>
+            <h3 className="text-lg font-semibold text-white">Previsión de asistencia</h3>
+            <p className="text-sm text-white/60">
+              Indica quién esperas que asista. La asistencia real se marca durante la sesión desde la Home.
+            </p>
           </div>
         </header>
         <div className="space-y-2 rounded-3xl border border-white/10 bg-white/5 p-4">
@@ -387,7 +448,8 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
           ) : (
             assistants.map((assistant) => {
               const attendance = session.attendance.find((entry) => entry.assistantId === assistant.id);
-              const status = attendance?.status ?? 'pending';
+              const forecastStatus = attendance?.status ?? 'pending';
+              const liveStatus = attendance?.actualStatus;
               return (
                 <div
                   key={assistant.id}
@@ -396,6 +458,11 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                   <div>
                     <p className="text-sm font-semibold text-white">{assistant.name}</p>
                     {assistant.notes ? <p className="text-xs text-white/50">{assistant.notes}</p> : null}
+                    {liveStatus && liveStatus !== 'pending' ? (
+                      <p className="text-xs text-white/40">
+                        Último registro real: {ATTENDANCE_LABELS[liveStatus]}
+                      </p>
+                    ) : null}
                   </div>
                   <div className="flex items-center gap-2">
                     {(['present', 'absent', 'pending'] as const).map((value) => (
@@ -405,7 +472,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                         onClick={() => setAttendanceStatus(session.id, assistant.id, value)}
                         className={clsx(
                           'rounded-full px-3 py-1 text-xs font-semibold transition',
-                          status === value
+                          forecastStatus === value
                             ? value === 'present'
                               ? 'border border-emerald-500/60 bg-emerald-500/20 text-emerald-200'
                               : value === 'absent'
@@ -414,7 +481,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                             : 'border border-white/10 text-white/60 hover:border-white/30 hover:text-white'
                         )}
                       >
-                        {value === 'present' ? 'Presente' : value === 'absent' ? 'Ausente' : 'Pendiente'}
+                        {ATTENDANCE_LABELS[value]}
                       </button>
                     ))}
                   </div>

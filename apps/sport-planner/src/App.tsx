@@ -41,15 +41,15 @@ function AppHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 text-lg font-bold">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-3 sm:px-4 sm:py-4">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 text-base font-bold sm:h-10 sm:w-10 sm:text-lg">
             SP
           </div>
           <div>
-            <p className="font-display text-xl font-semibold">Sport Planner</p>
-            <p className="text-xs text-white/50">Planifica sesiones increíbles</p>
+            <p className="font-display text-lg font-semibold sm:text-xl">Sport Planner</p>
+            <p className="text-[11px] text-white/50 sm:text-xs">Planifica sesiones increíbles</p>
           </div>
         </div>
         <div className="hidden items-center gap-4 md:flex">
@@ -91,7 +91,7 @@ function AppHeader() {
         </div>
         <button
           type="button"
-          className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/80"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/80 md:hidden"
           onClick={() => setMobileOpen(true)}
           aria-label="Abrir navegación"
         >
@@ -109,7 +109,7 @@ function AppHeader() {
 
       <Dialog open={mobileOpen} onClose={setMobileOpen} className="md:hidden">
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" aria-hidden="true" />
-        <Dialog.Panel className="fixed inset-y-4 right-4 flex w-72 flex-col rounded-3xl border border-white/10 bg-slate-900/95 p-6 shadow-2xl">
+        <Dialog.Panel className="fixed inset-y-4 right-3 flex w-[17rem] flex-col rounded-3xl border border-white/10 bg-slate-900/95 p-6 shadow-2xl">
           <div className="flex items-center justify-between">
             <p className="text-lg font-semibold text-white">Navegación</p>
             <button
@@ -175,7 +175,7 @@ function AppLayout() {
   return (
     <div className="min-h-screen pb-16">
       <AppHeader />
-      <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-12">
+      <main className="mx-auto w-full max-w-6xl px-3 py-5 sm:px-6 sm:py-10">
         <Outlet />
       </main>
     </div>
