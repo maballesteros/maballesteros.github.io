@@ -1,4 +1,4 @@
-import { useMemo, useState, type ChangeEvent } from 'react';
+import { useMemo, useState, useEffect, type ChangeEvent } from 'react';
 import { DndContext, closestCenter, type DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -8,6 +8,10 @@ import { useAppStore } from '@/store/appStore';
 import type { Session, SessionWork, Work, Objective, Assistant, AttendanceStatus } from '@/types';
 import { ObjectiveChip } from './ObjectiveChip';
 import { MarkdownContent } from './MarkdownContent';
+import { formatMinutesToTime, parseTimeToMinutes } from '@/utils/time';
+
+const NO_OBJECTIVE_KEY = '__no_objective__';
+const NO_OBJECTIVE_LABEL = 'Sin objetivo';
 
 const ATTENDANCE_LABELS: Record<AttendanceStatus, string> = {
   present: 'Presente',
@@ -45,6 +49,11 @@ function WorkPickerItem({ work, objective, onSelect }: WorkPickerItemProps) {
   );
 }
 
+interface ObjectiveOption {
+  id: string;
+  name: string;
+}
+
 interface SortableWorkRowProps {
   item: SessionWork;
   work?: Work;
@@ -53,8 +62,12 @@ interface SortableWorkRowProps {
   onToggleExpanded: (id: string) => void;
   onRemove: (id: string) => void;
   onUpdateDetails: (id: string, patch: Partial<SessionWork>) => void;
-  replacementOptions: Work[];
   onReplace: (newWorkId: string) => void;
+  startTimeLabel: string;
+  durationMinutes: number;
+  objectiveOptions: ObjectiveOption[];
+  worksByObjective: Map<string, Work[]>;
+  currentObjectiveId?: string;
 }
 
 function SortableWorkRow({
@@ -65,8 +78,12 @@ function SortableWorkRow({
   onToggleExpanded,
   onRemove,
   onUpdateDetails,
-  replacementOptions,
-  onReplace
+  onReplace,
+  startTimeLabel,
+  durationMinutes,
+  objectiveOptions,
+  worksByObjective,
+  currentObjectiveId
 }: SortableWorkRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
   const [swapOpen, setSwapOpen] = useState(false);
@@ -76,17 +93,51 @@ function SortableWorkRow({
     transition
   };
 
-  const duration = item.customDurationMinutes ?? work?.estimatedMinutes ?? 0;
+  const focusValue = item.focusLabel ?? '';
+  const focusDisplay = focusValue.trim();
+  const hasFocus = focusDisplay.length > 0;
+  const descriptionContent = item.customDescriptionMarkdown ?? work?.descriptionMarkdown ?? '';
+  const hasDescription = descriptionContent.trim().length > 0;
+  const videoUrls = (work?.videoUrls ?? []).map((url) => url.trim()).filter(Boolean);
+  const hasVideos = videoUrls.length > 0;
+  const hasDetails = hasDescription || hasVideos;
 
-  const handleChange = (field: keyof SessionWork) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleFocusChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (field === 'customDurationMinutes') {
-      const parsed = parseInt(value, 10);
-      onUpdateDetails(item.id, { customDurationMinutes: Number.isNaN(parsed) ? undefined : parsed });
-    } else {
-      onUpdateDetails(item.id, { [field]: value } as Partial<SessionWork>);
-    }
+    onUpdateDetails(item.id, { focusLabel: value === '' ? undefined : value });
   };
+
+  const selectOptions = objectiveOptions.length > 0 ? objectiveOptions : [{ id: '', name: 'Sin objetivo' }];
+
+  const defaultObjectiveId = useMemo(() => {
+    if (currentObjectiveId && worksByObjective.has(currentObjectiveId)) {
+      return currentObjectiveId;
+    }
+    const matching = selectOptions[0]?.id ?? currentObjectiveId ?? '';
+    return matching;
+  }, [currentObjectiveId, selectOptions, worksByObjective]);
+
+  const [selectedObjectiveId, setSelectedObjectiveId] = useState(defaultObjectiveId);
+
+  useEffect(() => {
+    if (swapOpen) {
+      setSelectedObjectiveId(defaultObjectiveId);
+    }
+  }, [swapOpen, defaultObjectiveId]);
+
+  const availableReplacements = useMemo(() => {
+    const baseList = worksByObjective.get(selectedObjectiveId) ?? [];
+    return baseList.filter((candidate) => candidate.id !== work?.id);
+  }, [selectedObjectiveId, worksByObjective, work?.id]);
+
+  const hasAnyReplacement = useMemo(() => {
+    for (const list of worksByObjective.values()) {
+      if (list.some((candidate) => candidate.id !== work?.id)) {
+        return true;
+      }
+    }
+    return false;
+  }, [worksByObjective, work?.id]);
 
   return (
     <article
@@ -115,22 +166,43 @@ function SortableWorkRow({
         </button>
         <div className="flex-1 space-y-1">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <p className="text-lg font-semibold text-white">{work?.name ?? 'Trabajo eliminado'}</p>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/40">{duration} min</p>
+            <div className="space-y-2">
+              <p className="text-lg font-semibold text-white">
+                {work?.name ?? 'Trabajo eliminado'}
+                {hasFocus ? (
+                  <span className="ml-2 text-sky-300">· {focusDisplay}</span>
+                ) : null}
+              </p>
+              <div className="flex flex-wrap items-center gap-2 text-sm text-white/60">
+                <span className="text-xs uppercase tracking-wide text-white/40">{startTimeLabel}</span>
+                <span className="text-white/30">·</span>
+                <span>{durationMinutes} min</span>
+              </div>
+              <div className="max-w-md">
+                <label className="text-xs uppercase tracking-wide text-white/40">Foco dentro del trabajo</label>
+                <input
+                  type="text"
+                  value={item.focusLabel ?? ''}
+                  onChange={handleFocusChange}
+                  placeholder="Ej. 1/7 – Apertura"
+                  className="input-field mt-1"
+                />
+              </div>
             </div>
             <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => onToggleExpanded(item.id)}
-                className={clsx(
-                  'inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/40 hover:text-white',
-                  expanded && 'border-white/40 text-white'
-                )}
-              >
-                <span className={clsx('transition-transform', expanded ? 'rotate-90' : 'rotate-0')}>▶</span>
-                {expanded ? 'Ocultar detalles' : 'Ver detalles'}
-              </button>
+              {hasDetails ? (
+                <button
+                  type="button"
+                  onClick={() => onToggleExpanded(item.id)}
+                  className={clsx(
+                    'inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/40 hover:text-white',
+                    expanded && 'border-white/40 text-white'
+                  )}
+                >
+                  <span className={clsx('transition-transform', expanded ? 'rotate-90' : 'rotate-0')}>▶</span>
+                  {expanded ? 'Ocultar detalles' : 'Ver detalles'}
+                </button>
+              ) : null}
               <ObjectiveChip objective={objective} size="sm" />
             </div>
           </div>
@@ -139,7 +211,7 @@ function SortableWorkRow({
           <button
             type="button"
             onClick={() => setSwapOpen((prev) => !prev)}
-            disabled={replacementOptions.length === 0}
+            disabled={!hasAnyReplacement}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition hover:border-sky-400/60 hover:text-white disabled:opacity-40"
             aria-label="Intercambiar trabajo por otro de la misma categoría"
             aria-expanded={swapOpen}
@@ -156,42 +228,61 @@ function SortableWorkRow({
           </button>
         </div>
       </div>
-      {swapOpen && replacementOptions.length > 0 ? (
+      {swapOpen ? (
         <div className="mt-3 space-y-2 rounded-2xl border border-white/10 bg-slate-950/70 p-3">
-          <p className="text-xs font-semibold text-white/70">
-            Sustituir por:
-          </p>
+          <div className="grid gap-2">
+            <label className="text-xs uppercase tracking-wide text-white/40">Objetivo</label>
+            <select
+              className="input-field"
+              value={selectedObjectiveId}
+              onChange={(event) => setSelectedObjectiveId(event.target.value)}
+            >
+              {selectOptions.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="grid gap-1.5">
-            {replacementOptions.map((option) => (
-              <button
-                key={option.id}
-                type="button"
-                onClick={() => {
-                  onReplace(option.id);
-                  setSwapOpen(false);
-                }}
-                className="flex items-center justify-between gap-2 rounded-2xl border border-white/15 px-3 py-2 text-left text-xs font-semibold text-white/80 transition hover:border-sky-400/60 hover:text-white"
-              >
-                <span>{option.name}</span>
-                <span className="text-[11px] text-white/40">{option.estimatedMinutes} min</span>
-              </button>
-            ))}
+            {availableReplacements.length === 0 ? (
+              <p className="rounded-2xl border border-dashed border-white/15 px-3 py-2 text-xs text-white/60">
+                No hay trabajos disponibles en este objetivo.
+              </p>
+            ) : (
+              availableReplacements.map((option) => (
+                <button
+                  key={option.id}
+                  type="button"
+                  onClick={() => {
+                    onReplace(option.id);
+                    setSwapOpen(false);
+                  }}
+                  className="flex items-center justify-between gap-2 rounded-2xl border border-white/15 px-3 py-2 text-left text-xs font-semibold text-white/80 transition hover:border-sky-400/60 hover:text-white"
+                >
+                  <span>{option.name}</span>
+                  <span className="text-[11px] text-white/40">{option.estimatedMinutes} min</span>
+                </button>
+              ))
+            )}
           </div>
         </div>
       ) : null}
-      {expanded && (
+      {hasDetails && expanded ? (
         <div className="grid gap-3 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-          <div className="grid gap-2">
-            <label className="text-xs uppercase tracking-wide text-white/40">Descripción</label>
-            <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-3">
-              <MarkdownContent content={item.customDescriptionMarkdown ?? work?.descriptionMarkdown} />
+          {hasDescription ? (
+            <div className="grid gap-2">
+              <label className="text-xs uppercase tracking-wide text-white/40">Descripción</label>
+              <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-3">
+                <MarkdownContent content={descriptionContent} />
+              </div>
             </div>
-          </div>
-          {work?.videoUrls?.length ? (
+          ) : null}
+          {hasVideos ? (
             <div className="space-y-2">
               <p className="text-xs uppercase tracking-wide text-white/40">Vídeos de referencia</p>
               <div className="flex flex-wrap gap-2">
-                {work.videoUrls.map((url) => (
+                {videoUrls.map((url) => (
                   <a
                     key={url}
                     href={url}
@@ -208,38 +299,8 @@ function SortableWorkRow({
               </div>
             </div>
           ) : null}
-          <div className="grid gap-2">
-            <label className="text-xs uppercase tracking-wide text-white/40">Descripción personalizada</label>
-            <textarea
-              className="input-field min-h-[100px] resize-y"
-              value={item.customDescriptionMarkdown ?? ''}
-              onChange={handleChange('customDescriptionMarkdown')}
-              placeholder="Puedes detallar variaciones para esta sesión"
-            />
-          </div>
-          <div className="grid gap-2 sm:grid-cols-2">
-            <div className="grid gap-2">
-              <label className="text-xs uppercase tracking-wide text-white/40">Duración personalizada (min)</label>
-              <input
-                type="number"
-                min={0}
-                className="input-field"
-                value={item.customDurationMinutes ?? ''}
-                onChange={handleChange('customDurationMinutes')}
-              />
-            </div>
-            <div className="grid gap-2">
-              <label className="text-xs uppercase tracking-wide text-white/40">Notas rápidas</label>
-              <textarea
-                className="input-field min-h-[80px]"
-                value={item.notes ?? ''}
-                onChange={handleChange('notes')}
-                placeholder="Notas visibles solo en modo edición"
-              />
-            </div>
-          </div>
         </div>
-      )}
+      ) : null}
       <span className="absolute -left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-slate-950/90 text-xs font-semibold text-white/60">
         {item.order + 1}
       </span>
@@ -261,6 +322,36 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
 
   const objectiveMap = useMemo(() => new Map(objectives.map((objective) => [objective.id, objective])), [objectives]);
   const workMap = useMemo(() => new Map(works.map((work) => [work.id, work])), [works]);
+  const objectiveOptions = useMemo<ObjectiveOption[]>(() => {
+    const nameById = new Map(objectives.map((objective) => [objective.id, objective.name]));
+    const options: ObjectiveOption[] = objectives.map((objective) => ({ id: objective.id, name: objective.name }));
+    const seen = new Set(options.map((option) => option.id));
+    const ensureOption = (id?: string | null) => {
+      const key = id ?? NO_OBJECTIVE_KEY;
+      if (seen.has(key)) return;
+      const name = key === NO_OBJECTIVE_KEY ? NO_OBJECTIVE_LABEL : nameById.get(key) ?? 'Otro objetivo';
+      options.push({ id: key, name });
+      seen.add(key);
+    };
+    works.forEach((work) => {
+      ensureOption(work.objectiveId);
+    });
+    return options;
+  }, [objectives, works]);
+
+  const worksByObjective = useMemo(() => {
+    const map = new Map<string, Work[]>();
+    works.forEach((work) => {
+      const key = work.objectiveId ?? NO_OBJECTIVE_KEY;
+      const list = map.get(key) ?? [];
+      list.push(work);
+      map.set(key, list);
+    });
+    map.forEach((list) => {
+      list.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
+    });
+    return map;
+  }, [works]);
 
   const filteredWorks = useMemo(() => {
     if (!query) return works;
@@ -301,7 +392,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
     reorderSessionWork(session.id, oldIndex, newIndex);
   };
 
-  const handleSessionField = (field: 'title' | 'date' | 'description' | 'notes') =>
+  const handleSessionField = (field: 'title' | 'date' | 'startTime' | 'description' | 'notes') =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const value = event.target.value;
       updateSession(session.id, { [field]: value });
@@ -313,7 +404,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
   return (
     <div className="space-y-6">
       <div className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="grid gap-2 sm:grid-cols-3">
           <div className="grid gap-2">
             <label className="text-xs uppercase tracking-wide text-white/40">Título</label>
             <input
@@ -331,6 +422,15 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
               className="input-field"
               value={session.date}
               onChange={handleSessionField('date')}
+            />
+          </div>
+          <div className="grid gap-2">
+            <label className="text-xs uppercase tracking-wide text-white/40">Hora de inicio</label>
+            <input
+              type="time"
+              className="input-field"
+              value={session.startTime ?? '18:30'}
+              onChange={handleSessionField('startTime')}
             />
           </div>
         </div>
@@ -398,32 +498,37 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                     Añade trabajos desde el catálogo con el buscador superior.
                   </div>
                 ) : (
-                  session.workItems.map((item) => {
-                    const currentWork = workMap.get(item.workId);
-                    const objective = currentWork
-                      ? objectiveMap.get(currentWork.objectiveId)
-                      : undefined;
-                    const replacementOptions = currentWork
-                      ? works.filter(
-                          (work) =>
-                            work.objectiveId === currentWork.objectiveId && work.id !== currentWork.id
-                        )
-                      : [];
-                    return (
-                      <SortableWorkRow
-                        key={item.id}
-                        item={item}
-                        work={currentWork}
-                        objective={objective}
-                        expanded={expandedItems.has(item.id)}
-                        onToggleExpanded={toggleExpanded}
-                        onRemove={() => removeWorkFromSession(session.id, item.id)}
-                        onUpdateDetails={(id, patch) => updateSessionWorkDetails(session.id, id, patch)}
-                        replacementOptions={replacementOptions}
-                        onReplace={(newWorkId) => replaceSessionWork(session.id, item.id, newWorkId)}
-                      />
-                    );
-                  })
+                  (() => {
+                    let accumulatedMinutes = 0;
+                    const startMinutes = parseTimeToMinutes(session.startTime, '18:30');
+                    return session.workItems.map((item) => {
+                      const currentWork = workMap.get(item.workId);
+                      const objective = currentWork
+                        ? objectiveMap.get(currentWork.objectiveId)
+                        : undefined;
+                      const durationMinutes = item.customDurationMinutes ?? currentWork?.estimatedMinutes ?? 0;
+                      const startLabel = formatMinutesToTime(startMinutes + accumulatedMinutes);
+                      accumulatedMinutes += durationMinutes;
+                      return (
+                        <SortableWorkRow
+                          key={item.id}
+                          item={item}
+                          work={currentWork}
+                          objective={objective}
+                          expanded={expandedItems.has(item.id)}
+                          onToggleExpanded={toggleExpanded}
+                          onRemove={() => removeWorkFromSession(session.id, item.id)}
+                          onUpdateDetails={(id, patch) => updateSessionWorkDetails(session.id, id, patch)}
+                          onReplace={(newWorkId) => replaceSessionWork(session.id, item.id, newWorkId)}
+                          startTimeLabel={startLabel}
+                          durationMinutes={durationMinutes}
+                          objectiveOptions={objectiveOptions}
+                          worksByObjective={worksByObjective}
+                          currentObjectiveId={currentWork?.objectiveId ?? NO_OBJECTIVE_KEY}
+                        />
+                      );
+                    });
+                  })()
                 )}
               </div>
             </SortableContext>
