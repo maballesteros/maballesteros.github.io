@@ -7,6 +7,7 @@ import type { Objective, Work } from '@/types';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { ObjectiveChip } from '@/components/ObjectiveChip';
 import { YouTubePreview } from '@/components/YouTubePreview';
+import { Menu } from '@headlessui/react';
 
 interface WorkFormState {
   id?: string;
@@ -56,8 +57,7 @@ const NO_OBJECTIVE_KEY = '__no_objective__';
 interface WorkViewCardProps {
   work: Work;
   objective?: Objective;
-  parentWork?: Work;
-  childWorks: Work[];
+  childCount: number;
   depth: number;
   expanded: boolean;
   onToggle: () => void;
@@ -70,8 +70,7 @@ interface WorkViewCardProps {
 function WorkViewCard({
   work,
   objective,
-  parentWork,
-  childWorks,
+  childCount,
   depth,
   expanded,
   onToggle,
@@ -87,13 +86,12 @@ function WorkViewCard({
   const hasNotes = trimmedNotes.length > 0;
   const hasVideos = videoUrls.length > 0;
   const hasDetails = hasDescription || hasNotes || hasVideos;
-  const hasParent = Boolean(parentWork);
-  const hasChildren = childWorks.length > 0;
+  const hasChildren = childCount > 0;
   const indentStyle = depth > 0 ? { marginLeft: `${depth * 1.5}rem` } : undefined;
 
   return (
     <article
-      className="relative space-y-4 rounded-3xl border border-white/10 bg-white/5 p-5 shadow shadow-black/30"
+      className="group relative space-y-4 rounded-3xl border border-white/10 bg-white/5 p-5 pb-10 shadow shadow-black/30"
       style={indentStyle}
     >
       {objective ? (
@@ -103,70 +101,118 @@ function WorkViewCard({
         />
       ) : null}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h3 className="text-xl font-semibold text-white">{work.name}</h3>
-          <p className="text-sm text-white/60">{work.estimatedMinutes} minutos</p>
-        </div>
+        <button
+          type="button"
+          onClick={() => {
+            if (hasDetails) {
+              onToggle();
+            }
+          }}
+          className={clsx(
+            'flex flex-1 items-start gap-3 rounded-2xl border border-transparent px-3 py-2 text-left transition',
+            hasDetails
+              ? 'hover:border-white/10 hover:bg-white/5 focus-visible:border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40'
+              : 'cursor-default'
+          )}
+          aria-expanded={hasDetails ? expanded : undefined}
+          disabled={!hasDetails}
+        >
+          {hasDetails ? (
+            <span
+              className={clsx(
+                'mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full border border-white/20 text-xs text-white/70 transition',
+                expanded ? 'rotate-90 border-white/40 text-white' : ''
+              )}
+              aria-hidden
+            >
+              ▶
+            </span>
+          ) : null}
+          <span>
+            <h3 className="text-xl font-semibold text-white">{work.name}</h3>
+            <p className="text-sm text-white/60">{work.estimatedMinutes} minutos</p>
+          </span>
+        </button>
         <div className="flex flex-wrap items-center gap-2 sm:justify-end">
           <ObjectiveChip objective={objective} size="sm" />
-          {hasDetails ? (
-            <button
-              type="button"
-              onClick={onToggle}
-              className={clsx(
-                'inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/40 hover:text-white',
-                expanded && 'border-white/40 text-white'
-              )}
-            >
-              <span className={clsx('transition-transform', expanded ? 'rotate-90' : 'rotate-0')}>▶</span>
-              {expanded ? 'Ocultar detalles' : 'Ver detalles'}
-            </button>
-          ) : null}
-          <button type="button" onClick={onEdit} className="btn-secondary px-3 py-1 text-xs">
-            Editar
-          </button>
-          <button type="button" onClick={onDuplicate} className="btn-secondary px-3 py-1 text-xs">
-            Duplicar
-          </button>
-          <button type="button" onClick={onCreateChild} className="btn-secondary px-3 py-1 text-xs">
-            Nuevo hijo
-          </button>
-          <button
-            type="button"
-            onClick={onDelete}
-            className="inline-flex items-center justify-center rounded-full border border-rose-500/40 px-3 py-1 text-xs font-semibold text-rose-300 transition hover:border-rose-400 hover:text-rose-200"
-          >
-            Eliminar
-          </button>
+          <Menu as="div" className="relative inline-flex">
+            <Menu.Button className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40">
+              <span className="sr-only">Abrir acciones</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="h-5 w-5"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="5" r="1.5" />
+                <circle cx="12" cy="12" r="1.5" />
+                <circle cx="12" cy="19" r="1.5" />
+              </svg>
+            </Menu.Button>
+            <Menu.Items className="absolute right-0 z-10 mt-2 w-44 overflow-hidden rounded-2xl border border-white/10 bg-slate-900/95 p-1 text-sm text-white shadow-lg shadow-black/40 focus:outline-none">
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="button"
+                    onClick={onEdit}
+                    className={clsx(
+                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left',
+                      active ? 'bg-white/10 text-white' : 'text-white/70'
+                    )}
+                  >
+                    Editar
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="button"
+                    onClick={onDuplicate}
+                    className={clsx(
+                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left',
+                      active ? 'bg-white/10 text-white' : 'text-white/70'
+                    )}
+                  >
+                    Duplicar
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="button"
+                    onClick={onCreateChild}
+                    className={clsx(
+                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left',
+                      active ? 'bg-white/10 text-white' : 'text-white/70'
+                    )}
+                  >
+                    Nuevo hijo
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="button"
+                    onClick={onDelete}
+                    className={clsx(
+                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left',
+                      active ? 'bg-rose-500/20 text-rose-100' : 'text-rose-300'
+                    )}
+                  >
+                    Eliminar
+                  </button>
+                )}
+              </Menu.Item>
+            </Menu.Items>
+          </Menu>
         </div>
       </div>
-      {(hasParent || hasChildren) && (
-        <div className="flex flex-wrap gap-3 rounded-2xl border border-dashed border-white/10 bg-white/5 p-3 text-xs text-white/60">
-          {hasParent ? (
-            <span className="inline-flex items-center gap-2">
-              <span className="uppercase tracking-wide text-white/40">Deriva de</span>
-              <span className="rounded-full border border-white/15 px-2 py-0.5 text-white/80">
-                {parentWork?.name}
-              </span>
-            </span>
-          ) : null}
-          {hasChildren ? (
-            <span className="inline-flex flex-wrap items-center gap-2">
-              <span className="uppercase tracking-wide text-white/40">Hijos</span>
-              {childWorks.slice(0, 4).map((child) => (
-                <span key={child.id} className="rounded-full border border-white/15 px-2 py-0.5 text-white/70">
-                  {child.name}
-                </span>
-              ))}
-              {childWorks.length > 4 ? (
-                <span className="rounded-full border border-white/15 px-2 py-0.5 text-white/60">
-                  +{childWorks.length - 4}
-                </span>
-              ) : null}
-            </span>
-          ) : null}
-        </div>
-      )}
       {hasDetails && expanded && (
         <div className="space-y-4 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
           {hasDescription ? (
@@ -196,6 +242,15 @@ function WorkViewCard({
           ) : null}
         </div>
       )}
+      <button
+        type="button"
+        onClick={onCreateChild}
+        className="absolute bottom-0 left-1/2 flex -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-full border border-dashed border-white/20 bg-slate-950/80 px-4 py-2 text-sm font-semibold text-white/80 opacity-0 transition hover:border-white/40 hover:text-white focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto focus-visible:pointer-events-auto"
+        title={hasChildren ? 'Añadir trabajo hijo' : 'Crear primer trabajo hijo'}
+        aria-label="Crear trabajo hijo"
+      >
+        +
+      </button>
     </article>
   );
 }
@@ -909,10 +964,8 @@ export default function CatalogView() {
                     const parentOptions = entry.isEditing
                       ? buildParentOptions(entry.work?.id, currentParentId)
                       : [];
-                    const parentWork = entry.work?.parentWorkId
-                      ? worksById.get(entry.work.parentWorkId) ?? undefined
-                      : undefined;
                     const childWorks = entry.work ? childrenByWorkId.get(entry.work.id) ?? [] : [];
+                    const childCount = childWorks.length;
                     if (entry.isEditing && entry.form) {
                       return (
                         <WorkEditCard
@@ -990,8 +1043,7 @@ export default function CatalogView() {
                         key={entry.id}
                         work={entry.work}
                         objective={objectiveMap.get(entry.work.objectiveId)}
-                        parentWork={parentWork}
-                        childWorks={childWorks}
+                        childCount={childCount}
                         depth={entry.depth}
                         expanded={isExpanded}
                         onToggle={() => toggleExpanded(entry.id)}
