@@ -26,6 +26,8 @@ const isBrowser = typeof window !== 'undefined';
 
 const nowIso = () => new Date().toISOString();
 
+const DEFAULT_SESSION_START_TIME = '18:30';
+
 const loadCollection = <T>(key: string, fallback: T): T => {
   if (!isBrowser) return fallback;
   try {
@@ -77,7 +79,11 @@ const normalizeCollections = (state: Partial<CollectionsState>): CollectionsStat
   works: state.works ?? [],
   sessions: (state.sessions ?? []).map((session) => ({
     ...session,
-    workItems: session.workItems ?? [],
+    startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
+    workItems: (session.workItems ?? []).map((item) => ({
+      ...item,
+      focusLabel: item.focusLabel
+    })),
     attendance: normalizeAttendance(session.attendance as PartialAttendance[])
   })),
   assistants: state.assistants ?? []
@@ -103,6 +109,7 @@ interface SessionInput {
   title: string;
   description?: string;
   notes?: string;
+  startTime?: string;
 }
 
 interface SessionWorkInput {
@@ -110,6 +117,7 @@ interface SessionWorkInput {
   customDescriptionMarkdown?: string;
   customDurationMinutes?: number;
   notes?: string;
+  focusLabel?: string;
 }
 
 interface AssistantInput {
@@ -179,7 +187,11 @@ export const useAppStore = create<AppState>((set, get) => ({
     const works = loadCollection<Work[]>(STORAGE_KEYS.works, []);
     const sessions = loadCollection<Session[]>(STORAGE_KEYS.sessions, []).map((session) => ({
       ...session,
-      workItems: session.workItems ?? [],
+      startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
+      workItems: (session.workItems ?? []).map((item) => ({
+        ...item,
+        focusLabel: item.focusLabel
+      })),
       attendance: normalizeAttendance(session.attendance as PartialAttendance[])
     }));
     const assistants = loadCollection<Assistant[]>(STORAGE_KEYS.assistants, []);
@@ -329,6 +341,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       notes: input.notes,
       workItems: [],
       attendance: [],
+      startTime: input.startTime ?? DEFAULT_SESSION_START_TIME,
       createdAt: nowIso(),
       updatedAt: nowIso()
     };
@@ -348,6 +361,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       ...session,
       id: nanoid(),
       date,
+      startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
       createdAt: now,
       updatedAt: now,
       title: `${session.title} (copia)`
@@ -421,6 +435,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       customDescriptionMarkdown: input.customDescriptionMarkdown,
       customDurationMinutes: input.customDurationMinutes,
       notes: input.notes,
+      focusLabel: input.focusLabel,
       completed: false,
       order: session.workItems.length
     };
@@ -530,6 +545,7 @@ export const useAppStore = create<AppState>((set, get) => ({
             customDescriptionMarkdown: undefined,
             customDurationMinutes: undefined,
             notes: undefined,
+            focusLabel: undefined,
             completed: false
           };
         });
@@ -706,9 +722,11 @@ export const useAppStore = create<AppState>((set, get) => ({
           customDescriptionMarkdown: item.customDescriptionMarkdown,
           customDurationMinutes: item.customDurationMinutes,
           notes: item.notes,
+          focusLabel: item.focusLabel,
           completed: item.completed ?? false
         })),
         attendance: normalizeAttendance(raw.attendance as PartialAttendance[]),
+        startTime: raw.startTime ?? DEFAULT_SESSION_START_TIME,
         createdAt: raw.createdAt ?? now,
         updatedAt: raw.updatedAt ?? now
       };
@@ -730,6 +748,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           notes: raw.notasSesion ?? raw.notas,
           workItems: [],
           attendance: [],
+          startTime: DEFAULT_SESSION_START_TIME,
           createdAt: now,
           updatedAt: now
         });
@@ -742,6 +761,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         customDescriptionMarkdown: raw.descripcionPersonalizada,
         customDurationMinutes: raw.duracionPersonalizada,
         notes: raw.notas,
+        focusLabel: raw.focusLabel ?? raw.foco,
         completed: false
       });
     });
@@ -750,6 +770,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       session.workItems = session.workItems
         .sort((a, b) => a.order - b.order)
         .map((item, index) => ({ ...item, order: index }));
+      session.startTime = session.startTime ?? DEFAULT_SESSION_START_TIME;
     });
 
     const attendanceBySession = new Map<string, SessionAttendance[]>();
@@ -802,7 +823,9 @@ export const useAppStore = create<AppState>((set, get) => ({
         orden: item.order,
         descripcionPersonalizada: item.customDescriptionMarkdown,
         duracionPersonalizada: item.customDurationMinutes,
-        notas: item.notes
+        notas: item.notes,
+        foco: item.focusLabel,
+        focusLabel: item.focusLabel
       }))
     );
     const sesionesAsistencias: BackupSessionAttendance[] = state.sessions.flatMap((session) =>
@@ -832,6 +855,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       title: session.title,
       description: session.description,
       notes: session.notes,
+      startTime: session.startTime,
       createdAt: session.createdAt,
       updatedAt: session.updatedAt
     }));

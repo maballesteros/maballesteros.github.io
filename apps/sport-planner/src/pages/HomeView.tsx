@@ -9,6 +9,7 @@ import type { Session, AttendanceStatus, SessionAttendance } from '@/types';
 import { ObjectiveChip } from '@/components/ObjectiveChip';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { YouTubePreview } from '@/components/YouTubePreview';
+import { formatMinutesToTime, parseTimeToMinutes } from '@/utils/time';
 
 const ATTENDANCE_ORDER: AttendanceStatus[] = ['present', 'absent', 'pending'];
 
@@ -93,6 +94,27 @@ export default function HomeView() {
     const map = new Map(works.map((work) => [work.id, work]));
     return map;
   }, [works]);
+
+  const sessionStartMinutes = useMemo(
+    () => parseTimeToMinutes(currentSession?.startTime, '18:30'),
+    [currentSession?.startTime]
+  );
+
+  const workSchedule = useMemo(() => {
+    if (!currentSession) {
+      return new Map<string, { startLabel: string; duration: number }>();
+    }
+    let accumulated = 0;
+    const schedule = new Map<string, { startLabel: string; duration: number }>();
+    currentSession.workItems.forEach((sessionWork) => {
+      const work = workMap.get(sessionWork.workId);
+      const duration = sessionWork.customDurationMinutes ?? work?.estimatedMinutes ?? 0;
+      const startLabel = formatMinutesToTime(sessionStartMinutes + accumulated);
+      schedule.set(sessionWork.id, { startLabel, duration });
+      accumulated += duration;
+    });
+    return schedule;
+  }, [currentSession, workMap, sessionStartMinutes]);
 
   const activeAssistants = useMemo(
     () =>
@@ -280,9 +302,14 @@ export default function HomeView() {
                 const work = workMap.get(item.workId);
                 const objective = work ? objectiveMap.get(work.objectiveId) : undefined;
                 const isExpanded = expandedItems.has(item.id);
-                const detailDescription = item.customDescriptionMarkdown ?? work?.descriptionMarkdown ?? '';
-                const hasDescription = detailDescription.trim().length > 0;
-                const videoUrls = (work?.videoUrls ?? []).filter((url) => url.trim().length > 0);
+                const scheduleEntry = workSchedule.get(item.id);
+                const startLabel = scheduleEntry?.startLabel ?? formatMinutesToTime(sessionStartMinutes);
+                const durationMinutes = scheduleEntry?.duration ?? (item.customDurationMinutes ?? work?.estimatedMinutes ?? 0);
+                const focusLabel = (item.focusLabel ?? '').trim();
+                const hasFocus = focusLabel.length > 0;
+                const descriptionContent = item.customDescriptionMarkdown ?? work?.descriptionMarkdown ?? '';
+                const hasDescription = descriptionContent.trim().length > 0;
+                const videoUrls = (work?.videoUrls ?? []).map((url) => url.trim()).filter(Boolean);
                 const hasVideos = videoUrls.length > 0;
                 const showDetailsToggle = hasDescription || hasVideos;
 
@@ -314,9 +341,14 @@ export default function HomeView() {
                           <div>
                             <p className="text-lg font-semibold text-white">
                               {work?.name ?? 'Trabajo eliminado'}
+                              {hasFocus ? (
+                                <span className="ml-2 text-sky-300">· {focusLabel}</span>
+                              ) : null}
                             </p>
                             <p className="text-sm text-white/60">
-                              {item.customDurationMinutes ?? work?.estimatedMinutes ?? 0} min
+                              <span className="text-xs uppercase tracking-wide text-white/40">{startLabel}</span>
+                              <span className="mx-2 text-white/30">·</span>
+                              <span>{durationMinutes} min</span>
                             </p>
                           </div>
                           <ObjectiveChip objective={objective} size="sm" />
@@ -360,7 +392,7 @@ export default function HomeView() {
                     {showDetailsToggle && isExpanded && (
                       <div className="space-y-3 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
                         {hasDescription ? (
-                          <MarkdownContent content={detailDescription} />
+                          <MarkdownContent content={descriptionContent} />
                         ) : null}
                         {hasVideos ? (
                           <div className="space-y-3">

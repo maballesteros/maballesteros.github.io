@@ -28,6 +28,7 @@ export interface SessionWork {
   customDescriptionMarkdown?: string;
   customDurationMinutes?: number;
   notes?: string;
+  focusLabel?: string;
   completed?: boolean;
 }
 
@@ -47,6 +48,7 @@ export interface Session {
   notes?: string;
   workItems: SessionWork[];
   attendance: SessionAttendance[];
+  startTime: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -68,6 +70,7 @@ export interface BackupSession {
   notes?: string;
   workItems?: SessionWork[];
   attendance?: SessionAttendance[];
+  startTime?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -84,6 +87,8 @@ export interface BackupSessionWork {
   titulo?: string;
   descripcion?: string;
   notasSesion?: string;
+  foco?: string;
+  focusLabel?: string;
 }
 
 export interface BackupSessionAttendance {
