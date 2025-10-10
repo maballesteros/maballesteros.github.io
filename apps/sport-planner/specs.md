@@ -3,7 +3,8 @@
 ### 1. Contexto y propósito
 - Aplicación web de página única (SPA) para planificar clases o sesiones de entrenamiento, inicialmente para kung-fu pero con diseño agnóstico al deporte.
 - SPA **100 % cliente**: no habrá servidor propio, SSR ni endpoints personalizados; el bundle final debe poder servirse como archivos estáticos (por ejemplo, como parte de un dominio publicado en Github Pages).
-- Persistencia local en el navegador mediante `localStorage`. Cada entidad se serializa en colecciones JSON independientes. La sincronización con Supabase (u otro backend) queda como mejora futura.
+- Persistencia local en el navegador mediante `localStorage`, complementada con sincronización automática en Supabase (auth + tabla `planner_states` que almacena un snapshot JSON por usuario).
+- El bundle se sirve bajo `/sport-planner/` dentro de `maballesteros.com`, por lo que el router utiliza `basename` y Vite `base` para generar rutas y assets correctos.
 - Objetivos clave: planificar sesiones, gestionar un catálogo de trabajos, registrar asistencia y mantener la experiencia de uso fluida y agradable.
 
 ### 2. Objetivos principales
@@ -17,7 +18,7 @@
 - Ofrecer respaldo y restauración completa de la base de datos mediante exportación/importación JSON.
 
 ### 3. Alcance inicial
-- No hay autenticación; la app funciona completamente offline-first sobre `localStorage`.
+- Autenticación mediante Supabase (email + contraseña) que habilita sincronización multi-dispositivo. La aplicación mantiene soporte offline gracias a `localStorage`.
 - No se gestionan múltiples agendas ni permisos.
 - No se contempla aún control de acceso por roles, recordatorios ni notificaciones.
 - Primera versión con visualización pensada para mobile (home) y edición avanzada optimizada para desktop, manteniendo responsividad completa.
@@ -129,6 +130,43 @@
 
 ### 13. Próximos pasos
 - Validar si hace falta flujo de alta de asistentes previo o inline desde la sesión.
-- Decidir si se habilita guardado automático o manual.
+- Ajustar frecuencia/estrategia de guardado remoto (debounce, conflictos).
 - Definir diseño visual (paleta, tipografías).
-- Confirmar estrategia de despliegue (GitHub Pages / Netlify) y estudio de sincronización remota futura.
+- Refinar despliegue en plataformas estáticas (GitHub Pages / Netlify) con Supabase como backend remoto.
+
+### 14. Integración Supabase
+
+1. **Variables de entorno**  
+   Crear un archivo `.env.local` (no se versiona) en `apps/sport-planner` con:
+   ```
+   VITE_SUPABASE_URL=https://<tu-proyecto>.supabase.co
+   VITE_SUPABASE_ANON_KEY=<tu-anon-key>
+   ```
+
+2. **Tabla `planner_states`**  
+   Crear una tabla en Supabase con la política RLS activada:
+   ```sql
+   create table planner_states (
+     id uuid primary key default gen_random_uuid(),
+     user_id uuid not null unique references auth.users on delete cascade,
+     data jsonb not null,
+     updated_at timestamptz not null default now()
+   );
+
+   alter table planner_states enable row level security;
+
+   create policy "allow individual access"
+     on planner_states
+     for all
+     using (auth.uid() = user_id)
+     with check (auth.uid() = user_id);
+   ```
+
+3. **Sincronización**  
+   - Al iniciar sesión, se descarga (o inicializa) el snapshot remoto y se guarda también en `localStorage` para uso offline.  
+   - Cada cambio en objetivos, trabajos, sesiones o asistentes se guarda automáticamente con debounce (~600 ms).  
+   - Al cerrar sesión se limpia el estado local.
+
+4. **Flujo de autenticación**  
+   - Formulario unificado para iniciar sesión o registrarse (password) con confirmación por correo.  
+   - El encabezado muestra el email activo y permite cerrar sesión tanto en desktop como en móvil.

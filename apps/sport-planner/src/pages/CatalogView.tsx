@@ -119,7 +119,7 @@ export default function CatalogView() {
 
   const objectiveMap = useMemo(() => new Map(objectives.map((objective) => [objective.id, objective])), [objectives]);
   const sortedObjectives = useMemo(
-    () => [...objectives].sort((a, b) => a.name.localeCompare(b.name, 'es')),
+    () => [...objectives].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? '', 'es')),
     [objectives]
   );
 
@@ -128,10 +128,13 @@ export default function CatalogView() {
     const normalized = search.toLowerCase();
     return works.filter((work) => {
       const objective = objectiveMap.get(work.objectiveId);
+      const workName = work.name ?? '';
+      const objectiveName = objective?.name ?? '';
+      const description = work.descriptionMarkdown ?? '';
       return (
-        work.name.toLowerCase().includes(normalized) ||
-        work.descriptionMarkdown.toLowerCase().includes(normalized) ||
-        objective?.name.toLowerCase().includes(normalized)
+        workName.toLowerCase().includes(normalized) ||
+        description.toLowerCase().includes(normalized) ||
+        objectiveName.toLowerCase().includes(normalized)
       );
     });
   }, [works, search, objectiveMap]);
@@ -150,10 +153,12 @@ export default function CatalogView() {
   const groupedWorks = useMemo(() => {
     const groups: Array<{ objective?: Objective; works: Work[] }> = sortedObjectives.map((objective) => ({
       objective,
-      works: (worksByObjective.get(objective.id) ?? []).sort((a, b) => a.name.localeCompare(b.name, 'es'))
+      works: (worksByObjective.get(objective.id) ?? []).sort((a, b) =>
+        (a.name ?? '').localeCompare(b.name ?? '', 'es')
+      )
     }));
     const withoutObjective = (worksByObjective.get('__no_objective__') ?? []).sort((a, b) =>
-      a.name.localeCompare(b.name, 'es')
+      (a.name ?? '').localeCompare(b.name ?? '', 'es')
     );
     if (withoutObjective.length) {
       groups.push({ objective: undefined, works: withoutObjective });

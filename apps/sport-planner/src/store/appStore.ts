@@ -38,13 +38,32 @@ const loadCollection = <T>(key: string, fallback: T): T => {
   }
 };
 
-const persistCollections = (state: Pick<AppState, 'objectives' | 'works' | 'sessions' | 'assistants'>) => {
+interface CollectionsState {
+  objectives: Objective[];
+  works: Work[];
+  sessions: Session[];
+  assistants: Assistant[];
+}
+
+const persistCollections = (state: Partial<CollectionsState>) => {
   if (!isBrowser) return;
-  window.localStorage.setItem(STORAGE_KEYS.objectives, JSON.stringify(state.objectives));
-  window.localStorage.setItem(STORAGE_KEYS.works, JSON.stringify(state.works));
-  window.localStorage.setItem(STORAGE_KEYS.sessions, JSON.stringify(state.sessions));
-  window.localStorage.setItem(STORAGE_KEYS.assistants, JSON.stringify(state.assistants));
+  const normalized = normalizeCollections(state);
+  window.localStorage.setItem(STORAGE_KEYS.objectives, JSON.stringify(normalized.objectives));
+  window.localStorage.setItem(STORAGE_KEYS.works, JSON.stringify(normalized.works));
+  window.localStorage.setItem(STORAGE_KEYS.sessions, JSON.stringify(normalized.sessions));
+  window.localStorage.setItem(STORAGE_KEYS.assistants, JSON.stringify(normalized.assistants));
 };
+
+const normalizeCollections = (state: Partial<CollectionsState>): CollectionsState => ({
+  objectives: state.objectives ?? [],
+  works: state.works ?? [],
+  sessions: (state.sessions ?? []).map((session) => ({
+    ...session,
+    workItems: session.workItems ?? [],
+    attendance: session.attendance ?? []
+  })),
+  assistants: state.assistants ?? []
+});
 
 interface ObjectiveInput {
   name: string;
@@ -88,6 +107,8 @@ interface AppState {
   sessions: Session[];
   assistants: Assistant[];
   hydrate: () => void;
+  setCollections: (payload: CollectionsState) => void;
+  reset: () => void;
   addObjective: (input: ObjectiveInput) => Objective;
   updateObjective: (id: string, patch: Partial<ObjectiveInput>) => void;
   deleteObjective: (id: string) => boolean;
@@ -131,7 +152,11 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (get().ready) return;
     const objectives = loadCollection<Objective[]>(STORAGE_KEYS.objectives, []);
     const works = loadCollection<Work[]>(STORAGE_KEYS.works, []);
-    const sessions = loadCollection<Session[]>(STORAGE_KEYS.sessions, []);
+    const sessions = loadCollection<Session[]>(STORAGE_KEYS.sessions, []).map((session) => ({
+      ...session,
+      workItems: session.workItems ?? [],
+      attendance: session.attendance ?? []
+    }));
     const assistants = loadCollection<Assistant[]>(STORAGE_KEYS.assistants, []);
     set({
       objectives,
@@ -139,6 +164,40 @@ export const useAppStore = create<AppState>((set, get) => ({
       sessions,
       assistants,
       ready: true
+    });
+  },
+  setCollections: (payload) => {
+    set((state) => {
+      const normalized = normalizeCollections({
+        objectives: payload.objectives,
+        works: payload.works,
+        sessions: payload.sessions,
+        assistants: payload.assistants
+      });
+      const merged = {
+        ...state,
+        ...normalized,
+        ready: true
+      };
+      persistCollections(merged);
+      return merged;
+    });
+  },
+  reset: () => {
+    set((state) => {
+      const normalized = normalizeCollections({
+        objectives: [],
+        works: [],
+        sessions: [],
+        assistants: []
+      });
+      const merged = {
+        ...state,
+        ...normalized,
+        ready: true
+      };
+      persistCollections(merged);
+      return merged;
     });
   },
   addObjective: (input) => {
@@ -679,4 +738,4 @@ export const useAppStore = create<AppState>((set, get) => ({
   }
 }));
 
-export type { AppState };
+export type { AppState, CollectionsState };
