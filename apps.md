@@ -30,4 +30,12 @@ permalink: /apps/
   </a>
 </article>
 
+<article>
+  <a href="/sport-planner/">
+    <img src="/apps/sport-planner/sport-planner-cover.svg" alt="Sport Planner">
+    <h2>Sport Planner</h2>
+    <p>Design agile training sessions with reusable catalogs, drag &amp; drop sequencing, attendance tracking, and JSON backups—entirely offline-first.</p>
+  </a>
+</article>
+
 </div>

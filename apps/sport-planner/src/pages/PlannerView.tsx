@@ -1,0 +1,356 @@
+import { useEffect, useMemo, useState } from 'react';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
+import { useSearchParams } from 'react-router-dom';
+import clsx from 'clsx';
+
+import { useAppStore } from '@/store/appStore';
+import { SessionEditor } from '@/components/SessionEditor';
+import { ObjectiveChip } from '@/components/ObjectiveChip';
+import type { Session, Objective, Work } from '@/types';
+import { getCalendarMatrix, isSameDate } from '@/utils/dates';
+
+dayjs.locale('es');
+
+function formatMonthTitle(reference: string) {
+  return dayjs(reference).format('MMMM YYYY');
+}
+
+function SessionSummaryCard({
+  session,
+  objectives,
+  works,
+  isActive,
+  onSelect,
+  onDuplicate,
+  onDelete
+}: {
+  session: Session;
+  objectives: Objective[];
+  works: Work[];
+  isActive: boolean;
+  onSelect: () => void;
+  onDuplicate: () => void;
+  onDelete: () => void;
+}) {
+  const objectiveMap = useMemo(() => new Map(objectives.map((objective) => [objective.id, objective])), [objectives]);
+  const workMap = useMemo(() => new Map(works.map((work) => [work.id, work])), [works]);
+
+  const primaryObjective = useMemo(() => {
+    const firstWork = session.workItems[0];
+    if (!firstWork) return undefined;
+    const work = workMap.get(firstWork.workId);
+    if (!work) return undefined;
+    return objectiveMap.get(work.objectiveId);
+  }, [session.workItems, workMap, objectiveMap]);
+
+  const duration = session.workItems.reduce((acc, item) => {
+    const work = workMap.get(item.workId);
+    return acc + (item.customDurationMinutes ?? work?.estimatedMinutes ?? 0);
+  }, 0);
+
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={clsx(
+        'group relative flex flex-col gap-3 rounded-3xl border border-white/10 bg-white/5 p-5 text-left transition hover:border-sky-400/50 hover:shadow-lg hover:shadow-sky-500/10',
+        isActive && 'ring-2 ring-sky-400/70'
+      )}
+    >
+      {primaryObjective ? (
+        <div
+          className="absolute inset-0 -z-[1] rounded-3xl opacity-20 blur-2xl transition group-hover:opacity-40"
+          style={{ backgroundColor: primaryObjective.colorHex }}
+        />
+      ) : null}
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <p className="text-lg font-semibold text-white">{session.title || 'Sesión sin título'}</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+            {session.workItems.length} trabajos · {duration} min
+          </p>
+        </div>
+        <ObjectiveChip objective={primaryObjective} size="sm" />
+      </div>
+      <div className="flex flex-wrap gap-2 text-xs text-white/60">
+        {session.workItems.slice(0, 3).map((item) => {
+          const work = workMap.get(item.workId);
+          return (
+            <span key={item.id} className="rounded-full border border-white/10 px-3 py-1">
+              {work?.name ?? 'Trabajo'}
+            </span>
+          );
+        })}
+        {session.workItems.length > 3 ? (
+          <span className="rounded-full border border-white/10 px-3 py-1">+{session.workItems.length - 3}</span>
+        ) : null}
+      </div>
+      <div className="flex items-center gap-3">
+        <ObjectiveChip objective={primaryObjective} size="sm" />
+        <div className="ml-auto flex gap-2">
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onDuplicate();
+            }}
+            className="btn-secondary px-3 py-1 text-xs"
+          >
+            Duplicar
+          </button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onDelete();
+            }}
+            className="inline-flex items-center justify-center rounded-full border border-rose-500/40 px-3 py-1 text-xs font-semibold text-rose-300 transition hover:border-rose-400 hover:text-rose-200"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+export default function PlannerView() {
+  const sessions = useAppStore((state) => state.sessions);
+  const works = useAppStore((state) => state.works);
+  const objectives = useAppStore((state) => state.objectives);
+  const assistants = useAppStore((state) => state.assistants);
+
+  const addSession = useAppStore((state) => state.addSession);
+  const duplicateSession = useAppStore((state) => state.duplicateSession);
+  const deleteSession = useAppStore((state) => state.deleteSession);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sessionsByDate = useMemo(() => {
+    const map = new Map<string, Session[]>();
+    sessions.forEach((session) => {
+      const key = dayjs(session.date).format('YYYY-MM-DD');
+      const list = map.get(key) ?? [];
+      list.push(session);
+      map.set(key, list);
+    });
+    map.forEach((list) => list.sort((a, b) => a.title.localeCompare(b.title)));
+    return map;
+  }, [sessions]);
+
+  const initialSessionId = searchParams.get('session') ?? undefined;
+  const initialSession = initialSessionId ? sessions.find((session) => session.id === initialSessionId) : undefined;
+
+  const today = dayjs().format('YYYY-MM-DD');
+  const defaultDate = initialSession?.date ?? today;
+
+  const [selectedDate, setSelectedDate] = useState(defaultDate);
+  const [monthAnchor, setMonthAnchor] = useState(dayjs(selectedDate).startOf('month').format('YYYY-MM-DD'));
+  const [activeSessionId, setActiveSessionId] = useState<string | undefined>(initialSessionId);
+
+  useEffect(() => {
+    if (initialSessionId && !sessions.find((session) => session.id === initialSessionId)) {
+      setActiveSessionId(undefined);
+      setSearchParams({}, { replace: true });
+    }
+  }, [initialSessionId, sessions, setSearchParams]);
+
+  const calendarMatrix = useMemo(() => getCalendarMatrix(dayjs(monthAnchor)), [monthAnchor]);
+
+  const sessionsForSelectedDate = sessionsByDate.get(selectedDate) ?? [];
+  useEffect(() => {
+    if (sessionsForSelectedDate.length > 0) {
+      if (!activeSessionId || !sessionsForSelectedDate.some((session) => session.id === activeSessionId)) {
+        setActiveSessionId(sessionsForSelectedDate[0].id);
+      }
+    } else {
+      setActiveSessionId(undefined);
+    }
+  }, [sessionsForSelectedDate, activeSessionId]);
+
+  const activeSession = activeSessionId
+    ? sessions.find((session) => session.id === activeSessionId)
+    : undefined;
+
+  const handleSelectDate = (dateIso: string) => {
+    setSelectedDate(dateIso);
+    setMonthAnchor(dayjs(dateIso).startOf('month').format('YYYY-MM-DD'));
+  };
+
+  const handleCreateSession = () => {
+    const session = addSession({
+      date: selectedDate,
+      title: 'Nueva sesión',
+      description: '',
+      notes: ''
+    });
+    setActiveSessionId(session.id);
+  };
+
+  const handleDuplicateSession = (sessionId: string) => {
+    const duplicated = duplicateSession(sessionId, selectedDate);
+    if (duplicated) {
+      setActiveSessionId(duplicated.id);
+    }
+  };
+
+  const handleDeleteSession = (sessionId: string) => {
+    deleteSession(sessionId);
+    if (activeSessionId === sessionId) {
+      setActiveSessionId(undefined);
+    }
+  };
+
+  const handleMonthChange = (offset: number) => {
+    const newMonth = dayjs(monthAnchor).add(offset, 'month');
+    setMonthAnchor(newMonth.format('YYYY-MM-DD'));
+    setSelectedDate((prev) => {
+      const maybe = dayjs(prev);
+      if (maybe.month() === newMonth.month() && maybe.year() === newMonth.year()) {
+        return prev;
+      }
+      return newMonth.startOf('month').format('YYYY-MM-DD');
+    });
+  };
+
+  return (
+    <div className="space-y-6">
+      <header className="glass-panel p-6 sm:p-10">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">Planificador</h1>
+            <p className="text-white/60">
+              Organiza tus sesiones con un calendario gráfico, duplica lo que funciona y edita cada detalle con drag &
+              drop.
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <button type="button" className="btn-secondary" onClick={() => handleMonthChange(-1)}>
+              ← Mes anterior
+            </button>
+            <div className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white/80">
+              {formatMonthTitle(monthAnchor)}
+            </div>
+            <button type="button" className="btn-secondary" onClick={() => handleMonthChange(1)}>
+              Mes siguiente →
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="grid gap-6 lg:grid-cols-[1.5fr_2fr]">
+        <section className="glass-panel flex flex-col gap-6 p-6">
+          <div className="grid grid-cols-7 gap-2 text-center text-xs font-semibold uppercase tracking-wide text-white/50">
+            {['L', 'M', 'X', 'J', 'V', 'S', 'D'].map((day) => (
+              <div key={day} className="rounded-full bg-white/5 py-2">
+                {day}
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-7 gap-2">
+            {calendarMatrix.flat().map((date) => {
+              const dateKey = date.format('YYYY-MM-DD');
+              const daySessions = sessionsByDate.get(dateKey) ?? [];
+              const isCurrentMonth = date.month() === dayjs(monthAnchor).month();
+              const isToday = isSameDate(dateKey, today);
+              const isSelected = isSameDate(dateKey, selectedDate);
+
+              return (
+                <button
+                  type="button"
+                  key={dateKey}
+                  onClick={() => handleSelectDate(dateKey)}
+                  className={clsx(
+                    'relative flex h-20 flex-col items-center justify-between rounded-2xl border p-2 text-sm transition',
+                    isSelected
+                      ? 'border-sky-400/60 bg-sky-500/20 text-white shadow-lg shadow-sky-500/20'
+                      : 'border-white/10 bg-white/5 text-white/70 hover:border-white/30',
+                    !isCurrentMonth && 'text-white/30'
+                  )}
+                >
+                  <span
+                    className={clsx(
+                      'flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold',
+                      isToday ? 'bg-white text-slate-900' : ''
+                    )}
+                  >
+                    {date.format('D')}
+                  </span>
+                  <div className="flex w-full flex-wrap justify-center gap-1">
+                    {daySessions.slice(0, 3).map((session) => {
+                      const firstWork = session.workItems[0];
+                      const work = firstWork ? works.find((work) => work.id === firstWork.workId) : undefined;
+                      const objective = work ? objectives.find((objective) => objective.id === work.objectiveId) : undefined;
+                      return (
+                        <span
+                          key={session.id}
+                          className="h-2 w-6 rounded-full"
+                          style={{ backgroundColor: objective?.colorHex ?? 'rgba(255,255,255,0.4)' }}
+                        />
+                      );
+                    })}
+                    {daySessions.length > 3 ? (
+                      <span className="h-2 w-2 rounded-full border border-white/40" />
+                    ) : null}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="space-y-6">
+          <div className="glass-panel space-y-4 p-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-white/40">Sesiones en</p>
+                <h2 className="text-2xl font-semibold text-white">{dayjs(selectedDate).format('dddd, D [de] MMMM')}</h2>
+              </div>
+              <div className="flex gap-3">
+                <button type="button" onClick={handleCreateSession} className="btn-primary">
+                  + Nueva sesión
+                </button>
+              </div>
+            </div>
+            <div className="space-y-3">
+              {sessionsForSelectedDate.length === 0 ? (
+                <div className="rounded-3xl border border-dashed border-white/15 p-10 text-center text-white/50">
+                  Aún no hay sesiones planificadas este día. Crea una con el botón superior.
+                </div>
+              ) : (
+                sessionsForSelectedDate.map((session) => (
+                  <SessionSummaryCard
+                    key={session.id}
+                    session={session}
+                    objectives={objectives}
+                    works={works}
+                    isActive={session.id === activeSessionId}
+                    onSelect={() => setActiveSessionId(session.id)}
+                    onDuplicate={() => handleDuplicateSession(session.id)}
+                    onDelete={() => handleDeleteSession(session.id)}
+                  />
+                ))
+              )}
+            </div>
+          </div>
+
+          {activeSession && (
+            <div className="glass-panel p-6">
+              <SessionEditor
+                session={activeSession}
+                works={works}
+                objectives={objectives}
+                assistants={assistants}
+                onDateChange={(date) => {
+                  setSelectedDate(date);
+                  setMonthAnchor(dayjs(date).startOf('month').format('YYYY-MM-DD'));
+                }}
+              />
+            </div>
+          )}
+        </section>
+      </div>
+    </div>
+  );
+}
