@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { useAppStore } from '@/store/appStore';
-import type { Session, AttendanceStatus, SessionAttendance } from '@/types';
+import type { Session, AttendanceStatus, SessionAttendance, ActualAttendanceStatus } from '@/types';
 import { ObjectiveChip } from '@/components/ObjectiveChip';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { YouTubePreview } from '@/components/YouTubePreview';
@@ -25,23 +25,35 @@ const FORECAST_BADGE_CLASSES: Record<AttendanceStatus, string> = {
   pending: 'border border-white/20 bg-white/10 text-white/70'
 };
 
-const ACTUAL_BUTTON_BASE_CLASSES =
-  'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/30';
+const ACTUAL_SUMMARY_ORDER: ActualAttendanceStatus[] = ['present', 'absent'];
 
-const ACTUAL_BUTTON_IDLE_CLASSES =
-  'border border-white/15 text-white/60 hover:border-white/40 hover:text-white';
-
-const ACTUAL_BUTTON_SELECTED_CLASSES: Record<AttendanceStatus, string> = {
-  present: 'border border-emerald-500/60 bg-emerald-500/20 text-emerald-100',
-  absent: 'border border-rose-500/60 bg-rose-500/20 text-rose-100',
-  pending: 'border border-white/30 bg-white/10 text-white'
+const ACTUAL_SUMMARY_LABELS: Record<ActualAttendanceStatus, string> = {
+  present: 'Han venido',
+  absent: 'Faltan'
 };
 
-const SUMMARY_BADGE_CLASSES: Record<AttendanceStatus, string> = {
-  present: 'border border-emerald-500/40 bg-emerald-500/15 text-emerald-100',
-  absent: 'border border-rose-500/40 bg-rose-500/15 text-rose-100',
-  pending: 'border border-white/20 bg-white/10 text-white/70'
+const ACTUAL_SUMMARY_BADGE_CLASSES: Record<ActualAttendanceStatus, string> = {
+  present: 'border border-emerald-500/60 bg-emerald-500/15 text-emerald-100 shadow shadow-emerald-500/15',
+  absent: 'border border-rose-500/60 bg-rose-500/10 text-rose-100 shadow shadow-rose-500/10'
 };
+
+const ACTUAL_TOGGLE_BASE_CLASSES =
+  'group inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/30 sm:text-sm';
+
+const ACTUAL_TOGGLE_PRESENT_CLASSES =
+  'border-emerald-500/60 bg-emerald-500/15 text-emerald-100 shadow-sm shadow-emerald-500/20 hover:border-emerald-400 hover:bg-emerald-500/20';
+
+const ACTUAL_TOGGLE_ABSENT_CLASSES =
+  'border-white/15 bg-white/5 text-white/60 hover:border-white/40 hover:text-white';
+
+const ACTUAL_TOGGLE_INDICATOR_CLASSES =
+  'flex h-6 w-6 items-center justify-center rounded-full border text-[12px] transition sm:h-7 sm:w-7';
+
+const ACTUAL_TOGGLE_INDICATOR_PRESENT =
+  'border-emerald-400 bg-emerald-400/20 text-emerald-100 shadow shadow-emerald-500/25';
+
+const ACTUAL_TOGGLE_INDICATOR_ABSENT =
+  'border-white/25 text-white/40 group-hover:border-white/50 group-hover:text-white/80';
 
 const EMPTY_ATTENDANCE: SessionAttendance[] = [];
 
@@ -131,15 +143,16 @@ export default function HomeView() {
     attendanceEntries.forEach((entry) => {
       map.set(entry.assistantId, entry);
     });
-    const summary: Record<AttendanceStatus, number> = {
-      present: 0,
-      absent: 0,
-      pending: 0
-    };
+    let presentCount = 0;
     activeAssistants.forEach((assistant) => {
-      const status = map.get(assistant.id)?.actualStatus ?? 'pending';
-      summary[status] += 1;
+      if (map.get(assistant.id)?.actualStatus === 'present') {
+        presentCount += 1;
+      }
     });
+    const summary: Record<ActualAttendanceStatus, number> = {
+      present: presentCount,
+      absent: Math.max(activeAssistants.length - presentCount, 0)
+    };
     return { map, summary };
   }, [attendanceEntries, activeAssistants]);
 
@@ -187,7 +200,7 @@ export default function HomeView() {
     });
   };
 
-  const handleActualStatusChange = (assistantId: string, status: AttendanceStatus) => {
+  const handleActualStatusChange = (assistantId: string, status: ActualAttendanceStatus) => {
     if (!currentSession) return;
     setAttendanceActualStatus(currentSession.id, assistantId, status);
   };
@@ -447,20 +460,15 @@ export default function HomeView() {
                   <p className="text-xs text-white/50 sm:text-sm">Marca quién está presente en la sesión actual.</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {ATTENDANCE_ORDER.map((status) => (
+                  {ACTUAL_SUMMARY_ORDER.map((status) => (
                     <span
                       key={status}
                       className={clsx(
                         'inline-flex items-center gap-2 rounded-full px-2.5 py-0.5 text-[11px] font-semibold sm:px-3 sm:py-1 sm:text-xs',
-                        SUMMARY_BADGE_CLASSES[status]
+                        ACTUAL_SUMMARY_BADGE_CLASSES[status]
                       )}
                     >
-                      {actualSummary[status]}{' '}
-                      {status === 'present'
-                        ? 'presentes'
-                        : status === 'absent'
-                          ? 'ausentes'
-                          : 'pendientes'}
+                      {actualSummary[status]} {ACTUAL_SUMMARY_LABELS[status]}
                     </span>
                   ))}
                 </div>
@@ -469,7 +477,9 @@ export default function HomeView() {
                 {activeAssistants.map((assistant) => {
                   const record = attendanceMap.get(assistant.id);
                   const forecastStatus = record?.status ?? 'pending';
-                  const actualStatus = record?.actualStatus ?? 'pending';
+                  const isPresent = record?.actualStatus === 'present';
+                  const toggleAttendance = () =>
+                    handleActualStatusChange(assistant.id, isPresent ? 'absent' : 'present');
                   return (
                     <article
                       key={assistant.id}
@@ -488,26 +498,66 @@ export default function HomeView() {
                             >
                               {ATTENDANCE_LABELS[forecastStatus]}
                             </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                          {ATTENDANCE_ORDER.map((status) => (
-                            <button
-                              key={status}
-                              type="button"
-                              aria-pressed={actualStatus === status}
-                              onClick={() => handleActualStatusChange(assistant.id, status)}
+                            <span className="hidden text-white/30 sm:inline">·</span>
+                            <span className="uppercase tracking-wide text-white/40">Asistencia</span>
+                            <span
                               className={clsx(
-                                ACTUAL_BUTTON_BASE_CLASSES,
-                                'h-8 px-2 text-[11px] sm:h-9 sm:px-3 sm:text-xs',
-                                actualStatus === status
-                                  ? ACTUAL_BUTTON_SELECTED_CLASSES[status]
-                                  : ACTUAL_BUTTON_IDLE_CLASSES
+                                'font-semibold',
+                                isPresent ? 'text-emerald-200' : 'text-white/60'
                               )}
                             >
-                              {ATTENDANCE_LABELS[status]}
-                            </button>
-                          ))}
+                              {isPresent ? 'Presente' : 'No asistió'}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end gap-1 text-right sm:flex-row sm:items-center sm:gap-3">
+                          <button
+                            type="button"
+                            onClick={toggleAttendance}
+                            aria-pressed={isPresent}
+                            aria-label={`${isPresent ? 'Desmarcar asistencia de' : 'Marcar asistencia de'} ${assistant.name}`}
+                            title={isPresent ? 'Desmarcar asistencia' : 'Marcar como presente'}
+                            className={clsx(
+                              ACTUAL_TOGGLE_BASE_CLASSES,
+                              isPresent ? ACTUAL_TOGGLE_PRESENT_CLASSES : ACTUAL_TOGGLE_ABSENT_CLASSES
+                            )}
+                          >
+                            <span
+                              className={clsx(
+                                ACTUAL_TOGGLE_INDICATOR_CLASSES,
+                                isPresent ? ACTUAL_TOGGLE_INDICATOR_PRESENT : ACTUAL_TOGGLE_INDICATOR_ABSENT
+                              )}
+                            >
+                              {isPresent ? (
+                                <svg
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-3.5 w-3.5 sm:h-4 sm:w-4"
+                                  aria-hidden="true"
+                                >
+                                  <path
+                                    d="M4 8.5 6.5 11l5-6"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              ) : (
+                                <span className="h-2.5 w-2.5 rounded-full bg-white/30 transition group-hover:bg-white/60" />
+                              )}
+                            </span>
+                            <span>{isPresent ? 'Ha asistido' : 'Marcar asistencia'}</span>
+                          </button>
+                          <span
+                            className={clsx(
+                              'text-[10px] font-medium uppercase tracking-[0.25em] sm:text-[11px]',
+                              isPresent ? 'text-emerald-200' : 'text-white/40'
+                            )}
+                          >
+                            {isPresent ? 'PRESENTE' : 'AUSENTE'}
+                          </span>
                         </div>
                       </div>
                     </article>

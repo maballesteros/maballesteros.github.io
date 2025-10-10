@@ -9,6 +9,7 @@ import type {
   SessionAttendance,
   Assistant,
   AttendanceStatus,
+  ActualAttendanceStatus,
   BackupPayload,
   BackupSessionWork,
   BackupSessionAttendance,
@@ -45,10 +46,13 @@ type PartialAttendance = Partial<SessionAttendance> & { assistantId: string };
 const isAttendanceStatus = (value: unknown): value is AttendanceStatus =>
   value === 'present' || value === 'absent' || value === 'pending';
 
+const isActualAttendanceStatus = (value: unknown): value is ActualAttendanceStatus =>
+  value === 'present' || value === 'absent';
+
 const normalizeAttendance = (attendance?: PartialAttendance[]): SessionAttendance[] =>
   (attendance ?? []).map((entry) => {
     const status = isAttendanceStatus(entry.status) ? entry.status : 'pending';
-    const actualStatus = isAttendanceStatus(entry.actualStatus) ? entry.actualStatus : undefined;
+    const actualStatus = isActualAttendanceStatus(entry.actualStatus) ? entry.actualStatus : undefined;
     return {
       assistantId: entry.assistantId,
       status,
@@ -159,7 +163,7 @@ interface AppState {
   setAttendanceActualStatus: (
     sessionId: string,
     assistantId: string,
-    status: AttendanceStatus,
+    status: ActualAttendanceStatus,
     notes?: string
   ) => void;
   setAttendanceStatus: (
@@ -776,13 +780,15 @@ export const useAppStore = create<AppState>((set, get) => ({
     const attendanceBySession = new Map<string, SessionAttendance[]>();
     const parseAttendanceStatus = (value?: string): AttendanceStatus | undefined =>
       isAttendanceStatus(value) ? value : undefined;
+    const parseActualAttendanceStatus = (value?: string): ActualAttendanceStatus | undefined =>
+      isActualAttendanceStatus(value) ? value : undefined;
     (payload.sesiones_asistencias ?? []).forEach((raw: BackupSessionAttendance) => {
       const sessionId = raw.session_id;
       if (!sessionId) return;
       const assistantId = raw.assistantId ?? raw.asistente_id;
       if (!assistantId) return;
       const status = parseAttendanceStatus(raw.status ?? raw.estado) ?? 'pending';
-      const actualStatus = parseAttendanceStatus(raw.actualStatus ?? raw.estado_real);
+      const actualStatus = parseActualAttendanceStatus(raw.actualStatus ?? raw.estado_real);
       const entry: SessionAttendance = {
         assistantId,
         status,

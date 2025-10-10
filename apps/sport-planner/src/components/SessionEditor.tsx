@@ -563,7 +563,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                   <div>
                     <p className="text-sm font-semibold text-white">{assistant.name}</p>
                     {assistant.notes ? <p className="text-xs text-white/50">{assistant.notes}</p> : null}
-                    {liveStatus && liveStatus !== 'pending' ? (
+                    {liveStatus ? (
                       <p className="text-xs text-white/40">
                         Último registro real: {ATTENDANCE_LABELS[liveStatus]}
                       </p>
