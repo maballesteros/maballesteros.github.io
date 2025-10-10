@@ -38,6 +38,24 @@ const loadCollection = <T>(key: string, fallback: T): T => {
   }
 };
 
+type PartialAttendance = Partial<SessionAttendance> & { assistantId: string };
+
+const isAttendanceStatus = (value: unknown): value is AttendanceStatus =>
+  value === 'present' || value === 'absent' || value === 'pending';
+
+const normalizeAttendance = (attendance?: PartialAttendance[]): SessionAttendance[] =>
+  (attendance ?? []).map((entry) => {
+    const status = isAttendanceStatus(entry.status) ? entry.status : 'pending';
+    const actualStatus = isAttendanceStatus(entry.actualStatus) ? entry.actualStatus : undefined;
+    return {
+      assistantId: entry.assistantId,
+      status,
+      actualStatus,
+      notes: entry.notes,
+      actualNotes: entry.actualNotes
+    };
+  });
+
 interface CollectionsState {
   objectives: Objective[];
   works: Work[];
@@ -60,7 +78,7 @@ const normalizeCollections = (state: Partial<CollectionsState>): CollectionsStat
   sessions: (state.sessions ?? []).map((session) => ({
     ...session,
     workItems: session.workItems ?? [],
-    attendance: session.attendance ?? []
+    attendance: normalizeAttendance(session.attendance as PartialAttendance[])
   })),
   assistants: state.assistants ?? []
 });
@@ -129,6 +147,13 @@ interface AppState {
     sessionWorkId: string,
     patch: Partial<Omit<SessionWork, 'id' | 'workId' | 'order'>>
   ) => void;
+  replaceSessionWork: (sessionId: string, sessionWorkId: string, workId: string) => void;
+  setAttendanceActualStatus: (
+    sessionId: string,
+    assistantId: string,
+    status: AttendanceStatus,
+    notes?: string
+  ) => void;
   setAttendanceStatus: (
     sessionId: string,
     assistantId: string,
@@ -155,7 +180,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     const sessions = loadCollection<Session[]>(STORAGE_KEYS.sessions, []).map((session) => ({
       ...session,
       workItems: session.workItems ?? [],
-      attendance: session.attendance ?? []
+      attendance: normalizeAttendance(session.attendance as PartialAttendance[])
     }));
     const assistants = loadCollection<Assistant[]>(STORAGE_KEYS.assistants, []);
     set({
@@ -333,8 +358,11 @@ export const useAppStore = create<AppState>((set, get) => ({
       order: index
     }));
     clone.attendance = session.attendance.map((entry) => ({
-      ...entry,
-      status: 'pending'
+      assistantId: entry.assistantId,
+      status: 'pending',
+      notes: entry.notes,
+      actualStatus: undefined,
+      actualNotes: undefined
     }));
     set((state) => {
       const sessions = [...state.sessions, clone];
@@ -489,6 +517,73 @@ export const useAppStore = create<AppState>((set, get) => ({
       return merged;
     });
   },
+  replaceSessionWork: (sessionId, sessionWorkId, workId) => {
+    if (!get().works.some((work) => work.id === workId)) return;
+    set((state) => {
+      const sessions = state.sessions.map((session) => {
+        if (session.id !== sessionId) return session;
+        const workItems = session.workItems.map((item) => {
+          if (item.id !== sessionWorkId) return item;
+          return {
+            ...item,
+            workId,
+            customDescriptionMarkdown: undefined,
+            customDurationMinutes: undefined,
+            notes: undefined,
+            completed: false
+          };
+        });
+        return {
+          ...session,
+          workItems,
+          updatedAt: nowIso()
+        };
+      });
+      const merged = { ...state, sessions };
+      persistCollections(merged);
+      return merged;
+    });
+  },
+  setAttendanceActualStatus: (sessionId, assistantId, status, notes) => {
+    set((state) => {
+      const sessions = state.sessions.map((session) => {
+        if (session.id !== sessionId) return session;
+        const existing = session.attendance.find((entry) => entry.assistantId === assistantId);
+        let attendance: SessionAttendance[];
+        if (existing) {
+          attendance = session.attendance.map((entry) => {
+            if (entry.assistantId !== assistantId) return entry;
+            const next: SessionAttendance = {
+              ...entry,
+              actualStatus: status
+            };
+            if (typeof notes !== 'undefined') {
+              next.actualNotes = notes;
+            }
+            return next;
+          });
+        } else {
+          const nextEntry: SessionAttendance = {
+            assistantId,
+            status: 'pending',
+            actualStatus: status
+          };
+          if (typeof notes !== 'undefined') {
+            nextEntry.actualNotes = notes;
+          }
+          attendance = [...session.attendance, nextEntry];
+        }
+        return {
+          ...session,
+          attendance,
+          updatedAt: nowIso()
+        };
+      });
+      const merged = { ...state, sessions };
+      persistCollections(merged);
+      return merged;
+    });
+  },
   setAttendanceStatus: (sessionId, assistantId, status, notes) => {
     set((state) => {
       const sessions = state.sessions.map((session) => {
@@ -613,7 +708,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           notes: item.notes,
           completed: item.completed ?? false
         })),
-        attendance: raw.attendance ?? [],
+        attendance: normalizeAttendance(raw.attendance as PartialAttendance[]),
         createdAt: raw.createdAt ?? now,
         updatedAt: raw.updatedAt ?? now
       };
@@ -658,16 +753,21 @@ export const useAppStore = create<AppState>((set, get) => ({
     });
 
     const attendanceBySession = new Map<string, SessionAttendance[]>();
+    const parseAttendanceStatus = (value?: string): AttendanceStatus | undefined =>
+      isAttendanceStatus(value) ? value : undefined;
     (payload.sesiones_asistencias ?? []).forEach((raw: BackupSessionAttendance) => {
       const sessionId = raw.session_id;
       if (!sessionId) return;
       const assistantId = raw.assistantId ?? raw.asistente_id;
       if (!assistantId) return;
-      const status = (raw.status ?? raw.estado ?? 'pending') as AttendanceStatus;
+      const status = parseAttendanceStatus(raw.status ?? raw.estado) ?? 'pending';
+      const actualStatus = parseAttendanceStatus(raw.actualStatus ?? raw.estado_real);
       const entry: SessionAttendance = {
         assistantId,
         status,
-        notes: raw.notes ?? raw.notas
+        notes: raw.notes ?? raw.notas,
+        actualStatus: actualStatus,
+        actualNotes: raw.actualNotes ?? raw.notas_reales
       };
       const list = attendanceBySession.get(sessionId) ?? [];
       list.push(entry);
@@ -710,7 +810,19 @@ export const useAppStore = create<AppState>((set, get) => ({
         session_id: session.id,
         assistantId: entry.assistantId,
         estado: entry.status,
-        notas: entry.notes
+        notas: entry.notes,
+        ...(entry.actualStatus
+          ? {
+              actualStatus: entry.actualStatus,
+              estado_real: entry.actualStatus
+            }
+          : {}),
+        ...(entry.actualNotes
+          ? {
+              actualNotes: entry.actualNotes,
+              notas_reales: entry.actualNotes
+            }
+          : {})
       }))
     );
 

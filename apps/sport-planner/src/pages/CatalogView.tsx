@@ -1,10 +1,12 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import clsx from 'clsx';
+import { nanoid } from 'nanoid';
 
 import { useAppStore } from '@/store/appStore';
 import type { Objective, Work } from '@/types';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { ObjectiveChip } from '@/components/ObjectiveChip';
+import { YouTubePreview } from '@/components/YouTubePreview';
 
 interface WorkFormState {
   id?: string;
@@ -16,6 +18,12 @@ interface WorkFormState {
   videoUrls: string[];
 }
 
+interface EditingEntry {
+  data: WorkFormState;
+  isNew: boolean;
+  originalId?: string;
+}
+
 const EMPTY_FORM: WorkFormState = {
   name: '',
   objectiveId: '',
@@ -25,16 +33,49 @@ const EMPTY_FORM: WorkFormState = {
   videoUrls: ['']
 };
 
-interface WorkCardProps {
+interface FeedbackMessage {
+  type: 'success' | 'error';
+  text: string;
+}
+
+interface WorkEntry {
+  id: string;
+  objectiveId: string;
+  work?: Work;
+  isNew: boolean;
+  isEditing: boolean;
+  form?: WorkFormState;
+}
+
+const NO_OBJECTIVE_KEY = '__no_objective__';
+
+interface WorkViewCardProps {
   work: Work;
   objective?: Objective;
   expanded: boolean;
   onToggle: () => void;
   onEdit: () => void;
+  onDuplicate: () => void;
   onDelete: () => void;
 }
 
-function WorkCard({ work, objective, expanded, onToggle, onEdit, onDelete }: WorkCardProps) {
+function WorkViewCard({
+  work,
+  objective,
+  expanded,
+  onToggle,
+  onEdit,
+  onDuplicate,
+  onDelete
+}: WorkViewCardProps) {
+  const trimmedDescription = (work.descriptionMarkdown ?? '').trim();
+  const trimmedNotes = (work.notes ?? '').trim();
+  const videoUrls = work.videoUrls.filter((url) => url.trim().length > 0);
+  const hasDescription = trimmedDescription.length > 0;
+  const hasNotes = trimmedNotes.length > 0;
+  const hasVideos = videoUrls.length > 0;
+  const hasDetails = hasDescription || hasNotes || hasVideos;
+
   return (
     <article className="relative space-y-4 rounded-3xl border border-white/10 bg-white/5 p-5 shadow shadow-black/30">
       {objective ? (
@@ -50,19 +91,24 @@ function WorkCard({ work, objective, expanded, onToggle, onEdit, onDelete }: Wor
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:justify-end">
           <ObjectiveChip objective={objective} size="sm" />
-          <button
-            type="button"
-            onClick={onToggle}
-            className={clsx(
-              'inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/40 hover:text-white',
-              expanded && 'border-white/40 text-white'
-            )}
-          >
-            <span className={clsx('transition-transform', expanded ? 'rotate-90' : 'rotate-0')}>▶</span>
-            {expanded ? 'Ocultar detalles' : 'Ver detalles'}
-          </button>
+          {hasDetails ? (
+            <button
+              type="button"
+              onClick={onToggle}
+              className={clsx(
+                'inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/40 hover:text-white',
+                expanded && 'border-white/40 text-white'
+              )}
+            >
+              <span className={clsx('transition-transform', expanded ? 'rotate-90' : 'rotate-0')}>▶</span>
+              {expanded ? 'Ocultar detalles' : 'Ver detalles'}
+            </button>
+          ) : null}
           <button type="button" onClick={onEdit} className="btn-secondary px-3 py-1 text-xs">
             Editar
+          </button>
+          <button type="button" onClick={onDuplicate} className="btn-secondary px-3 py-1 text-xs">
+            Duplicar
           </button>
           <button
             type="button"
@@ -73,34 +119,174 @@ function WorkCard({ work, objective, expanded, onToggle, onEdit, onDelete }: Wor
           </button>
         </div>
       </div>
-      {expanded && (
+      {hasDetails && expanded && (
         <div className="space-y-4 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-          <MarkdownContent content={work.descriptionMarkdown} />
-          {work.notes ? (
+          {hasDescription ? (
+            <MarkdownContent content={work.descriptionMarkdown} />
+          ) : null}
+          {hasNotes ? (
             <div className="rounded-2xl border border-dashed border-white/15 bg-white/5 p-3 text-sm text-white/70">
               {work.notes}
             </div>
           ) : null}
-          {work.videoUrls.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {work.videoUrls.map((url) => (
-                <a
-                  key={url}
-                  href={url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80 transition hover:border-white/30 hover:text-white"
-                >
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500/80 text-white shadow shadow-red-500/40">
-                    ▶
-                  </span>
-                  Ver vídeo
-                </a>
+          {hasVideos ? (
+            <div className="space-y-3">
+              {videoUrls.map((url, index) => (
+                <div key={`${work.id}-video-${index}`} className="space-y-2">
+                  <YouTubePreview url={url} title={`${work.name} vídeo ${index + 1}`} />
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/40 hover:text-white"
+                  >
+                    Abrir en YouTube
+                  </a>
+                </div>
               ))}
             </div>
-          )}
+          ) : null}
         </div>
       )}
+    </article>
+  );
+}
+
+interface WorkEditCardProps {
+  form: WorkFormState;
+  objectiveOptions: Objective[];
+  onFieldChange: (patch: Partial<WorkFormState>) => void;
+  onVideoChange: (index: number, value: string) => void;
+  onAddVideo: () => void;
+  onRemoveVideo: (index: number) => void;
+  onSave: () => void;
+  onCancel: () => void;
+  isNew: boolean;
+}
+
+function WorkEditCard({
+  form,
+  objectiveOptions,
+  onFieldChange,
+  onVideoChange,
+  onAddVideo,
+  onRemoveVideo,
+  onSave,
+  onCancel,
+  isNew
+}: WorkEditCardProps) {
+  const currentObjective = objectiveOptions.find((objective) => objective.id === form.objectiveId);
+
+  return (
+    <article className="space-y-5 rounded-3xl border border-sky-500/40 bg-slate-950/70 p-5 shadow-lg shadow-sky-500/15">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="space-y-1">
+          <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+            {isNew ? 'Nuevo trabajo' : 'Editando trabajo'}
+          </p>
+          <input
+            type="text"
+            className="input-field text-base font-semibold"
+            placeholder="Nombre descriptivo"
+            value={form.name}
+            onChange={(event) => onFieldChange({ name: event.target.value })}
+          />
+        </div>
+        <ObjectiveChip objective={currentObjective} size="sm" />
+      </header>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-2">
+          <label className="text-xs uppercase tracking-wide text-white/40">Objetivo</label>
+          <select
+            className="input-field"
+            value={form.objectiveId}
+            onChange={(event) => onFieldChange({ objectiveId: event.target.value })}
+          >
+            <option value="">Selecciona un objetivo</option>
+            {objectiveOptions.map((objective) => (
+              <option key={objective.id} value={objective.id}>
+                {objective.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="grid gap-2">
+          <label className="text-xs uppercase tracking-wide text-white/40">Duración estimada (min)</label>
+          <input
+            type="number"
+            min={0}
+            className="input-field"
+            value={form.estimatedMinutes}
+            onChange={(event) => onFieldChange({ estimatedMinutes: Number(event.target.value) })}
+          />
+        </div>
+      </div>
+
+      <div className="grid gap-2">
+        <label className="text-xs uppercase tracking-wide text-white/40">Descripción (Markdown)</label>
+        <textarea
+          className="input-field min-h-[140px]"
+          value={form.descriptionMarkdown}
+          onChange={(event) => onFieldChange({ descriptionMarkdown: event.target.value })}
+          placeholder="Usa formato markdown para resaltar puntos importantes."
+        />
+      </div>
+
+      <div className="grid gap-2">
+        <label className="text-xs uppercase tracking-wide text-white/40">Notas opcionales</label>
+        <textarea
+          className="input-field min-h-[100px]"
+          value={form.notes}
+          onChange={(event) => onFieldChange({ notes: event.target.value })}
+        />
+      </div>
+
+      <div className="space-y-3">
+        <label className="text-xs uppercase tracking-wide text-white/40">Vídeos de YouTube</label>
+        <div className="space-y-3">
+          {form.videoUrls.map((url, index) => (
+            <div key={`video-field-${index}`} className="space-y-2">
+              <div className="flex items-center gap-2">
+                <input
+                  type="url"
+                  className="input-field flex-1"
+                  value={url}
+                  onChange={(event) => onVideoChange(index, event.target.value)}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                />
+                {form.videoUrls.length > 1 ? (
+                  <button
+                    type="button"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-rose-500/40 text-rose-300 transition hover:border-rose-400 hover:text-rose-200"
+                    onClick={() => onRemoveVideo(index)}
+                    aria-label="Eliminar enlace de vídeo"
+                  >
+                    ✕
+                  </button>
+                ) : null}
+              </div>
+              <YouTubePreview url={url} title={`Vista previa vídeo ${index + 1}`} />
+            </div>
+          ))}
+        </div>
+        <button type="button" className="btn-secondary px-3 py-1 text-xs" onClick={onAddVideo}>
+          + Añadir vídeo
+        </button>
+      </div>
+
+      <div className="flex flex-wrap gap-3 pt-2">
+        <button
+          type="button"
+          onClick={onSave}
+          className="btn-primary"
+        >
+          Guardar
+        </button>
+        <button type="button" className="btn-secondary" onClick={onCancel}>
+          Cancelar
+        </button>
+      </div>
     </article>
   );
 }
@@ -113,9 +299,9 @@ export default function CatalogView() {
   const deleteWork = useAppStore((state) => state.deleteWork);
 
   const [search, setSearch] = useState('');
-  const [formState, setFormState] = useState<WorkFormState>(EMPTY_FORM);
-  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [feedback, setFeedback] = useState<FeedbackMessage | null>(null);
   const [expandedWorks, setExpandedWorks] = useState<Set<string>>(new Set());
+  const [editingEntries, setEditingEntries] = useState<Record<string, EditingEntry>>({});
 
   const objectiveMap = useMemo(() => new Map(objectives.map((objective) => [objective.id, objective])), [objectives]);
   const sortedObjectives = useMemo(
@@ -123,71 +309,191 @@ export default function CatalogView() {
     [objectives]
   );
 
-  const filteredWorks = useMemo(() => {
-    if (!search) return works;
-    const normalized = search.toLowerCase();
-    return works.filter((work) => {
-      const objective = objectiveMap.get(work.objectiveId);
-      const workName = work.name ?? '';
-      const objectiveName = objective?.name ?? '';
-      const description = work.descriptionMarkdown ?? '';
-      return (
-        workName.toLowerCase().includes(normalized) ||
-        description.toLowerCase().includes(normalized) ||
-        objectiveName.toLowerCase().includes(normalized)
-      );
-    });
-  }, [works, search, objectiveMap]);
+  const searchTerm = search.trim().toLowerCase();
 
-  const worksByObjective = useMemo(() => {
-    const map = new Map<string, Work[]>();
-    filteredWorks.forEach((work) => {
-      const key = objectiveMap.has(work.objectiveId) ? work.objectiveId : '__no_objective__';
-      const list = map.get(key) ?? [];
-      list.push(work);
-      map.set(key, list);
-    });
-    return map;
-  }, [filteredWorks, objectiveMap]);
-
-  const groupedWorks = useMemo(() => {
-    const groups: Array<{ objective?: Objective; works: Work[] }> = sortedObjectives.map((objective) => ({
-      objective,
-      works: (worksByObjective.get(objective.id) ?? []).sort((a, b) =>
-        (a.name ?? '').localeCompare(b.name ?? '', 'es')
-      )
-    }));
-    const withoutObjective = (worksByObjective.get('__no_objective__') ?? []).sort((a, b) =>
-      (a.name ?? '').localeCompare(b.name ?? '', 'es')
+  const matchesSearch = (workData: { name: string; descriptionMarkdown: string; objectiveId: string }) => {
+    if (!searchTerm) return true;
+    const objectiveName = objectiveMap.get(workData.objectiveId)?.name ?? '';
+    return (
+      workData.name.toLowerCase().includes(searchTerm) ||
+      workData.descriptionMarkdown.toLowerCase().includes(searchTerm) ||
+      objectiveName.toLowerCase().includes(searchTerm)
     );
-    if (withoutObjective.length) {
-      groups.push({ objective: undefined, works: withoutObjective });
-    }
-    return groups.filter((group) => group.works.length > 0);
-  }, [sortedObjectives, worksByObjective]);
-
-  useEffect(() => {
-    if (formState.objectiveId || sortedObjectives.length === 0) return;
-    setFormState((prev) => ({ ...prev, objectiveId: sortedObjectives[0]?.id ?? '' }));
-  }, [sortedObjectives, formState.objectiveId]);
-
-  const resetForm = () => {
-    setFormState(EMPTY_FORM);
   };
 
-  const handleVideoChange = (index: number, value: string) => {
-    setFormState((prev) => {
-      const next = [...prev.videoUrls];
-      next[index] = value;
-      return { ...prev, videoUrls: next };
+  const allEntries: WorkEntry[] = useMemo(() => {
+    const entries: WorkEntry[] = [];
+
+    works.forEach((work) => {
+      const draft = editingEntries[work.id];
+      const effectiveData = draft?.data ?? {
+        name: work.name,
+        descriptionMarkdown: work.descriptionMarkdown,
+        objectiveId: work.objectiveId
+      };
+
+      if (!draft && !matchesSearch(effectiveData)) {
+        return;
+      }
+
+      entries.push({
+        id: work.id,
+        objectiveId: effectiveData.objectiveId,
+        work,
+        isNew: false,
+        isEditing: Boolean(draft),
+        form: draft?.data
+      });
+    });
+
+    Object.entries(editingEntries)
+      .filter(([, entry]) => entry.isNew)
+      .forEach(([id, entry]) => {
+        if (!matchesSearch(entry.data)) {
+          return;
+        }
+        entries.push({
+          id,
+          objectiveId: entry.data.objectiveId,
+          work: undefined,
+          isNew: true,
+          isEditing: true,
+          form: entry.data
+        });
+      });
+
+    return entries;
+  }, [works, editingEntries, matchesSearch]);
+
+  const groupedEntries = useMemo(() => {
+    const groups = new Map<string, WorkEntry[]>();
+
+    allEntries.forEach((entry) => {
+      const key = objectiveMap.has(entry.objectiveId) ? entry.objectiveId : NO_OBJECTIVE_KEY;
+      const list = groups.get(key) ?? [];
+      list.push(entry);
+      groups.set(key, list);
+    });
+
+    const sortByName = (a: WorkEntry, b: WorkEntry) => {
+      const getName = (entry: WorkEntry) =>
+        entry.isEditing && entry.form
+          ? entry.form.name.trim()
+          : entry.work?.name.trim() ?? '';
+      return getName(a).localeCompare(getName(b), 'es', { sensitivity: 'base' });
+    };
+
+    const orderedGroups: Array<{ objective?: Objective; items: WorkEntry[] }> = [];
+
+    sortedObjectives.forEach((objective) => {
+      const items = groups.get(objective.id);
+      if (items && items.length) {
+        orderedGroups.push({
+          objective,
+          items: items.slice().sort(sortByName)
+        });
+      }
+    });
+
+    const withoutObjective = groups.get(NO_OBJECTIVE_KEY);
+    if (withoutObjective && withoutObjective.length) {
+      orderedGroups.push({
+        objective: undefined,
+        items: withoutObjective.slice().sort(sortByName)
+      });
+    }
+
+    return orderedGroups;
+  }, [allEntries, objectiveMap, sortedObjectives]);
+
+  const defaultObjectiveId = sortedObjectives[0]?.id ?? '';
+
+  const updateEditingEntry = (id: string, updater: (prev: EditingEntry) => EditingEntry) => {
+    setEditingEntries((prev) => {
+      const entry = prev[id];
+      if (!entry) return prev;
+      return {
+        ...prev,
+        [id]: updater(entry)
+      };
     });
   };
 
-  const addVideoField = () => {
-    setFormState((prev) => ({ ...prev, videoUrls: [...prev.videoUrls, ''] }));
+  const ensureVideoField = (videoUrls: string[]) => (videoUrls.length > 0 ? videoUrls : ['']);
+
+  const startEditingWork = (work: Work) => {
+    setEditingEntries((prev) => {
+      if (prev[work.id]) return prev;
+      return {
+        ...prev,
+        [work.id]: {
+          data: {
+            id: work.id,
+            name: work.name,
+            objectiveId: work.objectiveId,
+            descriptionMarkdown: work.descriptionMarkdown,
+            estimatedMinutes: work.estimatedMinutes,
+            notes: work.notes ?? '',
+            videoUrls: ensureVideoField(work.videoUrls.slice())
+          },
+          isNew: false,
+          originalId: work.id
+        }
+      };
+    });
+    setExpandedWorks((prev) => {
+      const next = new Set(prev);
+      next.add(work.id);
+      return next;
+    });
   };
 
-  const toggleExpandedWork = (id: string) => {
+  const startNewWork = () => {
+    const draftId = `draft-${nanoid()}`;
+    setEditingEntries((prev) => ({
+      ...prev,
+      [draftId]: {
+        data: {
+          ...EMPTY_FORM,
+          id: draftId,
+          objectiveId: defaultObjectiveId
+        },
+        isNew: true
+      }
+    }));
+    setExpandedWorks((prev) => {
+      const next = new Set(prev);
+      next.add(draftId);
+      return next;
+    });
+  };
+
+  const duplicateWork = (work: Work) => {
+    const draftId = `draft-${nanoid()}`;
+    setEditingEntries((prev) => ({
+      ...prev,
+      [draftId]: {
+        data: {
+          id: draftId,
+          name: `${work.name} (copia)`,
+          objectiveId: work.objectiveId,
+          descriptionMarkdown: work.descriptionMarkdown,
+          estimatedMinutes: work.estimatedMinutes,
+          notes: work.notes ?? '',
+          videoUrls: ensureVideoField(work.videoUrls.slice())
+        },
+        isNew: true
+      }
+    }));
+    setExpandedWorks((prev) => {
+      const next = new Set(prev);
+      next.add(draftId);
+      return next;
+    });
+    setFeedback({ type: 'success', text: 'Duplicación creada. Ajusta y guarda para confirmarla.' });
+  };
+
+  const toggleExpanded = (id: string) => {
     setExpandedWorks((prev) => {
       const next = new Set(prev);
       if (next.has(id)) {
@@ -199,59 +505,14 @@ export default function CatalogView() {
     });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!formState.objectiveId) {
-      setFeedback({ type: 'error', text: 'Selecciona un objetivo para el trabajo.' });
-      return;
-    }
-    const payload = {
-      name: formState.name.trim(),
-      objectiveId: formState.objectiveId,
-      descriptionMarkdown: formState.descriptionMarkdown,
-      estimatedMinutes: Number(formState.estimatedMinutes) || 0,
-      notes: formState.notes,
-      videoUrls: formState.videoUrls.map((url) => url.trim()).filter(Boolean)
-    };
-    if (!payload.name) {
-      setFeedback({ type: 'error', text: 'El nombre es obligatorio.' });
-      return;
-    }
-    if (formState.id) {
-      updateWork(formState.id, payload);
-      setFeedback({ type: 'success', text: 'Trabajo actualizado correctamente.' });
-    } else {
-      addWork(payload);
-      setFeedback({ type: 'success', text: 'Trabajo creado.' });
-    }
-    resetForm();
-  };
-
-  const handleEdit = (work: Work) => {
-    setFormState({
-      id: work.id,
-      name: work.name,
-      objectiveId: work.objectiveId,
-      descriptionMarkdown: work.descriptionMarkdown,
-      estimatedMinutes: work.estimatedMinutes,
-      notes: work.notes ?? '',
-      videoUrls: work.videoUrls.length ? work.videoUrls : ['']
-    });
-    setExpandedWorks((prev) => {
-      const next = new Set(prev);
-      next.add(work.id);
+  const handleCancel = (id: string) => {
+    setEditingEntries((prev) => {
+      const next = { ...prev };
+      delete next[id];
       return next;
     });
-  };
-
-  const handleDelete = (id: string) => {
-    const ok = deleteWork(id);
-    if (!ok) {
-      setFeedback({ type: 'error', text: 'No se puede eliminar porque está siendo usado en alguna sesión.' });
-    } else {
-      setFeedback({ type: 'success', text: 'Trabajo eliminado.' });
+    if (id.startsWith('draft-')) {
       setExpandedWorks((prev) => {
-        if (!prev.has(id)) return prev;
         const next = new Set(prev);
         next.delete(id);
         return next;
@@ -259,28 +520,101 @@ export default function CatalogView() {
     }
   };
 
+  const handleSave = (id: string) => {
+    const entry = editingEntries[id];
+    if (!entry) return;
+
+    const payload = {
+      name: entry.data.name.trim(),
+      objectiveId: entry.data.objectiveId,
+      descriptionMarkdown: entry.data.descriptionMarkdown,
+      estimatedMinutes: Number(entry.data.estimatedMinutes) || 0,
+      notes: entry.data.notes.trim() || undefined,
+      videoUrls: entry.data.videoUrls.map((url) => url.trim()).filter(Boolean)
+    };
+
+    if (!payload.name) {
+      setFeedback({ type: 'error', text: 'El nombre es obligatorio.' });
+      return;
+    }
+
+    if (!payload.objectiveId) {
+      setFeedback({ type: 'error', text: 'Selecciona un objetivo para el trabajo.' });
+      return;
+    }
+
+    if (entry.isNew) {
+      const newWork = addWork(payload);
+      setEditingEntries((prev) => {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
+      setExpandedWorks((prev) => {
+        const next = new Set(prev);
+        if (next.delete(id)) {
+          next.add(newWork.id);
+        }
+        return next;
+      });
+      setFeedback({ type: 'success', text: 'Trabajo creado correctamente.' });
+    } else if (entry.originalId) {
+      updateWork(entry.originalId, payload);
+      setEditingEntries((prev) => {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
+      setFeedback({ type: 'success', text: 'Trabajo actualizado.' });
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    const ok = deleteWork(id);
+    if (!ok) {
+      setFeedback({ type: 'error', text: 'No se puede eliminar porque está siendo usado en alguna sesión.' });
+      return;
+    }
+    setFeedback({ type: 'success', text: 'Trabajo eliminado.' });
+    setEditingEntries((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+    setExpandedWorks((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
+  };
+
   return (
     <div className="space-y-6">
-      <header className="glass-panel p-6 sm:p-10">
+      <header className="glass-panel space-y-4 p-6 sm:p-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold">Trabajos</h1>
-            <p className="text-white/60">
-              Gestiona ejercicios reutilizables agrupados por objetivo y amplía los detalles solo cuando los necesites.
+            <p className="max-w-2xl text-white/60">
+              Gestiona los ejercicios reutilizables por objetivo. Duplica, edita y ajusta los detalles sin salir del listado.
             </p>
           </div>
-          <input
-            type="search"
-            className="input-field w-full sm:w-80"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder="Buscar por nombre, descripción u objetivo"
-          />
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+            <input
+              type="search"
+              className="input-field w-full sm:w-72"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Buscar por nombre, descripción u objetivo"
+            />
+            <button type="button" className="btn-primary" onClick={startNewWork}>
+              Nuevo trabajo
+            </button>
+          </div>
         </div>
         {feedback && (
           <div
             className={clsx(
-              'mt-4 rounded-2xl border px-4 py-3 text-sm',
+              'rounded-2xl border px-4 py-3 text-sm',
               feedback.type === 'success'
                 ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
                 : 'border-rose-500/40 bg-rose-500/10 text-rose-200'
@@ -291,137 +625,108 @@ export default function CatalogView() {
         )}
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_1.5fr]">
-        <section className="glass-panel p-6">
-          <h2 className="text-xl font-semibold text-white">{formState.id ? 'Editar trabajo' : 'Nuevo trabajo'}</h2>
-          <form className="mt-4 space-y-4" onSubmit={handleSubmit}>
-            <div className="grid gap-2">
-              <label className="text-xs uppercase tracking-wide text-white/40">Nombre</label>
-              <input
-                type="text"
-                className="input-field"
-                value={formState.name}
-                onChange={(event) => setFormState((prev) => ({ ...prev, name: event.target.value }))}
-                placeholder="Nombre descriptivo"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <label className="text-xs uppercase tracking-wide text-white/40">Objetivo</label>
-              <select
-                className="input-field"
-                value={formState.objectiveId}
-                onChange={(event) => setFormState((prev) => ({ ...prev, objectiveId: event.target.value }))}
-                required
-              >
-                <option value="">Selecciona un objetivo</option>
-                {sortedObjectives.map((objective) => (
-                  <option key={objective.id} value={objective.id}>
-                    {objective.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="grid gap-2">
-              <label className="text-xs uppercase tracking-wide text-white/40">Duración estimada (min)</label>
-              <input
-                type="number"
-                min={0}
-                className="input-field"
-                value={formState.estimatedMinutes}
-                onChange={(event) =>
-                  setFormState((prev) => ({ ...prev, estimatedMinutes: Number(event.target.value) }))
-                }
-              />
-            </div>
-            <div className="grid gap-2">
-              <label className="text-xs uppercase tracking-wide text-white/40">Descripción (Markdown)</label>
-              <textarea
-                className="input-field min-h-[140px]"
-                value={formState.descriptionMarkdown}
-                onChange={(event) =>
-                  setFormState((prev) => ({ ...prev, descriptionMarkdown: event.target.value }))
-                }
-                placeholder="Usa formato markdown para resaltar puntos importantes."
-              />
-            </div>
-            <div className="grid gap-2">
-              <label className="text-xs uppercase tracking-wide text-white/40">Notas opcionales</label>
-              <textarea
-                className="input-field min-h-[100px]"
-                value={formState.notes}
-                onChange={(event) => setFormState((prev) => ({ ...prev, notes: event.target.value }))}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-xs uppercase tracking-wide text-white/40">Vídeos de YouTube</label>
-              <div className="space-y-2">
-                {formState.videoUrls.map((url, index) => (
-                  <input
-                    key={index}
-                    type="url"
-                    className="input-field"
-                    value={url}
-                    onChange={(event) => handleVideoChange(index, event.target.value)}
-                    placeholder="https://www.youtube.com/watch?v=..."
-                  />
-                ))}
-              </div>
-              <button type="button" className="btn-secondary px-3 py-1 text-xs" onClick={addVideoField}>
-                + Añadir enlace
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-3 pt-2">
-              <button type="submit" className="btn-primary">
-                {formState.id ? 'Guardar cambios' : 'Crear trabajo'}
-              </button>
-              {formState.id && (
-                <button type="button" className="btn-secondary" onClick={resetForm}>
-                  Cancelar edición
-                </button>
-              )}
-            </div>
-          </form>
-        </section>
-
-        <section className="space-y-6">
-          {groupedWorks.length === 0 ? (
-            <div className="glass-panel p-10 text-center text-white/50">
-              Aún no hay trabajos guardados. Empieza creando uno con el formulario.
-            </div>
-          ) : (
-            groupedWorks.map(({ objective, works: worksList }) => {
-              const groupTitle = objective ? objective.name : 'Sin objetivo asignado';
-              return (
-                <div key={objective?.id ?? 'sin-objetivo'} className="glass-panel space-y-4 p-6">
-                  <header className="flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <h3 className="text-lg font-semibold text-white">{groupTitle}</h3>
-                      <ObjectiveChip objective={objective} size="sm" />
-                    </div>
-                    <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-                      {worksList.length} trabajo{worksList.length === 1 ? '' : 's'}
-                    </span>
-                  </header>
-                  <div className="space-y-4">
-                    {worksList.map((work) => (
-                      <WorkCard
-                        key={work.id}
-                        work={work}
-                        objective={objectiveMap.get(work.objectiveId)}
-                        expanded={expandedWorks.has(work.id)}
-                        onToggle={() => toggleExpandedWork(work.id)}
-                        onEdit={() => handleEdit(work)}
-                        onDelete={() => handleDelete(work.id)}
-                      />
-                    ))}
+      <section className="space-y-6">
+        {groupedEntries.length === 0 ? (
+          <div className="glass-panel p-10 text-center text-white/50">
+            Aún no hay trabajos guardados. Empieza creando uno con el botón «Nuevo trabajo».
+          </div>
+        ) : (
+          groupedEntries.map(({ objective, items }) => {
+            const groupTitle = objective ? objective.name : 'Sin objetivo asignado';
+            return (
+              <div key={objective?.id ?? 'sin-objetivo'} className="glass-panel space-y-4 p-6">
+                <header className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-lg font-semibold text-white">{groupTitle}</h3>
+                    <ObjectiveChip objective={objective} size="sm" />
                   </div>
+                  <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
+                    {items.length} trabajo{items.length === 1 ? '' : 's'}
+                  </span>
+                </header>
+                <div className="space-y-4">
+                  {items.map((entry) => {
+                    const isExpanded = expandedWorks.has(entry.id);
+                    if (entry.isEditing && entry.form) {
+                      return (
+                        <WorkEditCard
+                          key={entry.id}
+                          form={entry.form}
+                          objectiveOptions={sortedObjectives}
+                          onFieldChange={(patch) =>
+                            updateEditingEntry(entry.id, (prev) => ({
+                              ...prev,
+                              data: {
+                                ...prev.data,
+                                ...patch
+                              }
+                            }))
+                          }
+                          onVideoChange={(index, value) =>
+                            updateEditingEntry(entry.id, (prev) => {
+                              const videoUrls = prev.data.videoUrls.slice();
+                              videoUrls[index] = value;
+                              return {
+                                ...prev,
+                                data: {
+                                  ...prev.data,
+                                  videoUrls
+                                }
+                              };
+                            })
+                          }
+                          onAddVideo={() =>
+                            updateEditingEntry(entry.id, (prev) => ({
+                              ...prev,
+                              data: {
+                                ...prev.data,
+                                videoUrls: [...prev.data.videoUrls, '']
+                              }
+                            }))
+                          }
+                          onRemoveVideo={(index) =>
+                            updateEditingEntry(entry.id, (prev) => {
+                              const videoUrls = prev.data.videoUrls.slice();
+                              videoUrls.splice(index, 1);
+                              return {
+                                ...prev,
+                                data: {
+                                  ...prev.data,
+                                  videoUrls: videoUrls.length ? videoUrls : ['']
+                                }
+                              };
+                            })
+                          }
+                          onSave={() => handleSave(entry.id)}
+                          onCancel={() => handleCancel(entry.id)}
+                          isNew={entry.isNew}
+                        />
+                      );
+                    }
+
+                    if (!entry.work) {
+                      return null;
+                    }
+
+                    return (
+                      <WorkViewCard
+                        key={entry.id}
+                        work={entry.work}
+                        objective={objectiveMap.get(entry.work.objectiveId)}
+                        expanded={isExpanded}
+                        onToggle={() => toggleExpanded(entry.id)}
+                        onEdit={() => startEditingWork(entry.work!)}
+                        onDuplicate={() => duplicateWork(entry.work!)}
+                        onDelete={() => handleDelete(entry.work!.id)}
+                      />
+                    );
+                  })}
                 </div>
-              );
-            })
-          )}
-        </section>
-      </div>
+              </div>
+            );
+          })
+        )}
+      </section>
     </div>
   );
 }

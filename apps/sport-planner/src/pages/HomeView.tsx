@@ -5,9 +5,44 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { useAppStore } from '@/store/appStore';
-import type { Session } from '@/types';
+import type { Session, AttendanceStatus, SessionAttendance } from '@/types';
 import { ObjectiveChip } from '@/components/ObjectiveChip';
 import { MarkdownContent } from '@/components/MarkdownContent';
+import { YouTubePreview } from '@/components/YouTubePreview';
+
+const ATTENDANCE_ORDER: AttendanceStatus[] = ['present', 'absent', 'pending'];
+
+const ATTENDANCE_LABELS: Record<AttendanceStatus, string> = {
+  present: 'Presente',
+  absent: 'Ausente',
+  pending: 'Pendiente'
+};
+
+const FORECAST_BADGE_CLASSES: Record<AttendanceStatus, string> = {
+  present: 'border border-emerald-500/40 bg-emerald-500/10 text-emerald-100',
+  absent: 'border border-rose-500/40 bg-rose-500/10 text-rose-100',
+  pending: 'border border-white/20 bg-white/10 text-white/70'
+};
+
+const ACTUAL_BUTTON_BASE_CLASSES =
+  'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/30';
+
+const ACTUAL_BUTTON_IDLE_CLASSES =
+  'border border-white/15 text-white/60 hover:border-white/40 hover:text-white';
+
+const ACTUAL_BUTTON_SELECTED_CLASSES: Record<AttendanceStatus, string> = {
+  present: 'border border-emerald-500/60 bg-emerald-500/20 text-emerald-100',
+  absent: 'border border-rose-500/60 bg-rose-500/20 text-rose-100',
+  pending: 'border border-white/30 bg-white/10 text-white'
+};
+
+const SUMMARY_BADGE_CLASSES: Record<AttendanceStatus, string> = {
+  present: 'border border-emerald-500/40 bg-emerald-500/15 text-emerald-100',
+  absent: 'border border-rose-500/40 bg-rose-500/15 text-rose-100',
+  pending: 'border border-white/20 bg-white/10 text-white/70'
+};
+
+const EMPTY_ATTENDANCE: SessionAttendance[] = [];
 
 function formatDate(dateIso: string) {
   return dayjs(dateIso).locale('es').format('dddd, D [de] MMMM');
@@ -17,6 +52,8 @@ export default function HomeView() {
   const sessions = useAppStore((state) => state.sessions);
   const works = useAppStore((state) => state.works);
   const objectives = useAppStore((state) => state.objectives);
+  const assistants = useAppStore((state) => state.assistants);
+  const setAttendanceActualStatus = useAppStore((state) => state.setAttendanceActualStatus);
   const toggleCompletion = useAppStore((state) => state.toggleSessionWorkCompletion);
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
 
@@ -56,6 +93,36 @@ export default function HomeView() {
     const map = new Map(works.map((work) => [work.id, work]));
     return map;
   }, [works]);
+
+  const activeAssistants = useMemo(
+    () =>
+      assistants
+        .filter((assistant) => assistant.active)
+        .slice()
+        .sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })),
+    [assistants]
+  );
+
+  const attendanceEntries = currentSession?.attendance ?? EMPTY_ATTENDANCE;
+  const attendanceInfo = useMemo(() => {
+    const map = new Map<string, SessionAttendance>();
+    attendanceEntries.forEach((entry) => {
+      map.set(entry.assistantId, entry);
+    });
+    const summary: Record<AttendanceStatus, number> = {
+      present: 0,
+      absent: 0,
+      pending: 0
+    };
+    activeAssistants.forEach((assistant) => {
+      const status = map.get(assistant.id)?.actualStatus ?? 'pending';
+      summary[status] += 1;
+    });
+    return { map, summary };
+  }, [attendanceEntries, activeAssistants]);
+
+  const attendanceMap = attendanceInfo.map;
+  const actualSummary = attendanceInfo.summary;
 
   const sessionIndex = currentSession
     ? sortedSessions.findIndex((session) => session.id === currentSession.id)
@@ -98,56 +165,18 @@ export default function HomeView() {
     });
   };
 
-  return (
-    <div className="space-y-6">
-      <header className="glass-panel p-6 sm:p-10">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold">Próxima sesión</h1>
-            <p className="text-white/60">
-              Revisa la sesión que toca ahora y marca los trabajos que completes en tiempo real.
-            </p>
-          </div>
-          {sortedSessions.length > 0 && (
-            <div className="flex flex-col items-start gap-2 sm:items-end">
-              <label className="text-xs uppercase tracking-wide text-white/40">Ir a fecha</label>
-              <input
-                type="date"
-                className="input-field w-auto"
-                value={currentSession?.date ?? today}
-                onChange={handleDateSelect}
-              />
-            </div>
-          )}
-        </div>
+  const handleActualStatusChange = (assistantId: string, status: AttendanceStatus) => {
+    if (!currentSession) return;
+    setAttendanceActualStatus(currentSession.id, assistantId, status);
+  };
 
-        <div className="mt-6 flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={goPrev}
-            disabled={!hasPrev}
-            className="btn-secondary disabled:opacity-40"
-          >
-            ← Anterior
-          </button>
-          <button type="button" onClick={goNext} disabled={!hasNext} className="btn-secondary disabled:opacity-40">
-            Siguiente →
-          </button>
-          <Link to="/plan" className="btn-primary">
-            Abrir planificador
-          </Link>
-          {currentSession && (
-            <Link to={`/plan?session=${currentSession.id}`} className="btn-secondary">
-              Editar sesión
-            </Link>
-          )}
-        </div>
-      </header>
+  return (
+    <div className="space-y-3 sm:space-y-6">
 
       {emptyState && (
-        <section className="glass-panel flex flex-col items-center justify-center gap-6 p-10 text-center">
-          <div className="grid h-32 w-32 place-items-center rounded-full bg-gradient-to-br from-sky-500/30 to-purple-500/30 shadow-lg shadow-sky-500/20">
-            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" className="text-white/80">
+        <section className="glass-panel flex flex-col items-center justify-center gap-5 p-4 text-center sm:gap-6 sm:p-10">
+          <div className="grid h-28 w-28 place-items-center rounded-full bg-gradient-to-br from-sky-500/30 to-purple-500/30 shadow-lg shadow-sky-500/20 sm:h-32 sm:w-32">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" className="text-white/80 sm:h-14 sm:w-14">
               <path
                 d="M6 3v2M18 3v2M3.5 10h17M5 7h14a2 2 0 0 1 2 2v9a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V9a2 2 0 0 1 2-2Z"
                 stroke="currentColor"
@@ -170,46 +199,97 @@ export default function HomeView() {
       )}
 
       {currentSession && !emptyState && (
-        <section className="glass-panel space-y-6 p-6 sm:p-8">
-          <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/40">Fecha</p>
-              <h2 className="font-display text-3xl font-semibold text-white">{formatDate(currentSession.date)}</h2>
-              <p className="mt-1 text-lg font-medium text-white/80">{currentSession.title}</p>
+        <section className="glass-panel space-y-4 p-3 sm:space-y-6 sm:p-6 lg:p-8">
+          <header className="space-y-3 sm:flex sm:items-start sm:justify-between sm:gap-6 sm:space-y-0">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/40">
+                <span className="sm:hidden">Sesión</span>
+                <span className="hidden sm:inline">Fecha</span>
+              </div>
+              <h2 className="font-display text-2xl font-semibold text-white sm:text-3xl">{formatDate(currentSession.date)}</h2>
+              <p className="text-sm font-medium text-white/80 sm:text-lg">{currentSession.title}</p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/70">
-              <p className="font-semibold text-white">Duración estimada</p>
-              <p>
-                {currentSession.workItems
-                  .map((item) => {
-                    const work = workMap.get(item.workId);
-                    const minutes = item.customDurationMinutes ?? work?.estimatedMinutes ?? 0;
-                    return minutes;
-                  })
-                  .reduce((acc, val) => acc + val, 0)}{' '}
-                minutos
-              </p>
+            <div className="flex flex-col gap-2.5 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/70 sm:w-auto">
+              <div className="flex items-center justify-between gap-4">
+                <p className="font-semibold text-white">Duración estimada</p>
+                <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/80">
+                  {(currentSession.workItems
+                    .map((item) => {
+                      const work = workMap.get(item.workId);
+                      const minutes = item.customDurationMinutes ?? work?.estimatedMinutes ?? 0;
+                      return minutes;
+                    })
+                    .reduce((acc, val) => acc + val, 0)) || 0}{' '}
+                  min
+                </span>
+              </div>
+              <div className="flex flex-col gap-2 sm:items-end">
+                <label className="text-[11px] uppercase tracking-wide text-white/40 sm:text-xs">Ir a fecha</label>
+                <input
+                  type="date"
+                  className="input-field w-full sm:w-auto"
+                  value={currentSession?.date ?? today}
+                  onChange={handleDateSelect}
+                />
+              </div>
             </div>
           </header>
 
+          <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={goPrev}
+                disabled={!hasPrev}
+                className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold disabled:opacity-40 sm:h-10 sm:text-sm"
+              >
+                ← Anterior
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                disabled={!hasNext}
+                className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold disabled:opacity-40 sm:h-10 sm:text-sm"
+              >
+                Siguiente →
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link to="/plan" className="btn-primary h-9 rounded-2xl px-4 text-xs font-semibold sm:h-10 sm:text-sm">
+                Abrir planificador
+              </Link>
+              <Link
+                to={`/plan?session=${currentSession.id}`}
+                className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm"
+              >
+                Editar sesión
+              </Link>
+            </div>
+          </div>
+
           {currentSession.description && (
-            <div className="rounded-2xl border border-white/5 bg-white/5 p-4">
+            <div className="rounded-2xl border border-white/5 bg-white/5 p-3 sm:p-4">
               <MarkdownContent content={currentSession.description} />
             </div>
           )}
 
-          <div className="space-y-3">
+          <div className="space-y-3 sm:space-y-4">
             <h3 className="text-sm uppercase tracking-[0.3em] text-white/40">Trabajos</h3>
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {currentSession.workItems.map((item) => {
                 const work = workMap.get(item.workId);
                 const objective = work ? objectiveMap.get(work.objectiveId) : undefined;
                 const isExpanded = expandedItems.has(item.id);
+                const detailDescription = item.customDescriptionMarkdown ?? work?.descriptionMarkdown ?? '';
+                const hasDescription = detailDescription.trim().length > 0;
+                const videoUrls = (work?.videoUrls ?? []).filter((url) => url.trim().length > 0);
+                const hasVideos = videoUrls.length > 0;
+                const showDetailsToggle = hasDescription || hasVideos;
 
                 return (
                   <article
                     key={item.id}
-                    className="flex flex-col gap-3 rounded-3xl border border-white/10 bg-white/5 p-4 shadow shadow-black/20"
+                    className="flex flex-col gap-2.5 rounded-3xl border border-white/10 bg-white/5 p-2.5 shadow shadow-black/20 sm:gap-3 sm:p-4"
                     style={
                       objective
                         ? {
@@ -218,7 +298,7 @@ export default function HomeView() {
                         : undefined
                     }
                   >
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-3">
                       <label className="mt-1 flex items-center gap-3 text-left">
                         <input
                           type="checkbox"
@@ -241,26 +321,32 @@ export default function HomeView() {
                           </div>
                           <ObjectiveChip objective={objective} size="sm" />
                         </div>
-                        <div className="flex items-center gap-3 text-xs text-white/50">
-                          <button
-                            type="button"
-                            onClick={() => toggleExpanded(item.id)}
-                            className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/30 hover:text-white"
-                          >
-                            <span
-                              className={clsx(
-                                'transition-transform',
-                                isExpanded ? 'rotate-90' : 'rotate-0'
-                              )}
-                            >
-                              ▶
-                            </span>
-                            {isExpanded ? 'Ocultar detalles' : 'Ver detalles'}
-                          </button>
-                          {work?.videoUrls?.length ? (
-                            <span>{work.videoUrls.length} vídeo{work.videoUrls.length > 1 ? 's' : ''}</span>
-                          ) : null}
-                        </div>
+                        {(showDetailsToggle || hasVideos) && (
+                          <div className="flex items-center gap-3 text-xs text-white/50">
+                            {showDetailsToggle ? (
+                              <button
+                                type="button"
+                                onClick={() => toggleExpanded(item.id)}
+                                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/30 hover:text-white"
+                              >
+                                <span
+                                  className={clsx(
+                                    'transition-transform',
+                                    isExpanded ? 'rotate-90' : 'rotate-0'
+                                  )}
+                                >
+                                  ▶
+                                </span>
+                                {isExpanded ? 'Ocultar detalles' : 'Ver detalles'}
+                              </button>
+                            ) : null}
+                            {hasVideos ? (
+                              <span>
+                                {videoUrls.length} vídeo{videoUrls.length > 1 ? 's' : ''}
+                              </span>
+                            ) : null}
+                          </div>
+                        )}
                       </div>
                       <div
                         className={clsx(
@@ -271,26 +357,25 @@ export default function HomeView() {
                         {item.order + 1}
                       </div>
                     </div>
-                    {isExpanded && (
+                    {showDetailsToggle && isExpanded && (
                       <div className="space-y-3 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                        <MarkdownContent
-                          content={item.customDescriptionMarkdown ?? work?.descriptionMarkdown}
-                        />
-                        {work?.videoUrls?.length ? (
-                          <div className="flex flex-wrap gap-2">
-                            {work.videoUrls.map((url) => (
-                              <a
-                                key={url}
-                                href={url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80 transition hover:border-white/30 hover:text-white"
-                              >
-                                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500/80 text-white shadow shadow-red-500/40">
-                                  ▶
-                                </span>
-                                Ver vídeo
-                              </a>
+                        {hasDescription ? (
+                          <MarkdownContent content={detailDescription} />
+                        ) : null}
+                        {hasVideos ? (
+                          <div className="space-y-3">
+                            {videoUrls.map((url, index) => (
+                              <div key={`${item.id}-video-${index}`} className="space-y-2">
+                                <YouTubePreview url={url} title={`${work?.name ?? 'Trabajo'} vídeo ${index + 1}`} />
+                                <a
+                                  href={url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80 transition hover:border-white/30 hover:text-white"
+                                >
+                                  Abrir en YouTube
+                                </a>
+                              </div>
                             ))}
                           </div>
                         ) : null}
@@ -301,6 +386,104 @@ export default function HomeView() {
               })}
             </div>
           </div>
+
+          {assistants.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-white/15 bg-white/5 p-3 text-xs text-white/70 sm:text-sm sm:p-4">
+              <p className="font-semibold text-white">¿Quiénes participan?</p>
+              <p className="mt-1">
+                Crea tu lista de asistentes para poder registrar quién ha venido a clase en tiempo real.
+              </p>
+              <Link to="/assistants" className="btn-secondary mt-3 h-8 rounded-2xl px-3 text-xs">
+                Gestionar asistentes
+              </Link>
+            </div>
+          ) : activeAssistants.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-white/15 bg-white/5 p-3 text-xs text-white/70 sm:text-sm sm:p-4">
+              <p className="font-semibold text-white">Todos los asistentes están inactivos.</p>
+              <p className="mt-1">
+                Activa al menos uno desde la sección de asistentes para poder marcar su asistencia.
+              </p>
+              <Link to="/assistants" className="btn-secondary mt-3 h-8 rounded-2xl px-3 text-xs">
+                Ir a asistentes
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-3 rounded-2xl border border-white/10 bg-slate-950/60 p-3 sm:space-y-4 sm:p-5">
+              <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-white/40">Asistencia en vivo</p>
+                  <p className="text-xs text-white/50 sm:text-sm">Marca quién está presente en la sesión actual.</p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {ATTENDANCE_ORDER.map((status) => (
+                    <span
+                      key={status}
+                      className={clsx(
+                        'inline-flex items-center gap-2 rounded-full px-2.5 py-0.5 text-[11px] font-semibold sm:px-3 sm:py-1 sm:text-xs',
+                        SUMMARY_BADGE_CLASSES[status]
+                      )}
+                    >
+                      {actualSummary[status]}{' '}
+                      {status === 'present'
+                        ? 'presentes'
+                        : status === 'absent'
+                          ? 'ausentes'
+                          : 'pendientes'}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-2">
+                {activeAssistants.map((assistant) => {
+                  const record = attendanceMap.get(assistant.id);
+                  const forecastStatus = record?.status ?? 'pending';
+                  const actualStatus = record?.actualStatus ?? 'pending';
+                  return (
+                    <article
+                      key={assistant.id}
+                      className="rounded-2xl border border-white/10 bg-white/5 p-2.5 sm:p-4"
+                    >
+                      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                          <p className="text-sm font-semibold text-white">{assistant.name}</p>
+                          <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-white/50 sm:text-xs">
+                            <span className="uppercase tracking-wide text-white/40">Previsión</span>
+                            <span
+                              className={clsx(
+                                'inline-flex items-center gap-2 rounded-full px-2 py-0.5 font-semibold',
+                                FORECAST_BADGE_CLASSES[forecastStatus]
+                              )}
+                            >
+                              {ATTENDANCE_LABELS[forecastStatus]}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                          {ATTENDANCE_ORDER.map((status) => (
+                            <button
+                              key={status}
+                              type="button"
+                              aria-pressed={actualStatus === status}
+                              onClick={() => handleActualStatusChange(assistant.id, status)}
+                              className={clsx(
+                                ACTUAL_BUTTON_BASE_CLASSES,
+                                'h-8 px-2 text-[11px] sm:h-9 sm:px-3 sm:text-xs',
+                                actualStatus === status
+                                  ? ACTUAL_BUTTON_SELECTED_CLASSES[status]
+                                  : ACTUAL_BUTTON_IDLE_CLASSES
+                              )}
+                            >
+                              {ATTENDANCE_LABELS[status]}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </section>
       )}
     </div>
