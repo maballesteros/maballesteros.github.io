@@ -14,6 +14,7 @@ export interface Work {
   id: string;
   name: string;
   objectiveId: string;
+  parentWorkId?: string | null;
   descriptionMarkdown: string;
   estimatedMinutes: number;
   notes?: string;
