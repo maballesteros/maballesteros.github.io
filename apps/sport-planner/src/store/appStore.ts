@@ -29,6 +29,31 @@ const nowIso = () => new Date().toISOString();
 
 const DEFAULT_SESSION_START_TIME = '18:30';
 
+const normalizeParentWorkId = (value?: string | null): string | null => {
+  if (!value) return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+};
+
+const wouldCreateParentCycle = (works: Work[], workId: string, candidateParentId?: string | null): boolean => {
+  if (!candidateParentId) return false;
+  if (candidateParentId === workId) return true;
+  const visited = new Set<string>();
+  let current: string | null | undefined = candidateParentId;
+  while (current) {
+    if (current === workId) {
+      return true;
+    }
+    if (visited.has(current)) {
+      break;
+    }
+    visited.add(current);
+    const parent = works.find((work) => work.id === current)?.parentWorkId;
+    current = parent ?? null;
+  }
+  return false;
+};
+
 const loadCollection = <T>(key: string, fallback: T): T => {
   if (!isBrowser) return fallback;
   try {
@@ -80,7 +105,13 @@ const persistCollections = (state: Partial<CollectionsState>) => {
 
 const normalizeCollections = (state: Partial<CollectionsState>): CollectionsState => ({
   objectives: state.objectives ?? [],
-  works: state.works ?? [],
+  works: (state.works ?? []).map((work) => {
+    const legacyParent = (work as unknown as { parent_work_id?: string | null }).parent_work_id;
+    return {
+      ...work,
+      parentWorkId: normalizeParentWorkId(work.parentWorkId ?? legacyParent ?? null)
+    };
+  }),
   sessions: (state.sessions ?? []).map((session) => ({
     ...session,
     startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
@@ -102,6 +133,7 @@ interface ObjectiveInput {
 interface WorkInput {
   name: string;
   objectiveId: string;
+  parentWorkId?: string | null;
   descriptionMarkdown: string;
   estimatedMinutes: number;
   notes?: string;
@@ -188,7 +220,13 @@ export const useAppStore = create<AppState>((set, get) => ({
   hydrate: () => {
     if (get().ready) return;
     const objectives = loadCollection<Objective[]>(STORAGE_KEYS.objectives, []);
-    const works = loadCollection<Work[]>(STORAGE_KEYS.works, []);
+    const works = loadCollection<Work[]>(STORAGE_KEYS.works, []).map((work) => {
+      const legacyParent = (work as unknown as { parent_work_id?: string | null }).parent_work_id;
+      return {
+        ...work,
+        parentWorkId: normalizeParentWorkId(work.parentWorkId ?? legacyParent ?? null)
+      };
+    });
     const sessions = loadCollection<Session[]>(STORAGE_KEYS.sessions, []).map((session) => ({
       ...session,
       startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
@@ -286,38 +324,59 @@ export const useAppStore = create<AppState>((set, get) => ({
     return true;
   },
   addWork: (input) => {
-    const work: Work = {
-      id: nanoid(),
-      name: input.name,
-      objectiveId: input.objectiveId,
-      descriptionMarkdown: input.descriptionMarkdown,
-      estimatedMinutes: input.estimatedMinutes,
-      notes: input.notes,
-      videoUrls: input.videoUrls,
-      createdAt: nowIso(),
-      updatedAt: nowIso()
-    };
+    const timestamp = nowIso();
+    let createdWork: Work | null = null;
     set((state) => {
+      const parentCandidate = normalizeParentWorkId(input.parentWorkId);
+      const parentWorkId = parentCandidate && state.works.some((work) => work.id === parentCandidate)
+        ? parentCandidate
+        : null;
+      const work: Work = {
+        id: nanoid(),
+        name: input.name,
+        objectiveId: input.objectiveId,
+        parentWorkId,
+        descriptionMarkdown: input.descriptionMarkdown,
+        estimatedMinutes: input.estimatedMinutes,
+        notes: input.notes,
+        videoUrls: input.videoUrls,
+        createdAt: timestamp,
+        updatedAt: timestamp
+      };
+      createdWork = work;
       const works = [...state.works, work];
       const merged = { ...state, works };
       persistCollections(merged);
       return merged;
     });
-    return work;
+    return createdWork!;
   },
   updateWork: (id, patch) => {
     set((state) => {
-      const works = state.works.map((work) =>
-        work.id === id
-          ? {
-              ...work,
-              ...patch,
-              videoUrls: patch.videoUrls ?? work.videoUrls,
-              estimatedMinutes: patch.estimatedMinutes ?? work.estimatedMinutes,
-              updatedAt: nowIso()
-            }
-          : work
-      );
+      const works = state.works.map((work) => {
+        if (work.id !== id) return work;
+        const { parentWorkId: parentPatch, ...restPatch } = patch;
+        let parentWorkId = work.parentWorkId ?? null;
+        if (parentPatch !== undefined) {
+          const candidate = normalizeParentWorkId(parentPatch);
+          if (
+            candidate &&
+            (!state.works.some((item) => item.id === candidate) || wouldCreateParentCycle(state.works, id, candidate))
+          ) {
+            parentWorkId = null;
+          } else {
+            parentWorkId = candidate;
+          }
+        }
+        return {
+          ...work,
+          ...restPatch,
+          parentWorkId,
+          videoUrls: restPatch.videoUrls ?? work.videoUrls,
+          estimatedMinutes: restPatch.estimatedMinutes ?? work.estimatedMinutes,
+          updatedAt: nowIso()
+        };
+      });
       const merged = { ...state, works };
       persistCollections(merged);
       return merged;
@@ -328,6 +387,8 @@ export const useAppStore = create<AppState>((set, get) => ({
       session.workItems.some((item) => item.workId === id)
     );
     if (isInSession) return false;
+    const hasChildren = get().works.some((work) => work.parentWorkId === id);
+    if (hasChildren) return false;
     set((state) => {
       const works = state.works.filter((work) => work.id !== id);
       const merged = { ...state, works };
@@ -695,12 +756,16 @@ export const useAppStore = create<AppState>((set, get) => ({
       updatedAt: objective.updatedAt ?? now
     }));
 
-    const works = (payload.trabajos ?? []).map((work) => ({
-      ...work,
-      createdAt: work.createdAt ?? now,
-      updatedAt: work.updatedAt ?? now,
-      videoUrls: work.videoUrls ?? []
-    }));
+    const works = (payload.trabajos ?? []).map((work) => {
+      const legacyParent = (work as unknown as { parent_work_id?: string | null }).parent_work_id;
+      return {
+        ...work,
+        parentWorkId: normalizeParentWorkId(work.parentWorkId ?? legacyParent ?? null),
+        createdAt: work.createdAt ?? now,
+        updatedAt: work.updatedAt ?? now,
+        videoUrls: work.videoUrls ?? []
+      };
+    });
 
     const assistants = (payload.asistentes ?? []).map((assistant) => ({
       ...assistant,

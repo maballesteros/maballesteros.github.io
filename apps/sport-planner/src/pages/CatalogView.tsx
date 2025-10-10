@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { nanoid } from 'nanoid';
 
@@ -12,6 +12,7 @@ interface WorkFormState {
   id?: string;
   name: string;
   objectiveId: string;
+  parentWorkId: string;
   descriptionMarkdown: string;
   estimatedMinutes: number;
   notes: string;
@@ -27,6 +28,7 @@ interface EditingEntry {
 const EMPTY_FORM: WorkFormState = {
   name: '',
   objectiveId: '',
+  parentWorkId: '',
   descriptionMarkdown: '',
   estimatedMinutes: 10,
   notes: '',
@@ -41,6 +43,8 @@ interface FeedbackMessage {
 interface WorkEntry {
   id: string;
   objectiveId: string;
+  parentWorkId: string;
+  depth: number;
   work?: Work;
   isNew: boolean;
   isEditing: boolean;
@@ -52,20 +56,28 @@ const NO_OBJECTIVE_KEY = '__no_objective__';
 interface WorkViewCardProps {
   work: Work;
   objective?: Objective;
+  parentWork?: Work;
+  childWorks: Work[];
+  depth: number;
   expanded: boolean;
   onToggle: () => void;
   onEdit: () => void;
   onDuplicate: () => void;
+  onCreateChild: () => void;
   onDelete: () => void;
 }
 
 function WorkViewCard({
   work,
   objective,
+  parentWork,
+  childWorks,
+  depth,
   expanded,
   onToggle,
   onEdit,
   onDuplicate,
+  onCreateChild,
   onDelete
 }: WorkViewCardProps) {
   const trimmedDescription = (work.descriptionMarkdown ?? '').trim();
@@ -75,9 +87,15 @@ function WorkViewCard({
   const hasNotes = trimmedNotes.length > 0;
   const hasVideos = videoUrls.length > 0;
   const hasDetails = hasDescription || hasNotes || hasVideos;
+  const hasParent = Boolean(parentWork);
+  const hasChildren = childWorks.length > 0;
+  const indentStyle = depth > 0 ? { marginLeft: `${depth * 1.5}rem` } : undefined;
 
   return (
-    <article className="relative space-y-4 rounded-3xl border border-white/10 bg-white/5 p-5 shadow shadow-black/30">
+    <article
+      className="relative space-y-4 rounded-3xl border border-white/10 bg-white/5 p-5 shadow shadow-black/30"
+      style={indentStyle}
+    >
       {objective ? (
         <div
           className="absolute inset-0 -z-[1] rounded-3xl opacity-20 blur-3xl"
@@ -110,6 +128,9 @@ function WorkViewCard({
           <button type="button" onClick={onDuplicate} className="btn-secondary px-3 py-1 text-xs">
             Duplicar
           </button>
+          <button type="button" onClick={onCreateChild} className="btn-secondary px-3 py-1 text-xs">
+            Nuevo hijo
+          </button>
           <button
             type="button"
             onClick={onDelete}
@@ -119,6 +140,33 @@ function WorkViewCard({
           </button>
         </div>
       </div>
+      {(hasParent || hasChildren) && (
+        <div className="flex flex-wrap gap-3 rounded-2xl border border-dashed border-white/10 bg-white/5 p-3 text-xs text-white/60">
+          {hasParent ? (
+            <span className="inline-flex items-center gap-2">
+              <span className="uppercase tracking-wide text-white/40">Deriva de</span>
+              <span className="rounded-full border border-white/15 px-2 py-0.5 text-white/80">
+                {parentWork?.name}
+              </span>
+            </span>
+          ) : null}
+          {hasChildren ? (
+            <span className="inline-flex flex-wrap items-center gap-2">
+              <span className="uppercase tracking-wide text-white/40">Hijos</span>
+              {childWorks.slice(0, 4).map((child) => (
+                <span key={child.id} className="rounded-full border border-white/15 px-2 py-0.5 text-white/70">
+                  {child.name}
+                </span>
+              ))}
+              {childWorks.length > 4 ? (
+                <span className="rounded-full border border-white/15 px-2 py-0.5 text-white/60">
+                  +{childWorks.length - 4}
+                </span>
+              ) : null}
+            </span>
+          ) : null}
+        </div>
+      )}
       {hasDetails && expanded && (
         <div className="space-y-4 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
           {hasDescription ? (
@@ -155,6 +203,8 @@ function WorkViewCard({
 interface WorkEditCardProps {
   form: WorkFormState;
   objectiveOptions: Objective[];
+  parentOptions: Array<{ id: string; label: string }>;
+  depth: number;
   onFieldChange: (patch: Partial<WorkFormState>) => void;
   onVideoChange: (index: number, value: string) => void;
   onAddVideo: () => void;
@@ -167,6 +217,8 @@ interface WorkEditCardProps {
 function WorkEditCard({
   form,
   objectiveOptions,
+  parentOptions,
+  depth,
   onFieldChange,
   onVideoChange,
   onAddVideo,
@@ -176,9 +228,14 @@ function WorkEditCard({
   isNew
 }: WorkEditCardProps) {
   const currentObjective = objectiveOptions.find((objective) => objective.id === form.objectiveId);
+  const currentParent = parentOptions.find((option) => option.id === form.parentWorkId);
+  const indentStyle = depth > 0 ? { marginLeft: `${depth * 1.5}rem` } : undefined;
 
   return (
-    <article className="space-y-5 rounded-3xl border border-sky-500/40 bg-slate-950/70 p-5 shadow-lg shadow-sky-500/15">
+    <article
+      className="space-y-5 rounded-3xl border border-sky-500/40 bg-slate-950/70 p-5 shadow-lg shadow-sky-500/15"
+      style={indentStyle}
+    >
       <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
           <p className="text-xs uppercase tracking-[0.3em] text-white/40">
@@ -210,6 +267,24 @@ function WorkEditCard({
               </option>
             ))}
           </select>
+        </div>
+        <div className="grid gap-2">
+          <label className="text-xs uppercase tracking-wide text-white/40">Trabajo padre (opcional)</label>
+          <select
+            className="input-field"
+            value={form.parentWorkId}
+            onChange={(event) => onFieldChange({ parentWorkId: event.target.value })}
+          >
+            <option value="">Sin trabajo padre</option>
+            {parentOptions.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          {form.parentWorkId && currentParent ? (
+            <p className="text-xs text-white/40">Deriva de: {currentParent.label}</p>
+          ) : null}
         </div>
         <div className="grid gap-2">
           <label className="text-xs uppercase tracking-wide text-white/40">Duración estimada (min)</label>
@@ -308,28 +383,143 @@ export default function CatalogView() {
     () => [...objectives].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? '', 'es')),
     [objectives]
   );
+  const worksById = useMemo(() => new Map(works.map((work) => [work.id, work])), [works]);
+  const childrenByWorkId = useMemo(() => {
+    const map = new Map<string, Work[]>();
+    works.forEach((work) => {
+      const parentId = work.parentWorkId;
+      if (!parentId) return;
+      const list = map.get(parentId) ?? [];
+      list.push(work);
+      map.set(parentId, list);
+    });
+    map.forEach((list) => {
+      list.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
+    });
+    return map;
+  }, [works]);
+  const workPathById = useMemo(() => {
+    const cache = new Map<string, string>();
+    const visit = (workId: string, stack: Set<string>): string => {
+      if (cache.has(workId)) return cache.get(workId)!;
+      const work = worksById.get(workId);
+      if (!work) return '';
+      if (!work.parentWorkId) {
+        cache.set(workId, work.name);
+        return work.name;
+      }
+      if (stack.has(workId)) {
+        cache.set(workId, work.name);
+        return work.name;
+      }
+      stack.add(workId);
+      const parentPath = visit(work.parentWorkId, stack);
+      stack.delete(workId);
+      const path = parentPath ? `${parentPath} · ${work.name}` : work.name;
+      cache.set(workId, path);
+      return path;
+    };
+    works.forEach((work) => {
+      visit(work.id, new Set<string>());
+    });
+    return cache;
+  }, [works, worksById]);
+  const descendantIdsByWorkId = useMemo(() => {
+    const cache = new Map<string, Set<string>>();
+    const visit = (workId: string): Set<string> => {
+      if (cache.has(workId)) return cache.get(workId)!;
+      const set = new Set<string>();
+      const children = childrenByWorkId.get(workId) ?? [];
+      children.forEach((child) => {
+        set.add(child.id);
+        visit(child.id).forEach((descendantId) => set.add(descendantId));
+      });
+      cache.set(workId, set);
+      return set;
+    };
+    works.forEach((work) => visit(work.id));
+    return cache;
+  }, [works, childrenByWorkId]);
+  const buildParentOptions = useCallback(
+    (currentWorkId?: string, currentParentId?: string) => {
+      const excluded = new Set<string>();
+      if (currentWorkId) {
+        excluded.add(currentWorkId);
+        descendantIdsByWorkId.get(currentWorkId)?.forEach((descendantId) => excluded.add(descendantId));
+      }
+      const options = works
+        .filter((work) => !excluded.has(work.id))
+        .map((work) => ({
+          id: work.id,
+          label: (() => {
+            const basePath = workPathById.get(work.id) ?? work.name;
+            const objectiveName = objectiveMap.get(work.objectiveId)?.name;
+            return objectiveName ? `${objectiveName} · ${basePath}` : basePath;
+          })()
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label, 'es', { sensitivity: 'base' }));
+
+      if (currentParentId && currentParentId.length > 0 && !options.some((option) => option.id === currentParentId)) {
+        const fallbackWork = worksById.get(currentParentId);
+        const fallbackBase =
+          workPathById.get(currentParentId) ?? fallbackWork?.name ?? 'Trabajo no disponible';
+        const fallbackObjectiveName = fallbackWork ? objectiveMap.get(fallbackWork.objectiveId)?.name : undefined;
+        const fallbackLabel = fallbackObjectiveName ? `${fallbackObjectiveName} · ${fallbackBase}` : fallbackBase;
+        options.unshift({ id: currentParentId, label: fallbackLabel });
+      }
+
+      return options;
+    },
+    [works, workPathById, descendantIdsByWorkId, worksById, objectiveMap]
+  );
 
   const searchTerm = search.trim().toLowerCase();
 
-  const matchesSearch = (workData: { name: string; descriptionMarkdown: string; objectiveId: string }) => {
+  const matchesSearch = (workData: {
+    id?: string;
+    name: string;
+    descriptionMarkdown: string;
+    objectiveId: string;
+    parentWorkId?: string;
+  }) => {
     if (!searchTerm) return true;
     const objectiveName = objectiveMap.get(workData.objectiveId)?.name ?? '';
+    const parentPath = workData.parentWorkId ? workPathById.get(workData.parentWorkId) ?? '' : '';
+    const selfPath = workData.id ? workPathById.get(workData.id) ?? '' : '';
     return (
       workData.name.toLowerCase().includes(searchTerm) ||
       workData.descriptionMarkdown.toLowerCase().includes(searchTerm) ||
-      objectiveName.toLowerCase().includes(searchTerm)
+      objectiveName.toLowerCase().includes(searchTerm) ||
+      parentPath.toLowerCase().includes(searchTerm) ||
+      selfPath.toLowerCase().includes(searchTerm)
     );
   };
 
   const allEntries: WorkEntry[] = useMemo(() => {
     const entries: WorkEntry[] = [];
+    const computeDepth = (parentId?: string) => {
+      if (!parentId) return 0;
+      let depth = 1;
+      let current = worksById.get(parentId);
+      const visited = new Set<string>(parentId ? [parentId] : []);
+      while (current && current.parentWorkId) {
+        const nextParent = current.parentWorkId;
+        if (!nextParent || visited.has(nextParent)) break;
+        depth += 1;
+        visited.add(nextParent);
+        current = worksById.get(nextParent);
+      }
+      return depth;
+    };
 
     works.forEach((work) => {
       const draft = editingEntries[work.id];
       const effectiveData = draft?.data ?? {
+        id: work.id,
         name: work.name,
         descriptionMarkdown: work.descriptionMarkdown,
-        objectiveId: work.objectiveId
+        objectiveId: work.objectiveId,
+        parentWorkId: work.parentWorkId ?? ''
       };
 
       if (!draft && !matchesSearch(effectiveData)) {
@@ -339,6 +529,8 @@ export default function CatalogView() {
       entries.push({
         id: work.id,
         objectiveId: effectiveData.objectiveId,
+        parentWorkId: effectiveData.parentWorkId ?? '',
+        depth: computeDepth(effectiveData.parentWorkId),
         work,
         isNew: false,
         isEditing: Boolean(draft),
@@ -355,15 +547,17 @@ export default function CatalogView() {
         entries.push({
           id,
           objectiveId: entry.data.objectiveId,
+          parentWorkId: entry.data.parentWorkId,
+          depth: computeDepth(entry.data.parentWorkId || undefined),
           work: undefined,
           isNew: true,
           isEditing: true,
           form: entry.data
         });
-      });
+    });
 
     return entries;
-  }, [works, editingEntries, matchesSearch]);
+  }, [works, worksById, editingEntries, matchesSearch]);
 
   const groupedEntries = useMemo(() => {
     const groups = new Map<string, WorkEntry[]>();
@@ -375,12 +569,25 @@ export default function CatalogView() {
       groups.set(key, list);
     });
 
-    const sortByName = (a: WorkEntry, b: WorkEntry) => {
-      const getName = (entry: WorkEntry) =>
-        entry.isEditing && entry.form
-          ? entry.form.name.trim()
-          : entry.work?.name.trim() ?? '';
-      return getName(a).localeCompare(getName(b), 'es', { sensitivity: 'base' });
+    const buildSortKey = (entry: WorkEntry) => {
+      if (entry.isEditing && entry.form) {
+        const baseName = entry.form.name.trim() || (entry.work?.name ?? '');
+        const parentLabel =
+          entry.form.parentWorkId && entry.form.parentWorkId.length > 0
+            ? workPathById.get(entry.form.parentWorkId) ?? worksById.get(entry.form.parentWorkId)?.name ?? ''
+            : '';
+        return parentLabel ? `${parentLabel} · ${baseName}` : baseName;
+      }
+      if (entry.work) {
+        return workPathById.get(entry.work.id) ?? entry.work.name;
+      }
+      return entry.id;
+    };
+
+    const sortByHierarchy = (a: WorkEntry, b: WorkEntry) => {
+      const keyA = buildSortKey(a);
+      const keyB = buildSortKey(b);
+      return keyA.localeCompare(keyB, 'es', { sensitivity: 'base' });
     };
 
     const orderedGroups: Array<{ objective?: Objective; items: WorkEntry[] }> = [];
@@ -390,7 +597,7 @@ export default function CatalogView() {
       if (items && items.length) {
         orderedGroups.push({
           objective,
-          items: items.slice().sort(sortByName)
+          items: items.slice().sort(sortByHierarchy)
         });
       }
     });
@@ -399,12 +606,12 @@ export default function CatalogView() {
     if (withoutObjective && withoutObjective.length) {
       orderedGroups.push({
         objective: undefined,
-        items: withoutObjective.slice().sort(sortByName)
+        items: withoutObjective.slice().sort(sortByHierarchy)
       });
     }
 
     return orderedGroups;
-  }, [allEntries, objectiveMap, sortedObjectives]);
+  }, [allEntries, objectiveMap, sortedObjectives, workPathById, worksById]);
 
   const defaultObjectiveId = sortedObjectives[0]?.id ?? '';
 
@@ -431,6 +638,7 @@ export default function CatalogView() {
             id: work.id,
             name: work.name,
             objectiveId: work.objectiveId,
+            parentWorkId: work.parentWorkId ?? '',
             descriptionMarkdown: work.descriptionMarkdown,
             estimatedMinutes: work.estimatedMinutes,
             notes: work.notes ?? '',
@@ -477,6 +685,7 @@ export default function CatalogView() {
           id: draftId,
           name: `${work.name} (copia)`,
           objectiveId: work.objectiveId,
+          parentWorkId: work.parentWorkId ?? '',
           descriptionMarkdown: work.descriptionMarkdown,
           estimatedMinutes: work.estimatedMinutes,
           notes: work.notes ?? '',
@@ -491,6 +700,32 @@ export default function CatalogView() {
       return next;
     });
     setFeedback({ type: 'success', text: 'Duplicación creada. Ajusta y guarda para confirmarla.' });
+  };
+
+  const createChildWork = (parent: Work) => {
+    const draftId = `draft-${nanoid()}`;
+    setEditingEntries((prev) => ({
+      ...prev,
+      [draftId]: {
+        data: {
+          ...EMPTY_FORM,
+          id: draftId,
+          objectiveId: parent.objectiveId,
+          parentWorkId: parent.id,
+          estimatedMinutes: parent.estimatedMinutes
+        },
+        isNew: true
+      }
+    }));
+    setExpandedWorks((prev) => {
+      const next = new Set(prev);
+      next.add(draftId);
+      return next;
+    });
+    setFeedback({
+      type: 'success',
+      text: `Creando un trabajo hijo para «${parent.name}». Ajusta y guarda para confirmarlo.`
+    });
   };
 
   const toggleExpanded = (id: string) => {
@@ -524,13 +759,17 @@ export default function CatalogView() {
     const entry = editingEntries[id];
     if (!entry) return;
 
+    const parentValue = (entry.data.parentWorkId ?? '').trim();
+    const parentWorkId = parentValue.length > 0 ? parentValue : undefined;
+
     const payload = {
       name: entry.data.name.trim(),
       objectiveId: entry.data.objectiveId,
       descriptionMarkdown: entry.data.descriptionMarkdown,
       estimatedMinutes: Number(entry.data.estimatedMinutes) || 0,
       notes: entry.data.notes.trim() || undefined,
-      videoUrls: entry.data.videoUrls.map((url) => url.trim()).filter(Boolean)
+      videoUrls: entry.data.videoUrls.map((url) => url.trim()).filter(Boolean),
+      parentWorkId
     };
 
     if (!payload.name) {
@@ -541,6 +780,18 @@ export default function CatalogView() {
     if (!payload.objectiveId) {
       setFeedback({ type: 'error', text: 'Selecciona un objetivo para el trabajo.' });
       return;
+    }
+
+    if (payload.parentWorkId && entry.originalId) {
+      if (payload.parentWorkId === entry.originalId) {
+        setFeedback({ type: 'error', text: 'Un trabajo no puede ser su propio padre.' });
+        return;
+      }
+      const descendants = descendantIdsByWorkId.get(entry.originalId);
+      if (descendants && descendants.has(payload.parentWorkId)) {
+        setFeedback({ type: 'error', text: 'Selecciona un trabajo padre que no sea un descendiente.' });
+        return;
+      }
     }
 
     if (entry.isNew) {
@@ -570,9 +821,15 @@ export default function CatalogView() {
   };
 
   const handleDelete = (id: string) => {
+    const hasDescendants = (descendantIdsByWorkId.get(id)?.size ?? 0) > 0;
     const ok = deleteWork(id);
     if (!ok) {
-      setFeedback({ type: 'error', text: 'No se puede eliminar porque está siendo usado en alguna sesión.' });
+      setFeedback({
+        type: 'error',
+        text: hasDescendants
+          ? 'No se puede eliminar porque tiene trabajos hijos.'
+          : 'No se puede eliminar porque está siendo usado en alguna sesión.'
+      });
       return;
     }
     setFeedback({ type: 'success', text: 'Trabajo eliminado.' });
@@ -647,20 +904,40 @@ export default function CatalogView() {
                 <div className="space-y-4">
                   {items.map((entry) => {
                     const isExpanded = expandedWorks.has(entry.id);
+                    const currentParentId =
+                      (entry.isEditing && entry.form ? entry.form.parentWorkId : entry.parentWorkId) ?? '';
+                    const parentOptions = entry.isEditing
+                      ? buildParentOptions(entry.work?.id, currentParentId)
+                      : [];
+                    const parentWork = entry.work?.parentWorkId
+                      ? worksById.get(entry.work.parentWorkId) ?? undefined
+                      : undefined;
+                    const childWorks = entry.work ? childrenByWorkId.get(entry.work.id) ?? [] : [];
                     if (entry.isEditing && entry.form) {
                       return (
                         <WorkEditCard
                           key={entry.id}
                           form={entry.form}
                           objectiveOptions={sortedObjectives}
+                          parentOptions={parentOptions}
+                          depth={entry.depth}
                           onFieldChange={(patch) =>
-                            updateEditingEntry(entry.id, (prev) => ({
-                              ...prev,
-                              data: {
+                            updateEditingEntry(entry.id, (prev) => {
+                              const nextData = {
                                 ...prev.data,
                                 ...patch
+                              };
+                              if (patch.parentWorkId !== undefined && patch.parentWorkId.length > 0) {
+                                const parent = worksById.get(patch.parentWorkId);
+                                if (parent) {
+                                  nextData.objectiveId = parent.objectiveId;
+                                }
                               }
-                            }))
+                              return {
+                                ...prev,
+                                data: nextData
+                              };
+                            })
                           }
                           onVideoChange={(index, value) =>
                             updateEditingEntry(entry.id, (prev) => {
@@ -713,10 +990,14 @@ export default function CatalogView() {
                         key={entry.id}
                         work={entry.work}
                         objective={objectiveMap.get(entry.work.objectiveId)}
+                        parentWork={parentWork}
+                        childWorks={childWorks}
+                        depth={entry.depth}
                         expanded={isExpanded}
                         onToggle={() => toggleExpanded(entry.id)}
                         onEdit={() => startEditingWork(entry.work!)}
                         onDuplicate={() => duplicateWork(entry.work!)}
+                        onCreateChild={() => createChildWork(entry.work!)}
                         onDelete={() => handleDelete(entry.work!.id)}
                       />
                     );

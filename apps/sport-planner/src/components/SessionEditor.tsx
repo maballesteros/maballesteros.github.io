@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, type ChangeEvent } from 'react';
+import { useMemo, useState, useEffect, useCallback, type ChangeEvent } from 'react';
 import { DndContext, closestCenter, type DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -30,10 +30,11 @@ interface SessionEditorProps {
 interface WorkPickerItemProps {
   work: Work;
   objective?: Objective;
+  parentChain?: string;
   onSelect: (workId: string) => void;
 }
 
-function WorkPickerItem({ work, objective, onSelect }: WorkPickerItemProps) {
+function WorkPickerItem({ work, objective, parentChain, onSelect }: WorkPickerItemProps) {
   return (
     <button
       type="button"
@@ -43,6 +44,9 @@ function WorkPickerItem({ work, objective, onSelect }: WorkPickerItemProps) {
       <div>
         <p className="text-sm font-semibold text-white">{work.name}</p>
         <p className="text-xs text-white/50">{work.estimatedMinutes} min</p>
+        {parentChain ? (
+          <p className="text-[11px] text-white/40">Deriva de {parentChain}</p>
+        ) : null}
       </div>
       <ObjectiveChip objective={objective} size="sm" />
     </button>
@@ -68,6 +72,7 @@ interface SortableWorkRowProps {
   objectiveOptions: ObjectiveOption[];
   worksByObjective: Map<string, Work[]>;
   currentObjectiveId?: string;
+  workPathById: Map<string, string>;
 }
 
 function SortableWorkRow({
@@ -83,7 +88,8 @@ function SortableWorkRow({
   durationMinutes,
   objectiveOptions,
   worksByObjective,
-  currentObjectiveId
+  currentObjectiveId,
+  workPathById
 }: SortableWorkRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
   const [swapOpen, setSwapOpen] = useState(false);
@@ -101,6 +107,8 @@ function SortableWorkRow({
   const videoUrls = (work?.videoUrls ?? []).map((url) => url.trim()).filter(Boolean);
   const hasVideos = videoUrls.length > 0;
   const hasDetails = hasDescription || hasVideos;
+  const workPath = work?.id ? workPathById.get(work.id) ?? work?.name ?? '' : '';
+  const parentChain = workPath.split(' · ').slice(0, -1).join(' · ');
 
   const handleFocusChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -127,8 +135,14 @@ function SortableWorkRow({
 
   const availableReplacements = useMemo(() => {
     const baseList = worksByObjective.get(selectedObjectiveId) ?? [];
-    return baseList.filter((candidate) => candidate.id !== work?.id);
-  }, [selectedObjectiveId, worksByObjective, work?.id]);
+    return baseList
+      .filter((candidate) => candidate.id !== work?.id)
+      .sort((a, b) => {
+        const pathA = workPathById.get(a.id) ?? a.name;
+        const pathB = workPathById.get(b.id) ?? b.name;
+        return pathA.localeCompare(pathB, 'es', { sensitivity: 'base' });
+      });
+  }, [selectedObjectiveId, worksByObjective, work?.id, workPathById]);
 
   const hasAnyReplacement = useMemo(() => {
     for (const list of worksByObjective.values()) {
@@ -173,6 +187,9 @@ function SortableWorkRow({
                   <span className="ml-2 text-sky-300">· {focusDisplay}</span>
                 ) : null}
               </p>
+              {parentChain ? (
+                <p className="text-xs text-white/50">Deriva de {parentChain}</p>
+              ) : null}
               <div className="flex flex-wrap items-center gap-2 text-sm text-white/60">
                 <span className="text-xs uppercase tracking-wide text-white/40">{startTimeLabel}</span>
                 <span className="text-white/30">·</span>
@@ -250,20 +267,29 @@ function SortableWorkRow({
                 No hay trabajos disponibles en este objetivo.
               </p>
             ) : (
-              availableReplacements.map((option) => (
-                <button
-                  key={option.id}
-                  type="button"
-                  onClick={() => {
-                    onReplace(option.id);
-                    setSwapOpen(false);
-                  }}
-                  className="flex items-center justify-between gap-2 rounded-2xl border border-white/15 px-3 py-2 text-left text-xs font-semibold text-white/80 transition hover:border-sky-400/60 hover:text-white"
-                >
-                  <span>{option.name}</span>
-                  <span className="text-[11px] text-white/40">{option.estimatedMinutes} min</span>
-                </button>
-              ))
+              availableReplacements.map((option) => {
+                const optionPath = workPathById.get(option.id) ?? option.name;
+                const optionParentChain = optionPath.split(' · ').slice(0, -1).join(' · ');
+                return (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => {
+                      onReplace(option.id);
+                      setSwapOpen(false);
+                    }}
+                    className="flex items-center justify-between gap-2 rounded-2xl border border-white/15 px-3 py-2 text-left text-xs font-semibold text-white/80 transition hover:border-sky-400/60 hover:text-white"
+                  >
+                    <div className="flex flex-col text-left">
+                      <span>{option.name}</span>
+                      {optionParentChain ? (
+                        <span className="text-[11px] text-white/40">Deriva de {optionParentChain}</span>
+                      ) : null}
+                    </div>
+                    <span className="text-[11px] text-white/40">{option.estimatedMinutes} min</span>
+                  </button>
+                );
+              })
             )}
           </div>
         </div>
@@ -322,6 +348,31 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
 
   const objectiveMap = useMemo(() => new Map(objectives.map((objective) => [objective.id, objective])), [objectives]);
   const workMap = useMemo(() => new Map(works.map((work) => [work.id, work])), [works]);
+  const workPathById = useMemo(() => {
+    const cache = new Map<string, string>();
+    const buildPath = (workId: string, stack: Set<string>): string => {
+      if (cache.has(workId)) return cache.get(workId)!;
+      const work = workMap.get(workId);
+      if (!work) return '';
+      const parentId = work.parentWorkId;
+      if (!parentId) {
+        cache.set(workId, work.name);
+        return work.name;
+      }
+      if (stack.has(workId)) {
+        cache.set(workId, work.name);
+        return work.name;
+      }
+      stack.add(workId);
+      const parentPath = buildPath(parentId, stack);
+      stack.delete(workId);
+      const path = parentPath ? `${parentPath} · ${work.name}` : work.name;
+      cache.set(workId, path);
+      return path;
+    };
+    works.forEach((work) => buildPath(work.id, new Set()));
+    return cache;
+  }, [works, workMap]);
   const objectiveOptions = useMemo<ObjectiveOption[]>(() => {
     const nameById = new Map(objectives.map((objective) => [objective.id, objective.name]));
     const options: ObjectiveOption[] = objectives.map((objective) => ({ id: objective.id, name: objective.name }));
@@ -348,23 +399,39 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
       map.set(key, list);
     });
     map.forEach((list) => {
-      list.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
+      list.sort((a, b) => {
+        const pathA = workPathById.get(a.id) ?? a.name;
+        const pathB = workPathById.get(b.id) ?? b.name;
+        return pathA.localeCompare(pathB, 'es', { sensitivity: 'base' });
+      });
     });
     return map;
-  }, [works]);
+  }, [works, workPathById]);
 
   const filteredWorks = useMemo(() => {
     if (!query) return works;
     const normalized = query.toLowerCase();
     return works.filter((work) => {
       const objective = objectiveMap.get(work.objectiveId);
+      const path = workPathById.get(work.id) ?? '';
       return (
         work.name.toLowerCase().includes(normalized) ||
         work.descriptionMarkdown.toLowerCase().includes(normalized) ||
-        objective?.name.toLowerCase().includes(normalized)
+        objective?.name.toLowerCase().includes(normalized) ||
+        path.toLowerCase().includes(normalized)
       );
     });
-  }, [works, query, objectiveMap]);
+  }, [works, query, objectiveMap, workPathById]);
+  const getParentChain = useCallback(
+    (workId: string): string => {
+      const path = workPathById.get(workId);
+      if (!path) return '';
+      const segments = path.split(' · ');
+      segments.pop();
+      return segments.join(' · ');
+    },
+    [workPathById]
+  );
 
   const toggleExpanded = (id: string) => {
     setExpandedItems((prev) => {
@@ -479,6 +546,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                         key={work.id}
                         work={work}
                         objective={objectiveMap.get(work.objectiveId)}
+                        parentChain={getParentChain(work.id)}
                         onSelect={handleAddWork}
                       />
                     ))}
@@ -525,6 +593,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                           objectiveOptions={objectiveOptions}
                           worksByObjective={worksByObjective}
                           currentObjectiveId={currentWork?.objectiveId ?? NO_OBJECTIVE_KEY}
+                          workPathById={workPathById}
                         />
                       );
                     });
