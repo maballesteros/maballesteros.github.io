@@ -135,7 +135,9 @@ export default function PlannerView() {
       list.push(session);
       map.set(key, list);
     });
-    map.forEach((list) => list.sort((a, b) => a.title.localeCompare(b.title)));
+    map.forEach((list) =>
+      list.sort((a, b) => (a.title ?? '').localeCompare(b.title ?? '', 'es'))
+    );
     return map;
   }, [sessions]);
 

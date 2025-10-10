@@ -74,7 +74,7 @@ export default function ObjectivesView() {
   }, [works]);
 
   const sortedObjectives = useMemo(
-    () => [...objectives].sort((a, b) => a.name.localeCompare(b.name, 'es')),
+    () => [...objectives].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? '', 'es')),
     [objectives]
   );
 
