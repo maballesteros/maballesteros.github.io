@@ -1,4 +1,5 @@
 export type AttendanceStatus = 'present' | 'absent' | 'pending';
+export type ActualAttendanceStatus = Extract<AttendanceStatus, 'present' | 'absent'>;
 
 export interface Objective {
   id: string;
@@ -35,7 +36,7 @@ export interface SessionWork {
 export interface SessionAttendance {
   assistantId: string;
   status: AttendanceStatus;
-  actualStatus?: AttendanceStatus;
+  actualStatus?: ActualAttendanceStatus;
   notes?: string;
   actualNotes?: string;
 }
