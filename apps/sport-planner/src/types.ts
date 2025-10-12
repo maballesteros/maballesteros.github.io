@@ -13,6 +13,7 @@ export interface Objective {
 export interface Work {
   id: string;
   name: string;
+  subtitle?: string;
   objectiveId: string;
   parentWorkId?: string | null;
   descriptionMarkdown: string;

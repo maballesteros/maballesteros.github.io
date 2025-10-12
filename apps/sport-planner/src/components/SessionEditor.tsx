@@ -35,6 +35,7 @@ interface WorkPickerItemProps {
 }
 
 function WorkPickerItem({ work, objective, parentChain, onSelect }: WorkPickerItemProps) {
+  const subtitle = (work.subtitle ?? '').trim();
   return (
     <button
       type="button"
@@ -43,6 +44,7 @@ function WorkPickerItem({ work, objective, parentChain, onSelect }: WorkPickerIt
     >
       <div>
         <p className="text-sm font-semibold text-white">{work.name}</p>
+        {subtitle ? <p className="text-xs text-white/60">{subtitle}</p> : null}
         <p className="text-xs text-white/50">{work.estimatedMinutes} min</p>
         {parentChain ? (
           <p className="text-[11px] text-white/40">Deriva de {parentChain}</p>
@@ -109,6 +111,7 @@ function SortableWorkRow({
   const hasDetails = hasDescription || hasVideos;
   const workPath = work?.id ? workPathById.get(work.id) ?? work?.name ?? '' : '';
   const parentChain = workPath.split(' · ').slice(0, -1).join(' · ');
+  const workSubtitle = (work?.subtitle ?? '').trim();
 
   const handleFocusChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -187,6 +190,7 @@ function SortableWorkRow({
                   <span className="ml-2 text-sky-300">· {focusDisplay}</span>
                 ) : null}
               </p>
+              {workSubtitle ? <p className="text-sm text-white/70">{workSubtitle}</p> : null}
               {parentChain ? (
                 <p className="text-xs text-white/50">Deriva de {parentChain}</p>
               ) : null}
@@ -270,6 +274,7 @@ function SortableWorkRow({
               availableReplacements.map((option) => {
                 const optionPath = workPathById.get(option.id) ?? option.name;
                 const optionParentChain = optionPath.split(' · ').slice(0, -1).join(' · ');
+                const optionSubtitle = (option.subtitle ?? '').trim();
                 return (
                   <button
                     key={option.id}
@@ -282,6 +287,9 @@ function SortableWorkRow({
                   >
                     <div className="flex flex-col text-left">
                       <span>{option.name}</span>
+                      {optionSubtitle ? (
+                        <span className="text-[11px] text-white/50">{optionSubtitle}</span>
+                      ) : null}
                       {optionParentChain ? (
                         <span className="text-[11px] text-white/40">Deriva de {optionParentChain}</span>
                       ) : null}

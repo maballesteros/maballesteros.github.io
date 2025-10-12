@@ -13,6 +13,7 @@ import { Menu } from '@headlessui/react';
 interface WorkFormState {
   id?: string;
   name: string;
+  subtitle: string;
   objectiveId: string;
   parentWorkId: string;
   descriptionMarkdown: string;
@@ -29,6 +30,7 @@ interface EditingEntry {
 
 const EMPTY_FORM: WorkFormState = {
   name: '',
+  subtitle: '',
   objectiveId: '',
   parentWorkId: '',
   descriptionMarkdown: '',
@@ -81,9 +83,11 @@ function WorkViewCard({
   onDelete
 }: WorkViewCardProps) {
   const trimmedDescription = (work.descriptionMarkdown ?? '').trim();
+  const trimmedSubtitle = (work.subtitle ?? '').trim();
   const trimmedNotes = (work.notes ?? '').trim();
   const videoUrls = work.videoUrls.filter((url) => url.trim().length > 0);
   const hasDescription = trimmedDescription.length > 0;
+  const hasSubtitle = trimmedSubtitle.length > 0;
   const hasNotes = trimmedNotes.length > 0;
   const hasVideos = videoUrls.length > 0;
   const hasDetails = hasDescription || hasNotes || hasVideos;
@@ -132,6 +136,7 @@ function WorkViewCard({
           ) : null}
           <span>
             <h3 className="text-xl font-semibold text-white">{work.name}</h3>
+            {hasSubtitle ? <p className="text-sm text-white/70">{trimmedSubtitle}</p> : null}
             <p className="text-sm text-white/60">{work.estimatedMinutes} minutos</p>
           </span>
         </button>
@@ -287,24 +292,45 @@ function WorkEditCard({
   const currentObjective = objectiveOptions.find((objective) => objective.id === form.objectiveId);
   const currentParent = parentOptions.find((option) => option.id === form.parentWorkId);
   const indentStyle = depth > 0 ? { marginLeft: `${depth * 1.5}rem` } : undefined;
+  const nameInputId = form.id ? `work-name-${form.id}` : undefined;
+  const subtitleInputId = form.id ? `work-subtitle-${form.id}` : undefined;
 
   return (
     <article
       className="space-y-5 rounded-3xl border border-sky-500/40 bg-slate-950/70 p-5 shadow-lg shadow-sky-500/15"
       style={indentStyle}
     >
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div className="space-y-1">
-          <p className="text-xs uppercase tracking-[0.3em] text-white/40">
-            {isNew ? 'Nuevo trabajo' : 'Editando trabajo'}
-          </p>
-          <input
-            type="text"
-            className="input-field text-base font-semibold"
-            placeholder="Nombre descriptivo"
-            value={form.name}
-            onChange={(event) => onFieldChange({ name: event.target.value })}
-          />
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex-1 space-y-3">
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+              {isNew ? 'Nuevo trabajo' : 'Editando trabajo'}
+            </p>
+            <label className="text-xs uppercase tracking-wide text-white/40" htmlFor={nameInputId}>
+              Nombre
+            </label>
+            <input
+              id={nameInputId}
+              type="text"
+              className="input-field w-full text-base font-semibold"
+              placeholder="Nombre descriptivo"
+              value={form.name}
+              onChange={(event) => onFieldChange({ name: event.target.value })}
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs uppercase tracking-wide text-white/40" htmlFor={subtitleInputId}>
+              Subtítulo (opcional)
+            </label>
+            <input
+              id={subtitleInputId}
+              type="text"
+              className="input-field w-full"
+              placeholder="Añade un subtítulo breve"
+              value={form.subtitle}
+              onChange={(event) => onFieldChange({ subtitle: event.target.value })}
+            />
+          </div>
         </div>
         <ObjectiveChip objective={currentObjective} size="sm" />
       </header>
@@ -574,6 +600,7 @@ export default function CatalogView() {
   const matchesSearch = (workData: {
     id?: string;
     name: string;
+    subtitle?: string;
     descriptionMarkdown: string;
     objectiveId: string;
     parentWorkId?: string;
@@ -584,6 +611,7 @@ export default function CatalogView() {
     const selfPath = workData.id ? workPathById.get(workData.id) ?? '' : '';
     return (
       workData.name.toLowerCase().includes(searchTerm) ||
+      (workData.subtitle ?? '').toLowerCase().includes(searchTerm) ||
       workData.descriptionMarkdown.toLowerCase().includes(searchTerm) ||
       objectiveName.toLowerCase().includes(searchTerm) ||
       parentPath.toLowerCase().includes(searchTerm) ||
@@ -613,6 +641,7 @@ export default function CatalogView() {
       const effectiveData = draft?.data ?? {
         id: work.id,
         name: work.name,
+        subtitle: work.subtitle ?? '',
         descriptionMarkdown: work.descriptionMarkdown,
         objectiveId: work.objectiveId,
         parentWorkId: work.parentWorkId ?? ''
@@ -733,6 +762,7 @@ export default function CatalogView() {
           data: {
             id: work.id,
             name: work.name,
+            subtitle: work.subtitle ?? '',
             objectiveId: work.objectiveId,
             parentWorkId: work.parentWorkId ?? '',
             descriptionMarkdown: work.descriptionMarkdown,
@@ -760,6 +790,7 @@ export default function CatalogView() {
         data: {
           ...EMPTY_FORM,
           id: draftId,
+          subtitle: '',
           objectiveId: defaultObjectiveId
         },
         isNew: true
@@ -780,6 +811,7 @@ export default function CatalogView() {
         data: {
           id: draftId,
           name: `${work.name} (copia)`,
+          subtitle: work.subtitle ?? '',
           objectiveId: work.objectiveId,
           parentWorkId: work.parentWorkId ?? '',
           descriptionMarkdown: work.descriptionMarkdown,
@@ -806,6 +838,7 @@ export default function CatalogView() {
         data: {
           ...EMPTY_FORM,
           id: draftId,
+          subtitle: '',
           objectiveId: parent.objectiveId,
           parentWorkId: parent.id,
           estimatedMinutes: parent.estimatedMinutes
@@ -860,6 +893,7 @@ export default function CatalogView() {
 
     const payload = {
       name: entry.data.name.trim(),
+      subtitle: entry.data.subtitle.trim() || undefined,
       objectiveId: entry.data.objectiveId,
       descriptionMarkdown: entry.data.descriptionMarkdown,
       estimatedMinutes: Number(entry.data.estimatedMinutes) || 0,

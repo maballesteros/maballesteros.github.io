@@ -325,6 +325,7 @@ export default function HomeView() {
                 const videoUrls = (work?.videoUrls ?? []).map((url) => url.trim()).filter(Boolean);
                 const hasVideos = videoUrls.length > 0;
                 const showDetailsToggle = hasDescription || hasVideos;
+                const workSubtitle = (work?.subtitle ?? '').trim();
 
                 return (
                   <article
@@ -358,6 +359,7 @@ export default function HomeView() {
                                 <span className="ml-2 text-sky-300">· {focusLabel}</span>
                               ) : null}
                             </p>
+                            {workSubtitle ? <p className="text-sm text-white/70">{workSubtitle}</p> : null}
                             <p className="text-sm text-white/60">
                               <span className="text-xs uppercase tracking-wide text-white/40">{startLabel}</span>
                               <span className="mx-2 text-white/30">·</span>
