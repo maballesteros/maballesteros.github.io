@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter, Routes, Route, NavLink, Navigate, Outlet, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, NavLink, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Dialog } from '@headlessui/react';
 
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,8 +11,6 @@ import ObjectivesView from './pages/ObjectivesView';
 import AssistantsView from './pages/AssistantsView';
 import BackupsView from './pages/BackupsView';
 import LoginView from './pages/LoginView';
-
-const ROUTER_BASENAME = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home' },
@@ -210,7 +208,7 @@ function RequireAuth() {
 
 export default function App() {
   return (
-    <BrowserRouter basename={ROUTER_BASENAME || undefined}>
+    <HashRouter>
       <Routes>
         <Route path="/login" element={<LoginView />} />
         <Route element={<RequireAuth />}>
@@ -225,6 +223,6 @@ export default function App() {
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
