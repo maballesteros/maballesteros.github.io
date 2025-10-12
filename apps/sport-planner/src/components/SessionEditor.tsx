@@ -300,7 +300,7 @@ function SortableWorkRow({
             <div className="grid gap-2">
               <label className="text-xs uppercase tracking-wide text-white/40">Descripción</label>
               <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-3">
-                <MarkdownContent content={descriptionContent} />
+                <MarkdownContent content={descriptionContent} enableWorkLinks />
               </div>
             </div>
           ) : null}

@@ -405,7 +405,7 @@ export default function HomeView() {
                     {showDetailsToggle && isExpanded && (
                       <div className="space-y-3 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
                         {hasDescription ? (
-                          <MarkdownContent content={descriptionContent} />
+                          <MarkdownContent content={descriptionContent} enableWorkLinks />
                         ) : null}
                         {hasVideos ? (
                           <div className="space-y-3">

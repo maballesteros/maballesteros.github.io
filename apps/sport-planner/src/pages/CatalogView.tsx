@@ -1,6 +1,7 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { nanoid } from 'nanoid';
+import { useLocation } from 'react-router-dom';
 
 import { useAppStore } from '@/store/appStore';
 import type { Objective, Work } from '@/types';
@@ -91,6 +92,7 @@ function WorkViewCard({
 
   return (
     <article
+      id={`work-${work.id}`}
       className="group relative space-y-4 rounded-3xl border border-white/10 bg-white/5 p-5 pb-10 shadow shadow-black/30"
       style={indentStyle}
     >
@@ -216,7 +218,7 @@ function WorkViewCard({
       {hasDetails && expanded && (
         <div className="space-y-4 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
           {hasDescription ? (
-            <MarkdownContent content={work.descriptionMarkdown} />
+            <MarkdownContent content={work.descriptionMarkdown} enableWorkLinks />
           ) : null}
           {hasNotes ? (
             <div className="rounded-2xl border border-dashed border-white/15 bg-white/5 p-3 text-sm text-white/70">
@@ -427,6 +429,7 @@ export default function CatalogView() {
   const addWork = useAppStore((state) => state.addWork);
   const updateWork = useAppStore((state) => state.updateWork);
   const deleteWork = useAppStore((state) => state.deleteWork);
+  const location = useLocation();
 
   const [search, setSearch] = useState('');
   const [feedback, setFeedback] = useState<FeedbackMessage | null>(null);
@@ -479,6 +482,44 @@ export default function CatalogView() {
     });
     return cache;
   }, [works, worksById]);
+
+  useEffect(() => {
+    const hash = location.hash;
+    const prefix = '#work-';
+    let workId: string | null = null;
+
+    if (hash.startsWith(prefix)) {
+      workId = hash.slice(prefix.length);
+    }
+
+    if (!workId) {
+      const searchParams = new URLSearchParams(location.search);
+      workId = searchParams.get('workId') ?? searchParams.get('work');
+    }
+
+    if (!workId) return;
+
+    setExpandedWorks((prev) => {
+      if (prev.has(workId)) return prev;
+      const next = new Set(prev);
+      next.add(workId);
+      return next;
+    });
+
+    const element = document.getElementById(`work-${workId}`);
+    if (!element) return;
+
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    element.classList.add('ring-2', 'ring-sky-500/60');
+    const timeout = window.setTimeout(() => {
+      element.classList.remove('ring-2', 'ring-sky-500/60');
+    }, 1500);
+
+    return () => {
+      window.clearTimeout(timeout);
+      element.classList.remove('ring-2', 'ring-sky-500/60');
+    };
+  }, [location.hash, location.search, works]);
   const descendantIdsByWorkId = useMemo(() => {
     const cache = new Map<string, Set<string>>();
     const visit = (workId: string): Set<string> => {
