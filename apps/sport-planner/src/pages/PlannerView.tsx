@@ -76,9 +76,10 @@ function SessionSummaryCard({
       <div className="flex flex-wrap gap-2 text-xs text-white/60">
         {session.workItems.slice(0, 3).map((item) => {
           const work = workMap.get(item.workId);
+          const subtitle = (work?.subtitle ?? '').trim();
           return (
             <span key={item.id} className="rounded-full border border-white/10 px-3 py-1">
-              {work?.name ?? 'Trabajo'}
+              {subtitle ? `${work?.name ?? 'Trabajo'} · ${subtitle}` : work?.name ?? 'Trabajo'}
             </span>
           );
         })}

@@ -35,6 +35,12 @@ const normalizeParentWorkId = (value?: string | null): string | null => {
   return trimmed.length > 0 ? trimmed : null;
 };
 
+const normalizeOptionalText = (value?: string | null): string | undefined => {
+  if (!value) return undefined;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+};
+
 const wouldCreateParentCycle = (works: Work[], workId: string, candidateParentId?: string | null): boolean => {
   if (!candidateParentId) return false;
   if (candidateParentId === workId) return true;
@@ -132,6 +138,7 @@ interface ObjectiveInput {
 
 interface WorkInput {
   name: string;
+  subtitle?: string;
   objectiveId: string;
   parentWorkId?: string | null;
   descriptionMarkdown: string;
@@ -334,6 +341,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       const work: Work = {
         id: nanoid(),
         name: input.name,
+        subtitle: normalizeOptionalText(input.subtitle),
         objectiveId: input.objectiveId,
         parentWorkId,
         descriptionMarkdown: input.descriptionMarkdown,
@@ -355,7 +363,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     set((state) => {
       const works = state.works.map((work) => {
         if (work.id !== id) return work;
-        const { parentWorkId: parentPatch, ...restPatch } = patch;
+        const { parentWorkId: parentPatch, subtitle: subtitlePatch, ...restPatch } = patch;
         let parentWorkId = work.parentWorkId ?? null;
         if (parentPatch !== undefined) {
           const candidate = normalizeParentWorkId(parentPatch);
@@ -371,6 +379,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         return {
           ...work,
           ...restPatch,
+          subtitle: subtitlePatch !== undefined ? normalizeOptionalText(subtitlePatch) : work.subtitle,
           parentWorkId,
           videoUrls: restPatch.videoUrls ?? work.videoUrls,
           estimatedMinutes: restPatch.estimatedMinutes ?? work.estimatedMinutes,
@@ -760,6 +769,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       const legacyParent = (work as unknown as { parent_work_id?: string | null }).parent_work_id;
       return {
         ...work,
+        subtitle: normalizeOptionalText(work.subtitle),
         parentWorkId: normalizeParentWorkId(work.parentWorkId ?? legacyParent ?? null),
         createdAt: work.createdAt ?? now,
         updatedAt: work.updatedAt ?? now,
