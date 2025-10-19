@@ -6,6 +6,7 @@ modified: 2015-11-21
 comments: true
 image:
   feature: 1996-04-01-256000-colores-en-tu-VGA/RPP-header.jpg
+ref: tecnologia-java-1
 ---
 
 <section id="table-of-contents" class="toc">

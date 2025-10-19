@@ -5,6 +5,7 @@ tags: [ia, codex, productividad, programacion]
 date: 2025-07-04
 modified: 2025-07-04
 comments: true
+ref: cambio-paradigma-programacion
 ---
 
 Desde hace un tiempo mi rutina como programador se ha transformado por completo. Antes dedicaba el **90%** de la jornada a escribir código y apenas un **10%** a probar lo construido. Con la irrupción de asistentes como **Codex** o el **Jules** de Google, el panorama es otro.

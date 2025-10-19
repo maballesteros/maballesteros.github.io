@@ -5,6 +5,7 @@ tags: [myjournalgenerator, ai, journaling, react, typescript, gemini]
 date: 2025-06-21
 modified: 2025-06-21
 comments: true
+ref: myjournalgenerator
 ---
 
 Today I released [MyJournalGenerator](/myjournalgenerator/dist/), an AI‑powered web app that helps you craft personalized journals based on selected philosophical traditions, life roles, and central objectives.

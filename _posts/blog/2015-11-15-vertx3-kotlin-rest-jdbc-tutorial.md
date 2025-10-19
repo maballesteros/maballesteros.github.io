@@ -4,6 +4,7 @@ excerpt: "Step by step tutorial to publish an asynchronous REST API that access 
 tags: [vertx, kotlin, rest, jdbc]
 modified: 2015-11-15
 comments: true
+ref: vertx3-kotlin
 ---
 
 <section id="table-of-contents" class="toc">

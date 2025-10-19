@@ -5,9 +5,10 @@ tags: [aprendizaje, personalizacion, ia, metacognicion]
 date: 2025-10-13
 modified: 2025-10-13
 comments: true
+ref: texto-suena-a-mi
 ---
 
-Me pasó con el [artículo de epigenética]({% post_url 2025-10-12-recordar-la-juventud-celular %}): los papers estaban impecables, sí, pero la **versión reescrita en “mi voz”** (generada por IA a partir de mis textos) me resultó *infinitamente* más clara. Mis giros, mi orden, mis conectores. De repente, todo encajaba.
+Me pasó con el [artículo de epigenética]({% post_url blog/2025-10-12-recordar-la-juventud-celular %}): los papers estaban impecables, sí, pero la **versión reescrita en “mi voz”** (generada por IA a partir de mis textos) me resultó *infinitamente* más clara. Mis giros, mi orden, mis conectores. De repente, todo encajaba.
 
 **Hipótesis simple:** si adaptas el **estilo** del material al **estilo del lector**, la comprensión sube. No porque “yo lo haya generado” (no hay *generation effect* aquí), sino porque el texto **encaja** en mis **esquemas**, **suena** a mi cabeza y **se alinea** con cómo yo proceso el lenguaje. Eso tiene base.
 

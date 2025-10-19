@@ -6,6 +6,7 @@ modified: 2014-01-01
 comments: true
 image:
   feature: akamon-sala-trabajo.jpg
+ref: moved-to-akamon
 ---
 
 Today it's an important day for me... I started working for Akamon Entertainment, as a backend engineer. They need a senior Java to stabilize their current game server *Akmuse*.

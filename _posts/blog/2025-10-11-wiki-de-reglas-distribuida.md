@@ -5,13 +5,14 @@ tags: [wiki, logica, ia, prolog, ideas]
 date: 2025-10-11
 modified: 2025-10-11
 comments: true
+ref: wiki-reglas-distribuida
 ---
 
 Desde que empecé a jugar con Prolog a finales de los 90 me ronda la misma obsesión: crear un lugar donde el conocimiento lógico se escriba, se pruebe y se comparta como si fuera código. He llenado libretas, repositorios y maquetas a medias tratando de encapsular esa intuición, una especie de *Wikipedia de reglas* distribuida que nunca terminaba de tomar forma.
 
 La idea sobrevivió porque tenía algo de inasible y precioso. Soñaba con un espacio donde las reglas fueran versionadas, verificables y reutilizables; donde cada navegador pudiera ejecutar inferencias sin depender de un servidor centralizado; donde aprender lógica implicara jugar con ejemplos vivos. Pero cada vez que intentaba plasmarlo chocaba contra el mismo muro: demasiados conceptos mezclados, demasiados puntos ciegos en la arquitectura.
 
-No es la primera vez que escribo sobre ello. En 2013 publiqué el experimento [Plain Knowledge Base](/experiments/plain-kb/), un prototipo minimalista de grafo de conocimiento tejido con archivos de texto y referencias cruzadas con `{{llaves}}`. Más recientemente, en 2024, documenté el tutorial [Create your own IA assistant](/blog/create-your-own-ia-assistant-tutorial/) para construir un “Jarvis” personal que registra hechos y recordatorios en su propia base de conocimiento. Ambas piezas son reflejos parciales de la misma obsesión: capturar conocimiento de forma estructurada y accionable.
+No es la primera vez que escribo sobre ello. En 2013 publiqué el experimento [Plain Knowledge Base](/blog/plain-kb/), un prototipo minimalista de grafo de conocimiento tejido con archivos de texto y referencias cruzadas con `{{llaves}}`. Más recientemente, en 2024, documenté el tutorial [Create your own IA assistant](/blog/create-your-own-ia-assistant-tutorial/) para construir un “Jarvis” personal que registra hechos y recordatorios en su propia base de conocimiento. Ambas piezas son reflejos parciales de la misma obsesión: capturar conocimiento de forma estructurada y accionable.
 
 Este verano cambié de estrategia. En vez de obligarme a escribir otro documento técnico desde cero me apoyé en mi asistente de IA para ir destilando, capa por capa, qué quería realmente construir. A partir de notas de voz, diagramas viejos y referencias dispersas, la IA me devolvió una especificación conceptual limpia: propósito, componentes, principios, ciclo de vida, todo organizado como si fuera un manifiesto de producto. Por fin vi la idea completa, sin el ruido acumulado de veinte años de versiones inconclusas.
 
