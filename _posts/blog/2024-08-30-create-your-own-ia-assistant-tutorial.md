@@ -4,6 +4,7 @@ excerpt: "Tutorial en el que creamos un asistente personal IA, que aprende de t√
 tags: [ia, chatbots]
 modified: 2024-08-30
 comments: true
+ref: create-ia-assistant
 ---
 
 <section id="table-of-contents" class="toc">

@@ -5,6 +5,7 @@ tags: [sport-planner, react, typescript, training, planner]
 date: 2025-10-10
 modified: 2025-10-10
 comments: true
+ref: sport-planner
 ---
 
 Today I released [Sport Planner](/sport-planner/), a client-side SPA to design and run training sessions for martial arts, fitness classes, or any sport where you need a reusable catalog of drills and a responsive schedule you can tweak on the fly.

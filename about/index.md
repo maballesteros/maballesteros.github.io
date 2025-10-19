@@ -127,17 +127,17 @@ Tissat era una empresa de desarrollo y explotación de nuevas tecnologías (Inte
 
 Trabaja como consultor tecnológico y arquitecto Java, participando en proyectos como SERVEF-Actualicación de Currículum, Infoville21 (Comunidades Virtuales en Internet), CASER-PAP (CRM para compañías de seguros). En este periodo, fruto de una marcada creencia en la reutilización y la calidad del software, crea piezas de construcción de alto valor añadido para la compañía (frameworks), que son reaprovechadas después en múltiples proyectos:
 
-  - [WAM (2001, 2002, 2003, 2004): Web Application Maker](/projects/wam/). Framework propietario similar a las actuales JSF, pero creado antes de que naciera Struts. Durante años ha permitido afrontar proyectos con una importantísima ventaja competitiva. Actualmente sustituido por JSF.
+  - [WAM (2001, 2002, 2003, 2004): Web Application Maker](/blog/2001/12/01/wam/). Framework propietario similar a las actuales JSF, pero creado antes de que naciera Struts. Durante años ha permitido afrontar proyectos con una importantísima ventaja competitiva. Actualmente sustituido por JSF.
 
   - DBFramework (2001, 2002): Herramienta de mapeo objeto-relacional, que genera todas las clases Java de acceso a BBDD. Junto con WAM, esta herramienta tuvo un tremendo impacto en los tiempos de desarrollo de nuestros proyectos. La capa de persistencia se genera automáticamente según un patrón de diseño bien estudiado, aportando reducción en tiempo, uniformidad del código, y total ausencia de errores de codificación.
 
-  - [OQL (2001)](/projects/oql-jec): OQL es un evaluador de expresiones a partir de un objeto java raíz, permitiendo navegar en tiempo de ejecución por el grafo de objetos que parten del contexto inicial. WAM utiliza OQL como motor para enlazar sus componentes visuales a los datos de negocio.
+  - [OQL (2001)](/blog/2001/08/01/oql-jec/): OQL es un evaluador de expresiones a partir de un objeto java raíz, permitiendo navegar en tiempo de ejecución por el grafo de objetos que parten del contexto inicial. WAM utiliza OQL como motor para enlazar sus componentes visuales a los datos de negocio.
 
   - Canales (2002): Framework que permite crear aplicaciones web con sólo hojas de transformación XSL y webservices. El objetivo era lograr una herramienta con la que un administrador pudiera componer aplicaciones sencillas a partir de funciones de negocio expuestas como webservices.
 
   - WSF (2002): Web Service Framework. Proyecto metodológico en el que se recopilan las mejores prácticas actuales para el manejo de webservices. Aglutina conocimiento y librerías para abordar cualquier proyecto de integración basada en webservices, con autenticación/autorización, seguridad SSL, y cualquier plataforma (entornos Microsoft, entornos Java, Lotus Domino, Cold Fusion, etc.).
 
-  - [JEC (2003)](/projects/oql-jec): Java Expression Compiler. Sucesor de OQL, evaluador de expresiones de navegación por objetos. Donado a la comunidad Open Source [http://jec.sourceforge.net/](http://jec.sourceforge.net/)
+  - [JEC (2003)](/blog/2001/08/01/oql-jec/): Java Expression Compiler. Sucesor de OQL, evaluador de expresiones de navegación por objetos. Donado a la comunidad Open Source [http://jec.sourceforge.net/](http://jec.sourceforge.net/)
 
 #### Junio 2000 – Junio 2001: Analista/programador Java senior.
 

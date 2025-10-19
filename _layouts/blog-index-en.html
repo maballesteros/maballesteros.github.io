@@ -1,4 +1,4 @@
-{% assign current_lang = page.lang | default: site.default_lang | default: "en" %}
+{% assign current_lang = page.lang | default: "en" %}
 <!doctype html>
 <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{ current_lang }}"> <![endif]-->
 <!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="{{ current_lang }}"><![endif]-->
@@ -36,9 +36,19 @@
   <div id="index">
     <h1>{{ page.title }}</h1>
     {% capture written_year %}'None'{% endcapture %}
-    {% assign blog_posts = site.categories['blog'] | where: "lang", site.default_lang %}
-    {% for post in blog_posts %}  
-      {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
+    {% assign base_posts = site.categories['blog'] | where: "lang", site.default_lang %}
+    {% for base_post in base_posts %}
+      {% assign translation = nil %}
+      {% if base_post.ref %}
+        {% assign candidates = site.posts | where: "ref", base_post.ref %}
+        {% assign translation = candidates | where: "lang", "en" | first %}
+      {% endif %}
+      {% if translation %}
+        {% assign post = translation %}
+      {% else %}
+        {% assign post = base_post %}
+      {% endif %}
+      {% capture year %}{{ base_post.date | date: '%Y' }}{% endcapture %}
       {% if year != written_year %}
         <h3>{{ year }}</h3>
         {% capture written_year %}{{ year }}{% endcapture %}
@@ -47,8 +57,13 @@
         {% if post.link %}
           <h2 class="link-post"><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a> <a href="{{ post.link }}" target="_blank" title="{{ post.title }}"><i class="fa fa-link"></i></a></h2>
         {% else %}
-          <h2>{{post.date | date: '%d/%m'}} - <a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></h2>
-          <p>{{ post.excerpt | strip_html | truncate: 160 }}</p>
+          <h2>{{ post.date | date: '%d/%m' }} - <a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></h2>
+          <p>
+            {{ post.excerpt | strip_html | truncate: 160 }}
+            {% unless translation %}
+              <span class="lang-fallback">(ES)</span>
+            {% endunless %}
+          </p>
         {% endif %}
       </article>
     {% endfor %}

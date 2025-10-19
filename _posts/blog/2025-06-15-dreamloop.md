@@ -5,6 +5,7 @@ tags: [dreamloop, interactive, ai, storytelling, react, typescript, gemini]
 date: 2025-06-15
 modified: 2025-06-20
 comments: true
+ref: dreamloop
 ---
 
 Today I released [DreamLoop](/dreamloop/dist/), an interactive web application designed for teenage readers, where your dream messages shape a personalized 30‑day adventure and guide a hero through choices and growth.

@@ -4,6 +4,7 @@ excerpt: "My first prize... so sweet"
 tags: [akamon]
 modified: 2015-11-19
 comments: true
+ref: rotary-prize
 ---
 
 Today I won the [Rorary Valencia prize on physics](http://www.rotaryvalenciacentro.com/w-actividades/universidad/facultad_fisica/detalles/ediciones_anteriores.html) together my fellow [Francisco Camarena Femenía](http://personales.upv.es/~fracafe/web_Paco_Camarena/Bio.html).

@@ -4,6 +4,7 @@ excerpt: "Lo que sigue es un artículo de opinión, una exploración de ideas so
 tags: [ia, purpose, future]
 modified: 2023-01-01
 comments: true
+ref: crisis-proposito
 ---
 
 > Artículo publicado inicialmente en [Linkedin](https://www.linkedin.com/pulse/la-futura-crisis-de-prop%C3%B3sito-miguel-%C3%A1ngel-ballesteros-velasco/?trackingId=T7%2B7TbGswXREvW32%2BNcjVQ%3D%3D).

@@ -1,8 +1,9 @@
+{% assign current_lang = page.lang | default: site.default_lang | default: "en" %}
 <!doctype html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
-<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{ current_lang }}"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="{{ current_lang }}"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="{{ current_lang }}"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ current_lang }}"><!--<![endif]-->
 <head>
 {% include _head.html %}
 </head>
@@ -35,7 +36,8 @@
   <div id="index">
     <h1>{{ page.title }}</h1>
     {% capture written_year %}'None'{% endcapture %}
-    {% for post in site.posts %}
+    {% assign default_posts = site.posts | where: "lang", site.default_lang %}
+    {% for post in default_posts %}
       {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
       {% if year != written_year %}
         <h3>{{ year }}</h3>

@@ -5,6 +5,7 @@ tags: [epigenetica, longevidad, biotecnologia, ia]
 date: 2025-10-12
 modified: 2025-10-12
 comments: true
+ref: recordar-juventud-celular
 ---
 
 Durante años se pensó que el envejecimiento era simple desgaste. Que el ADN se dañaba, que el óxido hacía su trabajo, y que poco había que hacer más allá de retrasarlo.
