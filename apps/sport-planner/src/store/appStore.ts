@@ -15,6 +15,15 @@ import type {
   BackupSessionAttendance,
   BackupSession
 } from '@/types';
+import {
+  fetchAccessibleWorks,
+  createWork as createWorkRemote,
+  updateWork as updateWorkRemote,
+  deleteWork as deleteWorkRemote,
+  type WorkCreateInput,
+  type WorkUpdateInput,
+  type WorkActionContext
+} from '@/services/workService';
 
 const STORAGE_KEYS = {
   objectives: 'sport-planner-objetivos',
@@ -39,6 +48,57 @@ const normalizeOptionalText = (value?: string | null): string | undefined => {
   if (!value) return undefined;
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : undefined;
+};
+
+const normalizeEmailList = (emails?: Array<string | null | undefined>): string[] =>
+  Array.from(
+    new Set(
+      (emails ?? [])
+        .map((email) => (email ?? '').trim().toLowerCase())
+        .filter((email) => email.length > 0)
+    )
+  );
+
+const ensureWorkDefaults = (input: Partial<Work> & { id: string }): Work => {
+  const now = nowIso();
+  const parentWorkId = normalizeParentWorkId(input.parentWorkId ?? null);
+  const collaboratorsArray = (input.collaborators ?? []).map((item, index) => ({
+    id: item.id ?? `${input.id}-collab-${index}`,
+    email: (item.email ?? '').trim().toLowerCase(),
+    role: item.role ?? 'editor',
+    userId: item.userId ?? null,
+    createdAt: item.createdAt ?? now
+  }));
+
+  const collaboratorEmails = normalizeEmailList([
+    ...(input.collaboratorEmails ?? []),
+    ...collaboratorsArray.map((collaborator) => collaborator.email)
+  ]);
+
+  const videoUrls = Array.isArray(input.videoUrls)
+    ? input.videoUrls.map((url) => (typeof url === 'string' ? url.trim() : '')).filter(Boolean)
+    : [];
+
+  return {
+    id: input.id,
+    name: input.name ?? 'Trabajo sin nombre',
+    subtitle: normalizeOptionalText(input.subtitle),
+    objectiveId: input.objectiveId ?? '',
+    parentWorkId,
+    descriptionMarkdown: input.descriptionMarkdown ?? '',
+    estimatedMinutes: input.estimatedMinutes ?? 0,
+    notes: normalizeOptionalText(input.notes),
+    videoUrls,
+    createdAt: input.createdAt ?? now,
+    updatedAt: input.updatedAt ?? now,
+    visibility: input.visibility ?? 'private',
+    ownerId: input.ownerId ?? 'local-owner',
+    ownerEmail: (input.ownerEmail ?? '').trim().toLowerCase(),
+    collaborators: collaboratorsArray,
+    collaboratorEmails,
+    canEdit: input.canEdit ?? true,
+    isOwner: input.isOwner ?? true
+  };
 };
 
 const wouldCreateParentCycle = (works: Work[], workId: string, candidateParentId?: string | null): boolean => {
@@ -113,10 +173,11 @@ const normalizeCollections = (state: Partial<CollectionsState>): CollectionsStat
   objectives: state.objectives ?? [],
   works: (state.works ?? []).map((work) => {
     const legacyParent = (work as unknown as { parent_work_id?: string | null }).parent_work_id;
-    return {
+    return ensureWorkDefaults({
       ...work,
+      id: (work as { id: string }).id,
       parentWorkId: normalizeParentWorkId(work.parentWorkId ?? legacyParent ?? null)
-    };
+    });
   }),
   sessions: (state.sessions ?? []).map((session) => ({
     ...session,
@@ -136,16 +197,8 @@ interface ObjectiveInput {
   descriptionMarkdown: string;
 }
 
-interface WorkInput {
-  name: string;
-  subtitle?: string;
-  objectiveId: string;
-  parentWorkId?: string | null;
-  descriptionMarkdown: string;
-  estimatedMinutes: number;
-  notes?: string;
-  videoUrls: string[];
-}
+type WorkInput = WorkCreateInput;
+type WorkPatchInput = WorkUpdateInput;
 
 interface SessionInput {
   date: string;
@@ -173,17 +226,20 @@ interface AppState {
   ready: boolean;
   objectives: Objective[];
   works: Work[];
+  worksLoading: boolean;
   sessions: Session[];
   assistants: Assistant[];
   hydrate: () => void;
   setCollections: (payload: CollectionsState) => void;
+  setWorks: (works: Work[]) => void;
+  loadWorks: (context: WorkActionContext) => Promise<void>;
   reset: () => void;
   addObjective: (input: ObjectiveInput) => Objective;
   updateObjective: (id: string, patch: Partial<ObjectiveInput>) => void;
   deleteObjective: (id: string) => boolean;
-  addWork: (input: WorkInput) => Work;
-  updateWork: (id: string, patch: Partial<WorkInput>) => void;
-  deleteWork: (id: string) => boolean;
+  addWork: (input: WorkInput, context: WorkActionContext) => Promise<Work>;
+  updateWork: (id: string, patch: WorkPatchInput, context: WorkActionContext) => Promise<Work>;
+  deleteWork: (id: string, context: WorkActionContext) => Promise<boolean>;
   addSession: (input: SessionInput) => Session;
   duplicateSession: (id: string, date: string) => Session | undefined;
   updateSession: (id: string, patch: Partial<SessionInput>) => void;
@@ -222,6 +278,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   ready: false,
   objectives: [],
   works: [],
+  worksLoading: false,
   sessions: [],
   assistants: [],
   hydrate: () => {
@@ -229,10 +286,11 @@ export const useAppStore = create<AppState>((set, get) => ({
     const objectives = loadCollection<Objective[]>(STORAGE_KEYS.objectives, []);
     const works = loadCollection<Work[]>(STORAGE_KEYS.works, []).map((work) => {
       const legacyParent = (work as unknown as { parent_work_id?: string | null }).parent_work_id;
-      return {
+      return ensureWorkDefaults({
         ...work,
+        id: (work as { id: string }).id,
         parentWorkId: normalizeParentWorkId(work.parentWorkId ?? legacyParent ?? null)
-      };
+      });
     });
     const sessions = loadCollection<Session[]>(STORAGE_KEYS.sessions, []).map((session) => ({
       ...session,
@@ -255,19 +313,102 @@ export const useAppStore = create<AppState>((set, get) => ({
   setCollections: (payload) => {
     set((state) => {
       const normalized = normalizeCollections({
-        objectives: payload.objectives,
-        works: payload.works,
-        sessions: payload.sessions,
-        assistants: payload.assistants
+        objectives: payload.objectives ?? state.objectives,
+        works: payload.works ?? state.works,
+        sessions: payload.sessions ?? state.sessions,
+        assistants: payload.assistants ?? state.assistants
       });
       const merged = {
         ...state,
         ...normalized,
         ready: true
       };
-      persistCollections(merged);
+      persistCollections(normalized);
       return merged;
     });
+  },
+  setWorks: (works) => {
+    const normalized = works.map((work) => ensureWorkDefaults(work));
+    set((state) => {
+      const merged = {
+        ...state,
+        works: normalized
+      };
+      persistCollections({ works: normalized });
+      return merged;
+    });
+  },
+  loadWorks: async (context) => {
+    set({ worksLoading: true });
+    try {
+      const fetched = await fetchAccessibleWorks(context);
+      const normalizedFetched = fetched.map((work) => ensureWorkDefaults(work));
+      const existing = get().works;
+      const remoteIds = new Set(normalizedFetched.map((work) => work.id));
+
+      const legacyCandidates = existing.filter(
+        (work) =>
+          !remoteIds.has(work.id) &&
+          (!work.ownerId || work.ownerId === 'local-owner' || work.ownerId === context.actorId)
+      );
+
+      const migratedWorks: Work[] = [];
+      for (const legacy of legacyCandidates) {
+        try {
+          const migrated = await createWorkRemote(
+            {
+              id: legacy.id,
+              name: legacy.name,
+              subtitle: legacy.subtitle,
+              objectiveId: legacy.objectiveId,
+              parentWorkId: legacy.parentWorkId ?? null,
+              descriptionMarkdown: legacy.descriptionMarkdown,
+              estimatedMinutes: legacy.estimatedMinutes,
+              notes: legacy.notes,
+              videoUrls: legacy.videoUrls,
+              visibility: legacy.visibility ?? 'private',
+              collaboratorEmails: legacy.collaboratorEmails ?? []
+            },
+            context
+          );
+          const normalizedMigrated = ensureWorkDefaults(migrated);
+          migratedWorks.push(normalizedMigrated);
+          remoteIds.add(normalizedMigrated.id);
+        } catch (error) {
+          console.error(`No se pudo migrar el trabajo legacy ${legacy.id}`, error);
+        }
+      }
+
+      const combined = [...normalizedFetched];
+      migratedWorks.forEach((work) => {
+        if (!remoteIds.has(work.id)) {
+          remoteIds.add(work.id);
+          combined.push(work);
+        } else {
+          const index = combined.findIndex((item) => item.id === work.id);
+          if (index >= 0) {
+            combined[index] = work;
+          } else {
+            combined.push(work);
+          }
+        }
+      });
+
+      const normalized = combined
+        .map((work) => ensureWorkDefaults(work))
+        .sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
+
+      set((state) => {
+        const merged = {
+          ...state,
+          works: normalized
+        };
+        persistCollections({ works: normalized });
+        return merged;
+      });
+    } finally {
+      set({ worksLoading: false });
+    }
   },
   reset: () => {
     set((state) => {
@@ -280,7 +421,8 @@ export const useAppStore = create<AppState>((set, get) => ({
       const merged = {
         ...state,
         ...normalized,
-        ready: true
+        ready: true,
+        worksLoading: false
       };
       persistCollections(merged);
       return merged;
@@ -330,79 +472,106 @@ export const useAppStore = create<AppState>((set, get) => ({
     });
     return true;
   },
-  addWork: (input) => {
-    const timestamp = nowIso();
-    let createdWork: Work | null = null;
-    set((state) => {
-      const parentCandidate = normalizeParentWorkId(input.parentWorkId);
-      const parentWorkId = parentCandidate && state.works.some((work) => work.id === parentCandidate)
+  addWork: async (input, context) => {
+    const state = get();
+    const parentCandidate = normalizeParentWorkId(input.parentWorkId);
+    const parentWorkId =
+      parentCandidate && state.works.some((work) => work.id === parentCandidate)
         ? parentCandidate
         : null;
-      const work: Work = {
-        id: nanoid(),
-        name: input.name,
-        subtitle: normalizeOptionalText(input.subtitle),
-        objectiveId: input.objectiveId,
-        parentWorkId,
-        descriptionMarkdown: input.descriptionMarkdown,
-        estimatedMinutes: input.estimatedMinutes,
-        notes: input.notes,
-        videoUrls: input.videoUrls,
-        createdAt: timestamp,
-        updatedAt: timestamp
+
+    const payload: WorkCreateInput = {
+      name: input.name,
+      subtitle: normalizeOptionalText(input.subtitle),
+      objectiveId: input.objectiveId,
+      parentWorkId,
+      descriptionMarkdown: input.descriptionMarkdown,
+      estimatedMinutes: input.estimatedMinutes,
+      notes: normalizeOptionalText(input.notes),
+      videoUrls: (input.videoUrls ?? []).map((url) => url.trim()).filter((url) => url.length > 0),
+      visibility: input.visibility ?? 'private',
+      collaboratorEmails: normalizeEmailList(input.collaboratorEmails ?? [])
+    };
+
+    const created = await createWorkRemote(payload, context);
+    const normalized = ensureWorkDefaults(created);
+
+    set((prev) => {
+      const works = [...prev.works.filter((work) => work.id !== normalized.id), normalized];
+      persistCollections({ works });
+      return {
+        ...prev,
+        works
       };
-      createdWork = work;
-      const works = [...state.works, work];
-      const merged = { ...state, works };
-      persistCollections(merged);
-      return merged;
     });
-    return createdWork!;
+
+    return normalized;
   },
-  updateWork: (id, patch) => {
-    set((state) => {
-      const works = state.works.map((work) => {
-        if (work.id !== id) return work;
-        const { parentWorkId: parentPatch, subtitle: subtitlePatch, ...restPatch } = patch;
-        let parentWorkId = work.parentWorkId ?? null;
-        if (parentPatch !== undefined) {
-          const candidate = normalizeParentWorkId(parentPatch);
-          if (
-            candidate &&
-            (!state.works.some((item) => item.id === candidate) || wouldCreateParentCycle(state.works, id, candidate))
-          ) {
-            parentWorkId = null;
-          } else {
-            parentWorkId = candidate;
-          }
-        }
-        return {
-          ...work,
-          ...restPatch,
-          subtitle: subtitlePatch !== undefined ? normalizeOptionalText(subtitlePatch) : work.subtitle,
-          parentWorkId,
-          videoUrls: restPatch.videoUrls ?? work.videoUrls,
-          estimatedMinutes: restPatch.estimatedMinutes ?? work.estimatedMinutes,
-          updatedAt: nowIso()
-        };
-      });
-      const merged = { ...state, works };
-      persistCollections(merged);
-      return merged;
+  updateWork: async (id, patch, context) => {
+    const state = get();
+    const currentWork = state.works.find((work) => work.id === id);
+    if (!currentWork) {
+      throw new Error('Trabajo no encontrado');
+    }
+
+    let parentWorkId = currentWork.parentWorkId ?? null;
+    if (patch.parentWorkId !== undefined) {
+      const candidate = normalizeParentWorkId(patch.parentWorkId);
+      if (
+        candidate &&
+        (!state.works.some((item) => item.id === candidate) ||
+          wouldCreateParentCycle(state.works, id, candidate))
+      ) {
+        parentWorkId = null;
+      } else {
+        parentWorkId = candidate;
+      }
+    }
+
+    const payload: WorkUpdateInput = {
+      ...patch,
+      subtitle: patch.subtitle !== undefined ? normalizeOptionalText(patch.subtitle) ?? null : undefined,
+      parentWorkId,
+      notes: patch.notes !== undefined ? normalizeOptionalText(patch.notes) ?? null : undefined,
+      videoUrls: patch.videoUrls
+        ? patch.videoUrls.map((url) => url.trim()).filter((url) => url.length > 0)
+        : undefined,
+      collaboratorEmails: patch.collaboratorEmails
+        ? normalizeEmailList(patch.collaboratorEmails)
+        : undefined
+    };
+
+    const updated = await updateWorkRemote(id, payload, context);
+    const normalized = ensureWorkDefaults(updated);
+
+    set((prev) => {
+      const works = prev.works.map((work) => (work.id === normalized.id ? normalized : work));
+      persistCollections({ works });
+      return {
+        ...prev,
+        works
+      };
     });
+
+    return normalized;
   },
-  deleteWork: (id) => {
+  deleteWork: async (id, _context) => {
     const isInSession = get().sessions.some((session) =>
       session.workItems.some((item) => item.workId === id)
     );
     if (isInSession) return false;
     const hasChildren = get().works.some((work) => work.parentWorkId === id);
     if (hasChildren) return false;
+
+    await deleteWorkRemote(id);
+
     set((state) => {
       const works = state.works.filter((work) => work.id !== id);
-      const merged = { ...state, works };
-      persistCollections(merged);
-      return merged;
+      persistCollections({ works });
+      return {
+        ...state,
+        works
+      };
     });
     return true;
   },
