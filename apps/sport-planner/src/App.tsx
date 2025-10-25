@@ -4,6 +4,7 @@ import { Dialog } from '@headlessui/react';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useSupabaseSync } from '@/hooks/useSupabaseSync';
+import { useCollaborativeWorks } from '@/hooks/useCollaborativeWorks';
 import HomeView from './pages/HomeView';
 import PlannerView from './pages/PlannerView';
 import CatalogView from './pages/CatalogView';
@@ -169,6 +170,7 @@ function AppHeader() {
 
 function AppLayout() {
   useSupabaseSync();
+  useCollaborativeWorks();
 
   return (
     <div className="min-h-screen pb-16">

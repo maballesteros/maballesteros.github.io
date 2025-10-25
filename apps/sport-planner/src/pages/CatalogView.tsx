@@ -4,11 +4,13 @@ import { nanoid } from 'nanoid';
 import { useLocation } from 'react-router-dom';
 
 import { useAppStore } from '@/store/appStore';
-import type { Objective, Work } from '@/types';
+import type { Objective, Work, WorkVisibility } from '@/types';
+import type { WorkUpdateInput } from '@/services/workService';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { ObjectiveChip } from '@/components/ObjectiveChip';
 import { YouTubePreview } from '@/components/YouTubePreview';
 import { Menu } from '@headlessui/react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface WorkFormState {
   id?: string;
@@ -20,6 +22,8 @@ interface WorkFormState {
   estimatedMinutes: number;
   notes: string;
   videoUrls: string[];
+  visibility: WorkVisibility;
+  collaborators: string[];
 }
 
 interface EditingEntry {
@@ -36,7 +40,9 @@ const EMPTY_FORM: WorkFormState = {
   descriptionMarkdown: '',
   estimatedMinutes: 10,
   notes: '',
-  videoUrls: ['']
+  videoUrls: [''],
+  visibility: 'private',
+  collaborators: ['']
 };
 
 interface FeedbackMessage {
@@ -56,6 +62,20 @@ interface WorkEntry {
 }
 
 const NO_OBJECTIVE_KEY = '__no_objective__';
+
+const VISIBILITY_LABELS: Record<WorkVisibility, string> = {
+  private: 'Privado',
+  shared: 'Compartido',
+  public: 'Público'
+};
+
+const VISIBILITY_DESCRIPTIONS: Record<WorkVisibility, string> = {
+  private: 'Solo tú puedes ver y editar este trabajo.',
+  shared: 'Solo las personas que añadas pueden editarlo contigo.',
+  public: 'Cualquier persona con acceso al catálogo puede verlo. Solo tus editores pueden cambiarlo.'
+};
+
+const MAX_COLLABORATORS = 5;
 
 interface WorkViewCardProps {
   work: Work;
@@ -93,6 +113,12 @@ function WorkViewCard({
   const hasDetails = hasDescription || hasNotes || hasVideos;
   const hasChildren = childCount > 0;
   const indentStyle = depth > 0 ? { marginLeft: `${depth * 1.5}rem` } : undefined;
+  const visibility = work.visibility ?? 'private';
+  const visibilityLabel = VISIBILITY_LABELS[visibility];
+  const collaboratorCount = work.collaboratorEmails?.length ?? 0;
+  const canEdit = work.canEdit ?? false;
+  const isOwner = work.isOwner ?? false;
+  const ownerEmail = (work.ownerEmail ?? '').trim();
 
   return (
     <article
@@ -138,6 +164,22 @@ function WorkViewCard({
             <h3 className="text-xl font-semibold text-white">{work.name}</h3>
             {hasSubtitle ? <p className="text-sm text-white/70">{trimmedSubtitle}</p> : null}
             <p className="text-sm text-white/60">{work.estimatedMinutes} minutos</p>
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wide text-white/40">
+              <span className="rounded-full border border-white/20 px-2 py-0.5 text-[10px] font-semibold text-white/70">
+                {visibilityLabel}
+              </span>
+              {isOwner ? (
+                <span>Propietario</span>
+              ) : ownerEmail ? (
+                <span>{ownerEmail}</span>
+              ) : null}
+              {collaboratorCount > 0 ? (
+                <span>
+                  +{collaboratorCount} colaborador{collaboratorCount === 1 ? '' : 'es'}
+                </span>
+              ) : null}
+              {!canEdit ? <span className="text-amber-300/80">Solo lectura</span> : null}
+            </div>
           </span>
         </button>
         <div className="flex flex-wrap items-center gap-2 sm:justify-end">
@@ -164,10 +206,11 @@ function WorkViewCard({
                 {({ active }) => (
                   <button
                     type="button"
-                    onClick={onEdit}
+                    onClick={canEdit ? onEdit : undefined}
+                    disabled={!canEdit}
                     className={clsx(
-                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left',
-                      active ? 'bg-white/10 text-white' : 'text-white/70'
+                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left disabled:opacity-40',
+                      active && canEdit ? 'bg-white/10 text-white' : 'text-white/70'
                     )}
                   >
                     Editar
@@ -178,10 +221,11 @@ function WorkViewCard({
                 {({ active }) => (
                   <button
                     type="button"
-                    onClick={onDuplicate}
+                    onClick={canEdit ? onDuplicate : undefined}
+                    disabled={!canEdit}
                     className={clsx(
-                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left',
-                      active ? 'bg-white/10 text-white' : 'text-white/70'
+                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left disabled:opacity-40',
+                      active && canEdit ? 'bg-white/10 text-white' : 'text-white/70'
                     )}
                   >
                     Duplicar
@@ -192,10 +236,11 @@ function WorkViewCard({
                 {({ active }) => (
                   <button
                     type="button"
-                    onClick={onCreateChild}
+                    onClick={canEdit ? onCreateChild : undefined}
+                    disabled={!canEdit}
                     className={clsx(
-                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left',
-                      active ? 'bg-white/10 text-white' : 'text-white/70'
+                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left disabled:opacity-40',
+                      active && canEdit ? 'bg-white/10 text-white' : 'text-white/70'
                     )}
                   >
                     Nuevo hijo
@@ -206,10 +251,11 @@ function WorkViewCard({
                 {({ active }) => (
                   <button
                     type="button"
-                    onClick={onDelete}
+                    onClick={isOwner ? onDelete : undefined}
+                    disabled={!isOwner}
                     className={clsx(
-                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left',
-                      active ? 'bg-rose-500/20 text-rose-100' : 'text-rose-300'
+                      'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left disabled:opacity-40',
+                      active && isOwner ? 'bg-rose-500/20 text-rose-100' : 'text-rose-300'
                     )}
                   >
                     Eliminar
@@ -251,9 +297,19 @@ function WorkViewCard({
       )}
       <button
         type="button"
-        onClick={onCreateChild}
-        className="absolute bottom-0 left-1/2 flex -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-full border border-dashed border-white/20 bg-slate-950/80 px-4 py-2 text-sm font-semibold text-white/80 opacity-0 transition hover:border-white/40 hover:text-white focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto focus-visible:pointer-events-auto"
-        title={hasChildren ? 'Añadir trabajo hijo' : 'Crear primer trabajo hijo'}
+        onClick={canEdit ? onCreateChild : undefined}
+        disabled={!canEdit}
+        className={clsx(
+          'absolute bottom-0 left-1/2 flex -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-full border border-dashed border-white/20 bg-slate-950/80 px-4 py-2 text-sm font-semibold text-white/80 opacity-0 transition hover:border-white/40 hover:text-white focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto focus-visible:pointer-events-auto',
+          !canEdit && 'opacity-30'
+        )}
+        title={
+          canEdit
+            ? hasChildren
+              ? 'Añadir trabajo hijo'
+              : 'Crear primer trabajo hijo'
+            : 'No tienes permisos para crear trabajos hijos'
+        }
         aria-label="Crear trabajo hijo"
       >
         +
@@ -271,9 +327,17 @@ interface WorkEditCardProps {
   onVideoChange: (index: number, value: string) => void;
   onAddVideo: () => void;
   onRemoveVideo: (index: number) => void;
+  onCollaboratorChange: (index: number, value: string) => void;
+  onAddCollaborator: () => void;
+  onRemoveCollaborator: (index: number) => void;
   onSave: () => void;
   onCancel: () => void;
   isNew: boolean;
+  canEditContent: boolean;
+  canManageSharing: boolean;
+  isSaving: boolean;
+  isOwner: boolean;
+  ownerEmail?: string;
 }
 
 function WorkEditCard({
@@ -285,9 +349,17 @@ function WorkEditCard({
   onVideoChange,
   onAddVideo,
   onRemoveVideo,
+  onCollaboratorChange,
+  onAddCollaborator,
+  onRemoveCollaborator,
   onSave,
   onCancel,
-  isNew
+  isNew,
+  canEditContent,
+  canManageSharing,
+  isSaving,
+  isOwner,
+  ownerEmail
 }: WorkEditCardProps) {
   const currentObjective = objectiveOptions.find((objective) => objective.id === form.objectiveId);
   const currentParent = parentOptions.find((option) => option.id === form.parentWorkId);
@@ -312,10 +384,11 @@ function WorkEditCard({
             <input
               id={nameInputId}
               type="text"
-              className="input-field w-full text-base font-semibold"
+              className="input-field w-full text-base font-semibold disabled:opacity-60"
               placeholder="Nombre descriptivo"
               value={form.name}
               onChange={(event) => onFieldChange({ name: event.target.value })}
+              disabled={!canEditContent}
             />
           </div>
           <div className="space-y-1">
@@ -325,23 +398,32 @@ function WorkEditCard({
             <input
               id={subtitleInputId}
               type="text"
-              className="input-field w-full"
+              className="input-field w-full disabled:opacity-60"
               placeholder="Añade un subtítulo breve"
               value={form.subtitle}
               onChange={(event) => onFieldChange({ subtitle: event.target.value })}
+              disabled={!canEditContent}
             />
           </div>
         </div>
         <ObjectiveChip objective={currentObjective} size="sm" />
       </header>
 
+      {!canEditContent ? (
+        <div className="rounded-2xl border border-amber-400/40 bg-amber-500/10 p-3 text-xs text-amber-200">
+          No tienes permisos para editar el contenido de este trabajo. Puedes revisar la información
+          y sugerir cambios al propietario.
+        </div>
+      ) : null}
+
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="grid gap-2">
           <label className="text-xs uppercase tracking-wide text-white/40">Objetivo</label>
           <select
-            className="input-field"
+            className="input-field disabled:opacity-60"
             value={form.objectiveId}
             onChange={(event) => onFieldChange({ objectiveId: event.target.value })}
+            disabled={!canEditContent}
           >
             <option value="">Selecciona un objetivo</option>
             {objectiveOptions.map((objective) => (
@@ -354,9 +436,10 @@ function WorkEditCard({
         <div className="grid gap-2">
           <label className="text-xs uppercase tracking-wide text-white/40">Trabajo padre (opcional)</label>
           <select
-            className="input-field"
+            className="input-field disabled:opacity-60"
             value={form.parentWorkId}
             onChange={(event) => onFieldChange({ parentWorkId: event.target.value })}
+            disabled={!canEditContent}
           >
             <option value="">Sin trabajo padre</option>
             {parentOptions.map((option) => (
@@ -374,29 +457,113 @@ function WorkEditCard({
           <input
             type="number"
             min={0}
-            className="input-field"
+            className="input-field disabled:opacity-60"
             value={form.estimatedMinutes}
             onChange={(event) => onFieldChange({ estimatedMinutes: Number(event.target.value) })}
+            disabled={!canEditContent}
           />
         </div>
       </div>
 
+      <section className="space-y-3 rounded-3xl border border-white/10 bg-white/5 p-4">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-wide text-white/40">Visibilidad</p>
+            <p className="text-sm text-white/60">
+              {isOwner ? 'Eres el propietario de este trabajo.' : ownerEmail ? `Propietario: ${ownerEmail}` : ''}
+            </p>
+          </div>
+          {!canManageSharing ? (
+            <p className="text-xs text-amber-300/80">
+              Solo el propietario puede cambiar la visibilidad o los colaboradores.
+            </p>
+          ) : null}
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+          {(['private', 'shared', 'public'] as WorkVisibility[]).map((option) => (
+            <label
+              key={option}
+              className={clsx(
+                'inline-flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm transition',
+                form.visibility === option
+                  ? 'border-sky-400/80 bg-sky-400/10 text-white'
+                  : 'border-white/15 text-white/70 hover:border-white/30 hover:text-white',
+                !canManageSharing && 'opacity-50'
+              )}
+            >
+              <input
+                type="radio"
+                className="accent-sky-400"
+                checked={form.visibility === option}
+                onChange={() => onFieldChange({ visibility: option })}
+                disabled={!canManageSharing}
+              />
+              {VISIBILITY_LABELS[option]}
+            </label>
+          ))}
+        </div>
+        <p className="text-xs text-white/50">{VISIBILITY_DESCRIPTIONS[form.visibility]}</p>
+        {form.visibility === 'private' ? null : (
+          <div className="space-y-2 rounded-2xl border border-white/10 bg-white/5 p-3">
+            <p className="text-xs uppercase tracking-wide text-white/40">Colaboradores (edición)</p>
+            <p className="text-xs text-white/50">
+              Añade hasta 5 direcciones de correo. Tendrán permisos de edición completos.
+            </p>
+            <div className="space-y-2">
+              {form.collaborators.map((email, index) => (
+                <div key={`collaborator-${index}`} className="flex items-center gap-2">
+                  <input
+                    type="email"
+                    className="input-field flex-1 disabled:opacity-60"
+                    placeholder="colega@ejemplo.com"
+                    value={email}
+                    onChange={(event) => onCollaboratorChange(index, event.target.value)}
+                    disabled={!canManageSharing}
+                  />
+                  {form.collaborators.length > 1 ? (
+                    <button
+                      type="button"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-rose-500/40 text-rose-300 transition hover:border-rose-400 hover:text-rose-200 disabled:opacity-40"
+                      onClick={() => onRemoveCollaborator(index)}
+                      aria-label="Eliminar colaborador"
+                      disabled={!canManageSharing}
+                    >
+                      ✕
+                    </button>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              className="btn-secondary px-3 py-1 text-xs disabled:opacity-40"
+              onClick={onAddCollaborator}
+              disabled={!canManageSharing || form.collaborators.length >= MAX_COLLABORATORS}
+            >
+              + Añadir colaborador
+            </button>
+          </div>
+        )}
+      </section>
+
       <div className="grid gap-2">
         <label className="text-xs uppercase tracking-wide text-white/40">Descripción (Markdown)</label>
         <textarea
-          className="input-field min-h-[140px]"
+          className="input-field min-h-[140px] disabled:opacity-60"
           value={form.descriptionMarkdown}
           onChange={(event) => onFieldChange({ descriptionMarkdown: event.target.value })}
           placeholder="Usa formato markdown para resaltar puntos importantes."
+          disabled={!canEditContent}
         />
       </div>
 
       <div className="grid gap-2">
         <label className="text-xs uppercase tracking-wide text-white/40">Notas opcionales</label>
         <textarea
-          className="input-field min-h-[100px]"
+          className="input-field min-h-[100px] disabled:opacity-60"
           value={form.notes}
           onChange={(event) => onFieldChange({ notes: event.target.value })}
+          disabled={!canEditContent}
         />
       </div>
 
@@ -408,10 +575,11 @@ function WorkEditCard({
               <div className="flex items-center gap-2">
                 <input
                   type="url"
-                  className="input-field flex-1"
+                  className="input-field flex-1 disabled:opacity-60"
                   value={url}
                   onChange={(event) => onVideoChange(index, event.target.value)}
                   placeholder="https://www.youtube.com/watch?v=..."
+                  disabled={!canEditContent}
                 />
                 {form.videoUrls.length > 1 ? (
                   <button
@@ -419,6 +587,7 @@ function WorkEditCard({
                     className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-rose-500/40 text-rose-300 transition hover:border-rose-400 hover:text-rose-200"
                     onClick={() => onRemoveVideo(index)}
                     aria-label="Eliminar enlace de vídeo"
+                    disabled={!canEditContent}
                   >
                     ✕
                   </button>
@@ -428,7 +597,12 @@ function WorkEditCard({
             </div>
           ))}
         </div>
-        <button type="button" className="btn-secondary px-3 py-1 text-xs" onClick={onAddVideo}>
+        <button
+          type="button"
+          className="btn-secondary px-3 py-1 text-xs disabled:opacity-50"
+          onClick={onAddVideo}
+          disabled={!canEditContent}
+        >
           + Añadir vídeo
         </button>
       </div>
@@ -437,11 +611,17 @@ function WorkEditCard({
         <button
           type="button"
           onClick={onSave}
-          className="btn-primary"
+          className="btn-primary disabled:opacity-60"
+          disabled={isSaving}
         >
-          Guardar
+          {isSaving ? 'Guardando…' : 'Guardar'}
         </button>
-        <button type="button" className="btn-secondary" onClick={onCancel}>
+        <button
+          type="button"
+          className="btn-secondary disabled:opacity-50"
+          onClick={onCancel}
+          disabled={isSaving}
+        >
           Cancelar
         </button>
       </div>
@@ -455,12 +635,26 @@ export default function CatalogView() {
   const addWork = useAppStore((state) => state.addWork);
   const updateWork = useAppStore((state) => state.updateWork);
   const deleteWork = useAppStore((state) => state.deleteWork);
+  const worksLoading = useAppStore((state) => state.worksLoading);
   const location = useLocation();
+  const { user } = useAuth();
+
+  const actorContext = useMemo(
+    () =>
+      user
+        ? {
+            actorId: user.id,
+            actorEmail: user.email ?? ''
+          }
+        : null,
+    [user]
+  );
 
   const [search, setSearch] = useState('');
   const [feedback, setFeedback] = useState<FeedbackMessage | null>(null);
   const [expandedWorks, setExpandedWorks] = useState<Set<string>>(new Set());
   const [editingEntries, setEditingEntries] = useState<Record<string, EditingEntry>>({});
+  const [savingWorkId, setSavingWorkId] = useState<string | null>(null);
 
   const objectiveMap = useMemo(() => new Map(objectives.map((objective) => [objective.id, objective])), [objectives]);
   const sortedObjectives = useMemo(
@@ -752,6 +946,8 @@ export default function CatalogView() {
   };
 
   const ensureVideoField = (videoUrls: string[]) => (videoUrls.length > 0 ? videoUrls : ['']);
+  const ensureCollaboratorField = (collaborators: string[]) =>
+    collaborators.length > 0 ? collaborators : [''];
 
   const startEditingWork = (work: Work) => {
     setEditingEntries((prev) => {
@@ -768,7 +964,9 @@ export default function CatalogView() {
             descriptionMarkdown: work.descriptionMarkdown,
             estimatedMinutes: work.estimatedMinutes,
             notes: work.notes ?? '',
-            videoUrls: ensureVideoField(work.videoUrls.slice())
+            videoUrls: ensureVideoField(work.videoUrls.slice()),
+            visibility: work.visibility ?? 'private',
+            collaborators: ensureCollaboratorField(work.collaboratorEmails ?? [])
           },
           isNew: false,
           originalId: work.id
@@ -817,7 +1015,9 @@ export default function CatalogView() {
           descriptionMarkdown: work.descriptionMarkdown,
           estimatedMinutes: work.estimatedMinutes,
           notes: work.notes ?? '',
-          videoUrls: ensureVideoField(work.videoUrls.slice())
+          videoUrls: ensureVideoField(work.videoUrls.slice()),
+          visibility: 'private',
+          collaborators: ['']
         },
         isNew: true
       }
@@ -841,7 +1041,9 @@ export default function CatalogView() {
           subtitle: '',
           objectiveId: parent.objectiveId,
           parentWorkId: parent.id,
-          estimatedMinutes: parent.estimatedMinutes
+          estimatedMinutes: parent.estimatedMinutes,
+          visibility: parent.visibility ?? 'private',
+          collaborators: ['']
         },
         isNew: true
       }
@@ -884,9 +1086,15 @@ export default function CatalogView() {
     }
   };
 
-  const handleSave = (id: string) => {
+  const handleSave = async (id: string) => {
     const entry = editingEntries[id];
     if (!entry) return;
+    if (savingWorkId) return;
+
+    if (!actorContext) {
+      setFeedback({ type: 'error', text: 'Inicia sesión para guardar este trabajo.' });
+      return;
+    }
 
     const parentValue = (entry.data.parentWorkId ?? '').trim();
     const parentWorkId = parentValue.length > 0 ? parentValue : undefined;
@@ -899,7 +1107,15 @@ export default function CatalogView() {
       estimatedMinutes: Number(entry.data.estimatedMinutes) || 0,
       notes: entry.data.notes.trim() || undefined,
       videoUrls: entry.data.videoUrls.map((url) => url.trim()).filter(Boolean),
-      parentWorkId
+      parentWorkId,
+      visibility: entry.data.visibility,
+      collaboratorEmails: Array.from(
+        new Set(
+          entry.data.collaborators
+            .map((email) => email.trim().toLowerCase())
+            .filter((email) => email.length > 0)
+        )
+      )
     };
 
     if (!payload.name) {
@@ -924,8 +1140,87 @@ export default function CatalogView() {
       }
     }
 
-    if (entry.isNew) {
-      const newWork = addWork(payload);
+    const currentWork = entry.originalId ? worksById.get(entry.originalId) : undefined;
+    const canManageSharing = entry.isNew || (currentWork?.isOwner ?? false);
+
+    setSavingWorkId(id);
+    try {
+      if (entry.isNew) {
+        const createdWork = await addWork(
+          {
+            name: payload.name,
+            subtitle: payload.subtitle,
+            objectiveId: payload.objectiveId,
+            parentWorkId: payload.parentWorkId,
+            descriptionMarkdown: payload.descriptionMarkdown,
+            estimatedMinutes: payload.estimatedMinutes,
+            notes: payload.notes,
+            videoUrls: payload.videoUrls,
+            visibility: payload.visibility,
+            collaboratorEmails: payload.collaboratorEmails
+          },
+          actorContext
+        );
+        setFeedback({ type: 'success', text: 'Trabajo creado correctamente.' });
+        setExpandedWorks((prev) => {
+          const next = new Set(prev);
+          next.delete(id);
+          next.add(createdWork.id);
+          return next;
+        });
+      } else if (entry.originalId) {
+        const patch: WorkUpdateInput = {
+          name: payload.name,
+          subtitle: payload.subtitle ?? null,
+          objectiveId: payload.objectiveId,
+          parentWorkId: payload.parentWorkId ?? null,
+          descriptionMarkdown: payload.descriptionMarkdown,
+          estimatedMinutes: payload.estimatedMinutes,
+          notes: payload.notes ?? null,
+          videoUrls: payload.videoUrls
+        };
+        if (canManageSharing) {
+          patch.visibility = payload.visibility;
+          patch.collaboratorEmails = payload.collaboratorEmails;
+        }
+        await updateWork(entry.originalId, patch, actorContext);
+        setFeedback({ type: 'success', text: 'Trabajo actualizado.' });
+      }
+
+      setEditingEntries((prev) => {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
+    } catch (error) {
+      console.error('No se pudo guardar el trabajo', error);
+      setFeedback({
+        type: 'error',
+        text: 'No se han podido guardar los cambios. Comprueba tus permisos e inténtalo de nuevo.'
+      });
+    } finally {
+      setSavingWorkId(null);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!actorContext) {
+      setFeedback({ type: 'error', text: 'Inicia sesión para eliminar trabajos.' });
+      return;
+    }
+    const hasDescendants = (descendantIdsByWorkId.get(id)?.size ?? 0) > 0;
+    try {
+      const ok = await deleteWork(id, actorContext);
+      if (!ok) {
+        setFeedback({
+          type: 'error',
+          text: hasDescendants
+            ? 'No se puede eliminar porque tiene trabajos hijos.'
+            : 'No se puede eliminar porque está siendo usado en alguna sesión.'
+        });
+        return;
+      }
+      setFeedback({ type: 'success', text: 'Trabajo eliminado.' });
       setEditingEntries((prev) => {
         const next = { ...prev };
         delete next[id];
@@ -933,46 +1228,16 @@ export default function CatalogView() {
       });
       setExpandedWorks((prev) => {
         const next = new Set(prev);
-        if (next.delete(id)) {
-          next.add(newWork.id);
-        }
+        next.delete(id);
         return next;
       });
-      setFeedback({ type: 'success', text: 'Trabajo creado correctamente.' });
-    } else if (entry.originalId) {
-      updateWork(entry.originalId, payload);
-      setEditingEntries((prev) => {
-        const next = { ...prev };
-        delete next[id];
-        return next;
-      });
-      setFeedback({ type: 'success', text: 'Trabajo actualizado.' });
-    }
-  };
-
-  const handleDelete = (id: string) => {
-    const hasDescendants = (descendantIdsByWorkId.get(id)?.size ?? 0) > 0;
-    const ok = deleteWork(id);
-    if (!ok) {
+    } catch (error) {
+      console.error('No se pudo eliminar el trabajo', error);
       setFeedback({
         type: 'error',
-        text: hasDescendants
-          ? 'No se puede eliminar porque tiene trabajos hijos.'
-          : 'No se puede eliminar porque está siendo usado en alguna sesión.'
+        text: 'No tienes permisos para eliminar este trabajo o se ha producido un error.'
       });
-      return;
     }
-    setFeedback({ type: 'success', text: 'Trabajo eliminado.' });
-    setEditingEntries((prev) => {
-      const next = { ...prev };
-      delete next[id];
-      return next;
-    });
-    setExpandedWorks((prev) => {
-      const next = new Set(prev);
-      next.delete(id);
-      return next;
-    });
   };
 
   return (
@@ -996,6 +1261,9 @@ export default function CatalogView() {
             <button type="button" className="btn-primary" onClick={startNewWork}>
               Nuevo trabajo
             </button>
+            {worksLoading ? (
+              <span className="text-xs text-white/60 sm:ml-3">Sincronizando trabajos…</span>
+            ) : null}
           </div>
         </div>
         {feedback && (
@@ -1014,9 +1282,13 @@ export default function CatalogView() {
 
       <section className="space-y-6">
         {groupedEntries.length === 0 ? (
-          <div className="glass-panel p-10 text-center text-white/50">
-            Aún no hay trabajos guardados. Empieza creando uno con el botón «Nuevo trabajo».
-          </div>
+          worksLoading ? (
+            <div className="glass-panel p-10 text-center text-white/60">Sincronizando trabajos…</div>
+          ) : (
+            <div className="glass-panel p-10 text-center text-white/50">
+              Aún no hay trabajos guardados. Empieza creando uno con el botón «Nuevo trabajo».
+            </div>
+          )
         ) : (
           groupedEntries.map(({ objective, items }) => {
             const groupTitle = objective ? objective.name : 'Sin objetivo asignado';
@@ -1042,6 +1314,9 @@ export default function CatalogView() {
                     const childWorks = entry.work ? childrenByWorkId.get(entry.work.id) ?? [] : [];
                     const childCount = childWorks.length;
                     if (entry.isEditing && entry.form) {
+                      const canEditContent = entry.isNew || (entry.work?.canEdit ?? false);
+                      const canManageSharing = entry.isNew || (entry.work?.isOwner ?? false);
+                      const isOwner = entry.isNew || (entry.work?.isOwner ?? false);
                       return (
                         <WorkEditCard
                           key={entry.id}
@@ -1060,6 +1335,9 @@ export default function CatalogView() {
                                 if (parent) {
                                   nextData.objectiveId = parent.objectiveId;
                                 }
+                              }
+                              if (patch.visibility === 'private') {
+                                nextData.collaborators = [''];
                               }
                               return {
                                 ...prev,
@@ -1102,9 +1380,57 @@ export default function CatalogView() {
                               };
                             })
                           }
-                          onSave={() => handleSave(entry.id)}
+                          onCollaboratorChange={(index, value) =>
+                            updateEditingEntry(entry.id, (prev) => {
+                              const collaborators = prev.data.collaborators.slice();
+                              collaborators[index] = value;
+                              return {
+                                ...prev,
+                                data: {
+                                  ...prev.data,
+                                  collaborators
+                                }
+                              };
+                            })
+                          }
+                          onAddCollaborator={() =>
+                            updateEditingEntry(entry.id, (prev) => {
+                              if (prev.data.collaborators.length >= MAX_COLLABORATORS) {
+                                return prev;
+                              }
+                              return {
+                                ...prev,
+                                data: {
+                                  ...prev.data,
+                                  collaborators: [...prev.data.collaborators, '']
+                                }
+                              };
+                            })
+                          }
+                          onRemoveCollaborator={(index) =>
+                            updateEditingEntry(entry.id, (prev) => {
+                              const collaborators = prev.data.collaborators.slice();
+                              collaborators.splice(index, 1);
+                              if (!collaborators.length) {
+                                collaborators.push('');
+                              }
+                              return {
+                                ...prev,
+                                data: {
+                                  ...prev.data,
+                                  collaborators
+                                }
+                              };
+                            })
+                          }
+                          onSave={() => void handleSave(entry.id)}
                           onCancel={() => handleCancel(entry.id)}
                           isNew={entry.isNew}
+                          canEditContent={canEditContent}
+                          canManageSharing={canManageSharing}
+                          isSaving={savingWorkId === entry.id}
+                          isOwner={isOwner}
+                          ownerEmail={entry.work?.ownerEmail}
                         />
                       );
                     }
@@ -1122,10 +1448,30 @@ export default function CatalogView() {
                         depth={entry.depth}
                         expanded={isExpanded}
                         onToggle={() => toggleExpanded(entry.id)}
-                        onEdit={() => startEditingWork(entry.work!)}
-                        onDuplicate={() => duplicateWork(entry.work!)}
-                        onCreateChild={() => createChildWork(entry.work!)}
-                        onDelete={() => handleDelete(entry.work!.id)}
+                        onEdit={() => {
+                          const target = entry.work;
+                          if (target && (target.canEdit ?? false)) {
+                            startEditingWork(target);
+                          }
+                        }}
+                        onDuplicate={() => {
+                          const target = entry.work;
+                          if (target && (target.canEdit ?? false)) {
+                            duplicateWork(target);
+                          }
+                        }}
+                        onCreateChild={() => {
+                          const target = entry.work;
+                          if (target && (target.canEdit ?? false)) {
+                            createChildWork(target);
+                          }
+                        }}
+                        onDelete={() => {
+                          const target = entry.work;
+                          if (target && (target.isOwner ?? false)) {
+                            void handleDelete(target.id);
+                          }
+                        }}
                       />
                     );
                   })}

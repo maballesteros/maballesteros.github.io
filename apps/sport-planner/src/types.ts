@@ -10,6 +10,16 @@ export interface Objective {
   updatedAt: string;
 }
 
+export type WorkVisibility = 'private' | 'shared' | 'public';
+
+export interface WorkCollaborator {
+  id: string;
+  email: string;
+  role: 'editor';
+  userId?: string | null;
+  createdAt: string;
+}
+
 export interface Work {
   id: string;
   name: string;
@@ -22,6 +32,13 @@ export interface Work {
   videoUrls: string[];
   createdAt: string;
   updatedAt: string;
+  visibility: WorkVisibility;
+  ownerId: string;
+  ownerEmail: string;
+  collaborators?: WorkCollaborator[];
+  collaboratorEmails?: string[];
+  canEdit?: boolean;
+  isOwner?: boolean;
 }
 
 export interface SessionWork {
