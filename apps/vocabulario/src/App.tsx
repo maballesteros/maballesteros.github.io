@@ -37,7 +37,7 @@ type GrupoTematico = {
   temas: Tema[];
 };
 
-type Fase = 'inicio' | 'modo' | 'aprender' | 'practicar' | 'resultado';
+type Fase = 'inicio' | 'modo' | 'aprender' | 'practicar' | 'examenPrep' | 'examen' | 'resultado';
 
 type Language = 'en' | 'es';
 
@@ -68,6 +68,26 @@ type Copy = {
   outOf: string;
   newRecordSuffix: string;
   resultTitle: string;
+  groupProgressLabel: string;
+  groupProgressSuffix: string;
+  practiceGoalHint: string;
+  practiceGoalLabel: string;
+  listCompletedLabel: string;
+  listIncompleteLabel: string;
+  practiceCompletedTag: string;
+  practicePendingTag: string;
+  examButtonLabel: string;
+  startExamButton: string;
+  examIntro: string;
+  examLockedMessage: string;
+  blockLockedMessage: string;
+  examBest: string;
+  examPassMessage: string;
+  examFailMessage: string;
+  examNeededScore: string;
+  questionsLabel: string;
+  examLockedTag: string;
+  examUnlockedTag: string;
 };
 
 const LANGUAGE_STORAGE_KEY = 'vocabulario-language';
@@ -99,7 +119,27 @@ const translations: Record<Language, Copy> = {
     youScored: 'You scored',
     outOf: 'out of',
     newRecordSuffix: ' · New record!',
-    resultTitle: '🎉 Final result!'
+    resultTitle: '🎉 Final result!',
+    groupProgressLabel: 'Block progress',
+    groupProgressSuffix: 'lists completed',
+    practiceGoalHint: 'Reach at least 70% correct answers in Practice mode to complete the list.',
+    practiceGoalLabel: 'Goal (70%)',
+    listCompletedLabel: '✅ List completed (70% reached).',
+    listIncompleteLabel: 'You need {count} more correct answers to reach 70%.',
+    practiceCompletedTag: 'Completed',
+    practicePendingTag: '70% needed',
+    examButtonLabel: '📝 Final exam',
+    startExamButton: 'Start exam',
+    examIntro: '30-question challenge covering this block.',
+    examLockedMessage: 'Complete every list with 70% or more to unlock the final exam.',
+    blockLockedMessage: 'Pass the previous level exam to unlock this block.',
+    examBest: 'Best exam score',
+    examPassMessage: 'You passed the final exam for this block!',
+    examFailMessage: 'Keep practicing and try again.',
+    examNeededScore: 'You need at least {count} points to pass.',
+    questionsLabel: 'Questions',
+    examLockedTag: 'Locked',
+    examUnlockedTag: 'Ready'
   },
   es: {
     homeTitle: '📚 Aprende Español',
@@ -127,13 +167,80 @@ const translations: Record<Language, Copy> = {
     youScored: 'Has conseguido',
     outOf: 'de',
     newRecordSuffix: ' · ¡Nuevo récord!',
-    resultTitle: '🎉 ¡Resultado final!'
+    resultTitle: '🎉 ¡Resultado final!',
+    groupProgressLabel: 'Progreso del bloque',
+    groupProgressSuffix: 'listas conseguidas',
+    practiceGoalHint: 'Logra al menos un 70% de aciertos en el modo Práctica para completar la lista.',
+    practiceGoalLabel: 'Objetivo (70%)',
+    listCompletedLabel: '✅ Lista conseguida (70% superado).',
+    listIncompleteLabel: 'Necesitas {count} aciertos más para alcanzar el 70%.',
+    practiceCompletedTag: 'Conseguida',
+    practicePendingTag: 'Falta 70%',
+    examButtonLabel: '📝 Examen final',
+    startExamButton: 'Comenzar examen',
+    examIntro: 'Reto de 30 preguntas sobre todo el bloque.',
+    examLockedMessage: 'Completa todas las listas con un 70% o más para desbloquear el examen final.',
+    blockLockedMessage: 'Supera el examen del nivel anterior para desbloquear este bloque.',
+    examBest: 'Mejor resultado',
+    examPassMessage: '¡Has superado el examen final de este bloque!',
+    examFailMessage: 'Sigue practicando y vuelve a intentarlo.',
+    examNeededScore: 'Necesitas al menos {count} puntos para aprobar.',
+    questionsLabel: 'Preguntas',
+    examLockedTag: 'Bloqueado',
+    examUnlockedTag: 'Listo'
   }
 };
 
 const HIGH_SCORES_STORAGE_KEY = 'vocabulario-high-scores';
 
 const gruposTematicos = gruposData as GrupoTematico[];
+
+const PRACTICE_PASS_RATE = 0.7;
+const EXAM_PASS_RATE = 0.7;
+const EXAM_QUESTION_COUNT = 30;
+const EXAM_SCORES_STORAGE_KEY = 'vocabulario-exam-scores';
+
+const getPracticeThreshold = (tema: Tema) => Math.ceil(tema.palabras.length * PRACTICE_PASS_RATE);
+
+const isTemaCompleted = (tema: Tema, scores: Record<string, number>) => {
+  const record = scores[tema.id] ?? 0;
+  return record >= getPracticeThreshold(tema);
+};
+
+const computeGroupProgress = (grupo: GrupoTematico, scores: Record<string, number>) => {
+  const total = grupo.temas.length;
+  if (total === 0) {
+    return { completed: 0, total: 0, percent: 0 };
+  }
+  const completed = grupo.temas.filter((tema) => isTemaCompleted(tema, scores)).length;
+  const percent = Math.round((completed / total) * 100);
+  return { completed, total, percent };
+};
+
+const gatherGroupWords = (grupo: GrupoTematico): Palabra[] =>
+  grupo.temas.flatMap((tema) => tema.palabras);
+
+const getExamThreshold = (totalQuestions: number) => Math.ceil(totalQuestions * EXAM_PASS_RATE);
+
+const buildExamDeck = (grupo: GrupoTematico): Palabra[] => {
+  const allWords = gatherGroupWords(grupo);
+  if (allWords.length === 0) {
+    return [];
+  }
+
+  const deck: Palabra[] = [];
+  let pool = [...allWords];
+
+  while (deck.length < EXAM_QUESTION_COUNT) {
+    if (pool.length === 0) {
+      pool = [...allWords];
+    }
+    const index = Math.floor(Math.random() * pool.length);
+    deck.push(pool.splice(index, 1)[0]);
+  }
+
+  return deck;
+};
 
 
 const ProgressBar = ({
@@ -159,13 +266,39 @@ const ProgressBar = ({
   );
 };
 
+const BlockProgressBar = ({
+  percent,
+  label,
+  accentClass = 'bg-blue-500',
+  labelClass = 'text-slate-700'
+}: {
+  percent: number;
+  label: string;
+  accentClass?: string;
+  labelClass?: string;
+}) => {
+  const safePercent = Math.max(0, Math.min(100, percent));
+
+  return (
+    <div className="w-full">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-white/40">
+        <div
+          className={`h-2 rounded-full transition-all duration-300 ${accentClass}`}
+          style={{ width: `${safePercent}%` }}
+        />
+      </div>
+      <p className={`mt-1 text-xs font-semibold uppercase tracking-wide ${labelClass}`}>{label}</p>
+    </div>
+  );
+};
+
 const App = () => {
   const [fase, setFase] = useState<Fase>('inicio');
   const [temaActual, setTemaActual] = useState<Tema | null>(null);
   const [grupoActual, setGrupoActual] = useState<GrupoTematico | null>(null);
   const [indice, setIndice] = useState(0);
   const [puntos, setPuntos] = useState(0);
-  const [modo, setModo] = useState<'aprender' | 'practicar' | null>(null);
+  const [modo, setModo] = useState<'aprender' | 'practicar' | 'examen' | null>(null);
   const [respuestaSeleccionada, setRespuestaSeleccionada] = useState<string | null>(null);
   const [bloqueado, setBloqueado] = useState(false);
   const [language, setLanguage] = useState<Language>(() => {
@@ -180,6 +313,16 @@ const App = () => {
       return almacenado ? (JSON.parse(almacenado) as Record<string, number>) : {};
     } catch (error) {
       console.error('No se pudo leer el high score desde localStorage', error);
+      return {};
+    }
+  });
+  const [examScores, setExamScores] = useState<Record<string, number>>(() => {
+    if (typeof window === 'undefined') return {};
+    try {
+      const almacenado = window.localStorage.getItem(EXAM_SCORES_STORAGE_KEY);
+      return almacenado ? (JSON.parse(almacenado) as Record<string, number>) : {};
+    } catch (error) {
+      console.error('No se pudo leer el examen desde localStorage', error);
       return {};
     }
   });
@@ -204,9 +347,18 @@ const App = () => {
   );
 
   const palabra = temaActual?.palabras[indice];
-  const recordActualTema = temaActual ? highScores[temaActual.id] ?? 0 : 0;
+  const recordActualTema = temaActual && modo !== 'examen' ? highScores[temaActual.id] ?? 0 : 0;
+  const recordActualExamen = grupoActual ? examScores[grupoActual.id] ?? 0 : 0;
   const esPracticar = modo === 'practicar';
-  const esNuevoRecord = fase === 'resultado' && esPracticar && puntos > recordInicioRef.current;
+  const esExamen = modo === 'examen';
+  const esNuevoRecord = fase === 'resultado' && (esPracticar || esExamen) && puntos > recordInicioRef.current;
+  const practicaUmbral = temaActual && modo !== 'examen' ? getPracticeThreshold(temaActual) : 0;
+  const practicaSesionSuperada = esPracticar && temaActual ? puntos >= getPracticeThreshold(temaActual) : false;
+  const examPassMark = getExamThreshold(EXAM_QUESTION_COUNT);
+  const temaActualThreshold = temaActual && !esExamen ? getPracticeThreshold(temaActual) : 0;
+  const temaActualCompletada = temaActual && !esExamen ? isTemaCompleted(temaActual, highScores) : false;
+  const progresoGrupoActual = grupoActual ? computeGroupProgress(grupoActual, highScores) : null;
+  const examenAprobadoActual = recordActualExamen >= examPassMark;
   const t = translations[language];
   const theme = useMemo(() => {
     const defaultTheme = {
@@ -248,6 +400,11 @@ const App = () => {
   }, [highScores]);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem(EXAM_SCORES_STORAGE_KEY, JSON.stringify(examScores));
+  }, [examScores]);
+
+  useEffect(() => {
     if (fase !== 'resultado' || !temaActual || modo !== 'practicar') return;
 
     setHighScores((prev) => {
@@ -260,7 +417,26 @@ const App = () => {
   }, [fase, modo, puntos, temaActual]);
 
   useEffect(() => {
-    if (fase === 'resultado' && esPracticar && esNuevoRecord) {
+    if (fase !== 'resultado' || modo !== 'examen' || !grupoActual) return;
+
+    setExamScores((prev) => {
+      const registroActual = prev[grupoActual.id] ?? 0;
+      if (puntos > registroActual) {
+        return { ...prev, [grupoActual.id]: puntos };
+      }
+      return prev;
+    });
+  }, [fase, modo, puntos, grupoActual]);
+
+  const totalPreguntasExamen = esExamen && temaActual ? temaActual.palabras.length : EXAM_QUESTION_COUNT;
+  const examenUmbral = esExamen ? getExamThreshold(totalPreguntasExamen) : 0;
+  const examenSuperado = esExamen && puntos >= examenUmbral;
+
+  useEffect(() => {
+    const shouldCelebrate =
+      fase === 'resultado' && ((esPracticar && esNuevoRecord) || (esExamen && examenSuperado));
+
+    if (shouldCelebrate) {
       if (!hasCelebratedRecordRef.current) {
         hasCelebratedRecordRef.current = true;
         const target = confettiTargetRef.current ?? document.body;
@@ -279,7 +455,7 @@ const App = () => {
     } else if (fase !== 'resultado') {
       hasCelebratedRecordRef.current = false;
     }
-  }, [esNuevoRecord, esPracticar, fase]);
+  }, [esNuevoRecord, esPracticar, esExamen, examenSuperado, fase]);
 
   const seleccionarTema = (tema: Tema, grupo: GrupoTematico) => {
     setTemaActual(tema);
@@ -303,6 +479,44 @@ const App = () => {
     setRespuestaSeleccionada(null);
     setBloqueado(false);
     setFase(nuevoModo);
+  };
+
+  const prepararExamen = (grupo: GrupoTematico) => {
+    setGrupoActual(grupo);
+    setTemaActual(null);
+    setIndice(0);
+    setPuntos(0);
+    setModo(null);
+    setRespuestaSeleccionada(null);
+    setBloqueado(false);
+    setFase('examenPrep');
+  };
+
+  const iniciarExamen = () => {
+    if (!grupoActual) return;
+
+    const preguntas = buildExamDeck(grupoActual);
+    if (preguntas.length === 0) return;
+
+    recordInicioRef.current = examScores[grupoActual.id] ?? 0;
+    hasCelebratedRecordRef.current = false;
+
+    const examTema: Tema = {
+      id: `${grupoActual.id}-exam`,
+      nombre: {
+        es: `${grupoActual.nombre.es} · Examen final`,
+        en: `${grupoActual.nombre.en} · Final exam`
+      },
+      palabras: preguntas
+    };
+
+    setTemaActual(examTema);
+    setModo('examen');
+    setIndice(0);
+    setPuntos(0);
+    setRespuestaSeleccionada(null);
+    setBloqueado(false);
+    setFase('examen');
   };
 
   const siguiente = () => {
@@ -330,8 +544,9 @@ const App = () => {
     if (!temaActual) return [];
     const actual = temaActual.palabras[indice];
     if (!actual) return [];
-    return buildOptions(actual, temaActual.palabras);
-  }, [temaActual, indice]);
+    const listaOpciones = esExamen && grupoActual ? gatherGroupWords(grupoActual) : temaActual.palabras;
+    return buildOptions(actual, listaOpciones);
+  }, [temaActual, indice, esExamen, grupoActual]);
 
   const responder = (respuesta: string) => {
     if (!palabra || bloqueado) return;
@@ -422,96 +637,264 @@ const App = () => {
               <h2 className="text-2xl font-bold text-blue-700">{t.vocabRouteTitle}</h2>
               <p className="mt-1 text-base text-slate-600">{t.vocabRouteDescription}</p>
               <div className="mt-6 flex flex-col gap-6">
-                {gruposVocabulario.map((grupo) => (
-                  <article
-                    key={grupo.id}
-                    className={`rounded-3xl border bg-gradient-to-br p-6 shadow-lg transition hover:-translate-y-1 hover:shadow-2xl ${grupo.nivel.clases.fondo} ${grupo.nivel.clases.borde}`}
-                  >
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                      <span
-                        className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider ${grupo.nivel.clases.insignia}`}
-                      >
-                        {grupo.nivel.titulo[language]}
-                      </span>
-                      <span className="text-xs font-medium text-slate-600 sm:text-sm">
-                        {grupo.nivel.descripcion[language]}
-                      </span>
-                    </div>
-                    <h3 className={`mt-4 text-2xl font-bold ${grupo.nivel.clases.titulo}`}>{grupo.nombre[language]}</h3>
-                    <p className="mt-2 text-sm text-slate-700 sm:text-base">{grupo.descripcion[language]}</p>
-                    <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
-                      {grupo.temas.map((tema) => {
-                        const record = highScores[tema.id] ?? 0;
-                        return (
-                          <button
-                            key={tema.id}
-                            type="button"
-                            onClick={() => seleccionarTema(tema, grupo)}
-                            className="group rounded-2xl bg-blue-600 px-4 py-3 text-left text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-white"
-                          >
-                            <span className="block text-base font-bold">{tema.nombre[language]}</span>
-                          <span className="mt-2 flex items-center justify-between text-xs font-medium text-blue-100">
+                {gruposVocabulario.map((grupo, index) => {
+                  const progress = computeGroupProgress(grupo, highScores);
+                  const examScore = examScores[grupo.id] ?? 0;
+                  const examPassed = examScore >= examPassMark;
+                  const examUnlocked = progress.total > 0 && progress.completed === progress.total;
+                  const previousGrupo = index === 0 ? null : gruposVocabulario[index - 1];
+                  const previousExamPassed =
+                    !previousGrupo || (examScores[previousGrupo.id] ?? 0) >= examPassMark;
+                  const bloqueBloqueado = !previousExamPassed;
+                  const accentClass =
+                    grupo.nivel.clases.insignia
+                      .split(' ')
+                      .find((cls) => cls.startsWith('bg-')) ?? 'bg-blue-600';
+                  const progressLabel = `${t.groupProgressLabel}: ${progress.percent}% · ${progress.completed}/${progress.total} ${t.groupProgressSuffix}`;
+
+                  return (
+                    <article
+                      key={grupo.id}
+                      className={`rounded-3xl border bg-gradient-to-br p-6 shadow-lg transition ${
+                        bloqueBloqueado ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-2xl'
+                      } ${grupo.nivel.clases.fondo} ${grupo.nivel.clases.borde}`}
+                    >
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <span
+                          className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider ${grupo.nivel.clases.insignia}`}
+                        >
+                          {grupo.nivel.titulo[language]}
+                        </span>
+                        <span className="text-xs font-medium text-slate-600 sm:text-sm">
+                          {grupo.nivel.descripcion[language]}
+                        </span>
+                      </div>
+                      <h3 className={`mt-4 text-2xl font-bold ${grupo.nivel.clases.titulo}`}>{grupo.nombre[language]}</h3>
+                      <p className="mt-2 text-sm text-slate-700 sm:text-base">{grupo.descripcion[language]}</p>
+                      <div className="mt-4">
+                        <BlockProgressBar
+                          percent={progress.percent}
+                          label={progressLabel}
+                          accentClass={accentClass}
+                          labelClass={grupo.nivel.clases.titulo}
+                        />
+                      </div>
+                      <p className="mt-2 text-xs font-medium text-slate-600">{t.practiceGoalHint}</p>
+                      {bloqueBloqueado && (
+                        <p className="mt-3 rounded-2xl bg-white/70 px-4 py-2 text-xs font-semibold text-blue-700 shadow">
+                          {t.blockLockedMessage}
+                        </p>
+                      )}
+                      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+                        {grupo.temas.map((tema) => {
+                          const record = highScores[tema.id] ?? 0;
+                          const threshold = getPracticeThreshold(tema);
+                          const temaCompletado = isTemaCompleted(tema, highScores);
+                          const stateTag = temaCompletado ? t.practiceCompletedTag : t.practicePendingTag;
+                          return (
+                            <button
+                              key={tema.id}
+                              type="button"
+                              onClick={() => seleccionarTema(tema, grupo)}
+                              disabled={bloqueBloqueado}
+                              className="group rounded-2xl bg-blue-600 px-4 py-3 text-left text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:bg-blue-600"
+                            >
+                              <span className="block text-base font-bold">{tema.nombre[language]}</span>
+                              <div className="mt-2 flex items-center justify-between text-xs font-medium text-blue-100">
+                                <span>
+                                  {t.wordsLabel}: {tema.palabras.length}
+                                </span>
+                                <span
+                                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
+                                    temaCompletado ? 'bg-green-500 text-white' : 'bg-blue-900/40 text-blue-50'
+                                  }`}
+                                >
+                                  {stateTag}
+                                </span>
+                              </div>
+                              <div className="mt-2 flex items-center justify-between text-[11px] text-blue-100">
+                                <span>🏆 {record}</span>
+                                <span>🎯 {threshold}</span>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <div className="mt-6 flex flex-col gap-2">
+                        <button
+                          type="button"
+                          onClick={() => prepararExamen(grupo)}
+                          disabled={!examUnlocked || bloqueBloqueado}
+                          className="rounded-2xl bg-white/90 px-4 py-3 text-left text-sm font-semibold text-blue-900 shadow-md transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span>{t.examButtonLabel}</span>
+                            <span
+                              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
+                                examPassed
+                                  ? 'bg-green-500 text-white'
+                                  : examUnlocked
+                                  ? 'bg-blue-100 text-blue-700'
+                                  : 'bg-slate-300 text-slate-600'
+                              }`}
+                            >
+                              {examPassed
+                                ? t.practiceCompletedTag
+                                : examUnlocked
+                                ? t.examUnlockedTag
+                                : t.examLockedTag}
+                            </span>
+                          </div>
+                          <div className="mt-1 flex items-center justify-between text-xs font-medium text-slate-600">
                             <span>
-                              {t.wordsLabel}: {tema.palabras.length}
+                              {t.questionsLabel}: {EXAM_QUESTION_COUNT}
                             </span>
-                            <span className="inline-flex items-center gap-1 rounded-full bg-blue-700/60 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide">
-                              🏆 {record}
+                            <span>
+                              🏆 {t.examBest}: {examScore}
                             </span>
-                          </span>
+                          </div>
                         </button>
-                        );
-                      })}
-                    </div>
-                  </article>
-                ))}
+                        {!examUnlocked && !bloqueBloqueado && (
+                          <p className="rounded-2xl bg-white/70 px-4 py-2 text-xs font-semibold text-blue-700 shadow">
+                            {t.examLockedMessage}
+                          </p>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </section>
             <section className="space-y-6">
               <h2 className="text-2xl font-bold text-purple-700">{t.phrasesRouteTitle}</h2>
               <p className="mt-1 text-base text-slate-600">{t.phrasesRouteDescription}</p>
               <div className="mt-6 flex flex-col gap-6">
-                {gruposFrases.map((grupo) => (
-                  <article
-                    key={grupo.id}
-                    className={`rounded-3xl border bg-gradient-to-br p-6 shadow-lg transition hover:-translate-y-1 hover:shadow-2xl ${grupo.nivel.clases.fondo} ${grupo.nivel.clases.borde}`}
-                  >
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                      <span
-                        className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider ${grupo.nivel.clases.insignia}`}
-                      >
-                        {grupo.nivel.titulo[language]}
-                      </span>
-                      <span className="text-xs font-medium text-slate-600 sm:text-sm">
-                        {grupo.nivel.descripcion[language]}
-                      </span>
-                    </div>
-                    <h3 className={`mt-4 text-2xl font-bold ${grupo.nivel.clases.titulo}`}>{grupo.nombre[language]}</h3>
-                    <p className="mt-2 text-sm text-slate-700 sm:text-base">{grupo.descripcion[language]}</p>
-                    <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
-                      {grupo.temas.map((tema) => {
-                        const record = highScores[tema.id] ?? 0;
-                        return (
-                          <button
-                            key={tema.id}
-                            type="button"
-                            onClick={() => seleccionarTema(tema, grupo)}
-                            className="group rounded-2xl bg-purple-600 px-4 py-3 text-left text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2 focus:ring-offset-white"
-                          >
-                            <span className="block text-base font-bold">{tema.nombre[language]}</span>
-                          <span className="mt-2 flex items-center justify-between text-xs font-medium text-purple-100">
+                {gruposFrases.map((grupo, index) => {
+                  const progress = computeGroupProgress(grupo, highScores);
+                  const examScore = examScores[grupo.id] ?? 0;
+                  const examPassed = examScore >= examPassMark;
+                  const examUnlocked = progress.total > 0 && progress.completed === progress.total;
+                  const previousGrupo = index === 0 ? null : gruposFrases[index - 1];
+                  const previousExamPassed =
+                    !previousGrupo || (examScores[previousGrupo.id] ?? 0) >= examPassMark;
+                  const bloqueBloqueado = !previousExamPassed;
+                  const accentClass =
+                    grupo.nivel.clases.insignia
+                      .split(' ')
+                      .find((cls) => cls.startsWith('bg-')) ?? 'bg-purple-600';
+                  const progressLabel = `${t.groupProgressLabel}: ${progress.percent}% · ${progress.completed}/${progress.total} ${t.groupProgressSuffix}`;
+
+                  return (
+                    <article
+                      key={grupo.id}
+                      className={`rounded-3xl border bg-gradient-to-br p-6 shadow-lg transition ${
+                        bloqueBloqueado ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-2xl'
+                      } ${grupo.nivel.clases.fondo} ${grupo.nivel.clases.borde}`}
+                    >
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <span
+                          className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider ${grupo.nivel.clases.insignia}`}
+                        >
+                          {grupo.nivel.titulo[language]}
+                        </span>
+                        <span className="text-xs font-medium text-slate-600 sm:text-sm">
+                          {grupo.nivel.descripcion[language]}
+                        </span>
+                      </div>
+                      <h3 className={`mt-4 text-2xl font-bold ${grupo.nivel.clases.titulo}`}>{grupo.nombre[language]}</h3>
+                      <p className="mt-2 text-sm text-slate-700 sm:text-base">{grupo.descripcion[language]}</p>
+                      <div className="mt-4">
+                        <BlockProgressBar
+                          percent={progress.percent}
+                          label={progressLabel}
+                          accentClass={accentClass}
+                          labelClass={grupo.nivel.clases.titulo}
+                        />
+                      </div>
+                      <p className="mt-2 text-xs font-medium text-slate-600">{t.practiceGoalHint}</p>
+                      {bloqueBloqueado && (
+                        <p className="mt-3 rounded-2xl bg-white/70 px-4 py-2 text-xs font-semibold text-purple-700 shadow">
+                          {t.blockLockedMessage}
+                        </p>
+                      )}
+                      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+                        {grupo.temas.map((tema) => {
+                          const record = highScores[tema.id] ?? 0;
+                          const threshold = getPracticeThreshold(tema);
+                          const temaCompletado = isTemaCompleted(tema, highScores);
+                          const stateTag = temaCompletado ? t.practiceCompletedTag : t.practicePendingTag;
+                          return (
+                            <button
+                              key={tema.id}
+                              type="button"
+                              onClick={() => seleccionarTema(tema, grupo)}
+                              disabled={bloqueBloqueado}
+                              className="group rounded-2xl bg-purple-600 px-4 py-3 text-left text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2 focus:ring-offset-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:bg-purple-600"
+                            >
+                              <span className="block text-base font-bold">{tema.nombre[language]}</span>
+                              <div className="mt-2 flex items-center justify-between text-xs font-medium text-purple-100">
+                                <span>
+                                  {t.sentencesLabel}: {tema.palabras.length}
+                                </span>
+                                <span
+                                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
+                                    temaCompletado ? 'bg-green-500 text-white' : 'bg-purple-900/40 text-purple-50'
+                                  }`}
+                                >
+                                  {stateTag}
+                                </span>
+                              </div>
+                              <div className="mt-2 flex items-center justify-between text-[11px] text-purple-100">
+                                <span>🏆 {record}</span>
+                                <span>🎯 {threshold}</span>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <div className="mt-6 flex flex-col gap-2">
+                        <button
+                          type="button"
+                          onClick={() => prepararExamen(grupo)}
+                          disabled={!examUnlocked || bloqueBloqueado}
+                          className="rounded-2xl bg-white/90 px-4 py-3 text-left text-sm font-semibold text-purple-900 shadow-md transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2 focus:ring-offset-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span>{t.examButtonLabel}</span>
+                            <span
+                              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
+                                examPassed
+                                  ? 'bg-green-500 text-white'
+                                  : examUnlocked
+                                  ? 'bg-purple-100 text-purple-700'
+                                  : 'bg-slate-300 text-slate-600'
+                              }`}
+                            >
+                              {examPassed
+                                ? t.practiceCompletedTag
+                                : examUnlocked
+                                ? t.examUnlockedTag
+                                : t.examLockedTag}
+                            </span>
+                          </div>
+                          <div className="mt-1 flex items-center justify-between text-xs font-medium text-slate-600">
                             <span>
-                              {t.sentencesLabel}: {tema.palabras.length}
+                              {t.questionsLabel}: {EXAM_QUESTION_COUNT}
                             </span>
-                            <span className="inline-flex items-center gap-1 rounded-full bg-purple-700/70 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide">
-                              🏆 {record}
+                            <span>
+                              🏆 {t.examBest}: {examScore}
                             </span>
-                          </span>
+                          </div>
                         </button>
-                        );
-                      })}
-                    </div>
-                  </article>
-                ))}
+                        {!examUnlocked && !bloqueBloqueado && (
+                          <p className="rounded-2xl bg-white/70 px-4 py-2 text-xs font-semibold text-purple-700 shadow">
+                            {t.examLockedMessage}
+                          </p>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </section>
           </div>
@@ -521,10 +904,21 @@ const App = () => {
       {fase === 'modo' && temaActual && (
         <div className="w-full max-w-xl rounded-3xl bg-white p-10 text-center shadow-2xl animate-slide-up">
           <h2 className="mb-4 text-3xl font-bold text-blue-700">{temaActual.nombre[language]}</h2>
-          <p className="mb-8 text-base text-slate-600">{t.modeIntro}</p>
-          <p className="mb-6 text-sm font-medium text-blue-600">
-            {t.personalBest}: {highScores[temaActual.id] ?? 0} / {temaActual.palabras.length}
-          </p>
+          <p className="mb-3 text-base text-slate-600">{t.modeIntro}</p>
+          <div className="mb-4 space-y-2 text-sm">
+            <p className="font-medium text-blue-600">
+              {t.personalBest}: {highScores[temaActual.id] ?? 0} / {temaActual.palabras.length}
+            </p>
+            <p className="font-semibold text-blue-600">
+              {t.practiceGoalLabel}: {temaActualThreshold} {t.pointsWord}
+            </p>
+            <p className="text-xs font-medium text-slate-600">{t.practiceGoalHint}</p>
+          </div>
+          {temaActualCompletada && (
+            <span className="mb-4 inline-flex items-center justify-center rounded-full bg-green-500 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+              {t.practiceCompletedTag}
+            </span>
+          )}
           <div className="mb-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <button
               type="button"
@@ -548,6 +942,59 @@ const App = () => {
           >
             ⬅️ {t.backButton}
           </button>
+        </div>
+      )}
+
+      {fase === 'examenPrep' && grupoActual && (
+        <div className="w-full max-w-xl rounded-3xl bg-white p-10 text-center shadow-2xl animate-slide-up">
+          <h2 className="mb-4 text-3xl font-bold text-blue-700">{grupoActual.nombre[language]}</h2>
+          <p className="mb-4 text-base text-slate-600">{t.examIntro}</p>
+          {progresoGrupoActual && (
+            <div className="mb-4">
+              <BlockProgressBar
+                percent={progresoGrupoActual.percent}
+                label={`${t.groupProgressLabel}: ${progresoGrupoActual.percent}% · ${progresoGrupoActual.completed}/${progresoGrupoActual.total} ${t.groupProgressSuffix}`}
+                accentClass={
+                  grupoActual.nivel.clases.insignia
+                    .split(' ')
+                    .find((cls) => cls.startsWith('bg-')) ?? 'bg-blue-600'
+                }
+                labelClass={grupoActual.nivel.clases.titulo}
+              />
+            </div>
+          )}
+          <div className="mb-6 space-y-2 text-sm font-medium text-slate-600">
+            <p>
+              {t.questionsLabel}: {EXAM_QUESTION_COUNT}
+            </p>
+            <p>
+              {t.examBest}: {recordActualExamen} / {EXAM_QUESTION_COUNT}
+            </p>
+            <p className="text-xs font-medium text-slate-600">
+              {t.examNeededScore.replace('{count}', examPassMark.toString())}
+            </p>
+            {examenAprobadoActual && (
+              <span className="mt-2 inline-flex items-center justify-center rounded-full bg-green-500 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                {t.practiceCompletedTag}
+              </span>
+            )}
+          </div>
+          <div className="mb-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <button
+              type="button"
+              onClick={iniciarExamen}
+              className="w-full rounded-xl bg-blue-600 px-6 py-3 text-lg font-semibold text-white shadow-md transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-white"
+            >
+              {t.startExamButton}
+            </button>
+            <button
+              type="button"
+              onClick={reiniciar}
+              className="w-full rounded-xl border border-blue-300 px-6 py-3 text-lg font-semibold text-blue-600 transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-white"
+            >
+              ⬅️ {t.mainMenuButton}
+            </button>
+          </div>
         </div>
       )}
 
@@ -579,10 +1026,18 @@ const App = () => {
               accentClass={theme.accentBar}
               labelClass={theme.heading}
             />
+            <p className="mt-4 text-xs font-medium text-slate-600">
+              {language === 'es'
+                ? `Pregunta ${indice + 1} de ${temaActual.palabras.length}`
+                : `Question ${indice + 1} of ${temaActual.palabras.length}`}
+            </p>
             <h2 className="mt-8 text-2xl font-semibold text-slate-800">{palabra.en}</h2>
             <p className="my-6 text-4xl font-bold text-green-600">{palabra.es}</p>
             <p className={`text-sm font-semibold ${theme.heading}`}>
               {t.personalBest}: {recordActualTema} / {temaActual.palabras.length}
+            </p>
+            <p className="mt-2 text-xs font-semibold text-slate-600">
+              {t.practiceGoalLabel}: {temaActualThreshold} {t.pointsWord}
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <button
@@ -604,7 +1059,7 @@ const App = () => {
         </div>
       )}
 
-      {fase === 'practicar' && palabra && temaActual && (
+      {(fase === 'practicar' || fase === 'examen') && palabra && temaActual && (
         <div
           className={`w-full max-w-xl rounded-3xl shadow-2xl animate-slide-up ${
             grupoActual ? `${theme.panelOuter} p-[3px]` : 'bg-white'
@@ -654,8 +1109,18 @@ const App = () => {
               {t.pointsLabel}: <span className="font-bold">{puntos}</span>
             </p>
             <p className={`mt-2 text-sm font-semibold ${theme.heading}`}>
-              {t.recordLabel}: {Math.max(recordActualTema, puntos)} / {temaActual.palabras.length}
+              {(esExamen ? t.examBest : t.recordLabel)}: {Math.max(esExamen ? recordActualExamen : recordActualTema, puntos)} / {temaActual.palabras.length}
             </p>
+            {!esExamen && practicaUmbral > 0 && (
+              <p className="mt-2 text-xs font-semibold text-slate-600">
+                {t.practiceGoalLabel}: {practicaUmbral} {t.pointsWord}
+              </p>
+            )}
+            {esExamen && (
+              <p className="mt-2 text-xs font-semibold text-slate-600">
+                {t.examNeededScore.replace('{count}', examenUmbral.toString())}
+              </p>
+            )}
             <button
               type="button"
               onClick={reiniciar}
@@ -677,21 +1142,41 @@ const App = () => {
                 <span className="font-bold text-blue-700">{puntos}</span> {t.pointsWord} {t.outOf}{' '}
                 <span className="font-bold text-blue-700">{temaActual.palabras.length}</span>.
               </>
+            ) : esExamen ? (
+              <>
+                {t.youScored}{' '}
+                <span className="font-bold text-blue-700">{puntos}</span> {t.pointsWord} {t.outOf}{' '}
+                <span className="font-bold text-blue-700">{temaActual.palabras.length}</span>.
+              </>
             ) : (
               <>{t.learnModeComplete}</>
             )}
           </p>
+          {esPracticar && practicaUmbral > 0 && (
+            <p className={`mb-4 text-sm font-semibold ${practicaSesionSuperada ? 'text-green-600' : 'text-blue-600'}`}>
+              {practicaSesionSuperada
+                ? t.listCompletedLabel
+                : t.listIncompleteLabel.replace('{count}', Math.max(0, practicaUmbral - puntos).toString())}
+            </p>
+          )}
+          {esExamen && (
+            <p className={`mb-4 text-sm font-semibold ${examenSuperado ? 'text-green-600' : 'text-red-600'}`}>
+              {examenSuperado
+                ? t.examPassMessage
+                : `${t.examFailMessage} ${t.examNeededScore.replace('{count}', examenUmbral.toString())}`}
+            </p>
+          )}
           <p className={`mb-6 text-sm font-semibold ${esNuevoRecord ? 'text-green-600' : 'text-blue-600'}`}>
-            {t.personalBest}: {recordActualTema} / {temaActual.palabras.length}
-            {esPracticar && esNuevoRecord ? t.newRecordSuffix : ''}
+            {(esExamen ? t.examBest : t.personalBest)}: {Math.max(esExamen ? recordActualExamen : recordActualTema, puntos)} / {temaActual.palabras.length}
+            {esNuevoRecord ? t.newRecordSuffix : ''}
           </p>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
             <button
               type="button"
-              onClick={() => iniciarModo(modo ?? 'practicar')}
+              onClick={esExamen ? iniciarExamen : () => iniciarModo(modo ?? 'practicar')}
               className="rounded-xl bg-blue-600 px-6 py-3 text-lg font-semibold text-white shadow-md transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-white"
             >
-              {t.repeatTopicButton}
+              {esExamen ? t.startExamButton : t.repeatTopicButton}
             </button>
             <button
               type="button"
