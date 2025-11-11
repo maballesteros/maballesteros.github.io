@@ -38,4 +38,12 @@ permalink: /apps/
   </a>
 </article>
 
+<article>
+  <a href="/vocabulario/">
+    <img src="/vocabulario/favicon.svg" alt="Aprende Español">
+    <h2>Aprende Español</h2>
+    <p>Practica vocabulario básico con modos de estudio y quizzes interactivos, animaciones y seguimiento de progreso instantáneo.</p>
+  </a>
+</article>
+
 </div>
