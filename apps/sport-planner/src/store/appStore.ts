@@ -246,6 +246,7 @@ interface AppState {
   deleteSession: (id: string) => void;
   updateSessionWorkItems: (sessionId: string, items: SessionWork[]) => void;
   addWorkToSession: (sessionId: string, item: SessionWorkInput) => SessionWork | undefined;
+  duplicateSessionWork: (sessionId: string, sessionWorkId: string) => SessionWork | undefined;
   removeWorkFromSession: (sessionId: string, sessionWorkId: string) => void;
   toggleSessionWorkCompletion: (sessionId: string, sessionWorkId: string, completed: boolean) => void;
   reorderSessionWork: (sessionId: string, fromIndex: number, toIndex: number) => void;
@@ -694,6 +695,45 @@ export const useAppStore = create<AppState>((set, get) => ({
       return merged;
     });
     return newItem;
+  },
+  duplicateSessionWork: (sessionId, sessionWorkId) => {
+    let duplicatedItem: SessionWork | undefined;
+    let didUpdate = false;
+    set((state) => {
+      const sessions = state.sessions.map((session) => {
+        if (session.id !== sessionId) return session;
+        const targetIndex = session.workItems.findIndex((item) => item.id === sessionWorkId);
+        if (targetIndex === -1) return session;
+        didUpdate = true;
+        const source = session.workItems[targetIndex];
+        const cloned: SessionWork = {
+          ...source,
+          id: nanoid(),
+          completed: false
+        };
+        const items = [...session.workItems];
+        items.splice(targetIndex + 1, 0, cloned);
+        const workItems = items.map((item, order) => {
+          const next = { ...item, order };
+          if (item.id === cloned.id) {
+            duplicatedItem = next;
+          }
+          return next;
+        });
+        return {
+          ...session,
+          workItems,
+          updatedAt: nowIso()
+        };
+      });
+      if (!didUpdate) {
+        return state;
+      }
+      const merged = { ...state, sessions };
+      persistCollections(merged);
+      return merged;
+    });
+    return duplicatedItem;
   },
   removeWorkFromSession: (sessionId, sessionWorkId) => {
     set((state) => {

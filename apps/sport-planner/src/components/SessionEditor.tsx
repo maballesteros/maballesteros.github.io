@@ -66,7 +66,8 @@ interface SortableWorkRowProps {
   objective?: Objective;
   expanded: boolean;
   onToggleExpanded: (id: string) => void;
-  onRemove: (id: string) => void;
+  onRemove: () => void;
+  onDuplicate: () => void;
   onUpdateDetails: (id: string, patch: Partial<SessionWork>) => void;
   onReplace: (newWorkId: string) => void;
   startTimeLabel: string;
@@ -84,6 +85,7 @@ function SortableWorkRow({
   expanded,
   onToggleExpanded,
   onRemove,
+  onDuplicate,
   onUpdateDetails,
   onReplace,
   startTimeLabel,
@@ -241,7 +243,15 @@ function SortableWorkRow({
           </button>
           <button
             type="button"
-            onClick={() => onRemove(item.id)}
+            onClick={onDuplicate}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition hover:border-sky-400/60 hover:text-white"
+            aria-label="Duplicar trabajo en la sesión"
+          >
+            x2
+          </button>
+          <button
+            type="button"
+            onClick={onRemove}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-rose-500/40 text-rose-300 hover:border-rose-400 hover:text-rose-200"
             aria-label="Eliminar trabajo de la sesión"
           >
@@ -345,6 +355,7 @@ function SortableWorkRow({
 export function SessionEditor({ session, works, objectives, assistants, onDateChange }: SessionEditorProps) {
   const updateSession = useAppStore((state) => state.updateSession);
   const addWorkToSession = useAppStore((state) => state.addWorkToSession);
+  const duplicateSessionWork = useAppStore((state) => state.duplicateSessionWork);
   const removeWorkFromSession = useAppStore((state) => state.removeWorkFromSession);
   const reorderSessionWork = useAppStore((state) => state.reorderSessionWork);
   const updateSessionWorkDetails = useAppStore((state) => state.updateSessionWorkDetails);
@@ -594,6 +605,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                           expanded={expandedItems.has(item.id)}
                           onToggleExpanded={toggleExpanded}
                           onRemove={() => removeWorkFromSession(session.id, item.id)}
+                          onDuplicate={() => duplicateSessionWork(session.id, item.id)}
                           onUpdateDetails={(id, patch) => updateSessionWorkDetails(session.id, id, patch)}
                           onReplace={(newWorkId) => replaceSessionWork(session.id, item.id, newWorkId)}
                           startTimeLabel={startLabel}
