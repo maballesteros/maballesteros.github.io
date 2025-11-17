@@ -10,9 +10,6 @@ import { ObjectiveChip } from './ObjectiveChip';
 import { MarkdownContent } from './MarkdownContent';
 import { formatMinutesToTime, parseTimeToMinutes } from '@/utils/time';
 
-const NO_OBJECTIVE_KEY = '__no_objective__';
-const NO_OBJECTIVE_LABEL = 'Sin objetivo';
-
 const ATTENDANCE_LABELS: Record<AttendanceStatus, string> = {
   present: 'Presente',
   absent: 'Ausente',
@@ -55,11 +52,6 @@ function WorkPickerItem({ work, objective, parentChain, onSelect }: WorkPickerIt
   );
 }
 
-interface ObjectiveOption {
-  id: string;
-  name: string;
-}
-
 interface SortableWorkRowProps {
   item: SessionWork;
   work?: Work;
@@ -72,9 +64,8 @@ interface SortableWorkRowProps {
   onReplace: (newWorkId: string) => void;
   startTimeLabel: string;
   durationMinutes: number;
-  objectiveOptions: ObjectiveOption[];
-  worksByObjective: Map<string, Work[]>;
-  currentObjectiveId?: string;
+  works: Work[];
+  objectiveMap: Map<string, Objective>;
   workPathById: Map<string, string>;
 }
 
@@ -90,13 +81,13 @@ function SortableWorkRow({
   onReplace,
   startTimeLabel,
   durationMinutes,
-  objectiveOptions,
-  worksByObjective,
-  currentObjectiveId,
+  works,
+  objectiveMap,
   workPathById
 }: SortableWorkRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
   const [swapOpen, setSwapOpen] = useState(false);
+  const [replacementQuery, setReplacementQuery] = useState('');
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -120,43 +111,36 @@ function SortableWorkRow({
     onUpdateDetails(item.id, { focusLabel: value === '' ? undefined : value });
   };
 
-  const selectOptions = objectiveOptions.length > 0 ? objectiveOptions : [{ id: '', name: 'Sin objetivo' }];
-
-  const defaultObjectiveId = useMemo(() => {
-    if (currentObjectiveId && worksByObjective.has(currentObjectiveId)) {
-      return currentObjectiveId;
-    }
-    const matching = selectOptions[0]?.id ?? currentObjectiveId ?? '';
-    return matching;
-  }, [currentObjectiveId, selectOptions, worksByObjective]);
-
-  const [selectedObjectiveId, setSelectedObjectiveId] = useState(defaultObjectiveId);
+  const normalizedReplacementQuery = replacementQuery.trim().toLowerCase();
+  const replacementCandidates = useMemo(
+    () => works.filter((candidate) => candidate.id !== work?.id),
+    [works, work?.id]
+  );
+  const replacementMatches = useMemo(() => {
+    if (!normalizedReplacementQuery) return [];
+    return replacementCandidates.filter((candidate) => {
+      const subtitle = (candidate.subtitle ?? '').toLowerCase();
+      const objectiveName = objectiveMap.get(candidate.objectiveId)?.name.toLowerCase() ?? '';
+      const path = (workPathById.get(candidate.id) ?? '').toLowerCase();
+      const description = (candidate.descriptionMarkdown ?? '').toLowerCase();
+      const query = normalizedReplacementQuery;
+      return (
+        candidate.name.toLowerCase().includes(query) ||
+        subtitle.includes(query) ||
+        description.includes(query) ||
+        objectiveName.includes(query) ||
+        path.includes(query)
+      );
+    });
+  }, [replacementCandidates, normalizedReplacementQuery, objectiveMap, workPathById]);
 
   useEffect(() => {
-    if (swapOpen) {
-      setSelectedObjectiveId(defaultObjectiveId);
+    if (!swapOpen) {
+      setReplacementQuery('');
     }
-  }, [swapOpen, defaultObjectiveId]);
+  }, [swapOpen]);
 
-  const availableReplacements = useMemo(() => {
-    const baseList = worksByObjective.get(selectedObjectiveId) ?? [];
-    return baseList
-      .filter((candidate) => candidate.id !== work?.id)
-      .sort((a, b) => {
-        const pathA = workPathById.get(a.id) ?? a.name;
-        const pathB = workPathById.get(b.id) ?? b.name;
-        return pathA.localeCompare(pathB, 'es', { sensitivity: 'base' });
-      });
-  }, [selectedObjectiveId, worksByObjective, work?.id, workPathById]);
-
-  const hasAnyReplacement = useMemo(() => {
-    for (const list of worksByObjective.values()) {
-      if (list.some((candidate) => candidate.id !== work?.id)) {
-        return true;
-      }
-    }
-    return false;
-  }, [worksByObjective, work?.id]);
+  const hasAnyReplacement = replacementCandidates.length > 0;
 
   return (
     <article
@@ -260,55 +244,50 @@ function SortableWorkRow({
         </div>
       </div>
       {swapOpen ? (
-        <div className="mt-3 space-y-2 rounded-2xl border border-white/10 bg-slate-950/70 p-3">
+        <div className="mt-3 space-y-3 rounded-2xl border border-white/10 bg-slate-950/70 p-3">
           <div className="grid gap-2">
-            <label className="text-xs uppercase tracking-wide text-white/40">Objetivo</label>
-            <select
-              className="input-field"
-              value={selectedObjectiveId}
-              onChange={(event) => setSelectedObjectiveId(event.target.value)}
-            >
-              {selectOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="grid gap-1.5">
-            {availableReplacements.length === 0 ? (
-              <p className="rounded-2xl border border-dashed border-white/15 px-3 py-2 text-xs text-white/60">
-                No hay trabajos disponibles en este objetivo.
-              </p>
-            ) : (
-              availableReplacements.map((option) => {
-                const optionPath = workPathById.get(option.id) ?? option.name;
-                const optionParentChain = optionPath.split(' · ').slice(0, -1).join(' · ');
-                const optionSubtitle = (option.subtitle ?? '').trim();
-                return (
-                  <button
-                    key={option.id}
-                    type="button"
-                    onClick={() => {
-                      onReplace(option.id);
-                      setSwapOpen(false);
-                    }}
-                    className="flex items-center justify-between gap-2 rounded-2xl border border-white/15 px-3 py-2 text-left text-xs font-semibold text-white/80 transition hover:border-sky-400/60 hover:text-white"
-                  >
-                    <div className="flex flex-col text-left">
-                      <span>{option.name}</span>
-                      {optionSubtitle ? (
-                        <span className="text-[11px] text-white/50">{optionSubtitle}</span>
-                      ) : null}
-                      {optionParentChain ? (
-                        <span className="text-[11px] text-white/40">Deriva de {optionParentChain}</span>
-                      ) : null}
+            <label className="text-xs uppercase tracking-wide text-white/40">Buscar en el catálogo</label>
+            <div className="relative">
+              <input
+                type="search"
+                className="input-field"
+                placeholder="Buscar en el catálogo"
+                value={replacementQuery}
+                onChange={(event) => setReplacementQuery(event.target.value)}
+              />
+              {replacementQuery ? (
+                <div className="absolute top-14 z-10 max-h-60 w-full overflow-y-auto rounded-2xl border border-white/10 bg-slate-900/95 p-2 shadow-xl">
+                  {replacementMatches.length === 0 ? (
+                    <p className="p-3 text-sm text-white/50">Sin resultados. Ajusta la búsqueda.</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {replacementMatches.map((option) => {
+                        const optionPath = workPathById.get(option.id) ?? option.name;
+                        const optionParentChain = optionPath.split(' · ').slice(0, -1).join(' · ');
+                        return (
+                          <WorkPickerItem
+                            key={option.id}
+                            work={option}
+                            objective={objectiveMap.get(option.objectiveId)}
+                            parentChain={optionParentChain}
+                            onSelect={(workId) => {
+                              onReplace(workId);
+                              setSwapOpen(false);
+                              setReplacementQuery('');
+                            }}
+                          />
+                        );
+                      })}
                     </div>
-                    <span className="text-[11px] text-white/40">{option.estimatedMinutes} min</span>
-                  </button>
-                );
-              })
-            )}
+                  )}
+                </div>
+              ) : null}
+            </div>
+            {!replacementQuery ? (
+              <p className="rounded-2xl border border-dashed border-white/15 px-3 py-2 text-xs text-white/60">
+                Escribe para encontrar un reemplazo. Se mostrarán resultados coincidentes del catálogo.
+              </p>
+            ) : null}
           </div>
         </div>
       ) : null}
@@ -392,41 +371,6 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
     works.forEach((work) => buildPath(work.id, new Set()));
     return cache;
   }, [works, workMap]);
-  const objectiveOptions = useMemo<ObjectiveOption[]>(() => {
-    const nameById = new Map(objectives.map((objective) => [objective.id, objective.name]));
-    const options: ObjectiveOption[] = objectives.map((objective) => ({ id: objective.id, name: objective.name }));
-    const seen = new Set(options.map((option) => option.id));
-    const ensureOption = (id?: string | null) => {
-      const key = id ?? NO_OBJECTIVE_KEY;
-      if (seen.has(key)) return;
-      const name = key === NO_OBJECTIVE_KEY ? NO_OBJECTIVE_LABEL : nameById.get(key) ?? 'Otro objetivo';
-      options.push({ id: key, name });
-      seen.add(key);
-    };
-    works.forEach((work) => {
-      ensureOption(work.objectiveId);
-    });
-    return options;
-  }, [objectives, works]);
-
-  const worksByObjective = useMemo(() => {
-    const map = new Map<string, Work[]>();
-    works.forEach((work) => {
-      const key = work.objectiveId ?? NO_OBJECTIVE_KEY;
-      const list = map.get(key) ?? [];
-      list.push(work);
-      map.set(key, list);
-    });
-    map.forEach((list) => {
-      list.sort((a, b) => {
-        const pathA = workPathById.get(a.id) ?? a.name;
-        const pathB = workPathById.get(b.id) ?? b.name;
-        return pathA.localeCompare(pathB, 'es', { sensitivity: 'base' });
-      });
-    });
-    return map;
-  }, [works, workPathById]);
-
   const filteredWorks = useMemo(() => {
     if (!query) return works;
     const normalized = query.toLowerCase();
@@ -610,9 +554,8 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                           onReplace={(newWorkId) => replaceSessionWork(session.id, item.id, newWorkId)}
                           startTimeLabel={startLabel}
                           durationMinutes={durationMinutes}
-                          objectiveOptions={objectiveOptions}
-                          worksByObjective={worksByObjective}
-                          currentObjectiveId={currentWork?.objectiveId ?? NO_OBJECTIVE_KEY}
+                          works={works}
+                          objectiveMap={objectiveMap}
                           workPathById={workPathById}
                         />
                       );
