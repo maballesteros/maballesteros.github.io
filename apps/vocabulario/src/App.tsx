@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import party from 'party-js';
 import gruposData from './data/grupos.json';
+import { PDFExamGenerator } from './components/PDFExamGenerator';
 
 type LocalizedText = {
   en: string;
@@ -329,6 +330,7 @@ const App = () => {
   const confettiTargetRef = useRef<HTMLDivElement | null>(null);
   const recordInicioRef = useRef(0);
   const hasCelebratedRecordRef = useRef(false);
+  const [showExamModal, setShowExamModal] = useState(false);
 
   const gruposVocabulario = useMemo(
     () =>
@@ -610,9 +612,8 @@ const App = () => {
           type="button"
           onClick={() => setLanguage('en')}
           aria-pressed={language === 'en'}
-          className={`rounded-full px-3 py-1 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-            language === 'en' ? 'bg-blue-600 text-white shadow' : 'text-blue-700 hover:bg-blue-100'
-          }`}
+          className={`rounded-full px-3 py-1 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${language === 'en' ? 'bg-blue-600 text-white shadow' : 'text-blue-700 hover:bg-blue-100'
+            }`}
         >
           English
         </button>
@@ -620,16 +621,30 @@ const App = () => {
           type="button"
           onClick={() => setLanguage('es')}
           aria-pressed={language === 'es'}
-          className={`rounded-full px-3 py-1 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-            language === 'es' ? 'bg-blue-600 text-white shadow' : 'text-blue-700 hover:bg-blue-100'
-          }`}
+          className={`rounded-full px-3 py-1 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${language === 'es' ? 'bg-blue-600 text-white shadow' : 'text-blue-700 hover:bg-blue-100'
+            }`}
         >
           Español
         </button>
       </div>
 
+      <PDFExamGenerator
+        isOpen={showExamModal}
+        onClose={() => setShowExamModal(false)}
+        grupos={gruposTematicos}
+      />
+
       {fase === 'inicio' && (
         <div className="w-full max-w-3xl rounded-3xl bg-white p-10 text-center shadow-2xl animate-fade-in">
+          <div className="mb-6 flex justify-end">
+            <button
+              onClick={() => setShowExamModal(true)}
+              className="flex items-center gap-2 rounded-xl bg-blue-50 px-4 py-2 text-sm font-bold text-blue-600 hover:bg-blue-100 transition"
+            >
+              <span>📄</span>
+              {language === 'en' ? 'Create PDF Exam' : 'Crear Examen PDF'}
+            </button>
+          </div>
           <h1 className="mb-6 text-4xl font-extrabold text-blue-700 drop-shadow-sm md:text-5xl">{t.homeTitle}</h1>
           <p className="mx-auto mb-8 max-w-xl text-lg text-blue-900">{t.homeIntro}</p>
           <div className="flex flex-col gap-10 text-left">
@@ -655,9 +670,8 @@ const App = () => {
                   return (
                     <article
                       key={grupo.id}
-                      className={`rounded-3xl border bg-gradient-to-br p-6 shadow-lg transition ${
-                        bloqueBloqueado ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-2xl'
-                      } ${grupo.nivel.clases.fondo} ${grupo.nivel.clases.borde}`}
+                      className={`rounded-3xl border bg-gradient-to-br p-6 shadow-lg transition ${bloqueBloqueado ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-2xl'
+                        } ${grupo.nivel.clases.fondo} ${grupo.nivel.clases.borde}`}
                     >
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <span
@@ -705,9 +719,8 @@ const App = () => {
                                   {t.wordsLabel}: {tema.palabras.length}
                                 </span>
                                 <span
-                                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
-                                    temaCompletado ? 'bg-green-500 text-white' : 'bg-blue-900/40 text-blue-50'
-                                  }`}
+                                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${temaCompletado ? 'bg-green-500 text-white' : 'bg-blue-900/40 text-blue-50'
+                                    }`}
                                 >
                                   {stateTag}
                                 </span>
@@ -730,19 +743,18 @@ const App = () => {
                           <div className="flex items-center justify-between">
                             <span>{t.examButtonLabel}</span>
                             <span
-                              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
-                                examPassed
+                              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${examPassed
                                   ? 'bg-green-500 text-white'
                                   : examUnlocked
-                                  ? 'bg-blue-100 text-blue-700'
-                                  : 'bg-slate-300 text-slate-600'
-                              }`}
+                                    ? 'bg-blue-100 text-blue-700'
+                                    : 'bg-slate-300 text-slate-600'
+                                }`}
                             >
                               {examPassed
                                 ? t.practiceCompletedTag
                                 : examUnlocked
-                                ? t.examUnlockedTag
-                                : t.examLockedTag}
+                                  ? t.examUnlockedTag
+                                  : t.examLockedTag}
                             </span>
                           </div>
                           <div className="mt-1 flex items-center justify-between text-xs font-medium text-slate-600">
@@ -787,9 +799,8 @@ const App = () => {
                   return (
                     <article
                       key={grupo.id}
-                      className={`rounded-3xl border bg-gradient-to-br p-6 shadow-lg transition ${
-                        bloqueBloqueado ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-2xl'
-                      } ${grupo.nivel.clases.fondo} ${grupo.nivel.clases.borde}`}
+                      className={`rounded-3xl border bg-gradient-to-br p-6 shadow-lg transition ${bloqueBloqueado ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-2xl'
+                        } ${grupo.nivel.clases.fondo} ${grupo.nivel.clases.borde}`}
                     >
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <span
@@ -837,9 +848,8 @@ const App = () => {
                                   {t.sentencesLabel}: {tema.palabras.length}
                                 </span>
                                 <span
-                                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
-                                    temaCompletado ? 'bg-green-500 text-white' : 'bg-purple-900/40 text-purple-50'
-                                  }`}
+                                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${temaCompletado ? 'bg-green-500 text-white' : 'bg-purple-900/40 text-purple-50'
+                                    }`}
                                 >
                                   {stateTag}
                                 </span>
@@ -862,19 +872,18 @@ const App = () => {
                           <div className="flex items-center justify-between">
                             <span>{t.examButtonLabel}</span>
                             <span
-                              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
-                                examPassed
+                              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${examPassed
                                   ? 'bg-green-500 text-white'
                                   : examUnlocked
-                                  ? 'bg-purple-100 text-purple-700'
-                                  : 'bg-slate-300 text-slate-600'
-                              }`}
+                                    ? 'bg-purple-100 text-purple-700'
+                                    : 'bg-slate-300 text-slate-600'
+                                }`}
                             >
                               {examPassed
                                 ? t.practiceCompletedTag
                                 : examUnlocked
-                                ? t.examUnlockedTag
-                                : t.examLockedTag}
+                                  ? t.examUnlockedTag
+                                  : t.examLockedTag}
                             </span>
                           </div>
                           <div className="mt-1 flex items-center justify-between text-xs font-medium text-slate-600">
@@ -1000,14 +1009,12 @@ const App = () => {
 
       {fase === 'aprender' && palabra && temaActual && (
         <div
-          className={`w-full max-w-xl rounded-3xl shadow-2xl animate-slide-up ${
-            grupoActual ? `${theme.panelOuter} p-[3px]` : 'bg-white'
-          }`}
+          className={`w-full max-w-xl rounded-3xl shadow-2xl animate-slide-up ${grupoActual ? `${theme.panelOuter} p-[3px]` : 'bg-white'
+            }`}
         >
           <div
-            className={`rounded-3xl p-10 text-center ${
-              grupoActual ? theme.panelInner : 'bg-white'
-            }`}
+            className={`rounded-3xl p-10 text-center ${grupoActual ? theme.panelInner : 'bg-white'
+              }`}
           >
             {grupoActual && (
               <div className="flex flex-col items-center gap-3">
@@ -1061,14 +1068,12 @@ const App = () => {
 
       {(fase === 'practicar' || fase === 'examen') && palabra && temaActual && (
         <div
-          className={`w-full max-w-xl rounded-3xl shadow-2xl animate-slide-up ${
-            grupoActual ? `${theme.panelOuter} p-[3px]` : 'bg-white'
-          }`}
+          className={`w-full max-w-xl rounded-3xl shadow-2xl animate-slide-up ${grupoActual ? `${theme.panelOuter} p-[3px]` : 'bg-white'
+            }`}
         >
           <div
-            className={`rounded-3xl p-10 text-center ${
-              grupoActual ? theme.panelInner : 'bg-white'
-            }`}
+            className={`rounded-3xl p-10 text-center ${grupoActual ? theme.panelInner : 'bg-white'
+              }`}
           >
             {grupoActual && (
               <div className="flex flex-col items-center gap-3">
@@ -1097,9 +1102,8 @@ const App = () => {
                   type="button"
                   disabled={bloqueado}
                   onClick={() => responder(opcion.es)}
-                  className={`rounded-xl px-4 py-3 text-lg font-semibold shadow-md transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white ${
-                    bloqueado ? 'cursor-not-allowed' : 'hover:-translate-y-0.5'
-                  } ${getOptionClasses(opcion.es)}`}
+                  className={`rounded-xl px-4 py-3 text-lg font-semibold shadow-md transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white ${bloqueado ? 'cursor-not-allowed' : 'hover:-translate-y-0.5'
+                    } ${getOptionClasses(opcion.es)}`}
                 >
                   {opcion.es}
                 </button>
