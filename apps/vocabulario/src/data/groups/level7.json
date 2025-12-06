@@ -1,0 +1,760 @@
+{
+  "id": "phr-clase-activa",
+  "tipo": "frases",
+  "nombre": {
+    "es": "Clase activa",
+    "en": "Active classroom"
+  },
+  "descripcion": {
+    "es": "Participa en las clases con frases que muestran iniciativa y colaboración.",
+    "en": "Take part in lessons with phrases that show initiative and teamwork."
+  },
+  "nivel": {
+    "orden": 7,
+    "titulo": {
+      "es": "Nivel 7 · Estratega comunicativo",
+      "en": "Level 7 · Communication strategist"
+    },
+    "descripcion": {
+      "es": "Coordina tareas y resuelve dudas con tus compañeros.",
+      "en": "Coordinate tasks and solve doubts with classmates."
+    },
+    "clases": {
+      "fondo": "from-blue-50 via-blue-100 to-blue-200",
+      "borde": "border-blue-300",
+      "titulo": "text-blue-900",
+      "insignia": "bg-blue-500 text-white"
+    }
+  },
+  "temas": [
+    {
+      "id": "participar-clase",
+      "nombre": {
+        "es": "Participar en clase",
+        "en": "Taking part in class"
+      },
+      "palabras": [
+        {
+          "en": "I would like to answer.",
+          "es": "Me gustaría responder.",
+          "definicion": "Pedir turno para hablar."
+        },
+        {
+          "en": "Can I share my idea?",
+          "es": "¿Puedo compartir mi idea?",
+          "definicion": "Ofrecer tu opinión al grupo."
+        },
+        {
+          "en": "I think the solution is...",
+          "es": "Creo que la solución es...",
+          "definicion": "Proponer una respuesta."
+        },
+        {
+          "en": "May I go next?",
+          "es": "¿Puedo ir después?",
+          "definicion": "Pedir el siguiente turno."
+        },
+        {
+          "en": "Could we review that part?",
+          "es": "¿Podríamos repasar esa parte?",
+          "definicion": "Pedir volver a ver algo."
+        },
+        {
+          "en": "Can we check the answer together?",
+          "es": "¿Podemos comprobar la respuesta juntos?",
+          "definicion": "Corregir en grupo."
+        },
+        {
+          "en": "May I add something?",
+          "es": "¿Puedo añadir algo?",
+          "definicion": "Querer decir algo más."
+        },
+        {
+          "en": "I have a different idea.",
+          "es": "Tengo una idea diferente.",
+          "definicion": "No estar de acuerdo con lo dicho."
+        },
+        {
+          "en": "Could you repeat the question?",
+          "es": "¿Puedes repetir la pregunta?",
+          "definicion": "Pedir escuchar la pregunta otra vez."
+        },
+        {
+          "en": "Can we compare answers?",
+          "es": "¿Podemos comparar respuestas?",
+          "definicion": "Ver si tenemos lo mismo."
+        },
+        {
+          "en": "Could I use the board?",
+          "es": "¿Puedo usar la pizarra?",
+          "definicion": "Pedir escribir para que todos lo vean."
+        },
+        {
+          "en": "I think that...",
+          "es": "Creo que...",
+          "definicion": "Dar tu opinión."
+        },
+        {
+          "en": "In my opinion...",
+          "es": "En mi opinión...",
+          "definicion": "Expresar punto de vista."
+        },
+        {
+          "en": "I agree with you.",
+          "es": "Estoy de acuerdo contigo.",
+          "definicion": "Coincidir con alguien."
+        },
+        {
+          "en": "I disagree.",
+          "es": "No estoy de acuerdo.",
+          "definicion": "Discrepar."
+        },
+        {
+          "en": "Can I add something?",
+          "es": "¿Puedo añadir algo?",
+          "definicion": "Pedir turno para aportar."
+        },
+        {
+          "en": "That is interesting.",
+          "es": "Eso es interesante.",
+          "definicion": "Valorar una idea."
+        },
+        {
+          "en": "Why do you think that?",
+          "es": "¿Por qué piensas eso?",
+          "definicion": "Pedir razones."
+        },
+        {
+          "en": "For example...",
+          "es": "Por ejemplo...",
+          "definicion": "Dar un caso concreto."
+        },
+        {
+          "en": "Another reason is...",
+          "es": "Otra razón es...",
+          "definicion": "Añadir argumentos."
+        },
+        {
+          "en": "To summarize...",
+          "es": "Para resumir...",
+          "definicion": "Concluir."
+        },
+        {
+          "en": "What about...?",
+          "es": "¿Qué pasa con...?",
+          "definicion": "Sugerir otro tema."
+        },
+        {
+          "en": "Let's discuss this.",
+          "es": "Discutamos esto.",
+          "definicion": "Proponer debate."
+        }
+      ]
+    },
+    {
+      "id": "trabajo-equipo",
+      "nombre": {
+        "es": "Trabajo en equipo",
+        "en": "Working in teams"
+      },
+      "palabras": [
+        {
+          "en": "Let us divide the tasks.",
+          "es": "Dividamos las tareas.",
+          "definicion": "Repartir el trabajo."
+        },
+        {
+          "en": "Who wants to start?",
+          "es": "¿Quién quiere empezar?",
+          "definicion": "Preguntar por el primer voluntario."
+        },
+        {
+          "en": "I can write the summary.",
+          "es": "Puedo escribir el resumen.",
+          "definicion": "Ofrecerse a hacer la síntesis."
+        },
+        {
+          "en": "Shall we present together?",
+          "es": "¿Presentamos juntos?",
+          "definicion": "Proponer hablar los dos."
+        },
+        {
+          "en": "We need more information.",
+          "es": "Necesitamos más información.",
+          "definicion": "Decir que faltan datos."
+        },
+        {
+          "en": "I can check the spelling.",
+          "es": "Puedo revisar la ortografía.",
+          "definicion": "Ofrecerse a corregir errores."
+        },
+        {
+          "en": "Let us set a timer.",
+          "es": "Pongamos un temporizador.",
+          "definicion": "Controlar el tiempo."
+        },
+        {
+          "en": "I can design the slides.",
+          "es": "Puedo diseñar las diapositivas.",
+          "definicion": "Hacer la presentación visual."
+        },
+        {
+          "en": "Shall we share the results?",
+          "es": "¿Compartimos los resultados?",
+          "definicion": "Mostrar lo que hemos hecho."
+        },
+        {
+          "en": "I will look for pictures.",
+          "es": "Buscaré imágenes.",
+          "definicion": "Encargarse de las fotos."
+        },
+        {
+          "en": "We should practice the presentation.",
+          "es": "Deberíamos practicar la presentación.",
+          "definicion": "Ensayar antes de hablar."
+        },
+        {
+          "en": "Let's work together.",
+          "es": "Trabajemos juntos.",
+          "definicion": "Proponer colaboración."
+        },
+        {
+          "en": "I can do this part.",
+          "es": "Yo puedo hacer esta parte.",
+          "definicion": "Ofrecerse para una tarea."
+        },
+        {
+          "en": "What do you think?",
+          "es": "¿Qué opinas tú?",
+          "definicion": "Pedir opinión al grupo."
+        },
+        {
+          "en": "We need a plan.",
+          "es": "Necesitamos un plan.",
+          "definicion": "Organizar la estrategia."
+        },
+        {
+          "en": "Are we finished?",
+          "es": "¿Hemos terminado?",
+          "definicion": "Preguntar por el final."
+        },
+        {
+          "en": "Good job!",
+          "es": "¡Buen trabajo!",
+          "definicion": "Felicitar al equipo."
+        },
+        {
+          "en": "Let's share ideas.",
+          "es": "Compartamos ideas.",
+          "definicion": "Hacer lluvia de ideas."
+        },
+        {
+          "en": "Can you write it down?",
+          "es": "¿Puedes escribirlo?",
+          "definicion": "Pedir que alguien anote."
+        },
+        {
+          "en": "We have five minutes.",
+          "es": "Tenemos cinco minutos.",
+          "definicion": "Controlar el tiempo."
+        },
+        {
+          "en": "Let's vote.",
+          "es": "Vamos a votar.",
+          "definicion": "Decidir democráticamente."
+        },
+        {
+          "en": "Who presents?",
+          "es": "¿Quién presenta?",
+          "definicion": "Elegir al portavoz."
+        }
+      ]
+    },
+    {
+      "id": "explicar-problemas",
+      "nombre": {
+        "es": "Explicar problemas",
+        "en": "Explaining problems"
+      },
+      "palabras": [
+        {
+          "en": "I missed the last class.",
+          "es": "Me perdí la última clase.",
+          "definicion": "Decir que no viniste ayer."
+        },
+        {
+          "en": "I had trouble with the homework.",
+          "es": "Tuve problemas con los deberes.",
+          "definicion": "Admitir dificultad con la tarea."
+        },
+        {
+          "en": "I do not remember the instructions.",
+          "es": "No recuerdo las instrucciones.",
+          "definicion": "Olvidar qué hay que hacer."
+        },
+        {
+          "en": "Could you show me an example?",
+          "es": "¿Podrías mostrarme un ejemplo?",
+          "definicion": "Pedir un modelo a seguir."
+        },
+        {
+          "en": "I got stuck here.",
+          "es": "Me quedé atascado aquí.",
+          "definicion": "No saber cómo continuar."
+        },
+        {
+          "en": "Where should I start?",
+          "es": "¿Por dónde debería empezar?",
+          "definicion": "Pedir el primer paso."
+        },
+        {
+          "en": "I need help with question five.",
+          "es": "Necesito ayuda con la pregunta cinco.",
+          "definicion": "Pedir auxilio en un punto concreto."
+        },
+        {
+          "en": "I did not understand the example.",
+          "es": "No entendí el ejemplo.",
+          "definicion": "Decir que el modelo no está claro."
+        },
+        {
+          "en": "Could you check my answer?",
+          "es": "¿Puedes revisar mi respuesta?",
+          "definicion": "Pedir corrección."
+        },
+        {
+          "en": "What should I review?",
+          "es": "¿Qué debería repasar?",
+          "definicion": "Preguntar qué estudiar."
+        },
+        {
+          "en": "Can you show me the steps?",
+          "es": "¿Puedes mostrarme los pasos?",
+          "definicion": "Pedir la secuencia de acciones."
+        },
+        {
+          "en": "It is too difficult.",
+          "es": "Es demasiado difícil.",
+          "definicion": "Expresar dificultad."
+        },
+        {
+          "en": "I am stuck.",
+          "es": "Estoy atascado.",
+          "definicion": "No poder avanzar."
+        },
+        {
+          "en": "My computer is not working.",
+          "es": "Mi ordenador no funciona.",
+          "definicion": "Reportar fallo técnico."
+        },
+        {
+          "en": "I lost my connection.",
+          "es": "Perdí la conexión.",
+          "definicion": "Problema de internet."
+        },
+        {
+          "en": "The page is not loading.",
+          "es": "La página no carga.",
+          "definicion": "Problema web."
+        },
+        {
+          "en": "I cannot hear you.",
+          "es": "No te oigo.",
+          "definicion": "Problema de audio."
+        },
+        {
+          "en": "The screen is black.",
+          "es": "La pantalla está negra.",
+          "definicion": "Problema de vídeo."
+        },
+        {
+          "en": "I need more time.",
+          "es": "Necesito más tiempo.",
+          "definicion": "Pedir extensión."
+        },
+        {
+          "en": "I made a mistake.",
+          "es": "He cometido un error.",
+          "definicion": "Admitir fallo."
+        },
+        {
+          "en": "Can we restart?",
+          "es": "¿Podemos reiniciar?",
+          "definicion": "Pedir empezar de cero."
+        },
+        {
+          "en": "It is confusing.",
+          "es": "Es confuso.",
+          "definicion": "No entender la estructura."
+        },
+        {
+          "en": "I don't know the answer.",
+          "es": "No sé la respuesta.",
+          "definicion": "Admitir ignorancia."
+        }
+      ]
+    },
+    {
+      "id": "resolver-conflictos",
+      "nombre": {
+        "es": "Resolver conflictos",
+        "en": "Resolving conflicts"
+      },
+      "palabras": [
+        {
+          "en": "I think there is a mistake.",
+          "es": "Creo que hay un error.",
+          "definicion": "Señalar un fallo educadamente."
+        },
+        {
+          "en": "Let us talk calmly.",
+          "es": "Hablemos con calma.",
+          "definicion": "Pedir tranquilidad al hablar."
+        },
+        {
+          "en": "I did not mean to upset you.",
+          "es": "No quería molestarte.",
+          "definicion": "Disculparse por ofender."
+        },
+        {
+          "en": "Can we find another solution?",
+          "es": "¿Podemos encontrar otra solución?",
+          "definicion": "Buscar alternativas al problema."
+        },
+        {
+          "en": "Let us ask the teacher.",
+          "es": "Preguntémosle al profesor.",
+          "definicion": "Buscar la autoridad del maestro."
+        },
+        {
+          "en": "I understand your point.",
+          "es": "Entiendo tu punto de vista.",
+          "definicion": "Validar la opinión del otro."
+        },
+        {
+          "en": "Let us listen to each other.",
+          "es": "Escuchémonos.",
+          "definicion": "Pedir atención mutua."
+        },
+        {
+          "en": "What if we try another idea?",
+          "es": "¿Y si probamos otra idea?",
+          "definicion": "Sugerir un cambio de plan."
+        },
+        {
+          "en": "I did not understand what you meant.",
+          "es": "No entendí lo que querías decir.",
+          "definicion": "Pedir aclaración sobre el significado."
+        },
+        {
+          "en": "Can we split the difference?",
+          "es": "¿Podemos llegar a un punto medio?",
+          "definicion": "Negociar un acuerdo."
+        },
+        {
+          "en": "Thanks for explaining.",
+          "es": "Gracias por explicarlo.",
+          "definicion": "Agradecer la aclaración."
+        },
+        {
+          "en": "I am sorry.",
+          "es": "Lo siento.",
+          "definicion": "Pedir perdón."
+        },
+        {
+          "en": "It was an accident.",
+          "es": "Fue un accidente.",
+          "definicion": "Explicar que no fue a propósito."
+        },
+        {
+          "en": "Let's calm down.",
+          "es": "Calmémonos.",
+          "definicion": "Pedir tranquilidad."
+        },
+        {
+          "en": "Please, stop.",
+          "es": "Por favor, para.",
+          "definicion": "Pedir que cesen."
+        },
+        {
+          "en": "Let's talk about it.",
+          "es": "Hablemos de ello.",
+          "definicion": "Proponer diálogo."
+        },
+        {
+          "en": "That is not fair.",
+          "es": "Eso no es justo.",
+          "definicion": "Quejarse de injusticia."
+        },
+        {
+          "en": "I forgive you.",
+          "es": "Te perdono.",
+          "definicion": "Aceptar disculpas."
+        },
+        {
+          "en": "Let's be friends.",
+          "es": "Seamos amigos.",
+          "definicion": "Proponer reconciliación."
+        },
+        {
+          "en": "Don't shout.",
+          "es": "No grites.",
+          "definicion": "Pedir bajar la voz."
+        },
+        {
+          "en": "Respect my turn.",
+          "es": "Respeta mi turno.",
+          "definicion": "Pedir orden."
+        },
+        {
+          "en": "Listen to me, please.",
+          "es": "Escúchame, por favor.",
+          "definicion": "Pedir ser oído."
+        },
+        {
+          "en": "Let's find a solution.",
+          "es": "Busquemos una solución.",
+          "definicion": "Proponer arreglo."
+        }
+      ]
+    },
+    {
+      "id": "organizar-agenda",
+      "nombre": {
+        "es": "Organizar la agenda",
+        "en": "Planning the schedule"
+      },
+      "palabras": [
+        {
+          "en": "Our project is due on Friday.",
+          "es": "Nuestro proyecto se entrega el viernes.",
+          "definicion": "Recordar la fecha de entrega."
+        },
+        {
+          "en": "Shall we meet after school?",
+          "es": "¿Quedamos después de clase?",
+          "definicion": "Proponer cita al salir."
+        },
+        {
+          "en": "What time works for you?",
+          "es": "¿Qué hora te viene bien?",
+          "definicion": "Preguntar disponibilidad horaria."
+        },
+        {
+          "en": "Let us set a deadline.",
+          "es": "Pongamos una fecha límite.",
+          "definicion": "Fijar cuándo terminar."
+        },
+        {
+          "en": "We need to rehearse tomorrow.",
+          "es": "Tenemos que ensayar mañana.",
+          "definicion": "Planear práctica para el día siguiente."
+        },
+        {
+          "en": "I will bring the materials.",
+          "es": "Yo llevaré los materiales.",
+          "definicion": "Comprometerse a traer cosas."
+        },
+        {
+          "en": "Let us write the deadline on the board.",
+          "es": "Apuntemos la fecha en la pizarra.",
+          "definicion": "Hacer visible la fecha final."
+        },
+        {
+          "en": "Can we share a calendar?",
+          "es": "¿Podemos compartir un calendario?",
+          "definicion": "Usar una agenda común."
+        },
+        {
+          "en": "I will remind everyone tomorrow.",
+          "es": "Recordaré a todos mañana.",
+          "definicion": "Ofrecerse a avisar al grupo."
+        },
+        {
+          "en": "Let us finish the draft today.",
+          "es": "Terminemos el borrador hoy.",
+          "definicion": "Proponer acabar la primera versión."
+        },
+        {
+          "en": "Can you send me the notes?",
+          "es": "¿Me envías las notas?",
+          "definicion": "Pedir los apuntes."
+        },
+        {
+          "en": "When is the deadline?",
+          "es": "¿Cuándo es la fecha límite?",
+          "definicion": "Preguntar cuándo entregar."
+        },
+        {
+          "en": "The exam is on Monday.",
+          "es": "El examen es el lunes.",
+          "definicion": "Recordar fecha de prueba."
+        },
+        {
+          "en": "Do we have homework?",
+          "es": "¿Tenemos deberes?",
+          "definicion": "Preguntar por tareas."
+        },
+        {
+          "en": "Let's meet at five.",
+          "es": "Quedamos a las cinco.",
+          "definicion": "Proponer hora."
+        },
+        {
+          "en": "I am busy today.",
+          "es": "Estoy ocupado hoy.",
+          "definicion": "Rechazar por falta de tiempo."
+        },
+        {
+          "en": "Can we change the date?",
+          "es": "¿Podemos cambiar la fecha?",
+          "definicion": "Pedir aplazamiento."
+        },
+        {
+          "en": "Write it in your diary.",
+          "es": "Escríbelo en tu agenda.",
+          "definicion": "Consejo de organización."
+        },
+        {
+          "en": "Don't forget.",
+          "es": "No te olvides.",
+          "definicion": "Recordatorio."
+        },
+        {
+          "en": "Next week.",
+          "es": "La semana que viene.",
+          "definicion": "Referencia temporal futura."
+        },
+        {
+          "en": "Tomorrow morning.",
+          "es": "Mañana por la mañana.",
+          "definicion": "Referencia temporal cercana."
+        },
+        {
+          "en": "Every day.",
+          "es": "Todos los días.",
+          "definicion": "Frecuencia diaria."
+        },
+        {
+          "en": "Once a week.",
+          "es": "Una vez a la semana.",
+          "definicion": "Frecuencia semanal."
+        }
+      ]
+    },
+    {
+      "id": "pedir-recursos",
+      "nombre": {
+        "es": "Pedir recursos",
+        "en": "Requesting resources"
+      },
+      "palabras": [
+        {
+          "en": "Could I borrow a dictionary?",
+          "es": "¿Podría coger prestado un diccionario?",
+          "definicion": "Pedir usar un libro de palabras."
+        },
+        {
+          "en": "Do you have a spare pen?",
+          "es": "¿Tienes un bolígrafo de sobra?"
+        },
+        {
+          "en": "May I print this document?",
+          "es": "¿Puedo imprimir este documento?"
+        },
+        {
+          "en": "Is the wifi password available?",
+          "es": "¿Está disponible la contraseña del wifi?"
+        },
+        {
+          "en": "Where can I charge my tablet?",
+          "es": "¿Dónde puedo cargar la tableta?"
+        },
+        {
+          "en": "Can I use the library computer?",
+          "es": "¿Puedo usar el ordenador de la biblioteca?"
+        },
+        {
+          "en": "May I borrow a ruler?",
+          "es": "¿Me prestas una regla?"
+        },
+        {
+          "en": "Where can I print this?",
+          "es": "¿Dónde puedo imprimir esto?"
+        },
+        {
+          "en": "Could I use a stapler?",
+          "es": "¿Puedo usar una grapadora?"
+        },
+        {
+          "en": "Is there a spare notebook?",
+          "es": "¿Hay un cuaderno de sobra?"
+        },
+        {
+          "en": "Can I charge my phone here?",
+          "es": "¿Puedo cargar el móvil aquí?"
+        },
+        {
+          "en": "Can I have a paper?",
+          "es": "¿Me das un papel?",
+          "definicion": "Pedir hoja."
+        },
+        {
+          "en": "I need a dictionary.",
+          "es": "Necesito un diccionario.",
+          "definicion": "Pedir libro de palabras."
+        },
+        {
+          "en": "Do you have scissors?",
+          "es": "¿Tienes tijeras?",
+          "definicion": "Pedir herramienta de corte."
+        },
+        {
+          "en": "Can I use the glue?",
+          "es": "¿Puedo usar el pegamento?",
+          "definicion": "Pedir adhesivo."
+        },
+        {
+          "en": "Where are the markers?",
+          "es": "¿Dónde están los rotuladores?",
+          "definicion": "Buscar material de dibujo."
+        },
+        {
+          "en": "Can I charge my laptop?",
+          "es": "¿Puedo cargar mi portátil?",
+          "definicion": "Pedir electricidad."
+        },
+        {
+          "en": "I need more space.",
+          "es": "Necesito más espacio.",
+          "definicion": "Pedir sitio."
+        },
+        {
+          "en": "Can you print this?",
+          "es": "¿Puedes imprimir esto?",
+          "definicion": "Pedir copia en papel."
+        },
+        {
+          "en": "Is there wifi here?",
+          "es": "¿Hay wifi aquí?",
+          "definicion": "Preguntar por internet."
+        },
+        {
+          "en": "Can I borrow a book?",
+          "es": "¿Puedo tomar prestado un libro?",
+          "definicion": "Pedir lectura."
+        },
+        {
+          "en": "I need a tissue.",
+          "es": "Necesito un pañuelo.",
+          "definicion": "Pedir papel para la nariz."
+        },
+        {
+          "en": "Do you have a stapler?",
+          "es": "¿Tienes una grapadora?",
+          "definicion": "Pedir unir papeles."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,793 @@
+{
+  "id": "voc-horizontes-futuros",
+  "tipo": "vocabulario",
+  "nombre": {
+    "es": "Horizontes futuros",
+    "en": "Future horizons"
+  },
+  "descripcion": {
+    "es": "Prepárate para hablar del futuro, la tecnología y tus proyectos.",
+    "en": "Get ready to talk about the future, technology, and your projects."
+  },
+  "nivel": {
+    "orden": 5,
+    "titulo": {
+      "es": "Nivel 5 · Visionario",
+      "en": "Level 5 · Visionary"
+    },
+    "descripcion": {
+      "es": "Mira más allá y amplía tu mundo en español.",
+      "en": "Look ahead and expand your world in Spanish."
+    },
+    "clases": {
+      "fondo": "from-rose-50 via-rose-100 to-rose-200",
+      "borde": "border-rose-300",
+      "titulo": "text-rose-900",
+      "insignia": "bg-rose-500 text-white"
+    }
+  },
+  "temas": [
+    {
+      "id": "profesiones-suenos",
+      "nombre": {
+        "es": "Profesiones soñadas",
+        "en": "Dream careers"
+      },
+      "palabras": [
+        {
+          "en": "engineer",
+          "es": "ingeniero",
+          "definicion": "Persona que diseña y construye máquinas."
+        },
+        {
+          "en": "nurse",
+          "es": "enfermero",
+          "definicion": "Persona que cuida a los enfermos."
+        },
+        {
+          "en": "architect",
+          "es": "arquitecto",
+          "definicion": "Persona que diseña edificios."
+        },
+        {
+          "en": "journalist",
+          "es": "periodista",
+          "definicion": "Persona que informa de las noticias."
+        },
+        {
+          "en": "chef",
+          "es": "chef",
+          "definicion": "Cocinero profesional jefe."
+        },
+        {
+          "en": "scientist",
+          "es": "científico",
+          "definicion": "Persona que investiga la ciencia."
+        },
+        {
+          "en": "photographer",
+          "es": "fotógrafo",
+          "definicion": "Persona que hace fotos profesionales."
+        },
+        {
+          "en": "pilot",
+          "es": "piloto",
+          "definicion": "Persona que conduce aviones."
+        },
+        {
+          "en": "lawyer",
+          "es": "abogado",
+          "definicion": "Persona que defiende la ley."
+        },
+        {
+          "en": "designer",
+          "es": "diseñador",
+          "definicion": "Persona que crea diseños."
+        },
+        {
+          "en": "entrepreneur",
+          "es": "emprendedor",
+          "definicion": "Persona que crea su propia empresa."
+        },
+        {
+          "en": "veterinarian",
+          "es": "veterinario",
+          "definicion": "Médico de animales."
+        },
+        {
+          "en": "doctor",
+          "es": "médico",
+          "definicion": "Persona que cura enfermedades."
+        },
+        {
+          "en": "teacher",
+          "es": "profesor",
+          "definicion": "Persona que enseña en la escuela."
+        },
+        {
+          "en": "actor",
+          "es": "actor",
+          "definicion": "Persona que actúa en películas."
+        },
+        {
+          "en": "singer",
+          "es": "cantante",
+          "definicion": "Persona que canta canciones."
+        },
+        {
+          "en": "writer",
+          "es": "escritor",
+          "definicion": "Persona que escribe libros."
+        },
+        {
+          "en": "astronaut",
+          "es": "astronauta",
+          "definicion": "Persona que viaja al espacio."
+        },
+        {
+          "en": "firefighter",
+          "es": "bombero",
+          "definicion": "Persona que apaga fuegos."
+        },
+        {
+          "en": "police officer",
+          "es": "policía",
+          "definicion": "Persona que protege a la gente."
+        },
+        {
+          "en": "mechanic",
+          "es": "mecánico",
+          "definicion": "Persona que arregla coches."
+        },
+        {
+          "en": "electrician",
+          "es": "electricista",
+          "definicion": "Persona que arregla la luz."
+        },
+        {
+          "en": "plumber",
+          "es": "fontanero",
+          "definicion": "Persona que arregla tuberías."
+        },
+        {
+          "en": "dentist",
+          "es": "dentista",
+          "definicion": "Médico de los dientes."
+        }
+      ]
+    },
+    {
+      "id": "universidad",
+      "nombre": {
+        "es": "Universidad",
+        "en": "University life"
+      },
+      "palabras": [
+        {
+          "en": "campus",
+          "es": "campus",
+          "definicion": "Terreno de la universidad."
+        },
+        {
+          "en": "lecture",
+          "es": "clase magistral",
+          "definicion": "Clase teórica en la universidad."
+        },
+        {
+          "en": "scholarship",
+          "es": "beca",
+          "definicion": "Ayuda económica para estudiar."
+        },
+        {
+          "en": "dormitory",
+          "es": "residencia",
+          "definicion": "Edificio donde duermen los estudiantes."
+        },
+        {
+          "en": "degree",
+          "es": "título",
+          "definicion": "Diploma al terminar la carrera."
+        },
+        {
+          "en": "library card",
+          "es": "carné de biblioteca",
+          "definicion": "Tarjeta para sacar libros."
+        },
+        {
+          "en": "enrolment",
+          "es": "matrícula",
+          "definicion": "Inscripción oficial en el curso."
+        },
+        {
+          "en": "orientation week",
+          "es": "semana de acogida",
+          "definicion": "Primera semana para conocer la uni."
+        },
+        {
+          "en": "credit",
+          "es": "crédito",
+          "definicion": "Valor de una asignatura."
+        },
+        {
+          "en": "exam session",
+          "es": "convocatoria de exámenes",
+          "definicion": "Periodo de exámenes finales."
+        },
+        {
+          "en": "professor",
+          "es": "profesor universitario",
+          "definicion": "Maestro que enseña en la universidad."
+        },
+        {
+          "en": "student residence",
+          "es": "colegio mayor",
+          "definicion": "Residencia universitaria con actividades."
+        },
+        {
+          "en": "student",
+          "es": "estudiante",
+          "definicion": "Persona que estudia."
+        },
+        {
+          "en": "exam",
+          "es": "examen",
+          "definicion": "Prueba de conocimientos."
+        },
+        {
+          "en": "homework",
+          "es": "deberes",
+          "definicion": "Trabajo para casa."
+        },
+        {
+          "en": "essay",
+          "es": "redacción",
+          "definicion": "Texto escrito sobre un tema."
+        },
+        {
+          "en": "library",
+          "es": "biblioteca",
+          "definicion": "Lugar para estudiar y leer."
+        },
+        {
+          "en": "cafeteria",
+          "es": "cafetería",
+          "definicion": "Lugar para comer en la uni."
+        },
+        {
+          "en": "diploma",
+          "es": "diploma",
+          "definicion": "Papel que dice que acabaste."
+        },
+        {
+          "en": "graduation",
+          "es": "graduación",
+          "definicion": "Fiesta de fin de carrera."
+        },
+        {
+          "en": "master",
+          "es": "máster",
+          "definicion": "Estudio después de la carrera."
+        },
+        {
+          "en": "phd",
+          "es": "doctorado",
+          "definicion": "Estudio máximo universitario."
+        },
+        {
+          "en": "research",
+          "es": "investigación",
+          "definicion": "Estudio profundo de algo."
+        },
+        {
+          "en": "study",
+          "es": "estudiar",
+          "definicion": "Aprender lecciones."
+        }
+      ]
+    },
+    {
+      "id": "medioambiente",
+      "nombre": {
+        "es": "Medioambiente",
+        "en": "Environment"
+      },
+      "palabras": [
+        {
+          "en": "recycling",
+          "es": "reciclaje",
+          "definicion": "Reutilizar materiales usados."
+        },
+        {
+          "en": "climate change",
+          "es": "cambio climático",
+          "definicion": "Calentamiento global de la Tierra."
+        },
+        {
+          "en": "solar panel",
+          "es": "panel solar",
+          "definicion": "Placa que convierte sol en energía."
+        },
+        {
+          "en": "pollution",
+          "es": "contaminación",
+          "definicion": "Suciedad en el aire o agua."
+        },
+        {
+          "en": "biodiversity",
+          "es": "biodiversidad",
+          "definicion": "Variedad de animales y plantas."
+        },
+        {
+          "en": "protected area",
+          "es": "zona protegida",
+          "definicion": "Lugar natural que no se puede dañar."
+        },
+        {
+          "en": "renewable energy",
+          "es": "energía renovable",
+          "definicion": "Energía limpia que no se agota."
+        },
+        {
+          "en": "reforestation",
+          "es": "reforestación",
+          "definicion": "Plantar árboles donde no hay."
+        },
+        {
+          "en": "sustainable transport",
+          "es": "transporte sostenible",
+          "definicion": "Vehículos que no contaminan."
+        },
+        {
+          "en": "reusable bottle",
+          "es": "botella reutilizable",
+          "definicion": "Botella que se usa muchas veces."
+        },
+        {
+          "en": "compost",
+          "es": "compost",
+          "definicion": "Abono hecho con restos de comida."
+        },
+        {
+          "en": "carbon footprint",
+          "es": "huella de carbono",
+          "definicion": "Marca que dejamos en el planeta."
+        },
+        {
+          "en": "nature",
+          "es": "naturaleza",
+          "definicion": "El mundo natural."
+        },
+        {
+          "en": "forest",
+          "es": "bosque",
+          "definicion": "Lugar con muchos árboles."
+        },
+        {
+          "en": "ocean",
+          "es": "océano",
+          "definicion": "Mar muy grande."
+        },
+        {
+          "en": "river",
+          "es": "río",
+          "definicion": "Agua que corre hacia el mar."
+        },
+        {
+          "en": "animal",
+          "es": "animal",
+          "definicion": "Ser vivo que se mueve."
+        },
+        {
+          "en": "plant",
+          "es": "planta",
+          "definicion": "Ser vivo vegetal."
+        },
+        {
+          "en": "flower",
+          "es": "flor",
+          "definicion": "Parte bonita de la planta."
+        },
+        {
+          "en": "tree",
+          "es": "árbol",
+          "definicion": "Planta grande con tronco."
+        },
+        {
+          "en": "sun",
+          "es": "sol",
+          "definicion": "Estrella que da luz y calor."
+        },
+        {
+          "en": "rain",
+          "es": "lluvia",
+          "definicion": "Agua que cae del cielo."
+        },
+        {
+          "en": "wind",
+          "es": "viento",
+          "definicion": "Aire en movimiento."
+        },
+        {
+          "en": "snow",
+          "es": "nieve",
+          "definicion": "Agua helada blanca."
+        }
+      ]
+    },
+    {
+      "id": "innovacion-tecnologica",
+      "nombre": {
+        "es": "Innovación tecnológica",
+        "en": "Technological innovation"
+      },
+      "palabras": [
+        {
+          "en": "robotics",
+          "es": "robótica",
+          "definicion": "Ciencia de los robots."
+        },
+        {
+          "en": "startup",
+          "es": "startup",
+          "definicion": "Empresa nueva con ideas innovadoras."
+        },
+        {
+          "en": "prototype",
+          "es": "prototipo",
+          "definicion": "Primer modelo de un invento."
+        },
+        {
+          "en": "coding",
+          "es": "programación",
+          "definicion": "Escribir código informático."
+        },
+        {
+          "en": "virtual reality",
+          "es": "realidad virtual",
+          "definicion": "Mundo digital que parece real."
+        },
+        {
+          "en": "design thinking",
+          "es": "design thinking",
+          "definicion": "Método para resolver problemas creativamente."
+        },
+        {
+          "en": "artificial intelligence",
+          "es": "inteligencia artificial",
+          "definicion": "Máquinas que piensan como humanos."
+        },
+        {
+          "en": "3D printing",
+          "es": "impresión 3D",
+          "definicion": "Crear objetos sólidos desde un archivo."
+        },
+        {
+          "en": "mobile app",
+          "es": "aplicación móvil",
+          "definicion": "Programa para el teléfono."
+        },
+        {
+          "en": "hackathon",
+          "es": "hackathon",
+          "definicion": "Concurso de programación rápido."
+        },
+        {
+          "en": "prototype testing",
+          "es": "prueba de prototipo",
+          "definicion": "Probar si el invento funciona."
+        },
+        {
+          "en": "innovation lab",
+          "es": "laboratorio de innovación",
+          "definicion": "Lugar para crear cosas nuevas."
+        },
+        {
+          "en": "internet",
+          "es": "internet",
+          "definicion": "Red mundial de ordenadores."
+        },
+        {
+          "en": "computer",
+          "es": "ordenador",
+          "definicion": "Máquina para trabajar y jugar."
+        },
+        {
+          "en": "smartphone",
+          "es": "teléfono inteligente",
+          "definicion": "Móvil con internet."
+        },
+        {
+          "en": "robot",
+          "es": "robot",
+          "definicion": "Máquina automática."
+        },
+        {
+          "en": "drone",
+          "es": "dron",
+          "definicion": "Aparato volador con cámara."
+        },
+        {
+          "en": "satellite",
+          "es": "satélite",
+          "definicion": "Aparato en el espacio."
+        },
+        {
+          "en": "telescope",
+          "es": "telescopio",
+          "definicion": "Aparato para ver estrellas."
+        },
+        {
+          "en": "microscope",
+          "es": "microscopio",
+          "definicion": "Aparato para ver células."
+        },
+        {
+          "en": "laser",
+          "es": "láser",
+          "definicion": "Luz muy potente y fina."
+        },
+        {
+          "en": "battery",
+          "es": "batería",
+          "definicion": "Pila recargable."
+        },
+        {
+          "en": "engine",
+          "es": "motor",
+          "definicion": "Máquina que mueve cosas."
+        },
+        {
+          "en": "machine",
+          "es": "máquina",
+          "definicion": "Aparato mecánico."
+        }
+      ]
+    },
+    {
+      "id": "viajes-mundo",
+      "nombre": {
+        "es": "Viajes por el mundo",
+        "en": "World travel"
+      },
+      "palabras": [
+        {
+          "en": "passport",
+          "es": "pasaporte",
+          "definicion": "Documento para viajar a otros países."
+        },
+        {
+          "en": "boarding pass",
+          "es": "tarjeta de embarque",
+          "definicion": "Billete para subir al avión."
+        },
+        {
+          "en": "luggage",
+          "es": "equipaje",
+          "definicion": "Maletas que llevas de viaje."
+        },
+        {
+          "en": "customs",
+          "es": "aduana",
+          "definicion": "Control de policía en la frontera."
+        },
+        {
+          "en": "tour guide",
+          "es": "guía turístico",
+          "definicion": "Persona que enseña la ciudad."
+        },
+        {
+          "en": "souvenir",
+          "es": "recuerdo",
+          "definicion": "Objeto que compras de recuerdo."
+        },
+        {
+          "en": "travel insurance",
+          "es": "seguro de viaje",
+          "definicion": "Protección por si pasa algo viajando."
+        },
+        {
+          "en": "itinerary",
+          "es": "itinerario",
+          "definicion": "Plan de ruta del viaje."
+        },
+        {
+          "en": "hostel",
+          "es": "hostal",
+          "definicion": "Hotel barato para jóvenes."
+        },
+        {
+          "en": "suitcase",
+          "es": "maleta",
+          "definicion": "Caja con asa para la ropa."
+        },
+        {
+          "en": "foreign currency",
+          "es": "moneda extranjera",
+          "definicion": "Dinero de otro país."
+        },
+        {
+          "en": "carry-on bag",
+          "es": "equipaje de mano",
+          "definicion": "Maleta pequeña que va contigo en el avión."
+        },
+        {
+          "en": "airplane",
+          "es": "avión",
+          "definicion": "Vehículo que vuela."
+        },
+        {
+          "en": "airport",
+          "es": "aeropuerto",
+          "definicion": "Lugar donde salen los aviones."
+        },
+        {
+          "en": "hotel",
+          "es": "hotel",
+          "definicion": "Lugar para dormir pagando."
+        },
+        {
+          "en": "map",
+          "es": "mapa",
+          "definicion": "Dibujo del lugar."
+        },
+        {
+          "en": "camera",
+          "es": "cámara",
+          "definicion": "Aparato para hacer fotos."
+        },
+        {
+          "en": "photo",
+          "es": "foto",
+          "definicion": "Imagen capturada."
+        },
+        {
+          "en": "ticket",
+          "es": "billete",
+          "definicion": "Papel para viajar."
+        },
+        {
+          "en": "visa",
+          "es": "visado",
+          "definicion": "Permiso para entrar al país."
+        },
+        {
+          "en": "currency",
+          "es": "moneda",
+          "definicion": "Dinero del país."
+        },
+        {
+          "en": "language",
+          "es": "idioma",
+          "definicion": "Lengua que se habla."
+        },
+        {
+          "en": "tourist",
+          "es": "turista",
+          "definicion": "Persona que viaja por placer."
+        },
+        {
+          "en": "guide",
+          "es": "guía",
+          "definicion": "Libro o persona que ayuda."
+        }
+      ]
+    },
+    {
+      "id": "ciudadania-activa",
+      "nombre": {
+        "es": "Ciudadanía activa",
+        "en": "Active citizenship"
+      },
+      "palabras": [
+        {
+          "en": "rights",
+          "es": "derechos"
+        },
+        {
+          "en": "responsibility",
+          "es": "responsabilidad"
+        },
+        {
+          "en": "community",
+          "es": "comunidad"
+        },
+        {
+          "en": "volunteer",
+          "es": "voluntario"
+        },
+        {
+          "en": "vote",
+          "es": "voto"
+        },
+        {
+          "en": "solidarity",
+          "es": "solidaridad"
+        },
+        {
+          "en": "petition",
+          "es": "petición"
+        },
+        {
+          "en": "recycling point",
+          "es": "punto limpio"
+        },
+        {
+          "en": "community meeting",
+          "es": "asamblea vecinal"
+        },
+        {
+          "en": "fundraising",
+          "es": "recaudación de fondos"
+        },
+        {
+          "en": "awareness campaign",
+          "es": "campaña de sensibilización"
+        },
+        {
+          "en": "public service",
+          "es": "servicio público"
+        },
+        {
+          "en": "law",
+          "es": "ley",
+          "definicion": "Regla del gobierno."
+        },
+        {
+          "en": "government",
+          "es": "gobierno",
+          "definicion": "Grupo que manda en el país."
+        },
+        {
+          "en": "election",
+          "es": "elección",
+          "definicion": "Votación para elegir."
+        },
+        {
+          "en": "president",
+          "es": "presidente",
+          "definicion": "Jefe del gobierno."
+        },
+        {
+          "en": "mayor",
+          "es": "alcalde",
+          "definicion": "Jefe de la ciudad."
+        },
+        {
+          "en": "citizen",
+          "es": "ciudadano",
+          "definicion": "Persona que vive en la ciudad."
+        },
+        {
+          "en": "tax",
+          "es": "impuesto",
+          "definicion": "Dinero que se paga al estado."
+        },
+        {
+          "en": "court",
+          "es": "juzgado",
+          "definicion": "Lugar de los jueces."
+        },
+        {
+          "en": "judge",
+          "es": "juez",
+          "definicion": "Persona que decide en juicios."
+        },
+        {
+          "en": "prison",
+          "es": "cárcel",
+          "definicion": "Lugar para criminales."
+        },
+        {
+          "en": "police",
+          "es": "policía",
+          "definicion": "Fuerza de seguridad."
+        },
+        {
+          "en": "army",
+          "es": "ejército",
+          "definicion": "Fuerza militar."
+        }
+      ]
+    }
+  ]
+}

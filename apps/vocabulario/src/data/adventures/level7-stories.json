@@ -1,0 +1,690 @@
+[
+    {
+        "id": "adv-l7-proyecto-grupo",
+        "levelId": 7,
+        "title": {
+            "es": "El Proyecto en Grupo",
+            "en": "The Group Project"
+        },
+        "description": {
+            "es": "Organiza a tu equipo para entregar el trabajo a tiempo.",
+            "en": "Organize your team to submit the work on time."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "El profesor asigna un trabajo. Dices: '[_____]'.",
+                    "en": "The teacher assigns work. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo propones colaborar?",
+                        "en": "How do you propose collaborating?"
+                    },
+                    "targetWordEn": "Let's work together.",
+                    "options": [
+                        {
+                            "en": "Let's work together.",
+                            "es": "Trabajemos juntos."
+                        },
+                        {
+                            "en": "I work alone.",
+                            "es": "Trabajo solo."
+                        },
+                        {
+                            "en": "I am tired.",
+                            "es": "Estoy cansado."
+                        },
+                        {
+                            "en": "Goodbye.",
+                            "es": "Adiós."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Hay mucho que hacer. Sugieres: '[_____]'.",
+                    "en": "There is a lot to do. You suggest: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Repartir tareas?",
+                        "en": "Split tasks?"
+                    },
+                    "targetWordEn": "Let us divide the tasks.",
+                    "options": [
+                        {
+                            "en": "Let us divide the tasks.",
+                            "es": "Dividamos las tareas."
+                        },
+                        {
+                            "en": "Let us sleep.",
+                            "es": "Durmamos."
+                        },
+                        {
+                            "en": "Let us eat.",
+                            "es": "Comamos."
+                        },
+                        {
+                            "en": "Let us play.",
+                            "es": "Juguemos."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Alguien tiene una idea. Dices: '[_____]'.",
+                    "en": "Someone has an idea. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Valorar la idea?",
+                        "en": "Value the idea?"
+                    },
+                    "targetWordEn": "That is interesting.",
+                    "options": [
+                        {
+                            "en": "That is interesting.",
+                            "es": "Eso es interesante."
+                        },
+                        {
+                            "en": "That is bad.",
+                            "es": "Eso es malo."
+                        },
+                        {
+                            "en": "I don't care.",
+                            "es": "No me importa."
+                        },
+                        {
+                            "en": "Be quiet.",
+                            "es": "Cállate."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Tú piensas diferente. Dices: '[_____]'.",
+                    "en": "You think differently. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Tu opinión?",
+                        "en": "Your opinion?"
+                    },
+                    "targetWordEn": "In my opinion...",
+                    "options": [
+                        {
+                            "en": "In my opinion...",
+                            "es": "En mi opinión..."
+                        },
+                        {
+                            "en": "You are wrong.",
+                            "es": "Estás equivocado."
+                        },
+                        {
+                            "en": "I hate this.",
+                            "es": "Odio esto."
+                        },
+                        {
+                            "en": "Whatever.",
+                            "es": "Lo que sea."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Necesitáis un plan. Preguntas: '[_____]'.",
+                    "en": "You need a plan. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quién empieza?",
+                        "en": "Who starts?"
+                    },
+                    "targetWordEn": "Who wants to start?",
+                    "options": [
+                        {
+                            "en": "Who wants to start.",
+                            "es": "¿Quién quiere empezar?"
+                        },
+                        {
+                            "en": "Who is hungry?",
+                            "es": "¿Quién tiene hambre?"
+                        },
+                        {
+                            "en": "Who is tired?",
+                            "es": "¿Quién está cansado?"
+                        },
+                        {
+                            "en": "Who is leaving?",
+                            "es": "¿Quién se va?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Te ofreces para una parte. '[_____]'.",
+                    "en": "You offer for a part. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué harás?",
+                        "en": "What will you do?"
+                    },
+                    "targetWordEn": "I can write the summary.",
+                    "options": [
+                        {
+                            "en": "I can write the summary.",
+                            "es": "Puedo escribir el resumen."
+                        },
+                        {
+                            "en": "I can sleep.",
+                            "es": "Puedo dormir."
+                        },
+                        {
+                            "en": "I can run.",
+                            "es": "Puedo correr."
+                        },
+                        {
+                            "en": "I can dance.",
+                            "es": "Puedo bailar."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Alguien no entiende. Dices: '[_____]'.",
+                    "en": "Someone doesn't understand. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Explicar?",
+                        "en": "Explain?"
+                    },
+                    "targetWordEn": "Let me explain.",
+                    "options": [
+                        {
+                            "en": "Let me explain.",
+                            "es": "Déjame explicarte."
+                        },
+                        {
+                            "en": "Go away.",
+                            "es": "Vete."
+                        },
+                        {
+                            "en": "You are slow.",
+                            "es": "Eres lento."
+                        },
+                        {
+                            "en": "Stop it.",
+                            "es": "Para."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Falta poco tiempo. Avisas: '[_____]'.",
+                    "en": "Little time left. You warn: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Tiempo restante?",
+                        "en": "Time left?"
+                    },
+                    "targetWordEn": "We have five minutes.",
+                    "options": [
+                        {
+                            "en": "We have five minutes.",
+                            "es": "Tenemos cinco minutos."
+                        },
+                        {
+                            "en": "We have all day.",
+                            "es": "Tenemos todo el día."
+                        },
+                        {
+                            "en": "It is night.",
+                            "es": "Es de noche."
+                        },
+                        {
+                            "en": "It is early.",
+                            "es": "Es temprano."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Termináis el trabajo. Dices: '[_____]'.",
+                    "en": "You finish the work. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Felicitar?",
+                        "en": "Congratulate?"
+                    },
+                    "targetWordEn": "Good job!",
+                    "options": [
+                        {
+                            "en": "Good job!",
+                            "es": "¡Buen trabajo!"
+                        },
+                        {
+                            "en": "Bad job.",
+                            "es": "Mal trabajo."
+                        },
+                        {
+                            "en": "Finally.",
+                            "es": "Por fin."
+                        },
+                        {
+                            "en": "Whatever.",
+                            "es": "Lo que sea."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Hay que exponer. Preguntas: '[_____]'.",
+                    "en": "Must present. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Presentar juntos?",
+                        "en": "Present together?"
+                    },
+                    "targetWordEn": "Shall we present together?",
+                    "options": [
+                        {
+                            "en": "Shall we present together?",
+                            "es": "¿Presentamos juntos?"
+                        },
+                        {
+                            "en": "I present alone.",
+                            "es": "Presento solo."
+                        },
+                        {
+                            "en": "You present.",
+                            "es": "Tú presentas."
+                        },
+                        {
+                            "en": "Nobody presents.",
+                            "es": "Nadie presenta."
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l7-debate-clase",
+        "levelId": 7,
+        "title": {
+            "es": "Debate en Clase",
+            "en": "Class Debate"
+        },
+        "description": {
+            "es": "Defiende tus ideas y llega a acuerdos.",
+            "en": "Defend your ideas and reach agreements."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Quieres hablar. Dices: '[_____]'.",
+                    "en": "You want to speak. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Pedir turno?",
+                        "en": "Ask turn?"
+                    },
+                    "targetWordEn": "I would like to answer.",
+                    "options": [
+                        {
+                            "en": "I would like to answer.",
+                            "es": "Me gustaría responder."
+                        },
+                        {
+                            "en": "Listen to me.",
+                            "es": "Escúchame."
+                        },
+                        {
+                            "en": "Shut up.",
+                            "es": "Cállate."
+                        },
+                        {
+                            "en": "Look at me.",
+                            "es": "Mírame."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Estás de acuerdo con alguien. '[_____]'.",
+                    "en": "You agree with someone. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Coincidir?",
+                        "en": "Agree?"
+                    },
+                    "targetWordEn": "I agree with you.",
+                    "options": [
+                        {
+                            "en": "I agree with you.",
+                            "es": "Estoy de acuerdo contigo."
+                        },
+                        {
+                            "en": "I disagree.",
+                            "es": "No estoy de acuerdo."
+                        },
+                        {
+                            "en": "You are wrong.",
+                            "es": "Estás equivocado."
+                        },
+                        {
+                            "en": "No way.",
+                            "es": "De ninguna manera."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "No estás de acuerdo. '[_____]'.",
+                    "en": "You disagree. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Discrepar?",
+                        "en": "Disagree?"
+                    },
+                    "targetWordEn": "I disagree.",
+                    "options": [
+                        {
+                            "en": "I disagree.",
+                            "es": "No estoy de acuerdo."
+                        },
+                        {
+                            "en": "I agree.",
+                            "es": "Estoy de acuerdo."
+                        },
+                        {
+                            "en": "Yes.",
+                            "es": "Sí."
+                        },
+                        {
+                            "en": "Correct.",
+                            "es": "Correcto."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Pides razones. '[_____]'.",
+                    "en": "You ask for reasons. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Por qué?",
+                        "en": "Why?"
+                    },
+                    "targetWordEn": "Why do you think that?",
+                    "options": [
+                        {
+                            "en": "Why do you think that?",
+                            "es": "¿Por qué piensas eso?"
+                        },
+                        {
+                            "en": "Who are you?",
+                            "es": "¿Quién eres?"
+                        },
+                        {
+                            "en": "Where is it?",
+                            "es": "¿Dónde está?"
+                        },
+                        {
+                            "en": "When is it?",
+                            "es": "¿Cuándo es?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Das un ejemplo. '[_____]'.",
+                    "en": "You give an example. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Ejemplo?",
+                        "en": "Example?"
+                    },
+                    "targetWordEn": "For example...",
+                    "options": [
+                        {
+                            "en": "For example...",
+                            "es": "Por ejemplo..."
+                        },
+                        {
+                            "en": "The end.",
+                            "es": "El fin."
+                        },
+                        {
+                            "en": "Hello.",
+                            "es": "Hola."
+                        },
+                        {
+                            "en": "Goodbye.",
+                            "es": "Adiós."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Quieres añadir algo. '[_____]'.",
+                    "en": "You want to add something. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Añadir?",
+                        "en": "Add?"
+                    },
+                    "targetWordEn": "Can I add something?",
+                    "options": [
+                        {
+                            "en": "Can I add something?",
+                            "es": "¿Puedo añadir algo?"
+                        },
+                        {
+                            "en": "Can I leave?",
+                            "es": "¿Puedo irme?"
+                        },
+                        {
+                            "en": "Can I sleep?",
+                            "es": "¿Puedo dormir?"
+                        },
+                        {
+                            "en": "Can I eat?",
+                            "es": "¿Puedo comer?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Hay un malentendido. '[_____]'.",
+                    "en": "There is a misunderstanding. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Aclarar?",
+                        "en": "Clarify?"
+                    },
+                    "targetWordEn": "I did not mean to upset you.",
+                    "options": [
+                        {
+                            "en": "I did not mean to upset you.",
+                            "es": "No quería molestarte."
+                        },
+                        {
+                            "en": "I hate you.",
+                            "es": "Te odio."
+                        },
+                        {
+                            "en": "You are bad.",
+                            "es": "Eres malo."
+                        },
+                        {
+                            "en": "Go away.",
+                            "es": "Vete."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Propones una solución. '[_____]'.",
+                    "en": "You propose a solution. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Solución?",
+                        "en": "Solution?"
+                    },
+                    "targetWordEn": "Let's find a solution.",
+                    "options": [
+                        {
+                            "en": "Let's find a solution.",
+                            "es": "Busquemos una solución."
+                        },
+                        {
+                            "en": "Let's fight.",
+                            "es": "Peleemos."
+                        },
+                        {
+                            "en": "Let's ignore it.",
+                            "es": "Ignorémoslo."
+                        },
+                        {
+                            "en": "Let's cry.",
+                            "es": "Lloremos."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Pides calma. '[_____]'.",
+                    "en": "You ask for calm. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Calma?",
+                        "en": "Calm?"
+                    },
+                    "targetWordEn": "Let's calm down.",
+                    "options": [
+                        {
+                            "en": "Let's calm down.",
+                            "es": "Calmémonos."
+                        },
+                        {
+                            "en": "Scream louder.",
+                            "es": "Grita más fuerte."
+                        },
+                        {
+                            "en": "Run away.",
+                            "es": "Huye."
+                        },
+                        {
+                            "en": "Hit him.",
+                            "es": "Pégale."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Resumes el debate. '[_____]'.",
+                    "en": "You summarize the debate. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Resumen?",
+                        "en": "Summary?"
+                    },
+                    "targetWordEn": "To summarize...",
+                    "options": [
+                        {
+                            "en": "To summarize...",
+                            "es": "Para resumir..."
+                        },
+                        {
+                            "en": "To start...",
+                            "es": "Para empezar..."
+                        },
+                        {
+                            "en": "To play...",
+                            "es": "Para jugar..."
+                        },
+                        {
+                            "en": "To eat...",
+                            "es": "Para comer..."
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+]

@@ -1,0 +1,690 @@
+[
+    {
+        "id": "adv-l9-fiesta-sorpresa",
+        "levelId": 9,
+        "title": {
+            "es": "Fiesta Sorpresa",
+            "en": "Surprise Party"
+        },
+        "description": {
+            "es": "Organiza una fiesta inolvidable para tu amigo.",
+            "en": "Organize an unforgettable party for your friend."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Es el cumple de Ana. Propones: '[_____]'.",
+                    "en": "It's Ana's bday. You propose: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Celebrar?",
+                        "en": "Celebrate?"
+                    },
+                    "targetWordEn": "Let's have a party.",
+                    "options": [
+                        {
+                            "en": "Let's have a party.",
+                            "es": "Hagamos una fiesta."
+                        },
+                        {
+                            "en": "Let's study.",
+                            "es": "Estudiemos."
+                        },
+                        {
+                            "en": "Let's sleep.",
+                            "es": "Durmamos."
+                        },
+                        {
+                            "en": "Let's work.",
+                            "es": "Trabajemos."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Necesitáis gente. '[_____]'.",
+                    "en": "Need people. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Lista invitados?",
+                        "en": "Guest list?"
+                    },
+                    "targetWordEn": "Let us make a guest list.",
+                    "options": [
+                        {
+                            "en": "Let us make a guest list.",
+                            "es": "Hagamos una lista de invitados."
+                        },
+                        {
+                            "en": "Let us make a cake.",
+                            "es": "Hagamos un pastel."
+                        },
+                        {
+                            "en": "Let us make a mess.",
+                            "es": "Hagamos un lío."
+                        },
+                        {
+                            "en": "Let us make noise.",
+                            "es": "Hagamos ruido."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Hay que avisarles. '[_____]'.",
+                    "en": "Must warn them. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Invitaciones?",
+                        "en": "Invitations?"
+                    },
+                    "targetWordEn": "Send the invitations.",
+                    "options": [
+                        {
+                            "en": "Send the invitations.",
+                            "es": "Envía las invitaciones."
+                        },
+                        {
+                            "en": "Send money.",
+                            "es": "Envía dinero."
+                        },
+                        {
+                            "en": "Send help.",
+                            "es": "Envía ayuda."
+                        },
+                        {
+                            "en": "Send food.",
+                            "es": "Envía comida."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "El lugar está soso. '[_____]'.",
+                    "en": "Place is dull. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Decorar?",
+                        "en": "Decorate?"
+                    },
+                    "targetWordEn": "We should buy decorations.",
+                    "options": [
+                        {
+                            "en": "We should buy decorations.",
+                            "es": "Deberíamos comprar decoraciones."
+                        },
+                        {
+                            "en": "We should buy cars.",
+                            "es": "Deberíamos comprar coches."
+                        },
+                        {
+                            "en": "We should buy books.",
+                            "es": "Deberíamos comprar libros."
+                        },
+                        {
+                            "en": "We should buy shoes.",
+                            "es": "Deberíamos comprar zapatos."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Falta comida. Preguntas: '[_____]'.",
+                    "en": "Food missing. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quién trae?",
+                        "en": "Who brings?"
+                    },
+                    "targetWordEn": "Who brings the food?",
+                    "options": [
+                        {
+                            "en": "Who brings the food?",
+                            "es": "¿Quién trae la comida?"
+                        },
+                        {
+                            "en": "Who eats?",
+                            "es": "¿Quién come?"
+                        },
+                        {
+                            "en": "Who cooks?",
+                            "es": "¿Quién cocina?"
+                        },
+                        {
+                            "en": "Who pays?",
+                            "es": "¿Quién paga?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Y la bebida. '[_____]'.",
+                    "en": "And drinks. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Traer bebida?",
+                        "en": "Bring drinks?"
+                    },
+                    "targetWordEn": "Can you bring drinks?",
+                    "options": [
+                        {
+                            "en": "Can you bring drinks?",
+                            "es": "¿Puedes traer bebidas?"
+                        },
+                        {
+                            "en": "Can you bring dogs?",
+                            "es": "¿Puedes traer perros?"
+                        },
+                        {
+                            "en": "Can you bring chairs?",
+                            "es": "¿Puedes traer sillas?"
+                        },
+                        {
+                            "en": "Can you bring tables?",
+                            "es": "¿Puedes traer mesas?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Necesitáis ambiente. '[_____]'.",
+                    "en": "Need atmosphere. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Música?",
+                        "en": "Music?"
+                    },
+                    "targetWordEn": "Let us make a playlist together.",
+                    "options": [
+                        {
+                            "en": "Let us make a playlist together.",
+                            "es": "Hagamos una lista de reproducción juntos."
+                        },
+                        {
+                            "en": "Let us make silence.",
+                            "es": "Hagamos silencio."
+                        },
+                        {
+                            "en": "Let us make noise.",
+                            "es": "Hagamos ruido."
+                        },
+                        {
+                            "en": "Let us make trouble.",
+                            "es": "Causemos problemas."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Es un secreto. '[_____]'.",
+                    "en": "It's a secret. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Sorpresa?",
+                        "en": "Surprise?"
+                    },
+                    "targetWordEn": "Is it a surprise?",
+                    "options": [
+                        {
+                            "en": "Is it a surprise?",
+                            "es": "¿Es una sorpresa?"
+                        },
+                        {
+                            "en": "Is it a joke?",
+                            "es": "¿Es una broma?"
+                        },
+                        {
+                            "en": "Is it a game?",
+                            "es": "¿Es un juego?"
+                        },
+                        {
+                            "en": "Is it a test?",
+                            "es": "¿Es una prueba?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Llega Ana. Dices: '[_____]'.",
+                    "en": "Ana arrives. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Bienvenida?",
+                        "en": "Welcome?"
+                    },
+                    "targetWordEn": "You are invited.",
+                    "options": [
+                        {
+                            "en": "You are invited.",
+                            "es": "Estás invitado."
+                        },
+                        {
+                            "en": "Go away.",
+                            "es": "Vete."
+                        },
+                        {
+                            "en": "Who are you?",
+                            "es": "¿Quién eres?"
+                        },
+                        {
+                            "en": "Get out.",
+                            "es": "Sal de aquí."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Acaba la fiesta. '[_____]'.",
+                    "en": "Party ends. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Limpiar?",
+                        "en": "Clean?"
+                    },
+                    "targetWordEn": "Clean up afterwards.",
+                    "options": [
+                        {
+                            "en": "Clean up afterwards.",
+                            "es": "Limpiar después."
+                        },
+                        {
+                            "en": "Leave it dirty.",
+                            "es": "Déjalo sucio."
+                        },
+                        {
+                            "en": "Run away.",
+                            "es": "Huye."
+                        },
+                        {
+                            "en": "Sleep there.",
+                            "es": "Duerme allí."
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l9-tarde-amigos",
+        "levelId": 9,
+        "title": {
+            "es": "Tarde con Amigos",
+            "en": "Afternoon with Friends"
+        },
+        "description": {
+            "es": "Queda con tus amigos y decide qué hacer.",
+            "en": "Meet your friends and decide what to do."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Quieres salir. Preguntas: '[_____]'.",
+                    "en": "Want to go out. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quedar?",
+                        "en": "Meet?"
+                    },
+                    "targetWordEn": "Do you want to meet after school?",
+                    "options": [
+                        {
+                            "en": "Do you want to meet after school?",
+                            "es": "¿Quieres quedar después de clase?"
+                        },
+                        {
+                            "en": "Do you want to sleep?",
+                            "es": "¿Quieres dormir?"
+                        },
+                        {
+                            "en": "Do you want to study?",
+                            "es": "¿Quieres estudiar?"
+                        },
+                        {
+                            "en": "Do you want to work?",
+                            "es": "¿Quieres trabajar?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Aceptan. Preguntas: '[_____]'.",
+                    "en": "They accept. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde?",
+                        "en": "Where?"
+                    },
+                    "targetWordEn": "Where shall we meet?",
+                    "options": [
+                        {
+                            "en": "Where shall we meet?",
+                            "es": "¿Dónde quedamos?"
+                        },
+                        {
+                            "en": "Who are you?",
+                            "es": "¿Quién eres?"
+                        },
+                        {
+                            "en": "Why?",
+                            "es": "¿Por qué?"
+                        },
+                        {
+                            "en": "How?",
+                            "es": "¿Cómo?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Propones sitio. '[_____]'.",
+                    "en": "Propose place. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Metro?",
+                        "en": "Metro?"
+                    },
+                    "targetWordEn": "Let us meet at the metro station.",
+                    "options": [
+                        {
+                            "en": "Let us meet at the metro station.",
+                            "es": "Quedemos en la estación de metro."
+                        },
+                        {
+                            "en": "Let us meet at the moon.",
+                            "es": "Quedemos en la luna."
+                        },
+                        {
+                            "en": "Let us meet at school.",
+                            "es": "Quedemos en la escuela."
+                        },
+                        {
+                            "en": "Let us meet at home.",
+                            "es": "Quedemos en casa."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Llegas tarde. Avisas: '[_____]'.",
+                    "en": "Late. You warn: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Retraso?",
+                        "en": "Delay?"
+                    },
+                    "targetWordEn": "I am running late.",
+                    "options": [
+                        {
+                            "en": "I am running late.",
+                            "es": "Llego tarde."
+                        },
+                        {
+                            "en": "I am early.",
+                            "es": "Llego temprano."
+                        },
+                        {
+                            "en": "I am fast.",
+                            "es": "Soy rápido."
+                        },
+                        {
+                            "en": "I am here.",
+                            "es": "Estoy aquí."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Llegas. Preguntas plan. '[_____]'.",
+                    "en": "Arrive. Ask plan. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Plan?",
+                        "en": "Plan?"
+                    },
+                    "targetWordEn": "What is the plan?",
+                    "options": [
+                        {
+                            "en": "What is the plan?",
+                            "es": "¿Cuál es el plan?"
+                        },
+                        {
+                            "en": "What is your name?",
+                            "es": "¿Cómo te llamas?"
+                        },
+                        {
+                            "en": "What time is it?",
+                            "es": "¿Qué hora es?"
+                        },
+                        {
+                            "en": "What is this?",
+                            "es": "¿Qué es esto?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Sugieren cine de terror. Dices: '[_____]'.",
+                    "en": "Suggest horror movie. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Rechazar?",
+                        "en": "Reject?"
+                    },
+                    "targetWordEn": "I do not really like horror.",
+                    "options": [
+                        {
+                            "en": "I do not really like horror.",
+                            "es": "No me gusta mucho el terror."
+                        },
+                        {
+                            "en": "I love it.",
+                            "es": "Me encanta."
+                        },
+                        {
+                            "en": "Great idea.",
+                            "es": "Gran idea."
+                        },
+                        {
+                            "en": "Let's go.",
+                            "es": "Vamos."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Propones otra cosa. '[_____]'.",
+                    "en": "Propose other. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Patinar?",
+                        "en": "Skate?"
+                    },
+                    "targetWordEn": "We could go to the skate park.",
+                    "options": [
+                        {
+                            "en": "We could go to the skate park.",
+                            "es": "Podríamos ir al parque de skate."
+                        },
+                        {
+                            "en": "We could go to school.",
+                            "es": "Podríamos ir a la escuela."
+                        },
+                        {
+                            "en": "We could go to sleep.",
+                            "es": "Podríamos ir a dormir."
+                        },
+                        {
+                            "en": "We could go home.",
+                            "es": "Podríamos ir a casa."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Les gusta. Dicen: '[_____]'.",
+                    "en": "They like it. They say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Increíble?",
+                        "en": "Amazing?"
+                    },
+                    "targetWordEn": "That sounds amazing!",
+                    "options": [
+                        {
+                            "en": "That sounds amazing!",
+                            "es": "¡Eso suena increíble!"
+                        },
+                        {
+                            "en": "That sounds boring.",
+                            "es": "Eso suena aburrido."
+                        },
+                        {
+                            "en": "That sounds bad.",
+                            "es": "Eso suena mal."
+                        },
+                        {
+                            "en": "No.",
+                            "es": "No."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Te preguntan si invitan a Luis. '[_____]'.",
+                    "en": "Ask to invite Luis. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Invitar?",
+                        "en": "Invite?"
+                    },
+                    "targetWordEn": "Feel free to invite your cousin.",
+                    "options": [
+                        {
+                            "en": "Feel free to invite your cousin.",
+                            "es": "Siéntete libre de invitar a tu primo."
+                        },
+                        {
+                            "en": "No.",
+                            "es": "No."
+                        },
+                        {
+                            "en": "Don't invite him.",
+                            "es": "No lo invites."
+                        },
+                        {
+                            "en": "I hate him.",
+                            "es": "Lo odio."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Os despedís. '[_____]'.",
+                    "en": "Say goodbye. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Hasta luego?",
+                        "en": "See you?"
+                    },
+                    "targetWordEn": "See you there.",
+                    "options": [
+                        {
+                            "en": "See you there.",
+                            "es": "Nos vemos allí."
+                        },
+                        {
+                            "en": "Goodbye.",
+                            "es": "Adiós."
+                        },
+                        {
+                            "en": "Hello.",
+                            "es": "Hola."
+                        },
+                        {
+                            "en": "Hi.",
+                            "es": "Hola."
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+]

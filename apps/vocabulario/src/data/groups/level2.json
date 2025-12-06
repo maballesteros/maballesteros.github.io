@@ -1,0 +1,645 @@
+{
+  "id": "voc-vida-diaria",
+  "tipo": "vocabulario",
+  "nombre": {
+    "es": "Vida diaria en España",
+    "en": "Daily life in Spain"
+  },
+  "descripcion": {
+    "es": "Amplía tu vocabulario para adaptarte a las rutinas del hogar y de la ciudad.",
+    "en": "Expand your vocabulary to adapt to home routines and the city."
+  },
+  "nivel": {
+    "orden": 2,
+    "titulo": {
+      "es": "Nivel 2 · Explorador urbano",
+      "en": "Level 2 · Urban explorer"
+    },
+    "descripcion": {
+      "es": "Consolida hábitos y espacios cotidianos.",
+      "en": "Strengthen everyday habits and places."
+    },
+    "clases": {
+      "fondo": "from-sky-50 via-sky-100 to-sky-200",
+      "borde": "border-sky-300",
+      "titulo": "text-sky-900",
+      "insignia": "bg-sky-500 text-white"
+    }
+  },
+  "temas": [
+    {
+      "id": "rutinas-manana",
+      "nombre": {
+        "es": "Rutinas de la mañana",
+        "en": "Morning routines"
+      },
+      "palabras": [
+        {
+          "en": "alarm clock",
+          "es": "despertador",
+          "definicion": "Reloj que suena para despertarte."
+        },
+        {
+          "en": "shower",
+          "es": "ducha",
+          "definicion": "Lugar donde te lavas el cuerpo con agua."
+        },
+        {
+          "en": "toothbrush",
+          "es": "cepillo de dientes",
+          "definicion": "Cepillo pequeño para limpiar los dientes."
+        },
+        {
+          "en": "breakfast",
+          "es": "desayuno",
+          "definicion": "La primera comida del día."
+        },
+        {
+          "en": "bus stop",
+          "es": "parada de autobús",
+          "definicion": "Lugar donde esperas el autobús."
+        },
+        {
+          "en": "locker",
+          "es": "taquilla",
+          "definicion": "Armario pequeño con llave en el colegio."
+        },
+        {
+          "en": "school uniform",
+          "es": "uniforme escolar",
+          "definicion": "Ropa igual que llevan todos los alumnos."
+        },
+        {
+          "en": "mirror",
+          "es": "espejo",
+          "definicion": "Superficie de cristal donde ves tu reflejo."
+        },
+        {
+          "en": "hairbrush",
+          "es": "cepillo del pelo",
+          "definicion": "Objeto para peinar el cabello."
+        },
+        {
+          "en": "bus pass",
+          "es": "abono de transporte",
+          "definicion": "Tarjeta para viajar en autobús sin pagar cada vez."
+        },
+        {
+          "en": "water bottle",
+          "es": "cantimplora",
+          "definicion": "Botella reutilizable para beber agua."
+        },
+        {
+          "en": "breakfast cereal",
+          "es": "cereales",
+          "definicion": "Comida crujiente que se toma con leche."
+        },
+        {
+          "en": "wake up",
+          "es": "despertarse",
+          "definicion": "Abrir los ojos por la mañana."
+        },
+        {
+          "en": "get up",
+          "es": "levantarse",
+          "definicion": "Salir de la cama."
+        },
+        {
+          "en": "brush teeth",
+          "es": "lavarse los dientes",
+          "definicion": "Limpiar la dentadura."
+        },
+        {
+          "en": "wash face",
+          "es": "lavarse la cara",
+          "definicion": "Limpiar el rostro con agua."
+        },
+        {
+          "en": "get dressed",
+          "es": "vestirse",
+          "definicion": "Ponerse la ropa."
+        },
+        {
+          "en": "eat breakfast",
+          "es": "desayunar",
+          "definicion": "Comer por la mañana."
+        },
+        {
+          "en": "pack bag",
+          "es": "preparar la mochila",
+          "definicion": "Guardar los libros para clase."
+        },
+        {
+          "en": "put on shoes",
+          "es": "ponerse los zapatos",
+          "definicion": "Calzarse para salir."
+        },
+        {
+          "en": "leave house",
+          "es": "salir de casa",
+          "definicion": "Irse del hogar hacia fuera."
+        },
+        {
+          "en": "catch bus",
+          "es": "coger el autobús",
+          "definicion": "Subir al transporte público."
+        },
+        {
+          "en": "walk to school",
+          "es": "ir andando al colegio",
+          "definicion": "Caminar hacia la escuela."
+        },
+        {
+          "en": "arrive",
+          "es": "llegar",
+          "definicion": "Alcanzar el destino."
+        }
+      ]
+    },
+    {
+      "id": "ropa-estaciones",
+      "nombre": {
+        "es": "Ropa para cada estación",
+        "en": "Clothes for every season"
+      },
+      "palabras": [
+        {
+          "en": "coat",
+          "es": "abrigo",
+          "definicion": "Ropa gruesa para protegerse del frío."
+        },
+        {
+          "en": "scarf",
+          "es": "bufanda",
+          "definicion": "Tela larga para abrigar el cuello."
+        },
+        {
+          "en": "t-shirt",
+          "es": "camiseta",
+          "definicion": "Ropa ligera de manga corta."
+        },
+        {
+          "en": "jeans",
+          "es": "vaqueros",
+          "definicion": "Pantalones resistentes de tela vaquera."
+        },
+        {
+          "en": "sneakers",
+          "es": "zapatillas",
+          "definicion": "Zapatos cómodos para deporte o caminar."
+        },
+        {
+          "en": "raincoat",
+          "es": "chubasquero",
+          "definicion": "Abrigo impermeable para la lluvia."
+        },
+        {
+          "en": "hoodie",
+          "es": "sudadera",
+          "definicion": "Sudadera con gorro."
+        },
+        {
+          "en": "shorts",
+          "es": "pantalones cortos",
+          "definicion": "Pantalones que terminan encima de la rodilla."
+        },
+        {
+          "en": "winter hat",
+          "es": "gorro",
+          "definicion": "Gorro de lana para el frío."
+        },
+        {
+          "en": "gloves",
+          "es": "guantes",
+          "definicion": "Prenda que cubre las manos y dedos."
+        },
+        {
+          "en": "flip-flops",
+          "es": "chanclas",
+          "definicion": "Calzado abierto para la playa o piscina."
+        },
+        {
+          "en": "sandals",
+          "es": "sandalias",
+          "definicion": "Zapatos abiertos de verano."
+        },
+        {
+          "en": "swimsuit",
+          "es": "bañador",
+          "definicion": "Ropa para nadar."
+        },
+        {
+          "en": "boots",
+          "es": "botas",
+          "definicion": "Zapatos altos y fuertes."
+        },
+        {
+          "en": "beanie",
+          "es": "gorro",
+          "definicion": "Prenda de lana para la cabeza."
+        },
+        {
+          "en": "sweater",
+          "es": "jersey",
+          "definicion": "Prenda de lana para el cuerpo."
+        },
+        {
+          "en": "jacket",
+          "es": "chaqueta",
+          "definicion": "Prenda de abrigo ligera."
+        },
+        {
+          "en": "sunglasses",
+          "es": "gafas de sol",
+          "definicion": "Lentes oscuras para proteger los ojos."
+        },
+        {
+          "en": "umbrella",
+          "es": "paraguas",
+          "definicion": "Objeto para no mojarse con la lluvia."
+        }
+      ]
+    },
+    {
+      "id": "espacios-hogar",
+      "nombre": {
+        "es": "Espacios del hogar",
+        "en": "Home spaces"
+      },
+      "palabras": [
+        {
+          "en": "kitchen",
+          "es": "cocina",
+          "definicion": "Lugar de la casa donde se cocina."
+        },
+        {
+          "en": "bedroom",
+          "es": "dormitorio",
+          "definicion": "Habitación donde duermes."
+        },
+        {
+          "en": "living room",
+          "es": "salón",
+          "definicion": "Sala principal para estar y ver la tele."
+        },
+        {
+          "en": "bathroom",
+          "es": "baño",
+          "definicion": "Cuarto con inodoro y ducha."
+        },
+        {
+          "en": "balcony",
+          "es": "balcón",
+          "definicion": "Espacio exterior pequeño en un piso."
+        },
+        {
+          "en": "garage",
+          "es": "garaje",
+          "definicion": "Lugar para guardar el coche."
+        },
+        {
+          "en": "dining room",
+          "es": "comedor",
+          "definicion": "Habitación con mesa para comer."
+        },
+        {
+          "en": "laundry room",
+          "es": "lavadero",
+          "definicion": "Cuarto donde se lava la ropa."
+        },
+        {
+          "en": "storage room",
+          "es": "trastero",
+          "definicion": "Lugar para guardar cosas que no usas."
+        },
+        {
+          "en": "garden",
+          "es": "jardín",
+          "definicion": "Zona exterior con plantas y flores."
+        },
+        {
+          "en": "hallway",
+          "es": "pasillo",
+          "definicion": "Pasillo que conecta las habitaciones."
+        },
+        {
+          "en": "attic",
+          "es": "ático",
+          "definicion": "Piso más alto bajo el tejado."
+        },
+        {
+          "en": "basement",
+          "es": "sótano",
+          "definicion": "Piso bajo tierra."
+        },
+        {
+          "en": "stairs",
+          "es": "escaleras",
+          "definicion": "Peldaños para subir y bajar."
+        }
+      ]
+    },
+    {
+      "id": "comidas-dia",
+      "nombre": {
+        "es": "Comidas del día",
+        "en": "Meals of the day"
+      },
+      "palabras": [
+        {
+          "en": "lunch",
+          "es": "almuerzo",
+          "definicion": "Comida principal del mediodía."
+        },
+        {
+          "en": "dinner",
+          "es": "cena",
+          "definicion": "Última comida del día, por la noche."
+        },
+        {
+          "en": "dessert",
+          "es": "postre",
+          "definicion": "Plato dulce al final de la comida."
+        },
+        {
+          "en": "vegetables",
+          "es": "verduras",
+          "definicion": "Alimentos sanos de plantas, como lechuga o zanahoria."
+        },
+        {
+          "en": "olive oil",
+          "es": "aceite de oliva",
+          "definicion": "Grasa líquida saludable de aceitunas."
+        },
+        {
+          "en": "omelette",
+          "es": "tortilla",
+          "definicion": "Plato hecho de huevos batidos."
+        },
+        {
+          "en": "snack",
+          "es": "merienda",
+          "definicion": "Comida ligera a media tarde."
+        },
+        {
+          "en": "starter",
+          "es": "entrante",
+          "definicion": "Primer plato de una comida."
+        },
+        {
+          "en": "soup",
+          "es": "sopa",
+          "definicion": "Plato líquido caliente."
+        },
+        {
+          "en": "fruit salad",
+          "es": "macedonia",
+          "definicion": "Mezcla de trozos de frutas variadas."
+        },
+        {
+          "en": "bottle of water",
+          "es": "botella de agua",
+          "definicion": "Recipiente con agua."
+        },
+        {
+          "en": "breakfast",
+          "es": "desayuno",
+          "definicion": "Primera comida del día."
+        },
+        {
+          "en": "appetizer",
+          "es": "aperitivo",
+          "definicion": "Algo para picar antes de comer."
+        },
+        {
+          "en": "main course",
+          "es": "plato principal",
+          "definicion": "La parte más importante de la comida."
+        },
+        {
+          "en": "side dish",
+          "es": "guarnición",
+          "definicion": "Acompañamiento del plato principal."
+        },
+        {
+          "en": "drink",
+          "es": "bebida",
+          "definicion": "Líquido que se toma comiendo."
+        },
+        {
+          "en": "salad",
+          "es": "ensalada",
+          "definicion": "Plato de verduras crudas."
+        },
+        {
+          "en": "toast",
+          "es": "tostada",
+          "definicion": "Pan calentado y crujiente."
+        }
+      ]
+    },
+    {
+      "id": "servicios-ciudad",
+      "nombre": {
+        "es": "Servicios de la ciudad",
+        "en": "City services"
+      },
+      "palabras": [
+        {
+          "en": "pharmacy",
+          "es": "farmacia",
+          "definicion": "Tienda donde compras medicinas."
+        },
+        {
+          "en": "bakery",
+          "es": "panadería",
+          "definicion": "Tienda donde compras pan."
+        },
+        {
+          "en": "supermarket",
+          "es": "supermercado",
+          "definicion": "Tienda grande de alimentos y productos."
+        },
+        {
+          "en": "park",
+          "es": "parque",
+          "definicion": "Zona verde pública para pasear."
+        },
+        {
+          "en": "police station",
+          "es": "comisaría",
+          "definicion": "Edificio donde está la policía."
+        },
+        {
+          "en": "sports centre",
+          "es": "polideportivo",
+          "definicion": "Lugar con instalaciones deportivas."
+        },
+        {
+          "en": "post office",
+          "es": "oficina de correos",
+          "definicion": "Lugar para enviar cartas y paquetes."
+        },
+        {
+          "en": "town hall",
+          "es": "ayuntamiento",
+          "definicion": "Edificio del gobierno local."
+        },
+        {
+          "en": "bus station",
+          "es": "estación de autobuses",
+          "definicion": "Lugar donde salen y llegan muchos autobuses."
+        },
+        {
+          "en": "library",
+          "es": "biblioteca municipal",
+          "definicion": "Edificio público con libros para prestar."
+        },
+        {
+          "en": "health centre",
+          "es": "centro de salud",
+          "definicion": "Lugar para ver al médico de familia."
+        },
+        {
+          "en": "hospital",
+          "es": "hospital",
+          "definicion": "Lugar para curar enfermos graves."
+        },
+        {
+          "en": "fire station",
+          "es": "parque de bomberos",
+          "definicion": "Lugar donde están los bomberos."
+        },
+        {
+          "en": "bank",
+          "es": "banco",
+          "definicion": "Lugar para guardar dinero."
+        },
+        {
+          "en": "cinema",
+          "es": "cine",
+          "definicion": "Lugar para ver películas."
+        },
+        {
+          "en": "museum",
+          "es": "museo",
+          "definicion": "Lugar de exposiciones culturales."
+        }
+      ]
+    },
+    {
+      "id": "transporte-urbano",
+      "nombre": {
+        "es": "Transporte urbano",
+        "en": "Urban transport"
+      },
+      "palabras": [
+        {
+          "en": "metro",
+          "es": "metro",
+          "definicion": "Tren subterráneo de la ciudad."
+        },
+        {
+          "en": "bus card",
+          "es": "tarjeta de bus",
+          "definicion": "Tarjeta para pagar el autobús."
+        },
+        {
+          "en": "ticket machine",
+          "es": "máquina de billetes",
+          "definicion": "Máquina para comprar billetes."
+        },
+        {
+          "en": "platform",
+          "es": "andén",
+          "definicion": "Zona donde esperas el tren o metro."
+        },
+        {
+          "en": "driver",
+          "es": "conductor",
+          "definicion": "Persona que conduce el vehículo."
+        },
+        {
+          "en": "route",
+          "es": "ruta",
+          "definicion": "El camino que sigue el autobús."
+        },
+        {
+          "en": "tram",
+          "es": "tranvía",
+          "definicion": "Tren ligero que va por la calle."
+        },
+        {
+          "en": "ticket inspector",
+          "es": "revisor",
+          "definicion": "Persona que revisa si has pagado."
+        },
+        {
+          "en": "transfer",
+          "es": "transbordo",
+          "definicion": "Cambiar de un transporte a otro."
+        },
+        {
+          "en": "route map",
+          "es": "plano de rutas",
+          "definicion": "Plano con las líneas y paradas."
+        },
+        {
+          "en": "rush hour",
+          "es": "hora punta",
+          "definicion": "Momento del día con más tráfico."
+        },
+        {
+          "en": "bus",
+          "es": "autobús",
+          "definicion": "Vehículo grande de transporte público."
+        },
+        {
+          "en": "taxi",
+          "es": "taxi",
+          "definicion": "Coche de alquiler con conductor."
+        },
+        {
+          "en": "car",
+          "es": "coche",
+          "definicion": "Vehículo privado de cuatro ruedas."
+        },
+        {
+          "en": "bicycle",
+          "es": "bicicleta",
+          "definicion": "Vehículo de dos ruedas a pedales."
+        },
+        {
+          "en": "scooter",
+          "es": "patinete",
+          "definicion": "Tabla con ruedas y manillar."
+        },
+        {
+          "en": "motorcycle",
+          "es": "moto",
+          "definicion": "Vehículo rápido de dos ruedas."
+        },
+        {
+          "en": "train",
+          "es": "tren",
+          "definicion": "Vehículo sobre raíles."
+        },
+        {
+          "en": "walking",
+          "es": "andando",
+          "definicion": "Ir a pie."
+        },
+        {
+          "en": "bus stop",
+          "es": "parada de autobús",
+          "definicion": "Lugar donde se espera el bus."
+        },
+        {
+          "en": "station",
+          "es": "estación",
+          "definicion": "Edificio donde paran trenes o buses."
+        }
+      ]
+    }
+  ]
+}

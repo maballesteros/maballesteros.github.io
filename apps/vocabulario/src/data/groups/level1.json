@@ -1,0 +1,650 @@
+{
+  "id": "voc-kit-supervivencia",
+  "tipo": "vocabulario",
+  "nombre": {
+    "es": "Kit de supervivencia escolar",
+    "en": "School survival kit"
+  },
+  "descripcion": {
+    "es": "Empieza tu aventura con palabras imprescindibles para moverte con seguridad por el instituto.",
+    "en": "Start your adventure with must-have words to navigate school safely."
+  },
+  "nivel": {
+    "orden": 1,
+    "titulo": {
+      "es": "Nivel 1 · Explorador",
+      "en": "Level 1 · Explorer"
+    },
+    "descripcion": {
+      "es": "Primer contacto con el instituto español.",
+      "en": "First contact with Spanish school life."
+    },
+    "clases": {
+      "fondo": "from-emerald-50 via-emerald-100 to-emerald-200",
+      "borde": "border-emerald-300",
+      "titulo": "text-emerald-900",
+      "insignia": "bg-emerald-500 text-white"
+    }
+  },
+  "temas": [
+    {
+      "id": "objetos-basicos-aula",
+      "nombre": {
+        "es": "Objetos básicos del aula",
+        "en": "Classroom essentials"
+      },
+      "palabras": [
+        {
+          "en": "pen",
+          "es": "bolígrafo",
+          "definicion": "Instrumento para escribir con tinta."
+        },
+        {
+          "en": "pencil",
+          "es": "lápiz",
+          "definicion": "Instrumento para escribir que se puede borrar."
+        },
+        {
+          "en": "notebook",
+          "es": "cuaderno",
+          "definicion": "Libro con hojas en blanco para tomar notas."
+        },
+        {
+          "en": "backpack",
+          "es": "mochila",
+          "definicion": "Bolsa que llevas a la espalda con tus libros."
+        },
+        {
+          "en": "map",
+          "es": "mapa",
+          "definicion": "Dibujo que representa un territorio geográfico."
+        },
+        {
+          "en": "clock",
+          "es": "reloj",
+          "definicion": "Objeto que marca las horas y minutos."
+        },
+        {
+          "en": "eraser",
+          "es": "goma de borrar",
+          "definicion": "Objeto para eliminar lo escrito con lápiz."
+        },
+        {
+          "en": "marker",
+          "es": "rotulador",
+          "definicion": "Instrumento para escribir con tinta gruesa y color."
+        },
+        {
+          "en": "scissors",
+          "es": "tijeras",
+          "definicion": "Herramienta con dos cuchillas para cortar papel."
+        },
+        {
+          "en": "glue stick",
+          "es": "barra de pegamento",
+          "definicion": "Barra pegajosa para unir papeles."
+        },
+        {
+          "en": "whiteboard",
+          "es": "pizarra blanca",
+          "definicion": "Superficie blanca y grande para escribir en clase."
+        },
+        {
+          "en": "sheet of paper",
+          "es": "hoja de papel",
+          "definicion": "Pieza fina y plana para escribir o dibujar."
+        },
+        {
+          "en": "sharpener",
+          "es": "sacapuntas",
+          "definicion": "Herramienta para afilar lápices."
+        },
+        {
+          "en": "ruler",
+          "es": "regla",
+          "definicion": "Instrumento para medir y trazar líneas."
+        },
+        {
+          "en": "glue",
+          "es": "pegamento",
+          "definicion": "Sustancia para unir papeles."
+        },
+        {
+          "en": "folder",
+          "es": "carpeta",
+          "definicion": "Objeto para guardar papeles ordenados."
+        },
+        {
+          "en": "calculator",
+          "es": "calculadora",
+          "definicion": "Máquina para hacer cuentas matemáticas."
+        },
+        {
+          "en": "globe",
+          "es": "globo terráqueo",
+          "definicion": "Bola del mundo."
+        }
+      ]
+    },
+    {
+      "id": "personas-clave-instituto",
+      "nombre": {
+        "es": "Personas clave en el instituto",
+        "en": "Key people at school"
+      },
+      "palabras": [
+        {
+          "en": "teacher",
+          "es": "profesor",
+          "definicion": "Persona que enseña a los alumnos."
+        },
+        {
+          "en": "classmate",
+          "es": "compañero de clase",
+          "definicion": "Estudiante que está en tu misma clase."
+        },
+        {
+          "en": "principal",
+          "es": "director",
+          "definicion": "La persona que dirige el instituto."
+        },
+        {
+          "en": "counselor",
+          "es": "orientador",
+          "definicion": "Persona que te ayuda con problemas personales o estudios."
+        },
+        {
+          "en": "janitor",
+          "es": "conserje",
+          "definicion": "Persona que cuida y limpia el edificio."
+        },
+        {
+          "en": "nurse",
+          "es": "enfermera",
+          "definicion": "Persona que cuida de tu salud en el colegio."
+        },
+        {
+          "en": "vice principal",
+          "es": "vicedirector",
+          "definicion": "Ayudante del director."
+        },
+        {
+          "en": "librarian",
+          "es": "bibliotecario",
+          "definicion": "Persona encargada de los libros y la biblioteca."
+        },
+        {
+          "en": "coach",
+          "es": "entrenador",
+          "definicion": "Persona que entrena a los equipos deportivos."
+        },
+        {
+          "en": "school secretary",
+          "es": "secretaría",
+          "definicion": "Persona que trabaja en la oficina administrativa."
+        },
+        {
+          "en": "class delegate",
+          "es": "delegado de clase",
+          "definicion": "Alumno elegido para representar a la clase."
+        },
+        {
+          "en": "head of studies",
+          "es": "jefe de estudios",
+          "definicion": "Responsable de los horarios y asuntos académicos."
+        },
+        {
+          "en": "secretary",
+          "es": "secretario",
+          "definicion": "Persona que trabaja en la oficina."
+        },
+        {
+          "en": "tutor",
+          "es": "tutor",
+          "definicion": "Profesor responsable de tu grupo."
+        },
+        {
+          "en": "substitute teacher",
+          "es": "profesor sustituto",
+          "definicion": "Profesor que viene cuando falta el titular."
+        },
+        {
+          "en": "head of department",
+          "es": "jefe de departamento",
+          "definicion": "Profesor encargado de una asignatura."
+        },
+        {
+          "en": "monitor",
+          "es": "monitor",
+          "definicion": "Persona que vigila en el recreo o comedor."
+        }
+      ]
+    },
+    {
+      "id": "lugares-imprescindibles",
+      "nombre": {
+        "es": "Lugares imprescindibles",
+        "en": "Must-visit places"
+      },
+      "palabras": [
+        {
+          "en": "entrance",
+          "es": "entrada",
+          "definicion": "Lugar por donde entras al edificio."
+        },
+        {
+          "en": "classroom",
+          "es": "aula",
+          "definicion": "Habitación donde se dan las clases."
+        },
+        {
+          "en": "library",
+          "es": "biblioteca",
+          "definicion": "Lugar silencioso con muchos libros para leer."
+        },
+        {
+          "en": "canteen",
+          "es": "comedor",
+          "definicion": "Lugar donde se sirve la comida a mediodía."
+        },
+        {
+          "en": "gym",
+          "es": "gimnasio",
+          "definicion": "Lugar para hacer deporte y ejercicio físico."
+        },
+        {
+          "en": "playground",
+          "es": "patio",
+          "definicion": "Zona al aire libre para el recreo."
+        },
+        {
+          "en": "office",
+          "es": "oficina",
+          "definicion": "Lugar donde trabajan el director y los secretarios."
+        },
+        {
+          "en": "laboratory",
+          "es": "laboratorio",
+          "definicion": "Aula equipada para hacer experimentos científicos."
+        },
+        {
+          "en": "nurse office",
+          "es": "enfermería",
+          "definicion": "Habitación donde está la enfermera."
+        },
+        {
+          "en": "auditorium",
+          "es": "salón de actos",
+          "definicion": "Gran sala para eventos y presentaciones."
+        },
+        {
+          "en": "locker room",
+          "es": "vestuario",
+          "definicion": "Lugar donde te cambias de ropa para deporte."
+        },
+        {
+          "en": "cafeteria",
+          "es": "cafetería",
+          "definicion": "Lugar para comer en el colegio."
+        },
+        {
+          "en": "principal's office",
+          "es": "despacho del director",
+          "definicion": "Oficina del jefe del colegio."
+        },
+        {
+          "en": "nurse's office",
+          "es": "enfermería",
+          "definicion": "Sala para curar a los alumnos."
+        },
+        {
+          "en": "science lab",
+          "es": "laboratorio",
+          "definicion": "Aula para experimentos de ciencia."
+        },
+        {
+          "en": "art room",
+          "es": "aula de arte",
+          "definicion": "Clase para pintar y dibujar."
+        },
+        {
+          "en": "music room",
+          "es": "aula de música",
+          "definicion": "Clase con instrumentos musicales."
+        },
+        {
+          "en": "computer lab",
+          "es": "aula de informática",
+          "definicion": "Sala llena de ordenadores."
+        },
+        {
+          "en": "lockers",
+          "es": "taquillas",
+          "definicion": "Armarios pequeños para guardar cosas."
+        },
+        {
+          "en": "hallway",
+          "es": "pasillo",
+          "definicion": "Corredor para ir de una clase a otra."
+        }
+      ]
+    },
+    {
+      "id": "comidas-rapidas",
+      "nombre": {
+        "es": "Comidas rápidas",
+        "en": "Quick meals"
+      },
+      "palabras": [
+        {
+          "en": "sandwich",
+          "es": "bocadillo",
+          "definicion": "Dos rebanadas de pan con comida en medio."
+        },
+        {
+          "en": "fruit",
+          "es": "fruta",
+          "definicion": "Alimento natural dulce como la manzana o plátano."
+        },
+        {
+          "en": "water bottle",
+          "es": "botella de agua",
+          "definicion": "Recipiente portátil para llevar agua."
+        },
+        {
+          "en": "juice",
+          "es": "zumo",
+          "definicion": "Bebida líquida hecha de frutas."
+        },
+        {
+          "en": "snack",
+          "es": "tentempié",
+          "definicion": "Pequeña comida que tomas entre horas."
+        },
+        {
+          "en": "salad",
+          "es": "ensalada",
+          "definicion": "Plato frío con lechuga y otras verduras."
+        },
+        {
+          "en": "yogurt",
+          "es": "yogur",
+          "definicion": "Alimento cremoso hecho de leche fermentada."
+        },
+        {
+          "en": "piece of fruit",
+          "es": "pieza de fruta",
+          "definicion": "Una unidad de fruta, como una pera."
+        },
+        {
+          "en": "energy bar",
+          "es": "barrita energética",
+          "definicion": "Barrita nutritiva para darte fuerza."
+        },
+        {
+          "en": "smoothie",
+          "es": "batido",
+          "definicion": "Bebida espesa de fruta batida con leche o yogur."
+        },
+        {
+          "en": "bag of chips",
+          "es": "bolsa de patatas",
+          "definicion": "Bolsa con patatas fritas crujientes."
+        },
+        {
+          "en": "wrap",
+          "es": "burrito",
+          "definicion": "Tortilla enrollada con relleno dentro."
+        },
+        {
+          "en": "apple",
+          "es": "manzana",
+          "definicion": "Fruta redonda roja o verde."
+        },
+        {
+          "en": "banana",
+          "es": "plátano",
+          "definicion": "Fruta alargada y amarilla."
+        },
+        {
+          "en": "water",
+          "es": "agua",
+          "definicion": "Líquido transparente para beber."
+        },
+        {
+          "en": "chips",
+          "es": "patatas fritas",
+          "definicion": "Rodajas de patata crujientes."
+        },
+        {
+          "en": "cookie",
+          "es": "galleta",
+          "definicion": "Dulce pequeño y crujiente."
+        },
+        {
+          "en": "granola bar",
+          "es": "barrita de cereales",
+          "definicion": "Snack de avena y miel."
+        },
+        {
+          "en": "muffin",
+          "es": "magdalena",
+          "definicion": "Bizcocho pequeño y redondo."
+        }
+      ]
+    },
+    {
+      "id": "emociones-basicas",
+      "nombre": {
+        "es": "Emociones básicas",
+        "en": "Basic emotions"
+      },
+      "palabras": [
+        {
+          "en": "happy",
+          "es": "feliz",
+          "definicion": "Sentimiento de alegría y satisfacción."
+        },
+        {
+          "en": "nervous",
+          "es": "nervioso",
+          "definicion": "Sentimiento de inquietud antes de un examen."
+        },
+        {
+          "en": "tired",
+          "es": "cansado",
+          "definicion": "Sensación de necesitar dormir o descansar."
+        },
+        {
+          "en": "excited",
+          "es": "emocionado",
+          "definicion": "Muy entusiasmado por algo que va a pasar."
+        },
+        {
+          "en": "surprised",
+          "es": "sorprendido",
+          "definicion": "Lo que sientes ante algo inesperado."
+        },
+        {
+          "en": "confident",
+          "es": "seguro",
+          "definicion": "Sentirse seguro de uno mismo."
+        },
+        {
+          "en": "worried",
+          "es": "preocupado",
+          "definicion": "Pensar mucho en un problema o peligro."
+        },
+        {
+          "en": "calm",
+          "es": "tranquilo",
+          "definicion": "Estado de tranquilidad y paz."
+        },
+        {
+          "en": "confused",
+          "es": "confundido",
+          "definicion": "No entender lo que está pasando."
+        },
+        {
+          "en": "bored",
+          "es": "aburrido",
+          "definicion": "No tener nada divertido que hacer."
+        },
+        {
+          "en": "sad",
+          "es": "triste",
+          "definicion": "Sentirse mal y con ganas de llorar."
+        },
+        {
+          "en": "angry",
+          "es": "enfadado",
+          "definicion": "Estar molesto por algo."
+        },
+        {
+          "en": "hungry",
+          "es": "hambriento",
+          "definicion": "Querer comer."
+        },
+        {
+          "en": "thirsty",
+          "es": "sediento",
+          "definicion": "Querer beber agua."
+        },
+        {
+          "en": "scared",
+          "es": "asustado",
+          "definicion": "Tener miedo de algo."
+        },
+        {
+          "en": "shy",
+          "es": "tímido",
+          "definicion": "Tener vergüenza de hablar con gente."
+        }
+      ]
+    },
+    {
+      "id": "numeros-colores",
+      "nombre": {
+        "es": "Números y colores",
+        "en": "Numbers and colors"
+      },
+      "palabras": [
+        {
+          "en": "one",
+          "es": "uno",
+          "definicion": "El primer número."
+        },
+        {
+          "en": "two",
+          "es": "dos",
+          "definicion": "Uno más uno."
+        },
+        {
+          "en": "red",
+          "es": "rojo",
+          "definicion": "El color de la sangre o las fresas."
+        },
+        {
+          "en": "blue",
+          "es": "azul",
+          "definicion": "El color del cielo y el mar."
+        },
+        {
+          "en": "green",
+          "es": "verde",
+          "definicion": "El color de la hierba y las hojas."
+        },
+        {
+          "en": "yellow",
+          "es": "amarillo",
+          "definicion": "El color del sol y los limones."
+        },
+        {
+          "en": "three",
+          "es": "tres",
+          "definicion": "El número después del dos."
+        },
+        {
+          "en": "four",
+          "es": "cuatro",
+          "definicion": "El número de patas de un perro."
+        },
+        {
+          "en": "five",
+          "es": "cinco",
+          "definicion": "Los dedos de una mano."
+        },
+        {
+          "en": "black",
+          "es": "negro",
+          "definicion": "El color de la noche oscura."
+        },
+        {
+          "en": "white",
+          "es": "blanco",
+          "definicion": "El color de la nieve o la leche."
+        },
+        {
+          "en": "purple",
+          "es": "morado",
+          "definicion": "Color mezcla de azul y rojo."
+        },
+        {
+          "en": "eleven",
+          "es": "once",
+          "definicion": "Número después del diez."
+        },
+        {
+          "en": "twelve",
+          "es": "doce",
+          "definicion": "Número de meses en un año."
+        },
+        {
+          "en": "twenty",
+          "es": "veinte",
+          "definicion": "Dos veces diez."
+        },
+        {
+          "en": "thirty",
+          "es": "treinta",
+          "definicion": "Tres veces diez."
+        },
+        {
+          "en": "fifty",
+          "es": "cincuenta",
+          "definicion": "La mitad de cien."
+        },
+        {
+          "en": "one hundred",
+          "es": "cien",
+          "definicion": "Diez veces diez."
+        },
+        {
+          "en": "orange",
+          "es": "naranja",
+          "definicion": "Color de la fruta del mismo nombre."
+        },
+        {
+          "en": "brown",
+          "es": "marrón",
+          "definicion": "Color de la tierra o el chocolate."
+        },
+        {
+          "en": "pink",
+          "es": "rosa",
+          "definicion": "Color rojo mezclado con blanco."
+        },
+        {
+          "en": "grey",
+          "es": "gris",
+          "definicion": "Color de las nubes de lluvia."
+        },
+        {
+          "en": "gold",
+          "es": "dorado",
+          "definicion": "Color del oro."
+        }
+      ]
+    }
+  ]
+}

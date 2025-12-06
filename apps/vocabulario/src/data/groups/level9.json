@@ -1,0 +1,805 @@
+{
+  "id": "phr-amistades-ocio",
+  "tipo": "frases",
+  "nombre": {
+    "es": "Amistades y ocio",
+    "en": "Friends and fun"
+  },
+  "descripcion": {
+    "es": "Refuerza tus relaciones con invitaciones, opiniones y planes divertidos.",
+    "en": "Strengthen relationships with invitations, opinions, and fun plans."
+  },
+  "nivel": {
+    "orden": 9,
+    "titulo": {
+      "es": "Nivel 9 · Aventurero social",
+      "en": "Level 9 · Social connector"
+    },
+    "descripcion": {
+      "es": "Expresa gustos y organiza planes con seguridad.",
+      "en": "Express your tastes and organize plans with confidence."
+    },
+    "clases": {
+      "fondo": "from-fuchsia-50 via-fuchsia-100 to-fuchsia-200",
+      "borde": "border-fuchsia-300",
+      "titulo": "text-fuchsia-900",
+      "insignia": "bg-fuchsia-500 text-white"
+    }
+  },
+  "temas": [
+    {
+      "id": "quedar-amigos-frases",
+      "nombre": {
+        "es": "Quedar con amigos",
+        "en": "Meeting with friends"
+      },
+      "palabras": [
+        {
+          "en": "Do you want to meet after school?",
+          "es": "¿Quieres quedar después de clase?",
+          "definicion": "Proponer verse al salir."
+        },
+        {
+          "en": "Where shall we meet?",
+          "es": "¿Dónde quedamos?",
+          "definicion": "Preguntar el lugar de encuentro."
+        },
+        {
+          "en": "What time suits you?",
+          "es": "¿Qué hora te viene bien?",
+          "definicion": "Acordar el momento de verse."
+        },
+        {
+          "en": "Let us meet at the metro station.",
+          "es": "Quedemos en la estación de metro.",
+          "definicion": "Fijar el metro como punto de reunión."
+        },
+        {
+          "en": "Can you send me the location?",
+          "es": "¿Me envías la ubicación?",
+          "definicion": "Pedir el mapa del sitio."
+        },
+        {
+          "en": "I will be there in fifteen minutes.",
+          "es": "Llegaré en quince minutos.",
+          "definicion": "Avisar de cuánto tardas."
+        },
+        {
+          "en": "Let us meet at the café.",
+          "es": "Quedemos en la cafetería.",
+          "definicion": "Verse donde sirven café."
+        },
+        {
+          "en": "Do you want to go skating?",
+          "es": "¿Quieres ir a patinar?",
+          "definicion": "Proponer deporte sobre ruedas."
+        },
+        {
+          "en": "Should we invite Marta?",
+          "es": "¿Invitamos a Marta?",
+          "definicion": "Sugerir llamar a otra amiga."
+        },
+        {
+          "en": "Can you pick me up?",
+          "es": "¿Puedes recogerme?",
+          "definicion": "Pedir que pasen a buscarte."
+        },
+        {
+          "en": "I might arrive a bit late.",
+          "es": "Puede que llegue un poco tarde.",
+          "definicion": "Avisar de posible retraso."
+        },
+        {
+          "en": "Tell me when you leave home.",
+          "es": "Avísame cuando salgas de casa.",
+          "definicion": "Pedir confirmación de salida."
+        },
+        {
+          "en": "Are you free tonight?",
+          "es": "¿Estás libre esta noche?",
+          "definicion": "Preguntar disponibilidad."
+        },
+        {
+          "en": "Let's meet at the square.",
+          "es": "Quedamos en la plaza.",
+          "definicion": "Fijar lugar."
+        },
+        {
+          "en": "I am running late.",
+          "es": "Llego tarde.",
+          "definicion": "Avisar retraso."
+        },
+        {
+          "en": "Wait for me.",
+          "es": "Espérame.",
+          "definicion": "Pedir paciencia."
+        },
+        {
+          "en": "I cannot come.",
+          "es": "No puedo ir.",
+          "definicion": "Cancelar cita."
+        },
+        {
+          "en": "Maybe next time.",
+          "es": "Quizás la próxima vez.",
+          "definicion": "Posponer."
+        },
+        {
+          "en": "Do you want to come?",
+          "es": "¿Quieres venir?",
+          "definicion": "Invitar a unirse."
+        },
+        {
+          "en": "Who else is coming?",
+          "es": "¿Quién más viene?",
+          "definicion": "Preguntar por asistentes."
+        },
+        {
+          "en": "See you there.",
+          "es": "Nos vemos allí.",
+          "definicion": "Confirmar encuentro."
+        },
+        {
+          "en": "I am on my way.",
+          "es": "Estoy en camino.",
+          "definicion": "Avisar que ya vas."
+        },
+        {
+          "en": "What is the plan?",
+          "es": "¿Cuál es el plan?",
+          "definicion": "Preguntar actividad."
+        },
+        {
+          "en": "Call me when you arrive.",
+          "es": "Llámame cuando llegues.",
+          "definicion": "Pedir aviso."
+        }
+      ]
+    },
+    {
+      "id": "planear-eventos",
+      "nombre": {
+        "es": "Planear eventos",
+        "en": "Planning events"
+      },
+      "palabras": [
+        {
+          "en": "Let us organise a movie night.",
+          "es": "Organicemos una noche de cine.",
+          "definicion": "Planear ver películas juntos."
+        },
+        {
+          "en": "We could go to the skate park.",
+          "es": "Podríamos ir al parque de patinaje.",
+          "definicion": "Sugerir ir a patinar."
+        },
+        {
+          "en": "Shall we celebrate at my place?",
+          "es": "¿Celebramos en mi casa?",
+          "definicion": "Ofrecer tu casa para la fiesta."
+        },
+        {
+          "en": "Do you want to bring snacks?",
+          "es": "¿Quieres traer algo de picar?",
+          "definicion": "Pedir comida ligera."
+        },
+        {
+          "en": "Let us make a playlist together.",
+          "es": "Hagamos una lista de reproducción juntos.",
+          "definicion": "Elegir música entre todos."
+        },
+        {
+          "en": "We need to rent the room in advance.",
+          "es": "Tenemos que reservar la sala con antelación.",
+          "definicion": "Alquilar el local antes."
+        },
+        {
+          "en": "Let us make a guest list.",
+          "es": "Hagamos una lista de invitados.",
+          "definicion": "Apuntar a quién invitar."
+        },
+        {
+          "en": "We should buy decorations.",
+          "es": "Deberíamos comprar decoración.",
+          "definicion": "Adquirir adornos festivos."
+        },
+        {
+          "en": "Can you bring drinks?",
+          "es": "¿Puedes traer bebidas?",
+          "definicion": "Pedir refrescos."
+        },
+        {
+          "en": "Shall we cook something together?",
+          "es": "¿Cocinamos algo juntos?",
+          "definicion": "Preparar comida en grupo."
+        },
+        {
+          "en": "We can share the costs.",
+          "es": "Podemos compartir los gastos.",
+          "definicion": "Pagar a medias."
+        },
+        {
+          "en": "Let us set up the speakers.",
+          "es": "Montemos los altavoces.",
+          "definicion": "Instalar el sonido."
+        },
+        {
+          "en": "Let's have a party.",
+          "es": "Hagamos una fiesta.",
+          "definicion": "Proponer celebración."
+        },
+        {
+          "en": "We need music.",
+          "es": "Necesitamos música.",
+          "definicion": "Organizar ambiente."
+        },
+        {
+          "en": "Who brings the food?",
+          "es": "¿Quién trae la comida?",
+          "definicion": "Repartir suministros."
+        },
+        {
+          "en": "Send the invitations.",
+          "es": "Envía las invitaciones.",
+          "definicion": "Avisar a la gente."
+        },
+        {
+          "en": "Decorate the room.",
+          "es": "Decora la sala.",
+          "definicion": "Preparar el lugar."
+        },
+        {
+          "en": "Buy some drinks.",
+          "es": "Compra bebidas.",
+          "definicion": "Encargar refrescos."
+        },
+        {
+          "en": "What time does it start?",
+          "es": "¿A qué hora empieza?",
+          "definicion": "Preguntar inicio."
+        },
+        {
+          "en": "Is it a surprise?",
+          "es": "¿Es una sorpresa?",
+          "definicion": "Preguntar si es secreto."
+        },
+        {
+          "en": "Make a playlist.",
+          "es": "Haz una lista de música.",
+          "definicion": "Preparar canciones."
+        },
+        {
+          "en": "Clean up afterwards.",
+          "es": "Limpiar después.",
+          "definicion": "Planear recogida."
+        },
+        {
+          "en": "Bring a friend.",
+          "es": "Trae a un amigo.",
+          "definicion": "Permitir acompañantes."
+        },
+        {
+          "en": "Dress code is casual.",
+          "es": "Ropa informal.",
+          "definicion": "Indicar vestimenta."
+        }
+      ]
+    },
+    {
+      "id": "expresar-opiniones",
+      "nombre": {
+        "es": "Expresar opiniones",
+        "en": "Expressing opinions"
+      },
+      "palabras": [
+        {
+          "en": "I prefer action movies.",
+          "es": "Prefiero las películas de acción.",
+          "definicion": "Me gusta más el cine movido."
+        },
+        {
+          "en": "I do not really like horror.",
+          "es": "No me gusta mucho el terror.",
+          "definicion": "Rechazar películas de miedo."
+        },
+        {
+          "en": "That sounds amazing!",
+          "es": "¡Eso suena increíble!",
+          "definicion": "Expresar entusiasmo."
+        },
+        {
+          "en": "I would rather stay outside.",
+          "es": "Prefiero quedarme fuera.",
+          "definicion": "Elegir estar al aire libre."
+        },
+        {
+          "en": "Maybe we can try something new.",
+          "es": "Quizá podamos probar algo nuevo.",
+          "definicion": "Sugerir un cambio."
+        },
+        {
+          "en": "I think it will be fun.",
+          "es": "Creo que será divertido.",
+          "definicion": "Prever que lo pasaréis bien."
+        },
+        {
+          "en": "I would rather stay in.",
+          "es": "Prefiero quedarme en casa.",
+          "definicion": "Elegir no salir."
+        },
+        {
+          "en": "That sounds boring.",
+          "es": "Eso suena aburrido.",
+          "definicion": "Decir que no es divertido."
+        },
+        {
+          "en": "I completely agree.",
+          "es": "Estoy totalmente de acuerdo.",
+          "definicion": "Coincidir al 100%."
+        },
+        {
+          "en": "I am not sure about that plan.",
+          "es": "No estoy seguro de ese plan.",
+          "definicion": "Dudar de la propuesta."
+        },
+        {
+          "en": "Let us see how it goes.",
+          "es": "Vamos a ver cómo va.",
+          "definicion": "Esperar a ver qué pasa."
+        },
+        {
+          "en": "I like your idea better.",
+          "es": "Me gusta más tu idea.",
+          "definicion": "Preferir la propuesta del otro."
+        },
+        {
+          "en": "I love this song.",
+          "es": "Me encanta esta canción.",
+          "definicion": "Expresar gusto musical."
+        },
+        {
+          "en": "I hate waiting.",
+          "es": "Odio esperar.",
+          "definicion": "Expresar disgusto."
+        },
+        {
+          "en": "It is boring.",
+          "es": "Es aburrido.",
+          "definicion": "Valoración negativa."
+        },
+        {
+          "en": "It is amazing.",
+          "es": "Es increíble.",
+          "definicion": "Valoración muy positiva."
+        },
+        {
+          "en": "I prefer pizza.",
+          "es": "Prefiero pizza.",
+          "definicion": "Expresar preferencia."
+        },
+        {
+          "en": "What is your favorite movie?",
+          "es": "¿Cuál es tu peli favorita?",
+          "definicion": "Preguntar gustos."
+        },
+        {
+          "en": "I don't care.",
+          "es": "Me da igual.",
+          "definicion": "Indiferencia."
+        },
+        {
+          "en": "It depends.",
+          "es": "Depende.",
+          "definicion": "Condicional."
+        },
+        {
+          "en": "You are right.",
+          "es": "Tienes razón.",
+          "definicion": "Dar la razón."
+        },
+        {
+          "en": "I am not sure.",
+          "es": "No estoy seguro.",
+          "definicion": "Duda."
+        },
+        {
+          "en": "It is funny.",
+          "es": "Es gracioso.",
+          "definicion": "Valoración de humor."
+        },
+        {
+          "en": "I think so.",
+          "es": "Creo que sí.",
+          "definicion": "Afirmación probable."
+        }
+      ]
+    },
+    {
+      "id": "invitar",
+      "nombre": {
+        "es": "Invitar a alguien",
+        "en": "Inviting someone"
+      },
+      "palabras": [
+        {
+          "en": "Would you like to come to my birthday?",
+          "es": "¿Te gustaría venir a mi cumpleaños?",
+          "definicion": "Invitar a tu fiesta."
+        },
+        {
+          "en": "Can you stay for dinner?",
+          "es": "¿Puedes quedarte a cenar?",
+          "definicion": "Ofrecer cenar en tu casa."
+        },
+        {
+          "en": "Bring your favourite game.",
+          "es": "Trae tu juego favorito.",
+          "definicion": "Pedir que traiga diversión."
+        },
+        {
+          "en": "Feel free to invite your cousin.",
+          "es": "Puedes invitar a tu primo sin problema.",
+          "definicion": "Permitir traer a alguien más."
+        },
+        {
+          "en": "Let us celebrate together.",
+          "es": "Celebremos juntos.",
+          "definicion": "Compartir la alegría."
+        },
+        {
+          "en": "Tell me if you can make it.",
+          "es": "Dime si puedes venir.",
+          "definicion": "Pedir confirmación."
+        },
+        {
+          "en": "Would you like to sleep over?",
+          "es": "¿Quieres quedarte a dormir?",
+          "definicion": "Invitar a pasar la noche."
+        },
+        {
+          "en": "Bring something to share.",
+          "es": "Trae algo para compartir.",
+          "definicion": "Pedir colaboración con comida."
+        },
+        {
+          "en": "Feel free to say no.",
+          "es": "Si quieres, puedes decir que no.",
+          "definicion": "Dar libertad para rechazar."
+        },
+        {
+          "en": "We start at seven.",
+          "es": "Empezamos a las siete.",
+          "definicion": "Indicar la hora de inicio."
+        },
+        {
+          "en": "Let me know if you need anything.",
+          "es": "Avísame si necesitas algo.",
+          "definicion": "Ofrecer ayuda al invitado."
+        },
+        {
+          "en": "I will send you the details.",
+          "es": "Te enviaré los detalles.",
+          "definicion": "Prometer mandar la info."
+        },
+        {
+          "en": "Do you want to dance?",
+          "es": "¿Quieres bailar?",
+          "definicion": "Invitar a la pista."
+        },
+        {
+          "en": "Come to my house.",
+          "es": "Ven a mi casa.",
+          "definicion": "Invitar al hogar."
+        },
+        {
+          "en": "Let's go for a coffee.",
+          "es": "Vamos a tomar un café.",
+          "definicion": "Invitar a beber algo."
+        },
+        {
+          "en": "Are you busy?",
+          "es": "¿Estás ocupado?",
+          "definicion": "Preguntar antes de invitar."
+        },
+        {
+          "en": "Join us.",
+          "es": "Únete a nosotros.",
+          "definicion": "Invitar al grupo."
+        },
+        {
+          "en": "Be my guest.",
+          "es": "Sé mi invitado.",
+          "definicion": "Ofrecer hospitalidad."
+        },
+        {
+          "en": "Can I invite Tom?",
+          "es": "¿Puedo invitar a Tom?",
+          "definicion": "Pedir traer a alguien."
+        },
+        {
+          "en": "You are invited.",
+          "es": "Estás invitado.",
+          "definicion": "Formalizar invitación."
+        },
+        {
+          "en": "Would you like to come?",
+          "es": "¿Te gustaría venir?",
+          "definicion": "Invitación educada."
+        },
+        {
+          "en": "I treat you.",
+          "es": "Yo te invito.",
+          "definicion": "Pagar por el otro."
+        },
+        {
+          "en": "Let's go together.",
+          "es": "Vamos juntos.",
+          "definicion": "Ir en compañía."
+        },
+        {
+          "en": "Don't be late.",
+          "es": "No llegues tarde.",
+          "definicion": "Advertencia horaria."
+        }
+      ]
+    },
+    {
+      "id": "redes-sociales",
+      "nombre": {
+        "es": "Redes sociales",
+        "en": "Social media"
+      },
+      "palabras": [
+        {
+          "en": "Can you add me to the group chat?",
+          "es": "¿Puedes añadirme al grupo?",
+          "definicion": "Pedir entrar en el chat."
+        },
+        {
+          "en": "I will send you the photos.",
+          "es": "Te enviaré las fotos.",
+          "definicion": "Pasar las imágenes por mensaje."
+        },
+        {
+          "en": "Can you share the link?",
+          "es": "¿Puedes compartir el enlace?",
+          "definicion": "Pedir la dirección web."
+        },
+        {
+          "en": "I liked your post.",
+          "es": "Me gustó tu publicación.",
+          "definicion": "Elogiar lo que subiste."
+        },
+        {
+          "en": "Please, tag me there.",
+          "es": "Por favor, etiquétame ahí.",
+          "definicion": "Pedir mención en la foto."
+        },
+        {
+          "en": "Remember to keep it private.",
+          "es": "Recuerda mantenerlo privado.",
+          "definicion": "Pedir discreción."
+        },
+        {
+          "en": "I will send you the playlist.",
+          "es": "Te mandaré la lista de reproducción.",
+          "definicion": "Compartir música."
+        },
+        {
+          "en": "Can you share the story?",
+          "es": "¿Puedes compartir la historia?",
+          "definicion": "Pedir difundir el contenido."
+        },
+        {
+          "en": "Let us create a group.",
+          "es": "Creemos un grupo.",
+          "definicion": "Hacer un chat conjunto."
+        },
+        {
+          "en": "Please do not post it yet.",
+          "es": "Por favor no lo publiques todavía.",
+          "definicion": "Pedir esperar para subir algo."
+        },
+        {
+          "en": "I changed my username.",
+          "es": "He cambiado mi nombre de usuario.",
+          "definicion": "Avisar de nuevo nick."
+        },
+        {
+          "en": "Can you react to my message?",
+          "es": "¿Puedes reaccionar a mi mensaje?",
+          "definicion": "Pedir un like o emoji."
+        },
+        {
+          "en": "Add me on Instagram.",
+          "es": "Agrégame en Instagram.",
+          "definicion": "Pedir conexión."
+        },
+        {
+          "en": "Like my photo.",
+          "es": "Dale like a mi foto.",
+          "definicion": "Pedir interacción."
+        },
+        {
+          "en": "Send me a message.",
+          "es": "Envíame un mensaje.",
+          "definicion": "Pedir contacto privado."
+        },
+        {
+          "en": "Share this post.",
+          "es": "Comparte esta publicación.",
+          "definicion": "Pedir difusión."
+        },
+        {
+          "en": "Did you see my story?",
+          "es": "¿Viste mi historia?",
+          "definicion": "Preguntar por contenido efímero."
+        },
+        {
+          "en": "Comment below.",
+          "es": "Comenta abajo.",
+          "definicion": "Pedir opinión escrita."
+        },
+        {
+          "en": "Accept my request.",
+          "es": "Acepta mi solicitud.",
+          "definicion": "Pedir ser amigos."
+        },
+        {
+          "en": "Block him.",
+          "es": "Bloquéalo.",
+          "definicion": "Consejo de seguridad."
+        },
+        {
+          "en": "Change your profile picture.",
+          "es": "Cambia tu foto de perfil.",
+          "definicion": "Sugerencia de imagen."
+        },
+        {
+          "en": "Tag me.",
+          "es": "Etiquétame.",
+          "definicion": "Pedir mención."
+        },
+        {
+          "en": "Check your notifications.",
+          "es": "Mira tus notificaciones.",
+          "definicion": "Avisar de alertas."
+        },
+        {
+          "en": "I have no wifi.",
+          "es": "No tengo wifi.",
+          "definicion": "Problema de conexión."
+        }
+      ]
+    },
+    {
+      "id": "deportes-ocio-frases",
+      "nombre": {
+        "es": "Deportes y ocio",
+        "en": "Sports and leisure"
+      },
+      "palabras": [
+        {
+          "en": "Shall we sign up for the football tournament?",
+          "es": "¿Nos apuntamos al torneo de fútbol?",
+          "definicion": "Proponer competir en fútbol."
+        },
+        {
+          "en": "We could try the climbing wall.",
+          "es": "Podríamos probar el rocódromo.",
+          "definicion": "Sugerir escalar."
+        },
+        {
+          "en": "Do you want to join the dance class?",
+          "es": "¿Quieres apuntarte a la clase de baile?",
+          "definicion": "Invitar a aprender a bailar."
+        },
+        {
+          "en": "I have training on Thursdays.",
+          "es": "Tengo entrenamiento los jueves.",
+          "definicion": "Decir cuándo practicas deporte."
+        },
+        {
+          "en": "Let us cheer for our team.",
+          "es": "Animemos a nuestro equipo.",
+          "definicion": "Apoyar a los jugadores."
+        },
+        {
+          "en": "I am saving for a new skateboard.",
+          "es": "Estoy ahorrando para un monopatín nuevo.",
+          "definicion": "Guardar dinero para patinar."
+        },
+        {
+          "en": "Let us warm up first.",
+          "es": "Calentemos primero.",
+          "definicion": "Preparar el cuerpo antes de jugar."
+        },
+        {
+          "en": "Can you bring the ball?",
+          "es": "¿Puedes traer el balón?",
+          "definicion": "Pedir la pelota."
+        },
+        {
+          "en": "We should practice after school.",
+          "es": "Deberíamos entrenar después de clase.",
+          "definicion": "Proponer ensayo al salir."
+        },
+        {
+          "en": "The match starts at six.",
+          "es": "El partido empieza a las seis.",
+          "definicion": "Hora del juego."
+        },
+        {
+          "en": "I need to buy new trainers.",
+          "es": "Necesito comprar zapatillas nuevas.",
+          "definicion": "Querer calzado deportivo."
+        },
+        {
+          "en": "Do you want to cycle to the park?",
+          "es": "¿Quieres ir en bici al parque?",
+          "definicion": "Proponer paseo en bicicleta."
+        },
+        {
+          "en": "Do you play football?",
+          "es": "¿Juegas al fútbol?",
+          "definicion": "Preguntar por deporte."
+        },
+        {
+          "en": "Let's play a match.",
+          "es": "Juguemos un partido.",
+          "definicion": "Proponer competición."
+        },
+        {
+          "en": "Who won?",
+          "es": "¿Quién ganó?",
+          "definicion": "Preguntar resultado."
+        },
+        {
+          "en": "I scored a goal.",
+          "es": "Marqué un gol.",
+          "definicion": "Celebrar tanto."
+        },
+        {
+          "en": "Pass the ball.",
+          "es": "Pasa la pelota.",
+          "definicion": "Pedir el balón."
+        },
+        {
+          "en": "Run faster.",
+          "es": "Corre más rápido.",
+          "definicion": "Animar."
+        },
+        {
+          "en": "Good game.",
+          "es": "Buen partido.",
+          "definicion": "Felicitar al final."
+        },
+        {
+          "en": "I am tired of running.",
+          "es": "Estoy cansado de correr.",
+          "definicion": "Fatiga deportiva."
+        },
+        {
+          "en": "Let's go swimming.",
+          "es": "Vamos a nadar.",
+          "definicion": "Proponer piscina."
+        },
+        {
+          "en": "Do you like tennis?",
+          "es": "¿Te gusta el tenis?",
+          "definicion": "Preguntar gusto deportivo."
+        },
+        {
+          "en": "Watch the ball.",
+          "es": "Mira la pelota.",
+          "definicion": "Consejo de atención."
+        },
+        {
+          "en": "Practice makes perfect.",
+          "es": "La práctica hace al maestro.",
+          "definicion": "Dicho de esfuerzo."
+        }
+      ]
+    }
+  ]
+}

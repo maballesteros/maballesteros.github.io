@@ -1,0 +1,670 @@
+{
+  "id": "voc-dominio-clase",
+  "tipo": "vocabulario",
+  "nombre": {
+    "es": "Dominio en clase",
+    "en": "Class mastery"
+  },
+  "descripcion": {
+    "es": "Domina los términos académicos para participar con confianza y precisión.",
+    "en": "Master academic terms so you can participate with confidence and precision."
+  },
+  "nivel": {
+    "orden": 3,
+    "titulo": {
+      "es": "Nivel 3 · Estratega del aula",
+      "en": "Level 3 · Classroom strategist"
+    },
+    "descripcion": {
+      "es": "Refuerza el lenguaje académico y técnico.",
+      "en": "Reinforce academic and technical language."
+    },
+    "clases": {
+      "fondo": "from-indigo-50 via-indigo-100 to-indigo-200",
+      "borde": "border-indigo-300",
+      "titulo": "text-indigo-900",
+      "insignia": "bg-indigo-500 text-white"
+    }
+  },
+  "temas": [
+    {
+      "id": "tecnologia-aula",
+      "nombre": {
+        "es": "Tecnología del aula",
+        "en": "Classroom technology"
+      },
+      "palabras": [
+        {
+          "en": "computer",
+          "es": "ordenador",
+          "definicion": "Máquina electrónica para procesar información."
+        },
+        {
+          "en": "tablet",
+          "es": "tableta",
+          "definicion": "Dispositivo táctil más grande que un móvil."
+        },
+        {
+          "en": "projector",
+          "es": "proyector",
+          "definicion": "Aparato para ver imágenes en una pantalla grande."
+        },
+        {
+          "en": "keyboard",
+          "es": "teclado",
+          "definicion": "Conjunto de teclas para escribir en el ordenador."
+        },
+        {
+          "en": "headphones",
+          "es": "auriculares",
+          "definicion": "Aparato para escuchar sonido solo tú."
+        },
+        {
+          "en": "charger",
+          "es": "cargador",
+          "definicion": "Cable para cargar la batería."
+        },
+        {
+          "en": "mouse",
+          "es": "ratón",
+          "definicion": "Dispositivo para mover el cursor en la pantalla."
+        },
+        {
+          "en": "screen",
+          "es": "pantalla",
+          "definicion": "Superficie donde se proyectan imágenes."
+        },
+        {
+          "en": "USB drive",
+          "es": "memoria USB",
+          "definicion": "Pequeño dispositivo para guardar archivos."
+        },
+        {
+          "en": "printer",
+          "es": "impresora",
+          "definicion": "Máquina para pasar documentos a papel."
+        },
+        {
+          "en": "smartboard",
+          "es": "pizarra digital",
+          "definicion": "Pizarra interactiva conectada al ordenador."
+        },
+        {
+          "en": "wifi router",
+          "es": "router wifi",
+          "definicion": "Aparato que da conexión a internet sin cables."
+        },
+        {
+          "en": "laptop",
+          "es": "portátil",
+          "definicion": "Ordenador que se puede llevar."
+        },
+        {
+          "en": "wifi",
+          "es": "wifi",
+          "definicion": "Conexión a internet sin cables."
+        },
+        {
+          "en": "password",
+          "es": "contraseña",
+          "definicion": "Clave secreta para entrar."
+        },
+        {
+          "en": "app",
+          "es": "aplicación",
+          "definicion": "Programa para el móvil o tableta."
+        },
+        {
+          "en": "website",
+          "es": "página web",
+          "definicion": "Sitio en internet."
+        }
+      ]
+    },
+    {
+      "id": "laboratorio-ciencias",
+      "nombre": {
+        "es": "Laboratorio de ciencias",
+        "en": "Science lab"
+      },
+      "palabras": [
+        {
+          "en": "microscope",
+          "es": "microscopio",
+          "definicion": "Instrumento para ver cosas muy pequeñas."
+        },
+        {
+          "en": "test tube",
+          "es": "tubo de ensayo",
+          "definicion": "Tubo de cristal para mezclar líquidos."
+        },
+        {
+          "en": "lab coat",
+          "es": "bata",
+          "definicion": "Ropa blanca para protegerse en el laboratorio."
+        },
+        {
+          "en": "experiment",
+          "es": "experimento",
+          "definicion": "Prueba científica para descubrir algo."
+        },
+        {
+          "en": "chemistry",
+          "es": "química",
+          "definicion": "Ciencia que estudia las sustancias."
+        },
+        {
+          "en": "safety goggles",
+          "es": "gafas de protección",
+          "definicion": "Gafas para proteger los ojos."
+        },
+        {
+          "en": "pipette",
+          "es": "pipeta",
+          "definicion": "Instrumento para medir líquidos gota a gota."
+        },
+        {
+          "en": "bunsen burner",
+          "es": "mechero Bunsen",
+          "definicion": "Fuego pequeño usado en laboratorios."
+        },
+        {
+          "en": "beaker",
+          "es": "vaso de precipitados",
+          "definicion": "Vaso de cristal con medidas para líquidos."
+        },
+        {
+          "en": "scale",
+          "es": "balanza",
+          "definicion": "Instrumento para pesar objetos."
+        },
+        {
+          "en": "safety gloves",
+          "es": "guantes de seguridad",
+          "definicion": "Guantes para proteger las manos de productos químicos."
+        },
+        {
+          "en": "goggles",
+          "es": "gafas de seguridad",
+          "definicion": "Gafas para proteger los ojos."
+        },
+        {
+          "en": "magnet",
+          "es": "imán",
+          "definicion": "Objeto que atrae metales."
+        },
+        {
+          "en": "thermometer",
+          "es": "termómetro",
+          "definicion": "Instrumento para medir la temperatura."
+        },
+        {
+          "en": "chemical",
+          "es": "producto químico",
+          "definicion": "Sustancia usada en ciencia."
+        },
+        {
+          "en": "safety",
+          "es": "seguridad",
+          "definicion": "Protección contra peligros."
+        },
+        {
+          "en": "biology",
+          "es": "biología",
+          "definicion": "Ciencia de la vida."
+        }
+      ]
+    },
+    {
+      "id": "matematicas-clave",
+      "nombre": {
+        "es": "Matemáticas clave",
+        "en": "Key math concepts"
+      },
+      "palabras": [
+        {
+          "en": "equation",
+          "es": "ecuación",
+          "definicion": "Operación matemática con una incógnita."
+        },
+        {
+          "en": "fraction",
+          "es": "fracción",
+          "definicion": "Número que expresa una parte de un todo."
+        },
+        {
+          "en": "geometry",
+          "es": "geometría",
+          "definicion": "Parte de las matemáticas que estudia las formas."
+        },
+        {
+          "en": "graph",
+          "es": "gráfico",
+          "definicion": "Dibujo que representa datos numéricos."
+        },
+        {
+          "en": "calculator",
+          "es": "calculadora",
+          "definicion": "Máquina para hacer cuentas."
+        },
+        {
+          "en": "result",
+          "es": "resultado",
+          "definicion": "Solución final de un problema."
+        },
+        {
+          "en": "percentage",
+          "es": "porcentaje",
+          "definicion": "Cantidad en relación a 100."
+        },
+        {
+          "en": "square root",
+          "es": "raíz cuadrada",
+          "definicion": "Número que multiplicado por sí mismo da el valor."
+        },
+        {
+          "en": "algebra",
+          "es": "álgebra",
+          "definicion": "Matemáticas que usan letras y números."
+        },
+        {
+          "en": "measurement",
+          "es": "medición",
+          "definicion": "Acción de medir algo."
+        },
+        {
+          "en": "math problem",
+          "es": "problema matemático",
+          "definicion": "Ejercicio que hay que resolver con números."
+        },
+        {
+          "en": "addition",
+          "es": "suma",
+          "definicion": "Operación de añadir números."
+        },
+        {
+          "en": "subtraction",
+          "es": "resta",
+          "definicion": "Operación de quitar números."
+        },
+        {
+          "en": "multiplication",
+          "es": "multiplicación",
+          "definicion": "Operación de sumar varias veces."
+        },
+        {
+          "en": "division",
+          "es": "división",
+          "definicion": "Operación de repartir en partes iguales."
+        },
+        {
+          "en": "angle",
+          "es": "ángulo",
+          "definicion": "Abertura entre dos líneas."
+        },
+        {
+          "en": "circle",
+          "es": "círculo",
+          "definicion": "Forma redonda."
+        },
+        {
+          "en": "square",
+          "es": "cuadrado",
+          "definicion": "Forma con cuatro lados iguales."
+        },
+        {
+          "en": "triangle",
+          "es": "triángulo",
+          "definicion": "Forma con tres lados."
+        }
+      ]
+    },
+    {
+      "id": "arte-musica",
+      "nombre": {
+        "es": "Arte y música",
+        "en": "Art and music"
+      },
+      "palabras": [
+        {
+          "en": "paintbrush",
+          "es": "pincel",
+          "definicion": "Instrumento con pelos para pintar."
+        },
+        {
+          "en": "canvas",
+          "es": "lienzo",
+          "definicion": "Tela preparada para pintar un cuadro."
+        },
+        {
+          "en": "sculpture",
+          "es": "escultura",
+          "definicion": "Arte de modelar figuras en barro o piedra."
+        },
+        {
+          "en": "choir",
+          "es": "coro",
+          "definicion": "Grupo de personas que cantan juntas."
+        },
+        {
+          "en": "stage",
+          "es": "escenario",
+          "definicion": "Lugar elevado donde actúan los artistas."
+        },
+        {
+          "en": "lyrics",
+          "es": "letra",
+          "definicion": "Las palabras de una canción."
+        },
+        {
+          "en": "sheet music",
+          "es": "partitura",
+          "definicion": "Papel con las notas musicales escritas."
+        },
+        {
+          "en": "gallery",
+          "es": "galería",
+          "definicion": "Lugar donde se exponen obras de arte."
+        },
+        {
+          "en": "pottery",
+          "es": "cerámica",
+          "definicion": "Arte de hacer objetos con barro."
+        },
+        {
+          "en": "microphone",
+          "es": "micrófono",
+          "definicion": "Aparato para amplificar la voz."
+        },
+        {
+          "en": "spotlight",
+          "es": "foco",
+          "definicion": "Luz potente que ilumina el escenario."
+        },
+        {
+          "en": "paint",
+          "es": "pintura",
+          "definicion": "Color líquido para pintar."
+        },
+        {
+          "en": "brush",
+          "es": "pincel",
+          "definicion": "Herramienta para aplicar pintura."
+        },
+        {
+          "en": "clay",
+          "es": "arcilla",
+          "definicion": "Barro para modelar."
+        },
+        {
+          "en": "sketch",
+          "es": "boceto",
+          "definicion": "Dibujo rápido previo."
+        },
+        {
+          "en": "piano",
+          "es": "piano",
+          "definicion": "Instrumento de teclas."
+        },
+        {
+          "en": "guitar",
+          "es": "guitarra",
+          "definicion": "Instrumento de cuerdas."
+        },
+        {
+          "en": "drum",
+          "es": "tambor",
+          "definicion": "Instrumento de percusión."
+        },
+        {
+          "en": "violin",
+          "es": "violín",
+          "definicion": "Instrumento de cuerda pequeño."
+        },
+        {
+          "en": "note",
+          "es": "nota",
+          "definicion": "Símbolo de sonido musical."
+        },
+        {
+          "en": "song",
+          "es": "canción",
+          "definicion": "Música con letra."
+        },
+        {
+          "en": "rhythm",
+          "es": "ritmo",
+          "definicion": "Velocidad y compás de la música."
+        }
+      ]
+    },
+    {
+      "id": "educacion-fisica",
+      "nombre": {
+        "es": "Educación física",
+        "en": "Physical education"
+      },
+      "palabras": [
+        {
+          "en": "stretching",
+          "es": "estiramientos",
+          "definicion": "Ejercicios para alargar los músculos."
+        },
+        {
+          "en": "warm-up",
+          "es": "calentamiento",
+          "definicion": "Ejercicios suaves antes de hacer deporte."
+        },
+        {
+          "en": "teamwork",
+          "es": "trabajo en equipo",
+          "definicion": "Colaborar con otros para ganar."
+        },
+        {
+          "en": "whistle",
+          "es": "silbato",
+          "definicion": "Objeto que soplas para hacer ruido."
+        },
+        {
+          "en": "locker room",
+          "es": "vestuario",
+          "definicion": "Lugar para cambiarse de ropa."
+        },
+        {
+          "en": "referee",
+          "es": "árbitro",
+          "definicion": "Persona que hace cumplir las reglas."
+        },
+        {
+          "en": "stopwatch",
+          "es": "cronómetro",
+          "definicion": "Reloj para medir el tiempo exacto."
+        },
+        {
+          "en": "fitness test",
+          "es": "prueba física",
+          "definicion": "Examen para ver tu estado de forma."
+        },
+        {
+          "en": "mat",
+          "es": "colchoneta",
+          "definicion": "Superficie blanda para hacer gimnasia."
+        },
+        {
+          "en": "scoreboard",
+          "es": "marcador",
+          "definicion": "Panel que muestra los puntos del partido."
+        },
+        {
+          "en": "hydration break",
+          "es": "descanso para hidratarse",
+          "definicion": "Pausa para beber agua."
+        },
+        {
+          "en": "ball",
+          "es": "pelota",
+          "definicion": "Objeto redondo para jugar."
+        },
+        {
+          "en": "net",
+          "es": "red",
+          "definicion": "Tejido que separa campos de juego."
+        },
+        {
+          "en": "racket",
+          "es": "raqueta",
+          "definicion": "Instrumento para golpear la pelota."
+        },
+        {
+          "en": "goal",
+          "es": "portería",
+          "definicion": "Lugar donde se marca gol."
+        },
+        {
+          "en": "team",
+          "es": "equipo",
+          "definicion": "Grupo de jugadores."
+        },
+        {
+          "en": "race",
+          "es": "carrera",
+          "definicion": "Competición de velocidad."
+        },
+        {
+          "en": "jump",
+          "es": "salto",
+          "definicion": "Impulso para elevarse del suelo."
+        },
+        {
+          "en": "run",
+          "es": "correr",
+          "definicion": "Moverse rápido con los pies."
+        },
+        {
+          "en": "stretch",
+          "es": "estiramiento",
+          "definicion": "Ejercicio para alargar los músculos."
+        },
+        {
+          "en": "yoga",
+          "es": "yoga",
+          "definicion": "Ejercicio de equilibrio y relajación."
+        },
+        {
+          "en": "swimming",
+          "es": "natación",
+          "definicion": "Deporte de nadar en agua."
+        },
+        {
+          "en": "uniform",
+          "es": "uniforme",
+          "definicion": "Ropa igual para todo el equipo."
+        }
+      ]
+    },
+    {
+      "id": "idiomas-cultura",
+      "nombre": {
+        "es": "Idiomas y cultura",
+        "en": "Languages and culture"
+      },
+      "palabras": [
+        {
+          "en": "dictionary",
+          "es": "diccionario",
+          "definicion": "Libro con el significado de las palabras."
+        },
+        {
+          "en": "essay",
+          "es": "redacción",
+          "definicion": "Texto escrito sobre un tema."
+        },
+        {
+          "en": "pronunciation",
+          "es": "pronunciación",
+          "definicion": "Forma correcta de decir una palabra."
+        },
+        {
+          "en": "translation",
+          "es": "traducción",
+          "definicion": "Pasar un texto de un idioma a otro."
+        },
+        {
+          "en": "culture",
+          "es": "cultura",
+          "definicion": "Costumbres y conocimientos de un pueblo."
+        },
+        {
+          "en": "conversation",
+          "es": "conversación",
+          "definicion": "Hablar con otra persona."
+        },
+        {
+          "en": "grammar",
+          "es": "gramática",
+          "definicion": "Reglas para hablar y escribir bien."
+        },
+        {
+          "en": "subtitle",
+          "es": "subtítulo",
+          "definicion": "Texto que aparece abajo en las películas."
+        },
+        {
+          "en": "idiom",
+          "es": "modismo",
+          "definicion": "Frase hecha con significado propio."
+        },
+        {
+          "en": "oral exam",
+          "es": "examen oral",
+          "definicion": "Prueba hablada, no escrita."
+        },
+        {
+          "en": "language exchange",
+          "es": "intercambio de idiomas",
+          "definicion": "Practicar idiomas con un nativo."
+        },
+        {
+          "en": "vocabulary",
+          "es": "vocabulario",
+          "definicion": "Conjunto de palabras."
+        },
+        {
+          "en": "accent",
+          "es": "acento",
+          "definicion": "Forma de pronunciar."
+        },
+        {
+          "en": "verb",
+          "es": "verbo",
+          "definicion": "Palabra que indica acción."
+        },
+        {
+          "en": "noun",
+          "es": "sustantivo",
+          "definicion": "Palabra que nombra cosas."
+        },
+        {
+          "en": "history",
+          "es": "historia",
+          "definicion": "Estudio del pasado."
+        },
+        {
+          "en": "geography",
+          "es": "geografía",
+          "definicion": "Estudio de la Tierra."
+        },
+        {
+          "en": "flag",
+          "es": "bandera",
+          "definicion": "Tela símbolo de un país."
+        },
+        {
+          "en": "tradition",
+          "es": "tradición",
+          "definicion": "Costumbre antigua."
+        }
+      ]
+    }
+  ]
+}

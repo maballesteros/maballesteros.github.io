@@ -1,0 +1,674 @@
+[
+    {
+        "id": "adv-l2-rutina-manana",
+        "levelId": 2,
+        "title": {
+            "es": "La Mañana Perfecta",
+            "en": "The Perfect Morning"
+        },
+        "description": {
+            "es": "Sigue tu rutina para llegar a tiempo al colegio.",
+            "en": "Follow your routine to get to school on time."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Suena tu [_____] a las 7:00.",
+                    "en": "Your [_____] rings at 7:00."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué suena?",
+                        "en": "What rings?"
+                    },
+                    "targetWordEn": "alarm clock",
+                    "options": [
+                        "alarm clock",
+                        "phone",
+                        "bell",
+                        "radio"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Es hora de [_____] de la cama.",
+                    "en": "It is time to [_____] from bed."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué haces?",
+                        "en": "What do you do?"
+                    },
+                    "targetWordEn": "get up",
+                    "options": [
+                        "get up",
+                        "sleep",
+                        "eat",
+                        "run"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Vas al baño para darte una [_____].",
+                    "en": "You go to the bathroom to take a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué tomas?",
+                        "en": "What do you take?"
+                    },
+                    "targetWordEn": "shower",
+                    "options": [
+                        "shower",
+                        "bath",
+                        "nap",
+                        "break"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Usas tu [_____] para peinarte.",
+                    "en": "You use your [_____] to comb your hair."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué usas?",
+                        "en": "What do you use?"
+                    },
+                    "targetWordEn": "hairbrush",
+                    "options": [
+                        "hairbrush",
+                        "toothbrush",
+                        "spoon",
+                        "fork"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Te miras en el [_____] para ver si estás guapo.",
+                    "en": "You look in the [_____] to see if you look good."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde te miras?",
+                        "en": "Where do you look?"
+                    },
+                    "targetWordEn": "mirror",
+                    "options": [
+                        "mirror",
+                        "window",
+                        "door",
+                        "wall"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Ahora debes [_____]. Te pones el uniforme.",
+                    "en": "Now you must [_____]. You put on the uniform."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué acción haces?",
+                        "en": "What action?"
+                    },
+                    "targetWordEn": "get dressed",
+                    "options": [
+                        "get dressed",
+                        "eat",
+                        "sleep",
+                        "play"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Vas a la cocina a [_____].",
+                    "en": "You go to the kitchen to [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué haces en la cocina?",
+                        "en": "What do you do in the kitchen?"
+                    },
+                    "targetWordEn": "eat breakfast",
+                    "options": [
+                        "eat breakfast",
+                        "sleep",
+                        "wash",
+                        "read"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Comes un bol de [_____] con leche.",
+                    "en": "You eat a bowl of [_____] with milk."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué comes?",
+                        "en": "What do you eat?"
+                    },
+                    "targetWordEn": "breakfast cereal",
+                    "options": [
+                        "breakfast cereal",
+                        "soup",
+                        "salad",
+                        "pasta"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Antes de salir, debes [_____] los dientes.",
+                    "en": "Before leaving, you must [_____] your teeth."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué haces?",
+                        "en": "What do you do?"
+                    },
+                    "targetWordEn": "brush teeth",
+                    "options": [
+                        "brush teeth",
+                        "wash face",
+                        "comb hair",
+                        "cut nails"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Corres a la [_____] para no perder el bus.",
+                    "en": "You run to the [_____] to not miss the bus."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A dónde corres?",
+                        "en": "Where do you run?"
+                    },
+                    "targetWordEn": "bus stop",
+                    "options": [
+                        "bus stop",
+                        "park",
+                        "shop",
+                        "cinema"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l2-dia-lluvia",
+        "levelId": 2,
+        "title": {
+            "es": "Un Día de Lluvia",
+            "en": "A Rainy Day"
+        },
+        "description": {
+            "es": "Está lloviendo. Elige la ropa adecuada.",
+            "en": "It is raining. Choose the right clothes."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Miras por la ventana. Necesitas tu [_____] porque llueve mucho.",
+                    "en": "You look out the window. You need your [_____] because it rains a lot."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué necesitas?",
+                        "en": "What do you need?"
+                    },
+                    "targetWordEn": "umbrella",
+                    "options": [
+                        "umbrella",
+                        "sunglasses",
+                        "hat",
+                        "scarf"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Te pones un [_____] para no mojarte la ropa.",
+                    "en": "You put on a [_____] to not get your clothes wet."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué prenda usas?",
+                        "en": "What garment?"
+                    },
+                    "targetWordEn": "raincoat",
+                    "options": [
+                        "raincoat",
+                        "t-shirt",
+                        "shorts",
+                        "swimsuit"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "En los pies llevas unas [_____] de agua.",
+                    "en": "On your feet you wear water [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué calzado?",
+                        "en": "What footwear?"
+                    },
+                    "targetWordEn": "boots",
+                    "options": [
+                        "boots",
+                        "sandals",
+                        "flip-flops",
+                        "sneakers"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Hace frío. Te pones un [_____] de lana.",
+                    "en": "It is cold. You put on a wool [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué prenda de abrigo?",
+                        "en": "What warm garment?"
+                    },
+                    "targetWordEn": "sweater",
+                    "options": [
+                        "sweater",
+                        "shirt",
+                        "blouse",
+                        "top"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "También proteges tu cuello con una [_____].",
+                    "en": "You also protect your neck with a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué accesorio?",
+                        "en": "What accessory?"
+                    },
+                    "targetWordEn": "scarf",
+                    "options": [
+                        "scarf",
+                        "belt",
+                        "tie",
+                        "necklace"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "En las manos llevas [_____].",
+                    "en": "On your hands you wear [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué llevas en las manos?",
+                        "en": "What on hands?"
+                    },
+                    "targetWordEn": "gloves",
+                    "options": [
+                        "gloves",
+                        "rings",
+                        "watch",
+                        "bracelet"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Llegas al colegio y guardas el abrigo en tu [_____].",
+                    "en": "You arrive at school and put the coat in your [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde guardas cosas?",
+                        "en": "Where do you keep things?"
+                    },
+                    "targetWordEn": "locker",
+                    "options": [
+                        "locker",
+                        "desk",
+                        "bag",
+                        "pocket"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "En clase hace calor. Te quitas la [_____].",
+                    "en": "In class it is hot. You take off the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué te quitas?",
+                        "en": "What do you take off?"
+                    },
+                    "targetWordEn": "jacket",
+                    "options": [
+                        "jacket",
+                        "pants",
+                        "shoes",
+                        "socks"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Tu amigo lleva [_____] porque piensa que es verano.",
+                    "en": "Your friend wears [_____] because he thinks it is summer."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué lleva él?",
+                        "en": "What does he wear?"
+                    },
+                    "targetWordEn": "shorts",
+                    "options": [
+                        "shorts",
+                        "jeans",
+                        "trousers",
+                        "suit"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Al final del día, sale el sol. Te pones las [_____].",
+                    "en": "At the end of the day, the sun comes out. You put on [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué te pones?",
+                        "en": "What do you put on?"
+                    },
+                    "targetWordEn": "sunglasses",
+                    "options": [
+                        "sunglasses",
+                        "gloves",
+                        "scarf",
+                        "hat"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l2-ciudad",
+        "levelId": 2,
+        "title": {
+            "es": "Paseo por la Ciudad",
+            "en": "City Walk"
+        },
+        "description": {
+            "es": "Recorre la ciudad haciendo recados.",
+            "en": "Walk around the city running errands."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Necesitas comprar pan. Vas a la [_____].",
+                    "en": "You need to buy bread. You go to the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A dónde vas?",
+                        "en": "Where do you go?"
+                    },
+                    "targetWordEn": "bakery",
+                    "options": [
+                        "bakery",
+                        "pharmacy",
+                        "bank",
+                        "cinema"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Te duele la cabeza. Entras en la [_____].",
+                    "en": "You have a headache. You enter the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde compras medicinas?",
+                        "en": "Where do you buy medicine?"
+                    },
+                    "targetWordEn": "pharmacy",
+                    "options": [
+                        "pharmacy",
+                        "library",
+                        "park",
+                        "gym"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Quieres enviar una carta. Buscas la [_____].",
+                    "en": "You want to send a letter. You look for the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde envías cartas?",
+                        "en": "Where do you send letters?"
+                    },
+                    "targetWordEn": "post office",
+                    "options": [
+                        "post office",
+                        "police station",
+                        "fire station",
+                        "town hall"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Sacas dinero del [_____].",
+                    "en": "You take money from the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿De dónde sacas dinero?",
+                        "en": "Where do you get money?"
+                    },
+                    "targetWordEn": "bank",
+                    "options": [
+                        "bank",
+                        "school",
+                        "hospital",
+                        "museum"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Ves un coche de policía salir de la [_____].",
+                    "en": "You see a police car leaving the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿De dónde sale?",
+                        "en": "Where does it leave from?"
+                    },
+                    "targetWordEn": "police station",
+                    "options": [
+                        "police station",
+                        "bakery",
+                        "cinema",
+                        "park"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Quieres hacer deporte. Vas al [_____].",
+                    "en": "You want to do sports. You go to the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A dónde vas?",
+                        "en": "Where do you go?"
+                    },
+                    "targetWordEn": "sports centre",
+                    "options": [
+                        "sports centre",
+                        "library",
+                        "museum",
+                        "bank"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Para volver a casa, vas a la [_____].",
+                    "en": "To go home, you go to the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde coges el bus?",
+                        "en": "Where do you catch the bus?"
+                    },
+                    "targetWordEn": "bus station",
+                    "options": [
+                        "bus station",
+                        "fire station",
+                        "police station",
+                        "town hall"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "El autobús está lleno. Decides coger el [_____].",
+                    "en": "The bus is full. You decide to take the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué transporte subterráneo?",
+                        "en": "What underground transport?"
+                    },
+                    "targetWordEn": "metro",
+                    "options": [
+                        "metro",
+                        "taxi",
+                        "bike",
+                        "car"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Esperas en el [_____] a que llegue el tren.",
+                    "en": "You wait on the [_____] for the train to arrive."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde esperas?",
+                        "en": "Where do you wait?"
+                    },
+                    "targetWordEn": "platform",
+                    "options": [
+                        "platform",
+                        "street",
+                        "park",
+                        "roof"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Llegas a casa cansado pero contento.",
+                    "en": "You arrive home tired but happy."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A dónde llegas?",
+                        "en": "Where do you arrive?"
+                    },
+                    "targetWordEn": "arrive",
+                    "options": [
+                        "arrive",
+                        "leave",
+                        "go",
+                        "stay"
+                    ]
+                }
+            }
+        ]
+    }
+]
