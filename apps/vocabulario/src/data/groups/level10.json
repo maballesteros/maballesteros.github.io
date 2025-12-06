@@ -1,0 +1,805 @@
+{
+  "id": "phr-ciudad-futuro",
+  "tipo": "frases",
+  "nombre": {
+    "es": "Ciudad y futuro",
+    "en": "City and future"
+  },
+  "descripcion": {
+    "es": "Domina situaciones avanzadas para moverte por la ciudad y planear tu futuro.",
+    "en": "Master advanced situations to move around the city and plan your future."
+  },
+  "nivel": {
+    "orden": 10,
+    "titulo": {
+      "es": "Nivel 10 · Cronista del mundo",
+      "en": "Level 10 · World storyteller"
+    },
+    "descripcion": {
+      "es": "Conquista tus metas con español de alto impacto.",
+      "en": "Reach your goals with high-impact Spanish."
+    },
+    "clases": {
+      "fondo": "from-purple-50 via-purple-100 to-purple-200",
+      "borde": "border-purple-300",
+      "titulo": "text-purple-900",
+      "insignia": "bg-purple-500 text-white"
+    }
+  },
+  "temas": [
+    {
+      "id": "administracion-ciudad",
+      "nombre": {
+        "es": "Gestiones en la ciudad",
+        "en": "City paperwork"
+      },
+      "palabras": [
+        {
+          "en": "Where can I renew my student card?",
+          "es": "¿Dónde puedo renovar mi carné de estudiante?",
+          "definicion": "Preguntar por la renovación del carné."
+        },
+        {
+          "en": "I have an appointment at the town hall.",
+          "es": "Tengo cita en el ayuntamiento.",
+          "definicion": "Ir a la casa consistorial."
+        },
+        {
+          "en": "I need to request a certificate.",
+          "es": "Necesito solicitar un certificado.",
+          "definicion": "Pedir un documento oficial."
+        },
+        {
+          "en": "How long does the procedure take?",
+          "es": "¿Cuánto tarda el trámite?",
+          "definicion": "Preguntar duración de la gestión."
+        },
+        {
+          "en": "Do I need any documents?",
+          "es": "¿Necesito algún documento?",
+          "definicion": "Preguntar por papeles necesarios."
+        },
+        {
+          "en": "Can I do it online?",
+          "es": "¿Puedo hacerlo en línea?",
+          "definicion": "Preguntar si se puede por internet."
+        },
+        {
+          "en": "What are the office hours?",
+          "es": "¿Cuál es el horario de atención?",
+          "definicion": "Preguntar cuándo está abierto."
+        },
+        {
+          "en": "Where is the information desk?",
+          "es": "¿Dónde está la ventanilla de información?",
+          "definicion": "Buscar el punto de ayuda."
+        },
+        {
+          "en": "I need to fill out this form.",
+          "es": "Necesito rellenar este formulario.",
+          "definicion": "Completar una hoja de datos."
+        },
+        {
+          "en": "How much is the fee?",
+          "es": "¿Cuánto cuesta la tasa?",
+          "definicion": "Preguntar el precio del trámite."
+        },
+        {
+          "en": "I need to submit a photocopy.",
+          "es": "Necesito entregar una fotocopia.",
+          "definicion": "Dar una copia del documento."
+        },
+        {
+          "en": "Where do I book an appointment?",
+          "es": "¿Dónde pido cita previa?",
+          "definicion": "Preguntar cómo reservar hora."
+        },
+        {
+          "en": "Where is the city hall?",
+          "es": "¿Dónde está el ayuntamiento?",
+          "definicion": "Buscar edificio gobierno."
+        },
+        {
+          "en": "I need a form.",
+          "es": "Necesito un formulario.",
+          "definicion": "Pedir papel oficial."
+        },
+        {
+          "en": "Sign here, please.",
+          "es": "Firme aquí, por favor.",
+          "definicion": "Pedir firma."
+        },
+        {
+          "en": "Do I need an ID?",
+          "es": "¿Necesito el DNI?",
+          "definicion": "Preguntar por identificación."
+        },
+        {
+          "en": "Pay the fee.",
+          "es": "Pague la tasa.",
+          "definicion": "Instrucción de pago."
+        },
+        {
+          "en": "Wait in line.",
+          "es": "Espere en la cola.",
+          "definicion": "Instrucción de orden."
+        },
+        {
+          "en": "Take a number.",
+          "es": "Coja un número.",
+          "definicion": "Sistema de turnos."
+        },
+        {
+          "en": "Is it open today?",
+          "es": "¿Está abierto hoy?",
+          "definicion": "Preguntar apertura."
+        },
+        {
+          "en": "Renew my passport.",
+          "es": "Renovar mi pasaporte.",
+          "definicion": "Trámite de viaje."
+        },
+        {
+          "en": "File a complaint.",
+          "es": "Poner una queja.",
+          "definicion": "Reclamación oficial."
+        },
+        {
+          "en": "Ask at the counter.",
+          "es": "Pregunte en el mostrador.",
+          "definicion": "Dirección de información."
+        },
+        {
+          "en": "Bring a photo.",
+          "es": "Traiga una foto.",
+          "definicion": "Requisito de imagen."
+        }
+      ]
+    },
+    {
+      "id": "viajes-ciudad",
+      "nombre": {
+        "es": "Viajes y desplazamientos",
+        "en": "Travel and transport"
+      },
+      "palabras": [
+        {
+          "en": "I need to buy train tickets to Madrid.",
+          "es": "Necesito comprar billetes de tren a Madrid.",
+          "definicion": "Adquirir pasajes ferroviarios."
+        },
+        {
+          "en": "Is there a youth discount?",
+          "es": "¿Hay descuento joven?",
+          "definicion": "Preguntar por rebaja por edad."
+        },
+        {
+          "en": "Where does the bus depart?",
+          "es": "¿De dónde sale el autobús?",
+          "definicion": "Buscar la parada de salida."
+        },
+        {
+          "en": "I am travelling this weekend.",
+          "es": "Viajo este fin de semana.",
+          "definicion": "Irse fuera el sábado y domingo."
+        },
+        {
+          "en": "How long is the journey?",
+          "es": "¿Cuánto dura el viaje?",
+          "definicion": "Preguntar tiempo de trayecto."
+        },
+        {
+          "en": "Can you recommend a hostel?",
+          "es": "¿Puedes recomendarme un albergue?",
+          "definicion": "Pedir consejo sobre alojamiento."
+        },
+        {
+          "en": "I need to reserve a seat.",
+          "es": "Necesito reservar un asiento.",
+          "definicion": "Asegurar una plaza sentada."
+        },
+        {
+          "en": "Where do I validate the ticket?",
+          "es": "¿Dónde valido el billete?",
+          "definicion": "Preguntar dónde picar el ticket."
+        },
+        {
+          "en": "Is the train on time?",
+          "es": "¿El tren llega a tiempo?",
+          "definicion": "Preguntar por la puntualidad."
+        },
+        {
+          "en": "Which platform is it?",
+          "es": "¿Qué andén es?",
+          "definicion": "Buscar la vía del tren."
+        },
+        {
+          "en": "How much is a return ticket?",
+          "es": "¿Cuánto cuesta un billete de ida y vuelta?",
+          "definicion": "Precio de ir y volver."
+        },
+        {
+          "en": "Can I take luggage on board?",
+          "es": "¿Puedo subir equipaje?",
+          "definicion": "Preguntar por las maletas."
+        },
+        {
+          "en": "Buy a ticket.",
+          "es": "Compra un billete.",
+          "definicion": "Adquirir pasaje."
+        },
+        {
+          "en": "Validate your ticket.",
+          "es": "Valida tu billete.",
+          "definicion": "Picar el ticket."
+        },
+        {
+          "en": "Which line goes to the center?",
+          "es": "¿Qué línea va al centro?",
+          "definicion": "Preguntar ruta."
+        },
+        {
+          "en": "Get off at the next stop.",
+          "es": "Bájate en la próxima.",
+          "definicion": "Instrucción de salida."
+        },
+        {
+          "en": "Is this seat free?",
+          "es": "¿Está libre este asiento?",
+          "definicion": "Preguntar por sitio."
+        },
+        {
+          "en": "Mind the gap.",
+          "es": "Cuidado con el hueco.",
+          "definicion": "Aviso de seguridad."
+        },
+        {
+          "en": "The train is delayed.",
+          "es": "El tren lleva retraso.",
+          "definicion": "Aviso de tardanza."
+        },
+        {
+          "en": "Change trains here.",
+          "es": "Cambia de tren aquí.",
+          "definicion": "Transbordo."
+        },
+        {
+          "en": "Show me your pass.",
+          "es": "Enséñame tu abono.",
+          "definicion": "Control de billetes."
+        },
+        {
+          "en": "Where is the station?",
+          "es": "¿Dónde está la estación?",
+          "definicion": "Buscar parada."
+        },
+        {
+          "en": "Call a taxi.",
+          "es": "Llama a un taxi.",
+          "definicion": "Pedir transporte privado."
+        },
+        {
+          "en": "Rent a bike.",
+          "es": "Alquila una bici.",
+          "definicion": "Transporte ecológico."
+        }
+      ]
+    },
+    {
+      "id": "metas-personales",
+      "nombre": {
+        "es": "Metas personales",
+        "en": "Personal goals"
+      },
+      "palabras": [
+        {
+          "en": "My goal is to study engineering.",
+          "es": "Mi meta es estudiar ingeniería.",
+          "definicion": "Objetivo académico futuro."
+        },
+        {
+          "en": "I am preparing for the entrance exam.",
+          "es": "Me estoy preparando para la prueba de acceso.",
+          "definicion": "Estudiar para la selectividad."
+        },
+        {
+          "en": "I am improving my Spanish every day.",
+          "es": "Estoy mejorando mi español cada día.",
+          "definicion": "Progresar en el idioma."
+        },
+        {
+          "en": "I want to get good grades.",
+          "es": "Quiero sacar buenas notas.",
+          "definicion": "Deseo de éxito escolar."
+        },
+        {
+          "en": "I plan to study abroad.",
+          "es": "Planeo estudiar en el extranjero.",
+          "definicion": "Ir a aprender a otro país."
+        },
+        {
+          "en": "I hope to get a scholarship.",
+          "es": "Espero conseguir una beca.",
+          "definicion": "Desear ayuda económica."
+        },
+        {
+          "en": "I set small goals each week.",
+          "es": "Me marco metas pequeñas cada semana.",
+          "definicion": "Planificar objetivos cortos."
+        },
+        {
+          "en": "I practice every evening.",
+          "es": "Practico cada tarde.",
+          "definicion": "Entrenar a diario."
+        },
+        {
+          "en": "I keep a study journal.",
+          "es": "Llevo un diario de estudio.",
+          "definicion": "Anotar el progreso."
+        },
+        {
+          "en": "I am working on my pronunciation.",
+          "es": "Estoy trabajando mi pronunciación.",
+          "definicion": "Mejorar cómo hablo."
+        },
+        {
+          "en": "I ask for help when I need it.",
+          "es": "Pido ayuda cuando la necesito.",
+          "definicion": "Solicitar apoyo si hace falta."
+        },
+        {
+          "en": "I celebrate my progress.",
+          "es": "Celebro mis avances.",
+          "definicion": "Alegrarse por mejorar."
+        },
+        {
+          "en": "I want to learn Spanish.",
+          "es": "Quiero aprender español.",
+          "definicion": "Deseo educativo."
+        },
+        {
+          "en": "I will study hard.",
+          "es": "Estudiaré mucho.",
+          "definicion": "Promesa de esfuerzo."
+        },
+        {
+          "en": "My goal is to travel.",
+          "es": "Mi meta es viajar.",
+          "definicion": "Objetivo de vida."
+        },
+        {
+          "en": "I want to be a doctor.",
+          "es": "Quiero ser médico.",
+          "definicion": "Deseo profesional."
+        },
+        {
+          "en": "Save money.",
+          "es": "Ahorrar dinero.",
+          "definicion": "Meta económica."
+        },
+        {
+          "en": "Buy a house.",
+          "es": "Comprar una casa.",
+          "definicion": "Meta de vivienda."
+        },
+        {
+          "en": "Start a business.",
+          "es": "Montar un negocio.",
+          "definicion": "Meta emprendedora."
+        },
+        {
+          "en": "Learn to drive.",
+          "es": "Aprender a conducir.",
+          "definicion": "Meta de habilidad."
+        },
+        {
+          "en": "Get fit.",
+          "es": "Ponerse en forma.",
+          "definicion": "Meta de salud."
+        },
+        {
+          "en": "Read more books.",
+          "es": "Leer más libros.",
+          "definicion": "Meta cultural."
+        },
+        {
+          "en": "Help others.",
+          "es": "Ayudar a otros.",
+          "definicion": "Meta solidaria."
+        },
+        {
+          "en": "Be happy.",
+          "es": "Ser feliz.",
+          "definicion": "Meta emocional."
+        }
+      ]
+    },
+    {
+      "id": "voluntariado",
+      "nombre": {
+        "es": "Voluntariado y comunidad",
+        "en": "Volunteering"
+      },
+      "palabras": [
+        {
+          "en": "I want to volunteer in the community garden.",
+          "es": "Quiero ser voluntario en el huerto comunitario.",
+          "definicion": "Trabajar gratis plantando."
+        },
+        {
+          "en": "We organise a food drive.",
+          "es": "Organizamos una recogida de alimentos.",
+          "definicion": "Juntar comida para donar."
+        },
+        {
+          "en": "Can I help at the shelter?",
+          "es": "¿Puedo ayudar en el albergue?",
+          "definicion": "Ofrecer ayuda en el refugio."
+        },
+        {
+          "en": "We are collecting warm clothes.",
+          "es": "Estamos recogiendo ropa de abrigo.",
+          "definicion": "Juntar prendas para el frío."
+        },
+        {
+          "en": "I will join the clean-up.",
+          "es": "Me uniré a la limpieza.",
+          "definicion": "Apuntarse a limpiar."
+        },
+        {
+          "en": "Community work feels great.",
+          "es": "El trabajo comunitario sienta genial.",
+          "definicion": "Satisfacción por ayudar."
+        },
+        {
+          "en": "We collect books for the library.",
+          "es": "Recogemos libros para la biblioteca.",
+          "definicion": "Donar lectura."
+        },
+        {
+          "en": "Can I help organise the event?",
+          "es": "¿Puedo ayudar a organizar el evento?",
+          "definicion": "Colaborar en la preparación."
+        },
+        {
+          "en": "We meet every Saturday morning.",
+          "es": "Nos reunimos todos los sábados por la mañana.",
+          "definicion": "Cita semanal del grupo."
+        },
+        {
+          "en": "I want to support local families.",
+          "es": "Quiero apoyar a las familias de la zona.",
+          "definicion": "Ayudar a los vecinos."
+        },
+        {
+          "en": "Let us invite more volunteers.",
+          "es": "Invitemos a más voluntarios.",
+          "definicion": "Llamar a más gente para ayudar."
+        },
+        {
+          "en": "I will share the poster online.",
+          "es": "Compartiré el cartel en línea.",
+          "definicion": "Difundir la información."
+        },
+        {
+          "en": "I want to help.",
+          "es": "Quiero ayudar.",
+          "definicion": "Ofrecer ayuda."
+        },
+        {
+          "en": "Donate clothes.",
+          "es": "Donar ropa.",
+          "definicion": "Dar cosas usadas."
+        },
+        {
+          "en": "Feed the homeless.",
+          "es": "Dar de comer a los sin techo.",
+          "definicion": "Ayuda social."
+        },
+        {
+          "en": "Clean the beach.",
+          "es": "Limpiar la playa.",
+          "definicion": "Ayuda ambiental."
+        },
+        {
+          "en": "Walk dogs.",
+          "es": "Pasear perros.",
+          "definicion": "Ayuda animal."
+        },
+        {
+          "en": "Visit the elderly.",
+          "es": "Visitar a ancianos.",
+          "definicion": "Ayuda a mayores."
+        },
+        {
+          "en": "Teach kids.",
+          "es": "Enseñar a niños.",
+          "definicion": "Ayuda educativa."
+        },
+        {
+          "en": "Plant trees.",
+          "es": "Plantar árboles.",
+          "definicion": "Ayuda ecológica."
+        },
+        {
+          "en": "Give blood.",
+          "es": "Donar sangre.",
+          "definicion": "Ayuda sanitaria."
+        },
+        {
+          "en": "Raise money.",
+          "es": "Recaudar dinero.",
+          "definicion": "Buscar fondos."
+        },
+        {
+          "en": "Join a charity.",
+          "es": "Unirse a una ONG.",
+          "definicion": "Afiliación solidaria."
+        },
+        {
+          "en": "Make a difference.",
+          "es": "Marcar la diferencia.",
+          "definicion": "Impacto positivo."
+        }
+      ]
+    },
+    {
+      "id": "estudios-superiores",
+      "nombre": {
+        "es": "Estudios superiores",
+        "en": "Further studies"
+      },
+      "palabras": [
+        {
+          "en": "I am researching university options.",
+          "es": "Estoy investigando opciones de universidad.",
+          "definicion": "Mirar dónde estudiar la carrera."
+        },
+        {
+          "en": "I attended an orientation fair.",
+          "es": "Asistí a una feria de orientación.",
+          "definicion": "Ir a ver stands de universidades."
+        },
+        {
+          "en": "I need to translate my transcripts.",
+          "es": "Necesito traducir mis notas.",
+          "definicion": "Pasar el expediente a otro idioma."
+        },
+        {
+          "en": "When is the application deadline?",
+          "es": "¿Cuándo es el plazo de solicitud?",
+          "definicion": "Fecha límite para apuntarse."
+        },
+        {
+          "en": "I am writing my personal statement.",
+          "es": "Estoy escribiendo mi carta de motivación.",
+          "definicion": "Redactar por qué quieres entrar."
+        },
+        {
+          "en": "Can you review my application?",
+          "es": "¿Puedes revisar mi solicitud?",
+          "definicion": "Pedir corrección del papeleo."
+        },
+        {
+          "en": "I need to choose my subjects.",
+          "es": "Tengo que elegir mis asignaturas.",
+          "definicion": "Seleccionar las clases."
+        },
+        {
+          "en": "I am collecting recommendation letters.",
+          "es": "Estoy reuniendo cartas de recomendación.",
+          "definicion": "Juntar escritos de apoyo."
+        },
+        {
+          "en": "I registered for the entrance exam.",
+          "es": "Me inscribí en la prueba de acceso.",
+          "definicion": "Apuntarse al examen de entrada."
+        },
+        {
+          "en": "The deadline is next month.",
+          "es": "El plazo termina el mes que viene.",
+          "definicion": "Avisar de cuándo acaba el tiempo."
+        },
+        {
+          "en": "I need certified copies.",
+          "es": "Necesito copias compulsadas.",
+          "definicion": "Requerir fotocopias oficiales."
+        },
+        {
+          "en": "I am preparing my portfolio.",
+          "es": "Estoy preparando mi portafolio.",
+          "definicion": "Organizar muestras de trabajo."
+        },
+        {
+          "en": "Apply for university.",
+          "es": "Solicitar plaza en la universidad.",
+          "definicion": "Trámite de ingreso."
+        },
+        {
+          "en": "Choose a major.",
+          "es": "Elegir carrera.",
+          "definicion": "Decisión de estudios."
+        },
+        {
+          "en": "Get a scholarship.",
+          "es": "Conseguir una beca.",
+          "definicion": "Ayuda financiera."
+        },
+        {
+          "en": "Pass the entrance exam.",
+          "es": "Aprobar la selectividad.",
+          "definicion": "Prueba de acceso."
+        },
+        {
+          "en": "Live on campus.",
+          "es": "Vivir en el campus.",
+          "definicion": "Alojamiento estudiantil."
+        },
+        {
+          "en": "Join a club.",
+          "es": "Unirse a un club.",
+          "definicion": "Actividad extraescolar."
+        },
+        {
+          "en": "Write a thesis.",
+          "es": "Escribir una tesis.",
+          "definicion": "Trabajo final."
+        },
+        {
+          "en": "Attend lectures.",
+          "es": "Ir a clases magistrales.",
+          "definicion": "Asistencia a clase."
+        },
+        {
+          "en": "Study abroad.",
+          "es": "Estudiar en el extranjero.",
+          "definicion": "Erasmus."
+        },
+        {
+          "en": "Graduate soon.",
+          "es": "Graduarse pronto.",
+          "definicion": "Terminar estudios."
+        },
+        {
+          "en": "Internship opportunity.",
+          "es": "Oportunidad de prácticas.",
+          "definicion": "Trabajo en prácticas."
+        },
+        {
+          "en": "Academic advisor.",
+          "es": "Tutor académico.",
+          "definicion": "Guía de estudios."
+        }
+      ]
+    },
+    {
+      "id": "primer-trabajo",
+      "nombre": {
+        "es": "Primer trabajo",
+        "en": "First job"
+      },
+      "palabras": [
+        {
+          "en": "I am looking for a summer job.",
+          "es": "Busco un trabajo de verano.",
+          "definicion": "Querer empleo en vacaciones."
+        },
+        {
+          "en": "Do you have any vacancies?",
+          "es": "¿Tenéis alguna vacante?",
+          "definicion": "Preguntar si hay puestos libres."
+        },
+        {
+          "en": "I can work in the afternoons.",
+          "es": "Puedo trabajar por las tardes.",
+          "definicion": "Ofrecer disponibilidad vespertina."
+        },
+        {
+          "en": "This is my first experience.",
+          "es": "Esta es mi primera experiencia.",
+          "definicion": "Decir que eres novato."
+        },
+        {
+          "en": "Can I leave you my CV?",
+          "es": "¿Puedo dejarte mi currículum?",
+          "definicion": "Entregar la hoja de vida."
+        },
+        {
+          "en": "Thank you for the opportunity.",
+          "es": "Gracias por la oportunidad.",
+          "definicion": "Agradecer la entrevista."
+        },
+        {
+          "en": "I can work on weekends.",
+          "es": "Puedo trabajar los fines de semana.",
+          "definicion": "Disponible sábados y domingos."
+        },
+        {
+          "en": "This is my resume.",
+          "es": "Este es mi currículum.",
+          "definicion": "Presentar tu historial laboral."
+        },
+        {
+          "en": "What is the schedule like?",
+          "es": "¿Cómo es el horario?",
+          "definicion": "Preguntar por los turnos."
+        },
+        {
+          "en": "When would I start?",
+          "es": "¿Cuándo empezaría?",
+          "definicion": "Preguntar fecha de inicio."
+        },
+        {
+          "en": "Do you provide training?",
+          "es": "¿Ofrecen formación?",
+          "definicion": "Preguntar si enseñan el oficio."
+        },
+        {
+          "en": "I am available after school.",
+          "es": "Estoy disponible después de clase.",
+          "definicion": "Poder trabajar al salir del cole."
+        },
+        {
+          "en": "Write a CV.",
+          "es": "Escribir un currículum.",
+          "definicion": "Hoja de vida."
+        },
+        {
+          "en": "Job interview.",
+          "es": "Entrevista de trabajo.",
+          "definicion": "Reunión de selección."
+        },
+        {
+          "en": "Sign a contract.",
+          "es": "Firmar un contrato.",
+          "definicion": "Acuerdo laboral."
+        },
+        {
+          "en": "First day at work.",
+          "es": "Primer día de trabajo.",
+          "definicion": "Inicio laboral."
+        },
+        {
+          "en": "Meet the boss.",
+          "es": "Conocer al jefe.",
+          "definicion": "Presentación superior."
+        },
+        {
+          "en": "Earn a salary.",
+          "es": "Ganar un sueldo.",
+          "definicion": "Cobrar dinero."
+        },
+        {
+          "en": "Work full time.",
+          "es": "Trabajar jornada completa.",
+          "definicion": "Horario total."
+        },
+        {
+          "en": "Part time job.",
+          "es": "Trabajo a tiempo parcial.",
+          "definicion": "Medio horario."
+        },
+        {
+          "en": "Team meeting.",
+          "es": "Reunión de equipo.",
+          "definicion": "Junta laboral."
+        },
+        {
+          "en": "Coffee break.",
+          "es": "Pausa para el café.",
+          "definicion": "Descanso."
+        },
+        {
+          "en": "Learn new skills.",
+          "es": "Aprender nuevas habilidades.",
+          "definicion": "Formación."
+        },
+        {
+          "en": "Get a promotion.",
+          "es": "Conseguir un ascenso.",
+          "definicion": "Mejora laboral."
+        }
+      ]
+    }
+  ]
+}

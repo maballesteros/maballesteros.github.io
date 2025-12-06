@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { gruposData } from '../data';
 import { createPortal } from 'react-dom';
 
 type LocalizedText = {
@@ -74,7 +75,7 @@ export const PDFExamGenerator = ({ isOpen, onClose, grupos }: PDFExamGeneratorPr
     }
 
     const date = new Date().toLocaleDateString();
-    
+
     const styles = `
       <style>
         body { font-family: sans-serif; padding: 40px; color: #1e293b; }
@@ -148,7 +149,7 @@ export const PDFExamGenerator = ({ isOpen, onClose, grupos }: PDFExamGeneratorPr
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
       <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl animate-fade-in">
         <h2 className="mb-4 text-2xl font-bold text-blue-800">Create PDF Exam</h2>
-        
+
         <div className="mb-6 space-y-4">
           <div>
             <label className="mb-2 block text-sm font-semibold text-slate-700">Select Levels</label>
@@ -157,11 +158,10 @@ export const PDFExamGenerator = ({ isOpen, onClose, grupos }: PDFExamGeneratorPr
                 <button
                   key={g.id}
                   onClick={() => toggleLevel(g.id)}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
-                    selectedLevels.includes(g.id)
-                      ? 'bg-blue-600 text-white shadow'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                  }`}
+                  className={`rounded-full px-3 py-1 text-xs font-semibold transition ${selectedLevels.includes(g.id)
+                    ? 'bg-blue-600 text-white shadow'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
                 >
                   {g.nivel.titulo.es}
                 </button>

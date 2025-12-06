@@ -1,0 +1,1388 @@
+[
+    {
+        "id": "adv-l1-mochila-perdida",
+        "levelId": 1,
+        "title": {
+            "es": "Misión: Mochila Perdida",
+            "en": "Mission: Lost Backpack"
+        },
+        "description": {
+            "es": "Has perdido tu mochila. Recorre el instituto para encontrarla.",
+            "en": "You lost your backpack. Search the school to find it."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Llegas al instituto y te das cuenta de algo terrible. No tienes tu [_____].",
+                    "en": "You arrive at school and realize something terrible. You don't have your [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué te falta?",
+                        "en": "What is missing?"
+                    },
+                    "targetWordEn": "backpack",
+                    "options": [
+                        "backpack",
+                        "pencil",
+                        "ruler",
+                        "map"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Estás muy [_____]. ¿Dónde la has dejado?",
+                    "en": "You are very [_____]. Where did you leave it?"
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo te sientes?",
+                        "en": "How do you feel?"
+                    },
+                    "targetWordEn": "worried",
+                    "options": [
+                        "worried",
+                        "happy",
+                        "bored",
+                        "calm"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Primero vas a la [_____] principal para preguntar al conserje.",
+                    "en": "First you go to the main [_____] to ask the janitor."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A dónde vas?",
+                        "en": "Where do you go?"
+                    },
+                    "targetWordEn": "entrance",
+                    "options": [
+                        "entrance",
+                        "library",
+                        "gym",
+                        "lab"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "El [_____] está barriendo el suelo. Le preguntas si ha visto tu mochila.",
+                    "en": "The [_____] is sweeping the floor. You ask him if he has seen your backpack."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A quién preguntas?",
+                        "en": "Who do you ask?"
+                    },
+                    "targetWordEn": "janitor",
+                    "options": [
+                        "janitor",
+                        "teacher",
+                        "nurse",
+                        "cook"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Él dice que no. Quizás la dejaste en el [_____] cuando desayunaste.",
+                    "en": "He says no. Maybe you left it in the [_____] when you had breakfast."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde comiste?",
+                        "en": "Where did you eat?"
+                    },
+                    "targetWordEn": "canteen",
+                    "options": [
+                        "canteen",
+                        "classroom",
+                        "library",
+                        "office"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Corres hacia allí. Ves una [_____] roja sobre una mesa, pero no es la tuya.",
+                    "en": "You run there. You see a red [_____] on a table, but it's not yours."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué ves?",
+                        "en": "What do you see?"
+                    },
+                    "targetWordEn": "apple",
+                    "options": [
+                        "apple",
+                        "banana",
+                        "sandwich",
+                        "cookie"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Sigues buscando. Entras en el [_____] largo y ruidoso.",
+                    "en": "You keep looking. You enter the long and noisy [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Por dónde caminas?",
+                        "en": "Where do you walk?"
+                    },
+                    "targetWordEn": "hallway",
+                    "options": [
+                        "hallway",
+                        "gym",
+                        "office",
+                        "lab"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Ves a tu [_____] de clase, Ana. Ella te ayuda a buscar.",
+                    "en": "You see your [_____], Ana. She helps you look."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A quién ves?",
+                        "en": "Who do you see?"
+                    },
+                    "targetWordEn": "classmate",
+                    "options": [
+                        "classmate",
+                        "teacher",
+                        "principal",
+                        "doctor"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Ana sugiere mirar en el [_____]. Tuviste clase de deporte a primera hora.",
+                    "en": "Ana suggests looking in the [_____]. You had sports class first thing."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde hiciste deporte?",
+                        "en": "Where did you do sports?"
+                    },
+                    "targetWordEn": "gym",
+                    "options": [
+                        "gym",
+                        "library",
+                        "art room",
+                        "music room"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "¡Allí está! Está al lado de las [_____].",
+                    "en": "There it is! It is next to the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Junto a qué está?",
+                        "en": "Next to what?"
+                    },
+                    "targetWordEn": "lockers",
+                    "options": [
+                        "lockers",
+                        "tables",
+                        "chairs",
+                        "windows"
+                    ]
+                }
+            },
+            {
+                "id": "s11",
+                "text": {
+                    "es": "Abres la mochila. ¡Menos mal! Tu [_____] de matemáticas está dentro.",
+                    "en": "You open the backpack. Phew! Your math [_____] is inside."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué objeto compruebas?",
+                        "en": "What object do you check?"
+                    },
+                    "targetWordEn": "notebook",
+                    "options": [
+                        "notebook",
+                        "apple",
+                        "ball",
+                        "shoe"
+                    ]
+                }
+            },
+            {
+                "id": "s12",
+                "text": {
+                    "es": "Ahora te sientes muy [_____].",
+                    "en": "Now you feel very [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo te sientes?",
+                        "en": "How do you feel?"
+                    },
+                    "targetWordEn": "happy",
+                    "options": [
+                        "happy",
+                        "sad",
+                        "angry",
+                        "scared"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l1-tour-instituto",
+        "levelId": 1,
+        "title": {
+            "es": "El Gran Tour",
+            "en": "The Great Tour"
+        },
+        "description": {
+            "es": "Eres el guía de un alumno nuevo. Enséñale el colegio.",
+            "en": "You are a guide for a new student. Show them the school."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Hola. Soy tu guía. Primero visitaremos la [_____] para coger un libro.",
+                    "en": "Hello. I am your guide. First we will visit the [_____] to get a book."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A dónde vamos?",
+                        "en": "Where are we going?"
+                    },
+                    "targetWordEn": "library",
+                    "options": [
+                        "library",
+                        "gym",
+                        "canteen",
+                        "office"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Aquí trabaja el [_____]. Él organiza todos los libros.",
+                    "en": "Here works the [_____]. He organizes all the books."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quién trabaja aquí?",
+                        "en": "Who works here?"
+                    },
+                    "targetWordEn": "librarian",
+                    "options": [
+                        "librarian",
+                        "cook",
+                        "driver",
+                        "nurse"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Ahora vamos al [_____] de ciencias. ¡Cuidado con los experimentos!",
+                    "en": "Now let's go to the science [_____]. Careful with the experiments!"
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué sala es?",
+                        "en": "What room is it?"
+                    },
+                    "targetWordEn": "laboratory",
+                    "options": [
+                        "laboratory",
+                        "gym",
+                        "hallway",
+                        "entrance"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Mira, ese es el [_____]. Es el jefe del instituto.",
+                    "en": "Look, that is the [_____]. He is the boss of the school."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quién es?",
+                        "en": "Who is he?"
+                    },
+                    "targetWordEn": "principal",
+                    "options": [
+                        "principal",
+                        "student",
+                        "janitor",
+                        "coach"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Si te encuentras mal, debes ir a la [_____].",
+                    "en": "If you feel sick, you must go to the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A dónde vas si enfermas?",
+                        "en": "Where do you go if sick?"
+                    },
+                    "targetWordEn": "nurse office",
+                    "options": [
+                        "nurse office",
+                        "gym",
+                        "library",
+                        "art room"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Allí te atenderá la [_____]. Es muy amable.",
+                    "en": "There the [_____] will help you. She is very kind."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quién te ayuda?",
+                        "en": "Who helps you?"
+                    },
+                    "targetWordEn": "nurse",
+                    "options": [
+                        "nurse",
+                        "teacher",
+                        "secretary",
+                        "cook"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "¿Tienes hambre? Vamos a la [_____] a comer algo.",
+                    "en": "Are you hungry? Let's go to the [_____] to eat something."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde se come?",
+                        "en": "Where do you eat?"
+                    },
+                    "targetWordEn": "cafeteria",
+                    "options": [
+                        "cafeteria",
+                        "library",
+                        "gym",
+                        "lab"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Después de comer, podemos jugar en el [_____].",
+                    "en": "After eating, we can play in the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde se juega?",
+                        "en": "Where do you play?"
+                    },
+                    "targetWordEn": "playground",
+                    "options": [
+                        "playground",
+                        "office",
+                        "classroom",
+                        "hallway"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Esta es el aula de música. Hay muchos instrumentos y un [_____] grande.",
+                    "en": "This is the music room. There are many instruments and a big [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué objeto hay?",
+                        "en": "What object is there?"
+                    },
+                    "targetWordEn": "whiteboard",
+                    "options": [
+                        "whiteboard",
+                        "bed",
+                        "sofa",
+                        "fridge"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Espero que te guste el tour. ¿Estás [_____] por empezar las clases?",
+                    "en": "I hope you like the tour. Are you [_____] to start classes?"
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo se siente?",
+                        "en": "How does he feel?"
+                    },
+                    "targetWordEn": "excited",
+                    "options": [
+                        "excited",
+                        "sad",
+                        "angry",
+                        "tired"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l1-hora-almuerzo",
+        "levelId": 1,
+        "title": {
+            "es": "Hora del Almuerzo",
+            "en": "Lunchtime"
+        },
+        "description": {
+            "es": "Tienes mucha hambre. Elige tu comida favorita.",
+            "en": "You are very hungry. Choose your favorite food."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Son las 12:00. Estás muy [_____].",
+                    "en": "It is 12:00. You are very [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo te sientes?",
+                        "en": "How do you feel?"
+                    },
+                    "targetWordEn": "hungry",
+                    "options": [
+                        "hungry",
+                        "tired",
+                        "scared",
+                        "shy"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Vas a la cafetería. En tu bolsillo tienes [_____] euros.",
+                    "en": "You go to the cafeteria. In your pocket you have [_____] euros."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cuánto dinero tienes?",
+                        "en": "How much money?"
+                    },
+                    "targetWordEn": "five",
+                    "options": [
+                        "five",
+                        "red",
+                        "blue",
+                        "happy"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Miras el menú. De primero quieres algo sano. Pides una [_____].",
+                    "en": "You look at the menu. First you want something healthy. You order a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué pides?",
+                        "en": "What do you order?"
+                    },
+                    "targetWordEn": "salad",
+                    "options": [
+                        "salad",
+                        "cookie",
+                        "candy",
+                        "cake"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "También quieres fruta. Coges una [_____] amarilla.",
+                    "en": "You also want fruit. You take a yellow [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué fruta es?",
+                        "en": "What fruit is it?"
+                    },
+                    "targetWordEn": "banana",
+                    "options": [
+                        "banana",
+                        "apple",
+                        "grape",
+                        "orange"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Para beber, necesitas hidratarte. Compras una [_____].",
+                    "en": "To drink, you need to hydrate. You buy a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué bebes?",
+                        "en": "What do you drink?"
+                    },
+                    "targetWordEn": "water bottle",
+                    "options": [
+                        "water bottle",
+                        "glue",
+                        "ink",
+                        "oil"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Todavía tienes hambre. Te compras un [_____] de jamón y queso.",
+                    "en": "You are still hungry. You buy a ham and cheese [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué comes?",
+                        "en": "What do you eat?"
+                    },
+                    "targetWordEn": "sandwich",
+                    "options": [
+                        "sandwich",
+                        "soup",
+                        "rice",
+                        "pasta"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "De postre, te apetece algo dulce. Eliges una [_____] con chocolate.",
+                    "en": "For dessert, you want something sweet. You choose a chocolate [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué dulce eliges?",
+                        "en": "What sweet do you choose?"
+                    },
+                    "targetWordEn": "cookie",
+                    "options": [
+                        "cookie",
+                        "salad",
+                        "water",
+                        "apple"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Buscas una mesa. Ves a tus amigos y te sientes [_____].",
+                    "en": "You look for a table. You see your friends and feel [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo te sientes?",
+                        "en": "How do you feel?"
+                    },
+                    "targetWordEn": "happy",
+                    "options": [
+                        "happy",
+                        "sad",
+                        "angry",
+                        "nervous"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Después de comer, tiras la basura. Te comes la última [_____] de fruta.",
+                    "en": "After eating, you throw away the trash. You eat the last [_____] of fruit."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué te comes?",
+                        "en": "What do you eat?"
+                    },
+                    "targetWordEn": "piece of fruit",
+                    "options": [
+                        "piece of fruit",
+                        "pencil",
+                        "book",
+                        "chair"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Ahora estás lleno y listo para volver al [_____].",
+                    "en": "Now you are full and ready to go back to the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A dónde vuelves?",
+                        "en": "Where do you go back?"
+                    },
+                    "targetWordEn": "classroom",
+                    "options": [
+                        "classroom",
+                        "bed",
+                        "cinema",
+                        "beach"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l1-examen-sorpresa",
+        "levelId": 1,
+        "title": {
+            "es": "El Examen Sorpresa",
+            "en": "The Pop Quiz"
+        },
+        "description": {
+            "es": "El profesor anuncia un examen. ¿Estás preparado?",
+            "en": "The teacher announces a test. Are you ready?"
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "El [_____] entra en clase con cara seria.",
+                    "en": "The [_____] enters the class with a serious face."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quién entra?",
+                        "en": "Who enters?"
+                    },
+                    "targetWordEn": "teacher",
+                    "options": [
+                        "teacher",
+                        "student",
+                        "janitor",
+                        "cook"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Dice: '¡Examen sorpresa!'. Tú te sientes muy [_____].",
+                    "en": "He says: 'Pop quiz!'. You feel very [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo te sientes?",
+                        "en": "How do you feel?"
+                    },
+                    "targetWordEn": "nervous",
+                    "options": [
+                        "nervous",
+                        "happy",
+                        "bored",
+                        "hungry"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Sacas una [_____] de papel para escribir.",
+                    "en": "You take out a [_____] of paper to write."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué sacas?",
+                        "en": "What do you take out?"
+                    },
+                    "targetWordEn": "sheet of paper",
+                    "options": [
+                        "sheet of paper",
+                        "book",
+                        "table",
+                        "chair"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Necesitas escribir. Buscas tu [_____] favorito.",
+                    "en": "You need to write. You look for your favorite [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Con qué escribes?",
+                        "en": "What do you write with?"
+                    },
+                    "targetWordEn": "pen",
+                    "options": [
+                        "pen",
+                        "eraser",
+                        "ruler",
+                        "glue"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "¡Oh no! No tiene tinta. Tendrás que usar un [_____].",
+                    "en": "Oh no! No ink. You will have to use a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué usas ahora?",
+                        "en": "What do you use now?"
+                    },
+                    "targetWordEn": "pencil",
+                    "options": [
+                        "pencil",
+                        "scissors",
+                        "marker",
+                        "folder"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "La punta está rota. Usas el [_____] rápidamente.",
+                    "en": "The tip is broken. You use the [_____] quickly."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué herramienta usas?",
+                        "en": "What tool do you use?"
+                    },
+                    "targetWordEn": "sharpener",
+                    "options": [
+                        "sharpener",
+                        "ruler",
+                        "calculator",
+                        "globe"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Cometes un error. Necesitas la [_____].",
+                    "en": "You make a mistake. You need the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué usas para borrar?",
+                        "en": "What do you use to erase?"
+                    },
+                    "targetWordEn": "eraser",
+                    "options": [
+                        "eraser",
+                        "pen",
+                        "glue",
+                        "clock"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Hay una pregunta de matemáticas. Usas tu [_____].",
+                    "en": "There is a math question. You use your [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué usas para calcular?",
+                        "en": "What do you use to calculate?"
+                    },
+                    "targetWordEn": "calculator",
+                    "options": [
+                        "calculator",
+                        "map",
+                        "folder",
+                        "bag"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Miras el [_____] en la pared. Quedan cinco minutos.",
+                    "en": "You look at the [_____] on the wall. Five minutes left."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué miras?",
+                        "en": "What do you look at?"
+                    },
+                    "targetWordEn": "clock",
+                    "options": [
+                        "clock",
+                        "picture",
+                        "window",
+                        "door"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Entregas el examen. Ahora te sientes [_____].",
+                    "en": "You hand in the exam. Now you feel [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo te sientes?",
+                        "en": "How do you feel?"
+                    },
+                    "targetWordEn": "calm",
+                    "options": [
+                        "calm",
+                        "scared",
+                        "worried",
+                        "sad"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l1-clase-arte",
+        "levelId": 1,
+        "title": {
+            "es": "Día de Arte",
+            "en": "Art Day"
+        },
+        "description": {
+            "es": "Hoy toca clase de arte. Vamos a pintar y crear.",
+            "en": "Today is art class. Let's paint and create."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Entras en el aula de arte. El profesor nos pide sacar las [_____].",
+                    "en": "You enter the art room. The teacher asks us to take out the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué herramienta de corte?",
+                        "en": "What cutting tool?"
+                    },
+                    "targetWordEn": "scissors",
+                    "options": [
+                        "scissors",
+                        "pen",
+                        "book",
+                        "shoe"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Vamos a hacer un collage. Necesitamos [_____] para pegar.",
+                    "en": "We are going to make a collage. We need [_____] to stick."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué usas para pegar?",
+                        "en": "What do you use to stick?"
+                    },
+                    "targetWordEn": "glue",
+                    "options": [
+                        "glue",
+                        "water",
+                        "juice",
+                        "ink"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Coges un papel de color [_____] como el sol.",
+                    "en": "You take a [_____] paper like the sun."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué color es?",
+                        "en": "What color is it?"
+                    },
+                    "targetWordEn": "yellow",
+                    "options": [
+                        "yellow",
+                        "blue",
+                        "green",
+                        "black"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Dibujas el cielo de color [_____].",
+                    "en": "You draw the sky in [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué color es?",
+                        "en": "What color is it?"
+                    },
+                    "targetWordEn": "blue",
+                    "options": [
+                        "blue",
+                        "red",
+                        "orange",
+                        "brown"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Usas un [_____] grueso para los bordes.",
+                    "en": "You use a thick [_____] for the edges."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Con qué dibujas?",
+                        "en": "What do you draw with?"
+                    },
+                    "targetWordEn": "marker",
+                    "options": [
+                        "marker",
+                        "pencil",
+                        "ruler",
+                        "eraser"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Mides el papel con una [_____].",
+                    "en": "You measure the paper with a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Con qué mides?",
+                        "en": "What do you measure with?"
+                    },
+                    "targetWordEn": "ruler",
+                    "options": [
+                        "ruler",
+                        "pen",
+                        "clock",
+                        "phone"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Ahora pintas una manzana de color [_____].",
+                    "en": "Now you paint an apple [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué color es?",
+                        "en": "What color is it?"
+                    },
+                    "targetWordEn": "red",
+                    "options": [
+                        "red",
+                        "blue",
+                        "white",
+                        "grey"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Mezclas rojo y azul para hacer [_____].",
+                    "en": "You mix red and blue to make [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué color sale?",
+                        "en": "What color results?"
+                    },
+                    "targetWordEn": "purple",
+                    "options": [
+                        "purple",
+                        "green",
+                        "yellow",
+                        "orange"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Guardas tus dibujos en una [_____].",
+                    "en": "You keep your drawings in a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde guardas los papeles?",
+                        "en": "Where do you keep papers?"
+                    },
+                    "targetWordEn": "folder",
+                    "options": [
+                        "folder",
+                        "bin",
+                        "pocket",
+                        "shoe"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "El profesor está [_____] con tu trabajo.",
+                    "en": "The teacher is [_____] with your work."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo está el profesor?",
+                        "en": "How is the teacher?"
+                    },
+                    "targetWordEn": "happy",
+                    "options": [
+                        "happy",
+                        "angry",
+                        "sad",
+                        "scared"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l1-misterio-biblioteca",
+        "levelId": 1,
+        "title": {
+            "es": "Misterio en la Biblioteca",
+            "en": "Library Mystery"
+        },
+        "description": {
+            "es": "Un libro ha desaparecido. Ayuda a encontrarlo.",
+            "en": "A book has disappeared. Help find it."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Estás en la [_____] estudiando.",
+                    "en": "You are in the [_____] studying."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde estás?",
+                        "en": "Where are you?"
+                    },
+                    "targetWordEn": "library",
+                    "options": [
+                        "library",
+                        "gym",
+                        "canteen",
+                        "park"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Buscas un libro sobre el mundo. Necesitas un [_____].",
+                    "en": "You look for a book about the world. You need a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué objeto buscas?",
+                        "en": "What object do you look for?"
+                    },
+                    "targetWordEn": "globe",
+                    "options": [
+                        "globe",
+                        "clock",
+                        "pen",
+                        "ruler"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "No lo encuentras. Te sientes [_____].",
+                    "en": "You don't find it. You feel [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo te sientes?",
+                        "en": "How do you feel?"
+                    },
+                    "targetWordEn": "confused",
+                    "options": [
+                        "confused",
+                        "happy",
+                        "excited",
+                        "calm"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Ves un papel en el suelo. Es un [_____] del tesoro.",
+                    "en": "You see a paper on the floor. It is a treasure [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué es?",
+                        "en": "What is it?"
+                    },
+                    "targetWordEn": "map",
+                    "options": [
+                        "map",
+                        "book",
+                        "pen",
+                        "shoe"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "El mapa dice: 'Ve a la mesa número [_____]'.",
+                    "en": "The map says: 'Go to table number [_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué número es?",
+                        "en": "What number is it?"
+                    },
+                    "targetWordEn": "three",
+                    "options": [
+                        "three",
+                        "red",
+                        "blue",
+                        "big"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "En la mesa hay una [_____] verde.",
+                    "en": "On the table there is a green [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué fruta hay?",
+                        "en": "What fruit is there?"
+                    },
+                    "targetWordEn": "apple",
+                    "options": [
+                        "apple",
+                        "bread",
+                        "meat",
+                        "fish"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Debajo de la manzana hay una nota escrita con [_____].",
+                    "en": "Under the apple there is a note written with [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Con qué está escrita?",
+                        "en": "Written with what?"
+                    },
+                    "targetWordEn": "pen",
+                    "options": [
+                        "pen",
+                        "glue",
+                        "scissors",
+                        "ruler"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "La nota dice: 'Pregunta al [_____]'.",
+                    "en": "The note says: 'Ask the [_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿A quién preguntas?",
+                        "en": "Who do you ask?"
+                    },
+                    "targetWordEn": "librarian",
+                    "options": [
+                        "librarian",
+                        "cook",
+                        "driver",
+                        "pilot"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "El bibliotecario sonríe y te da el libro. ¡Estás [_____]!",
+                    "en": "The librarian smiles and gives you the book. You are [_____]!"
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo te sientes?",
+                        "en": "How do you feel?"
+                    },
+                    "targetWordEn": "surprised",
+                    "options": [
+                        "surprised",
+                        "sad",
+                        "angry",
+                        "bored"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Ahora puedes estudiar [_____].",
+                    "en": "Now you can study [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo estudias?",
+                        "en": "How do you study?"
+                    },
+                    "targetWordEn": "calm",
+                    "options": [
+                        "calm",
+                        "nervous",
+                        "scared",
+                        "tired"
+                    ]
+                }
+            }
+        ]
+    }
+]

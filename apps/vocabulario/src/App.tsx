@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import party from 'party-js';
-import gruposData from './data/grupos.json';
+import { gruposData } from './data';
 import { PDFExamGenerator } from './components/PDFExamGenerator';
 
 type LocalizedText = {
@@ -11,6 +11,7 @@ type LocalizedText = {
 type Palabra = {
   en: string;
   es: string;
+  definicion?: string;
 };
 
 type Tema = {
@@ -38,7 +39,15 @@ type GrupoTematico = {
   temas: Tema[];
 };
 
-type Fase = 'inicio' | 'modo' | 'aprender' | 'practicar' | 'examenPrep' | 'examen' | 'resultado';
+import { AdventureMode } from './components/AdventureMode';
+
+// ... (existing imports)
+
+type Fase = 'inicio' | 'modo' | 'aprender' | 'practicar' | 'experto' | 'examenPrep' | 'examen' | 'resultado' | 'aventura';
+
+// ... (existing code)
+
+
 
 type Language = 'en' | 'es';
 
@@ -89,6 +98,7 @@ type Copy = {
   questionsLabel: string;
   examLockedTag: string;
   examUnlockedTag: string;
+  definitionsModeLabel: string;
 };
 
 const LANGUAGE_STORAGE_KEY = 'vocabulario-language';
@@ -140,7 +150,8 @@ const translations: Record<Language, Copy> = {
     examNeededScore: 'You need at least {count} points to pass.',
     questionsLabel: 'Questions',
     examLockedTag: 'Locked',
-    examUnlockedTag: 'Ready'
+    examUnlockedTag: 'Ready',
+    definitionsModeLabel: '🧠 Expert Mode'
   },
   es: {
     homeTitle: '📚 Aprende Español',
@@ -188,7 +199,8 @@ const translations: Record<Language, Copy> = {
     examNeededScore: 'Necesitas al menos {count} puntos para aprobar.',
     questionsLabel: 'Preguntas',
     examLockedTag: 'Bloqueado',
-    examUnlockedTag: 'Listo'
+    examUnlockedTag: 'Listo',
+    definitionsModeLabel: '🧠 Modo Experto'
   }
 };
 
@@ -293,13 +305,51 @@ const BlockProgressBar = ({
   );
 };
 
+const GlobalProgressBar = ({
+  learned,
+  total,
+  label,
+  subLabel
+}: {
+  learned: number;
+  total: number;
+  label: string;
+  subLabel: string;
+}) => {
+  const percent = total > 0 ? Math.round((learned / total) * 100) : 0;
+
+  return (
+    <div className="mb-8 w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white shadow-xl">
+      <div className="flex items-end justify-between">
+        <div>
+          <h2 className="text-lg font-bold">{label}</h2>
+          <p className="text-sm text-blue-100">{subLabel}</p>
+        </div>
+        <div className="text-right">
+          <span className="text-3xl font-extrabold">{percent}%</span>
+        </div>
+      </div>
+      <div className="mt-4 h-3 w-full overflow-hidden rounded-full bg-black/20">
+        <div
+          className="h-full rounded-full bg-white/90 shadow-sm transition-all duration-500 ease-out"
+          style={{ width: `${percent}%` }}
+        />
+      </div>
+      <div className="mt-2 flex justify-between text-xs font-medium text-blue-100/80">
+        <span>0</span>
+        <span>{learned} / {total}</span>
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
   const [fase, setFase] = useState<Fase>('inicio');
   const [temaActual, setTemaActual] = useState<Tema | null>(null);
   const [grupoActual, setGrupoActual] = useState<GrupoTematico | null>(null);
   const [indice, setIndice] = useState(0);
   const [puntos, setPuntos] = useState(0);
-  const [modo, setModo] = useState<'aprender' | 'practicar' | 'examen' | null>(null);
+  const [modo, setModo] = useState<'aprender' | 'practicar' | 'experto' | 'examen' | null>(null);
   const [respuestaSeleccionada, setRespuestaSeleccionada] = useState<string | null>(null);
   const [bloqueado, setBloqueado] = useState(false);
   const [language, setLanguage] = useState<Language>(() => {
@@ -332,6 +382,8 @@ const App = () => {
   const hasCelebratedRecordRef = useRef(false);
   const [showExamModal, setShowExamModal] = useState(false);
 
+  const [adventureLevel, setAdventureLevel] = useState<number | null>(null);
+
   const gruposVocabulario = useMemo(
     () =>
       gruposTematicos
@@ -351,7 +403,7 @@ const App = () => {
   const palabra = temaActual?.palabras[indice];
   const recordActualTema = temaActual && modo !== 'examen' ? highScores[temaActual.id] ?? 0 : 0;
   const recordActualExamen = grupoActual ? examScores[grupoActual.id] ?? 0 : 0;
-  const esPracticar = modo === 'practicar';
+  const esPracticar = modo === 'practicar' || modo === 'experto';
   const esExamen = modo === 'examen';
   const esNuevoRecord = fase === 'resultado' && (esPracticar || esExamen) && puntos > recordInicioRef.current;
   const practicaUmbral = temaActual && modo !== 'examen' ? getPracticeThreshold(temaActual) : 0;
@@ -470,8 +522,8 @@ const App = () => {
     setFase('modo');
   };
 
-  const iniciarModo = (nuevoModo: 'aprender' | 'practicar') => {
-    if (nuevoModo === 'practicar' && temaActual) {
+  const iniciarModo = (nuevoModo: 'aprender' | 'practicar' | 'experto') => {
+    if ((nuevoModo === 'practicar' || nuevoModo === 'experto') && temaActual) {
       recordInicioRef.current = highScores[temaActual.id] ?? 0;
     }
     hasCelebratedRecordRef.current = false;
@@ -607,25 +659,27 @@ const App = () => {
       ref={confettiTargetRef}
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-blue-50 via-blue-100 to-blue-200 p-4 font-sans text-slate-900"
     >
-      <div className="absolute right-4 top-4 flex items-center gap-2 rounded-full bg-white/90 p-1 shadow-lg backdrop-blur">
-        <button
-          type="button"
-          onClick={() => setLanguage('en')}
-          aria-pressed={language === 'en'}
-          className={`rounded-full px-3 py-1 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${language === 'en' ? 'bg-blue-600 text-white shadow' : 'text-blue-700 hover:bg-blue-100'
-            }`}
-        >
-          English
-        </button>
-        <button
-          type="button"
-          onClick={() => setLanguage('es')}
-          aria-pressed={language === 'es'}
-          className={`rounded-full px-3 py-1 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${language === 'es' ? 'bg-blue-600 text-white shadow' : 'text-blue-700 hover:bg-blue-100'
-            }`}
-        >
-          Español
-        </button>
+      <div className="absolute right-4 top-4 flex flex-col items-end gap-2 sm:flex-row sm:items-center">
+        <div className="flex items-center gap-2 rounded-full bg-white/90 p-1 shadow-lg backdrop-blur">
+          <button
+            type="button"
+            onClick={() => setLanguage('en')}
+            aria-pressed={language === 'en'}
+            className={`rounded-full px-3 py-1 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${language === 'en' ? 'bg-blue-600 text-white shadow' : 'text-blue-700 hover:bg-blue-100'
+              }`}
+          >
+            English
+          </button>
+          <button
+            type="button"
+            onClick={() => setLanguage('es')}
+            aria-pressed={language === 'es'}
+            className={`rounded-full px-3 py-1 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${language === 'es' ? 'bg-blue-600 text-white shadow' : 'text-blue-700 hover:bg-blue-100'
+              }`}
+          >
+            Español
+          </button>
+        </div>
       </div>
 
       <PDFExamGenerator
@@ -646,6 +700,31 @@ const App = () => {
             </button>
           </div>
           <h1 className="mb-6 text-4xl font-extrabold text-blue-700 drop-shadow-sm md:text-5xl">{t.homeTitle}</h1>
+
+          {(() => {
+            const allVocabWords = gruposVocabulario.flatMap(g => gatherGroupWords(g));
+            const totalWords = allVocabWords.length;
+
+            // A word is considered "learned" if it contributes to the personal best score of a topic
+            const learnedWords = gruposVocabulario.reduce((acc, grupo) => {
+              const groupScore = grupo.temas.reduce((gAcc, tema) => {
+                const score = highScores[tema.id] ?? 0;
+                // Ensure we don't count more than the total words in the topic (though score shouldn't exceed it)
+                return gAcc + Math.min(score, tema.palabras.length);
+              }, 0);
+              return acc + groupScore;
+            }, 0);
+
+            return (
+              <GlobalProgressBar
+                learned={learnedWords}
+                total={totalWords}
+                label={language === 'en' ? 'Global Progress' : 'Progreso Global'}
+                subLabel={language === 'en' ? 'Words learned' : 'Palabras aprendidas'}
+              />
+            );
+          })()}
+
           <p className="mx-auto mb-8 max-w-xl text-lg text-blue-900">{t.homeIntro}</p>
           <div className="flex flex-col gap-10 text-left">
             <section className="space-y-6">
@@ -744,10 +823,10 @@ const App = () => {
                             <span>{t.examButtonLabel}</span>
                             <span
                               className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${examPassed
-                                  ? 'bg-green-500 text-white'
-                                  : examUnlocked
-                                    ? 'bg-blue-100 text-blue-700'
-                                    : 'bg-slate-300 text-slate-600'
+                                ? 'bg-green-500 text-white'
+                                : examUnlocked
+                                  ? 'bg-blue-100 text-blue-700'
+                                  : 'bg-slate-300 text-slate-600'
                                 }`}
                             >
                               {examPassed
@@ -771,6 +850,25 @@ const App = () => {
                             {t.examLockedMessage}
                           </p>
                         )}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAdventureLevel(grupo.nivel.orden);
+                            setFase('aventura');
+                          }}
+                          disabled={bloqueBloqueado}
+                          className="rounded-2xl bg-indigo-50 px-4 py-3 text-left text-sm font-semibold text-indigo-900 shadow-md transition hover:-translate-y-0.5 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2 focus:ring-offset-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span>🗺️ {language === 'en' ? 'Adventures' : 'Aventuras'}</span>
+                            <span className="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-indigo-700">
+                              {language === 'en' ? 'New' : 'Nuevo'}
+                            </span>
+                          </div>
+                          <div className="mt-1 text-xs font-medium text-indigo-600">
+                            {language === 'en' ? 'Interactive stories' : 'Historias interactivas'}
+                          </div>
+                        </button>
                       </div>
                     </article>
                   );
@@ -873,10 +971,10 @@ const App = () => {
                             <span>{t.examButtonLabel}</span>
                             <span
                               className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${examPassed
-                                  ? 'bg-green-500 text-white'
-                                  : examUnlocked
-                                    ? 'bg-purple-100 text-purple-700'
-                                    : 'bg-slate-300 text-slate-600'
+                                ? 'bg-green-500 text-white'
+                                : examUnlocked
+                                  ? 'bg-purple-100 text-purple-700'
+                                  : 'bg-slate-300 text-slate-600'
                                 }`}
                             >
                               {examPassed
@@ -900,6 +998,25 @@ const App = () => {
                             {t.examLockedMessage}
                           </p>
                         )}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAdventureLevel(grupo.nivel.orden);
+                            setFase('aventura');
+                          }}
+                          disabled={bloqueBloqueado}
+                          className="rounded-2xl bg-indigo-50 px-4 py-3 text-left text-sm font-semibold text-indigo-900 shadow-md transition hover:-translate-y-0.5 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2 focus:ring-offset-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span>🗺️ {language === 'en' ? 'Adventures' : 'Aventuras'}</span>
+                            <span className="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-indigo-700">
+                              {language === 'en' ? 'New' : 'Nuevo'}
+                            </span>
+                          </div>
+                          <div className="mt-1 text-xs font-medium text-indigo-600">
+                            {language === 'en' ? 'Interactive stories' : 'Historias interactivas'}
+                          </div>
+                        </button>
                       </div>
                     </article>
                   );
@@ -908,6 +1025,14 @@ const App = () => {
             </section>
           </div>
         </div>
+      )}
+
+      {fase === 'aventura' && (
+        <AdventureMode
+          language={language}
+          onBack={() => setFase('inicio')}
+          levelId={adventureLevel ?? undefined}
+        />
       )}
 
       {fase === 'modo' && temaActual && (
@@ -942,6 +1067,15 @@ const App = () => {
               className="w-full rounded-xl bg-amber-500 px-6 py-3 text-lg font-semibold text-white shadow-md transition hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 focus:ring-offset-white"
             >
               {t.practiceButton}
+            </button>
+          </div>
+          <div className="mb-6">
+            <button
+              type="button"
+              onClick={() => iniciarModo('experto')}
+              className="w-full rounded-xl bg-purple-600 px-6 py-3 text-lg font-semibold text-white shadow-md transition hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2 focus:ring-offset-white"
+            >
+              {t.definitionsModeLabel}
             </button>
           </div>
           <button
@@ -1066,7 +1200,7 @@ const App = () => {
         </div>
       )}
 
-      {(fase === 'practicar' || fase === 'examen') && palabra && temaActual && (
+      {(fase === 'practicar' || fase === 'experto' || fase === 'examen') && palabra && temaActual && (
         <div
           className={`w-full max-w-xl rounded-3xl shadow-2xl animate-slide-up ${grupoActual ? `${theme.panelOuter} p-[3px]` : 'bg-white'
             }`}
@@ -1093,7 +1227,13 @@ const App = () => {
               labelClass={theme.heading}
             />
             <h2 className={`mt-8 text-2xl font-semibold ${theme.heading}`}>
-              {t.translatePrompt} <span className="font-bold">{palabra.en}</span>
+              {modo === 'experto' && palabra.definicion ? (
+                <span className="italic">"{palabra.definicion}"</span>
+              ) : (
+                <>
+                  {t.translatePrompt} <span className="font-bold">{palabra.en}</span>
+                </>
+              )}
             </h2>
             <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {opciones.map((opcion) => (

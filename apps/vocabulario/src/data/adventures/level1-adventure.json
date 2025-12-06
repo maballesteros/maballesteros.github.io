@@ -1,0 +1,140 @@
+{
+    "id": "adv-level1-first-day",
+    "levelId": 1,
+    "title": {
+        "es": "El Primer Día",
+        "en": "The First Day"
+    },
+    "description": {
+        "es": "Sobrevive a tu primer día en el nuevo instituto.",
+        "en": "Survive your first day at the new school."
+    },
+    "scenes": [
+        {
+            "id": "scene-1",
+            "text": {
+                "es": "Es lunes por la mañana. Suena el despertador. Te levantas y necesitas preparar tus cosas. Buscas tu [_____] para meter los libros.",
+                "en": "It is Monday morning. The alarm rings. You get up and need to prepare your things. You look for your [_____] to put your books in."
+            },
+            "challenge": {
+                "type": "fill-blank",
+                "question": {
+                    "es": "¿Qué necesitas?",
+                    "en": "What do you need?"
+                },
+                "targetWordEn": "backpack",
+                "options": [
+                    "backpack",
+                    "sharpener",
+                    "eraser",
+                    "glue"
+                ]
+            }
+        },
+        {
+            "id": "scene-2",
+            "text": {
+                "es": "Sales de casa corriendo. Llegas a la parada justo a tiempo para coger el [_____].",
+                "en": "You run out of the house. You arrive at the stop just in time to catch the [_____]."
+            },
+            "challenge": {
+                "type": "fill-blank",
+                "question": {
+                    "es": "¿Qué transporte coges?",
+                    "en": "What transport do you take?"
+                },
+                "targetWordEn": "bus",
+                "options": [
+                    "bus",
+                    "car",
+                    "bicycle",
+                    "scooter"
+                ]
+            }
+        },
+        {
+            "id": "scene-3",
+            "text": {
+                "es": "Llegas al instituto. Es enorme. Necesitas encontrar tu clase, pero no sabes dónde está. Vas a la oficina para hablar con el [_____].",
+                "en": "You arrive at school. It is huge. You need to find your class, but you don't know where it is. You go to the office to speak with the [_____]."
+            },
+            "challenge": {
+                "type": "fill-blank",
+                "question": {
+                    "es": "¿Con quién hablas?",
+                    "en": "Who do you speak with?"
+                },
+                "targetWordEn": "secretary",
+                "options": [
+                    "secretary",
+                    "janitor",
+                    "coach",
+                    "nurse"
+                ]
+            }
+        },
+        {
+            "id": "scene-4",
+            "text": {
+                "es": "Te dice que tu aula es la número 101. Entras y ves a muchos estudiantes. Te sientas al lado de un chico que parece simpático. Es tu nuevo [_____].",
+                "en": "He tells you your room is number 101. You enter and see many students. You sit next to a boy who looks nice. He is your new [_____]."
+            },
+            "challenge": {
+                "type": "fill-blank",
+                "question": {
+                    "es": "¿Quién es él?",
+                    "en": "Who is he?"
+                },
+                "targetWordEn": "classmate",
+                "options": [
+                    "classmate",
+                    "teacher",
+                    "principal",
+                    "librarian"
+                ]
+            }
+        },
+        {
+            "id": "scene-5",
+            "text": {
+                "es": "El profesor entra. Dice: 'Sacad vuestro material'. Tú sacas un lápiz, pero la punta está rota. Necesitas un [_____].",
+                "en": "The teacher enters. He says: 'Take out your supplies'. You take out a pencil, but the tip is broken. You need a [_____]."
+            },
+            "challenge": {
+                "type": "fill-blank",
+                "question": {
+                    "es": "¿Qué herramienta necesitas?",
+                    "en": "What tool do you need?"
+                },
+                "targetWordEn": "sharpener",
+                "options": [
+                    "sharpener",
+                    "ruler",
+                    "folder",
+                    "calculator"
+                ]
+            }
+        },
+        {
+            "id": "scene-6",
+            "text": {
+                "es": "¡Bien hecho! Has sobrevivido a la primera hora. Ahora tienes hambre. Es hora de ir a la [_____].",
+                "en": "Well done! You survived the first hour. Now you are hungry. It is time to go to the [_____]."
+            },
+            "challenge": {
+                "type": "fill-blank",
+                "question": {
+                    "es": "¿A dónde vas?",
+                    "en": "Where do you go?"
+                },
+                "targetWordEn": "cafeteria",
+                "options": [
+                    "cafeteria",
+                    "library",
+                    "gym",
+                    "lab"
+                ]
+            }
+        }
+    ]
+}

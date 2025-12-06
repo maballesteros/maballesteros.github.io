@@ -1,0 +1,674 @@
+[
+    {
+        "id": "adv-l3-proyecto-ciencias",
+        "levelId": 3,
+        "title": {
+            "es": "El Proyecto de Ciencias",
+            "en": "The Science Project"
+        },
+        "description": {
+            "es": "Realiza un experimento peligroso en el laboratorio.",
+            "en": "Perform a dangerous experiment in the lab."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Entras en el laboratorio. Primero te pones tu [_____].",
+                    "en": "You enter the lab. First you put on your [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué ropa de protección?",
+                        "en": "What protective clothing?"
+                    },
+                    "targetWordEn": "lab coat",
+                    "options": [
+                        "lab coat",
+                        "jacket",
+                        "shirt",
+                        "scarf"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "También necesitas proteger tus ojos con [_____].",
+                    "en": "You also need to protect your eyes with [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué usas en los ojos?",
+                        "en": "What on eyes?"
+                    },
+                    "targetWordEn": "safety goggles",
+                    "options": [
+                        "safety goggles",
+                        "sunglasses",
+                        "glasses",
+                        "mask"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Miras una célula a través del [_____].",
+                    "en": "You look at a cell through the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué instrumento usas?",
+                        "en": "What instrument?"
+                    },
+                    "targetWordEn": "microscope",
+                    "options": [
+                        "microscope",
+                        "telescope",
+                        "camera",
+                        "phone"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Mezclas líquidos en un [_____].",
+                    "en": "You mix liquids in a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿En qué recipiente?",
+                        "en": "In what container?"
+                    },
+                    "targetWordEn": "test tube",
+                    "options": [
+                        "test tube",
+                        "cup",
+                        "bowl",
+                        "plate"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Usas una [_____] para añadir gotas exactas.",
+                    "en": "You use a [_____] to add exact drops."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué herramienta de precisión?",
+                        "en": "What precision tool?"
+                    },
+                    "targetWordEn": "pipette",
+                    "options": [
+                        "pipette",
+                        "spoon",
+                        "fork",
+                        "knife"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Calientas la mezcla con un [_____].",
+                    "en": "You heat the mixture with a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Con qué calientas?",
+                        "en": "With what do you heat?"
+                    },
+                    "targetWordEn": "bunsen burner",
+                    "options": [
+                        "bunsen burner",
+                        "candle",
+                        "lamp",
+                        "torch"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Mides la temperatura con un [_____].",
+                    "en": "You measure the temperature with a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué instrumento de medida?",
+                        "en": "What measuring instrument?"
+                    },
+                    "targetWordEn": "thermometer",
+                    "options": [
+                        "thermometer",
+                        "ruler",
+                        "scale",
+                        "clock"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Pesas los polvos en una [_____].",
+                    "en": "You weigh the powders on a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde pesas?",
+                        "en": "Where do you weigh?"
+                    },
+                    "targetWordEn": "scale",
+                    "options": [
+                        "scale",
+                        "table",
+                        "chair",
+                        "floor"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "¡Cuidado! Es un [_____] peligroso.",
+                    "en": "Careful! It is a dangerous [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué es?",
+                        "en": "What is it?"
+                    },
+                    "targetWordEn": "chemical",
+                    "options": [
+                        "chemical",
+                        "water",
+                        "juice",
+                        "food"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "El [_____] ha sido un éxito.",
+                    "en": "The [_____] was a success."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué has hecho?",
+                        "en": "What have you done?"
+                    },
+                    "targetWordEn": "experiment",
+                    "options": [
+                        "experiment",
+                        "exam",
+                        "game",
+                        "party"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l3-examen-mates",
+        "levelId": 3,
+        "title": {
+            "es": "El Reto Matemático",
+            "en": "The Math Challenge"
+        },
+        "description": {
+            "es": "Resuelve los problemas para aprobar el examen.",
+            "en": "Solve the problems to pass the exam."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "El primer problema es una [_____].",
+                    "en": "The first problem is an [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué tipo de operación?",
+                        "en": "What type of operation?"
+                    },
+                    "targetWordEn": "addition",
+                    "options": [
+                        "addition",
+                        "word",
+                        "sentence",
+                        "story"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Luego tienes que hacer una [_____] difícil.",
+                    "en": "Then you have to do a difficult [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué operación?",
+                        "en": "What operation?"
+                    },
+                    "targetWordEn": "multiplication",
+                    "options": [
+                        "multiplication",
+                        "drawing",
+                        "song",
+                        "dance"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Usas tu [_____] para comprobar el resultado.",
+                    "en": "You use your [_____] to check the result."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué máquina usas?",
+                        "en": "What machine?"
+                    },
+                    "targetWordEn": "calculator",
+                    "options": [
+                        "calculator",
+                        "phone",
+                        "watch",
+                        "radio"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Debes dibujar un [_____] perfecto.",
+                    "en": "You must draw a perfect [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué forma de tres lados?",
+                        "en": "What three-sided shape?"
+                    },
+                    "targetWordEn": "triangle",
+                    "options": [
+                        "triangle",
+                        "circle",
+                        "square",
+                        "line"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Calculas el [_____] de aciertos.",
+                    "en": "You calculate the [_____] of correct answers."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué proporción?",
+                        "en": "What proportion?"
+                    },
+                    "targetWordEn": "percentage",
+                    "options": [
+                        "percentage",
+                        "money",
+                        "time",
+                        "weight"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "La siguiente pregunta es sobre [_____].",
+                    "en": "The next question is about [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué rama de mates?",
+                        "en": "What math branch?"
+                    },
+                    "targetWordEn": "geometry",
+                    "options": [
+                        "geometry",
+                        "history",
+                        "art",
+                        "music"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Tienes que resolver la [_____] para encontrar X.",
+                    "en": "You have to solve the [_____] to find X."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué resuelves?",
+                        "en": "What do you solve?"
+                    },
+                    "targetWordEn": "equation",
+                    "options": [
+                        "equation",
+                        "puzzle",
+                        "game",
+                        "riddle"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Dibujas un [_____] para mostrar los datos.",
+                    "en": "You draw a [_____] to show the data."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué dibujo?",
+                        "en": "What drawing?"
+                    },
+                    "targetWordEn": "graph",
+                    "options": [
+                        "graph",
+                        "portrait",
+                        "landscape",
+                        "cartoon"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "El [_____] final es correcto.",
+                    "en": "The final [_____] is correct."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué obtienes?",
+                        "en": "What do you get?"
+                    },
+                    "targetWordEn": "result",
+                    "options": [
+                        "result",
+                        "question",
+                        "problem",
+                        "exam"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Te gustan las matemáticas, especialmente el [_____].",
+                    "en": "You like math, especially [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué tema avanzado?",
+                        "en": "What advanced topic?"
+                    },
+                    "targetWordEn": "algebra",
+                    "options": [
+                        "algebra",
+                        "cooking",
+                        "sports",
+                        "reading"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l3-tecnologia",
+        "levelId": 3,
+        "title": {
+            "es": "Problemas Técnicos",
+            "en": "Technical Issues"
+        },
+        "description": {
+            "es": "Arregla el ordenador de la clase.",
+            "en": "Fix the classroom computer."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "El [_____] no enciende.",
+                    "en": "The [_____] does not turn on."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué aparato?",
+                        "en": "What device?"
+                    },
+                    "targetWordEn": "computer",
+                    "options": [
+                        "computer",
+                        "book",
+                        "chair",
+                        "table"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Compruebas si el [_____] está conectado.",
+                    "en": "You check if the [_____] is connected."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué cable?",
+                        "en": "What cable?"
+                    },
+                    "targetWordEn": "charger",
+                    "options": [
+                        "charger",
+                        "mouse",
+                        "keyboard",
+                        "screen"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "La [_____] está negra.",
+                    "en": "The [_____] is black."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué parte visual?",
+                        "en": "What visual part?"
+                    },
+                    "targetWordEn": "screen",
+                    "options": [
+                        "screen",
+                        "keyboard",
+                        "mouse",
+                        "printer"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Mueves el [_____] pero no pasa nada.",
+                    "en": "You move the [_____] but nothing happens."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué dispositivo de mano?",
+                        "en": "What handheld device?"
+                    },
+                    "targetWordEn": "mouse",
+                    "options": [
+                        "mouse",
+                        "pen",
+                        "pencil",
+                        "cup"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Escribes tu [_____] en el teclado.",
+                    "en": "You type your [_____] on the keyboard."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué clave?",
+                        "en": "What key?"
+                    },
+                    "targetWordEn": "password",
+                    "options": [
+                        "password",
+                        "name",
+                        "address",
+                        "phone"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "No hay internet. Reinicias el [_____].",
+                    "en": "No internet. You restart the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué aparato de red?",
+                        "en": "What network device?"
+                    },
+                    "targetWordEn": "wifi router",
+                    "options": [
+                        "wifi router",
+                        "printer",
+                        "scanner",
+                        "speaker"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Ahora funciona el [_____].",
+                    "en": "Now the [_____] works."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué conexión?",
+                        "en": "What connection?"
+                    },
+                    "targetWordEn": "wifi",
+                    "options": [
+                        "wifi",
+                        "water",
+                        "gas",
+                        "light"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Abres una [_____] educativa.",
+                    "en": "You open an educational [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué programa?",
+                        "en": "What program?"
+                    },
+                    "targetWordEn": "app",
+                    "options": [
+                        "app",
+                        "door",
+                        "window",
+                        "box"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Guardas tu trabajo en una [_____].",
+                    "en": "You save your work on a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué dispositivo de memoria?",
+                        "en": "What memory device?"
+                    },
+                    "targetWordEn": "USB drive",
+                    "options": [
+                        "USB drive",
+                        "paper",
+                        "notebook",
+                        "folder"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Imprimes el documento en la [_____].",
+                    "en": "You print the document on the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué máquina?",
+                        "en": "What machine?"
+                    },
+                    "targetWordEn": "printer",
+                    "options": [
+                        "printer",
+                        "screen",
+                        "mouse",
+                        "keyboard"
+                    ]
+                }
+            }
+        ]
+    }
+]

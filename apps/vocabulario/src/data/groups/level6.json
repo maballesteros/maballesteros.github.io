@@ -1,0 +1,760 @@
+{
+  "id": "phr-primeros-dialogos",
+  "tipo": "frases",
+  "nombre": {
+    "es": "Primeros diálogos",
+    "en": "First conversations"
+  },
+  "descripcion": {
+    "es": "Construye frases esenciales para presentarte y resolver situaciones básicas.",
+    "en": "Build essential phrases to introduce yourself and solve basic situations."
+  },
+  "nivel": {
+    "orden": 6,
+    "titulo": {
+      "es": "Nivel 6 · Conversador",
+      "en": "Level 6 · Conversationalist"
+    },
+    "descripcion": {
+      "es": "Da tus primeros pasos hablando en frases completas.",
+      "en": "Take your first steps speaking in full sentences."
+    },
+    "clases": {
+      "fondo": "from-lime-50 via-lime-100 to-lime-200",
+      "borde": "border-lime-300",
+      "titulo": "text-lime-900",
+      "insignia": "bg-lime-500 text-white"
+    }
+  },
+  "temas": [
+    {
+      "id": "presentarte",
+      "nombre": {
+        "es": "Presentarte",
+        "en": "Introducing yourself"
+      },
+      "palabras": [
+        {
+          "en": "Hi, I am new here.",
+          "es": "Hola, soy nuevo aquí.",
+          "definicion": "Saludo cuando llegas por primera vez."
+        },
+        {
+          "en": "My name is...",
+          "es": "Me llamo...",
+          "definicion": "Frase para decir tu nombre."
+        },
+        {
+          "en": "I am from...",
+          "es": "Soy de...",
+          "definicion": "Frase para decir tu país de origen."
+        },
+        {
+          "en": "I speak a little Spanish.",
+          "es": "Hablo un poco de español.",
+          "definicion": "Explicar que sabes algo del idioma."
+        },
+        {
+          "en": "This is my first day.",
+          "es": "Este es mi primer día.",
+          "definicion": "Indicar que acabas de empezar."
+        },
+        {
+          "en": "Nice to meet you.",
+          "es": "Encantado de conocerte.",
+          "definicion": "Saludo educado al conocer a alguien."
+        },
+        {
+          "en": "I arrived in Spain last month.",
+          "es": "Llegué a España el mes pasado.",
+          "definicion": "Contar cuándo viniste al país."
+        },
+        {
+          "en": "I am fourteen years old.",
+          "es": "Tengo catorce años.",
+          "definicion": "Decir tu edad."
+        },
+        {
+          "en": "I live near the school.",
+          "es": "Vivo cerca del instituto.",
+          "definicion": "Decir dónde está tu casa."
+        },
+        {
+          "en": "I love playing football.",
+          "es": "Me encanta jugar al fútbol.",
+          "definicion": "Hablar de tus aficiones favoritas."
+        },
+        {
+          "en": "How are you?",
+          "es": "¿Cómo estás?",
+          "definicion": "Preguntar qué tal se encuentra."
+        },
+        {
+          "en": "I am fine, thanks.",
+          "es": "Estoy bien, gracias.",
+          "definicion": "Responder que estás bien."
+        },
+        {
+          "en": "And you?",
+          "es": "¿Y tú?",
+          "definicion": "Devolver la pregunta."
+        },
+        {
+          "en": "See you later.",
+          "es": "Hasta luego.",
+          "definicion": "Despedirse para verse después."
+        },
+        {
+          "en": "Goodbye.",
+          "es": "Adiós.",
+          "definicion": "Despedida general."
+        },
+        {
+          "en": "What is your surname?",
+          "es": "¿Cuál es tu apellido?",
+          "definicion": "Preguntar el nombre de familia."
+        },
+        {
+          "en": "I am twelve years old.",
+          "es": "Tengo doce años.",
+          "definicion": "Decir tu edad."
+        },
+        {
+          "en": "Do you speak English?",
+          "es": "¿Hablas inglés?",
+          "definicion": "Preguntar por el idioma."
+        },
+        {
+          "en": "Where do you live?",
+          "es": "¿Dónde vives?",
+          "definicion": "Preguntar por el domicilio."
+        },
+        {
+          "en": "I live in London.",
+          "es": "Vivo en Londres.",
+          "definicion": "Decir tu ciudad."
+        }
+      ]
+    },
+    {
+      "id": "orientarte",
+      "nombre": {
+        "es": "Orientarte en el centro",
+        "en": "Finding your way around school"
+      },
+      "palabras": [
+        {
+          "en": "Where is classroom 2B?",
+          "es": "¿Dónde está el aula 2B?",
+          "definicion": "Preguntar por una clase específica."
+        },
+        {
+          "en": "Is the office on this floor?",
+          "es": "¿La oficina está en esta planta?",
+          "definicion": "Preguntar por la ubicación de secretaría."
+        },
+        {
+          "en": "How do I get to the library?",
+          "es": "¿Cómo llego a la biblioteca?",
+          "definicion": "Pedir indicaciones para ir a leer."
+        },
+        {
+          "en": "Can you show me the way?",
+          "es": "¿Puedes enseñarme el camino?",
+          "definicion": "Pedir a alguien que te guíe."
+        },
+        {
+          "en": "Which bus goes to the school?",
+          "es": "¿Qué autobús va al instituto?",
+          "definicion": "Preguntar por el transporte escolar."
+        },
+        {
+          "en": "I do not want to get lost.",
+          "es": "No quiero perderme.",
+          "definicion": "Expresar miedo a no saber dónde estás."
+        },
+        {
+          "en": "Where is the main entrance?",
+          "es": "¿Dónde está la entrada principal?",
+          "definicion": "Buscar la puerta grande del edificio."
+        },
+        {
+          "en": "Which floor is the library on?",
+          "es": "¿En qué planta está la biblioteca?",
+          "definicion": "Preguntar la altura de la sala de libros."
+        },
+        {
+          "en": "Is there an elevator?",
+          "es": "¿Hay ascensor?",
+          "definicion": "Preguntar por el elevador."
+        },
+        {
+          "en": "Is this the right corridor?",
+          "es": "¿Es este el pasillo correcto?",
+          "definicion": "Confirmar si vas bien por el pasillo."
+        },
+        {
+          "en": "How long does it take to walk there?",
+          "es": "¿Cuánto se tarda en ir caminando?",
+          "definicion": "Preguntar el tiempo a pie."
+        },
+        {
+          "en": "Where is the bathroom?",
+          "es": "¿Dónde está el baño?",
+          "definicion": "Preguntar por el aseo."
+        },
+        {
+          "en": "Is it far?",
+          "es": "¿Está lejos?",
+          "definicion": "Preguntar la distancia."
+        },
+        {
+          "en": "Go straight ahead.",
+          "es": "Sigue todo recto.",
+          "definicion": "Indicar dirección frontal."
+        },
+        {
+          "en": "Turn left.",
+          "es": "Gira a la izquierda.",
+          "definicion": "Indicar dirección izquierda."
+        },
+        {
+          "en": "Turn right.",
+          "es": "Gira a la derecha.",
+          "definicion": "Indicar dirección derecha."
+        },
+        {
+          "en": "It is on the second floor.",
+          "es": "Está en la segunda planta.",
+          "definicion": "Indicar el piso."
+        },
+        {
+          "en": "Next to the library.",
+          "es": "Al lado de la biblioteca.",
+          "definicion": "Indicar cercanía a los libros."
+        },
+        {
+          "en": "Behind the gym.",
+          "es": "Detrás del gimnasio.",
+          "definicion": "Indicar posición trasera."
+        },
+        {
+          "en": "In front of the office.",
+          "es": "Delante de la oficina.",
+          "definicion": "Indicar posición delantera."
+        },
+        {
+          "en": "Can you show me on the map?",
+          "es": "¿Me lo enseñas en el mapa?",
+          "definicion": "Pedir ayuda visual."
+        },
+        {
+          "en": "I am lost.",
+          "es": "Me he perdido.",
+          "definicion": "Admitir que no sabes dónde estás."
+        },
+        {
+          "en": "Thank you very much.",
+          "es": "Muchas gracias.",
+          "definicion": "Agradecer mucho."
+        }
+      ]
+    },
+    {
+      "id": "clase-sencilla",
+      "nombre": {
+        "es": "Frases sencillas en clase",
+        "en": "Simple phrases in class"
+      },
+      "palabras": [
+        {
+          "en": "Can you repeat the instructions?",
+          "es": "¿Puedes repetir las instrucciones?",
+          "definicion": "Pedir que digan otra vez qué hacer."
+        },
+        {
+          "en": "What page are we on?",
+          "es": "¿En qué página estamos?",
+          "definicion": "Preguntar por el número de página."
+        },
+        {
+          "en": "Do we have homework today?",
+          "es": "¿Tenemos deberes hoy?",
+          "definicion": "Preguntar si hay trabajo para casa."
+        },
+        {
+          "en": "I finished the exercise.",
+          "es": "He terminado el ejercicio.",
+          "definicion": "Avisar de que has acabado."
+        },
+        {
+          "en": "Can I go to the bathroom?",
+          "es": "¿Puedo ir al baño?",
+          "definicion": "Pedir permiso para salir al aseo."
+        },
+        {
+          "en": "I need a little more time.",
+          "es": "Necesito un poco más de tiempo.",
+          "definicion": "Pedir esperar un poco más."
+        },
+        {
+          "en": "Could you lend me a pen?",
+          "es": "¿Me prestas un bolígrafo?",
+          "definicion": "Pedir algo para escribir."
+        },
+        {
+          "en": "When does the class end?",
+          "es": "¿Cuándo termina la clase?",
+          "definicion": "Preguntar la hora de salida."
+        },
+        {
+          "en": "Can we work in pairs?",
+          "es": "¿Podemos trabajar en parejas?",
+          "definicion": "Preguntar si se puede hacer con un compañero."
+        },
+        {
+          "en": "Is this exercise mandatory?",
+          "es": "¿Este ejercicio es obligatorio?",
+          "definicion": "Preguntar si es necesario hacerlo."
+        },
+        {
+          "en": "May I sit here?",
+          "es": "¿Puedo sentarme aquí?",
+          "definicion": "Pedir permiso para usar una silla."
+        },
+        {
+          "en": "Can I go to the toilet?",
+          "es": "¿Puedo ir al baño?",
+          "definicion": "Pedir permiso para salir."
+        },
+        {
+          "en": "I do not understand.",
+          "es": "No entiendo.",
+          "definicion": "Decir que no comprendes."
+        },
+        {
+          "en": "Can you repeat, please?",
+          "es": "¿Puedes repetir, por favor?",
+          "definicion": "Pedir que lo digan otra vez."
+        },
+        {
+          "en": "How do you say...?",
+          "es": "¿Cómo se dice...?",
+          "definicion": "Preguntar una palabra."
+        },
+        {
+          "en": "What does... mean?",
+          "es": "¿Qué significa...?",
+          "definicion": "Preguntar el significado."
+        },
+        {
+          "en": "I forgot my homework.",
+          "es": "Olvidé mis deberes.",
+          "definicion": "Admitir un olvido."
+        },
+        {
+          "en": "Can I borrow a pen?",
+          "es": "¿Me prestas un boli?",
+          "definicion": "Pedir material prestado."
+        },
+        {
+          "en": "Is this correct?",
+          "es": "¿Es esto correcto?",
+          "definicion": "Preguntar si está bien."
+        },
+        {
+          "en": "I have a question.",
+          "es": "Tengo una pregunta.",
+          "definicion": "Pedir turno para hablar."
+        },
+        {
+          "en": "Open your books.",
+          "es": "Abrid los libros.",
+          "definicion": "Instrucción de abrir el texto."
+        },
+        {
+          "en": "Listen to me.",
+          "es": "Escuchadme.",
+          "definicion": "Pedir atención."
+        },
+        {
+          "en": "Sit down, please.",
+          "es": "Sentaos, por favor.",
+          "definicion": "Pedir que tomen asiento."
+        }
+      ]
+    },
+    {
+      "id": "pedir-ayuda",
+      "nombre": {
+        "es": "Pedir ayuda",
+        "en": "Asking for help"
+      },
+      "palabras": [
+        {
+          "en": "Could you help me, please?",
+          "es": "¿Podrías ayudarme, por favor?",
+          "definicion": "Pedir auxilio educadamente."
+        },
+        {
+          "en": "I do not understand this word.",
+          "es": "No entiendo esta palabra.",
+          "definicion": "Decir que no sabes qué significa algo."
+        },
+        {
+          "en": "Can you explain it again?",
+          "es": "¿Puedes explicarlo otra vez?",
+          "definicion": "Pedir otra explicación."
+        },
+        {
+          "en": "I am a bit lost.",
+          "es": "Estoy un poco perdido.",
+          "definicion": "Admitir que no sigues la clase."
+        },
+        {
+          "en": "Can we study together later?",
+          "es": "¿Podemos estudiar juntos luego?",
+          "definicion": "Proponer repasar con un amigo."
+        },
+        {
+          "en": "Who can I ask about this?",
+          "es": "¿A quién puedo preguntar sobre esto?",
+          "definicion": "Buscar a la persona correcta."
+        },
+        {
+          "en": "Could you translate this?",
+          "es": "¿Podrías traducir esto?",
+          "definicion": "Pedir el significado en tu idioma."
+        },
+        {
+          "en": "Where can I find the answer?",
+          "es": "¿Dónde puedo encontrar la respuesta?",
+          "definicion": "Preguntar dónde mirar la solución."
+        },
+        {
+          "en": "Can we review it later?",
+          "es": "¿Podemos repasarlo luego?",
+          "definicion": "Pedir ver algo en otro momento."
+        },
+        {
+          "en": "Is there a tutorial online?",
+          "es": "¿Hay un tutorial en línea?",
+          "definicion": "Buscar ayuda en internet."
+        },
+        {
+          "en": "Thank you for helping me.",
+          "es": "Gracias por ayudarme.",
+          "definicion": "Agradecer la ayuda recibida."
+        },
+        {
+          "en": "Can you help me with this exercise?",
+          "es": "¿Me ayudas con este ejercicio?",
+          "definicion": "Pedir soporte en la tarea."
+        },
+        {
+          "en": "I need a doctor.",
+          "es": "Necesito un médico.",
+          "definicion": "Pedir ayuda sanitaria."
+        },
+        {
+          "en": "Call the police.",
+          "es": "Llama a la policía.",
+          "definicion": "Pedir ayuda de seguridad."
+        },
+        {
+          "en": "I lost my wallet.",
+          "es": "He perdido mi cartera.",
+          "definicion": "Reportar pérdida de dinero."
+        },
+        {
+          "en": "Where is the exit?",
+          "es": "¿Dónde está la salida?",
+          "definicion": "Buscar cómo salir."
+        },
+        {
+          "en": "Help!",
+          "es": "¡Socorro!",
+          "definicion": "Grito de auxilio."
+        },
+        {
+          "en": "I feel sick.",
+          "es": "Me encuentro mal.",
+          "definicion": "Decir que estás enfermo."
+        },
+        {
+          "en": "Can I use your phone?",
+          "es": "¿Puedo usar tu teléfono?",
+          "definicion": "Pedir llamar."
+        },
+        {
+          "en": "Do you have a charger?",
+          "es": "¿Tienes un cargador?",
+          "definicion": "Pedir energía para el móvil."
+        },
+        {
+          "en": "I missed the bus.",
+          "es": "Perdí el autobús.",
+          "definicion": "Decir que el transporte se fue."
+        },
+        {
+          "en": "Can you call my parents?",
+          "es": "¿Puedes llamar a mis padres?",
+          "definicion": "Pedir contactar a la familia."
+        },
+        {
+          "en": "I am thirsty.",
+          "es": "Tengo sed.",
+          "definicion": "Necesitar agua."
+        }
+      ]
+    },
+    {
+      "id": "tienda-basica",
+      "nombre": {
+        "es": "Compras básicas",
+        "en": "Basic shopping"
+      },
+      "palabras": [
+        {
+          "en": "How much is this notebook?",
+          "es": "¿Cuánto cuesta este cuaderno?",
+          "definicion": "Preguntar el precio."
+        },
+        {
+          "en": "Do you have this in another color?",
+          "es": "¿Lo tienes en otro color?",
+          "definicion": "Pedir una variante diferente."
+        },
+        {
+          "en": "I would like a bottle of water.",
+          "es": "Quisiera una botella de agua.",
+          "definicion": "Pedir algo para beber."
+        },
+        {
+          "en": "Can I pay by card?",
+          "es": "¿Puedo pagar con tarjeta?",
+          "definicion": "Preguntar forma de pago electrónico."
+        },
+        {
+          "en": "I am just looking, thanks.",
+          "es": "Solo estoy mirando, gracias.",
+          "definicion": "Decir que no vas a comprar aún."
+        },
+        {
+          "en": "Is there a discount for students?",
+          "es": "¿Hay descuento para estudiantes?",
+          "definicion": "Pedir rebaja por ser alumno."
+        },
+        {
+          "en": "Do you sell notebooks?",
+          "es": "¿Venden cuadernos?",
+          "definicion": "Preguntar si tienen un producto."
+        },
+        {
+          "en": "Could you give me a bag?",
+          "es": "¿Me das una bolsa?",
+          "definicion": "Pedir donde llevar la compra."
+        },
+        {
+          "en": "Where are the water bottles?",
+          "es": "¿Dónde están las botellas de agua?",
+          "definicion": "Buscar un producto en la tienda."
+        },
+        {
+          "en": "Can I try it on?",
+          "es": "¿Puedo probármelo?",
+          "definicion": "Preguntar si puedes ponerte la ropa."
+        },
+        {
+          "en": "Can I pay in cash?",
+          "es": "¿Puedo pagar en efectivo?",
+          "definicion": "Preguntar si aceptan monedas y billetes."
+        },
+        {
+          "en": "How much is this?",
+          "es": "¿Cuánto cuesta esto?",
+          "definicion": "Preguntar el precio."
+        },
+        {
+          "en": "I will take it.",
+          "es": "Me lo llevo.",
+          "definicion": "Decidir comprar."
+        },
+        {
+          "en": "Do you accept card?",
+          "es": "¿Aceptas tarjeta?",
+          "definicion": "Preguntar forma de pago."
+        },
+        {
+          "en": "Can I have a bag?",
+          "es": "¿Me das una bolsa?",
+          "definicion": "Pedir donde llevar la compra."
+        },
+        {
+          "en": "It is too expensive.",
+          "es": "Es demasiado caro.",
+          "definicion": "Quejarse del precio."
+        },
+        {
+          "en": "Do you have change?",
+          "es": "¿Tienes cambio?",
+          "definicion": "Preguntar por monedas."
+        },
+        {
+          "en": "Where is the fitting room?",
+          "es": "¿Dónde está el probador?",
+          "definicion": "Buscar dónde probarse ropa."
+        },
+        {
+          "en": "What time do you close?",
+          "es": "¿A qué hora cerráis?",
+          "definicion": "Preguntar horario de cierre."
+        },
+        {
+          "en": "I am just looking.",
+          "es": "Solo estoy mirando.",
+          "definicion": "Decir que no vas a comprar aún."
+        },
+        {
+          "en": "Do you have this in red?",
+          "es": "¿Tienes esto en rojo?",
+          "definicion": "Preguntar por otro color."
+        },
+        {
+          "en": "Can I return this?",
+          "es": "¿Puedo devolver esto?",
+          "definicion": "Pedir reembolso."
+        },
+        {
+          "en": "Here is your receipt.",
+          "es": "Aquí tiene su tique.",
+          "definicion": "Entregar el comprobante."
+        }
+      ]
+    },
+    {
+      "id": "familia-bienestar",
+      "nombre": {
+        "es": "Familia y bienestar",
+        "en": "Family and wellbeing"
+      },
+      "palabras": [
+        {
+          "en": "I live with my aunt.",
+          "es": "Vivo con mi tía.",
+          "definicion": "Explicar con quién compartes casa."
+        },
+        {
+          "en": "My family moved last month.",
+          "es": "Mi familia se mudó el mes pasado.",
+          "definicion": "Contar un cambio de casa reciente."
+        },
+        {
+          "en": "I miss my friends.",
+          "es": "Echo de menos a mis amigos.",
+          "definicion": "Sentir tristeza por no ver a tus amigos."
+        },
+        {
+          "en": "I am feeling better today.",
+          "es": "Me siento mejor hoy.",
+          "definicion": "Decir que estás más animado o sano."
+        },
+        {
+          "en": "I need to call home.",
+          "es": "Necesito llamar a casa.",
+          "definicion": "Querer telefonear a tu familia."
+        },
+        {
+          "en": "My parents arrive this weekend.",
+          "es": "Mis padres llegan este fin de semana.",
+          "definicion": "Anunciar la visita de tus padres."
+        },
+        {
+          "en": "I call my family every weekend.",
+          "es": "Llamo a mi familia cada fin de semana.",
+          "definicion": "Hablar de tu rutina de llamadas."
+        },
+        {
+          "en": "We cook together on Sundays.",
+          "es": "Cocinamos juntos los domingos.",
+          "definicion": "Actividad familiar de fin de semana."
+        },
+        {
+          "en": "I miss my grandparents.",
+          "es": "Echo de menos a mis abuelos.",
+          "definicion": "Extrañar a los padres de tus padres."
+        },
+        {
+          "en": "Can we video call tonight?",
+          "es": "¿Podemos hacer una videollamada esta noche?",
+          "definicion": "Proponer hablar por vídeo."
+        },
+        {
+          "en": "I am learning Spanish with my cousin.",
+          "es": "Estoy aprendiendo español con mi primo.",
+          "definicion": "Estudiar con un familiar."
+        },
+        {
+          "en": "This is my mother.",
+          "es": "Esta es mi madre.",
+          "definicion": "Presentar a tu mamá."
+        },
+        {
+          "en": "I have two brothers.",
+          "es": "Tengo dos hermanos.",
+          "definicion": "Decir cuántos hermanos tienes."
+        },
+        {
+          "en": "My father is a doctor.",
+          "es": "Mi padre es médico.",
+          "definicion": "Decir el trabajo de tu papá."
+        },
+        {
+          "en": "We live in a house.",
+          "es": "Vivimos en una casa.",
+          "definicion": "Describir tu hogar."
+        },
+        {
+          "en": "I love my family.",
+          "es": "Quiero a mi familia.",
+          "definicion": "Expresar amor familiar."
+        },
+        {
+          "en": "My grandmother cooks well.",
+          "es": "Mi abuela cocina bien.",
+          "definicion": "Elogiar la comida de la abuela."
+        },
+        {
+          "en": "I am tired today.",
+          "es": "Estoy cansado hoy.",
+          "definicion": "Expresar fatiga."
+        },
+        {
+          "en": "My head hurts.",
+          "es": "Me duele la cabeza.",
+          "definicion": "Decir que tienes dolor."
+        },
+        {
+          "en": "I am happy.",
+          "es": "Estoy feliz.",
+          "definicion": "Expresar alegría."
+        },
+        {
+          "en": "Are you okay?",
+          "es": "¿Estás bien?",
+          "definicion": "Preguntar por el estado de otro."
+        },
+        {
+          "en": "Take care.",
+          "es": "Cuídate.",
+          "definicion": "Despedida cariñosa."
+        },
+        {
+          "en": "See you tomorrow.",
+          "es": "Hasta mañana.",
+          "definicion": "Despedida hasta el día siguiente."
+        }
+      ]
+    }
+  ]
+}

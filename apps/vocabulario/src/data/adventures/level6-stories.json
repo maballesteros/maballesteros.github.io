@@ -1,0 +1,690 @@
+[
+    {
+        "id": "adv-l6-nuevo-alumno",
+        "levelId": 6,
+        "title": {
+            "es": "El Nuevo Alumno",
+            "en": "The New Student"
+        },
+        "description": {
+            "es": "Preséntate y haz amigos en tu primer día.",
+            "en": "Introduce yourself and make friends on your first day."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Entras en clase y dices: '[_____]'.",
+                    "en": "You enter class and say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo saludas?",
+                        "en": "How do you greet?"
+                    },
+                    "targetWordEn": "Hi, I am new here.",
+                    "options": [
+                        {
+                            "en": "Hi, I am new here.",
+                            "es": "Hola, soy nuevo aquí."
+                        },
+                        {
+                            "en": "Goodbye.",
+                            "es": "Adiós."
+                        },
+                        {
+                            "en": "I am tired.",
+                            "es": "Estoy cansado."
+                        },
+                        {
+                            "en": "I am hungry.",
+                            "es": "Tengo hambre."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "El profesor pregunta tu nombre. Dices: '[_____]'.",
+                    "en": "The teacher asks your name. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo te presentas?",
+                        "en": "How do you introduce?"
+                    },
+                    "targetWordEn": "My name is...",
+                    "options": [
+                        {
+                            "en": "My name is...",
+                            "es": "Me llamo..."
+                        },
+                        {
+                            "en": "He is...",
+                            "es": "Él es..."
+                        },
+                        {
+                            "en": "She is...",
+                            "es": "Ella es..."
+                        },
+                        {
+                            "en": "We are...",
+                            "es": "Nosotros somos..."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Alguien te saluda. Tú respondes: '[_____]'.",
+                    "en": "Someone greets you. You reply: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué cortesía?",
+                        "en": "What courtesy?"
+                    },
+                    "targetWordEn": "Nice to meet you.",
+                    "options": [
+                        {
+                            "en": "Nice to meet you.",
+                            "es": "Encantado de conocerte."
+                        },
+                        {
+                            "en": "Bad to see you.",
+                            "es": "Mal de verte."
+                        },
+                        {
+                            "en": "Go away.",
+                            "es": "Vete."
+                        },
+                        {
+                            "en": "I am sad.",
+                            "es": "Estoy triste."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Te preguntan de dónde eres. Dices: '[_____]'.",
+                    "en": "They ask where you are from. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Tu origen?",
+                        "en": "Your origin?"
+                    },
+                    "targetWordEn": "I am from...",
+                    "options": [
+                        {
+                            "en": "I am from...",
+                            "es": "Soy de..."
+                        },
+                        {
+                            "en": "I go to...",
+                            "es": "Voy a..."
+                        },
+                        {
+                            "en": "I like...",
+                            "es": "Me gusta..."
+                        },
+                        {
+                            "en": "I eat...",
+                            "es": "Como..."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Preguntan tu edad. Dices: '[_____]'.",
+                    "en": "They ask your age. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Tu edad?",
+                        "en": "Your age?"
+                    },
+                    "targetWordEn": "I am fourteen years old.",
+                    "options": [
+                        {
+                            "en": "I am fourteen years old.",
+                            "es": "Tengo catorce años."
+                        },
+                        {
+                            "en": "I am tall.",
+                            "es": "Soy alto."
+                        },
+                        {
+                            "en": "I am happy.",
+                            "es": "Estoy feliz."
+                        },
+                        {
+                            "en": "I am here.",
+                            "es": "Estoy aquí."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Quieres saber cómo están. Preguntas: '[_____]'.",
+                    "en": "You want to know how they are. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cómo están?",
+                        "en": "How are they?"
+                    },
+                    "targetWordEn": "How are you?",
+                    "options": [
+                        {
+                            "en": "How are you?",
+                            "es": "¿Cómo estás?"
+                        },
+                        {
+                            "en": "Who are you?",
+                            "es": "¿Quién eres?"
+                        },
+                        {
+                            "en": "Where are you?",
+                            "es": "¿Dónde estás?"
+                        },
+                        {
+                            "en": "What are you?",
+                            "es": "¿Qué eres?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Te preguntan qué te gusta. Dices: '[_____]'.",
+                    "en": "They ask what you like. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Tu afición?",
+                        "en": "Your hobby?"
+                    },
+                    "targetWordEn": "I love playing football.",
+                    "options": [
+                        {
+                            "en": "I love playing football.",
+                            "es": "Me encanta jugar al fútbol."
+                        },
+                        {
+                            "en": "I hate sports.",
+                            "es": "Odio los deportes."
+                        },
+                        {
+                            "en": "I sleep a lot.",
+                            "es": "Duermo mucho."
+                        },
+                        {
+                            "en": "I am boring.",
+                            "es": "Soy aburrido."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "No sabes dónde vives. Dices: '[_____]'.",
+                    "en": "You don't know where you live. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Tu dirección?",
+                        "en": "Your address?"
+                    },
+                    "targetWordEn": "I live near the school.",
+                    "options": [
+                        {
+                            "en": "I live near the school.",
+                            "es": "Vivo cerca de la escuela."
+                        },
+                        {
+                            "en": "I live on the moon.",
+                            "es": "Vivo en la luna."
+                        },
+                        {
+                            "en": "I have no home.",
+                            "es": "No tengo casa."
+                        },
+                        {
+                            "en": "I live in a car.",
+                            "es": "Vivo en un coche."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Termina la clase. Dices: '[_____]'.",
+                    "en": "Class ends. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Despedida?",
+                        "en": "Farewell?"
+                    },
+                    "targetWordEn": "See you later.",
+                    "options": [
+                        {
+                            "en": "See you later.",
+                            "es": "Hasta luego."
+                        },
+                        {
+                            "en": "Hello.",
+                            "es": "Hola."
+                        },
+                        {
+                            "en": "Welcome.",
+                            "es": "Bienvenido."
+                        },
+                        {
+                            "en": "Good morning.",
+                            "es": "Buenos días."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Te vas a casa. Dices: '[_____]'.",
+                    "en": "You go home. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Adiós final?",
+                        "en": "Final goodbye?"
+                    },
+                    "targetWordEn": "Goodbye.",
+                    "options": [
+                        {
+                            "en": "Goodbye.",
+                            "es": "Adiós."
+                        },
+                        {
+                            "en": "Hi.",
+                            "es": "Hola."
+                        },
+                        {
+                            "en": "Please.",
+                            "es": "Por favor."
+                        },
+                        {
+                            "en": "Thanks.",
+                            "es": "Gracias."
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l6-perdido-pasillo",
+        "levelId": 6,
+        "title": {
+            "es": "Perdido en el Pasillo",
+            "en": "Lost in the Hallway"
+        },
+        "description": {
+            "es": "Busca tu clase preguntando direcciones.",
+            "en": "Find your class by asking for directions."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "No sabes dónde estás. Dices: '[_____]'.",
+                    "en": "You don't know where you are. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué admites?",
+                        "en": "What do you admit?"
+                    },
+                    "targetWordEn": "I am lost.",
+                    "options": [
+                        {
+                            "en": "I am lost.",
+                            "es": "Estoy perdido."
+                        },
+                        {
+                            "en": "I am happy.",
+                            "es": "Estoy feliz."
+                        },
+                        {
+                            "en": "I am hungry.",
+                            "es": "Tengo hambre."
+                        },
+                        {
+                            "en": "I am fast.",
+                            "es": "Soy rápido."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Buscas el aula 2B. Preguntas: '[_____]'.",
+                    "en": "You look for room 2B. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde está?",
+                        "en": "Where is it?"
+                    },
+                    "targetWordEn": "Where is classroom 2B?",
+                    "options": [
+                        {
+                            "en": "Where is classroom 2B?",
+                            "es": "¿Dónde está el aula 2B?"
+                        },
+                        {
+                            "en": "Where is the park?",
+                            "es": "¿Dónde está el parque?"
+                        },
+                        {
+                            "en": "Where is my dog?",
+                            "es": "¿Dónde está mi perro?"
+                        },
+                        {
+                            "en": "Where is the sun?",
+                            "es": "¿Dónde está el sol?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Alguien te ayuda. Pides: '[_____]'.",
+                    "en": "Someone helps you. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Que te guíen?",
+                        "en": "Guide you?"
+                    },
+                    "targetWordEn": "Can you show me the way?",
+                    "options": [
+                        {
+                            "en": "Can you show me the way?",
+                            "es": "¿Puedes mostrarme el camino?"
+                        },
+                        {
+                            "en": "Can you sing?",
+                            "es": "¿Puedes cantar?"
+                        },
+                        {
+                            "en": "Can you dance?",
+                            "es": "¿Puedes bailar?"
+                        },
+                        {
+                            "en": "Can you sleep?",
+                            "es": "¿Puedes dormir?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Te dicen: '[_____]'.",
+                    "en": "They tell you: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Sigue recto?",
+                        "en": "Go straight?"
+                    },
+                    "targetWordEn": "Go straight ahead.",
+                    "options": [
+                        {
+                            "en": "Go straight ahead.",
+                            "es": "Sigue todo recto."
+                        },
+                        {
+                            "en": "Stop.",
+                            "es": "Para."
+                        },
+                        {
+                            "en": "Sit down.",
+                            "es": "Siéntate."
+                        },
+                        {
+                            "en": "Jump.",
+                            "es": "Salta."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Luego te dicen: '[_____]'.",
+                    "en": "Then they tell you: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Gira izquierda?",
+                        "en": "Turn left?"
+                    },
+                    "targetWordEn": "Turn left.",
+                    "options": [
+                        {
+                            "en": "Turn left.",
+                            "es": "Gira a la izquierda."
+                        },
+                        {
+                            "en": "Turn up.",
+                            "es": "Sube."
+                        },
+                        {
+                            "en": "Turn down.",
+                            "es": "Baja."
+                        },
+                        {
+                            "en": "Turn around.",
+                            "es": "Date la vuelta."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Preguntas por el piso. '[_____]'.",
+                    "en": "You ask about the floor. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué piso?",
+                        "en": "What floor?"
+                    },
+                    "targetWordEn": "Which floor is the library on?",
+                    "options": [
+                        {
+                            "en": "Which floor is the library on?",
+                            "es": "¿En qué piso está la biblioteca?"
+                        },
+                        {
+                            "en": "What color is the floor?",
+                            "es": "¿De qué color es el suelo?"
+                        },
+                        {
+                            "en": "Is the floor clean?",
+                            "es": "¿Está limpio el suelo?"
+                        },
+                        {
+                            "en": "Do you like the floor?",
+                            "es": "¿Te gusta el suelo?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Te dicen que está '[_____]'.",
+                    "en": "They tell you it is '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Segunda planta?",
+                        "en": "Second floor?"
+                    },
+                    "targetWordEn": "It is on the second floor.",
+                    "options": [
+                        {
+                            "en": "It is on the second floor.",
+                            "es": "Está en la segunda planta."
+                        },
+                        {
+                            "en": "It is in the sky.",
+                            "es": "Está en el cielo."
+                        },
+                        {
+                            "en": "It is underground.",
+                            "es": "Está bajo tierra."
+                        },
+                        {
+                            "en": "It is far away.",
+                            "es": "Está lejos."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Necesitas ir al aseo. Preguntas: '[_____]'.",
+                    "en": "You need the toilet. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde está el baño?",
+                        "en": "Where is the bathroom?"
+                    },
+                    "targetWordEn": "Where is the bathroom?",
+                    "options": [
+                        {
+                            "en": "Where is the bathroom?",
+                            "es": "¿Dónde está el baño?"
+                        },
+                        {
+                            "en": "Where is the kitchen?",
+                            "es": "¿Dónde está la cocina?"
+                        },
+                        {
+                            "en": "Where is the bed?",
+                            "es": "¿Dónde está la cama?"
+                        },
+                        {
+                            "en": "Where is the car?",
+                            "es": "¿Dónde está el coche?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Preguntas si falta mucho. '[_____]'.",
+                    "en": "You ask if it's far. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Está lejos?",
+                        "en": "Is it far?"
+                    },
+                    "targetWordEn": "Is it far?",
+                    "options": [
+                        {
+                            "en": "Is it far?",
+                            "es": "¿Está lejos?"
+                        },
+                        {
+                            "en": "Is it big?",
+                            "es": "¿Es grande?"
+                        },
+                        {
+                            "en": "Is it red?",
+                            "es": "¿Es rojo?"
+                        },
+                        {
+                            "en": "Is it hot?",
+                            "es": "¿Hace calor?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Llegas a tiempo. Dices: '[_____]'.",
+                    "en": "You arrive on time. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Agradecimiento?",
+                        "en": "Thanks?"
+                    },
+                    "targetWordEn": "Thank you very much.",
+                    "options": [
+                        {
+                            "en": "Thank you very much.",
+                            "es": "Muchas gracias."
+                        },
+                        {
+                            "en": "No thanks.",
+                            "es": "No, gracias."
+                        },
+                        {
+                            "en": "I don't care.",
+                            "es": "No me importa."
+                        },
+                        {
+                            "en": "Whatever.",
+                            "es": "Lo que sea."
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+]

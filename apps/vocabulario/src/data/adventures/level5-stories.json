@@ -1,0 +1,450 @@
+[
+    {
+        "id": "adv-l5-futuro-profesional",
+        "levelId": 5,
+        "title": {
+            "es": "Tu Futuro Profesional",
+            "en": "Your Career Future"
+        },
+        "description": {
+            "es": "Explora diferentes trabajos para encontrar tu vocación.",
+            "en": "Explore different jobs to find your calling."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Te gusta construir cosas. Podrías ser [_____].",
+                    "en": "You like building things. You could be an [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué profesión?",
+                        "en": "What profession?"
+                    },
+                    "targetWordEn": "architect",
+                    "options": [
+                        "architect",
+                        "chef",
+                        "nurse",
+                        "writer"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "O quizás diseñar máquinas como un [_____].",
+                    "en": "Or maybe design machines like an [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué ingeniero?",
+                        "en": "What engineer?"
+                    },
+                    "targetWordEn": "engineer",
+                    "options": [
+                        "engineer",
+                        "doctor",
+                        "actor",
+                        "singer"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Si te gusta curar gente, serás [_____].",
+                    "en": "If you like curing people, you will be a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué médico?",
+                        "en": "What doctor?"
+                    },
+                    "targetWordEn": "doctor",
+                    "options": [
+                        "doctor",
+                        "pilot",
+                        "lawyer",
+                        "chef"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Ayudar a los enfermos es trabajo de [_____].",
+                    "en": "Helping the sick is the job of a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué sanitario?",
+                        "en": "What health worker?"
+                    },
+                    "targetWordEn": "nurse",
+                    "options": [
+                        "nurse",
+                        "firefighter",
+                        "police",
+                        "artist"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Te encantan los animales. Serás [_____].",
+                    "en": "You love animals. You will be a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué médico animal?",
+                        "en": "What animal doctor?"
+                    },
+                    "targetWordEn": "veterinarian",
+                    "options": [
+                        "veterinarian",
+                        "dentist",
+                        "teacher",
+                        "baker"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Quieres defender la ley. Estudias para [_____].",
+                    "en": "You want to defend the law. You study for [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué legal?",
+                        "en": "What legal pro?"
+                    },
+                    "targetWordEn": "lawyer",
+                    "options": [
+                        "lawyer",
+                        "chef",
+                        "pilot",
+                        "actor"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Te gusta cocinar platos ricos. Eres un [_____].",
+                    "en": "You like cooking tasty dishes. You are a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué cocinero?",
+                        "en": "What cook?"
+                    },
+                    "targetWordEn": "chef",
+                    "options": [
+                        "chef",
+                        "waiter",
+                        "driver",
+                        "cleaner"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Sueñas con volar aviones. Serás [_____].",
+                    "en": "You dream of flying planes. You will be a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué aviador?",
+                        "en": "What aviator?"
+                    },
+                    "targetWordEn": "pilot",
+                    "options": [
+                        "pilot",
+                        "driver",
+                        "sailor",
+                        "walker"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Quieres investigar y descubrir. Eres un [_____].",
+                    "en": "You want to research and discover. You are a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué investigador?",
+                        "en": "What researcher?"
+                    },
+                    "targetWordEn": "scientist",
+                    "options": [
+                        "scientist",
+                        "artist",
+                        "singer",
+                        "dancer"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Decides crear tu propia empresa. Eres un [_____].",
+                    "en": "You decide to start your own company. You are an [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué empresario?",
+                        "en": "What entrepreneur?"
+                    },
+                    "targetWordEn": "entrepreneur",
+                    "options": [
+                        "entrepreneur",
+                        "employee",
+                        "student",
+                        "tourist"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l5-eco-warrior",
+        "levelId": 5,
+        "title": {
+            "es": "Guerrero Ecológico",
+            "en": "Eco Warrior"
+        },
+        "description": {
+            "es": "Salva el planeta con acciones sostenibles.",
+            "en": "Save the planet with sustainable actions."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "El planeta sufre por el [_____].",
+                    "en": "The planet suffers from [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué problema global?",
+                        "en": "What global problem?"
+                    },
+                    "targetWordEn": "climate change",
+                    "options": [
+                        "climate change",
+                        "weather",
+                        "rain",
+                        "wind"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Hay mucha [_____] en el aire.",
+                    "en": "There is a lot of [_____] in the air."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué suciedad?",
+                        "en": "What dirt?"
+                    },
+                    "targetWordEn": "pollution",
+                    "options": [
+                        "pollution",
+                        "oxygen",
+                        "cloud",
+                        "bird"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Decides usar energía limpia. Instalas un [_____].",
+                    "en": "You decide to use clean energy. You install a [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué dispositivo solar?",
+                        "en": "What solar device?"
+                    },
+                    "targetWordEn": "solar panel",
+                    "options": [
+                        "solar panel",
+                        "battery",
+                        "lamp",
+                        "fan"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Separas la basura para el [_____].",
+                    "en": "You separate trash for [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué proceso?",
+                        "en": "What process?"
+                    },
+                    "targetWordEn": "recycling",
+                    "options": [
+                        "recycling",
+                        "burning",
+                        "throwing",
+                        "eating"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Usas una [_____] para no gastar plástico.",
+                    "en": "You use a [_____] to not waste plastic."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué botella?",
+                        "en": "What bottle?"
+                    },
+                    "targetWordEn": "reusable bottle",
+                    "options": [
+                        "reusable bottle",
+                        "cup",
+                        "glass",
+                        "can"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Plantas árboles. Eso es [_____].",
+                    "en": "You plant trees. That is [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué acción forestal?",
+                        "en": "What forest action?"
+                    },
+                    "targetWordEn": "reforestation",
+                    "options": [
+                        "reforestation",
+                        "cutting",
+                        "burning",
+                        "climbing"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Proteges la [_____] del bosque.",
+                    "en": "You protect the [_____] of the forest."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Variedad de vida?",
+                        "en": "Variety of life?"
+                    },
+                    "targetWordEn": "biodiversity",
+                    "options": [
+                        "biodiversity",
+                        "rocks",
+                        "sand",
+                        "air"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Usas la bici. Es [_____].",
+                    "en": "You use the bike. It is [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué tipo de transporte?",
+                        "en": "What transport type?"
+                    },
+                    "targetWordEn": "sustainable transport",
+                    "options": [
+                        "sustainable transport",
+                        "fast car",
+                        "big truck",
+                        "old bus"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Haces abono con comida. Se llama [_____].",
+                    "en": "You make fertilizer with food. It is called [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué abono?",
+                        "en": "What fertilizer?"
+                    },
+                    "targetWordEn": "compost",
+                    "options": [
+                        "compost",
+                        "soup",
+                        "salad",
+                        "trash"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Has reducido tu [_____]. ¡Bien hecho!",
+                    "en": "You reduced your [_____]. Well done!"
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué huella?",
+                        "en": "What footprint?"
+                    },
+                    "targetWordEn": "carbon footprint",
+                    "options": [
+                        "carbon footprint",
+                        "shoe size",
+                        "step",
+                        "shadow"
+                    ]
+                }
+            }
+        ]
+    }
+]

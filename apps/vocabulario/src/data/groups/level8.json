@@ -1,0 +1,800 @@
+{
+  "id": "phr-vida-casa",
+  "tipo": "frases",
+  "nombre": {
+    "es": "Vida en casa",
+    "en": "Life at home"
+  },
+  "descripcion": {
+    "es": "Gestiona el día a día en casa con frases para organizarte y colaborar.",
+    "en": "Handle everyday life at home with phrases to stay organized and collaborate."
+  },
+  "nivel": {
+    "orden": 8,
+    "titulo": {
+      "es": "Nivel 8 · Constructor de hogar",
+      "en": "Level 8 · Home builder"
+    },
+    "descripcion": {
+      "es": "Armoniza tus rutinas familiares en español.",
+      "en": "Harmonize your family routines in Spanish."
+    },
+    "clases": {
+      "fondo": "from-orange-50 via-orange-100 to-orange-200",
+      "borde": "border-orange-300",
+      "titulo": "text-orange-900",
+      "insignia": "bg-orange-500 text-white"
+    }
+  },
+  "temas": [
+    {
+      "id": "rutinas-hogar-frases",
+      "nombre": {
+        "es": "Rutinas del hogar",
+        "en": "Home routines"
+      },
+      "palabras": [
+        {
+          "en": "I wake up early during the week.",
+          "es": "Me levanto temprano entre semana.",
+          "definicion": "Salir de la cama pronto de lunes a viernes."
+        },
+        {
+          "en": "I take out the trash on Tuesdays.",
+          "es": "Saco la basura los martes.",
+          "definicion": "Tirar los residuos un día concreto."
+        },
+        {
+          "en": "We clean the house on Saturdays.",
+          "es": "Limpiamos la casa los sábados.",
+          "definicion": "Hacer la limpieza el fin de semana."
+        },
+        {
+          "en": "I do my homework after dinner.",
+          "es": "Hago los deberes después de cenar.",
+          "definicion": "Estudiar por la noche."
+        },
+        {
+          "en": "I iron my clothes on Sunday.",
+          "es": "Plancho la ropa el domingo.",
+          "definicion": "Quitar arrugas a la ropa."
+        },
+        {
+          "en": "I go to bed later on weekends.",
+          "es": "Me acuesto más tarde los fines de semana.",
+          "definicion": "Dormir a otra hora los sábados y domingos."
+        },
+        {
+          "en": "I water the plants on Wednesdays.",
+          "es": "Riego las plantas los miércoles.",
+          "definicion": "Dar agua a las flores."
+        },
+        {
+          "en": "I tidy my desk every night.",
+          "es": "Ordeno mi escritorio cada noche.",
+          "definicion": "Organizar la mesa de estudio."
+        },
+        {
+          "en": "I prepare my backpack at night.",
+          "es": "Preparo mi mochila por la noche.",
+          "definicion": "Guardar los libros para mañana."
+        },
+        {
+          "en": "I feed the pet before school.",
+          "es": "Doy de comer a la mascota antes del cole.",
+          "definicion": "Poner comida al animal."
+        },
+        {
+          "en": "I check my planner every morning.",
+          "es": "Reviso mi agenda cada mañana.",
+          "definicion": "Mirar qué hay que hacer hoy."
+        },
+        {
+          "en": "I stretch for a few minutes.",
+          "es": "Estiro durante unos minutos.",
+          "definicion": "Hacer ejercicio suave."
+        },
+        {
+          "en": "Make your bed.",
+          "es": "Haz tu cama.",
+          "definicion": "Orden de arreglar la cama."
+        },
+        {
+          "en": "Clean your room.",
+          "es": "Limpia tu habitación.",
+          "definicion": "Orden de asear el cuarto."
+        },
+        {
+          "en": "Take out the trash.",
+          "es": "Saca la basura.",
+          "definicion": "Tarea de tirar desperdicios."
+        },
+        {
+          "en": "Wash the dishes.",
+          "es": "Lava los platos.",
+          "definicion": "Tarea de fregar."
+        },
+        {
+          "en": "Set the table.",
+          "es": "Pon la mesa.",
+          "definicion": "Preparar para comer."
+        },
+        {
+          "en": "Feed the dog.",
+          "es": "Da de comer al perro.",
+          "definicion": "Cuidar a la mascota."
+        },
+        {
+          "en": "Water the plants.",
+          "es": "Riega las plantas.",
+          "definicion": "Cuidar el jardín."
+        },
+        {
+          "en": "Sweep the floor.",
+          "es": "Barre el suelo.",
+          "definicion": "Limpiar el piso."
+        },
+        {
+          "en": "Fold the clothes.",
+          "es": "Dobla la ropa.",
+          "definicion": "Organizar la colada."
+        },
+        {
+          "en": "Turn off the lights.",
+          "es": "Apaga las luces.",
+          "definicion": "Ahorrar energía."
+        },
+        {
+          "en": "Close the door.",
+          "es": "Cierra la puerta.",
+          "definicion": "Asegurar la entrada."
+        },
+        {
+          "en": "It is time to sleep.",
+          "es": "Es hora de dormir.",
+          "definicion": "Mandar a la cama."
+        }
+      ]
+    },
+    {
+      "id": "salud-familiar",
+      "nombre": {
+        "es": "Salud familiar",
+        "en": "Family health"
+      },
+      "palabras": [
+        {
+          "en": "I need to make a doctor appointment.",
+          "es": "Necesito pedir cita con el médico.",
+          "definicion": "Llamar para ver al doctor."
+        },
+        {
+          "en": "I have a headache.",
+          "es": "Tengo dolor de cabeza.",
+          "definicion": "Me duele la cabeza."
+        },
+        {
+          "en": "Could we go to the pharmacy?",
+          "es": "¿Podemos ir a la farmacia?",
+          "definicion": "Ir a comprar medicinas."
+        },
+        {
+          "en": "I must rest today.",
+          "es": "Debo descansar hoy.",
+          "definicion": "Necesito reposo."
+        },
+        {
+          "en": "I feel dizzy.",
+          "es": "Me siento mareado.",
+          "definicion": "Todo me da vueltas."
+        },
+        {
+          "en": "Let us call the health centre.",
+          "es": "Llamemos al centro de salud.",
+          "definicion": "Telefonear al ambulatorio."
+        },
+        {
+          "en": "I need to take my medicine.",
+          "es": "Tengo que tomar mi medicina.",
+          "definicion": "Hora de la pastilla o jarabe."
+        },
+        {
+          "en": "I have a stomachache.",
+          "es": "Tengo dolor de barriga.",
+          "definicion": "Me duele el estómago."
+        },
+        {
+          "en": "Can we call the nurse?",
+          "es": "¿Podemos llamar a la enfermera?",
+          "definicion": "Pedir ayuda sanitaria."
+        },
+        {
+          "en": "I should drink more water.",
+          "es": "Debería beber más agua.",
+          "definicion": "Necesito hidratarme."
+        },
+        {
+          "en": "I will stay home today.",
+          "es": "Me quedaré en casa hoy.",
+          "definicion": "No voy a salir."
+        },
+        {
+          "en": "I am feeling a little better now.",
+          "es": "Ahora me siento un poco mejor.",
+          "definicion": "Ya no estoy tan enfermo."
+        },
+        {
+          "en": "I have a fever.",
+          "es": "Tengo fiebre.",
+          "definicion": "Temperatura alta."
+        },
+        {
+          "en": "My throat hurts.",
+          "es": "Me duele la garganta.",
+          "definicion": "Dolor al tragar."
+        },
+        {
+          "en": "Take this medicine.",
+          "es": "Tómate esta medicina.",
+          "definicion": "Dar remedio."
+        },
+        {
+          "en": "You need to rest.",
+          "es": "Necesitas descansar.",
+          "definicion": "Consejo de reposo."
+        },
+        {
+          "en": "Call the doctor.",
+          "es": "Llama al médico.",
+          "definicion": "Pedir ayuda profesional."
+        },
+        {
+          "en": "I have a cold.",
+          "es": "Tengo un resfriado.",
+          "definicion": "Enfermedad común."
+        },
+        {
+          "en": "Where is the thermometer?",
+          "es": "¿Dónde está el termómetro?",
+          "definicion": "Buscar medidor de fiebre."
+        },
+        {
+          "en": "Drink water.",
+          "es": "Bebe agua.",
+          "definicion": "Consejo de hidratación."
+        },
+        {
+          "en": "Go to bed.",
+          "es": "Vete a la cama.",
+          "definicion": "Mandar a descansar."
+        },
+        {
+          "en": "Are you better?",
+          "es": "¿Estás mejor?",
+          "definicion": "Preguntar por mejoría."
+        },
+        {
+          "en": "It is just a scratch.",
+          "es": "Es solo un rasguño.",
+          "definicion": "Herida leve."
+        }
+      ]
+    },
+    {
+      "id": "tareas-compartidas",
+      "nombre": {
+        "es": "Tareas compartidas",
+        "en": "Shared chores"
+      },
+      "palabras": [
+        {
+          "en": "Let us cook together tonight.",
+          "es": "Cocinemos juntos esta noche.",
+          "definicion": "Preparar la cena en equipo."
+        },
+        {
+          "en": "Can you set the table?",
+          "es": "¿Puedes poner la mesa?",
+          "definicion": "Colocar platos y cubiertos."
+        },
+        {
+          "en": "I will wash the dishes.",
+          "es": "Yo lavaré los platos.",
+          "definicion": "Fregar la vajilla."
+        },
+        {
+          "en": "Could you fold the clothes?",
+          "es": "¿Podrías doblar la ropa?",
+          "definicion": "Organizar la colada limpia."
+        },
+        {
+          "en": "I will sweep the floor.",
+          "es": "Yo barreré el suelo.",
+          "definicion": "Usar la escoba."
+        },
+        {
+          "en": "Let us tidy the living room.",
+          "es": "Ordenemos el salón.",
+          "definicion": "Recoger la sala de estar."
+        },
+        {
+          "en": "I will vacuum the floor.",
+          "es": "Pasaré la aspiradora.",
+          "definicion": "Limpiar el polvo del suelo."
+        },
+        {
+          "en": "Could you clean the bathroom?",
+          "es": "¿Puedes limpiar el baño?",
+          "definicion": "Asear el cuarto de baño."
+        },
+        {
+          "en": "Let us write a list of chores.",
+          "es": "Hagamos una lista de tareas.",
+          "definicion": "Apuntar qué hay que limpiar."
+        },
+        {
+          "en": "I will wipe the table.",
+          "es": "Limpiaré la mesa.",
+          "definicion": "Pasar un trapo a la mesa."
+        },
+        {
+          "en": "Can you feed the pet?",
+          "es": "¿Puedes alimentar a la mascota?",
+          "definicion": "Dar comida al animal."
+        },
+        {
+          "en": "I will take out the recycling.",
+          "es": "Sacaré el reciclaje.",
+          "definicion": "Tirar plásticos y cartones."
+        },
+        {
+          "en": "I will cook today.",
+          "es": "Yo cocino hoy.",
+          "definicion": "Ofrecerse a cocinar."
+        },
+        {
+          "en": "You wash, I dry.",
+          "es": "Tú lavas, yo seco.",
+          "definicion": "Repartir tarea de platos."
+        },
+        {
+          "en": "Let's clean together.",
+          "es": "Limpiemos juntos.",
+          "definicion": "Limpieza en equipo."
+        },
+        {
+          "en": "Can you help me?",
+          "es": "¿Me ayudas?",
+          "definicion": "Pedir colaboración."
+        },
+        {
+          "en": "Whose turn is it?",
+          "es": "¿A quién le toca?",
+          "definicion": "Preguntar turno."
+        },
+        {
+          "en": "It is your turn.",
+          "es": "Te toca a ti.",
+          "definicion": "Asignar turno."
+        },
+        {
+          "en": "I did it yesterday.",
+          "es": "Yo lo hice ayer.",
+          "definicion": "Recordar cumplimiento previo."
+        },
+        {
+          "en": "Let's split the work.",
+          "es": "Repartamos el trabajo.",
+          "definicion": "Dividir tareas."
+        },
+        {
+          "en": "Thank you for helping.",
+          "es": "Gracias por ayudar.",
+          "definicion": "Agradecer colaboración."
+        },
+        {
+          "en": "Good teamwork.",
+          "es": "Buen trabajo en equipo.",
+          "definicion": "Elogiar la cooperación."
+        },
+        {
+          "en": "We finished early.",
+          "es": "Terminamos pronto.",
+          "definicion": "Celebrar rapidez."
+        },
+        {
+          "en": "The house is clean.",
+          "es": "La casa está limpia.",
+          "definicion": "Resultado final."
+        }
+      ]
+    },
+    {
+      "id": "planes-familiares",
+      "nombre": {
+        "es": "Planes familiares",
+        "en": "Family plans"
+      },
+      "palabras": [
+        {
+          "en": "We visit my grandparents on Sundays.",
+          "es": "Visitamos a mis abuelos los domingos.",
+          "definicion": "Ir a ver a los abuelos."
+        },
+        {
+          "en": "Shall we go to the park this afternoon?",
+          "es": "¿Vamos al parque esta tarde?",
+          "definicion": "Proponer salir a jugar."
+        },
+        {
+          "en": "We could watch a film tonight.",
+          "es": "Podríamos ver una película esta noche.",
+          "definicion": "Plan de cine en casa."
+        },
+        {
+          "en": "Let us organise a picnic.",
+          "es": "Organicemos un picnic.",
+          "definicion": "Comer en el campo."
+        },
+        {
+          "en": "We can take the bikes tomorrow.",
+          "es": "Podemos llevar las bicis mañana.",
+          "definicion": "Salir a pedalear."
+        },
+        {
+          "en": "Let us invite our neighbours.",
+          "es": "Invitemos a los vecinos.",
+          "definicion": "Llamar a la gente de al lado."
+        },
+        {
+          "en": "Shall we visit the museum?",
+          "es": "¿Visitamos el museo?",
+          "definicion": "Ir a ver arte o historia."
+        },
+        {
+          "en": "We could bake a cake.",
+          "es": "Podríamos hacer un pastel.",
+          "definicion": "Cocinar un dulce."
+        },
+        {
+          "en": "Can we invite our cousins?",
+          "es": "¿Podemos invitar a nuestros primos?",
+          "definicion": "Llamar a los hijos de tus tíos."
+        },
+        {
+          "en": "Let us go hiking on Saturday.",
+          "es": "Vayamos de excursión el sábado.",
+          "definicion": "Caminar por la montaña."
+        },
+        {
+          "en": "We can take photos together.",
+          "es": "Podemos hacer fotos juntos.",
+          "definicion": "Retratarnos en grupo."
+        },
+        {
+          "en": "Let us watch the sunset.",
+          "es": "Veamos el atardecer.",
+          "definicion": "Mirar cómo se pone el sol."
+        },
+        {
+          "en": "Let's go to the park.",
+          "es": "Vamos al parque.",
+          "definicion": "Proponer salida verde."
+        },
+        {
+          "en": "We are going to the cinema.",
+          "es": "Vamos al cine.",
+          "definicion": "Plan de película."
+        },
+        {
+          "en": "Visit grandma.",
+          "es": "Visitar a la abuela.",
+          "definicion": "Plan familiar."
+        },
+        {
+          "en": "Family dinner.",
+          "es": "Cena familiar.",
+          "definicion": "Comida todos juntos."
+        },
+        {
+          "en": "Let's play a game.",
+          "es": "Juguemos a un juego.",
+          "definicion": "Proponer diversión."
+        },
+        {
+          "en": "Watch a movie.",
+          "es": "Ver una película.",
+          "definicion": "Plan de sofá."
+        },
+        {
+          "en": "Go for a walk.",
+          "es": "Dar un paseo.",
+          "definicion": "Caminar juntos."
+        },
+        {
+          "en": "Summer holidays.",
+          "es": "Vacaciones de verano.",
+          "definicion": "Plan largo."
+        },
+        {
+          "en": "Weekend trip.",
+          "es": "Viaje de fin de semana.",
+          "definicion": "Escapada corta."
+        },
+        {
+          "en": "Birthday party.",
+          "es": "Fiesta de cumpleaños.",
+          "definicion": "Celebración."
+        },
+        {
+          "en": "Picnic in the garden.",
+          "es": "Picnic en el jardín.",
+          "definicion": "Comer fuera."
+        },
+        {
+          "en": "Shopping day.",
+          "es": "Día de compras.",
+          "definicion": "Ir de tiendas."
+        }
+      ]
+    },
+    {
+      "id": "comida-familia",
+      "nombre": {
+        "es": "Comida en familia",
+        "en": "Family meals"
+      },
+      "palabras": [
+        {
+          "en": "Could you pass me the salt?",
+          "es": "¿Me pasas la sal?",
+          "definicion": "Pedir el salero."
+        },
+        {
+          "en": "Dinner is almost ready.",
+          "es": "La cena está casi lista.",
+          "definicion": "Avisar para ir a cenar."
+        },
+        {
+          "en": "I love this recipe.",
+          "es": "Me encanta esta receta.",
+          "definicion": "Elogiar la comida."
+        },
+        {
+          "en": "Do you want more bread?",
+          "es": "¿Quieres más pan?",
+          "definicion": "Ofrecer acompañamiento."
+        },
+        {
+          "en": "The dessert is in the fridge.",
+          "es": "El postre está en la nevera.",
+          "definicion": "Indicar dónde está el dulce."
+        },
+        {
+          "en": "Let us set the table outside.",
+          "es": "Pongamos la mesa fuera.",
+          "definicion": "Comer al aire libre."
+        },
+        {
+          "en": "Lunch is at two o’clock.",
+          "es": "La comida es a las dos.",
+          "definicion": "Fijar la hora de comer."
+        },
+        {
+          "en": "Please set out the glasses.",
+          "es": "Por favor saca los vasos.",
+          "definicion": "Pedir ayuda con la mesa."
+        },
+        {
+          "en": "Do you want a second helping?",
+          "es": "¿Quieres repetir?",
+          "definicion": "Ofrecer más comida."
+        },
+        {
+          "en": "The bread is in the cupboard.",
+          "es": "El pan está en el armario.",
+          "definicion": "Decir dónde se guarda el pan."
+        },
+        {
+          "en": "Let us cook something new.",
+          "es": "Cocinemos algo nuevo.",
+          "definicion": "Probar una receta diferente."
+        },
+        {
+          "en": "We can share the dessert.",
+          "es": "Podemos compartir el postre.",
+          "definicion": "Comer el dulce a medias."
+        },
+        {
+          "en": "Dinner is ready!",
+          "es": "¡La cena está lista!",
+          "definicion": "Avisar para comer."
+        },
+        {
+          "en": "Pass the salt, please.",
+          "es": "Pásame la sal, por favor.",
+          "definicion": "Pedir condimento."
+        },
+        {
+          "en": "It is delicious.",
+          "es": "Está delicioso.",
+          "definicion": "Elogiar la comida."
+        },
+        {
+          "en": "I am full.",
+          "es": "Estoy lleno.",
+          "definicion": "No poder comer más."
+        },
+        {
+          "en": "Can I have more?",
+          "es": "¿Puedo repetir?",
+          "definicion": "Pedir más comida."
+        },
+        {
+          "en": "Eat your vegetables.",
+          "es": "Cómete las verduras.",
+          "definicion": "Orden saludable."
+        },
+        {
+          "en": "Do not talk with your mouth full.",
+          "es": "No hables con la boca llena.",
+          "definicion": "Regla de mesa."
+        },
+        {
+          "en": "What is for lunch?",
+          "es": "¿Qué hay de comer?",
+          "definicion": "Preguntar menú."
+        },
+        {
+          "en": "I don't like this.",
+          "es": "No me gusta esto.",
+          "definicion": "Rechazar comida."
+        },
+        {
+          "en": "Can I have water?",
+          "es": "¿Me das agua?",
+          "definicion": "Pedir bebida."
+        },
+        {
+          "en": "Wash your hands.",
+          "es": "Lávate las manos.",
+          "definicion": "Higiene antes de comer."
+        },
+        {
+          "en": "Clear the table.",
+          "es": "Recoge la mesa.",
+          "definicion": "Limpiar después de comer."
+        }
+      ]
+    },
+    {
+      "id": "organizar-estudios",
+      "nombre": {
+        "es": "Organizar estudios",
+        "en": "Organizing study time"
+      },
+      "palabras": [
+        {
+          "en": "I study in the living room.",
+          "es": "Estudio en el salón.",
+          "definicion": "Lugar donde haces los deberes."
+        },
+        {
+          "en": "Could you lower the volume, please?",
+          "es": "¿Podrías bajar el volumen, por favor?",
+          "definicion": "Pedir menos ruido."
+        },
+        {
+          "en": "I need a quiet place.",
+          "es": "Necesito un sitio tranquilo.",
+          "definicion": "Buscar silencio para concentrarse."
+        },
+        {
+          "en": "I will finish my project tonight.",
+          "es": "Terminaré mi proyecto esta noche.",
+          "definicion": "Prometer acabar el trabajo hoy."
+        },
+        {
+          "en": "Can you remind me of my tutoring?",
+          "es": "¿Puedes recordarme mi tutoría?",
+          "definicion": "Pedir aviso de una clase extra."
+        },
+        {
+          "en": "I will wake up early to study.",
+          "es": "Me levantaré temprano para estudiar.",
+          "definicion": "Madrugar para repasar."
+        },
+        {
+          "en": "I study with my brother.",
+          "es": "Estudio con mi hermano.",
+          "definicion": "Aprender junto a un familiar."
+        },
+        {
+          "en": "Can you quiz me later?",
+          "es": "¿Puedes preguntarme más tarde?",
+          "definicion": "Pedir que te tomen la lección."
+        },
+        {
+          "en": "I need to print my homework.",
+          "es": "Necesito imprimir mis deberes.",
+          "definicion": "Pasar la tarea a papel."
+        },
+        {
+          "en": "I am reviewing vocabulary.",
+          "es": "Estoy repasando vocabulario.",
+          "definicion": "Estudiar palabras nuevas."
+        },
+        {
+          "en": "I set a timer to study.",
+          "es": "Pongo un temporizador para estudiar.",
+          "definicion": "Controlar el tiempo de estudio."
+        },
+        {
+          "en": "I organise my notes on Sundays.",
+          "es": "Ordeno mis apuntes los domingos.",
+          "definicion": "Clasificar los papeles el fin de semana."
+        },
+        {
+          "en": "I have to study.",
+          "es": "Tengo que estudiar.",
+          "definicion": "Obligación escolar."
+        },
+        {
+          "en": "Turn off the TV.",
+          "es": "Apaga la tele.",
+          "definicion": "Eliminar distracción."
+        },
+        {
+          "en": "Finish your homework.",
+          "es": "Termina los deberes.",
+          "definicion": "Orden de acabar."
+        },
+        {
+          "en": "I need quiet.",
+          "es": "Necesito silencio.",
+          "definicion": "Pedir paz."
+        },
+        {
+          "en": "Focus on your work.",
+          "es": "Concéntrate en tu trabajo.",
+          "definicion": "Consejo de atención."
+        },
+        {
+          "en": "Take a break.",
+          "es": "Haz un descanso.",
+          "definicion": "Consejo de pausa."
+        },
+        {
+          "en": "Prepare your bag.",
+          "es": "Prepara la mochila.",
+          "definicion": "Organizar material."
+        },
+        {
+          "en": "Review for the exam.",
+          "es": "Repasa para el examen.",
+          "definicion": "Estudiar de nuevo."
+        },
+        {
+          "en": "Good luck!",
+          "es": "¡Buena suerte!",
+          "definicion": "Desear éxito."
+        },
+        {
+          "en": "Did you pass?",
+          "es": "¿Aprobaste?",
+          "definicion": "Preguntar resultado."
+        },
+        {
+          "en": "I got a good grade.",
+          "es": "Saqué buena nota.",
+          "definicion": "Dar buena noticia."
+        },
+        {
+          "en": "Study hard.",
+          "es": "Estudia mucho.",
+          "definicion": "Consejo de esfuerzo."
+        }
+      ]
+    }
+  ]
+}

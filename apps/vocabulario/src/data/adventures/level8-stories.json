@@ -1,0 +1,690 @@
+[
+    {
+        "id": "adv-l8-dia-limpieza",
+        "levelId": 8,
+        "title": {
+            "es": "Día de Limpieza",
+            "en": "Cleaning Day"
+        },
+        "description": {
+            "es": "Colabora en las tareas del hogar.",
+            "en": "Collaborate on household chores."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Es sábado. Dices: '[_____]'.",
+                    "en": "It is Saturday. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Propuesta?",
+                        "en": "Proposal?"
+                    },
+                    "targetWordEn": "We clean the house on Saturdays.",
+                    "options": [
+                        {
+                            "en": "We clean the house on Saturdays.",
+                            "es": "Limpiamos la casa los sábados."
+                        },
+                        {
+                            "en": "We sleep all day.",
+                            "es": "Dormimos todo el día."
+                        },
+                        {
+                            "en": "We watch TV.",
+                            "es": "Vemos la tele."
+                        },
+                        {
+                            "en": "We go out.",
+                            "es": "Salimos."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Hay mucho que hacer. Sugieres: '[_____]'.",
+                    "en": "A lot to do. You suggest: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Repartir?",
+                        "en": "Split?"
+                    },
+                    "targetWordEn": "Let's split the work.",
+                    "options": [
+                        {
+                            "en": "Let's split the work.",
+                            "es": "Repartamos el trabajo."
+                        },
+                        {
+                            "en": "You do everything.",
+                            "es": "Tú haces todo."
+                        },
+                        {
+                            "en": "I do nothing.",
+                            "es": "Yo no hago nada."
+                        },
+                        {
+                            "en": "Let's ignore it.",
+                            "es": "Ignorémoslo."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Eliges tu tarea. '[_____]'.",
+                    "en": "You choose your task. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Barrer?",
+                        "en": "Sweep?"
+                    },
+                    "targetWordEn": "I will sweep the floor.",
+                    "options": [
+                        {
+                            "en": "I will sweep the floor.",
+                            "es": "Barreré el suelo."
+                        },
+                        {
+                            "en": "I will eat.",
+                            "es": "Comeré."
+                        },
+                        {
+                            "en": "I will sleep.",
+                            "es": "Dormiré."
+                        },
+                        {
+                            "en": "I will play.",
+                            "es": "Jugaré."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Pides ayuda con otra cosa. '[_____]'.",
+                    "en": "You ask help with something else. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Baño?",
+                        "en": "Bathroom?"
+                    },
+                    "targetWordEn": "Could you clean the bathroom?",
+                    "options": [
+                        {
+                            "en": "Could you clean the bathroom?",
+                            "es": "¿Podrías limpiar el baño?"
+                        },
+                        {
+                            "en": "Could you dance?",
+                            "es": "¿Podrías bailar?"
+                        },
+                        {
+                            "en": "Could you sing?",
+                            "es": "¿Podrías cantar?"
+                        },
+                        {
+                            "en": "Could you run?",
+                            "es": "¿Podrías correr?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Ves la basura llena. '[_____]'.",
+                    "en": "Trash is full. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Sacar basura?",
+                        "en": "Take out trash?"
+                    },
+                    "targetWordEn": "I will take out the recycling.",
+                    "options": [
+                        {
+                            "en": "I will take out the recycling.",
+                            "es": "Sacaré el reciclaje."
+                        },
+                        {
+                            "en": "I will keep it.",
+                            "es": "Me lo quedaré."
+                        },
+                        {
+                            "en": "I will eat it.",
+                            "es": "Me lo comeré."
+                        },
+                        {
+                            "en": "I will hide it.",
+                            "es": "Lo esconderé."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Tu hermano no hace nada. Dices: '[_____]'.",
+                    "en": "Brother does nothing. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Turno?",
+                        "en": "Turn?"
+                    },
+                    "targetWordEn": "It is your turn.",
+                    "options": [
+                        {
+                            "en": "It is your turn.",
+                            "es": "Es tu turno."
+                        },
+                        {
+                            "en": "It is my turn.",
+                            "es": "Es mi turno."
+                        },
+                        {
+                            "en": "It is nobody's turn.",
+                            "es": "No es turno de nadie."
+                        },
+                        {
+                            "en": "Go away.",
+                            "es": "Vete."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "La mascota tiene hambre. '[_____]'.",
+                    "en": "Pet is hungry. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Alimentar?",
+                        "en": "Feed?"
+                    },
+                    "targetWordEn": "Can you feed the pet?",
+                    "options": [
+                        {
+                            "en": "Can you feed the pet?",
+                            "es": "¿Puedes dar de comer a la mascota?"
+                        },
+                        {
+                            "en": "Can you eat the pet?",
+                            "es": "¿Puedes comerte a la mascota?"
+                        },
+                        {
+                            "en": "Can you wash the pet?",
+                            "es": "¿Puedes lavar a la mascota?"
+                        },
+                        {
+                            "en": "Can you walk the pet?",
+                            "es": "¿Puedes pasear a la mascota?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Termináis de limpiar. '[_____]'.",
+                    "en": "Finished cleaning. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Resultado?",
+                        "en": "Result?"
+                    },
+                    "targetWordEn": "The house is clean.",
+                    "options": [
+                        {
+                            "en": "The house is clean.",
+                            "es": "La casa está limpia."
+                        },
+                        {
+                            "en": "The house is dirty.",
+                            "es": "La casa está sucia."
+                        },
+                        {
+                            "en": "The house is gone.",
+                            "es": "La casa ha desaparecido."
+                        },
+                        {
+                            "en": "The house is blue.",
+                            "es": "La casa es azul."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Agradeces la ayuda. '[_____]'.",
+                    "en": "You thank for help. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Gracias?",
+                        "en": "Thanks?"
+                    },
+                    "targetWordEn": "Thank you for helping.",
+                    "options": [
+                        {
+                            "en": "Thank you for helping.",
+                            "es": "Gracias por ayudar."
+                        },
+                        {
+                            "en": "You are lazy.",
+                            "es": "Eres vago."
+                        },
+                        {
+                            "en": "Go away.",
+                            "es": "Vete."
+                        },
+                        {
+                            "en": "Bad job.",
+                            "es": "Mal trabajo."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Celebráis el trabajo. '[_____]'.",
+                    "en": "Celebrate work. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Equipo?",
+                        "en": "Team?"
+                    },
+                    "targetWordEn": "Good teamwork.",
+                    "options": [
+                        {
+                            "en": "Good teamwork.",
+                            "es": "Buen trabajo en equipo."
+                        },
+                        {
+                            "en": "Bad teamwork.",
+                            "es": "Mal trabajo en equipo."
+                        },
+                        {
+                            "en": "No teamwork.",
+                            "es": "Sin trabajo en equipo."
+                        },
+                        {
+                            "en": "Solo work.",
+                            "es": "Trabajo individual."
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l8-enfermo-casa",
+        "levelId": 8,
+        "title": {
+            "es": "Enfermo en Casa",
+            "en": "Sick at Home"
+        },
+        "description": {
+            "es": "Comunica tus síntomas y pide ayuda.",
+            "en": "Communicate your symptoms and ask for help."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Te despiertas mal. Dices: '[_____]'.",
+                    "en": "You wake up feeling bad. You say: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dolor de cabeza?",
+                        "en": "Headache?"
+                    },
+                    "targetWordEn": "I have a headache.",
+                    "options": [
+                        {
+                            "en": "I have a headache.",
+                            "es": "Me duele la cabeza."
+                        },
+                        {
+                            "en": "I am happy.",
+                            "es": "Estoy feliz."
+                        },
+                        {
+                            "en": "I am hungry.",
+                            "es": "Tengo hambre."
+                        },
+                        {
+                            "en": "I am tired.",
+                            "es": "Estoy cansado."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Te tocas la frente. '[_____]'.",
+                    "en": "Touch forehead. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Fiebre?",
+                        "en": "Fever?"
+                    },
+                    "targetWordEn": "I have a fever.",
+                    "options": [
+                        {
+                            "en": "I have a fever.",
+                            "es": "Tengo fiebre."
+                        },
+                        {
+                            "en": "I have a cold.",
+                            "es": "Tengo un resfriado."
+                        },
+                        {
+                            "en": "I have a dog.",
+                            "es": "Tengo un perro."
+                        },
+                        {
+                            "en": "I have a book.",
+                            "es": "Tengo un libro."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "No irás al cole. '[_____]'.",
+                    "en": "Not going to school. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quedarse?",
+                        "en": "Stay?"
+                    },
+                    "targetWordEn": "I will stay home today.",
+                    "options": [
+                        {
+                            "en": "I will stay home today.",
+                            "es": "Me quedaré en casa hoy."
+                        },
+                        {
+                            "en": "I will go out.",
+                            "es": "Saldré."
+                        },
+                        {
+                            "en": "I will run.",
+                            "es": "Correré."
+                        },
+                        {
+                            "en": "I will play.",
+                            "es": "Jugaré."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Necesitas ver a alguien. '[_____]'.",
+                    "en": "Need to see someone. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Cita médica?",
+                        "en": "Doctor appointment?"
+                    },
+                    "targetWordEn": "I need to make a doctor appointment.",
+                    "options": [
+                        {
+                            "en": "I need to make a doctor appointment.",
+                            "es": "Necesito pedir cita médica."
+                        },
+                        {
+                            "en": "I need a pizza.",
+                            "es": "Necesito una pizza."
+                        },
+                        {
+                            "en": "I need a game.",
+                            "es": "Necesito un juego."
+                        },
+                        {
+                            "en": "I need a friend.",
+                            "es": "Necesito un amigo."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Llamas al centro. '[_____]'.",
+                    "en": "Call center. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Llamar?",
+                        "en": "Call?"
+                    },
+                    "targetWordEn": "Let us call the health centre.",
+                    "options": [
+                        {
+                            "en": "Let us call the health centre.",
+                            "es": "Llamemos al centro de salud."
+                        },
+                        {
+                            "en": "Let us call the police.",
+                            "es": "Llamemos a la policía."
+                        },
+                        {
+                            "en": "Let us call the school.",
+                            "es": "Llamemos a la escuela."
+                        },
+                        {
+                            "en": "Let us call the bank.",
+                            "es": "Llamemos al banco."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "El médico te da algo. '[_____]'.",
+                    "en": "Doctor gives something. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Medicina?",
+                        "en": "Medicine?"
+                    },
+                    "targetWordEn": "Take this medicine.",
+                    "options": [
+                        {
+                            "en": "Take this medicine.",
+                            "es": "Toma esta medicina."
+                        },
+                        {
+                            "en": "Take this candy.",
+                            "es": "Toma este caramelo."
+                        },
+                        {
+                            "en": "Take this toy.",
+                            "es": "Toma este juguete."
+                        },
+                        {
+                            "en": "Take this book.",
+                            "es": "Toma este libro."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Te dice qué hacer. '[_____]'.",
+                    "en": "Tells you what to do. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Descansar?",
+                        "en": "Rest?"
+                    },
+                    "targetWordEn": "You need to rest.",
+                    "options": [
+                        {
+                            "en": "You need to rest.",
+                            "es": "Necesitas descansar."
+                        },
+                        {
+                            "en": "You need to run.",
+                            "es": "Necesitas correr."
+                        },
+                        {
+                            "en": "You need to work.",
+                            "es": "Necesitas trabajar."
+                        },
+                        {
+                            "en": "You need to study.",
+                            "es": "Necesitas estudiar."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Pides agua. '[_____]'.",
+                    "en": "Ask for water. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Beber?",
+                        "en": "Drink?"
+                    },
+                    "targetWordEn": "I should drink more water.",
+                    "options": [
+                        {
+                            "en": "I should drink more water.",
+                            "es": "Debería beber más agua."
+                        },
+                        {
+                            "en": "I should eat pizza.",
+                            "es": "Debería comer pizza."
+                        },
+                        {
+                            "en": "I should sleep.",
+                            "es": "Debería dormir."
+                        },
+                        {
+                            "en": "I should play.",
+                            "es": "Debería jugar."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Pasa un día. '[_____]'.",
+                    "en": "A day passes. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Mejoría?",
+                        "en": "Better?"
+                    },
+                    "targetWordEn": "I am feeling a little better now.",
+                    "options": [
+                        {
+                            "en": "I am feeling a little better now.",
+                            "es": "Me siento un poco mejor ahora."
+                        },
+                        {
+                            "en": "I am worse.",
+                            "es": "Estoy peor."
+                        },
+                        {
+                            "en": "I am dead.",
+                            "es": "Estoy muerto."
+                        },
+                        {
+                            "en": "I am sad.",
+                            "es": "Estoy triste."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Te preguntan. '[_____]'.",
+                    "en": "They ask you. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Estás mejor?",
+                        "en": "Are you better?"
+                    },
+                    "targetWordEn": "Are you better?",
+                    "options": [
+                        {
+                            "en": "Are you better?",
+                            "es": "¿Estás mejor?"
+                        },
+                        {
+                            "en": "Are you hungry?",
+                            "es": "¿Tienes hambre?"
+                        },
+                        {
+                            "en": "Are you tired?",
+                            "es": "¿Estás cansado?"
+                        },
+                        {
+                            "en": "Are you happy?",
+                            "es": "¿Estás feliz?"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+]

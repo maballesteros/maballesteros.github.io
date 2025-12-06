@@ -1,0 +1,790 @@
+{
+  "id": "voc-ocio-relaciones",
+  "tipo": "vocabulario",
+  "nombre": {
+    "es": "Ocio y relaciones",
+    "en": "Leisure and connections"
+  },
+  "descripcion": {
+    "es": "Conecta con tus nuevos amigos dominando el vocabulario social y cultural.",
+    "en": "Connect with new friends by mastering social and cultural vocabulary."
+  },
+  "nivel": {
+    "orden": 4,
+    "titulo": {
+      "es": "Nivel 4 · Aventurero social",
+      "en": "Level 4 · Social adventurer"
+    },
+    "descripcion": {
+      "es": "Interactúa con soltura en actividades y eventos.",
+      "en": "Interact fluently at activities and events."
+    },
+    "clases": {
+      "fondo": "from-amber-50 via-amber-100 to-amber-200",
+      "borde": "border-amber-300",
+      "titulo": "text-amber-900",
+      "insignia": "bg-amber-500 text-white"
+    }
+  },
+  "temas": [
+    {
+      "id": "deportes-populares",
+      "nombre": {
+        "es": "Deportes populares",
+        "en": "Popular sports"
+      },
+      "palabras": [
+        {
+          "en": "football match",
+          "es": "partido de fútbol",
+          "definicion": "Juego de dos equipos con un balón."
+        },
+        {
+          "en": "basketball",
+          "es": "baloncesto",
+          "definicion": "Deporte de encestar el balón en una canasta."
+        },
+        {
+          "en": "swimming pool",
+          "es": "piscina",
+          "definicion": "Lugar con agua para nadar."
+        },
+        {
+          "en": "athletics",
+          "es": "atletismo",
+          "definicion": "Deporte de correr, saltar y lanzar."
+        },
+        {
+          "en": "coach",
+          "es": "entrenador",
+          "definicion": "Persona que dirige al equipo."
+        },
+        {
+          "en": "training",
+          "es": "entrenamiento",
+          "definicion": "Práctica para mejorar en el deporte."
+        },
+        {
+          "en": "stadium",
+          "es": "estadio",
+          "definicion": "Lugar grande donde se juegan partidos."
+        },
+        {
+          "en": "goalkeeper",
+          "es": "portero",
+          "definicion": "Jugador que para los goles."
+        },
+        {
+          "en": "team captain",
+          "es": "capitán del equipo",
+          "definicion": "Líder de los jugadores."
+        },
+        {
+          "en": "league",
+          "es": "liga",
+          "definicion": "Competición entre varios equipos."
+        },
+        {
+          "en": "score",
+          "es": "puntuación",
+          "definicion": "Puntos conseguidos en el juego."
+        },
+        {
+          "en": "sports equipment",
+          "es": "material deportivo",
+          "definicion": "Cosas necesarias para hacer deporte."
+        },
+        {
+          "en": "tennis",
+          "es": "tenis",
+          "definicion": "Deporte con raqueta y red."
+        },
+        {
+          "en": "volleyball",
+          "es": "voleibol",
+          "definicion": "Deporte de pasar el balón sobre la red."
+        },
+        {
+          "en": "baseball",
+          "es": "béisbol",
+          "definicion": "Deporte con bate y base."
+        },
+        {
+          "en": "rugby",
+          "es": "rugby",
+          "definicion": "Deporte de contacto con balón ovalado."
+        },
+        {
+          "en": "golf",
+          "es": "golf",
+          "definicion": "Deporte de meter bola en hoyo."
+        },
+        {
+          "en": "skiing",
+          "es": "esquí",
+          "definicion": "Deporte de deslizarse por nieve."
+        },
+        {
+          "en": "surfing",
+          "es": "surf",
+          "definicion": "Deporte de deslizarse por olas."
+        },
+        {
+          "en": "boxing",
+          "es": "boxeo",
+          "definicion": "Deporte de lucha con puños."
+        },
+        {
+          "en": "cycling",
+          "es": "ciclismo",
+          "definicion": "Deporte de montar en bici."
+        },
+        {
+          "en": "hiking",
+          "es": "senderismo",
+          "definicion": "Caminar por la montaña."
+        }
+      ]
+    },
+    {
+      "id": "ocio-digital",
+      "nombre": {
+        "es": "Ocio digital",
+        "en": "Digital leisure"
+      },
+      "palabras": [
+        {
+          "en": "video game",
+          "es": "videojuego",
+          "definicion": "Juego electrónico en pantalla."
+        },
+        {
+          "en": "streaming",
+          "es": "streaming",
+          "definicion": "Ver vídeos en directo por internet."
+        },
+        {
+          "en": "message",
+          "es": "mensaje",
+          "definicion": "Texto enviado por el móvil."
+        },
+        {
+          "en": "playlist",
+          "es": "lista de reproducción",
+          "definicion": "Grupo de canciones favoritas."
+        },
+        {
+          "en": "earbuds",
+          "es": "auriculares pequeños",
+          "definicion": "Auriculares que se meten en el oído."
+        },
+        {
+          "en": "wifi",
+          "es": "wifi",
+          "definicion": "Conexión a internet sin cables."
+        },
+        {
+          "en": "gaming console",
+          "es": "consola",
+          "definicion": "Aparato para jugar videojuegos."
+        },
+        {
+          "en": "video call",
+          "es": "videollamada",
+          "definicion": "Llamada viéndose las caras."
+        },
+        {
+          "en": "social media",
+          "es": "redes sociales",
+          "definicion": "Apps para conectar con gente."
+        },
+        {
+          "en": "profile picture",
+          "es": "foto de perfil",
+          "definicion": "Imagen que te representa en la app."
+        },
+        {
+          "en": "digital drawing",
+          "es": "dibujo digital",
+          "definicion": "Arte hecho con ordenador o tableta."
+        },
+        {
+          "en": "username",
+          "es": "nombre de usuario",
+          "definicion": "Nombre que usas en internet."
+        },
+        {
+          "en": "console",
+          "es": "consola",
+          "definicion": "Máquina para jugar videojuegos."
+        },
+        {
+          "en": "streamer",
+          "es": "streamer",
+          "definicion": "Persona que emite vídeo en directo."
+        },
+        {
+          "en": "social network",
+          "es": "red social",
+          "definicion": "Plataforma para conectar gente."
+        },
+        {
+          "en": "profile",
+          "es": "perfil",
+          "definicion": "Tu página personal en la red."
+        },
+        {
+          "en": "like",
+          "es": "me gusta",
+          "definicion": "Botón para aprobar contenido."
+        },
+        {
+          "en": "comment",
+          "es": "comentario",
+          "definicion": "Opinión escrita en un post."
+        },
+        {
+          "en": "share",
+          "es": "compartir",
+          "definicion": "Enviar contenido a otros."
+        },
+        {
+          "en": "follower",
+          "es": "seguidor",
+          "definicion": "Persona que ve tus publicaciones."
+        },
+        {
+          "en": "hashtag",
+          "es": "hashtag",
+          "definicion": "Etiqueta con almohadilla."
+        },
+        {
+          "en": "viral",
+          "es": "viral",
+          "definicion": "Contenido muy popular rápido."
+        },
+        {
+          "en": "meme",
+          "es": "meme",
+          "definicion": "Imagen graciosa de internet."
+        }
+      ]
+    },
+    {
+      "id": "actividades-extra",
+      "nombre": {
+        "es": "Actividades después de clase",
+        "en": "After-school activities"
+      },
+      "palabras": [
+        {
+          "en": "club",
+          "es": "club",
+          "definicion": "Grupo de gente con los mismos intereses."
+        },
+        {
+          "en": "workshop",
+          "es": "taller",
+          "definicion": "Clase práctica para aprender a hacer algo."
+        },
+        {
+          "en": "library hour",
+          "es": "hora de biblioteca",
+          "definicion": "Tiempo para leer o estudiar en silencio."
+        },
+        {
+          "en": "volunteering",
+          "es": "voluntariado",
+          "definicion": "Trabajo para ayudar sin cobrar."
+        },
+        {
+          "en": "board game",
+          "es": "juego de mesa",
+          "definicion": "Juego con tablero y fichas."
+        },
+        {
+          "en": "cinema",
+          "es": "cine",
+          "definicion": "Lugar para ver películas."
+        },
+        {
+          "en": "drama club",
+          "es": "club de teatro",
+          "definicion": "Grupo que hace obras de teatro."
+        },
+        {
+          "en": "science club",
+          "es": "club de ciencias",
+          "definicion": "Grupo que hace experimentos."
+        },
+        {
+          "en": "music lesson",
+          "es": "clase de música",
+          "definicion": "Aprender a tocar un instrumento."
+        },
+        {
+          "en": "coding club",
+          "es": "club de programación",
+          "definicion": "Grupo que aprende a crear software."
+        },
+        {
+          "en": "debate team",
+          "es": "equipo de debate",
+          "definicion": "Grupo que discute temas importantes."
+        },
+        {
+          "en": "art workshop",
+          "es": "taller de arte",
+          "definicion": "Clase para pintar y crear."
+        },
+        {
+          "en": "chess",
+          "es": "ajedrez",
+          "definicion": "Juego de estrategia con piezas."
+        },
+        {
+          "en": "drama",
+          "es": "teatro",
+          "definicion": "Actuar en obras."
+        },
+        {
+          "en": "choir",
+          "es": "coro",
+          "definicion": "Grupo que canta junto."
+        },
+        {
+          "en": "debate",
+          "es": "debate",
+          "definicion": "Discusión organizada."
+        },
+        {
+          "en": "robotics",
+          "es": "robótica",
+          "definicion": "Construir robots."
+        },
+        {
+          "en": "pottery",
+          "es": "cerámica",
+          "definicion": "Hacer objetos de barro."
+        },
+        {
+          "en": "gardening",
+          "es": "jardinería",
+          "definicion": "Cuidar plantas."
+        },
+        {
+          "en": "photography",
+          "es": "fotografía",
+          "definicion": "Arte de hacer fotos."
+        },
+        {
+          "en": "cooking",
+          "es": "cocina",
+          "definicion": "Arte de preparar comida."
+        },
+        {
+          "en": "coding",
+          "es": "programación",
+          "definicion": "Crear software."
+        },
+        {
+          "en": "dance",
+          "es": "baile",
+          "definicion": "Moverse con música."
+        },
+        {
+          "en": "martial arts",
+          "es": "artes marciales",
+          "definicion": "Deportes de lucha oriental."
+        }
+      ]
+    },
+    {
+      "id": "emociones-avanzadas",
+      "nombre": {
+        "es": "Emociones avanzadas",
+        "en": "Advanced emotions"
+      },
+      "palabras": [
+        {
+          "en": "proud",
+          "es": "orgulloso",
+          "definicion": "Sentirse bien por algo que has hecho."
+        },
+        {
+          "en": "frustrated",
+          "es": "frustrado",
+          "definicion": "Sentirse mal porque algo no sale bien."
+        },
+        {
+          "en": "hopeful",
+          "es": "esperanzado",
+          "definicion": "Creer que algo bueno va a pasar."
+        },
+        {
+          "en": "embarrassed",
+          "es": "avergonzado",
+          "definicion": "Sentir vergüenza por algo."
+        },
+        {
+          "en": "curious",
+          "es": "curioso",
+          "definicion": "Querer saber más sobre algo."
+        },
+        {
+          "en": "relieved",
+          "es": "aliviado",
+          "definicion": "Sentirse tranquilo después de una preocupación."
+        },
+        {
+          "en": "overwhelmed",
+          "es": "agobiado",
+          "definicion": "Tener demasiadas cosas que hacer."
+        },
+        {
+          "en": "motivated",
+          "es": "motivado",
+          "definicion": "Tener ganas de hacer cosas."
+        },
+        {
+          "en": "grateful",
+          "es": "agradecido",
+          "definicion": "Dar las gracias por lo que tienes."
+        },
+        {
+          "en": "homesick",
+          "es": "nostálgico",
+          "definicion": "Echar de menos tu casa."
+        },
+        {
+          "en": "anxious",
+          "es": "ansioso",
+          "definicion": "Estar muy nervioso por algo."
+        },
+        {
+          "en": "inspired",
+          "es": "inspirado",
+          "definicion": "Tener buenas ideas nuevas."
+        },
+        {
+          "en": "confused",
+          "es": "confundido",
+          "definicion": "No entender qué pasa."
+        },
+        {
+          "en": "disappointed",
+          "es": "decepcionado",
+          "definicion": "Triste porque algo falló."
+        },
+        {
+          "en": "jealous",
+          "es": "celoso",
+          "definicion": "Querer lo que tiene otro."
+        },
+        {
+          "en": "lonely",
+          "es": "solitario",
+          "definicion": "Sentirse solo."
+        },
+        {
+          "en": "ashamed",
+          "es": "avergonzado",
+          "definicion": "Sentir vergüenza por algo malo."
+        },
+        {
+          "en": "guilty",
+          "es": "culpable",
+          "definicion": "Sentir que hiciste algo mal."
+        },
+        {
+          "en": "confident",
+          "es": "seguro",
+          "definicion": "Confiar en uno mismo."
+        },
+        {
+          "en": "stressed",
+          "es": "estresado",
+          "definicion": "Tener demasiada presión."
+        },
+        {
+          "en": "relaxed",
+          "es": "relajado",
+          "definicion": "Estar tranquilo y sin tensión."
+        },
+        {
+          "en": "amused",
+          "es": "divertido",
+          "definicion": "Encontrar algo gracioso."
+        },
+        {
+          "en": "annoyed",
+          "es": "molesto",
+          "definicion": "Estar un poco enfadado."
+        },
+        {
+          "en": "calm",
+          "es": "calmado",
+          "definicion": "Estar en paz."
+        }
+      ]
+    },
+    {
+      "id": "fiestas-culturales",
+      "nombre": {
+        "es": "Fiestas culturales",
+        "en": "Cultural celebrations"
+      },
+      "palabras": [
+        {
+          "en": "festival",
+          "es": "festival",
+          "definicion": "Gran fiesta con música y eventos."
+        },
+        {
+          "en": "parade",
+          "es": "desfile",
+          "definicion": "Marcha de gente y carrozas por la calle."
+        },
+        {
+          "en": "costume",
+          "es": "disfraz",
+          "definicion": "Ropa para parecer otra persona."
+        },
+        {
+          "en": "fireworks",
+          "es": "fuegos artificiales",
+          "definicion": "Luces de colores en el cielo."
+        },
+        {
+          "en": "tradition",
+          "es": "tradición",
+          "definicion": "Costumbre que se repite cada año."
+        },
+        {
+          "en": "holiday",
+          "es": "festivo",
+          "definicion": "Día que no se trabaja ni hay clase."
+        },
+        {
+          "en": "parade float",
+          "es": "carroza",
+          "definicion": "Vehículo decorado en un desfile."
+        },
+        {
+          "en": "food stall",
+          "es": "puesto de comida",
+          "definicion": "Pequeña tienda de comida en la calle."
+        },
+        {
+          "en": "lantern",
+          "es": "farolillo",
+          "definicion": "Lámpara de papel decorativa."
+        },
+        {
+          "en": "traditional costume",
+          "es": "traje típico",
+          "definicion": "Ropa tradicional de una región."
+        },
+        {
+          "en": "street music",
+          "es": "música callejera",
+          "definicion": "Música tocada en la calle."
+        },
+        {
+          "en": "firecrackers",
+          "es": "petardos",
+          "definicion": "Tubos que explotan con ruido fuerte."
+        },
+        {
+          "en": "birthday",
+          "es": "cumpleaños",
+          "definicion": "Día que naciste."
+        },
+        {
+          "en": "wedding",
+          "es": "boda",
+          "definicion": "Fiesta de casamiento."
+        },
+        {
+          "en": "anniversary",
+          "es": "aniversario",
+          "definicion": "Celebración anual de una fecha."
+        },
+        {
+          "en": "new year",
+          "es": "año nuevo",
+          "definicion": "El primer día del año."
+        },
+        {
+          "en": "christmas",
+          "es": "navidad",
+          "definicion": "Fiesta de diciembre con regalos."
+        },
+        {
+          "en": "halloween",
+          "es": "halloween",
+          "definicion": "Fiesta de disfraces de miedo."
+        },
+        {
+          "en": "easter",
+          "es": "pascua",
+          "definicion": "Fiesta de primavera con huevos."
+        },
+        {
+          "en": "carnival",
+          "es": "carnaval",
+          "definicion": "Fiesta de disfraces y desfiles."
+        },
+        {
+          "en": "valentine's day",
+          "es": "san valentín",
+          "definicion": "Día de los enamorados."
+        },
+        {
+          "en": "gift",
+          "es": "regalo",
+          "definicion": "Objeto que se da a otro."
+        },
+        {
+          "en": "party",
+          "es": "fiesta",
+          "definicion": "Reunión para divertirse."
+        },
+        {
+          "en": "decoration",
+          "es": "decoración",
+          "definicion": "Adornos para la fiesta."
+        }
+      ]
+    },
+    {
+      "id": "descubrir-ciudad",
+      "nombre": {
+        "es": "Descubriendo la ciudad",
+        "en": "Discovering the city"
+      },
+      "palabras": [
+        {
+          "en": "museum",
+          "es": "museo",
+          "definicion": "Lugar donde se guardan cosas antiguas o arte."
+        },
+        {
+          "en": "historic center",
+          "es": "casco antiguo",
+          "definicion": "Parte más vieja de la ciudad."
+        },
+        {
+          "en": "market",
+          "es": "mercado",
+          "definicion": "Lugar con puestos para comprar comida."
+        },
+        {
+          "en": "river",
+          "es": "río",
+          "definicion": "Corriente de agua natural."
+        },
+        {
+          "en": "mountain",
+          "es": "montaña",
+          "definicion": "Terreno muy elevado."
+        },
+        {
+          "en": "beach",
+          "es": "playa",
+          "definicion": "Orilla del mar con arena."
+        },
+        {
+          "en": "square",
+          "es": "plaza",
+          "definicion": "Espacio abierto en la ciudad."
+        },
+        {
+          "en": "castle",
+          "es": "castillo",
+          "definicion": "Edificio fortificado antiguo."
+        },
+        {
+          "en": "monument",
+          "es": "monumento",
+          "definicion": "Estatua o edificio importante."
+        },
+        {
+          "en": "viewpoint",
+          "es": "mirador",
+          "definicion": "Lugar alto con buenas vistas."
+        },
+        {
+          "en": "harbour",
+          "es": "puerto",
+          "definicion": "Lugar donde aparcan los barcos."
+        },
+        {
+          "en": "street art",
+          "es": "arte urbano",
+          "definicion": "Dibujos artísticos en las paredes."
+        },
+        {
+          "en": "bridge",
+          "es": "puente",
+          "definicion": "Estructura para cruzar un río."
+        },
+        {
+          "en": "tower",
+          "es": "torre",
+          "definicion": "Edificio alto y estrecho."
+        },
+        {
+          "en": "statue",
+          "es": "estatua",
+          "definicion": "Figura de piedra o metal."
+        },
+        {
+          "en": "fountain",
+          "es": "fuente",
+          "definicion": "Monumento con agua."
+        },
+        {
+          "en": "cathedral",
+          "es": "catedral",
+          "definicion": "Iglesia muy grande e importante."
+        },
+        {
+          "en": "palace",
+          "es": "palacio",
+          "definicion": "Casa muy grande y lujosa."
+        },
+        {
+          "en": "skyscraper",
+          "es": "rascacielos",
+          "definicion": "Edificio muy alto de oficinas."
+        },
+        {
+          "en": "alley",
+          "es": "callejón",
+          "definicion": "Calle estrecha."
+        },
+        {
+          "en": "avenue",
+          "es": "avenida",
+          "definicion": "Calle ancha con árboles."
+        },
+        {
+          "en": "crosswalk",
+          "es": "paso de cebra",
+          "definicion": "Lugar para cruzar la calle."
+        },
+        {
+          "en": "traffic light",
+          "es": "semáforo",
+          "definicion": "Luz que regula el tráfico."
+        },
+        {
+          "en": "sign",
+          "es": "señal",
+          "definicion": "Cartel con información."
+        }
+      ]
+    }
+  ]
+}

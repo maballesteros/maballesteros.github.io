@@ -1,0 +1,450 @@
+[
+    {
+        "id": "adv-l4-partido-futbol",
+        "levelId": 4,
+        "title": {
+            "es": "El Gran Partido",
+            "en": "The Big Match"
+        },
+        "description": {
+            "es": "Juega la final del campeonato de fútbol.",
+            "en": "Play the final of the football championship."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Llegas al [_____] lleno de gente.",
+                    "en": "You arrive at the [_____] full of people."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde se juega?",
+                        "en": "Where is it played?"
+                    },
+                    "targetWordEn": "stadium",
+                    "options": [
+                        "stadium",
+                        "gym",
+                        "park",
+                        "school"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "El [_____] da las últimas instrucciones.",
+                    "en": "The [_____] gives the last instructions."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quién dirige?",
+                        "en": "Who directs?"
+                    },
+                    "targetWordEn": "coach",
+                    "options": [
+                        "coach",
+                        "referee",
+                        "captain",
+                        "player"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Tú eres el [_____] del equipo.",
+                    "en": "You are the [_____] of the team."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quién lidera?",
+                        "en": "Who leads?"
+                    },
+                    "targetWordEn": "team captain",
+                    "options": [
+                        "team captain",
+                        "goalkeeper",
+                        "fan",
+                        "driver"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "El partido es contra el mejor de la [_____].",
+                    "en": "The match is against the best in the [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué competición?",
+                        "en": "What competition?"
+                    },
+                    "targetWordEn": "league",
+                    "options": [
+                        "league",
+                        "class",
+                        "city",
+                        "world"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "El [_____] para un gol increíble.",
+                    "en": "The [_____] saves an incredible goal."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quién defiende la portería?",
+                        "en": "Who defends the goal?"
+                    },
+                    "targetWordEn": "goalkeeper",
+                    "options": [
+                        "goalkeeper",
+                        "striker",
+                        "coach",
+                        "referee"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Corres mucho. El [_____] ha sido duro.",
+                    "en": "You run a lot. The [_____] has been hard."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué preparación?",
+                        "en": "What preparation?"
+                    },
+                    "targetWordEn": "training",
+                    "options": [
+                        "training",
+                        "sleeping",
+                        "eating",
+                        "reading"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Marcas un gol y cambia la [_____].",
+                    "en": "You score a goal and the [_____] changes."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué marcador?",
+                        "en": "What score?"
+                    },
+                    "targetWordEn": "score",
+                    "options": [
+                        "score",
+                        "weather",
+                        "time",
+                        "music"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Es un [_____] muy emocionante.",
+                    "en": "It is a very exciting [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué evento?",
+                        "en": "What event?"
+                    },
+                    "targetWordEn": "football match",
+                    "options": [
+                        "football match",
+                        "movie",
+                        "concert",
+                        "class"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Después, vas a la [_____] a relajarte.",
+                    "en": "Afterwards, you go to the [_____] to relax."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Dónde nadas?",
+                        "en": "Where do you swim?"
+                    },
+                    "targetWordEn": "swimming pool",
+                    "options": [
+                        "swimming pool",
+                        "library",
+                        "office",
+                        "lab"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Te gusta el [_____] y ganar.",
+                    "en": "You like [_____] and winning."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué deporte de correr?",
+                        "en": "What running sport?"
+                    },
+                    "targetWordEn": "athletics",
+                    "options": [
+                        "athletics",
+                        "chess",
+                        "art",
+                        "music"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l4-influencer",
+        "levelId": 4,
+        "title": {
+            "es": "Vida de Influencer",
+            "en": "Influencer Life"
+        },
+        "description": {
+            "es": "Gestiona tus redes sociales y gana seguidores.",
+            "en": "Manage your social media and gain followers."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Creas un nuevo [_____] en la red social.",
+                    "en": "You create a new [_____] on the social network."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué página personal?",
+                        "en": "What personal page?"
+                    },
+                    "targetWordEn": "profile",
+                    "options": [
+                        "profile",
+                        "game",
+                        "book",
+                        "song"
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Eliges una buena [_____] para que te reconozcan.",
+                    "en": "You choose a good [_____] so they recognize you."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué imagen?",
+                        "en": "What image?"
+                    },
+                    "targetWordEn": "profile picture",
+                    "options": [
+                        "profile picture",
+                        "text",
+                        "color",
+                        "sound"
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Necesitas un [_____] original.",
+                    "en": "You need an original [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué nombre?",
+                        "en": "What name?"
+                    },
+                    "targetWordEn": "username",
+                    "options": [
+                        "username",
+                        "password",
+                        "email",
+                        "address"
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Subes un vídeo y se hace [_____].",
+                    "en": "You upload a video and it goes [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Muy popular?",
+                        "en": "Very popular?"
+                    },
+                    "targetWordEn": "viral",
+                    "options": [
+                        "viral",
+                        "boring",
+                        "slow",
+                        "dark"
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Ganas un nuevo [_____] cada minuto.",
+                    "en": "You gain a new [_____] every minute."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Quién te sigue?",
+                        "en": "Who follows you?"
+                    },
+                    "targetWordEn": "follower",
+                    "options": [
+                        "follower",
+                        "enemy",
+                        "boss",
+                        "teacher"
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "La gente deja un [_____] bonito.",
+                    "en": "People leave a nice [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué escriben?",
+                        "en": "What do they write?"
+                    },
+                    "targetWordEn": "comment",
+                    "options": [
+                        "comment",
+                        "letter",
+                        "book",
+                        "exam"
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Haces [_____] de tu videojuego favorito.",
+                    "en": "You do [_____] of your favorite video game."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Emisión en directo?",
+                        "en": "Live broadcast?"
+                    },
+                    "targetWordEn": "streaming",
+                    "options": [
+                        "streaming",
+                        "sleeping",
+                        "eating",
+                        "running"
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Usas un [_____] popular para que te encuentren.",
+                    "en": "You use a popular [_____] to be found."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué etiqueta?",
+                        "en": "What tag?"
+                    },
+                    "targetWordEn": "hashtag",
+                    "options": [
+                        "hashtag",
+                        "map",
+                        "flag",
+                        "sign"
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Te envían un [_____] privado.",
+                    "en": "They send you a private [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué texto?",
+                        "en": "What text?"
+                    },
+                    "targetWordEn": "message",
+                    "options": [
+                        "message",
+                        "box",
+                        "gift",
+                        "car"
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Eres un [_____] famoso.",
+                    "en": "You are a famous [_____]."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Qué eres?",
+                        "en": "What are you?"
+                    },
+                    "targetWordEn": "streamer",
+                    "options": [
+                        "streamer",
+                        "doctor",
+                        "pilot",
+                        "chef"
+                    ]
+                }
+            }
+        ]
+    }
+]

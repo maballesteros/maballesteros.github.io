@@ -1,0 +1,690 @@
+[
+    {
+        "id": "adv-l10-viaje-europa",
+        "levelId": 10,
+        "title": {
+            "es": "Viaje por Europa",
+            "en": "Trip through Europe"
+        },
+        "description": {
+            "es": "Gestiona tu viaje en tren por varias ciudades.",
+            "en": "Manage your train trip through several cities."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Vas a la estación. Necesitas billetes. '[_____]'.",
+                    "en": "Go to station. Need tickets. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Comprar?",
+                        "en": "Buy?"
+                    },
+                    "targetWordEn": "I need to buy train tickets to Madrid.",
+                    "options": [
+                        {
+                            "en": "I need to buy train tickets to Madrid.",
+                            "es": "Necesito comprar billetes de tren a Madrid."
+                        },
+                        {
+                            "en": "I need a car.",
+                            "es": "Necesito un coche."
+                        },
+                        {
+                            "en": "I need a bike.",
+                            "es": "Necesito una bici."
+                        },
+                        {
+                            "en": "I need a plane.",
+                            "es": "Necesito un avión."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Eres estudiante. Preguntas: '[_____]'.",
+                    "en": "You are student. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Descuento?",
+                        "en": "Discount?"
+                    },
+                    "targetWordEn": "Is there a youth discount?",
+                    "options": [
+                        {
+                            "en": "Is there a youth discount?",
+                            "es": "¿Hay descuento joven?"
+                        },
+                        {
+                            "en": "Is it free?",
+                            "es": "¿Es gratis?"
+                        },
+                        {
+                            "en": "Can I pay later?",
+                            "es": "¿Puedo pagar luego?"
+                        },
+                        {
+                            "en": "Is it expensive?",
+                            "es": "¿Es caro?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Quieres volver. Preguntas: '[_____]'.",
+                    "en": "Want return. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Ida y vuelta?",
+                        "en": "Return ticket?"
+                    },
+                    "targetWordEn": "How much is a return ticket?",
+                    "options": [
+                        {
+                            "en": "How much is a return ticket?",
+                            "es": "¿Cuánto cuesta un billete de ida y vuelta?"
+                        },
+                        {
+                            "en": "One way please.",
+                            "es": "Solo ida, por favor."
+                        },
+                        {
+                            "en": "No return.",
+                            "es": "Sin vuelta."
+                        },
+                        {
+                            "en": "Just go.",
+                            "es": "Solo ir."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Tienes maletas. Preguntas: '[_____]'.",
+                    "en": "Have bags. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Equipaje?",
+                        "en": "Luggage?"
+                    },
+                    "targetWordEn": "Can I take luggage on board?",
+                    "options": [
+                        {
+                            "en": "Can I take luggage on board?",
+                            "es": "¿Puedo llevar equipaje a bordo?"
+                        },
+                        {
+                            "en": "Can I take my dog?",
+                            "es": "¿Puedo llevar a mi perro?"
+                        },
+                        {
+                            "en": "Can I take my car?",
+                            "es": "¿Puedo llevar mi coche?"
+                        },
+                        {
+                            "en": "Can I take my house?",
+                            "es": "¿Puedo llevar mi casa?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Buscas tu tren. Preguntas: '[_____]'.",
+                    "en": "Look for train. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Andén?",
+                        "en": "Platform?"
+                    },
+                    "targetWordEn": "Which platform is it?",
+                    "options": [
+                        {
+                            "en": "Which platform is it?",
+                            "es": "¿Qué andén es?"
+                        },
+                        {
+                            "en": "Where is the bus?",
+                            "es": "¿Dónde está el autobús?"
+                        },
+                        {
+                            "en": "Where is the taxi?",
+                            "es": "¿Dónde está el taxi?"
+                        },
+                        {
+                            "en": "Where is the plane?",
+                            "es": "¿Dónde está el avión?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Subes al tren. Buscas sitio. '[_____]'.",
+                    "en": "Board train. Look for seat. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Libre?",
+                        "en": "Free?"
+                    },
+                    "targetWordEn": "Is this seat free?",
+                    "options": [
+                        {
+                            "en": "Is this seat free?",
+                            "es": "¿Está libre este asiento?"
+                        },
+                        {
+                            "en": "Is this yours?",
+                            "es": "¿Es tuyo?"
+                        },
+                        {
+                            "en": "Can I sit?",
+                            "es": "¿Puedo sentarme?"
+                        },
+                        {
+                            "en": "Move over.",
+                            "es": "Muévete."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "El tren no sale. Preguntas: '[_____]'.",
+                    "en": "Train doesn't leave. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Retraso?",
+                        "en": "Delay?"
+                    },
+                    "targetWordEn": "The train is delayed.",
+                    "options": [
+                        {
+                            "en": "The train is delayed.",
+                            "es": "El tren lleva retraso."
+                        },
+                        {
+                            "en": "The train is fast.",
+                            "es": "El tren es rápido."
+                        },
+                        {
+                            "en": "The train is slow.",
+                            "es": "El tren es lento."
+                        },
+                        {
+                            "en": "The train is broken.",
+                            "es": "El tren está roto."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Llegas a destino. Buscas alojamiento. '[_____]'.",
+                    "en": "Arrive. Look for lodging. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Recomendación?",
+                        "en": "Recommendation?"
+                    },
+                    "targetWordEn": "Can you recommend a hostel?",
+                    "options": [
+                        {
+                            "en": "Can you recommend a hostel?",
+                            "es": "¿Puedes recomendar un hostal?"
+                        },
+                        {
+                            "en": "Where is the hotel?",
+                            "es": "¿Dónde está el hotel?"
+                        },
+                        {
+                            "en": "I want to sleep.",
+                            "es": "Quiero dormir."
+                        },
+                        {
+                            "en": "Help me.",
+                            "es": "Ayúdame."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Quieres ir al centro. Preguntas: '[_____]'.",
+                    "en": "Want center. You ask: '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Línea?",
+                        "en": "Line?"
+                    },
+                    "targetWordEn": "Which line goes to the center?",
+                    "options": [
+                        {
+                            "en": "Which line goes to the center?",
+                            "es": "¿Qué línea va al centro?"
+                        },
+                        {
+                            "en": "Where is the center?",
+                            "es": "¿Dónde está el centro?"
+                        },
+                        {
+                            "en": "Take me there.",
+                            "es": "Llévame allí."
+                        },
+                        {
+                            "en": "Go away.",
+                            "es": "Vete."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Disfrutas el viaje. '[_____]'.",
+                    "en": "Enjoy trip. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Meta?",
+                        "en": "Goal?"
+                    },
+                    "targetWordEn": "My goal is to travel.",
+                    "options": [
+                        {
+                            "en": "My goal is to travel.",
+                            "es": "Mi meta es viajar."
+                        },
+                        {
+                            "en": "My goal is to sleep.",
+                            "es": "Mi meta es dormir."
+                        },
+                        {
+                            "en": "My goal is to eat.",
+                            "es": "Mi meta es comer."
+                        },
+                        {
+                            "en": "My goal is to work.",
+                            "es": "Mi meta es trabajar."
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "adv-l10-futuro-uni",
+        "levelId": 10,
+        "title": {
+            "es": "Futuro Universitario",
+            "en": "University Future"
+        },
+        "description": {
+            "es": "Prepara tu solicitud para la universidad.",
+            "en": "Prepare your university application."
+        },
+        "scenes": [
+            {
+                "id": "s1",
+                "text": {
+                    "es": "Decides qué hacer. '[_____]'.",
+                    "en": "Decide what to do. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Meta?",
+                        "en": "Goal?"
+                    },
+                    "targetWordEn": "My goal is to study engineering.",
+                    "options": [
+                        {
+                            "en": "My goal is to study engineering.",
+                            "es": "Mi meta es estudiar ingeniería."
+                        },
+                        {
+                            "en": "I want to sleep.",
+                            "es": "Quiero dormir."
+                        },
+                        {
+                            "en": "I want to play.",
+                            "es": "Quiero jugar."
+                        },
+                        {
+                            "en": "I want to eat.",
+                            "es": "Quiero comer."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s2",
+                "text": {
+                    "es": "Buscas dónde. '[_____]'.",
+                    "en": "Look where. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Investigar?",
+                        "en": "Research?"
+                    },
+                    "targetWordEn": "I am researching university options.",
+                    "options": [
+                        {
+                            "en": "I am researching university options.",
+                            "es": "Estoy investigando opciones universitarias."
+                        },
+                        {
+                            "en": "I am watching TV.",
+                            "es": "Estoy viendo la tele."
+                        },
+                        {
+                            "en": "I am playing games.",
+                            "es": "Estoy jugando a juegos."
+                        },
+                        {
+                            "en": "I am sleeping.",
+                            "es": "Estoy durmiendo."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s3",
+                "text": {
+                    "es": "Necesitas dinero. '[_____]'.",
+                    "en": "Need money. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Beca?",
+                        "en": "Scholarship?"
+                    },
+                    "targetWordEn": "I hope to get a scholarship.",
+                    "options": [
+                        {
+                            "en": "I hope to get a scholarship.",
+                            "es": "Espero conseguir una beca."
+                        },
+                        {
+                            "en": "I hope to win lottery.",
+                            "es": "Espero ganar la lotería."
+                        },
+                        {
+                            "en": "I hope to find money.",
+                            "es": "Espero encontrar dinero."
+                        },
+                        {
+                            "en": "I hope to steal.",
+                            "es": "Espero robar."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s4",
+                "text": {
+                    "es": "Preparas papeles. '[_____]'.",
+                    "en": "Prepare papers. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Carta?",
+                        "en": "Letter?"
+                    },
+                    "targetWordEn": "I am writing my personal statement.",
+                    "options": [
+                        {
+                            "en": "I am writing my personal statement.",
+                            "es": "Estoy escribiendo mi carta de presentación."
+                        },
+                        {
+                            "en": "I am writing a book.",
+                            "es": "Estoy escribiendo un libro."
+                        },
+                        {
+                            "en": "I am writing a song.",
+                            "es": "Estoy escribiendo una canción."
+                        },
+                        {
+                            "en": "I am writing a letter.",
+                            "es": "Estoy escribiendo una carta."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s5",
+                "text": {
+                    "es": "Pides ayuda a un profe. '[_____]'.",
+                    "en": "Ask teacher help. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Recomendación?",
+                        "en": "Recommendation?"
+                    },
+                    "targetWordEn": "I am collecting recommendation letters.",
+                    "options": [
+                        {
+                            "en": "I am collecting recommendation letters.",
+                            "es": "Estoy reuniendo cartas de recomendación."
+                        },
+                        {
+                            "en": "I am collecting stamps.",
+                            "es": "Estoy coleccionando sellos."
+                        },
+                        {
+                            "en": "I am collecting coins.",
+                            "es": "Estoy coleccionando monedas."
+                        },
+                        {
+                            "en": "I am collecting rocks.",
+                            "es": "Estoy coleccionando piedras."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s6",
+                "text": {
+                    "es": "Tienes dudas con la solicitud. '[_____]'.",
+                    "en": "Doubts with app. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Revisar?",
+                        "en": "Review?"
+                    },
+                    "targetWordEn": "Can you review my application?",
+                    "options": [
+                        {
+                            "en": "Can you review my application.",
+                            "es": "¿Puedes revisar mi solicitud?"
+                        },
+                        {
+                            "en": "Can you do it?",
+                            "es": "¿Puedes hacerlo?"
+                        },
+                        {
+                            "en": "Can you see it?",
+                            "es": "¿Puedes verlo?"
+                        },
+                        {
+                            "en": "Can you read it?",
+                            "es": "¿Puedes leerlo?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s7",
+                "text": {
+                    "es": "Te preocupan las fechas. '[_____]'.",
+                    "en": "Worried about dates. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Plazo?",
+                        "en": "Deadline?"
+                    },
+                    "targetWordEn": "When is the application deadline?",
+                    "options": [
+                        {
+                            "en": "When is the application deadline?",
+                            "es": "¿Cuándo es la fecha límite?"
+                        },
+                        {
+                            "en": "What time is it?",
+                            "es": "¿Qué hora es?"
+                        },
+                        {
+                            "en": "When is lunch?",
+                            "es": "¿Cuándo es el almuerzo?"
+                        },
+                        {
+                            "en": "When is break?",
+                            "es": "¿Cuándo es el descanso?"
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s8",
+                "text": {
+                    "es": "Tienes que hacer un examen. '[_____]'.",
+                    "en": "Must do exam. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Inscribirse?",
+                        "en": "Register?"
+                    },
+                    "targetWordEn": "I registered for the entrance exam.",
+                    "options": [
+                        {
+                            "en": "I registered for the entrance exam.",
+                            "es": "Me inscribí en el examen de ingreso."
+                        },
+                        {
+                            "en": "I registered for the race.",
+                            "es": "Me inscribí en la carrera."
+                        },
+                        {
+                            "en": "I registered for the game.",
+                            "es": "Me inscribí en el juego."
+                        },
+                        {
+                            "en": "I registered for the club.",
+                            "es": "Me inscribí en el club."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s9",
+                "text": {
+                    "es": "Estudias mucho. '[_____]'.",
+                    "en": "Study hard. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Prepararse?",
+                        "en": "Prepare?"
+                    },
+                    "targetWordEn": "I am preparing for the entrance exam.",
+                    "options": [
+                        {
+                            "en": "I am preparing for the entrance exam.",
+                            "es": "Me estoy preparando para el examen de ingreso."
+                        },
+                        {
+                            "en": "I am preparing dinner.",
+                            "es": "Estoy preparando la cena."
+                        },
+                        {
+                            "en": "I am preparing to sleep.",
+                            "es": "Me estoy preparando para dormir."
+                        },
+                        {
+                            "en": "I am preparing to run.",
+                            "es": "Me estoy preparando para correr."
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "s10",
+                "text": {
+                    "es": "Lo consigues. '[_____]'.",
+                    "en": "You get it. '[_____]'."
+                },
+                "challenge": {
+                    "type": "fill-blank",
+                    "question": {
+                        "es": "¿Celebrar?",
+                        "en": "Celebrate?"
+                    },
+                    "targetWordEn": "I celebrate my progress.",
+                    "options": [
+                        {
+                            "en": "I celebrate my progress.",
+                            "es": "Celebro mi progreso."
+                        },
+                        {
+                            "en": "I cry.",
+                            "es": "Lloro."
+                        },
+                        {
+                            "en": "I sleep.",
+                            "es": "Duermo."
+                        },
+                        {
+                            "en": "I eat.",
+                            "es": "Como."
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+]
