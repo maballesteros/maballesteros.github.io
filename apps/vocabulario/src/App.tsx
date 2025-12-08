@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import party from 'party-js';
 import { gruposData } from './data';
 import { PDFExamGenerator } from './components/PDFExamGenerator';
+import { ProgressReportGenerator } from './components/ProgressReportGenerator';
 
 type LocalizedText = {
   en: string;
@@ -377,10 +378,23 @@ const App = () => {
       return {};
     }
   });
+  const [mistakes, setMistakes] = useState<Record<string, number>>(() => {
+    if (typeof window === 'undefined') return {};
+    try {
+      const stored = window.localStorage.getItem('vocabulario-mistakes');
+      return stored ? JSON.parse(stored) : {};
+    } catch (error) {
+      console.error('Failed to load mistakes', error);
+      return {};
+    }
+  });
+
+  // ... (existing refs)
   const confettiTargetRef = useRef<HTMLDivElement | null>(null);
   const recordInicioRef = useRef(0);
   const hasCelebratedRecordRef = useRef(false);
   const [showExamModal, setShowExamModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   const [adventureLevel, setAdventureLevel] = useState<number | null>(null);
 
@@ -511,6 +525,11 @@ const App = () => {
     }
   }, [esNuevoRecord, esPracticar, esExamen, examenSuperado, fase]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem('vocabulario-mistakes', JSON.stringify(mistakes));
+  }, [mistakes]);
+
   const seleccionarTema = (tema: Tema, grupo: GrupoTematico) => {
     setTemaActual(tema);
     setGrupoActual(grupo);
@@ -617,6 +636,12 @@ const App = () => {
         size: party.variation.range(0.9, 1.3),
         speed: party.variation.range(600, 900)
       });
+    } else {
+      // Track mistake
+      setMistakes((prev) => ({
+        ...prev,
+        [palabra.en]: (prev[palabra.en] || 0) + 1
+      }));
     }
 
     window.setTimeout(() => {
@@ -687,6 +712,14 @@ const App = () => {
         onClose={() => setShowExamModal(false)}
         grupos={gruposTematicos}
       />
+      <ProgressReportGenerator
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        grupos={gruposTematicos}
+        highScores={highScores}
+        mistakes={mistakes}
+        examScores={examScores}
+      />
 
       {fase === 'inicio' && (
         <div className="w-full max-w-3xl rounded-3xl bg-white p-10 text-center shadow-2xl animate-fade-in">
@@ -698,15 +731,22 @@ const App = () => {
               <span>📄</span>
               {language === 'en' ? 'Create PDF Exam' : 'Crear Examen PDF'}
             </button>
+            <button
+              onClick={() => setShowReportModal(true)}
+              className="ml-2 flex items-center gap-2 rounded-xl bg-blue-50 px-4 py-2 text-sm font-bold text-blue-600 hover:bg-blue-100 transition"
+            >
+              <span>📊</span>
+              {language === 'en' ? 'Progress Report' : 'Informe de Progreso'}
+            </button>
           </div>
           <h1 className="mb-6 text-4xl font-extrabold text-blue-700 drop-shadow-sm md:text-5xl">{t.homeTitle}</h1>
 
           {(() => {
-            const allVocabWords = gruposVocabulario.flatMap(g => gatherGroupWords(g));
-            const totalWords = allVocabWords.length;
+            const allWords = gruposTematicos.flatMap(g => gatherGroupWords(g));
+            const totalWords = allWords.length;
 
             // A word is considered "learned" if it contributes to the personal best score of a topic
-            const learnedWords = gruposVocabulario.reduce((acc, grupo) => {
+            const learnedWords = gruposTematicos.reduce((acc, grupo) => {
               const groupScore = grupo.temas.reduce((gAcc, tema) => {
                 const score = highScores[tema.id] ?? 0;
                 // Ensure we don't count more than the total words in the topic (though score shouldn't exceed it)
@@ -720,7 +760,7 @@ const App = () => {
                 learned={learnedWords}
                 total={totalWords}
                 label={language === 'en' ? 'Global Progress' : 'Progreso Global'}
-                subLabel={language === 'en' ? 'Words learned' : 'Palabras aprendidas'}
+                subLabel={language === 'en' ? 'Items learned' : 'Items aprendidos'}
               />
             );
           })()}
