@@ -109,4 +109,4 @@ Porque al final, lo interesante de nuestro oficio nunca fue centrar botones (aun
 
 ¿Tu equipo está preparado para que el trabajo principal ya no sea escribir, sino **conducir**? [^1]
 
-[^1]: https://openai.com/index/shipping-sora-for-android-with-codex/ "How we used Codex to build Sora for Android in 28 days | OpenAI"
+[^1]: https://openai.com/index/shipping-sora-for-android-with-codex/ "How we used Codex to build Sora for Android in 28 days \| OpenAI"
