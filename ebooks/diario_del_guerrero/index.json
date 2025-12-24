@@ -1,0 +1,1792 @@
+{
+    "title": "Diario del Guerrero",
+    "basePath": "/ebooks/diario_del_guerrero/",
+    "chapters": [
+        {
+            "id": "intro",
+            "title": "Introducciones",
+            "sections": [
+                {
+                    "title": "Anexo Galería",
+                    "path": "anexo_galeria.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_01",
+            "title": "Mes 01: Disciplina",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_01_disciplina/intro_mes_01.md"
+                },
+                {
+                    "title": "01 Enero: El Primer Paso Real",
+                    "path": "mes_01_disciplina/01_enero.md"
+                },
+                {
+                    "title": "02 Enero: La Pequeña Victoria",
+                    "path": "mes_01_disciplina/02_enero.md"
+                },
+                {
+                    "title": "03 Enero: El Ritual de Inicio",
+                    "path": "mes_01_disciplina/03_enero.md"
+                },
+                {
+                    "title": "04 Enero: Revisión Táctica (Semana 1)",
+                    "path": "mes_01_disciplina/04_enero.md"
+                },
+                {
+                    "title": "05 Enero: Silencio (El Vacío Fértil)",
+                    "path": "mes_01_disciplina/05_enero.md"
+                },
+                {
+                    "title": "06 Enero: El Frío como Maestro",
+                    "path": "mes_01_disciplina/06_enero.md"
+                },
+                {
+                    "title": "07 Enero: El Muro",
+                    "path": "mes_01_disciplina/07_enero.md"
+                },
+                {
+                    "title": "Resumen Semana 1: Demolición y Cimentación",
+                    "path": "mes_01_disciplina/07_resumen_semana_01.md"
+                },
+                {
+                    "title": "08 Enero: Dolor vs. Sufrimiento",
+                    "path": "mes_01_disciplina/08_enero.md"
+                },
+                {
+                    "title": "09 Enero: La Milla Extra",
+                    "path": "mes_01_disciplina/09_enero.md"
+                },
+                {
+                    "title": "10 Enero: Calma bajo Fuego",
+                    "path": "mes_01_disciplina/10_enero.md"
+                },
+                {
+                    "title": "11 Enero: Revisión Táctica (Semana 2)",
+                    "path": "mes_01_disciplina/11_enero.md"
+                },
+                {
+                    "title": "12 Enero: Silencio (Ayuno de Dopamina)",
+                    "path": "mes_01_disciplina/12_enero.md"
+                },
+                {
+                    "title": "13 Enero: La Importancia del Mantenimiento",
+                    "path": "mes_01_disciplina/13_enero.md"
+                },
+                {
+                    "title": "14 Enero: Repetición Consciente",
+                    "path": "mes_01_disciplina/14_enero.md"
+                },
+                {
+                    "title": "Resumen Semana 2: Resistencia y Calidad",
+                    "path": "mes_01_disciplina/14_resumen_semana_02.md"
+                },
+                {
+                    "title": "15 Enero: Economía de Movimiento",
+                    "path": "mes_01_disciplina/15_enero.md"
+                },
+                {
+                    "title": "16 Enero: Estándares Personales",
+                    "path": "mes_01_disciplina/16_enero.md"
+                },
+                {
+                    "title": "17 Enero: Puntualidad y Respeto",
+                    "path": "mes_01_disciplina/17_enero.md"
+                },
+                {
+                    "title": "18 Enero: Revisión Táctica (Semana 3)",
+                    "path": "mes_01_disciplina/18_enero.md"
+                },
+                {
+                    "title": "19 Enero: Silencio (Contemplación)",
+                    "path": "mes_01_disciplina/19_enero.md"
+                },
+                {
+                    "title": "20 Enero: El Deber sobre el Deseo",
+                    "path": "mes_01_disciplina/20_enero.md"
+                },
+                {
+                    "title": "21 Enero: Liderazgo en la Adversidad",
+                    "path": "mes_01_disciplina/21_enero.md"
+                },
+                {
+                    "title": "Resumen Semana 3: Excelencia y Detalle",
+                    "path": "mes_01_disciplina/21_resumen_semana_03.md"
+                },
+                {
+                    "title": "22 Enero: Adaptación Disciplinada",
+                    "path": "mes_01_disciplina/22_enero.md"
+                },
+                {
+                    "title": "23 Enero: Foco Absoluto",
+                    "path": "mes_01_disciplina/23_enero.md"
+                },
+                {
+                    "title": "24 Enero: El Final es el Principio",
+                    "path": "mes_01_disciplina/24_enero.md"
+                },
+                {
+                    "title": "25 Enero: Revisión Táctica (Mensual)",
+                    "path": "mes_01_disciplina/25_enero.md"
+                },
+                {
+                    "title": "26 Enero: Silencio (Integración)",
+                    "path": "mes_01_disciplina/26_enero.md"
+                },
+                {
+                    "title": "27 Enero: Auditoría de Hábitos",
+                    "path": "mes_01_disciplina/27_enero.md"
+                },
+                {
+                    "title": "28 Enero: Lo que Sobra",
+                    "path": "mes_01_disciplina/28_enero.md"
+                },
+                {
+                    "title": "Resumen Semana 4: Constancia bajo Presión",
+                    "path": "mes_01_disciplina/28_resumen_semana_04.md"
+                },
+                {
+                    "title": "29 Enero: La Trampa de la Motivación",
+                    "path": "mes_01_disciplina/29_enero.md"
+                },
+                {
+                    "title": "30 Enero: Preparando la Fortaleza",
+                    "path": "mes_01_disciplina/30_enero.md"
+                },
+                {
+                    "title": "31 Enero: El Puente",
+                    "path": "mes_01_disciplina/31_enero.md"
+                },
+                {
+                    "title": "Resumen Semana 5: El Puente al Autocontrol",
+                    "path": "mes_01_disciplina/31_resumen_semana_05.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_02",
+            "title": "Mes 02: Autocontrol",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_02_autocontrol/intro_mes_02.md"
+                },
+                {
+                    "title": "01 Febrero: El Espacio entre Estímulo y Respuesta",
+                    "path": "mes_02_autocontrol/01_febrero.md"
+                },
+                {
+                    "title": "02 Febrero: El Observador Imparcial",
+                    "path": "mes_02_autocontrol/02_febrero.md"
+                },
+                {
+                    "title": "03 Febrero: La Regla de los 10 Segundos",
+                    "path": "mes_02_autocontrol/03_febrero.md"
+                },
+                {
+                    "title": "04 Febrero: El Silencio Táctico",
+                    "path": "mes_02_autocontrol/04_febrero.md"
+                },
+                {
+                    "title": "05 Febrero: Respiración de Combate",
+                    "path": "mes_02_autocontrol/05_febrero.md"
+                },
+                {
+                    "title": "06 Febrero: Revisión Táctica (Semana 1)",
+                    "path": "mes_02_autocontrol/06_febrero.md"
+                },
+                {
+                    "title": "07 Febrero: Silencio (Ayuno de Palabras)",
+                    "path": "mes_02_autocontrol/07_febrero.md"
+                },
+                {
+                    "title": "07 Febrero: Resumen Semana 6 - El Observador",
+                    "path": "mes_02_autocontrol/07_resumen_semana_06.md"
+                },
+                {
+                    "title": "08 Febrero: La Ira como Señal",
+                    "path": "mes_02_autocontrol/08_febrero.md"
+                },
+                {
+                    "title": "09 Febrero: No Tomárselo Personalmente",
+                    "path": "mes_02_autocontrol/09_febrero.md"
+                },
+                {
+                    "title": "10 Febrero: La Empatía Táctica",
+                    "path": "mes_02_autocontrol/10_febrero.md"
+                },
+                {
+                    "title": "11 Febrero: El Ego es el Enemigo",
+                    "path": "mes_02_autocontrol/11_febrero.md"
+                },
+                {
+                    "title": "12 Febrero: Canalizar la Furia",
+                    "path": "mes_02_autocontrol/12_febrero.md"
+                },
+                {
+                    "title": "13 Febrero: Revisión Táctica (Semana 2)",
+                    "path": "mes_02_autocontrol/13_febrero.md"
+                },
+                {
+                    "title": "14 Febrero: Silencio (Observar el Fuego)",
+                    "path": "mes_02_autocontrol/14_febrero.md"
+                },
+                {
+                    "title": "14 Febrero: Resumen Semana 7 - La Fortaleza",
+                    "path": "mes_02_autocontrol/14_resumen_semana_07.md"
+                },
+                {
+                    "title": "15 Febrero: El Experimento del Malvavisco",
+                    "path": "mes_02_autocontrol/15_febrero.md"
+                },
+                {
+                    "title": "16 Febrero: Ayuno de Dopamina",
+                    "path": "mes_02_autocontrol/16_febrero.md"
+                },
+                {
+                    "title": "17 Febrero: La Tentación de Ulises",
+                    "path": "mes_02_autocontrol/17_febrero.md"
+                },
+                {
+                    "title": "18 Febrero: Hambre y Claridad",
+                    "path": "mes_02_autocontrol/18_febrero.md"
+                },
+                {
+                    "title": "19 Febrero: La Sobriedad del Guerrero",
+                    "path": "mes_02_autocontrol/19_febrero.md"
+                },
+                {
+                    "title": "20 Febrero: Revisión Táctica (Semana 3)",
+                    "path": "mes_02_autocontrol/20_febrero.md"
+                },
+                {
+                    "title": "21 Febrero: Silencio",
+                    "path": "mes_02_autocontrol/21_febrero.md"
+                },
+                {
+                    "title": "21 Febrero: Resumen Semana 8 - La Pausa",
+                    "path": "mes_02_autocontrol/21_resumen_semana_08.md"
+                },
+                {
+                    "title": "22 Febrero: La Ciudadela Interior",
+                    "path": "mes_02_autocontrol/22_febrero.md"
+                },
+                {
+                    "title": "23 Febrero: Ecuanimidad bajo Fuego",
+                    "path": "mes_02_autocontrol/23_febrero.md"
+                },
+                {
+                    "title": "24 Febrero: Aceptación Radical",
+                    "path": "mes_02_autocontrol/24_febrero.md"
+                },
+                {
+                    "title": "25 Febrero: La Perspectiva Cósmica",
+                    "path": "mes_02_autocontrol/25_febrero.md"
+                },
+                {
+                    "title": "26 Febrero: Amor Fati",
+                    "path": "mes_02_autocontrol/26_febrero.md"
+                },
+                {
+                    "title": "27 Febrero: Revisión Táctica (Semana 4)",
+                    "path": "mes_02_autocontrol/27_febrero.md"
+                },
+                {
+                    "title": "28 Febrero: Silencio",
+                    "path": "mes_02_autocontrol/28_febrero.md"
+                },
+                {
+                    "title": "28 Febrero: Resumen Semana 9 - Amor Fati",
+                    "path": "mes_02_autocontrol/28_resumen_semana_09.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_03",
+            "title": "Mes 03: Percepción",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_03_percepcion/intro_mes_03.md"
+                },
+                {
+                    "title": "01 Marzo: El Mapa no es el Territorio",
+                    "path": "mes_03_percepcion/01_marzo.md"
+                },
+                {
+                    "title": "02 Marzo: La Mente de Principiante",
+                    "path": "mes_03_percepcion/02_marzo.md"
+                },
+                {
+                    "title": "03 Marzo: El Sesgo de Confirmación",
+                    "path": "mes_03_percepcion/03_marzo.md"
+                },
+                {
+                    "title": "04 Marzo: Ver lo Invisible",
+                    "path": "mes_03_percepcion/04_marzo.md"
+                },
+                {
+                    "title": "05 Marzo: La Caverna",
+                    "path": "mes_03_percepcion/05_marzo.md"
+                },
+                {
+                    "title": "06 Marzo: Revisión Táctica (Semana 1)",
+                    "path": "mes_03_percepcion/06_marzo.md"
+                },
+                {
+                    "title": "07 Marzo: Silencio (El Ojo Inocente)",
+                    "path": "mes_03_percepcion/07_marzo.md"
+                },
+                {
+                    "title": "07 Marzo: Resumen Semana 10 - La Mirada Pura",
+                    "path": "mes_03_percepcion/07_resumen_semana_10.md"
+                },
+                {
+                    "title": "08 Marzo: El Obstáculo es el Camino",
+                    "path": "mes_03_percepcion/08_marzo.md"
+                },
+                {
+                    "title": "09 Marzo: Jugar con Malas Cartas",
+                    "path": "mes_03_percepcion/09_marzo.md"
+                },
+                {
+                    "title": "10 Marzo: La Ventaja de la Desventaja",
+                    "path": "mes_03_percepcion/10_marzo.md"
+                },
+                {
+                    "title": "11 Marzo: Antifragilidad",
+                    "path": "mes_03_percepcion/11_marzo.md"
+                },
+                {
+                    "title": "12 Marzo: El Poder del \"Todavía\"",
+                    "path": "mes_03_percepcion/12_marzo.md"
+                },
+                {
+                    "title": "13 Marzo: Revisión Táctica (Semana 2)",
+                    "path": "mes_03_percepcion/13_marzo.md"
+                },
+                {
+                    "title": "14 Marzo: Silencio (El Efecto Perspectiva)",
+                    "path": "mes_03_percepcion/14_marzo.md"
+                },
+                {
+                    "title": "14 Marzo: Resumen Semana 11 - La Perspectiva",
+                    "path": "mes_03_percepcion/14_resumen_semana_11.md"
+                },
+                {
+                    "title": "15 Marzo: Memento Mori",
+                    "path": "mes_03_percepcion/15_marzo.md"
+                },
+                {
+                    "title": "16 Marzo: La Verdad Os Hará Libres",
+                    "path": "mes_03_percepcion/16_marzo.md"
+                },
+                {
+                    "title": "17 Marzo: El Círculo de Competencia",
+                    "path": "mes_03_percepcion/17_marzo.md"
+                },
+                {
+                    "title": "18 Marzo: La Navaja de Hanlon",
+                    "path": "mes_03_percepcion/18_marzo.md"
+                },
+                {
+                    "title": "19 Marzo: Pensamiento de Primeros Principios",
+                    "path": "mes_03_percepcion/19_marzo.md"
+                },
+                {
+                    "title": "20 Marzo: Revisión Táctica (Semana 3)",
+                    "path": "mes_03_percepcion/20_marzo.md"
+                },
+                {
+                    "title": "21 Marzo: Silencio",
+                    "path": "mes_03_percepcion/21_marzo.md"
+                },
+                {
+                    "title": "21 Marzo: Resumen Semana 12 - Memento Mori",
+                    "path": "mes_03_percepcion/21_resumen_semana_12.md"
+                },
+                {
+                    "title": "22 Marzo: Esencialismo",
+                    "path": "mes_03_percepcion/22_marzo.md"
+                },
+                {
+                    "title": "23 Marzo: Trabajo Profundo",
+                    "path": "mes_03_percepcion/23_marzo.md"
+                },
+                {
+                    "title": "24 Marzo: El Estado de Flow",
+                    "path": "mes_03_percepcion/24_marzo.md"
+                },
+                {
+                    "title": "25 Marzo: Multitasking es Mentira",
+                    "path": "mes_03_percepcion/25_marzo.md"
+                },
+                {
+                    "title": "26 Marzo: La Dieta de Información",
+                    "path": "mes_03_percepcion/26_marzo.md"
+                },
+                {
+                    "title": "27 Marzo: Revisión Táctica (Semana 4)",
+                    "path": "mes_03_percepcion/27_marzo.md"
+                },
+                {
+                    "title": "28 Marzo: Silencio",
+                    "path": "mes_03_percepcion/28_marzo.md"
+                },
+                {
+                    "title": "28 Marzo: Resumen Semana 13 - El Ritual",
+                    "path": "mes_03_percepcion/28_resumen_semana_13.md"
+                },
+                {
+                    "title": "29 Marzo: La Visión de Águila",
+                    "path": "mes_03_percepcion/29_marzo.md"
+                },
+                {
+                    "title": "30 Marzo: Wu Wei (Acción sin Esfuerzo)",
+                    "path": "mes_03_percepcion/30_marzo.md"
+                },
+                {
+                    "title": "31 Marzo: El Espejo Limpio",
+                    "path": "mes_03_percepcion/31_marzo.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_04",
+            "title": "Mes 04: Acción",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_04_accion/intro_mes_04.md"
+                },
+                {
+                    "title": "01 Abril: El Nudo Gordiano",
+                    "path": "mes_04_accion/01_abril.md"
+                },
+                {
+                    "title": "02 Abril: Hazlo con Miedo",
+                    "path": "mes_04_accion/02_abril.md"
+                },
+                {
+                    "title": "03 Abril: El Poder del \"No\"",
+                    "path": "mes_04_accion/03_abril.md"
+                },
+                {
+                    "title": "04 Abril: Cruzar el Rubicón",
+                    "path": "mes_04_accion/04_abril.md"
+                },
+                {
+                    "title": "05 Abril: El Momento de la Verdad",
+                    "path": "mes_04_accion/05_abril.md"
+                },
+                {
+                    "title": "06 Abril: Revisión Táctica (Semana 1)",
+                    "path": "mes_04_accion/06_abril.md"
+                },
+                {
+                    "title": "07 Abril: Silencio (Mushin)",
+                    "path": "mes_04_accion/07_abril.md"
+                },
+                {
+                    "title": "07 Abril: Resumen Semana 14 - Mushin",
+                    "path": "mes_04_accion/07_resumen_semana_14.md"
+                },
+                {
+                    "title": "08 Abril: El Ciclo OODA",
+                    "path": "mes_04_accion/08_abril.md"
+                },
+                {
+                    "title": "09 Abril: Blitzkrieg Personal",
+                    "path": "mes_04_accion/09_abril.md"
+                },
+                {
+                    "title": "10 Abril: Iteración Rápida",
+                    "path": "mes_04_accion/10_abril.md"
+                },
+                {
+                    "title": "11 Abril: El Golpe de una Pulgada",
+                    "path": "mes_04_accion/11_abril.md"
+                },
+                {
+                    "title": "12 Abril: La Carga Ligera",
+                    "path": "mes_04_accion/12_abril.md"
+                },
+                {
+                    "title": "13 Abril: Revisión Táctica (Semana 2)",
+                    "path": "mes_04_accion/13_abril.md"
+                },
+                {
+                    "title": "14 Abril: Silencio (Quietud en Movimiento)",
+                    "path": "mes_04_accion/14_abril.md"
+                },
+                {
+                    "title": "14 Abril: Resumen Semana 15 - El Freno",
+                    "path": "mes_04_accion/14_resumen_semana_15.md"
+                },
+                {
+                    "title": "15 Abril: El Hombre en la Arena",
+                    "path": "mes_04_accion/15_abril.md"
+                },
+                {
+                    "title": "16 Abril: Cruzar los Alpes",
+                    "path": "mes_04_accion/16_abril.md"
+                },
+                {
+                    "title": "17 Abril: El Salto de Fe",
+                    "path": "mes_04_accion/17_abril.md"
+                },
+                {
+                    "title": "18 Abril: Desobediencia Creativa",
+                    "path": "mes_04_accion/18_abril.md"
+                },
+                {
+                    "title": "19 Abril: La Fuga Imposible",
+                    "path": "mes_04_accion/19_abril.md"
+                },
+                {
+                    "title": "20 Abril: Revisión Táctica (Semana 3)",
+                    "path": "mes_04_accion/20_abril.md"
+                },
+                {
+                    "title": "21 Abril: Silencio (El Vacío antes del Salto)",
+                    "path": "mes_04_accion/21_abril.md"
+                },
+                {
+                    "title": "21 Abril: Resumen Semana 16 - Invisible",
+                    "path": "mes_04_accion/21_resumen_semana_16.md"
+                },
+                {
+                    "title": "22 Abril: Sangre, Sudor y Lágrimas",
+                    "path": "mes_04_accion/22_abril.md"
+                },
+                {
+                    "title": "23 Abril: La Lámpara en la Oscuridad",
+                    "path": "mes_04_accion/23_abril.md"
+                },
+                {
+                    "title": "24 Abril: Rebelión",
+                    "path": "mes_04_accion/24_abril.md"
+                },
+                {
+                    "title": "25 Abril: El Último Samurai",
+                    "path": "mes_04_accion/25_abril.md"
+                },
+                {
+                    "title": "26 Abril: Rescate en la Cueva",
+                    "path": "mes_04_accion/26_abril.md"
+                },
+                {
+                    "title": "27 Abril: Revisión Táctica (Semana 4)",
+                    "path": "mes_04_accion/27_abril.md"
+                },
+                {
+                    "title": "28 Abril: Silencio (Descompresión)",
+                    "path": "mes_04_accion/28_abril.md"
+                },
+                {
+                    "title": "28 Abril: Resumen Semana 17 - La Limpieza",
+                    "path": "mes_04_accion/28_resumen_semana_17.md"
+                },
+                {
+                    "title": "29 Abril: La Persistencia del Descubrimiento",
+                    "path": "mes_04_accion/29_abril.md"
+                },
+                {
+                    "title": "30 Abril: El Asedio",
+                    "path": "mes_04_accion/30_abril.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_05",
+            "title": "Mes 05: Resistencia",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_05_resistencia/intro_mes_05.md"
+                },
+                {
+                    "title": "01 Mayo: La Locomotora Humana",
+                    "path": "mes_05_resistencia/01_mayo.md"
+                },
+                {
+                    "title": "02 Mayo: La Guerrera Incansable",
+                    "path": "mes_05_resistencia/02_mayo.md"
+                },
+                {
+                    "title": "03 Mayo: Rope-a-Dope",
+                    "path": "mes_05_resistencia/03_mayo.md"
+                },
+                {
+                    "title": "04 Mayo: Con el Escudo o Sobre Él",
+                    "path": "mes_05_resistencia/04_mayo.md"
+                },
+                {
+                    "title": "05 Mayo: El Maratón de la Esperanza",
+                    "path": "mes_05_resistencia/05_mayo.md"
+                },
+                {
+                    "title": "06 Mayo: Revisión Táctica (Semana 1)",
+                    "path": "mes_05_resistencia/06_mayo.md"
+                },
+                {
+                    "title": "07 Mayo: Silencio",
+                    "path": "mes_05_resistencia/07_mayo.md"
+                },
+                {
+                    "title": "07 Mayo: Resumen Semana 18 - La Descompresión",
+                    "path": "mes_05_resistencia/07_resumen_semana_18.md"
+                },
+                {
+                    "title": "08 Mayo: Invictus",
+                    "path": "mes_05_resistencia/08_mayo.md"
+                },
+                {
+                    "title": "09 Mayo: Un Día en la Vida",
+                    "path": "mes_05_resistencia/09_mayo.md"
+                },
+                {
+                    "title": "10 Mayo: El Arte del Dolor",
+                    "path": "mes_05_resistencia/10_mayo.md"
+                },
+                {
+                    "title": "11 Mayo: Mente sobre Materia",
+                    "path": "mes_05_resistencia/11_mayo.md"
+                },
+                {
+                    "title": "12 Mayo: El Explorador Perdido",
+                    "path": "mes_05_resistencia/12_mayo.md"
+                },
+                {
+                    "title": "13 Mayo: Revisión Táctica (Semana 2)",
+                    "path": "mes_05_resistencia/13_mayo.md"
+                },
+                {
+                    "title": "14 Mayo: Silencio",
+                    "path": "mes_05_resistencia/14_mayo.md"
+                },
+                {
+                    "title": "14 Mayo: Resumen Semana 19 - El Lago",
+                    "path": "mes_05_resistencia/14_resumen_semana_19.md"
+                },
+                {
+                    "title": "15 Mayo: La Doncella de Orléans",
+                    "path": "mes_05_resistencia/15_mayo.md"
+                },
+                {
+                    "title": "16 Mayo: La Marcha de la Sal",
+                    "path": "mes_05_resistencia/16_mayo.md"
+                },
+                {
+                    "title": "17 Mayo: La Voz que no Callaron",
+                    "path": "mes_05_resistencia/17_mayo.md"
+                },
+                {
+                    "title": "18 Mayo: El Sueño",
+                    "path": "mes_05_resistencia/18_mayo.md"
+                },
+                {
+                    "title": "19 Mayo: El Prisionero de Guerra",
+                    "path": "mes_05_resistencia/19_mayo.md"
+                },
+                {
+                    "title": "20 Mayo: Revisión Táctica (Semana 3)",
+                    "path": "mes_05_resistencia/20_mayo.md"
+                },
+                {
+                    "title": "21 Mayo: Silencio",
+                    "path": "mes_05_resistencia/21_mayo.md"
+                },
+                {
+                    "title": "21 Mayo: Resumen Semana 20 - El Cielo",
+                    "path": "mes_05_resistencia/21_resumen_semana_20.md"
+                },
+                {
+                    "title": "22 Mayo: La Hidra de Lerna",
+                    "path": "mes_05_resistencia/22_mayo.md"
+                },
+                {
+                    "title": "23 Mayo: Mitrídates y el Veneno",
+                    "path": "mes_05_resistencia/23_mayo.md"
+                },
+                {
+                    "title": "24 Mayo: El Bosque y el Fuego",
+                    "path": "mes_05_resistencia/24_mayo.md"
+                },
+                {
+                    "title": "25 Mayo: El Hueso Roto",
+                    "path": "mes_05_resistencia/25_mayo.md"
+                },
+                {
+                    "title": "26 Mayo: Caos es Escalera",
+                    "path": "mes_05_resistencia/26_mayo.md"
+                },
+                {
+                    "title": "27 Mayo: Revisión Táctica (Semana 4)",
+                    "path": "mes_05_resistencia/27_mayo.md"
+                },
+                {
+                    "title": "28 Mayo: Silencio",
+                    "path": "mes_05_resistencia/28_mayo.md"
+                },
+                {
+                    "title": "28 Mayo: Resumen Semana 21 - La Cueva",
+                    "path": "mes_05_resistencia/28_resumen_semana_21.md"
+                },
+                {
+                    "title": "29 Mayo: El Arte de la Retirada",
+                    "path": "mes_05_resistencia/29_mayo.md"
+                },
+                {
+                    "title": "30 Mayo: La Piedra en el Zapato",
+                    "path": "mes_05_resistencia/30_mayo.md"
+                },
+                {
+                    "title": "31 Mayo: El Puente hacia la Estrategia",
+                    "path": "mes_05_resistencia/31_mayo.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_06",
+            "title": "Mes 06: Estrategia",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_06_estrategia/intro_mes_06.md"
+                },
+                {
+                    "title": "01 Junio: El Pensamiento de Catedral",
+                    "path": "mes_06_estrategia/01_junio.md"
+                },
+                {
+                    "title": "02 Junio: La Estrategia Fabiana",
+                    "path": "mes_06_estrategia/02_junio.md"
+                },
+                {
+                    "title": "03 Junio: El Interés Compuesto",
+                    "path": "mes_06_estrategia/03_junio.md"
+                },
+                {
+                    "title": "04 Junio: La Semilla de Secoya",
+                    "path": "mes_06_estrategia/04_junio.md"
+                },
+                {
+                    "title": "05 Junio: El Juego Infinito",
+                    "path": "mes_06_estrategia/05_junio.md"
+                },
+                {
+                    "title": "06 Junio: Revisión Táctica (Semana 1)",
+                    "path": "mes_06_estrategia/06_junio.md"
+                },
+                {
+                    "title": "07 Junio: Silencio",
+                    "path": "mes_06_estrategia/07_junio.md"
+                },
+                {
+                    "title": "07 Junio: Resumen Semana 22 - El Ayuno de Input",
+                    "path": "mes_06_estrategia/07_resumen_semana_22.md"
+                },
+                {
+                    "title": "08 Junio: El Caballo de Troya",
+                    "path": "mes_06_estrategia/08_junio.md"
+                },
+                {
+                    "title": "09 Junio: Operación Mincemeat",
+                    "path": "mes_06_estrategia/09_junio.md"
+                },
+                {
+                    "title": "10 Junio: El Arte de Parecer Débil",
+                    "path": "mes_06_estrategia/10_junio.md"
+                },
+                {
+                    "title": "11 Junio: El Gambito",
+                    "path": "mes_06_estrategia/11_junio.md"
+                },
+                {
+                    "title": "12 Junio: La Niebla de Guerra",
+                    "path": "mes_06_estrategia/12_junio.md"
+                },
+                {
+                    "title": "13 Junio: Revisión Táctica (Semana 2)",
+                    "path": "mes_06_estrategia/13_junio.md"
+                },
+                {
+                    "title": "14 Junio: Silencio",
+                    "path": "mes_06_estrategia/14_junio.md"
+                },
+                {
+                    "title": "14 Junio: Resumen Semana 23 - La Niebla",
+                    "path": "mes_06_estrategia/14_resumen_semana_23.md"
+                },
+                {
+                    "title": "15 Junio: La Palanca",
+                    "path": "mes_06_estrategia/15_junio.md"
+                },
+                {
+                    "title": "16 Junio: El 80/20",
+                    "path": "mes_06_estrategia/16_junio.md"
+                },
+                {
+                    "title": "17 Junio: Judo Mental",
+                    "path": "mes_06_estrategia/17_junio.md"
+                },
+                {
+                    "title": "18 Junio: El Punto de Inflexión",
+                    "path": "mes_06_estrategia/18_junio.md"
+                },
+                {
+                    "title": "19 Junio: Wu Wei",
+                    "path": "mes_06_estrategia/19_junio.md"
+                },
+                {
+                    "title": "20 Junio: Revisión Táctica (Semana 3)",
+                    "path": "mes_06_estrategia/20_junio.md"
+                },
+                {
+                    "title": "21 Junio: Silencio",
+                    "path": "mes_06_estrategia/21_junio.md"
+                },
+                {
+                    "title": "21 Junio: Resumen Semana 24 - La Resta",
+                    "path": "mes_06_estrategia/21_resumen_semana_24.md"
+                },
+                {
+                    "title": "22 Junio: El Barro de Agincourt",
+                    "path": "mes_06_estrategia/22_junio.md"
+                },
+                {
+                    "title": "23 Junio: Océano Azul",
+                    "path": "mes_06_estrategia/23_junio.md"
+                },
+                {
+                    "title": "24 Junio: El General Invierno",
+                    "path": "mes_06_estrategia/24_junio.md"
+                },
+                {
+                    "title": "25 Junio: Adaptabilidad Radical",
+                    "path": "mes_06_estrategia/25_junio.md"
+                },
+                {
+                    "title": "26 Junio: El Mapa no es el Territorio",
+                    "path": "mes_06_estrategia/26_junio.md"
+                },
+                {
+                    "title": "27 Junio: Revisión Táctica (Semana 4)",
+                    "path": "mes_06_estrategia/27_junio.md"
+                },
+                {
+                    "title": "28 Junio: Silencio",
+                    "path": "mes_06_estrategia/28_junio.md"
+                },
+                {
+                    "title": "28 Junio: Resumen Semana 25 - La Antena",
+                    "path": "mes_06_estrategia/28_resumen_semana_25.md"
+                },
+                {
+                    "title": "29 Junio: El Bucle OODA",
+                    "path": "mes_06_estrategia/29_junio.md"
+                },
+                {
+                    "title": "30 Junio: El Pivote",
+                    "path": "mes_06_estrategia/30_junio.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_07",
+            "title": "Mes 07: Maestría",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_07_maestria/intro_mes_07.md"
+                },
+                {
+                    "title": "01 Julio: Shokunin",
+                    "path": "mes_07_maestria/01_julio.md"
+                },
+                {
+                    "title": "02 Julio: El Domo Imposible",
+                    "path": "mes_07_maestria/02_julio.md"
+                },
+                {
+                    "title": "03 Julio: El Secreto de Stradivarius",
+                    "path": "mes_07_maestria/03_julio.md"
+                },
+                {
+                    "title": "04 Julio: Hamburgo y las 10.000 Horas",
+                    "path": "mes_07_maestria/04_julio.md"
+                },
+                {
+                    "title": "05 Julio: Dios está en el Código",
+                    "path": "mes_07_maestria/05_julio.md"
+                },
+                {
+                    "title": "06 Julio: Revisión del Artesano (Semana 1)",
+                    "path": "mes_07_maestria/06_julio.md"
+                },
+                {
+                    "title": "07 Julio: Silencio",
+                    "path": "mes_07_maestria/07_julio.md"
+                },
+                {
+                    "title": "07 Julio: Resumen Semana 26 - El Artesano",
+                    "path": "mes_07_maestria/07_resumen_semana_26.md"
+                },
+                {
+                    "title": "08 Julio: La Torre de Bollingen",
+                    "path": "mes_07_maestria/08_julio.md"
+                },
+                {
+                    "title": "09 Julio: El Estado de Flow",
+                    "path": "mes_07_maestria/09_julio.md"
+                },
+                {
+                    "title": "10 Julio: Annus Mirabilis",
+                    "path": "mes_07_maestria/10_julio.md"
+                },
+                {
+                    "title": "11 Julio: Indigestión Mental",
+                    "path": "mes_07_maestria/11_julio.md"
+                },
+                {
+                    "title": "12 Julio: Lavar los Platos",
+                    "path": "mes_07_maestria/12_julio.md"
+                },
+                {
+                    "title": "13 Julio: Revisión del Foco (Semana 2)",
+                    "path": "mes_07_maestria/13_julio.md"
+                },
+                {
+                    "title": "14 Julio: Silencio",
+                    "path": "mes_07_maestria/14_julio.md"
+                },
+                {
+                    "title": "14 Julio: Resumen Semana 27 - El Río",
+                    "path": "mes_07_maestria/14_resumen_semana_27.md"
+                },
+                {
+                    "title": "15 Julio: Shu-Ha-Ri",
+                    "path": "mes_07_maestria/15_julio.md"
+                },
+                {
+                    "title": "16 Julio: El Piloto del Río Hudson",
+                    "path": "mes_07_maestria/16_julio.md"
+                },
+                {
+                    "title": "17 Julio: La Sensación del Número",
+                    "path": "mes_07_maestria/17_julio.md"
+                },
+                {
+                    "title": "18 Julio: Desaprender",
+                    "path": "mes_07_maestria/18_julio.md"
+                },
+                {
+                    "title": "19 Julio: La Zona",
+                    "path": "mes_07_maestria/19_julio.md"
+                },
+                {
+                    "title": "20 Julio: Revisión de la Intuición (Semana 3)",
+                    "path": "mes_07_maestria/20_julio.md"
+                },
+                {
+                    "title": "21 Julio: Silencio",
+                    "path": "mes_07_maestria/21_julio.md"
+                },
+                {
+                    "title": "21 Julio: Resumen Semana 28 - Somática",
+                    "path": "mes_07_maestria/21_resumen_semana_28.md"
+                },
+                {
+                    "title": "22 Julio: Menos, pero Mejor",
+                    "path": "mes_07_maestria/22_julio.md"
+                },
+                {
+                    "title": "23 Julio: La Navaja de Ockham",
+                    "path": "mes_07_maestria/23_julio.md"
+                },
+                {
+                    "title": "24 Julio: Steve Jobs y el Botón",
+                    "path": "mes_07_maestria/24_julio.md"
+                },
+                {
+                    "title": "25 Julio: Vía Negativa",
+                    "path": "mes_07_maestria/25_julio.md"
+                },
+                {
+                    "title": "26 Julio: El Haiku",
+                    "path": "mes_07_maestria/26_julio.md"
+                },
+                {
+                    "title": "27 Julio: Revisión de la Simplicidad (Semana 4)",
+                    "path": "mes_07_maestria/27_julio.md"
+                },
+                {
+                    "title": "28 Julio: Silencio",
+                    "path": "mes_07_maestria/28_julio.md"
+                },
+                {
+                    "title": "28 Julio: Resumen Semana 29 - La Pausa Sagrada",
+                    "path": "mes_07_maestria/28_resumen_semana_29.md"
+                },
+                {
+                    "title": "29 Julio: Mente de Principiante (Shoshin)",
+                    "path": "mes_07_maestria/29_julio.md"
+                },
+                {
+                    "title": "30 Julio: El Legado",
+                    "path": "mes_07_maestria/30_julio.md"
+                },
+                {
+                    "title": "31 Julio: El Puente a la Libertad",
+                    "path": "mes_07_maestria/31_julio.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_08",
+            "title": "Mes 08: Libertad",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_08_libertad/intro_mes_08.md"
+                },
+                {
+                    "title": "01 Agosto: El Rey de Uno Mismo",
+                    "path": "mes_08_libertad/01_agosto.md"
+                },
+                {
+                    "title": "02 Agosto: La Ciudadela Interior",
+                    "path": "mes_08_libertad/02_agosto.md"
+                },
+                {
+                    "title": "03 Agosto: Libertad Última",
+                    "path": "mes_08_libertad/03_agosto.md"
+                },
+                {
+                    "title": "04 Agosto: El Guión de Tu Vida",
+                    "path": "mes_08_libertad/04_agosto.md"
+                },
+                {
+                    "title": "05 Agosto: Soberanía sobre el Tiempo",
+                    "path": "mes_08_libertad/05_agosto.md"
+                },
+                {
+                    "title": "06 Agosto: Revisión de la Soberanía (Semana 1)",
+                    "path": "mes_08_libertad/06_agosto.md"
+                },
+                {
+                    "title": "07 Agosto: Silencio",
+                    "path": "mes_08_libertad/07_agosto.md"
+                },
+                {
+                    "title": "07 Agosto: Resumen Semana 30 - El Trono",
+                    "path": "mes_08_libertad/07_resumen_semana_30.md"
+                },
+                {
+                    "title": "08 Agosto: Propiedad Extrema",
+                    "path": "mes_08_libertad/08_agosto.md"
+                },
+                {
+                    "title": "09 Agosto: El Capitán del Barco",
+                    "path": "mes_08_libertad/09_agosto.md"
+                },
+                {
+                    "title": "10 Agosto: Liderar sin Título",
+                    "path": "mes_08_libertad/10_agosto.md"
+                },
+                {
+                    "title": "11 Agosto: La Carga del Mando",
+                    "path": "mes_08_libertad/11_agosto.md"
+                },
+                {
+                    "title": "12 Agosto: Cuidar a la Tropa",
+                    "path": "mes_08_libertad/12_agosto.md"
+                },
+                {
+                    "title": "13 Agosto: Revisión del Liderazgo (Semana 2)",
+                    "path": "mes_08_libertad/13_agosto.md"
+                },
+                {
+                    "title": "14 Agosto: Silencio",
+                    "path": "mes_08_libertad/14_agosto.md"
+                },
+                {
+                    "title": "14 Agosto: Resumen Semana 31 - Atlas",
+                    "path": "mes_08_libertad/14_resumen_semana_31.md"
+                },
+                {
+                    "title": "15 Agosto: Ganar Amigos",
+                    "path": "mes_08_libertad/15_agosto.md"
+                },
+                {
+                    "title": "16 Agosto: Escucha Activa",
+                    "path": "mes_08_libertad/16_agosto.md"
+                },
+                {
+                    "title": "17 Agosto: Ethos, Pathos, Logos",
+                    "path": "mes_08_libertad/17_agosto.md"
+                },
+                {
+                    "title": "18 Agosto: La Ley de la Reciprocidad",
+                    "path": "mes_08_libertad/18_agosto.md"
+                },
+                {
+                    "title": "19 Agosto: Narrativa y Mito",
+                    "path": "mes_08_libertad/19_agosto.md"
+                },
+                {
+                    "title": "20 Agosto: Revisión de la Influencia (Semana 3)",
+                    "path": "mes_08_libertad/20_agosto.md"
+                },
+                {
+                    "title": "21 Agosto: Silencio",
+                    "path": "mes_08_libertad/21_agosto.md"
+                },
+                {
+                    "title": "21 Agosto: Resumen Semana 32 - El Micrófono",
+                    "path": "mes_08_libertad/21_resumen_semana_32.md"
+                },
+                {
+                    "title": "22 Agosto: Riqueza y Libertad",
+                    "path": "mes_08_libertad/22_agosto.md"
+                },
+                {
+                    "title": "23 Agosto: La Jaula de Oro",
+                    "path": "mes_08_libertad/23_agosto.md"
+                },
+                {
+                    "title": "24 Agosto: Minimalismo Digital",
+                    "path": "mes_08_libertad/24_agosto.md"
+                },
+                {
+                    "title": "25 Agosto: El Precio de la Libertad",
+                    "path": "mes_08_libertad/25_agosto.md"
+                },
+                {
+                    "title": "26 Agosto: Soberanía Física",
+                    "path": "mes_08_libertad/26_agosto.md"
+                },
+                {
+                    "title": "27 Agosto: Revisión de la Libertad (Semana 4)",
+                    "path": "mes_08_libertad/27_agosto.md"
+                },
+                {
+                    "title": "28 Agosto: Silencio",
+                    "path": "mes_08_libertad/28_agosto.md"
+                },
+                {
+                    "title": "28 Agosto: Resumen Semana 33 - Cielo Abierto",
+                    "path": "mes_08_libertad/28_resumen_semana_33.md"
+                },
+                {
+                    "title": "29 Agosto: El Contrato Social",
+                    "path": "mes_08_libertad/29_agosto.md"
+                },
+                {
+                    "title": "30 Agosto: El Último Hombre Libre",
+                    "path": "mes_08_libertad/30_agosto.md"
+                },
+                {
+                    "title": "31 Agosto: El Puente al Entorno",
+                    "path": "mes_08_libertad/31_agosto.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_09",
+            "title": "Mes 09: Entorno",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_09_entorno/intro_mes_09.md"
+                },
+                {
+                    "title": "01 Septiembre: El Mapa no es el Territorio",
+                    "path": "mes_09_entorno/01_septiembre.md"
+                },
+                {
+                    "title": "02 Septiembre: OODA Loop",
+                    "path": "mes_09_entorno/02_septiembre.md"
+                },
+                {
+                    "title": "03 Septiembre: Visión Periférica",
+                    "path": "mes_09_entorno/03_septiembre.md"
+                },
+                {
+                    "title": "04 Septiembre: La Niebla de Guerra",
+                    "path": "mes_09_entorno/04_septiembre.md"
+                },
+                {
+                    "title": "05 Septiembre: Señales Débiles",
+                    "path": "mes_09_entorno/05_septiembre.md"
+                },
+                {
+                    "title": "06 Septiembre: Revisión del Terreno (Semana 1)",
+                    "path": "mes_09_entorno/06_septiembre.md"
+                },
+                {
+                    "title": "07 Septiembre: Resumen Semana 34 - El Cazador",
+                    "path": "mes_09_entorno/07_resumen_semana_34.md"
+                },
+                {
+                    "title": "07 Septiembre: Silencio",
+                    "path": "mes_09_entorno/07_septiembre.md"
+                },
+                {
+                    "title": "08 Septiembre: Be Water",
+                    "path": "mes_09_entorno/08_septiembre.md"
+                },
+                {
+                    "title": "09 Septiembre: Wu-Wei",
+                    "path": "mes_09_entorno/09_septiembre.md"
+                },
+                {
+                    "title": "10 Septiembre: Judo Mental",
+                    "path": "mes_09_entorno/10_septiembre.md"
+                },
+                {
+                    "title": "11 Septiembre: La Vela y el Remo",
+                    "path": "mes_09_entorno/11_septiembre.md"
+                },
+                {
+                    "title": "12 Septiembre: Surfear el Caos",
+                    "path": "mes_09_entorno/12_septiembre.md"
+                },
+                {
+                    "title": "13 Septiembre: Revisión del Flujo (Semana 2)",
+                    "path": "mes_09_entorno/13_septiembre.md"
+                },
+                {
+                    "title": "14 Septiembre: Resumen Semana 35 - La Medusa",
+                    "path": "mes_09_entorno/14_resumen_semana_35.md"
+                },
+                {
+                    "title": "14 Septiembre: Silencio",
+                    "path": "mes_09_entorno/14_septiembre.md"
+                },
+                {
+                    "title": "15 Septiembre: Lo que no te mata",
+                    "path": "mes_09_entorno/15_septiembre.md"
+                },
+                {
+                    "title": "16 Septiembre: Hormesis",
+                    "path": "mes_09_entorno/16_septiembre.md"
+                },
+                {
+                    "title": "17 Septiembre: Crecimiento Post-Traumático",
+                    "path": "mes_09_entorno/17_septiembre.md"
+                },
+                {
+                    "title": "18 Septiembre: El Obstáculo es el Camino",
+                    "path": "mes_09_entorno/18_septiembre.md"
+                },
+                {
+                    "title": "19 Septiembre: Kintsugi",
+                    "path": "mes_09_entorno/19_septiembre.md"
+                },
+                {
+                    "title": "20 Septiembre: Revisión de la Antifragilidad (Semana 3)",
+                    "path": "mes_09_entorno/20_septiembre.md"
+                },
+                {
+                    "title": "21 Septiembre: Resumen Semana 36 - El Huracán",
+                    "path": "mes_09_entorno/21_resumen_semana_36.md"
+                },
+                {
+                    "title": "21 Septiembre: Silencio",
+                    "path": "mes_09_entorno/21_septiembre.md"
+                },
+                {
+                    "title": "22 Septiembre: La Ley del 33%",
+                    "path": "mes_09_entorno/22_septiembre.md"
+                },
+                {
+                    "title": "23 Septiembre: Neuronas Espejo",
+                    "path": "mes_09_entorno/23_septiembre.md"
+                },
+                {
+                    "title": "24 Septiembre: Diseñar el Ecosistema",
+                    "path": "mes_09_entorno/24_septiembre.md"
+                },
+                {
+                    "title": "25 Septiembre: Cortar las Ramas Podridas",
+                    "path": "mes_09_entorno/25_septiembre.md"
+                },
+                {
+                    "title": "26 Septiembre: El Efecto Pigmalión",
+                    "path": "mes_09_entorno/26_septiembre.md"
+                },
+                {
+                    "title": "27 Septiembre: Revisión del Entorno Social (Semana 4)",
+                    "path": "mes_09_entorno/27_septiembre.md"
+                },
+                {
+                    "title": "28 Septiembre: Resumen Semana 37 - El Ermitaño",
+                    "path": "mes_09_entorno/28_resumen_semana_37.md"
+                },
+                {
+                    "title": "28 Septiembre: Silencio",
+                    "path": "mes_09_entorno/28_septiembre.md"
+                },
+                {
+                    "title": "29 Septiembre: Mimetismo y Autenticidad",
+                    "path": "mes_09_entorno/29_septiembre.md"
+                },
+                {
+                    "title": "30 Septiembre: El Puente al Ego",
+                    "path": "mes_09_entorno/30_septiembre.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_10",
+            "title": "Mes 10: Ego",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_10_ego/intro_mes_10.md"
+                },
+                {
+                    "title": "01 Octubre: La Mentira que nos contamos",
+                    "path": "mes_10_ego/01_octubre.md"
+                },
+                {
+                    "title": "02 Octubre: Azotando el Mar",
+                    "path": "mes_10_ego/02_octubre.md"
+                },
+                {
+                    "title": "03 Octubre: La Enfermedad de la Victoria",
+                    "path": "mes_10_ego/03_octubre.md"
+                },
+                {
+                    "title": "04 Octubre: El Vampiro del Tiempo",
+                    "path": "mes_10_ego/04_octubre.md"
+                },
+                {
+                    "title": "05 Octubre: La Tiranía de la Imagen",
+                    "path": "mes_10_ego/05_octubre.md"
+                },
+                {
+                    "title": "06 Octubre: Revisión Táctica (Semana 1)",
+                    "path": "mes_10_ego/06_octubre.md"
+                },
+                {
+                    "title": "07 Octubre: Silencio (Ayuno de Opinión)",
+                    "path": "mes_10_ego/07_octubre.md"
+                },
+                {
+                    "title": "07 Octubre: Resumen Semana 38 - El Juicio",
+                    "path": "mes_10_ego/07_resumen_semana_38.md"
+                },
+                {
+                    "title": "08 Octubre: Solo sé que no sé nada",
+                    "path": "mes_10_ego/08_octubre.md"
+                },
+                {
+                    "title": "09 Octubre: El Sistema Más, Menos, Igual",
+                    "path": "mes_10_ego/09_octubre.md"
+                },
+                {
+                    "title": "10 Octubre: La Tabla de Virtudes",
+                    "path": "mes_10_ego/10_octubre.md"
+                },
+                {
+                    "title": "11 Octubre: El Lienzo",
+                    "path": "mes_10_ego/11_octubre.md"
+                },
+                {
+                    "title": "12 Octubre: Shoshin (Mente de Principiante)",
+                    "path": "mes_10_ego/12_octubre.md"
+                },
+                {
+                    "title": "13 Octubre: Revisión Táctica (Semana 2)",
+                    "path": "mes_10_ego/13_octubre.md"
+                },
+                {
+                    "title": "14 Octubre: Silencio (La Postura del Estudiante)",
+                    "path": "mes_10_ego/14_octubre.md"
+                },
+                {
+                    "title": "14 Octubre: Resumen Semana 39 - El Estudiante",
+                    "path": "mes_10_ego/14_resumen_semana_39.md"
+                },
+                {
+                    "title": "15 Octubre: Haz tu trabajo",
+                    "path": "mes_10_ego/15_octubre.md"
+                },
+                {
+                    "title": "16 Octubre: La Obra en el Cajón",
+                    "path": "mes_10_ego/16_octubre.md"
+                },
+                {
+                    "title": "17 Octubre: El Liderazgo Invisible",
+                    "path": "mes_10_ego/17_octubre.md"
+                },
+                {
+                    "title": "18 Octubre: La Fábrica de Realidad",
+                    "path": "mes_10_ego/18_octubre.md"
+                },
+                {
+                    "title": "19 Octubre: Barriendo el Dojo",
+                    "path": "mes_10_ego/19_octubre.md"
+                },
+                {
+                    "title": "20 Octubre: Revisión Táctica (Semana 3)",
+                    "path": "mes_10_ego/20_octubre.md"
+                },
+                {
+                    "title": "21 Octubre: Silencio (Trabajo Manual)",
+                    "path": "mes_10_ego/21_octubre.md"
+                },
+                {
+                    "title": "21 Octubre: Resumen Semana 40 - Manos Sucias",
+                    "path": "mes_10_ego/21_resumen_semana_40.md"
+                },
+                {
+                    "title": "22 Octubre: El Exilio",
+                    "path": "mes_10_ego/22_octubre.md"
+                },
+                {
+                    "title": "23 Octubre: De la Pobreza a la Gloria (y vuelta)",
+                    "path": "mes_10_ego/23_octubre.md"
+                },
+                {
+                    "title": "24 Octubre: Amor Fati (Amar el Destino)",
+                    "path": "mes_10_ego/24_octubre.md"
+                },
+                {
+                    "title": "25 Octubre: El Momento Kintsugi",
+                    "path": "mes_10_ego/25_octubre.md"
+                },
+                {
+                    "title": "26 Octubre: Memento Mori (El Gran Nivelador)",
+                    "path": "mes_10_ego/26_octubre.md"
+                },
+                {
+                    "title": "27 Octubre: Revisión Táctica (Semana 4)",
+                    "path": "mes_10_ego/27_octubre.md"
+                },
+                {
+                    "title": "28 Octubre: Silencio (Contemplación de la Calavera)",
+                    "path": "mes_10_ego/28_octubre.md"
+                },
+                {
+                    "title": "28 Octubre: Resumen Semana 41 - La Calavera",
+                    "path": "mes_10_ego/28_resumen_semana_41.md"
+                },
+                {
+                    "title": "29 Octubre: El Enemigo Interior",
+                    "path": "mes_10_ego/29_octubre.md"
+                },
+                {
+                    "title": "30 Octubre: La Humildad Radical",
+                    "path": "mes_10_ego/30_octubre.md"
+                },
+                {
+                    "title": "31 Octubre: Preparando la Muerte",
+                    "path": "mes_10_ego/31_octubre.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_11",
+            "title": "Mes 11: Muerte",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_11_muerte/intro_mes_11.md"
+                },
+                {
+                    "title": "01 Noviembre: La brevedad de la vida",
+                    "path": "mes_11_muerte/01_noviembre.md"
+                },
+                {
+                    "title": "02 Noviembre: Filosofar es aprender a morir",
+                    "path": "mes_11_muerte/02_noviembre.md"
+                },
+                {
+                    "title": "03 Noviembre: Si hoy fuera el último día",
+                    "path": "mes_11_muerte/03_noviembre.md"
+                },
+                {
+                    "title": "04 Noviembre: La flor del cerezo",
+                    "path": "mes_11_muerte/04_noviembre.md"
+                },
+                {
+                    "title": "05 Noviembre: El Guión",
+                    "path": "mes_11_muerte/05_noviembre.md"
+                },
+                {
+                    "title": "06 Noviembre: Revisión Táctica (Semana 1)",
+                    "path": "mes_11_muerte/06_noviembre.md"
+                },
+                {
+                    "title": "07 Noviembre: Silencio (El Cementerio)",
+                    "path": "mes_11_muerte/07_noviembre.md"
+                },
+                {
+                    "title": "07 Noviembre: Resumen Semana 42 - El Cementerio",
+                    "path": "mes_11_muerte/07_resumen_semana_42.md"
+                },
+                {
+                    "title": "08 Noviembre: El Mercader de la Muerte",
+                    "path": "mes_11_muerte/08_noviembre.md"
+                },
+                {
+                    "title": "09 Noviembre: La Oración Fúnebre",
+                    "path": "mes_11_muerte/09_noviembre.md"
+                },
+                {
+                    "title": "10 Noviembre: Humo y Ceniza",
+                    "path": "mes_11_muerte/10_noviembre.md"
+                },
+                {
+                    "title": "11 Noviembre: La Séptima Generación",
+                    "path": "mes_11_muerte/11_noviembre.md"
+                },
+                {
+                    "title": "12 Noviembre: Los Constructores de Catedrales",
+                    "path": "mes_11_muerte/12_noviembre.md"
+                },
+                {
+                    "title": "13 Noviembre: Revisión Táctica (Semana 2)",
+                    "path": "mes_11_muerte/13_noviembre.md"
+                },
+                {
+                    "title": "14 Noviembre: Silencio (La Silla Vacía)",
+                    "path": "mes_11_muerte/14_noviembre.md"
+                },
+                {
+                    "title": "14 Noviembre: Resumen Semana 43 - La Silla Vacía",
+                    "path": "mes_11_muerte/14_resumen_semana_43.md"
+                },
+                {
+                    "title": "15 Noviembre: Las Manos Vacías",
+                    "path": "mes_11_muerte/15_noviembre.md"
+                },
+                {
+                    "title": "16 Noviembre: Tirando la Taza",
+                    "path": "mes_11_muerte/16_noviembre.md"
+                },
+                {
+                    "title": "17 Noviembre: La Vida Falsa",
+                    "path": "mes_11_muerte/17_noviembre.md"
+                },
+                {
+                    "title": "18 Noviembre: La Casa en Llamas",
+                    "path": "mes_11_muerte/18_noviembre.md"
+                },
+                {
+                    "title": "19 Noviembre: Limpieza de Muerte",
+                    "path": "mes_11_muerte/19_noviembre.md"
+                },
+                {
+                    "title": "20 Noviembre: Revisión Táctica (Semana 3)",
+                    "path": "mes_11_muerte/20_noviembre.md"
+                },
+                {
+                    "title": "21 Noviembre: Silencio (Donación)",
+                    "path": "mes_11_muerte/21_noviembre.md"
+                },
+                {
+                    "title": "21 Noviembre: Resumen Semana 44 - La Ofrenda",
+                    "path": "mes_11_muerte/21_resumen_semana_44.md"
+                },
+                {
+                    "title": "22 Noviembre: La Cicuta",
+                    "path": "mes_11_muerte/22_noviembre.md"
+                },
+                {
+                    "title": "23 Noviembre: Muerte por Libertad",
+                    "path": "mes_11_muerte/23_noviembre.md"
+                },
+                {
+                    "title": "24 Noviembre: El Último Enemigo",
+                    "path": "mes_11_muerte/24_noviembre.md"
+                },
+                {
+                    "title": "25 Noviembre: El Fénix",
+                    "path": "mes_11_muerte/25_noviembre.md"
+                },
+                {
+                    "title": "26 Noviembre: El Gran Océano",
+                    "path": "mes_11_muerte/26_noviembre.md"
+                },
+                {
+                    "title": "27 Noviembre: Revisión Táctica (Semana 4)",
+                    "path": "mes_11_muerte/27_noviembre.md"
+                },
+                {
+                    "title": "28 Noviembre: Silencio (Despedida Mental)",
+                    "path": "mes_11_muerte/28_noviembre.md"
+                },
+                {
+                    "title": "28 Noviembre: Resumen Semana 45 - La Despedida",
+                    "path": "mes_11_muerte/28_resumen_semana_45.md"
+                },
+                {
+                    "title": "29 Noviembre: El Testamento Ético",
+                    "path": "mes_11_muerte/29_noviembre.md"
+                },
+                {
+                    "title": "30 Noviembre: El Examen Final",
+                    "path": "mes_11_muerte/30_noviembre.md"
+                }
+            ]
+        },
+        {
+            "id": "mes_12",
+            "title": "Mes 12: Integración",
+            "sections": [
+                {
+                    "title": "Introducción",
+                    "path": "mes_12_integracion/intro_mes_12.md"
+                },
+                {
+                    "title": "01 Diciembre: La Mente de Principiante",
+                    "path": "mes_12_integracion/01_diciembre.md"
+                },
+                {
+                    "title": "02 Diciembre: Viajar Ligero",
+                    "path": "mes_12_integracion/02_diciembre.md"
+                },
+                {
+                    "title": "03 Diciembre: La Navaja de Ockham",
+                    "path": "mes_12_integracion/03_diciembre.md"
+                },
+                {
+                    "title": "04 Diciembre: Restar para Sumar",
+                    "path": "mes_12_integracion/04_diciembre.md"
+                },
+                {
+                    "title": "05 Diciembre: La Sabiduría del No-Saber",
+                    "path": "mes_12_integracion/05_diciembre.md"
+                },
+                {
+                    "title": "06 Diciembre: Revisión Táctica (Semana 1)",
+                    "path": "mes_12_integracion/06_diciembre.md"
+                },
+                {
+                    "title": "07 Diciembre: Silencio",
+                    "path": "mes_12_integracion/07_diciembre.md"
+                },
+                {
+                    "title": "07 Diciembre: Resumen Semana 48 - El Museo Vacío",
+                    "path": "mes_12_integracion/07_resumen_semana_48.md"
+                },
+                {
+                    "title": "08 Diciembre: Yin y Yang",
+                    "path": "mes_12_integracion/08_diciembre.md"
+                },
+                {
+                    "title": "09 Diciembre: La Paradoja de Stockdale",
+                    "path": "mes_12_integracion/09_diciembre.md"
+                },
+                {
+                    "title": "10 Diciembre: El Guerrero Erudito",
+                    "path": "mes_12_integracion/10_diciembre.md"
+                },
+                {
+                    "title": "11 Diciembre: Tensión y Relajación",
+                    "path": "mes_12_integracion/11_diciembre.md"
+                },
+                {
+                    "title": "12 Diciembre: Orden y Caos",
+                    "path": "mes_12_integracion/12_diciembre.md"
+                },
+                {
+                    "title": "13 Diciembre: Revisión Táctica (Semana 2)",
+                    "path": "mes_12_integracion/13_diciembre.md"
+                },
+                {
+                    "title": "14 Diciembre: Silencio",
+                    "path": "mes_12_integracion/14_diciembre.md"
+                },
+                {
+                    "title": "14 Diciembre: Resumen Semana 49 - El Radar",
+                    "path": "mes_12_integracion/14_resumen_semana_49.md"
+                },
+                {
+                    "title": "15 Diciembre: Ser Agua",
+                    "path": "mes_12_integracion/15_diciembre.md"
+                },
+                {
+                    "title": "16 Diciembre: La Zona",
+                    "path": "mes_12_integracion/16_diciembre.md"
+                },
+                {
+                    "title": "17 Diciembre: Acción sin Esfuerzo",
+                    "path": "mes_12_integracion/17_diciembre.md"
+                },
+                {
+                    "title": "18 Diciembre: El Ritmo de la Batalla",
+                    "path": "mes_12_integracion/18_diciembre.md"
+                },
+                {
+                    "title": "19 Diciembre: Improvisación Disciplinada",
+                    "path": "mes_12_integracion/19_diciembre.md"
+                },
+                {
+                    "title": "20 Diciembre: Revisión Táctica (Semana 3)",
+                    "path": "mes_12_integracion/20_diciembre.md"
+                },
+                {
+                    "title": "21 Diciembre: Silencio",
+                    "path": "mes_12_integracion/21_diciembre.md"
+                },
+                {
+                    "title": "21 Diciembre: Resumen Semana 50 - La Cuarentena",
+                    "path": "mes_12_integracion/21_resumen_semana_50.md"
+                },
+                {
+                    "title": "22 Diciembre: Amor Fati",
+                    "path": "mes_12_integracion/22_diciembre.md"
+                },
+                {
+                    "title": "23 Diciembre: El Servicio",
+                    "path": "mes_12_integracion/23_diciembre.md"
+                },
+                {
+                    "title": "24 Diciembre: La Calma en la Tormenta",
+                    "path": "mes_12_integracion/24_diciembre.md"
+                },
+                {
+                    "title": "25 Diciembre: Legado",
+                    "path": "mes_12_integracion/25_diciembre.md"
+                },
+                {
+                    "title": "26 Diciembre: La Muerte del Ego",
+                    "path": "mes_12_integracion/26_diciembre.md"
+                },
+                {
+                    "title": "27 Diciembre: Revisión Táctica (Semana 4)",
+                    "path": "mes_12_integracion/27_diciembre.md"
+                },
+                {
+                    "title": "28 Diciembre: Silencio",
+                    "path": "mes_12_integracion/28_diciembre.md"
+                },
+                {
+                    "title": "28 Diciembre: Resumen Semana 51 - Gratitud Radical",
+                    "path": "mes_12_integracion/28_resumen_semana_51.md"
+                },
+                {
+                    "title": "29 Diciembre: El Eterno Retorno",
+                    "path": "mes_12_integracion/29_diciembre.md"
+                },
+                {
+                    "title": "30 Diciembre: Limpiar la Casa",
+                    "path": "mes_12_integracion/30_diciembre.md"
+                },
+                {
+                    "title": "31 Diciembre: Día Uno",
+                    "path": "mes_12_integracion/31_diciembre.md"
+                }
+            ]
+        }
+    ]
+}

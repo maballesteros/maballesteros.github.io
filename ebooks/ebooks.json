@@ -1,0 +1,10 @@
+[
+    {
+        "id": "diario-del-guerrero",
+        "title": "Diario del Guerrero",
+        "author": "M. A. Ballesteros",
+        "cover": "/ebooks/diario_del_guerrero/images/cover.png",
+        "description": "Un manual de entrenamiento interior para artistas marciales y líderes.",
+        "path": "/ebooks/diario_del_guerrero/index.json"
+    }
+]

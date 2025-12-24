@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Vollkorn:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --accent: #2c3e50;
+  --border: #e9ecef;
+  
+  /* Reading themes */
+  --reader-bg: var(--bg-primary);
+  --reader-text: var(--text-primary);
+  --reader-font-serif: 'Vollkorn', serif;
+  --reader-font-sans: 'Inter', sans-serif;
+}
+
+.dark {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --accent: #3498db;
+  --border: #333333;
+  --reader-bg: #121212;
+  --reader-text: #e0e0e0;
+}
+
+.sepia {
+  --bg-primary: #f4ecd8;
+  --bg-secondary: #e8dfc4;
+  --text-primary: #5b4636;
+  --text-secondary: #8c715e;
+  --accent: #a0522d;
+  --border: #dcd0b3;
+  --reader-bg: #f4ecd8;
+  --reader-text: #5b4636;
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans transition-colors duration-300;
+  }
+}
+
+@layer components {
+  .premium-card {
+    @apply bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-[1.02];
+  }
+  
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  
+  .reader-content {
+    font-family: var(--reader-font-family, var(--reader-font-serif));
+    font-size: var(--reader-font-size, 1.125rem);
+    line-height: 1.75;
+    @apply max-w-2xl mx-auto;
+  }
+  
+  .reader-content h1 {
+    @apply text-4xl md:text-5xl font-bold mb-8 text-center;
+  }
+  
+  .reader-content h2 {
+    @apply text-2xl md:text-3xl font-bold mt-12 mb-6;
+  }
+  
+  .reader-content p {
+    @apply mb-6 text-justify;
+  }
+  
+  .reader-content blockquote {
+    @apply border-l-4 border-[var(--accent)] pl-6 italic my-8 text-lg;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-[var(--border)] rounded-full hover:bg-[var(--text-secondary)];
+}
