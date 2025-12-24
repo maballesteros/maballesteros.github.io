@@ -46,4 +46,12 @@ permalink: /apps/
   </a>
 </article>
 
+<article>
+  <a href="/biblioteca/">
+    <img src="/images/biblioteca-preview.png" alt="Biblioteca">
+    <h2>Biblioteca</h2>
+    <p>Tu rincón de lectura personal. Una experiencia premium para leer ebooks en formato Markdown con temas personalizados, navegación fluida y persistencia de lectura.</p>
+  </a>
+</article>
+
 </div>
