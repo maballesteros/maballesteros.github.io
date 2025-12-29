@@ -1,0 +1,32 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 6 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Medium - The Lecture):
+Scene: Smartass explaining basics.
+Bubble (Smartass): "Lo que tienes que entender es que Linux funciona por procesos..."
+Caption: "MARCO TEACHER-PUPIL"
+
+Panel 2 (Close Up - Disruption):
+Scene: Mike interrupting firmly.
+Text Bubble (Mike): "Sí, conozco la arquitectura, Luis. Llevo 10 años en esto."
+
+Panel 3 (Small - Persistence):
+Scene: Smartass trying again.
+Bubble (Smartass): "Ya, pero la base..."
+
+Panel 4 (Large - The Level Up):
+Scene: Mike cutting in again.
+Big Text Bubble (Mike): "La base está clara. El problema es el driver X."
+
+Panel 5 (Medium - The Expert Question):
+Scene: Mike looking at Smartass professionally.
+Text Bubble (Mike): "¿Qué opinas del driver?"
+
+Panel 6 (Medium - Equality):
+Scene: Smartass forced to think seriously.
+Text Bubble (Smartass): "Eh... bueno, el driver..."
+Caption Box: "DE ALUMNO A EXPERTO"
+
+Aspect Ratio: 9:16
+Quality: Transition from condescension to peer respect.

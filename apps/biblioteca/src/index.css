@@ -11,7 +11,7 @@
   --text-secondary: #4a4a4a;
   --accent: #2c3e50;
   --border: #e9ecef;
-  
+
   /* Reading themes */
   --reader-bg: var(--bg-primary);
   --reader-text: var(--text-primary);
@@ -51,32 +51,64 @@
   .premium-card {
     @apply bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-[1.02];
   }
-  
+
   .glass {
     @apply bg-white/10 backdrop-blur-md border border-white/20;
   }
-  
+
   .reader-content {
     font-family: var(--reader-font-family, var(--reader-font-serif));
     font-size: var(--reader-font-size, 1.125rem);
     line-height: 1.75;
     @apply max-w-2xl mx-auto;
   }
-  
+
   .reader-content h1 {
     @apply text-4xl md:text-5xl font-bold mb-8 text-center;
   }
-  
+
   .reader-content h2 {
     @apply text-2xl md:text-3xl font-bold mt-12 mb-6;
   }
-  
+
   .reader-content p {
     @apply mb-6 text-justify;
   }
-  
+
   .reader-content blockquote {
     @apply border-l-4 border-[var(--accent)] pl-6 italic my-8 text-lg;
+  }
+
+  .reader-content h3 {
+    @apply text-xl md:text-2xl font-bold mt-8 mb-4;
+  }
+
+  .reader-content ul {
+    @apply list-disc list-outside ml-6 mb-6;
+  }
+
+  .reader-content ol {
+    @apply list-decimal list-outside ml-6 mb-6;
+  }
+
+  .reader-content li {
+    @apply mb-2;
+  }
+
+  .reader-content table {
+    @apply w-full border-collapse my-8 border border-[var(--border)];
+  }
+
+  .reader-content th {
+    @apply border border-[var(--border)] p-3 bg-[var(--bg-secondary)] font-bold text-left;
+  }
+
+  .reader-content td {
+    @apply border border-[var(--border)] p-3;
+  }
+
+  .reader-content a {
+    @apply text-[var(--accent)] underline underline-offset-4 decoration-[var(--border)] hover:decoration-[var(--accent)] transition-colors;
   }
 }
 
@@ -84,9 +116,52 @@
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   @apply bg-transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   @apply bg-[var(--border)] rounded-full hover:bg-[var(--text-secondary)];
+}
+
+/* Table Styles for Markdown */
+.reader-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 0.9em;
+  background-color: var(--bg-secondary);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.reader-content thead th {
+  background-color: #1f2937;
+  /* Gray-800 - ensures contrast with white text always */
+  color: #ffffff;
+  text-align: left;
+}
+
+.reader-content th,
+.reader-content td {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border);
+}
+
+.reader-content tbody tr:nth-of-type(even) {
+  background-color: var(--reader-bg);
+}
+
+.reader-content tbody tr:last-of-type {
+  border-bottom: 2px solid var(--accent);
+}
+
+.reader-content tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .reader-content tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
 }

@@ -6,5 +6,13 @@
         "cover": "/ebooks/diario_del_guerrero/images/cover.png",
         "description": "Un manual de entrenamiento interior para artistas marciales y líderes.",
         "path": "/ebooks/diario_del_guerrero/index.json"
+    },
+    {
+        "id": "power-for-dummies",
+        "title": "Power for Dummies",
+        "author": "M. A. Ballesteros",
+        "cover": "/ebooks/power_for_dummies/images/cover.png",
+        "description": "Manual de entrenamiento en dinámicas de poder ético.",
+        "path": "/ebooks/power_for_dummies/index.json"
     }
 ]

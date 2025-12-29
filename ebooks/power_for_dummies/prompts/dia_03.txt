@@ -1,0 +1,41 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 6-8 panels).
+Constraint: Render ALL text in clear, large white speech bubbles. Verbatim dialogue.
+
+Panel 1 (Wide):
+Scene: Two students (Jorge and Peer) arguing loud.
+Action: Mouths wide open, overlapping shouting.
+Bubble (Jorge): "¡Vídeo es mejor!"
+Bubble (Peer): "¡Directo es mejor!"
+Sound Effect: "RUIDO!"
+
+Panel 2 (Medium - The Slow Down):
+Scene: Mike intervening. Calm, slow gesture.
+Big Text Bubble (Mike): "Propongo prueba de un minuto."
+Big Text Bubble (Mike): "Defended vuestra opción con DIEZ palabras máximo."
+
+Panel 3 (Small - Confusion):
+Scene: Jorge and Peer looking at each other, confused/silent.
+Effect: "..." (Silence dots).
+
+Panel 4 (Medium - The Filter):
+Scene: Jorge speaking carefully.
+Text Bubble (Jorge): "Vídeo: mejor edición, menos nervios, profesional."
+Scene: Peer speaking carefully.
+Text Bubble (Peer): "Directo: energía, conexión público, autenticidad."
+
+Panel 5 (Large - The Frame Question):
+Scene: Mike leaning forward, intense focus (eyes).
+Big Text Bubble (Mike): "Pregunta: ¿qué pesa más, precisión o conexión?"
+
+Panel 6 (Small - The Answer):
+Scene: Silence. Jorge realizes.
+Text Bubble (Jorge): "...Conexión."
+
+Panel 7 (Medium - Resolution):
+Scene: Mike nodding approvingly.
+Text Bubble (Mike): "Entonces directo con un clip de apoyo."
+Caption Box: "ECONOMÍA VERBAL"
+
+Aspect Ratio: 9:16
+Quality: Crisp text, expressive faces.

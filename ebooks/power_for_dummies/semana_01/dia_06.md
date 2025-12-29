@@ -1,0 +1,92 @@
+# Día 6 — Derecho a hablar y micro-faltas: límites sin pelear
+
+> **Objetivo de aprendizaje**: Aprender a defender tu dignidad ante burlas sutiles o interrupciones, señalando la falta sin perder la compostura ni escalar el conflicto innecesariamente.
+
+## Relato
+
+Durante la exposición de Jorge, un compañero suelta en voz baja: “Bueno, si algún día acaba…”. Risas. Jorge se encoge un poco; Mike, sentado al fondo, levanta discretamente la mano para pedir la palabra y Jorge se la cede.
+
+—**[Meta-comentario:]** Ese comentario es poco respetuoso para el que está exponiendo. Volvamos al contenido. —dice Mike, con tono neutro.
+
+Sin acusar ni dramatizar, nombra la falta y **re-encuadra**. El compañero se ruboriza y mira al suelo; el profesor agradece y pide seguir. Jorge respira; retoma:
+
+—Decía: la hipótesis alternativa explica mejor el pico…
+
+Más tarde, al salir, el compañero se acerca: —No iba en serio, era broma.
+
+—**[Validación + Límite:]** Gracias por decirlo —responde Mike—. Si te sale otra, mejor hazla de apoyo al ponente.
+
+![Ilustración del Día](../images/dia_06.png)
+
+## Explicación Profunda
+
+Las agresiones más peligrosas no son los gritos, sino las **micro-faltas** (burlas, interrupciones, miradas de desprecio, comentarios sarcásticos). Son peligrosas porque son *negables*: "era una broma", "qué sensible eres". Esto te pone en un dilema: si te enfadas, pareces un histérico (y pierdes estatus); si te callas, validas la falta de respeto (y pierdes estatus). Es jaque mate.
+
+Mike usa la técnica del **Meta-comentario** para salir de la trampa. No discute el *contenido* de la broma ("no es verdad que sea largo"). Eleva la conversación al *proceso* ("ese comentario es irrespetuoso"). Al describir lo que está pasando objetivamente, le quita la máscara a la agresión. Es como encender la luz cuando alguien intenta robarte a oscuras. El ladrón huye (se avergüenza) porque ha sido expuesto.
+
+Crucialmente, Mike lo hace sin ira. La ira implica que te han hecho daño. La **neutralidad** implica que estás corrigiendo un error técnico, como quien corrige una falta de ortografía. "Volvamos al contenido" es la llave maestra: demuestra que tu objetivo no es pelear, sino la tarea (la exposición). Esto te posiciona como el "adulto en la sala".
+
+En la segunda parte, cuando el agresor intenta minimizar ("era broma"), Mike no cae en el debate. Usa un "Gracias por decirlo" (cierra la excusa) y añade una instrucción correctiva ("hazla de apoyo"). Enseña a los demás cómo tratarle: el respeto es la norma, no la excepción.
+
+## Síntesis de Ideas Clave
+
+*   [TPM: Covert Aggression] **El Dilema del Agresor Encubierto**: Las micro-agresiones buscan provocarte para que tú quedes mal reaccionando. La respuesta correcta nunca es emocional; es analítica.
+*   [TPM: Power Moves] **Meta-comentario**: Nombrar la dinámica ("me has interrumpido", "eso es una descalificación") para hacerla consciente y detenerla.
+*   [TPM: One-Liners] **Re-encuadre al Objetivo**: Tras señalar la falta, redirige inmediatamente al trabajo o tema. Esto demuestra que tú estás por encima del juego sucio.
+
+## Ejemplos Prácticos
+
+### 1. La Interrupción Constante en Entorno Profesional
+*   **Situación**: Empiezas a hablar y un colega te corta sistemáticamente.
+*   **Acción**: Detente, usa el nombre y pide el turno con calma.
+*   **Frase**: *"Carlos, **[Freno]** espera un segundo que termine la idea. **[Vuelta]** Decía que los datos son..."*
+*   **Por qué funciona**: "Espera un segundo" es una orden suave. Al no pedir "por favor" ni poner cara de enfado, estableces que escuchar tu turno es una norma básica, no un favor.
+
+### 2. La Broma Pesada en Entorno Social
+*   **Situación**: "¡Uy, qué guapo has venido hoy, vas a ligar mucho!" (Dicho con tonito de burla).
+*   **Acción**: Tómalo literal y aburrido. Mata el chiste.
+*   **Frase**: *"Gracias. **[Límite]** Aunque el tono me ha sonado un poco sarcástico. ¿Iba con segundas?"*
+*   **Por qué funciona**: Al preguntar "¿iba con segundas?" (meta-comentario), le obligas a explicar el chiste. Explicar un chiste mata la gracia y deja al agresor en evidencia.
+
+### 3. El "Teacher Frame" en Entorno Familiar (Cuñado/Suegro)
+*   **Situación**: Alguien te da lecciones no solicitadas sobre cómo educar a tus hijos o hacer tu trabajo. "Lo que tú tienes que hacer es..."
+*   **Acción**: Agradece la intención pero rechaza la lección.
+*   **Frase**: *"Aprecio el consejo, tío. **[Límite]** De momento tenemos nuestro propio plan y nos funciona. Si necesito ayuda te aviso."*
+*   **Por qué funciona**: "Aprecio el consejo" valida (no eres grosero), pero "tenemos nuestro plan" reafirma tu autoridad. "Te aviso" deja claro que tú tienes el control de cuándo recibes *inputs*.
+
+## Señales de Progreso
+
+1.  **Detección temprana**:
+    *   *¿Ves venir la "puya" antes de que te duela?* Tu cerebro empieza a etiquetar: "esto es una interrupción", "esto es un marco de juez". Al etiquetarlo, te distancias emocionalmente.
+2.  **No justificación**:
+    *   *¿Has dejado de explicarte cuando te atacan?* Ante un ataque, no te defiendes ("¡no es verdad!"). Contraatacas al marco ("ese comentario no viene a cuento").
+3.  **Calma post-conflicto**:
+    *   *¿Te tiembla menos la voz?* Al saber que tienes herramientas técnicas (frases preparadas), el miedo a la confrontación baja.
+
+## Errores Habituales
+
+*   **La Contra-Agresión ("Y tú más")**
+    *   *Se ve así*: "¡Pues anda que tú, que nunca te callas!"
+    *   *Resultado*: Pelea de barro. Ambos perdéis estatus.
+    *   *Alternativa*: Meta-comentario frío. "Me estás interrumpiendo."
+*   **El Silencio Rencoroso**
+    *   *Se ve así*: Te callas, miras mal, y te vas a casa rumiando la venganza.
+    *   *Resultado*: El agresor aprende que eres un blanco fácil.
+    *   *Alternativa*: Señalarlo en el momento, aunque sea brevemente. "Oye, eso no me ha gustado."
+*   **Pedir Permiso para Defenderse**
+    *   *Se ve así*: "¿Te importa dejarme hablar, por favor?"
+    *   *Alternativa*: Afirmación. "Déjame terminar."
+
+## Conclusiones
+
+Tener "piel dura" no significa aguantar golpes; significa tener un escudo eficaz. El derecho a hablar y a ser tratado con respeto no se pide; se ejerce. Cada vez que marcas un límite con educación y firmeza, no solo te proteges a ti, sino que elevas el estándar de comportamiento de todo tu entorno. Enseñas a la gente que, contigo, la calidad humana es obligatoria.
+
+## Práctica Deliberada
+
+*   **Ficha**: [Juego 4: Broma o Descalificación](../juegos/juego_04.md) (Pendiente).
+*   **Por qué ayuda**: Practica clasificar frases. Pide a un amigo que te diga frases ambiguas. Tienes que decidir en 2 segundos: ¿Verde (agradecer), Ámbar (ignorar) o Rojo (meta-comentario)? La velocidad es clave.
+
+## Referencias TPM
+
+*   [Covert Aggression](https://thepowermoves.com/how-to-handle-covert-aggressor/): Cómo manejar la falta de respeto encubierta.
+*   [One-Liners](https://thepowermoves.com/how-to-handle-all-power-moves/): Frases cortas para defenderte de cualquier ataque verbal.

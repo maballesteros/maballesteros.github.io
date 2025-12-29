@@ -1,0 +1,95 @@
+# Día 16 — Re-encuadre en 7 palabras: judo verbal
+
+> **Objetivo de aprendizaje**: Aprender a cambiar el significado de una situación con frases cortas y contundentes, evitando largas explicaciones que diluyen el poder.
+
+## Relato
+
+En una cena, alguien critica a Mike por irse pronto:
+—¡Qué aburrido eres, ya te vas! (Marco: Mike es un "aguafiestas").
+
+Mike podría explicar: "No, es que mañana madrugo mucho y tengo una reunión...". (Marco: Mike es una víctima de su agenda y pide perdón).
+
+En su lugar, Mike sonríe mientras se pone el abrigo y dice:
+—**"No es aburrimiento, es gestión de energía."** (6 palabras).
+
+Y añade un guiño. "Pasadlo bien". Se va.
+
+La gente se queda con la sensación de que Mike es un profesional disciplinado, no un aburrido. Ha re-definido la realidad en una frase.
+
+![Ilustración del Día](../images/dia_16.png)
+
+## Explicación Profunda
+
+El cerebro humano prefiere las explicaciones cortas. "Lo bueno, si breve, dos veces bueno". En el **Frame Control**, la economía de palabras es vital.
+Si necesitas 50 palabras para explicar por qué no eres "malo", has perdido. Pareces culpable.
+Si puedes re-definir la situación en menos de 10 palabras, proyectas una certeza absoluta.
+
+La estructura del **Re-encuadre Relámpago** suele ser:
+*   Negación ("No es X") + Afirmación ("Es Y").
+*   O simplemente Afirmación pura ("Yo lo llamo Y").
+
+Mike usa la técnica de **Re-etiquetado Positivo**.
+*   "Aburrido" (negativo) -> "Gestión de energía" (positivo/profesional).
+*   "Tacaño" -> "Ahorrador selectivo".
+*   "Mandón" -> "Directivo".
+
+No cambia los hechos (se va pronto), cambia la etiqueta moral de los hechos.
+
+## Síntesis de Ideas Clave
+
+*   [TPM: Frame Control] **La Ley del Menor Esfuerzo**: Quien más se esfuerza en explicarse, menos estatus tiene. El re-encuadre corto demuestra mínimo esfuerzo y máxima influencia.
+*   [TPM: Persuasion] **Etiquetado**: Las palabras importan. Si aceptas la etiqueta "tímido", actuarás como tal. Si la cambias a "observador", actuarás con poder.
+*   [TPM: One-Liners] **Frases de Bolsillo**: Tener preparadas estas respuestas cortas te salva bajo presión.
+
+## Ejemplos Prácticos
+
+### 1. Crítica por ser "Piquismiquis"
+*   **Situación**: Te dicen que eres demasiado exigente con la comida o el trabajo.
+*   **Acción**: Re-encuadre a Estándares.
+*   **Frase**: *"No es manía, es control de calidad."*
+*   **Por qué funciona**: Elevas tu "defecto" a una virtud empresarial.
+
+### 2. Acusación de Egoísmo
+*   **Situación**: "Solo piensas en ti."
+*   **Acción**: Re-encuadre a Autocuidado.
+*   **Frase**: *"Me cuido para poder cuidar mejor."*
+*   **Por qué funciona**: Demuestras que tu bienestar es la base para ayudar a otros. Destruye el marco de mártir.
+
+### 3. Presión por "Miedo"
+*   **Situación**: "¡No lo haces porque eres un cobarde!" (Intentan picarte para que hagas una estupidez).
+*   **Acción**: Re-encuadre a Inteligencia.
+*   **Frase**: *"No es miedo, es cálculo de riesgos."*
+*   **Por qué funciona**: Validas tu inacción como una decisión inteligente, no emocional.
+
+## Señales de Progreso
+
+1.  **Velocidad**:
+    *   *¿Te sale la frase en el momento?* Al principio se te ocurrían en la ducha. Ahora te salen "en vivo".
+2.  **Cero justificaciones**:
+    *   *¿Has dejado de usar el "porque..."?* Dices la frase y cierras la boca. El silencio posterior sella el re-encuadre.
+3.  **Sonrisa**:
+    *   *¿Lo dices sonriendo?* El mejor re-encuadre es el que se hace con buen humor. Demuestra que el ataque no te ha dolido.
+
+## Errores Habituales
+
+*   **El Discurso Filosófico**
+    *   *Se ve así*: "Bueno, es que el concepto de aburrimiento es relativo, porque yo creo que..."
+    *   *Resultado*: La gente desconecta. Pareces pedante y defensivo.
+    *   *Alternativa*: Corto. Pum.
+*   **Aceptar la Etiqueta a Medias**
+    *   *Se ve así*: "Sí, soy un poco aburrido, pero..."
+    *   *Resultado*: Has perdido.
+    *   *Alternativa*: Rechazo total de la etiqueta negativa. Nueva etiqueta positiva.
+
+## Conclusiones
+
+Las palabras son magia. Con una frase, puedes convertir un insulto en un elogio. No dejes que nadie pegue etiquetas en tu frente que no te gustan. Arrancalas y pega las tuyas. Tú eres el editor de tu propia biografía.
+
+## Práctica Deliberada
+
+*   **Ficha**: [Juego 3: Re-encuadre Relámpago](../juegos/juego_03.md).
+*   **Por qué ayuda**: Juega con una lista de insultos comunes ("lento", "agresivo", "frío"). Escribe un re-encuadre de 7 palabras para cada uno. Memorízalos. Son tus armas.
+
+## Referencias TPM
+
+*   [Frame Control](https://thepowermoves.com/frame-control-basics/): Técnicas de re-significación.

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Search, Book as BookIcon, Menu, X, Sun, Moon, Type, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -319,6 +320,7 @@ export default function App() {
                                     } as any}
                                 >
                                     <ReactMarkdown
+                                        remarkPlugins={[remarkGfm]}
                                         components={{
                                             img: ({ node, ...props }) => {
                                                 const src = props.src || '';
@@ -327,6 +329,50 @@ export default function App() {
                                                     ? `${bookIndex?.basePath}${src.replace('../', '')}`
                                                     : src;
                                                 return <img {...props} src={rewrittenSrc} className="rounded-xl shadow-lg my-8 mx-auto" alt={props.alt || ''} />;
+                                            },
+                                            a: ({ node, ...props }) => {
+                                                const href = props.href || '';
+                                                const isExternal = href.startsWith('http') || href.startsWith('mailto:');
+
+                                                if (isExternal) {
+                                                    return <a {...props} target="_blank" rel="noopener noreferrer" className="text-[var(--accent)] hover:underline" />;
+                                                }
+
+                                                return (
+                                                    <a
+                                                        {...props}
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            if (!currentSection || !bookIndex) return;
+
+                                                            // Simple path resolution
+                                                            const currentDir = currentSection.path.split('/').slice(0, -1);
+                                                            const targetParts = href.split('/');
+
+                                                            const resolvedParts = [...currentDir];
+
+                                                            for (const part of targetParts) {
+                                                                if (part === '..') {
+                                                                    resolvedParts.pop();
+                                                                } else if (part !== '.') {
+                                                                    resolvedParts.push(part);
+                                                                }
+                                                            }
+
+                                                            const resolvedPath = resolvedParts.join('/');
+                                                            const targetSection = bookIndex.chapters
+                                                                .flatMap(c => c.sections)
+                                                                .find(s => s.path === resolvedPath);
+
+                                                            if (targetSection) {
+                                                                loadSection(targetSection, bookIndex.basePath);
+                                                            } else {
+                                                                console.warn('Section not found:', resolvedPath);
+                                                            }
+                                                        }}
+                                                        className="cursor-pointer text-[var(--accent)] hover:underline"
+                                                    />
+                                                );
                                             }
                                         }}
                                     >

@@ -1,0 +1,29 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 5 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Small - The Ask):
+Scene: Friend (Juan) pleading.
+Bubble (Juan): "¿Me ayudas con la mudanza el sábado?"
+
+Panel 2 (Large - The Clean No):
+Scene: Mike calm. Shaking head.
+Big Text Bubble (Mike): "No, Juan. No voy a ir a cargar cajas."
+Effect: Impact lines.
+
+Panel 3 (Reaction):
+Scene: Juan disappointed but accepting.
+Effect: Silence.
+
+Panel 4 (Medium - The Offer):
+Scene: Mike smiling.
+Big Text Bubble (Mike): "Pero si quieres, me paso a las 20h con pizzas y cervezas."
+Big Text Bubble (Mike): "¿Te cuadra?"
+
+Panel 5 (Medium - The Deal):
+Scene: High five or handshake.
+Bubble (Juan): "¡Vale, trato hecho!"
+Caption Box: "NO + ALTERNATIVA"
+
+Aspect Ratio: 9:16
+Quality: Contrast between firm No and warm Offer.
