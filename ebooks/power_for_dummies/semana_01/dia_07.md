@@ -85,7 +85,7 @@ Los grupos son sistemas complejos que tienden al desorden. Si tú eres quien apo
 
 ## Práctica Deliberada
 
-*   **Ficha**: [Juego 9: Aterrizaje de Grupo](../juegos/juego_09.md) (Pendiente).
+*   **Ficha**: [Juego 9: Aterrizaje de Grupo](../juegos/juego_09.md).
 *   **Por qué ayuda**: En tu próxima reunión social, ponte un reto secreto: "Voy a conseguir que [Persona Callada] hable dos veces". Usa preguntas dirigidas y crea silencio para él/ella. Observa cómo sube la energía del grupo.
 
 ## Referencias TPM
