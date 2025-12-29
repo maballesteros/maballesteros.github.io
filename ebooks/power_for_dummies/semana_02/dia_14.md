@@ -90,7 +90,7 @@ Los juegos de poder físicos son primitivos, pero suceden a diario en oficinas y
 
 ## Práctica Deliberada
 
-*   **Ficha**: [Juego 11: Tocar No Es Gratis](../juegos/juego_11.md) (Pendiente).
+*   **Ficha**: [Juego 11: Tocar No Es Gratis](../juegos/juego_11.md).
 *   **Por qué ayuda**: Role-play con alguien de confianza. Que te toque el hombro, la cabeza, el brazo. Practica diferentes formas de retirarte o retirar su mano sin ser agresivo, solo firme. Busca el movimiento mínimo eficaz.
 
 ## Referencias TPM

@@ -83,8 +83,7 @@ Tu cuerpo habla antes que tu boca. Si tu cuerpo grita "tengo miedo" o "no estoy 
 
 ## Práctica Deliberada
 
-*   **Ficha**: [Juego: Detector en Vídeo](../juegos/juego_07.md) (Pendiente de crear, usa un espejo mientras tanto).
-*   **Por qué ayuda**: Grabarse a uno mismo simulando una discusión es la terapia de choque más efectiva. Verás tus tics, tus desvíos de mirada y tus encogimientos. **Juego rápido**: Mírate al espejo y mantén la mirada 60 segundos sin mover un solo músculo de la cara.
+*   **Ficha**: [Juego: Plantilla 3 Pasos Sprint](../juegos/juego_08.md).ayuda**: Grabarse a uno mismo simulando una discusión es la terapia de choque más efectiva. Verás tus tics, tus desvíos de mirada y tus encogimientos. **Juego rápido**: Mírate al espejo y mantén la mirada 60 segundos sin mover un solo músculo de la cara.
 
 ## Referencias TPM
 

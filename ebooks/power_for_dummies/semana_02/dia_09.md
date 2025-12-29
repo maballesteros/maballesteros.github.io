@@ -89,7 +89,7 @@ Tu poder no reside en tener todas las respuestas, sino en hacer las mejores preg
 
 ## Práctica Deliberada
 
-*   **Ficha**: [Juego 3: Re-encuadre Relámpago](../juegos/juego_03.md) (Pendiente).
+*   **Ficha**: [Juego 3: Re-encuadre Relámpago](../juegos/juego_03.md).
 *   **Por qué ayuda**: Practica con un compañero. Él te lanza una acusación ("Eres un egoísta"). Tú tienes que responder con una pregunta que cambie el marco ("¿Cuidar de mis necesidades me hace egoísta o responsable?").
 
 ## Referencias TPM

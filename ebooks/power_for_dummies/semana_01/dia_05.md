@@ -88,7 +88,7 @@ El lenguaje vago es un refugio seguro para quien no quiere comprometerse. El len
 
 ## Práctica Deliberada
 
-*   **Ficha**: [Juego: Plantilla 3 Pasos Sprint](../juegos/juego_08.md) (Pendiente, usar notas del móvil).
+*   **Ficha**: [Juego: Plantilla 3 Pasos Sprint](../juegos/juego_08.md).
 *   **Por qué ayuda**: Practica redactar mensajes de WhatsApp usando estrictamente: 1. Hechos. 2. Propuesta. 3. Pregunta de cierre. Revisa tus últimos 10 mensajes enviados: ¿cuántos eran "paja" y cuántos eran CPS?
 
 ## Referencias TPM

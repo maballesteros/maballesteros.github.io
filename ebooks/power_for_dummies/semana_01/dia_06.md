@@ -83,7 +83,7 @@ Tener "piel dura" no significa aguantar golpes; significa tener un escudo eficaz
 
 ## Práctica Deliberada
 
-*   **Ficha**: [Juego 4: Broma o Descalificación](../juegos/juego_04.md) (Pendiente).
+*   **Ficha**: [Juego 4: Broma o Descalificación](../juegos/juego_04.md).
 *   **Por qué ayuda**: Practica clasificar frases. Pide a un amigo que te diga frases ambiguas. Tienes que decidir en 2 segundos: ¿Verde (agradecer), Ámbar (ignorar) o Rojo (meta-comentario)? La velocidad es clave.
 
 ## Referencias TPM
