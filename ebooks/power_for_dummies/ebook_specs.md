@@ -224,6 +224,12 @@ Antes de dar una entrada por cerrada, verifica estos puntos.
 * [ ] Los ejemplos cubren variantes de edad/contexto.
 * [ ] El tono es asertivo y constructivo, nunca manipulador.
 
+**Control de Calidad de Imágenes (Crítico)**
+* [ ] **Prompt Escrito**: Existe un archivo `prompts/dia_XX.txt`.
+* [ ] **Estilo Manga**: El prompt define paneles, diálogos y estilo "Manga Seinen". No es una ilustración conceptual.
+* [ ] **Generación**: Se ha ejecutado el script y la imagen `images/dia_XX.png` existe.
+* [ ] **Verificación Visual**: La imagen generada contiene texto/bocadillos legibles (si aplica) y respeta la composición de página.
+
 ### 5.2 QC para Juegos
 
 **Claridad Mecánica**
