@@ -32,9 +32,9 @@ Los 3 Pilares de la Presentación de Poder:
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Public Speaking] **Estatus en Escenario**: Si pides perdón por estar allí ("bueno, voy a ser breve..."), has perdido. Tienes derecho a estar allí. Disfrútalo.
-*   [TPM: Charisma] **Entusiasmo Controlado**: Pasión por el tema, pero control del cuerpo. Fuego en las palabras, hielo en los gestos.
-*   [TPM: Influence] **Menos es Más**: Pocas diapositivas. Pocas palabras. Mucho significado.
+*   **Estatus en Escenario**: Si pides perdón por estar allí ("bueno, voy a ser breve..."), has perdido. Tienes derecho a estar allí. Disfrútalo.
+*   **Entusiasmo Controlado**: Pasión por el tema, pero control del cuerpo. Fuego en las palabras, hielo en los gestos.
+*   **Menos es Más**: Pocas diapositivas. Pocas palabras. Mucho significado.
 
 ## Ejemplos Prácticos
 
@@ -77,6 +77,6 @@ Hablar en público no es "actuar". Es ser tú mismo, pero en versión amplificad
 *   **Ficha**: [Juego 12: Presenta y Defiende](../juegos/juego_12.md).
 *   **Reto**: Ofrécete voluntario para presentar cualquier cosa esta semana. Aunque sea el brindis de cumpleaños. Coge el micro.
 
-## Referencias TPM
+## Referencias
 
 *   [Public Speaking Power](https://thepowermoves.com/public-speaking/): Técnicas de oratoria.

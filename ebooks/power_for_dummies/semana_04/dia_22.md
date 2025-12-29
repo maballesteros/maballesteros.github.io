@@ -37,9 +37,9 @@ Cuando etiquetas ("Ah, esto es un Straw Man"), recuperas el control. Pasas de v�
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Power Moves] **Gamificación Social**: Ver la vida como un juego de poder no es cínico, es liberador. Te permite jugar mejor sin sufrir tanto.
-*   [TPM: Social Intelligence] **Disociación Emocional**: Al analizar la técnica del otro, te olvidas de sentirte ofendido. Tu cerebro pasa de "modo sentir" a "modo pensar".
-*   [TPM: Machiavellianism] **Conoce a tu enemigo**: La gente manipuladora repite patrones. Si detectas su jugada favorita, puedes anticiparte.
+*   **Gamificación Social**: Ver la vida como un juego de poder no es cínico, es liberador. Te permite jugar mejor sin sufrir tanto.
+*   **Disociación Emocional**: Al analizar la técnica del otro, te olvidas de sentirte ofendido. Tu cerebro pasa de "modo sentir" a "modo pensar".
+*   **Conoce a tu enemigo**: La gente manipuladora repite patrones. Si detectas su jugada favorita, puedes anticiparte.
 
 ## Ejemplos Prácticos
 
@@ -86,6 +86,6 @@ Bienvenido a Matrix. Ahora ves el código cayendo. No puedes "des-verlo". Usa es
 *   **Ficha**: [Juego 7: Detector en Vídeo](../juegos/juego_07.md) (Analizar vídeos de políticos/famosos es gran práctica).
 *   **Reto**: Mira un debate político en TV. Cuenta cuántas veces se interrumpen y cuántas falacias lógicas usan. Es el gimnasio perfecto.
 
-## Referencias TPM
+## Referencias
 
 *   [Power Moves List](https://thepowermoves.com/power-moves/): La enciclopedia de las jugadas.

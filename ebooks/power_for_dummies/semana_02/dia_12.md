@@ -37,9 +37,9 @@ Es el equivalente a reiniciar el ordenador cuando se cuelga. No buscas qué prog
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Group Conversations] **El Árbitro de la Dinámica**: Alguien tiene que darse cuenta de que el juego se ha ensuciado y pitar falta. Ese eres tú.
-*   [TPM: Frame Control] **Salir del Marco Emocional**: Cuando la amígdala (cerebro emocional) está al mando, no hay razonamiento. El "reset" (pausa + respiración) permite que el córtex prefrontal (lógica) vuelva a conectarse.
-*   [TPM: Conflict Resolution] **Salvar la Cara**: El reset permite a todos dar un paso atrás sin sentirse humillados. "Borrón y cuenta nueva" es una herramienta diplomática de alto nivel.
+*   **El Árbitro de la Dinámica**: Alguien tiene que darse cuenta de que el juego se ha ensuciado y pitar falta. Ese eres tú.
+*   **Salir del Marco Emocional**: Cuando la amígdala (cerebro emocional) está al mando, no hay razonamiento. El "reset" (pausa + respiración) permite que el córtex prefrontal (lógica) vuelva a conectarse.
+*   **Salvar la Cara**: El reset permite a todos dar un paso atrás sin sentirse humillados. "Borrón y cuenta nueva" es una herramienta diplomática de alto nivel.
 
 ## Ejemplos Prácticos
 
@@ -92,6 +92,6 @@ Tener la capacidad de decir "borrón y cuenta nueva" es un superpoder. Te permit
 *   **Ficha**: [Juego: Semáforo del Poder](../juegos/juego_01.md) (Variante Reset).
 *   **Por qué ayuda**: Cuando detectes que estás en "Rojo" (reaccionando mal), di en voz alta "Rojo. Reset". Respira. Pasa a "Verde" (CPS). Entrena el interruptor.
 
-## Referencias TPM
+## Referencias
 
 *   [Frame Control](https://thepowermoves.com/frame-control-basics/): Cómo re-encuadrar la situación de "pelea" a "cooperación" mediante el reset.

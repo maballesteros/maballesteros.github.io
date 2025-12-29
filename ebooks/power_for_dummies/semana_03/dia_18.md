@@ -34,9 +34,9 @@ Ecuación: **Límite Firme + Oferta Generosa = Respeto + Cariño.**
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Assertiveness] **El Derecho al No**: Tienes derecho a rechazar cualquier petición sin dar explicaciones. "No" es una frase completa.
-*   [TPM: Social Intelligence] **La Contra-Oferta**: Transforma un conflicto (Tú quieres A, Yo no quiero A) en una negociación constructiva (Hagamos B).
-*   [TPM: Power Dynamics] **Evitar la Deuda**: Si aceptas algo que no quieres hacer, generas resentimiento. Es mejor un No honesto hoy que un Sí falso que te cobrarás mañana con mala cara.
+*   **El Derecho al No**: Tienes derecho a rechazar cualquier petición sin dar explicaciones. "No" es una frase completa.
+*   **La Contra-Oferta**: Transforma un conflicto (Tú quieres A, Yo no quiero A) en una negociación constructiva (Hagamos B).
+*   **Evitar la Deuda**: Si aceptas algo que no quieres hacer, generas resentimiento. Es mejor un No honesto hoy que un Sí falso que te cobrarás mañana con mala cara.
 
 ## Ejemplos Prácticos
 
@@ -87,6 +87,6 @@ El "No" define tus bordes. Si no tienes bordes, te diluyes. Al usar la fórmula 
 *   **Ficha**: [Juego 5: No + Alternativa](../juegos/juego_05.md).
 *   **Por qué ayuda**: Entrena el músculo de aguantar la mirada tras el "No" y la creatividad para inventar alternativas rápidas.
 
-## Referencias TPM
+## Referencias
 
 *   [How to Say No](https://thepowermoves.com/how-to-say-no/): Guía completa para negativas asertivas.

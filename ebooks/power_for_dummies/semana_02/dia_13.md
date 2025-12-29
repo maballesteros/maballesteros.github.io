@@ -31,9 +31,9 @@ Y un detalle clave: **La Sonrisa Selectiva**. Sonreír todo el tiempo por defect
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Confident Body Language] **Ocupar Espacio**: Siéntete con derecho a estar donde estás. No te hagas pequeño para no molestar. Extiéndete cómodamente.
-*   [TPM: Status Cues] **La Barbilla Nivelada**: Subirla demasiado expone la garganta (desafío/arrogancia). Bajarla protege el cuello (sumisión/vergüenza). El nivel neutro es el equilibrio regio.
-*   [TPM: Body Language] **Manos Fuera de Bolsillos**: Esconder las manos se percibe inconscientemente como ocultamiento o inseguridad. Déjalas caer relajadas o úsalas.
+*   **Ocupar Espacio**: Siéntete con derecho a estar donde estás. No te hagas pequeño para no molestar. Extiéndete cómodamente.
+*   **La Barbilla Nivelada**: Subirla demasiado expone la garganta (desafío/arrogancia). Bajarla protege el cuello (sumisión/vergüenza). El nivel neutro es el equilibrio regio.
+*   **Manos Fuera de Bolsillos**: Esconder las manos se percibe inconscientemente como ocultamiento o inseguridad. Déjalas caer relajadas o úsalas.
 
 ## Ejemplos Prácticos
 
@@ -88,6 +88,6 @@ Tu cuerpo es el envase de tu mensaje. Si el envase está abollado (postura pobre
 *   **Ficha**: [Juego: Detector en Vídeo](../juegos/juego_07.md).
 *   **Por qué ayuda**: Pide a alguien que te grabe caminando y sentándote. ¿Te encorvas? ¿Miras al suelo? Corrige un solo detalle (ej: hombros abajo) y vuelve a grabar. La diferencia será abismal.
 
-## Referencias TPM
+## Referencias
 
 *   [Confident Body Language](https://thepowermoves.com/confident-body-language/): Análisis detallado de las señales de estatus alto y bajo.

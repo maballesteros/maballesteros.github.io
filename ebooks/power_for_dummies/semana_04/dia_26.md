@@ -38,9 +38,9 @@ Estrategias:
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Dominance] **Haptics y Estatus**: Quien inicia el toque suele tener más poder... a menos que el toque sea rechazado. Rechazar un toque es un "Power Move" masivo.
-*   [TPM: Body Language] **La Burbuja Personal**: Tienes derecho a un espacio de 50-100 cm alrededor de ti. Defenderlo no es ser "raro", es tener dignidad.
-*   [TPM: Social Dynamics] **Escalada Física**: Si permites un toque pequeño no deseado, vendrán toques mayores. Corta pronto.
+*   **Haptics y Estatus**: Quien inicia el toque suele tener más poder... a menos que el toque sea rechazado. Rechazar un toque es un "Power Move" masivo.
+*   **La Burbuja Personal**: Tienes derecho a un espacio de 50-100 cm alrededor de ti. Defenderlo no es ser "raro", es tener dignidad.
+*   **Escalada Física**: Si permites un toque pequeño no deseado, vendrán toques mayores. Corta pronto.
 
 ## Ejemplos Prácticos
 
@@ -87,7 +87,7 @@ Tu piel es la última frontera. Si no defiendes tu piel, tu mente entiende que e
 *   **Ficha**: [Juego 11: Tocar No Es Gratis](../juegos/juego_11.md).
 *   **Por qué ayuda**: Practica las "salidas de llave". Que un amigo te agarre del brazo y practica soltarte girando la muñeca o girando el cuerpo sin usar fuerza bruta. Aikido social.
 
-## Referencias TPM
+## Referencias
 
 *   [Strategic Touching](https://thepowermoves.com/strategic-touching/): Guía del toque para influencia y seducción (el lado positivo).
 *   [Defending Territory](https://thepowermoves.com/body-language/): El lado defensivo.

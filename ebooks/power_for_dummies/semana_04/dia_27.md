@@ -34,9 +34,9 @@ Para graduarte, tienes que **demostrar competencia**. Tienes que decir: "Ya lo s
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Frames] **Teacher-Pupil**: Uno de los marcos de poder más estables. Romperlo requiere demostrar que tú también tienes conocimientos.
-*   [TPM: Social Skills] **Consejos no solicitados**: Suelen ser críticas disfrazadas. "Deberías vestir mejor" = "Vistes mal y yo tengo mejor gusto". Recházalos amablemente.
-*   [TPM: Assertiveness] **Igualar el Nivel**: Si él usa jerga técnica, usa tú jerga técnica. Si él cita un libro, cita tú otro. Demuestra que jugáis en la misma liga.
+*   **Teacher-Pupil**: Uno de los marcos de poder más estables. Romperlo requiere demostrar que tú también tienes conocimientos.
+*   **Consejos no solicitados**: Suelen ser críticas disfrazadas. "Deberías vestir mejor" = "Vistes mal y yo tengo mejor gusto". Recházalos amablemente.
+*   **Igualar el Nivel**: Si él usa jerga técnica, usa tú jerga técnica. Si él cita un libro, cita tú otro. Demuestra que jugáis en la misma liga.
 
 ## Ejemplos Prácticos
 
@@ -86,6 +86,6 @@ Nadie te da el título de "Igual" o "Experto". Lo tienes que tomar. Deja de comp
 *   **Ficha**: [Juego 10: Anti-Teacher-Pupil](../juegos/juego_10.md).
 *   **Por qué ayuda**: Role-play donde uno hace de sabelotodo insoportable. Practica frases de corte: "Entendido", "Pasemos a la acción", "Ese punto lo tengo cubierto".
 
-## Referencias TPM
+## Referencias
 
 *   [Teacher-Pupil Frames](https://thepowermoves.com/teacher-pupil-frames/): Análisis profundo de esta dinámica.

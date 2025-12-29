@@ -33,9 +33,9 @@ Finalmente, Mike actúa como **Sintetizador**. Escucha fragmentos dispersos y lo
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Group Conversations] **El Rol de Facilitador**: En lugar de luchar por tu turno, gestiona los turnos de los demás. Pregunta a los callados, frena a los parlanchines. Eso es estatus de líder.
-*   [TPM: Frame Control] **Gestión de Zombis**: Identifica cuando una conversación entra en bucle sobre el pasado y córtalo. "Eso ya pasó, hablemos de ahora".
-*   [TPM: Leadership] **La Síntesis Integradora**: El poder definitivo es escuchar el caos y devolver orden. "Entonces, lo que decís es X e Y. ¿Hacemos Z?".
+*   **El Rol de Facilitador**: En lugar de luchar por tu turno, gestiona los turnos de los demás. Pregunta a los callados, frena a los parlanchines. Eso es estatus de líder.
+*   **Gestión de Zombis**: Identifica cuando una conversación entra en bucle sobre el pasado y córtalo. "Eso ya pasó, hablemos de ahora".
+*   **La Síntesis Integradora**: El poder definitivo es escuchar el caos y devolver orden. "Entonces, lo que decís es X e Y. ¿Hacemos Z?".
 
 ## Ejemplos Prácticos
 
@@ -88,7 +88,7 @@ Los grupos son sistemas complejos que tienden al desorden. Si tú eres quien apo
 *   **Ficha**: [Juego 9: Aterrizaje de Grupo](../juegos/juego_09.md).
 *   **Por qué ayuda**: En tu próxima reunión social, ponte un reto secreto: "Voy a conseguir que [Persona Callada] hable dos veces". Usa preguntas dirigidas y crea silencio para él/ella. Observa cómo sube la energía del grupo.
 
-## Referencias TPM
+## Referencias
 
 *   [Group Conversations](https://thepowermoves.com/group-conversation/): 4 pasos para masterizar las dinámicas grupales.
 *   [Preventing Thread Hijacking](https://thepowermoves.com/forum/topic/preventing-thread-hijacking/): Técnicas avanzadas para evitar que secuestren tu tema.

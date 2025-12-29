@@ -37,9 +37,9 @@ No cambia los hechos (se va pronto), cambia la etiqueta moral de los hechos.
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Frame Control] **La Ley del Menor Esfuerzo**: Quien más se esfuerza en explicarse, menos estatus tiene. El re-encuadre corto demuestra mínimo esfuerzo y máxima influencia.
-*   [TPM: Persuasion] **Etiquetado**: Las palabras importan. Si aceptas la etiqueta "tímido", actuarás como tal. Si la cambias a "observador", actuarás con poder.
-*   [TPM: One-Liners] **Frases de Bolsillo**: Tener preparadas estas respuestas cortas te salva bajo presión.
+*   **La Ley del Menor Esfuerzo**: Quien más se esfuerza en explicarse, menos estatus tiene. El re-encuadre corto demuestra mínimo esfuerzo y máxima influencia.
+*   **Etiquetado**: Las palabras importan. Si aceptas la etiqueta "tímido", actuarás como tal. Si la cambias a "observador", actuarás con poder.
+*   **Frases de Bolsillo**: Tener preparadas estas respuestas cortas te salva bajo presión.
 
 ## Ejemplos Prácticos
 
@@ -90,6 +90,6 @@ Las palabras son magia. Con una frase, puedes convertir un insulto en un elogio.
 *   **Ficha**: [Juego 3: Re-encuadre Relámpago](../juegos/juego_03.md).
 *   **Por qué ayuda**: Juega con una lista de insultos comunes ("lento", "agresivo", "frío"). Escribe un re-encuadre de 7 palabras para cada uno. Memorízalos. Son tus armas.
 
-## Referencias TPM
+## Referencias
 
 *   [Frame Control](https://thepowermoves.com/frame-control-basics/): Técnicas de re-significación.

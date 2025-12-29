@@ -37,9 +37,9 @@ Otra regla clave es la **Defensa del Orador Débil**. Si alguien intenta hablar 
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Group Dynamics] **Fragmentación vs. Unificación**: El estado natural es el caos. El estado de liderazgo es el orden. Unificar el foco es un servicio al grupo.
-*   [TPM: Social Skills] **Warmth (Calidez)**: Al pedir silencio, hazlo con una sonrisa ("venga chicos"). Si lo haces serio ("¡silencio!"), pareces la señorita Rottenmeier.
-*   [TPM: Leadership] **Gatekeeper (El Portero)**: Tú decides quién entra y quién sale de la conversación. "Espera Pedro, deja acabar a Juan".
+*   **Fragmentación vs. Unificación**: El estado natural es el caos. El estado de liderazgo es el orden. Unificar el foco es un servicio al grupo.
+*   **Warmth (Calidez)**: Al pedir silencio, hazlo con una sonrisa ("venga chicos"). Si lo haces serio ("¡silencio!"), pareces la señorita Rottenmeier.
+*   **Gatekeeper (El Portero)**: Tú decides quién entra y quién sale de la conversación. "Espera Pedro, deja acabar a Juan".
 
 ## Ejemplos Prácticos
 
@@ -90,6 +90,6 @@ Los grupos son bestias salvajes. Si les tienes miedo, te comen. Si intentas enja
 *   **Ficha**: [Juego 9: Aterrizaje de Grupo](../juegos/juego_09.md).
 *   **Por qué ayuda**: Entrena el momento crítico de "tomar el micro" en medio del caos.
 
-## Referencias TPM
+## Referencias
 
 *   [Commanding Attention in Groups](https://thepowermoves.com/group-conversation/): Guía avanzada.

@@ -30,9 +30,9 @@ Esto dice: "Mi rechazo es a la petición, no a ti".
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Archetypes] **Poder + Calidez**: La mezcla más carismática. Machiavelo decía "¿Es mejor ser amado o temido?". La respuesta moderna es: "Respetado por tu competencia y amado por tu humanidad".
-*   [TPM: Social Exchange] **La Cuenta Bancaria Emocional**: Cada límite que pones es una "retirada" de fondos de la relación. Necesitas hacer "ingresos" (elogios, tiempo, ayuda) para mantener el saldo positivo.
-*   [TPM: Relationships] **Separar Persona de Problema**: Duro con el problema, suave con la persona. (Principió Harvard de negociación).
+*   **Poder + Calidez**: La mezcla más carismática. Machiavelo decía "¿Es mejor ser amado o temido?". La respuesta moderna es: "Respetado por tu competencia y amado por tu humanidad".
+*   **La Cuenta Bancaria Emocional**: Cada límite que pones es una "retirada" de fondos de la relación. Necesitas hacer "ingresos" (elogios, tiempo, ayuda) para mantener el saldo positivo.
+*   **Separar Persona de Problema**: Duro con el problema, suave con la persona. (Principió Harvard de negociación).
 
 ## Ejemplos Prácticos
 
@@ -80,6 +80,6 @@ Hemos terminado el bloque de "Límites". Los límites son los muros de tu castil
 *   **Ficha**: [Juego 14: El Sandwich de Hierro](../juegos/juego_14.md).
 *   **Reto**: Hoy, después de pedir algo o poner un límite, di algo genuinamente amable a esa persona. Observa su reacción. Verás alivio en su cara.
 
-## Referencias TPM
+## Referencias
 
 *   [Power and Warmth](https://thepowermoves.com/power-and-warmth/): Por qué es la combinación ganadora.

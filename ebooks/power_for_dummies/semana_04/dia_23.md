@@ -38,9 +38,9 @@ Recuerda: **Termina tus frases**. Aunque nadie escuche. Terminar es una señal d
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Dominance] **Interrupción = Robo de Estatus**: Quien interrumpe con éxito roba la atención del grupo. Quien resiste la interrupción demuestra fortaleza.
-*   [TPM: High Power Talk] **Terminar la frase**: Es un hábito de campeones. Acostúmbrate a poner el punto final, aunque haya ruido.
-*   [TPM: Assertiveness] **Educar al grupo**: Si defiendes tu turno un par de veces, el grupo aprende que contigo hay que esperar. Creas cultura de respeto.
+*   **Interrupción = Robo de Estatus**: Quien interrumpe con éxito roba la atención del grupo. Quien resiste la interrupción demuestra fortaleza.
+*   **Terminar la frase**: Es un hábito de campeones. Acostúmbrate a poner el punto final, aunque haya ruido.
+*   **Educar al grupo**: Si defiendes tu turno un par de veces, el grupo aprende que contigo hay que esperar. Creas cultura de respeto.
 
 ## Ejemplos Prácticos
 
@@ -94,6 +94,6 @@ Tu voz es tu herramienta de influencia. Si dejas que te la quiten, te quedas des
 *   **Ficha**: [Juego 2: Turno Blindado + CPS](../juegos/juego_02.md).
 *   **Por qué ayuda**: Pide a un amigo que intente cortarte activamente mientras cuentas una historia. Practica el "Steamroll" (seguir hablando) y la mano de Stop. Es divertido y muy útil.
 
-## Referencias TPM
+## Referencias
 
 *   [How to Stop Interruptions](https://thepowermoves.com/stop-interruptions/): Técnicas avanzadas.

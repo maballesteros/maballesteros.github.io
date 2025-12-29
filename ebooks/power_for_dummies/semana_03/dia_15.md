@@ -37,9 +37,9 @@ Mike usa la técnica de **Explicitar el Marco**. Al decir "ese marco es injusto"
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Frame Control Basics] **La Realidad es Negociable**: Los hechos son objetivos (llueve), pero el marco es subjetivo (es un día triste vs. es un día romántico). El líder impone su significado.
-*   [TPM: Power Dynamics] **Marcos de Poder Comunes**: Juez/Acusado, Premio/Perseguidor, Maestro/Alumno. Aprende a verlos.
-*   [TPM: Assertiveness] **Nombrar para Domar**: Lo que no se nombra te controla. Lo que nombras, lo controlas tú.
+*   **La Realidad es Negociable**: Los hechos son objetivos (llueve), pero el marco es subjetivo (es un día triste vs. es un día romántico). El líder impone su significado.
+*   **Marcos de Poder Comunes**: Juez/Acusado, Premio/Perseguidor, Maestro/Alumno. Aprende a verlos.
+*   **Nombrar para Domar**: Lo que no se nombra te controla. Lo que nombras, lo controlas tú.
 
 ## Ejemplos Prácticos
 
@@ -89,6 +89,6 @@ La libertad real no es hacer lo que quieras, es pensar como quieras. Si vives en
 *   **Ficha**: [Juego 3: Re-encuadre Relámpago](../juegos/juego_03.md).
 *   **Por qué ayuda**: Este juego entrena el músculo de "ver el marco" y girarlo en 3 segundos. Sin esta velocidad, siempre te darás cuenta de lo que debiste decir dos horas después.
 
-## Referencias TPM
+## Referencias
 
 *   [Frame Control 101](https://thepowermoves.com/frame-control-basics/): La biblia de los marcos.

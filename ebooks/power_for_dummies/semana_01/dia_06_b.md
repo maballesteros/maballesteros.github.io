@@ -37,9 +37,9 @@ La técnica clave es el **Resumen de Verificación**: Devolverle al otro su argu
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Machiavelli] **Información es Poder**: Deja que hablen. Cuanto más hablen, más revelan.
-*   [TPM: Negotiations] **Tactical Empathy**: Entender la emoción del otro (y nombrarla) es la forma más rápida de desactivar la hostilidad. (Chris Voss).
-*   [TPM: Social Skills] **La Paradoja del Interesante**: Para ser interesante, sé *interesado*. A la gente le encantan los buenos oyentes.
+*   **Información es Poder**: Deja que hablen. Cuanto más hablen, más revelan.
+*   **Tactical Empathy**: Entender la emoción del otro (y nombrarla) es la forma más rápida de desactivar la hostilidad. (Chris Voss).
+*   **La Paradoja del Interesante**: Para ser interesante, sé *interesado*. A la gente le encantan los buenos oyentes.
 
 ## Ejemplos Prácticos
 

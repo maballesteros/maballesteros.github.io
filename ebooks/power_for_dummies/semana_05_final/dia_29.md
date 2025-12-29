@@ -77,8 +77,8 @@ El Frame Control no es magia, es técnica. Aquí tienes las 10 herramientas que 
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Toolkit] **Memorización**: Estas técnicas no sirven si las tienes en un PDF. Tienes que tenerlas en la punta de la lengua. Elige 3 y úsalas esta semana.
-*   [TPM: Adaptability] **La herramienta adecuada**: No uses un martillo (Silencio Agresivo) para un tornillo (Un amigo triste). Calibra.
+*   **Memorización**: Estas técnicas no sirven si las tienes en un PDF. Tienes que tenerlas en la punta de la lengua. Elige 3 y úsalas esta semana.
+*   **La herramienta adecuada**: No uses un martillo (Silencio Agresivo) para un tornillo (Un amigo triste). Calibra.
 
 ## Ejemplos Prácticos
 
@@ -106,6 +106,6 @@ No necesitas ser un genio de la retórica. Necesitas muletas fiables. Estas 10 t
 
 *   **Reto**: Imprime esta lista. Llévala en el bolsillo. Léela antes de entrar a cualquier sitio importante.
 
-## Referencias TPM
+## Referencias
 
 *   [Frame Control Techniques](https://thepowermoves.com/frame-control-techniques/): Más ejemplos y vídeos.
