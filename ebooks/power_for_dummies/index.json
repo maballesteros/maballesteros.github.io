@@ -41,6 +41,10 @@
                     "path": "semana_01/dia_06.md"
                 },
                 {
+                    "title": "Día 6 (Extra): Escucha de alto poder",
+                    "path": "semana_01/dia_06_b.md"
+                },
+                {
                     "title": "Día 7: Grupo: pasar el micro",
                     "path": "semana_01/dia_07.md"
                 }
@@ -217,6 +221,14 @@
                 {
                     "title": "Juego 12: Presenta y Defiende",
                     "path": "juegos/juego_12.md"
+                },
+                {
+                    "title": "Juego 13: La Disculpa Limpia",
+                    "path": "juegos/juego_13.md"
+                },
+                {
+                    "title": "Juego 14: El Sandwich de Hierro",
+                    "path": "juegos/juego_14.md"
                 }
             ]
         }
