@@ -1,0 +1,224 @@
+{
+    "title": "Power for Dummies",
+    "basePath": "/ebooks/power_for_dummies/",
+    "chapters": [
+        {
+            "id": "intro",
+            "title": "Introducción",
+            "sections": [
+                {
+                    "title": "Bienvenida y Propósito",
+                    "path": "intro.md"
+                }
+            ]
+        },
+        {
+            "id": "semana_01",
+            "title": "Semana 1: Fundamentos Visibles",
+            "sections": [
+                {
+                    "title": "Día 1: Propósito ético del poder",
+                    "path": "semana_01/dia_01.md"
+                },
+                {
+                    "title": "Día 2: Conducir la conversación",
+                    "path": "semana_01/dia_02.md"
+                },
+                {
+                    "title": "Día 3: Voz y pausas",
+                    "path": "semana_01/dia_03.md"
+                },
+                {
+                    "title": "Día 4: Cuerpo que sostiene la voz",
+                    "path": "semana_01/dia_04.md"
+                },
+                {
+                    "title": "Día 5: Estructura CPS",
+                    "path": "semana_01/dia_05.md"
+                },
+                {
+                    "title": "Día 6: Derecho a hablar y micro-faltas",
+                    "path": "semana_01/dia_06.md"
+                },
+                {
+                    "title": "Día 7: Grupo: pasar el micro",
+                    "path": "semana_01/dia_07.md"
+                }
+            ]
+        },
+        {
+            "id": "semana_02",
+            "title": "Semana 2: Tono, tiempo y cierres",
+            "sections": [
+                {
+                    "title": "Día 8: Pausa y latencia",
+                    "path": "semana_02/dia_08.md"
+                },
+                {
+                    "title": "Día 9: Preguntas que encuadran",
+                    "path": "semana_02/dia_09.md"
+                },
+                {
+                    "title": "Día 10: Pedir tiempo sin perder estatus",
+                    "path": "semana_02/dia_10.md"
+                },
+                {
+                    "title": "Día 11: Cierres operativos",
+                    "path": "semana_02/dia_11.md"
+                },
+                {
+                    "title": "Día 12: Reset ordenado",
+                    "path": "semana_02/dia_12.md"
+                },
+                {
+                    "title": "Día 13: Señales no verbales",
+                    "path": "semana_02/dia_13.md"
+                },
+                {
+                    "title": "Día 14: Nótese y neutralícese la 'ear tap'",
+                    "path": "semana_02/dia_14.md"
+                }
+            ]
+        },
+        {
+            "id": "semana_03",
+            "title": "Semana 3: Marcos y Límites",
+            "sections": [
+                {
+                    "title": "Día 15: Identificar el marco",
+                    "path": "semana_03/dia_15.md"
+                },
+                {
+                    "title": "Día 16: Re-encuadre en 7 palabras",
+                    "path": "semana_03/dia_16.md"
+                },
+                {
+                    "title": "Día 17: Nombrar subtexto sin agresión",
+                    "path": "semana_03/dia_17.md"
+                },
+                {
+                    "title": "Día 18: 'No' limpio + alternativa",
+                    "path": "semana_03/dia_18.md"
+                },
+                {
+                    "title": "Día 19: Límite conductual",
+                    "path": "semana_03/dia_19.md"
+                },
+                {
+                    "title": "Día 20: Reparación",
+                    "path": "semana_03/dia_20.md"
+                },
+                {
+                    "title": "Día 21: Cuidar la relación",
+                    "path": "semana_03/dia_21.md"
+                }
+            ]
+        },
+        {
+            "id": "semana_04",
+            "title": "Semana 4: Jugadas de Poder",
+            "sections": [
+                {
+                    "title": "Día 22: Detector de jugadas",
+                    "path": "semana_04/dia_22.md"
+                },
+                {
+                    "title": "Día 23: Anti-interrupción",
+                    "path": "semana_04/dia_23.md"
+                },
+                {
+                    "title": "Día 24: Anti-broma descalificadora",
+                    "path": "semana_04/dia_24.md"
+                },
+                {
+                    "title": "Día 25: Anti-dilación",
+                    "path": "semana_04/dia_25.md"
+                },
+                {
+                    "title": "Día 26: Tocar sin permiso",
+                    "path": "semana_04/dia_26.md"
+                },
+                {
+                    "title": "Día 27: Teacher-Pupil",
+                    "path": "semana_04/dia_27.md"
+                },
+                {
+                    "title": "Día 28: Grupo (Reglas)",
+                    "path": "semana_04/dia_28.md"
+                }
+            ]
+        },
+        {
+            "id": "semana_05_final",
+            "title": "Días Finales: Maestría",
+            "sections": [
+                {
+                    "title": "Día 29: 10 técnicas de frame control",
+                    "path": "semana_05_final/dia_29.md"
+                },
+                {
+                    "title": "Día 30: Presentaciones con autoridad",
+                    "path": "semana_05_final/dia_30.md"
+                },
+                {
+                    "title": "Día 31: Ritual semanal",
+                    "path": "semana_05_final/dia_31.md"
+                }
+            ]
+        },
+        {
+            "id": "juegos",
+            "title": "Juegos para Practicar",
+            "sections": [
+                {
+                    "title": "Juego 1: Semáforo del Poder 2.0",
+                    "path": "juegos/juego_01.md"
+                },
+                {
+                    "title": "Juego 2: Turno Blindado + CPS",
+                    "path": "juegos/juego_02.md"
+                },
+                {
+                    "title": "Juego 3: Re-encuadre Relámpago",
+                    "path": "juegos/juego_03.md"
+                },
+                {
+                    "title": "Juego 4: Broma o Descalificación",
+                    "path": "juegos/juego_04.md"
+                },
+                {
+                    "title": "Juego 5: No + Alternativa",
+                    "path": "juegos/juego_05.md"
+                },
+                {
+                    "title": "Juego 6: Escucha Espejo con Puntos",
+                    "path": "juegos/juego_06.md"
+                },
+                {
+                    "title": "Juego 7: Detector en Vídeo",
+                    "path": "juegos/juego_07.md"
+                },
+                {
+                    "title": "Juego 8: Plantilla 3 Pasos Sprint",
+                    "path": "juegos/juego_08.md"
+                },
+                {
+                    "title": "Juego 9: Aterrizaje de Grupo",
+                    "path": "juegos/juego_09.md"
+                },
+                {
+                    "title": "Juego 10: Anti-Teacher-Pupil",
+                    "path": "juegos/juego_10.md"
+                },
+                {
+                    "title": "Juego 11: Tocar No Es Gratis",
+                    "path": "juegos/juego_11.md"
+                },
+                {
+                    "title": "Juego 12: Presenta y Defiende",
+                    "path": "juegos/juego_12.md"
+                }
+            ]
+        }
+    ]
+}

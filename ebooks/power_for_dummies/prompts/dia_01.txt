@@ -1,0 +1,32 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy).
+Constraint: Render ALL text in clear, large white speech bubbles.
+
+Panel 1 (Wide Establishing Shot):
+Scene: Kitchen mess. Marcos throwing bag. Daniel pointing.
+Action: Marcos looks fed up. Daniel is mocking him.
+Big Text Bubble (Marcos): "Bah, hoy paso de recoger."
+Big Text Bubble (Daniel): "¡Claro, el príncipe no friega!"
+Sound Effect: "SLAM!"
+
+Panel 2 (Close-Up):
+Scene: Mike's face. Calm.
+Big Text Bubble (Mike): "Quiero que esta casa funcione sin que nadie pise a nadie. El respeto no se negocia."
+
+Panel 3 (Medium Shot):
+Scene: Mike counting on fingers. Marcos listening.
+Text Bubble (Mike): "1. La cocina quedó desastre ayer."
+Text Bubble (Mike): "2. Marcos friega, Daniel seca."
+Text Bubble (Mike): "3. En 20 minutos, listo. ¿Os sirve?"
+
+Panel 4 (Close-Up Reaction):
+Scene: Marcos looking sideways, reluctant.
+Text Bubble (Marcos): "Vale... pero lo de príncipe sobra."
+
+Panel 5 (Medium Shot - Resolution):
+Scene: Mike nodding, writing.
+Big Text Bubble (Mike): "Anotado. Bromas sí, descalificaciones no."
+Caption Box: "PODER ÉTICO"
+
+Aspect Ratio: 9:16
+Quality: Maximum text legibility. Crisp lines.

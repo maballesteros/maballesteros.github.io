@@ -1,0 +1,32 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 6 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Medium - The Insult):
+Scene: Phone call. Aggressor shouting.
+Bubble (Phone): "¡Eres un inútil!"
+
+Panel 2 (Medium - The Limit):
+Scene: Mike cold. Ice eyes.
+Text Bubble (Mike): "Juan, no admito insultos."
+
+Panel 3 (Medium - The Warning):
+Scene: Mike holding phone away slightly.
+Text Bubble (Mike): "Si vuelves a usar una palabra despectiva, cuelgo."
+Bubble (Phone): "Es que..."
+
+Panel 4 (Medium - The Violation):
+Scene: Phone again.
+Bubble (Phone): "¡Es que eres tonto!"
+
+Panel 5 (Large - The Execution):
+Scene: Mike hanging up.
+Sound Effect: "CLICK!"
+Action: Finger pressing red button.
+
+Panel 6 (Small - The Aftermath):
+Scene: Mike calm. Checkmate.
+Caption Box: "CONSECUENCIA EJECUTADA"
+
+Aspect Ratio: 9:16
+Quality: Cinematic tension.

@@ -1,0 +1,35 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 6 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Wide - The Fake Close):
+Scene: Family meeting ending. People getting up.
+Bubble (Person): "Bueno, pues ya lo vamos viendo..."
+Caption: "CIERRE FALSO"
+
+Panel 2 (Medium - The Stop):
+Scene: Mike sitting, taking out mobile/notebook.
+Big Text Bubble (Mike): "Espera un segundo para cerrar. Recapitulo acuerdos."
+
+Panel 3 (Large - The List):
+Scene: Close up on list or Mike reading.
+Text Bubble (Mike): "1. Regalo: Voy yo a las 17:00."
+Text Bubble (Mike): "2. Garaje: Todos mañana 10 a 12."
+Text Bubble (Mike): "¿Correcto?"
+
+Panel 4 (Medium - The Conflict):
+Scene: Partner realizing.
+Text Bubble (Partner): "Ah, yo a las 10 no puedo. Mejor a las 11."
+
+Panel 5 (Medium - The Correction):
+Scene: Mike editing note.
+Text Bubble (Mike): "Corregido: Garaje a las 11. ¿Ahora sí tenemos trato?"
+Text Bubble (Partner): "Sí."
+
+Panel 6 (Medium - Finality):
+Scene: Mike showing thumbs up.
+Big Text Bubble (Mike): "Hecho. Lo mando al grupo."
+Caption Box: "CIERRE OPERATIVO"
+
+Aspect Ratio: 9:16
+Quality: Clear text list in bubble.

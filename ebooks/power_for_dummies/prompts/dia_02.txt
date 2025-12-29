@@ -1,0 +1,31 @@
+Style: Manga Seinen (Business Setting).
+Format: Full Manga Page (Text Heavy).
+Constraint: Render ALL text in clear, large white speech bubbles.
+
+Panel 1 (Large - Chaos):
+Scene: Meeting room argument.
+Big Jagged Bubble (Colleague 1): "¡ES UN DESASTRE DE PRECIO!"
+Big Jagged Bubble (Colleague 2): "¡PERO EN 2019 HICIMOS...!"
+Caption Box: "CAOS"
+
+Panel 2 (Medium - The Stop):
+Scene: Mike raising hand.
+Big Text Bubble (Mike): "Un momento. Paro aquí 30 segundos."
+
+Panel 3 (Medium - The Goal):
+Scene: Mike looking at team.
+Text Bubble (Mike): "Objetivo: Decidir lugar y horario."
+Text Bubble (Mike): "A: Casa Luis. B: Cole. ¿Preferencias?"
+
+Panel 4 (Small - Interruption):
+Scene: Bearded man speaks.
+Text Bubble (Man): "Pero las palomitas..."
+
+Panel 5 (Medium - The Redirect):
+Scene: Mike points to 'Parking' board.
+Big Text Bubble (Mike): "Parking. Lo recuperamos al final."
+Big Text Bubble (Mike): "Ahora foco en el horario."
+Caption Box: "LIDERAZGO"
+
+Aspect Ratio: 9:16
+Quality: Maximum text legibility. Crisp lines.

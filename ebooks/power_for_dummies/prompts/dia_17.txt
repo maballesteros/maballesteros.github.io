@@ -1,0 +1,32 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 6 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Medium - The Snark):
+Scene: Neighbor (Mr. Garcia) smiling falsely.
+Bubble (Garcia): "Como algunos tienen tanto tiempo libre..."
+Caption: "AGRESIÓN ENCUBIERTA"
+
+Panel 2 (Close Up - Inspection):
+Scene: Mike looking curious. Not angry.
+Text Bubble (Mike): "Me ha parecido notar un tono sarcástico..."
+
+Panel 3 (Large - The Spotlight):
+Scene: Mike pointing gently with open hand.
+Big Text Bubble (Mike): "¿Estaba sugiriendo que no trabajo, o lo he interpretado mal?"
+
+Panel 4 (Medium - The Panic):
+Scene: Garcia sweating, backpedaling.
+Bubble (Garcia): "No, no, hombre, era un decir..."
+
+Panel 5 (Medium - The Closure):
+Scene: Mike nodding responsibly.
+Text Bubble (Mike): "Ah, genial. Aclarado entonces."
+
+Panel 6 (Small - Finality):
+Scene: Mike turning back to work.
+Text Bubble (Mike): "Sigamos."
+Caption Box: "LUZ AL SUBTEXTO"
+
+Aspect Ratio: 9:16
+Quality: Facial expressions of false friendliness vs genuine curiosity.

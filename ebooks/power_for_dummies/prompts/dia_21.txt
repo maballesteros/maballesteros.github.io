@@ -1,0 +1,26 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 5 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Medium - The Battle):
+Scene: Mike and Luis shaking hands firmly post-negotiation. Serious faces.
+Bubble (Luis): "Ha sido intenso."
+
+Panel 2 (Large - The Warmth):
+Scene: Mike smiling genuinely, hand on Luis's shoulder.
+Big Text Bubble (Mike): "Valoro mucho tu paciencia. Gracias por el esfuerzo."
+
+Panel 3 (Medium - The Invitation):
+Scene: Atmosphere changes to relaxed.
+Text Bubble (Mike): "¿Te apetece un café fuera y hablamos de fútbol?"
+
+Panel 4 (Reaction):
+Scene: Luis smiling back. Relief.
+Bubble (Luis): "Venga, vamos."
+
+Panel 5 (Long - Walking Away):
+Scene: Both walking away chatting.
+Caption Box: "PODER + CALIDEZ"
+
+Aspect Ratio: 9:16
+Quality: Contrast between "Meeting Room Mike" (Hard) and "Cafe Mike" (Warm).

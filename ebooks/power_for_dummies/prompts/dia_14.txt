@@ -1,0 +1,33 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 6 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Medium - The Touch):
+Scene: Roberto (older, arrogant) patting Mike's arm.
+Action: "Pat pat" sound effect.
+Text Bubble (Roberto): "Escucha, escucha, chaval..."
+
+Panel 2 (Close Up - The Ear Tap):
+Scene: Roberto touching his own ear.
+Action: Pointing to ear.
+Text Bubble (Roberto): "...te voy a explicar cómo va esto."
+Caption: "THE EAR TAP"
+
+Panel 3 (Medium - Physical Neutralization):
+Scene: Mike removing Roberto's hand gently but firmly.
+Action: Taking the hand off.
+
+Panel 4 (Large - Verbal Immunization):
+Scene: Mike staring at Roberto. No smile. Serious.
+Big Text Bubble (Mike): "Te escucho, Roberto."
+
+Panel 5 (Close Up - Intensity):
+Scene: Mike's eyes locked on Roberto.
+Big Text Bubble (Mike): "Dime tu punto."
+
+Panel 6 (Reaction):
+Scene: Roberto looks taken aback. Mike remains solid.
+Caption Box: "INMUNIDAD"
+
+Aspect Ratio: 9:16
+Quality: Focus on hands and eye contact.

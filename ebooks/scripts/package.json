@@ -1,0 +1,11 @@
+{
+    "name": "ebook-scripts",
+    "version": "1.0.0",
+    "description": "Shared scripts for ebook generation",
+    "main": "generate_image.js",
+    "dependencies": {
+        "minimist": "^1.2.8",
+        "dotenv": "^16.4.5",
+        "@google/generative-ai": "^0.2.0"
+    }
+}

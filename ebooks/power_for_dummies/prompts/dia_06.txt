@@ -1,0 +1,30 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 5 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Medium - The Offense):
+Scene: Jorge presenting at a whiteboard. Colleague in back snickering.
+Bubble (Colleague, whisper): "Bueno, si algún día acaba..."
+Sound Effect: "jiji"
+
+Panel 2 (Large - The Meta-Comment):
+Scene: Mike raises hand from back of room. Neutral face. Not angry.
+Big Text Bubble (Mike): "Ese comentario es poco respetuoso para el que expone."
+Big Text Bubble (Mike): "Volvamos al contenido."
+
+Panel 3 (Reaction):
+Scene: Colleague blushing/looking down (Shame). Jorge looks relieved.
+Effect: Focus lines on Colleague's embarrassment.
+
+Panel 4 (Medium - The Excuse):
+Scene: Hallway later. Colleague talking to Mike.
+Bubble (Colleague): "No iba en serio, era broma."
+
+Panel 5 (Medium - The Validation + Limit):
+Scene: Mike nodding but firm.
+Text Bubble (Mike): "Gracias por decirlo."
+Text Bubble (Mike): "Si te sale otra, hazla de apoyo al ponente."
+Caption Box: "LÍMITE LIMPIO"
+
+Aspect Ratio: 9:16
+Quality: Nuanced facial expressions (shame vs calm authority).
