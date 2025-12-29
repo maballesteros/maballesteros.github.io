@@ -8,11 +8,11 @@
         "path": "/ebooks/diario_del_guerrero/index.json"
     },
     {
-        "id": "power-for-dummies",
-        "title": "Power for Dummies",
+        "id": "poder-etico",
+        "title": "Poder ético: las reglas del juego social que nadie te cuenta",
         "author": "M. A. Ballesteros",
-        "cover": "/ebooks/power_for_dummies/images/cover.png",
+        "cover": "/ebooks/poder_etico/images/cover.png",
         "description": "Manual de entrenamiento en dinámicas de poder ético.",
-        "path": "/ebooks/power_for_dummies/index.json"
+        "path": "/ebooks/poder_etico/index.json"
     }
 ]
