@@ -89,6 +89,3 @@ La velocidad mata la autoridad. En un mundo hiper-acelerado, quien tiene el cora
 *   **Ficha**: [Juego: Semáforo del Poder](../juegos/juego_01.md) (Variante Lenta).
 *   **Por qué ayuda**: Juega a responder preguntas sencillas ("¿qué comiste ayer?") obligándote a esperar 3 segundos de reloj antes de abrir la boca. Siente la ansiedad subir y obsérvala sin actuar.
 
-## Referencias
-
-*   [Frame control when low energy](https://thepowermoves.com/forum/topic/frame-control-when-low-energy/): Cómo usar la baja energía y la lentitud como una herramienta de poder (el arquetipo del "Padrino").

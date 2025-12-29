@@ -92,6 +92,3 @@ Tu poder no reside en tener todas las respuestas, sino en hacer las mejores preg
 *   **Ficha**: [Juego 3: Re-encuadre Relámpago](../juegos/juego_03.md).
 *   **Por qué ayuda**: Practica con un compañero. Él te lanza una acusación ("Eres un egoísta"). Tú tienes que responder con una pregunta que cambie el marco ("¿Cuidar de mis necesidades me hace egoísta o responsable?").
 
-## Referencias
-
-*   [Frame Control 101](https://thepowermoves.com/frame-control-basics/): La guía básica para influir en la gente y ganar estatus mediante el encuadre.

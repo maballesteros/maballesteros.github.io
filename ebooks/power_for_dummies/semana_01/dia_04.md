@@ -85,7 +85,3 @@ Tu cuerpo habla antes que tu boca. Si tu cuerpo grita "tengo miedo" o "no estoy 
 
 *   **Ficha**: [Juego: Plantilla 3 Pasos Sprint](../juegos/juego_08.md).ayuda**: Grabarse a uno mismo simulando una discusión es la terapia de choque más efectiva. Verás tus tics, tus desvíos de mirada y tus encogimientos. **Juego rápido**: Mírate al espejo y mantén la mirada 60 segundos sin mover un solo músculo de la cara.
 
-## Referencias
-
-*   [Body Language](https://thepowermoves.com/body-language/): La guía definitiva sobre las señales no verbales masculinas y de estatus.
-*   [Dominant Body Language](https://thepowermoves.com/dominant-body-language-example-pictorial/): Ejemplos visuales de qué hacer y qué no hacer (incluyendo el "Ear Tap").

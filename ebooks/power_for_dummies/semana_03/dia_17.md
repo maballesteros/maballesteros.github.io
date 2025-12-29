@@ -85,6 +85,3 @@ Las relaciones sanas no tienen subtextos tóxicos. Tienen textos claros. Al limp
 *   **Ficha**: [Juego 4: Broma o Descalificación](../juegos/juego_04.md).
 *   **Por qué ayuda**: Entrena específicamente la distinción entre "Verde" (broma real) y "Rojo" (ataque). Usa el meta-comentario cuando salga Rojo.
 
-## Referencias
-
-*   [How to Handle Covert Aggression](https://thepowermoves.com/how-to-handle-covert-aggressor/): Técnicas para lidiar con enemigos ocultos.

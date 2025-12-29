@@ -92,6 +92,3 @@ La dilación es el ladrón del tiempo. El antídoto es la precisión. Sé precis
 *   **Ficha**: [Juego 8: Plantilla 3 Pasos Sprint](../juegos/juego_08.md).
 *   **Por qué ayuda**: Practica cerrar cada mensaje con un "Siguiente paso" que tenga fecha y hora. Revisa tus últimos 5 emails. ¿Tienen fecha?
 
-## Referencias
-
-*   [How to Get Things Done](https://thepowermoves.com/impact/): Ejecución y liderazgo.

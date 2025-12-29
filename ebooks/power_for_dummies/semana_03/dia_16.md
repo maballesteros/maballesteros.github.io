@@ -90,6 +90,3 @@ Las palabras son magia. Con una frase, puedes convertir un insulto en un elogio.
 *   **Ficha**: [Juego 3: Re-encuadre Relámpago](../juegos/juego_03.md).
 *   **Por qué ayuda**: Juega con una lista de insultos comunes ("lento", "agresivo", "frío"). Escribe un re-encuadre de 7 palabras para cada uno. Memorízalos. Son tus armas.
 
-## Referencias
-
-*   [Frame Control](https://thepowermoves.com/frame-control-basics/): Técnicas de re-significación.

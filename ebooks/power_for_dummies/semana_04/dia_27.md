@@ -86,6 +86,3 @@ Nadie te da el título de "Igual" o "Experto". Lo tienes que tomar. Deja de comp
 *   **Ficha**: [Juego 10: Anti-Teacher-Pupil](../juegos/juego_10.md).
 *   **Por qué ayuda**: Role-play donde uno hace de sabelotodo insoportable. Practica frases de corte: "Entendido", "Pasemos a la acción", "Ese punto lo tengo cubierto".
 
-## Referencias
-
-*   [Teacher-Pupil Frames](https://thepowermoves.com/teacher-pupil-frames/): Análisis profundo de esta dinámica.

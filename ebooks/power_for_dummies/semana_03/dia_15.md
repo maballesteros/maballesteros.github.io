@@ -89,6 +89,3 @@ La libertad real no es hacer lo que quieras, es pensar como quieras. Si vives en
 *   **Ficha**: [Juego 3: Re-encuadre Relámpago](../juegos/juego_03.md).
 *   **Por qué ayuda**: Este juego entrena el músculo de "ver el marco" y girarlo en 3 segundos. Sin esta velocidad, siempre te darás cuenta de lo que debiste decir dos horas después.
 
-## Referencias
-
-*   [Frame Control 101](https://thepowermoves.com/frame-control-basics/): La biblia de los marcos.

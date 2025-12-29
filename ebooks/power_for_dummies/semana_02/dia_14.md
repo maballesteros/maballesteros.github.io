@@ -93,7 +93,3 @@ Los juegos de poder físicos son primitivos, pero suceden a diario en oficinas y
 *   **Ficha**: [Juego 11: Tocar No Es Gratis](../juegos/juego_11.md).
 *   **Por qué ayuda**: Role-play con alguien de confianza. Que te toque el hombro, la cabeza, el brazo. Practica diferentes formas de retirarte o retirar su mano sin ser agresivo, solo firme. Busca el movimiento mínimo eficaz.
 
-## Referencias
-
-*   [Dominant Body Language Power Move: The Ear Tap](https://thepowermoves.com/dominant-body-language-example-pictorial/): Análisis específico de este gesto y cómo responder.
-*   [People touching me to establish dominance](https://thepowermoves.com/forum/topic/people-touching-me-seemingly-to-establish-dominance-when-the-conversation-ends/): Hilo del foro con estrategias reales.

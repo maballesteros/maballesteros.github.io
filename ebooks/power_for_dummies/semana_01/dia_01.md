@@ -96,7 +96,3 @@ Cuando eres claro, respetas el tiempo y la mente de los demás. Cuando validas u
 *   **Ficha**: [Juego 1: Semáforo del Poder](../juegos/juego_01.md).
 *   **Por qué ayuda**: Este juego entrena precisamente la habilidad de pasar de una reacción emocional (roja/ámbar) a una respuesta **CPS (Verde)** baja presión de tiempo. Es el gimnasio perfecto para lo que hemos visto hoy.
 
-## Referencias
-
-*   [Power Dynamics](https://thepowermoves.com/power-dynamics/): Fundacional para entender que el "estatus" no es algo fijo, sino algo que se negocia en cada frase.
-*   [Assertiveness](https://thepowermoves.com/assertiveness/): Explica cómo defender tus derechos es compatible con ser amable y evitar la agresión.

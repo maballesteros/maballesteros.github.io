@@ -88,7 +88,3 @@ Recuerda que el objetivo no es intimidar, sino comunicar con precisión. El pode
 *   **Ficha**: [Juego 2: Turno Blindado](../juegos/juego_02.md) (Variante: Pausa y Silencio).
 *   **Por qué ayuda**: Aunque el juego se centra en las interrupciones, la mecánica de "gesto de stop" y mantener el volumen estable es puro control de voz. Intenta jugar aplicando la restricción de **hablar un 50% más lento** que tu oponente.
 
-## Referencias
-
-*   [High Power Talk](https://thepowermoves.com/high-power-talk/): Profundiza en por qué hablar menos a menudo comunica más seguridad y estatus.
-*   [Body Language](https://thepowermoves.com/body-language/): Explica las señales no verbales de poder, donde el ritmo pausado es clave.

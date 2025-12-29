@@ -106,6 +106,3 @@ No necesitas ser un genio de la retórica. Necesitas muletas fiables. Estas 10 t
 
 *   **Reto**: Imprime esta lista. Llévala en el bolsillo. Léela antes de entrar a cualquier sitio importante.
 
-## Referencias
-
-*   [Frame Control Techniques](https://thepowermoves.com/frame-control-techniques/): Más ejemplos y vídeos.

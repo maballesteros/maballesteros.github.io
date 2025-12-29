@@ -84,6 +84,3 @@ La reparación es el pegamento de la sociedad. Sin ella, nos vamos alejando unos
 *   **Ficha**: [Juego 13: La Disculpa Limpia](../juegos/juego_13.md).
 *   **Reto**: Identifica una relación donde haya un "cadáver en el armario" (algo no dicho). Ve y di: "Oye, aquello que pasó se me quedó clavado. ¿Podemos hablarlo 5 minutos para limpiarlo?".
 
-## Referencias
-
-*   [Relationship Repair](https://thepowermoves.com/relationship-repair/): Cómo sanar lazos rotos.

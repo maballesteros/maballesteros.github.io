@@ -92,6 +92,3 @@ Tener la capacidad de decir "borrón y cuenta nueva" es un superpoder. Te permit
 *   **Ficha**: [Juego: Semáforo del Poder](../juegos/juego_01.md) (Variante Reset).
 *   **Por qué ayuda**: Cuando detectes que estás en "Rojo" (reaccionando mal), di en voz alta "Rojo. Reset". Respira. Pasa a "Verde" (CPS). Entrena el interruptor.
 
-## Referencias
-
-*   [Frame Control](https://thepowermoves.com/frame-control-basics/): Cómo re-encuadrar la situación de "pelea" a "cooperación" mediante el reset.

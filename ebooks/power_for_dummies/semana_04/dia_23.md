@@ -94,6 +94,3 @@ Tu voz es tu herramienta de influencia. Si dejas que te la quiten, te quedas des
 *   **Ficha**: [Juego 2: Turno Blindado + CPS](../juegos/juego_02.md).
 *   **Por qué ayuda**: Pide a un amigo que intente cortarte activamente mientras cuentas una historia. Practica el "Steamroll" (seguir hablando) y la mano de Stop. Es divertido y muy útil.
 
-## Referencias
-
-*   [How to Stop Interruptions](https://thepowermoves.com/stop-interruptions/): Técnicas avanzadas.

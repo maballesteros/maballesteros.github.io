@@ -50,8 +50,3 @@ El mundo es un lugar duro, pero también fascinante. Juega bien. Juega limpio. Y
 
 Un abrazo de poder.
 
-## Referencias Finales
-
-*   **The Power Moves**: Tu universidad continua. [thepowermoves.com](https://thepowermoves.com)
-*   **Power University**: El curso completo si quieres maestría.
-*   **Este Ebook**: Léelo una vez al año.

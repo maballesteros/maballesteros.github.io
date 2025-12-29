@@ -92,6 +92,3 @@ Los límites son el sistema inmunitario de tu personalidad. Sin ellos, te invade
 *   **Ficha**: [Juego 11: Tocar No Es Gratis](../juegos/juego_11.md).
 *   **Por qué ayuda**: Entrena el límite físico. Es el más primario. Si puedes defender tu piel, puedes defender tu tiempo y tu dignidad.
 
-## Referencias
-
-*   [Boundaries 101](https://thepowermoves.com/boundaries/): Cómo establecer y mantener líneas rojas.

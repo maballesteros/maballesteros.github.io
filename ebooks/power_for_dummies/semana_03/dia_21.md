@@ -80,6 +80,3 @@ Hemos terminado el bloque de "Límites". Los límites son los muros de tu castil
 *   **Ficha**: [Juego 14: El Sandwich de Hierro](../juegos/juego_14.md).
 *   **Reto**: Hoy, después de pedir algo o poner un límite, di algo genuinamente amable a esa persona. Observa su reacción. Verás alivio en su cara.
 
-## Referencias
-
-*   [Power and Warmth](https://thepowermoves.com/power-and-warmth/): Por qué es la combinación ganadora.
