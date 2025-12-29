@@ -38,9 +38,9 @@ La respuesta de alto poder es la **Inmunidad**.
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Dominant Body Language] **El "Ear Tap"**: Señal de arrogancia. Quien lo hace cree que tiene el monopolio de la verdad. No te enfades, pero no te sometas.
-*   [TPM: Power Moves] **Tocar sin permiso**: Es una forma de marcar territorio. En el reino animal, el dominante toca al subordinado, no al revés. Recupera tu soberanía corporal.
-*   [TPM: Assertiveness] **Respuesta Proporcional**: Usa la fuerza mínima necesaria. Un paso atrás es mejor que un empujón. Una mirada seria es mejor que un insulto.
+*   **El "Ear Tap"**: Señal de arrogancia. Quien lo hace cree que tiene el monopolio de la verdad. No te enfades, pero no te sometas.
+*   **Tocar sin permiso**: Es una forma de marcar territorio. En el reino animal, el dominante toca al subordinado, no al revés. Recupera tu soberanía corporal.
+*   **Respuesta Proporcional**: Usa la fuerza mínima necesaria. Un paso atrás es mejor que un empujón. Una mirada seria es mejor que un insulto.
 
 ## Ejemplos Prácticos
 
@@ -93,7 +93,7 @@ Los juegos de poder físicos son primitivos, pero suceden a diario en oficinas y
 *   **Ficha**: [Juego 11: Tocar No Es Gratis](../juegos/juego_11.md).
 *   **Por qué ayuda**: Role-play con alguien de confianza. Que te toque el hombro, la cabeza, el brazo. Practica diferentes formas de retirarte o retirar su mano sin ser agresivo, solo firme. Busca el movimiento mínimo eficaz.
 
-## Referencias TPM
+## Referencias
 
 *   [Dominant Body Language Power Move: The Ear Tap](https://thepowermoves.com/dominant-body-language-example-pictorial/): Análisis específico de este gesto y cómo responder.
 *   [People touching me to establish dominance](https://thepowermoves.com/forum/topic/people-touching-me-seemingly-to-establish-dominance-when-the-conversation-ends/): Hilo del foro con estrategias reales.

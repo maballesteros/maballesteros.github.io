@@ -30,9 +30,9 @@ En la segunda parte, cuando el agresor intenta minimizar ("era broma"), Mike no 
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Covert Aggression] **El Dilema del Agresor Encubierto**: Las micro-agresiones buscan provocarte para que tú quedes mal reaccionando. La respuesta correcta nunca es emocional; es analítica.
-*   [TPM: Power Moves] **Meta-comentario**: Nombrar la dinámica ("me has interrumpido", "eso es una descalificación") para hacerla consciente y detenerla.
-*   [TPM: One-Liners] **Re-encuadre al Objetivo**: Tras señalar la falta, redirige inmediatamente al trabajo o tema. Esto demuestra que tú estás por encima del juego sucio.
+*   **El Dilema del Agresor Encubierto**: Las micro-agresiones buscan provocarte para que tú quedes mal reaccionando. La respuesta correcta nunca es emocional; es analítica.
+*   **Meta-comentario**: Nombrar la dinámica ("me has interrumpido", "eso es una descalificación") para hacerla consciente y detenerla.
+*   **Re-encuadre al Objetivo**: Tras señalar la falta, redirige inmediatamente al trabajo o tema. Esto demuestra que tú estás por encima del juego sucio.
 
 ## Ejemplos Prácticos
 
@@ -86,7 +86,7 @@ Tener "piel dura" no significa aguantar golpes; significa tener un escudo eficaz
 *   **Ficha**: [Juego 4: Broma o Descalificación](../juegos/juego_04.md).
 *   **Por qué ayuda**: Practica clasificar frases. Pide a un amigo que te diga frases ambiguas. Tienes que decidir en 2 segundos: ¿Verde (agradecer), Ámbar (ignorar) o Rojo (meta-comentario)? La velocidad es clave.
 
-## Referencias TPM
+## Referencias
 
 *   [Covert Aggression](https://thepowermoves.com/how-to-handle-covert-aggressor/): Cómo manejar la falta de respeto encubierta.
 *   [One-Liners](https://thepowermoves.com/how-to-handle-all-power-moves/): Frases cortas para defenderte de cualquier ataque verbal.

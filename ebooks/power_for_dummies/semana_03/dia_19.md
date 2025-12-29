@@ -36,9 +36,9 @@ Es fundamental hacerlo sin ira. Mike no cuelga "enfadado". Cuelga "técnicamente
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Boundaries] **Los Límites definen la Relación**: Tú enseñas a la gente cómo tratarte. Lo que toleras, persiste.
-*   [TPM: Power Dynamics] **La Amenaza Creíble**: Solo amenaza con lo que estés 100% dispuesto a cumplir. Si dices "me divorcio" y no lo haces, has perdido tu palabra.
-*   [TPM: High Value] **Retirada de Atención**: A veces, la mejor consecuencia es retirar tu presencia. "Si te pones así, me voy". Tu atención es el premio; quitarla es el castigo.
+*   **Los Límites definen la Relación**: Tú enseñas a la gente cómo tratarte. Lo que toleras, persiste.
+*   **La Amenaza Creíble**: Solo amenaza con lo que estés 100% dispuesto a cumplir. Si dices "me divorcio" y no lo haces, has perdido tu palabra.
+*   **Retirada de Atención**: A veces, la mejor consecuencia es retirar tu presencia. "Si te pones así, me voy". Tu atención es el premio; quitarla es el castigo.
 
 ## Ejemplos Prácticos
 
@@ -92,6 +92,6 @@ Los límites son el sistema inmunitario de tu personalidad. Sin ellos, te invade
 *   **Ficha**: [Juego 11: Tocar No Es Gratis](../juegos/juego_11.md).
 *   **Por qué ayuda**: Entrena el límite físico. Es el más primario. Si puedes defender tu piel, puedes defender tu tiempo y tu dignidad.
 
-## Referencias TPM
+## Referencias
 
 *   [Boundaries 101](https://thepowermoves.com/boundaries/): Cómo establecer y mantener líneas rojas.

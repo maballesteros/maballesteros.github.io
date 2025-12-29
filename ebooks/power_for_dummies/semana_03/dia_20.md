@@ -33,9 +33,9 @@ El objetivo no es humillar al otro, es **reafirmar la norma**. "Aquí nos tratam
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Relationships] **El Ciclo Ruptura-Reparación**: Las relaciones fuertes no son las que no tienen conflictos, son las que reparan bien los conflictos. La reparación genera confianza ("podemos superar esto").
-*   [TPM: Assertiveness] **Anti-Rug Sweeping**: No dejes que barran la mierda bajo la alfombra. Levanta la alfombra, limpia, y luego sigue.
-*   [TPM: High Value] **La Disculpa del Líder**: El líder no teme pedir perdón. Su estatus es tan alto que admitir un error no lo daña; lo humaniza y lo eleva.
+*   **El Ciclo Ruptura-Reparación**: Las relaciones fuertes no son las que no tienen conflictos, son las que reparan bien los conflictos. La reparación genera confianza ("podemos superar esto").
+*   **Anti-Rug Sweeping**: No dejes que barran la mierda bajo la alfombra. Levanta la alfombra, limpia, y luego sigue.
+*   **La Disculpa del Líder**: El líder no teme pedir perdón. Su estatus es tan alto que admitir un error no lo daña; lo humaniza y lo eleva.
 
 ## Ejemplos Prácticos
 
@@ -84,6 +84,6 @@ La reparación es el pegamento de la sociedad. Sin ella, nos vamos alejando unos
 *   **Ficha**: [Juego 13: La Disculpa Limpia](../juegos/juego_13.md).
 *   **Reto**: Identifica una relación donde haya un "cadáver en el armario" (algo no dicho). Ve y di: "Oye, aquello que pasó se me quedó clavado. ¿Podemos hablarlo 5 minutos para limpiarlo?".
 
-## Referencias TPM
+## Referencias
 
 *   [Relationship Repair](https://thepowermoves.com/relationship-repair/): Cómo sanar lazos rotos.

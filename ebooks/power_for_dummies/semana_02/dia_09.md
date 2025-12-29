@@ -37,9 +37,9 @@ Las **Preguntas que Encuadran** (Framing Questions) traen lo implícito a lo exp
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Frame Control Basics] **Quien pregunta, dirige**: En una interacción, la persona que hace las preguntas está extrayendo valor y dirigiendo la atención. La persona que responde está trabajando para la otra.
-*   [TPM: Persuasion] **La Ilusión de Elección**: Al preguntar "¿Prefieres A o B?", encuadras la realidad en esas dos opciones, haciendo olvidar que quizás existe C.
-*   [TPM: Leadership] **Enfoque a Objetivo**: Ante la dispersión, la pregunta "¿Cómo ayuda esto a [Objetivo]?" actúa como un láser que corta la grasa.
+*   **Quien pregunta, dirige**: En una interacción, la persona que hace las preguntas está extrayendo valor y dirigiendo la atención. La persona que responde está trabajando para la otra.
+*   **La Ilusión de Elección**: Al preguntar "¿Prefieres A o B?", encuadras la realidad en esas dos opciones, haciendo olvidar que quizás existe C.
+*   **Enfoque a Objetivo**: Ante la dispersión, la pregunta "¿Cómo ayuda esto a [Objetivo]?" actúa como un láser que corta la grasa.
 
 ## Ejemplos Prácticos
 
@@ -92,6 +92,6 @@ Tu poder no reside en tener todas las respuestas, sino en hacer las mejores preg
 *   **Ficha**: [Juego 3: Re-encuadre Relámpago](../juegos/juego_03.md).
 *   **Por qué ayuda**: Practica con un compañero. Él te lanza una acusación ("Eres un egoísta"). Tú tienes que responder con una pregunta que cambie el marco ("¿Cuidar de mis necesidades me hace egoísta o responsable?").
 
-## Referencias TPM
+## Referencias
 
 *   [Frame Control 101](https://thepowermoves.com/frame-control-basics/): La guía básica para influir en la gente y ganar estatus mediante el encuadre.

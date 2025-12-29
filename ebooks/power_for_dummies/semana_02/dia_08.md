@@ -35,9 +35,9 @@ No se trata de callar por callar (eso sería "stonewalling" o bloqueo). Se trata
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Body Language] **Latencia y Estatus**: A mayor estatus, mayor tendencia a pausas largas y movimientos lentos. La prisa es de los sirvientes; la calma es de los reyes.
-*   [TPM: Frame Control] **Respuesta Reflexiva vs. Reactiva**: La pausa rompe el ciclo de "estímulo-reacción". Te permite elegir tu marco en lugar de caer en el marco del otro.
-*   [TPM: High Power Talk] **Gravedad**: Hablar un 20% más despacio de lo normal hace que tu voz suene más profunda y tus palabras parezcan más importantes.
+*   **Latencia y Estatus**: A mayor estatus, mayor tendencia a pausas largas y movimientos lentos. La prisa es de los sirvientes; la calma es de los reyes.
+*   **Respuesta Reflexiva vs. Reactiva**: La pausa rompe el ciclo de "estímulo-reacción". Te permite elegir tu marco en lugar de caer en el marco del otro.
+*   **Gravedad**: Hablar un 20% más despacio de lo normal hace que tu voz suene más profunda y tus palabras parezcan más importantes.
 
 ## Ejemplos Prácticos
 
@@ -89,6 +89,6 @@ La velocidad mata la autoridad. En un mundo hiper-acelerado, quien tiene el cora
 *   **Ficha**: [Juego: Semáforo del Poder](../juegos/juego_01.md) (Variante Lenta).
 *   **Por qué ayuda**: Juega a responder preguntas sencillas ("¿qué comiste ayer?") obligándote a esperar 3 segundos de reloj antes de abrir la boca. Siente la ansiedad subir y obsérvala sin actuar.
 
-## Referencias TPM
+## Referencias
 
 *   [Frame control when low energy](https://thepowermoves.com/forum/topic/frame-control-when-low-energy/): Cómo usar la baja energía y la lentitud como una herramienta de poder (el arquetipo del "Padrino").

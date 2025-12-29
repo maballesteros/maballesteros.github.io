@@ -36,9 +36,9 @@ Y cuando alguien intenta reabrir el tema a destiempo ("quizá sería mejor..."),
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: High Power Talk] **CPS (Contexto–Propuesta–Siguiente paso)**: Es el algoritmo de la eficacia. Transforma quejas o dudas en planes de acción ejecutables.
-*   [TPM: Dominant Conversations] **Cierre Operativo**: Quien cierra la conversación define la realidad. Si tú dices "entonces hacemos X", y nadie se opone, has liderado.
-*   [TPM: Assertiveness] **Coste de Reapertura**: No permitas que se deshagan acuerdos por capricho. Exige un "buy-in" real para volver atrás (nueva info o nuevo responsable).
+*   **CPS (Contexto–Propuesta–Siguiente paso)**: Es el algoritmo de la eficacia. Transforma quejas o dudas en planes de acción ejecutables.
+*   **Cierre Operativo**: Quien cierra la conversación define la realidad. Si tú dices "entonces hacemos X", y nadie se opone, has liderado.
+*   **Coste de Reapertura**: No permitas que se deshagan acuerdos por capricho. Exige un "buy-in" real para volver atrás (nueva info o nuevo responsable).
 
 ## Ejemplos Prácticos
 
@@ -91,7 +91,7 @@ El lenguaje vago es un refugio seguro para quien no quiere comprometerse. El len
 *   **Ficha**: [Juego: Plantilla 3 Pasos Sprint](../juegos/juego_08.md).
 *   **Por qué ayuda**: Practica redactar mensajes de WhatsApp usando estrictamente: 1. Hechos. 2. Propuesta. 3. Pregunta de cierre. Revisa tus últimos 10 mensajes enviados: ¿cuántos eran "paja" y cuántos eran CPS?
 
-## Referencias TPM
+## Referencias
 
 *   [High Power Talk](https://thepowermoves.com/high-power-talk/): Cómo hablar para obtener resultados y respeto.
 *   [Frame Control](https://thepowermoves.com/frame-control-basics/): Cómo el CPS establece un marco de "resolución de problemas" frente al marco de "queja emocional".

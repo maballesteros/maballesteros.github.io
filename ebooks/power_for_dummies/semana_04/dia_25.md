@@ -36,9 +36,9 @@ Esto te convierte en alguien de "Alto Rendimiento". La gente aprende que si te p
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Leadership] **Accountability (Rendición de cuentas)**: Es la base de la confianza. Hacer lo que dijiste que harías. Exigir lo mismo a los demás no es ser pesado, es ser profesional.
-*   [TPM: Power Dynamics] **El Poder del Escriba**: Escribir el acuerdo delante de todos ("Tomo nota: Juan, martes") tiene un poder mágico. Lo escrito es ley.
-*   [TPM: Goal Setting] **SMART**: Específico, Medible, Alcanzable, Relevante, Temporal. Aplica esto a cada micro-acuerdo.
+*   **Accountability (Rendición de cuentas)**: Es la base de la confianza. Hacer lo que dijiste que harías. Exigir lo mismo a los demás no es ser pesado, es ser profesional.
+*   **El Poder del Escriba**: Escribir el acuerdo delante de todos ("Tomo nota: Juan, martes") tiene un poder mágico. Lo escrito es ley.
+*   **SMART**: Específico, Medible, Alcanzable, Relevante, Temporal. Aplica esto a cada micro-acuerdo.
 
 ## Ejemplos Prácticos
 
@@ -92,6 +92,6 @@ La dilación es el ladrón del tiempo. El antídoto es la precisión. Sé precis
 *   **Ficha**: [Juego 8: Plantilla 3 Pasos Sprint](../juegos/juego_08.md).
 *   **Por qué ayuda**: Practica cerrar cada mensaje con un "Siguiente paso" que tenga fecha y hora. Revisa tus últimos 5 emails. ¿Tienen fecha?
 
-## Referencias TPM
+## Referencias
 
 *   [How to Get Things Done](https://thepowermoves.com/impact/): Ejecución y liderazgo.

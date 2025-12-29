@@ -38,9 +38,9 @@ Finalmente, el momento más delicado ocurre cuando Marcos se "revuelve" contra l
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Power Dynamics] **Poder Dinámico**: Entender que toda interacción implica un intercambio de estatus. Ignorarlo te deja vulnerable; gestionarlo te permite protegerte a ti y a los demás.
-*   [TPM: Assertiveness] **Asertividad**: La capacidad de expresar necesidades y límites sin violar los derechos ajenos. Se basa en hechos, no en juicios.
-*   [TPM: High Power Talk] **Cierre Operativo**: La técnica de definir claramente *quién* hace *qué* y *cuándo*. Elimina la ambigüedad que suele ser caldo de cultivo para futuros conflictos.
+*   **Poder Dinámico**: Entender que toda interacción implica un intercambio de estatus. Ignorarlo te deja vulnerable; gestionarlo te permite protegerte a ti y a los demás.
+*   **Asertividad**: La capacidad de expresar necesidades y límites sin violar los derechos ajenos. Se basa en hechos, no en juicios.
+*   **Cierre Operativo**: La técnica de definir claramente *quién* hace *qué* y *cuándo*. Elimina la ambigüedad que suele ser caldo de cultivo para futuros conflictos.
 
 ## Ejemplos Prácticos
 
@@ -96,7 +96,7 @@ Cuando eres claro, respetas el tiempo y la mente de los demás. Cuando validas u
 *   **Ficha**: [Juego 1: Semáforo del Poder](../juegos/juego_01.md).
 *   **Por qué ayuda**: Este juego entrena precisamente la habilidad de pasar de una reacción emocional (roja/ámbar) a una respuesta **CPS (Verde)** baja presión de tiempo. Es el gimnasio perfecto para lo que hemos visto hoy.
 
-## Referencias TPM
+## Referencias
 
 *   [Power Dynamics](https://thepowermoves.com/power-dynamics/): Fundacional para entender que el "estatus" no es algo fijo, sino algo que se negocia en cada frase.
 *   [Assertiveness](https://thepowermoves.com/assertiveness/): Explica cómo defender tus derechos es compatible con ser amable y evitar la agresión.

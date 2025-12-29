@@ -39,9 +39,9 @@ Esto también funciona para decir NO. Un cierre operativo puede ser: "Acordamos 
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: High Power Talk] **Claridad es Poder**: La confusión beneficia al manipulador o al vago. La claridad beneficia al ejecutor. Sé el agente de la claridad.
-*   [TPM: Leadership] **El Rol de Secretario**: Paradójicamente, quien toma notas y resume ("el secretario") tiene mucho poder, porque es quien escribe la historia oficial de lo que se ha decidido.
-*   [TPM: Assertiveness] **El Contrato Psicológico**: Al hacer que el otro diga "Sí, estoy de acuerdo", activas el principio de consistencia (Cialdini). Le será mucho más difícil echarse atrás luego.
+*   **Claridad es Poder**: La confusión beneficia al manipulador o al vago. La claridad beneficia al ejecutor. Sé el agente de la claridad.
+*   **El Rol de Secretario**: Paradójicamente, quien toma notas y resume ("el secretario") tiene mucho poder, porque es quien escribe la historia oficial de lo que se ha decidido.
+*   **El Contrato Psicológico**: Al hacer que el otro diga "Sí, estoy de acuerdo", activas el principio de consistencia (Cialdini). Le será mucho más difícil echarse atrás luego.
 
 ## Ejemplos Prácticos
 
@@ -95,6 +95,6 @@ Una interacción sin cierre es como un libro al que le han arrancado la última 
 *   **Ficha**: [Juego: Plantilla 3 Pasos Sprint](../juegos/juego_08.md).
 *   **Por qué ayuda**: Revisa tus chats. Busca conversaciones abiertas que se hayan muerto. Resucítalas con un Cierre Operativo: "Hola, esto se quedó pendiente. ¿Lo cerramos para el viernes o lo descartamos?".
 
-## Referencias TPM
+## Referencias
 
 *   [High Power Talk](https://thepowermoves.com/high-power-talk/): Cómo cerrar tratos y conversaciones con autoridad.

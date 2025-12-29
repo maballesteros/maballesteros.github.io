@@ -39,9 +39,9 @@ La estructura que usa Mike es:
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: High Power Talk] **Comprar Tiempo**: Nunca negocies cuando tengas hambre, sueño, prisa o estés enfadado. El tiempo es tu mejor aliado para recuperar la racionalidad.
-*   [TPM: Assertiveness] **El Disco Rayado**: Si insisten, repite tu petición de tiempo con las mismas palabras, sin enfadarte y sin añadir nuevas justificaciones.
-*   [TPM: Power Dynamics] **La Política Personal**: Frases como "Yo nunca decido en caliente" o "Consulto todo con mi almohada/socio" externalizan la negativa. No es que no *quieras* responder, es que tu *regla* te lo impide.
+*   **Comprar Tiempo**: Nunca negocies cuando tengas hambre, sueño, prisa o estés enfadado. El tiempo es tu mejor aliado para recuperar la racionalidad.
+*   **El Disco Rayado**: Si insisten, repite tu petición de tiempo con las mismas palabras, sin enfadarte y sin añadir nuevas justificaciones.
+*   **La Política Personal**: Frases como "Yo nunca decido en caliente" o "Consulto todo con mi almohada/socio" externalizan la negativa. No es que no *quieras* responder, es que tu *regla* te lo impide.
 
 ## Ejemplos Prácticos
 
@@ -94,6 +94,6 @@ La prisa es una forma de violencia psicológica leve. Al negarte a correr, está
 *   **Ficha**: [Juego: No + Alternativa](../juegos/juego_05.md) (Variante Tiempo).
 *   **Por qué ayuda**: Cuando alguien te pida un favor pequeño (p.ej. "¿me pasas la sal?"), entrena el micro-retraso. "Claro, dame un segundo". Termina de masticar o de beber, y luego pásala. Rompe el automatismo de servidumbre inmediata.
 
-## Referencias TPM
+## Referencias
 
 *   [High Power Talk](https://thepowermoves.com/high-power-talk/): Técnicas verbales para mantener el control.

@@ -45,7 +45,7 @@ Este documento define el estándar de calidad para todas las entradas de *Power 
 ### 1.4 Síntesis de Ideas Clave
 *   **Función**: Resumen esquemático *post-explicación*.
 *   **Formato**: Lista de bullets con referencias a TPM.
-    *   *Ejemplo*: `* [TPM: Frame Control] **Concepto**: Definición breve.`
+    *   *Ejemplo*: `* **Concepto**: Definición breve.`
 
 ### 1.5 Ejemplos Prácticos (Variantes de Contexto)
 *   Desarrollar **3 casos de uso** obligatorios para asegurar la utilidad transversal:
@@ -76,7 +76,7 @@ Este documento define el estándar de calidad para todas las entradas de *Power 
     *   `Por qué ayuda`: Breve explicación de la conexión.
 
 ### 1.10 Referencias y Lecturas Relacionadas (Web TPM)
-*   **Encabezado**: `## Referencias TPM`
+*   **Encabezado**: `## Referencias`
 *   **Contenido**: 2-3 enlaces a artículos de *ThePowerMoves*.
 *   **Formato**: Lista con el título del artículo enlazado (Markdown) + frase explicativa de su relevancia.
     *   *Ejemplo*: `* [Título del Artículo](url): Explica a fondo el concepto de...`
@@ -97,8 +97,8 @@ Este documento define el estándar de calidad para todas las entradas de *Power 
 [Narrativa extensa explicando la dinámica, integrando conceptos TPM, sin bullets]
 
 ## Síntesis de Ideas Clave
-* [TPM: Ref] **Concepto**: Definición.
-* [TPM: Ref] **Concepto**: Definición.
+* **Concepto**: Definición.
+* **Concepto**: Definición.
 
 ## Ejemplos Prácticos
 
@@ -137,7 +137,7 @@ Este documento define el estándar de calidad para todas las entradas de *Power 
 * **Ficha**: [Link al Juego](../juegos/juego_XX.md).
 * **Por qué ayuda**: [Explicación de qué mecánica entrena esta habilidad].
 
-## Referencias TPM
+## Referencias
 
 * [Título Artículo 1](URL): Por qué leerlo / qué añade.
 * [Título Artículo 2](URL): Por qué leerlo / qué añade.

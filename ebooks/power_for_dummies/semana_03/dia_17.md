@@ -33,9 +33,9 @@ Es crucial hacerlo **sin agresión**. Mike no dice "¡Eres un imbécil sarcásti
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Covert Aggression] **El Poder de la Luz**: La agresión encubierta no sobrevive a la exposición directa. Sácala a la luz y morirá.
-*   [TPM: Assertiveness] **La Pregunta de Aclaración**: "¿Qué quieres decir exactamente con eso?" es la mejor defensa contra la ambigüedad maliciosa.
-*   [TPM: Social Intelligence] **Calibración**: No acuses, pregunta. Si acusas, te dirán "qué paranoico eres". Si preguntas, te dirán "no, qué va", y habrás ganado igual.
+*   **El Poder de la Luz**: La agresión encubierta no sobrevive a la exposición directa. Sácala a la luz y morirá.
+*   **La Pregunta de Aclaración**: "¿Qué quieres decir exactamente con eso?" es la mejor defensa contra la ambigüedad maliciosa.
+*   **Calibración**: No acuses, pregunta. Si acusas, te dirán "qué paranoico eres". Si preguntas, te dirán "no, qué va", y habrás ganado igual.
 
 ## Ejemplos Prácticos
 
@@ -85,6 +85,6 @@ Las relaciones sanas no tienen subtextos tóxicos. Tienen textos claros. Al limp
 *   **Ficha**: [Juego 4: Broma o Descalificación](../juegos/juego_04.md).
 *   **Por qué ayuda**: Entrena específicamente la distinción entre "Verde" (broma real) y "Rojo" (ataque). Usa el meta-comentario cuando salga Rojo.
 
-## Referencias TPM
+## Referencias
 
 *   [How to Handle Covert Aggression](https://thepowermoves.com/how-to-handle-covert-aggressor/): Técnicas para lidiar con enemigos ocultos.

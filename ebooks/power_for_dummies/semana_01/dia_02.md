@@ -35,9 +35,9 @@ Pero aquí está la clave de su elegancia: el uso del **Parking Lot** (Aparcamie
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Dominant Conversations] **Liderazgo Conversacional**: Liderar no es hablar más, es gestionar la estructura de la charla: marcar el objetivo, los tiempos y los turnos.
-*   [TPM: Frame Control] **Interrupción de Patrón**: Romper una dinámica caótica con una acción física o verbal inesperada ("paro aquí") para resetear la atención.
-*   [TPM: Frame Control] **Parking Lot (Aparcamiento)**: Herramienta diplomática para posponer temas periféricos sin invalidar al interlocutor, manteniendo el foco principal activo.
+*   **Liderazgo Conversacional**: Liderar no es hablar más, es gestionar la estructura de la charla: marcar el objetivo, los tiempos y los turnos.
+*   **Interrupción de Patrón**: Romper una dinámica caótica con una acción física o verbal inesperada ("paro aquí") para resetear la atención.
+*   **Parking Lot (Aparcamiento)**: Herramienta diplomática para posponer temas periféricos sin invalidar al interlocutor, manteniendo el foco principal activo.
 
 ## Ejemplos Prácticos
 
@@ -91,7 +91,7 @@ Cuando aplicas estas técnicas con elegancia, dejas de ser un participante pasiv
 *   **Ficha**: [Juego 2: Turno Blindado](../juegos/juego_02.md).
 *   **Por qué ayuda**: Para usar el "Parking Lot" o pausar la sala, necesitas primero ser capaz de sostener tu espacio y tu voz ante el caos. Este juego te "vacuna" contra el miedo a ser interrumpido o ignorado, dándote la calma necesaria para liderar.
 
-## Referencias TPM
+## Referencias
 
 *   [Frame Control](https://thepowermoves.com/frame-control/): Muestra cómo quien define el "marco" de la interacción (de qué se habla y de qué no) es quien lidera.
 *   [Dominance](https://thepowermoves.com/dominance/): Analiza cómo el control del tiempo y los turnos de palabra son indicadores primarios de estatus en grupos.

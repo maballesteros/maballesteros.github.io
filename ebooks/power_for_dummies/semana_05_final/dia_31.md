@@ -26,9 +26,9 @@ Tu sistema de mantenimiento debe incluir:
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Self-Development] **Identity Shift**: El objetivo final no es "hacer" cosas de poder, es "ser" una persona de poder. Cuando se vuelve inconsciente, has ganado.
-*   [TPM: Habits] **Kaizen**: Mejora continua. 1% mejor cada semana. En un año eres irreconocible.
-*   [TPM: Irony] **El Poder es Servicio**: Recuerda, acumulas poder no para abusar, sino para ser más útil, proteger a los tuyos y hacer avanzar las cosas buenas. El poder sin propósito es vacío.
+*   **Identity Shift**: El objetivo final no es "hacer" cosas de poder, es "ser" una persona de poder. Cuando se vuelve inconsciente, has ganado.
+*   **Kaizen**: Mejora continua. 1% mejor cada semana. En un año eres irreconocible.
+*   **El Poder es Servicio**: Recuerda, acumulas poder no para abusar, sino para ser más útil, proteger a los tuyos y hacer avanzar las cosas buenas. El poder sin propósito es vacío.
 
 ## El Plan de Mantenimiento (La Ficha)
 

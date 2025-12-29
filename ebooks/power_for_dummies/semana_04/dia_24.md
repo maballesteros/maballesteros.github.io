@@ -42,9 +42,9 @@ El objetivo es subir el **Coste Social** de meterse contigo. Si cada vez que hac
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Power Moves] **Schrödinger's Douchebag**: Alguien que decide si estaba bromeando o no basándose en tu reacción. No les dejes elegir. Defínelo tú como "falta de respeto".
-*   [TPM: Social Intelligence] **Control del Humor**: El líder decide de qué nos reímos. No te rías por compromiso. Tu risa es valiosa, dásela solo a quien te respeta.
-*   [TPM: Frame Control] **Romper el Marco de Juego**: Ellos están en marco "Jiji Jaja". Tú cambias a marco "Serio/Adulto". El contraste les deja helados.
+*   **Schrödinger's Douchebag**: Alguien que decide si estaba bromeando o no basándose en tu reacción. No les dejes elegir. Defínelo tú como "falta de respeto".
+*   **Control del Humor**: El líder decide de qué nos reímos. No te rías por compromiso. Tu risa es valiosa, dásela solo a quien te respeta.
+*   **Romper el Marco de Juego**: Ellos están en marco "Jiji Jaja". Tú cambias a marco "Serio/Adulto". El contraste les deja helados.
 
 ## Ejemplos Prácticos
 
@@ -95,6 +95,6 @@ El humor es maravilloso, pero el humor agresivo es veneno. Ten un radar fino. Si
 *   **Ficha**: [Juego 4: Broma o Descalificación](../juegos/juego_04.md).
 *   **Por qué ayuda**: Entrena el "No lo pillo" con amigos de confianza. Verás lo difícil que es explicar un chiste sin parecer tonto.
 
-## Referencias TPM
+## Referencias
 
 *   [How to Handle Disrespectful Jokes](https://thepowermoves.com/how-to-handle-disrespectful-jokes/): Guía específica.

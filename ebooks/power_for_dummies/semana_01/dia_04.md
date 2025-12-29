@@ -32,9 +32,9 @@ Finalmente, el uso de la **palma abierta** para dar turnos en lugar del dedo ín
 
 ## Síntesis de Ideas Clave
 
-*   [TPM: Body Language] **Dominancia vs. Sumisión**: La postura erguida, la cabeza nivelada y los movimientos suaves y deliberados comunican estatus alto. Los movimientos rápidos y la contracción física comunican estatus bajo o miedo.
-*   [TPM: Status Cues] **Oculesia y Proximidad**: Mantener el contacto visual sostenido (sin mirar fijamente como un depredador) transmite confianza. Huir de la mirada comunica sumisión o culpa.
-*   [TPM: Gestures] **Gestos de Apaciguamiento vs. Autoridad**: Evita tocarte la cara, el cuello o arreglarte la ropa compulsivamente (apaciguamiento). Usa gestos ilustrativos amplios y mantén las manos en la "caja de poder" (entre cintura y pecho).
+*   **Dominancia vs. Sumisión**: La postura erguida, la cabeza nivelada y los movimientos suaves y deliberados comunican estatus alto. Los movimientos rápidos y la contracción física comunican estatus bajo o miedo.
+*   **Oculesia y Proximidad**: Mantener el contacto visual sostenido (sin mirar fijamente como un depredador) transmite confianza. Huir de la mirada comunica sumisión o culpa.
+*   **Gestos de Apaciguamiento vs. Autoridad**: Evita tocarte la cara, el cuello o arreglarte la ropa compulsivamente (apaciguamiento). Usa gestos ilustrativos amplios y mantén las manos en la "caja de poder" (entre cintura y pecho).
 
 ## Ejemplos Prácticos
 
@@ -85,7 +85,7 @@ Tu cuerpo habla antes que tu boca. Si tu cuerpo grita "tengo miedo" o "no estoy 
 
 *   **Ficha**: [Juego: Plantilla 3 Pasos Sprint](../juegos/juego_08.md).ayuda**: Grabarse a uno mismo simulando una discusión es la terapia de choque más efectiva. Verás tus tics, tus desvíos de mirada y tus encogimientos. **Juego rápido**: Mírate al espejo y mantén la mirada 60 segundos sin mover un solo músculo de la cara.
 
-## Referencias TPM
+## Referencias
 
 *   [Body Language](https://thepowermoves.com/body-language/): La guía definitiva sobre las señales no verbales masculinas y de estatus.
 *   [Dominant Body Language](https://thepowermoves.com/dominant-body-language-example-pictorial/): Ejemplos visuales de qué hacer y qué no hacer (incluyendo el "Ear Tap").
