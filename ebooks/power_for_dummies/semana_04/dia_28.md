@@ -90,6 +90,3 @@ Los grupos son bestias salvajes. Si les tienes miedo, te comen. Si intentas enja
 *   **Ficha**: [Juego 9: Aterrizaje de Grupo](../juegos/juego_09.md).
 *   **Por qué ayuda**: Entrena el momento crítico de "tomar el micro" en medio del caos.
 
-## Referencias
-
-*   [Commanding Attention in Groups](https://thepowermoves.com/group-conversation/): Guía avanzada.

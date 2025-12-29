@@ -91,7 +91,3 @@ El lenguaje vago es un refugio seguro para quien no quiere comprometerse. El len
 *   **Ficha**: [Juego: Plantilla 3 Pasos Sprint](../juegos/juego_08.md).
 *   **Por qué ayuda**: Practica redactar mensajes de WhatsApp usando estrictamente: 1. Hechos. 2. Propuesta. 3. Pregunta de cierre. Revisa tus últimos 10 mensajes enviados: ¿cuántos eran "paja" y cuántos eran CPS?
 
-## Referencias
-
-*   [High Power Talk](https://thepowermoves.com/high-power-talk/): Cómo hablar para obtener resultados y respeto.
-*   [Frame Control](https://thepowermoves.com/frame-control-basics/): Cómo el CPS establece un marco de "resolución de problemas" frente al marco de "queja emocional".

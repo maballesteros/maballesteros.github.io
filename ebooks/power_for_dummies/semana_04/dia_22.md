@@ -86,6 +86,3 @@ Bienvenido a Matrix. Ahora ves el código cayendo. No puedes "des-verlo". Usa es
 *   **Ficha**: [Juego 7: Detector en Vídeo](../juegos/juego_07.md) (Analizar vídeos de políticos/famosos es gran práctica).
 *   **Reto**: Mira un debate político en TV. Cuenta cuántas veces se interrumpen y cuántas falacias lógicas usan. Es el gimnasio perfecto.
 
-## Referencias
-
-*   [Power Moves List](https://thepowermoves.com/power-moves/): La enciclopedia de las jugadas.

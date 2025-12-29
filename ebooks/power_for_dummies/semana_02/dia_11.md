@@ -95,6 +95,3 @@ Una interacción sin cierre es como un libro al que le han arrancado la última 
 *   **Ficha**: [Juego: Plantilla 3 Pasos Sprint](../juegos/juego_08.md).
 *   **Por qué ayuda**: Revisa tus chats. Busca conversaciones abiertas que se hayan muerto. Resucítalas con un Cierre Operativo: "Hola, esto se quedó pendiente. ¿Lo cerramos para el viernes o lo descartamos?".
 
-## Referencias
-
-*   [High Power Talk](https://thepowermoves.com/high-power-talk/): Cómo cerrar tratos y conversaciones con autoridad.

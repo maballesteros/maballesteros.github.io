@@ -94,6 +94,3 @@ La prisa es una forma de violencia psicológica leve. Al negarte a correr, está
 *   **Ficha**: [Juego: No + Alternativa](../juegos/juego_05.md) (Variante Tiempo).
 *   **Por qué ayuda**: Cuando alguien te pida un favor pequeño (p.ej. "¿me pasas la sal?"), entrena el micro-retraso. "Claro, dame un segundo". Termina de masticar o de beber, y luego pásala. Rompe el automatismo de servidumbre inmediata.
 
-## Referencias
-
-*   [High Power Talk](https://thepowermoves.com/high-power-talk/): Técnicas verbales para mantener el control.

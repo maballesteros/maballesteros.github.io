@@ -88,7 +88,3 @@ Los grupos son sistemas complejos que tienden al desorden. Si tú eres quien apo
 *   **Ficha**: [Juego 9: Aterrizaje de Grupo](../juegos/juego_09.md).
 *   **Por qué ayuda**: En tu próxima reunión social, ponte un reto secreto: "Voy a conseguir que [Persona Callada] hable dos veces". Usa preguntas dirigidas y crea silencio para él/ella. Observa cómo sube la energía del grupo.
 
-## Referencias
-
-*   [Group Conversations](https://thepowermoves.com/group-conversation/): 4 pasos para masterizar las dinámicas grupales.
-*   [Preventing Thread Hijacking](https://thepowermoves.com/forum/topic/preventing-thread-hijacking/): Técnicas avanzadas para evitar que secuestren tu tema.

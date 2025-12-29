@@ -77,6 +77,3 @@ Hablar en público no es "actuar". Es ser tú mismo, pero en versión amplificad
 *   **Ficha**: [Juego 12: Presenta y Defiende](../juegos/juego_12.md).
 *   **Reto**: Ofrécete voluntario para presentar cualquier cosa esta semana. Aunque sea el brindis de cumpleaños. Coge el micro.
 
-## Referencias
-
-*   [Public Speaking Power](https://thepowermoves.com/public-speaking/): Técnicas de oratoria.

@@ -88,6 +88,3 @@ Tu cuerpo es el envase de tu mensaje. Si el envase está abollado (postura pobre
 *   **Ficha**: [Juego: Detector en Vídeo](../juegos/juego_07.md).
 *   **Por qué ayuda**: Pide a alguien que te grabe caminando y sentándote. ¿Te encorvas? ¿Miras al suelo? Corrige un solo detalle (ej: hombros abajo) y vuelve a grabar. La diferencia será abismal.
 
-## Referencias
-
-*   [Confident Body Language](https://thepowermoves.com/confident-body-language/): Análisis detallado de las señales de estatus alto y bajo.

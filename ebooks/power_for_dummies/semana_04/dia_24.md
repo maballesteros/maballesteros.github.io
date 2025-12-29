@@ -95,6 +95,3 @@ El humor es maravilloso, pero el humor agresivo es veneno. Ten un radar fino. Si
 *   **Ficha**: [Juego 4: Broma o Descalificación](../juegos/juego_04.md).
 *   **Por qué ayuda**: Entrena el "No lo pillo" con amigos de confianza. Verás lo difícil que es explicar un chiste sin parecer tonto.
 
-## Referencias
-
-*   [How to Handle Disrespectful Jokes](https://thepowermoves.com/how-to-handle-disrespectful-jokes/): Guía específica.

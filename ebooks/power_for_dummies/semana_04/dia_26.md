@@ -87,7 +87,3 @@ Tu piel es la última frontera. Si no defiendes tu piel, tu mente entiende que e
 *   **Ficha**: [Juego 11: Tocar No Es Gratis](../juegos/juego_11.md).
 *   **Por qué ayuda**: Practica las "salidas de llave". Que un amigo te agarre del brazo y practica soltarte girando la muñeca o girando el cuerpo sin usar fuerza bruta. Aikido social.
 
-## Referencias
-
-*   [Strategic Touching](https://thepowermoves.com/strategic-touching/): Guía del toque para influencia y seducción (el lado positivo).
-*   [Defending Territory](https://thepowermoves.com/body-language/): El lado defensivo.

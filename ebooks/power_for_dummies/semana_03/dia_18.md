@@ -87,6 +87,3 @@ El "No" define tus bordes. Si no tienes bordes, te diluyes. Al usar la fórmula 
 *   **Ficha**: [Juego 5: No + Alternativa](../juegos/juego_05.md).
 *   **Por qué ayuda**: Entrena el músculo de aguantar la mirada tras el "No" y la creatividad para inventar alternativas rápidas.
 
-## Referencias
-
-*   [How to Say No](https://thepowermoves.com/how-to-say-no/): Guía completa para negativas asertivas.

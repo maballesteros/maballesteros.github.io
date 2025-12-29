@@ -86,7 +86,3 @@ Tener "piel dura" no significa aguantar golpes; significa tener un escudo eficaz
 *   **Ficha**: [Juego 4: Broma o Descalificación](../juegos/juego_04.md).
 *   **Por qué ayuda**: Practica clasificar frases. Pide a un amigo que te diga frases ambiguas. Tienes que decidir en 2 segundos: ¿Verde (agradecer), Ámbar (ignorar) o Rojo (meta-comentario)? La velocidad es clave.
 
-## Referencias
-
-*   [Covert Aggression](https://thepowermoves.com/how-to-handle-covert-aggressor/): Cómo manejar la falta de respeto encubierta.
-*   [One-Liners](https://thepowermoves.com/how-to-handle-all-power-moves/): Frases cortas para defenderte de cualquier ataque verbal.

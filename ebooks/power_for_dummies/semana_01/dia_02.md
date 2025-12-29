@@ -91,7 +91,3 @@ Cuando aplicas estas técnicas con elegancia, dejas de ser un participante pasiv
 *   **Ficha**: [Juego 2: Turno Blindado](../juegos/juego_02.md).
 *   **Por qué ayuda**: Para usar el "Parking Lot" o pausar la sala, necesitas primero ser capaz de sostener tu espacio y tu voz ante el caos. Este juego te "vacuna" contra el miedo a ser interrumpido o ignorado, dándote la calma necesaria para liderar.
 
-## Referencias
-
-*   [Frame Control](https://thepowermoves.com/frame-control/): Muestra cómo quien define el "marco" de la interacción (de qué se habla y de qué no) es quien lidera.
-*   [Dominance](https://thepowermoves.com/dominance/): Analiza cómo el control del tiempo y los turnos de palabra son indicadores primarios de estatus en grupos.
