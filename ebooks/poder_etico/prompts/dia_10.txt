@@ -1,0 +1,34 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 6 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Medium - The Pressure):
+Scene: Mike on phone. Split screen with Salesman.
+Bubble (Salesman): "¡Necesito el OK ahora o pierdes el 20%!"
+Action: Sweat drop on Mike's forehead but face verified.
+
+Panel 2 (Medium - The Validation):
+Scene: Mike holding phone, calm.
+Text Bubble (Mike): "Entiendo que el descuento es importante."
+Text Bubble (Mike): "Pero mi política es no cerrar por teléfono."
+
+Panel 3 (Small - Persistence):
+Scene: Salesman shouting.
+Bubble (Salesman): "¡Se acaba el plazo!"
+
+Panel 4 (Large - Buying Time):
+Scene: Mike checking watch.
+Big Text Bubble (Mike): "Te propongo esto: mándame los detalles."
+Big Text Bubble (Mike): "Me tomo 10 minutos y te contesto Sí o No."
+
+Panel 5 (Small - Objection):
+Scene: Salesman voice.
+Bubble (Salesman): "Es que..."
+
+Panel 6 (Medium - Broken Record):
+Scene: Mike firm.
+Text Bubble (Mike): "Es la única forma. Envideo y en 10 min tienes respuesta."
+Caption Box: "ANTI-URGENCIA"
+
+Aspect Ratio: 9:16
+Quality: Focus on Mike's calm demeanor vs phone chaos.

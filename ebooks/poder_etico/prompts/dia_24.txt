@@ -1,0 +1,32 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 6 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Medium - The "Joke"):
+Scene: Friend laughing.
+Bubble (Friend): "¿Venía con los pedales o los compraste aparte? jaja."
+
+Panel 2 (Close Up - The Deadpan):
+Scene: Mike NOT laughing. Staring blankly.
+Effect: Silence.
+Caption: "MATAR AL PAYASO"
+
+Panel 3 (Medium - The Question):
+Scene: Mike serious.
+Text Bubble (Mike): "¿A qué te refieres con pedales?"
+
+Panel 4 (Medium - The Explanation):
+Scene: Friend sweating. Uncomfortable.
+Bubble (Friend): "Hombre, que es lento, jaja..."
+
+Panel 5 (Large - The Verdict):
+Scene: Mike judging.
+Big Text Bubble (Mike): "Ah. Pues no le veo la gracia."
+Big Text Bubble (Mike): "Cambiando de tema..."
+
+Panel 6 (Reaction):
+Scene: Friend looking small/defeated.
+Caption Box: "COSTE SOCIAL SUBIDO"
+
+Aspect Ratio: 9:16
+Quality: The awkwardness of the silence must be visible.

@@ -1,0 +1,32 @@
+Style: Manga Seinen (High Detail, Ink).
+Format: Full Manga Page (Text Heavy, 6 panels).
+Constraint: Render ALL text in large white bubbles. Verbatim dialogue.
+
+Panel 1 (Small - The Walk):
+Scene: Mike walking to center stage. Slow. Firm steps.
+Caption: "OCUPAR EL CENTRO"
+
+Panel 2 (Medium - The Survey):
+Scene: Mike looking at the audience. Silence.
+Effect: "..." (3 seconds).
+
+Panel 3 (Large - The Opening):
+Scene: Mike speaking to the crowd.
+Big Text Bubble (Mike): "Hoy no voy a leeros datos."
+Big Text Bubble (Mike): "Voy a contaros por qué vamos a ganar."
+
+Panel 4 (Wide - The Crowd):
+Scene: Audience putting down phones. Listening.
+Caption: "AUTORIDAD"
+
+Panel 5 (Medium - The Defense):
+Scene: Heckler/Questioner.
+Bubble (Heckler): "Eso no se lo cree nadie."
+
+Panel 6 (Medium - The Rebuttal):
+Scene: Mike calm.
+Text Bubble (Mike): "Tienes derecho a ser escéptico. Pero los resultados son auditados. Siguiente."
+Caption Box: "EL ESCENARIO ES TUYO"
+
+Aspect Ratio: 9:16
+Quality: Cinematic stage lighting.
