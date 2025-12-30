@@ -33,6 +33,6 @@ Elige una frase y repítela frente a la cámara intentando ser firme.
 Guarda el "antes y después". La mejora en una sola sesión suele ser brutal.
 
 ### Entrena esta teoría
-*   [Día 4: Cuerpo que sostiene la voz](../semana_01/dia_04.md)
-*   [Día 13: Señales no verbales](../semana_02/dia_13.md)
-*   [Día 22: Detector de jugadas](../semana_04/dia_22.md)
+*   [Capítulo 1.4: Cuerpo que sostiene la voz](../parte_01/1_4.md)
+*   [Capítulo 2.6: Señales no verbales](../parte_02/2_6.md)
+*   [Capítulo 4.1: Detector de jugadas: puntúa el juego](../parte_04/4_1.md)

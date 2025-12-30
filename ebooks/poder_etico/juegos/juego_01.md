@@ -54,4 +54,4 @@ Para no perder tiempo pensando "qué digo", el **Emisor** puede elegir una de es
 Hacedlo con **mensajes de texto reales** de vuestros móviles. Leed el último mensaje tenso que recibisteis y jugad a responderlo en "Verde".
 
 ### Entrena esta teoría
-* [Día 1: Propósito ético del poder](../semana_01/dia_01.md)
+* [Capítulo 1.1: Propósito ético del poder](../parte_01/1_1.md)

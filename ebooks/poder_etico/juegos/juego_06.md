@@ -36,5 +36,5 @@ El **Emisor** elige una de estas quejas para soltarla con intensidad. El **Espej
 Hazlo con temas polémicos (política/fútbol). Es el test definitivo de frialdad emocional.
 
 ### Entrena esta teoría
-*   [Día 6: Escucha de alto poder](../semana_01/dia_06.md) (Concepto relacionado).
-*   [Día 12: Reset ordenado](../semana_02/dia_12.md) (La escucha es el primer paso del reset).
+*   [Capítulo 1.6: Derecho a hablar y micro-faltas](../parte_01/1_6.md) (Concepto relacionado).
+*   [Capítulo 2.5: Reset ordenado](../parte_02/2_5.md) (La escucha es el primer paso del reset).

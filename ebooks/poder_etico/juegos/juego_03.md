@@ -43,5 +43,5 @@ No intentes convencer al Troll de que está equivocado. Simplemente cambia el te
 *   Líder: "Soy persistente porque quiero que esto salga bien. ¿Seguimos?"
 
 ### Entrena esta teoría
-*   [Día 9: Preguntas que encuadran](../semana_02/dia_09.md)
-*   [Día 16: Re-encuadre en 7 palabras](../semana_03/dia_16.md)
+*   [Capítulo 2.2: Preguntas que encuadran](../parte_02/2_2.md)
+*   [Capítulo 3.2: Re-encuadre en 7 palabras](../parte_03/3_2.md)

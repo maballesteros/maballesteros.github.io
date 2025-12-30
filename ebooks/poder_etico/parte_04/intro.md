@@ -1,0 +1,14 @@
+# Parte 4: Jugadas de Poder
+
+A veces, la fricción no es accidental. Hay personas que utilizan tácticas específicas —consciente o inconscientemente— para desestabilizarte. Esta sección es tu manual de defensa personal verbal.
+
+Analizaremos y neutralizaremos:
+
+*   La **interrupción** sistemática.
+*   La **broma descalificadora** (el "solo bromeaba").
+*   La dilación y la falta de compromiso.
+*   El contacto físico no solicitado ("tocar sin permiso").
+*   La dinámica **Teacher-Pupil** (cuando te explican lo obvio).
+*   El **Waiting Game** (el uso de la espera como control).
+
+El objetivo no es contraatacar, sino desactivar la jugada y devolver la interacción a un plano de respeto mutuo.

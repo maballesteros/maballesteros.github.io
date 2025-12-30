@@ -33,4 +33,5 @@ El **Maestro** elige una frase para sentar cátedra. El **Par** debe romper el m
 *   ¿Qué frase te resulta más natural para decir "yo ya sé esto" sin ser arrogante?
 
 ### Entrena esta teoría
-*   [Día 27: Teacher-Pupil](../semana_04/dia_27.md)
+### Entrena esta teoría
+*   [Capítulo 4.6: “Teacher–pupil”: el alumno perpetuo se gradúa hoy](../parte_04/4_6.md)

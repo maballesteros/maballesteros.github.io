@@ -28,7 +28,7 @@ El **Pulpo** debe realizar una de estas acciones físicas mientras habla de algo
     *   **Retirada**: Coger la mano del Pulpo y apartarla suavemente mientras mantiene contacto visual serio.
 4.  Objetivo: Seguir hablando como si nada hubiera pasado, pero manteniendo la nueva distancia. Si se pone nervioso o se ríe, pierde.
 
-## Variante: El "Ear Tap" (Para Día 14)
+## Variante: El "Ear Tap" (Para Capítulo 2.7)
 El "Ear Tap" (tirar de la oreja o tocar la cara) es un gesto de dominancia infantilizadora.
 *   **Mecánica**: El Pulpo hace el gesto de pellizcar suavemente la mejilla o tirar de la oreja.
 *   **Defensa**: El Soberano no retrocede. Usa la mano para detener la mano del Pulpo en el aire, la sostiene un segundo mirándole a los ojos, y la baja lentamente. Sin decir nada. Es un "No" físico absoluto.
@@ -38,5 +38,5 @@ El "Ear Tap" (tirar de la oreja o tocar la cara) es un gesto de dominancia infan
 *   ¿Te sientes culpable? (Recuerda: tu cuerpo es tuyo).
 
 ### Entrena esta teoría
-*   [Día 14: Nótese y neutralícese la “ear tap”](../semana_02/dia_14.md)
-*   [Día 26: Tocar sin permiso](../semana_04/dia_26.md)
+*   [Capítulo 2.7: Nótese y neutralícese la “ear tap”](../parte_02/2_7.md)
+*   [Capítulo 4.5: Tocar sin permiso: defensa territorial](../parte_04/4_5.md)
