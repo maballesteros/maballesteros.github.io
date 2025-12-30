@@ -32,5 +32,5 @@ El grupo debe empezar a discutir acaloradamente sobre uno de estos temas ridícu
 Usa el nombre de las personas al resumir. "Como decía Juan..." + "Como decía María...". Eso te valida como escuchador y te da derecho a cerrar.
 
 ### Entrena esta teoría
-*   [Día 7: Grupo: pasar el micro](../semana_01/dia_07.md)
-*   [Día 28: Grupo (Conversaciones múltiples)](../semana_04/dia_28.md)
+*   [Capítulo 1.7: Grupo: pasar el micro](../parte_01/1_7.md)
+*   [Capítulo 4.7: Grupo: reglas para la jungla](../parte_04/4_7.md)

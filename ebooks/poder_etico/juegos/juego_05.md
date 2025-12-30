@@ -37,5 +37,5 @@ El **Pedidor** elige una de estas "patatas calientes". El **Negociador** debe de
 Usa el "No" sándwich de validación: "Me halaga que me lo pidas (Pan) + No voy a poder (Carne) + Gracias por pensar en mí (Pan)".
 
 ### Entrena esta teoría
-*   [Día 10: Pedir tiempo sin perder estatus](../semana_02/dia_10.md)
-*   [Día 18: “No” limpio + alternativa](../semana_03/dia_18.md)
+*   [Capítulo 2.3: Pedir tiempo sin perder estatus](../parte_02/2_3.md)
+*   [Capítulo 3.4: “No” limpio + alternativa](../parte_03/3_4.md)

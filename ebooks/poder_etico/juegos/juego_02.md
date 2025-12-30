@@ -42,5 +42,5 @@ Si no se os ocurre nada por lo que empezar a discutir, elegid uno de estos temas
 El Interruptor puede usar "validación falsa" para confundir: "Sí, sí, tienes razón, pero..." (El Orador debe decir: "Gracias, pero termino mi punto").
 
 ### Entrena esta teoría
-* [Día 2: Conducir la conversación](../semana_01/dia_02.md)
-* [Día 3: Voz y pausas](../semana_01/dia_03.md)
+* [Capítulo 1.2: Conducir la conversación](../parte_01/1_2.md)
+* [Capítulo 1.3: Voz y pausas](../parte_01/1_3.md)

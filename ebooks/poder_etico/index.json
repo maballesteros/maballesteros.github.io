@@ -21,6 +21,10 @@
             "title": "Parte 1: Fundamentos Visibles",
             "sections": [
                 {
+                    "title": "Introducción Parte 1",
+                    "path": "parte_01/intro.md"
+                },
+                {
                     "title": "1.1 Propósito ético del poder",
                     "path": "parte_01/1_1.md"
                 },
@@ -59,6 +63,10 @@
             "title": "Parte 2: Tono, tiempo y cierres",
             "sections": [
                 {
+                    "title": "Introducción Parte 2",
+                    "path": "parte_02/intro.md"
+                },
+                {
                     "title": "2.1 Pausa y latencia",
                     "path": "parte_02/2_1.md"
                 },
@@ -93,6 +101,10 @@
             "title": "Parte 3: Marcos y Límites",
             "sections": [
                 {
+                    "title": "Introducción Parte 3",
+                    "path": "parte_03/intro.md"
+                },
+                {
                     "title": "3.1 Identificar el marco",
                     "path": "parte_03/3_1.md"
                 },
@@ -126,6 +138,10 @@
             "id": "parte_04",
             "title": "Parte 4: Jugadas de Poder",
             "sections": [
+                {
+                    "title": "Introducción Parte 4",
+                    "path": "parte_04/intro.md"
+                },
                 {
                     "title": "4.1 Detector de jugadas",
                     "path": "parte_04/4_1.md"
@@ -164,6 +180,10 @@
             "id": "parte_05",
             "title": "Parte 5: Maestría",
             "sections": [
+                {
+                    "title": "Introducción Parte 5",
+                    "path": "parte_05/intro.md"
+                },
                 {
                     "title": "5.1 10 técnicas de frame control",
                     "path": "parte_05/5_1.md"

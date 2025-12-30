@@ -34,6 +34,6 @@ El **Caos** lanza una de estas bombas. El **Ejecutivo** tiene 1 minuto para escr
 Hazlo con audios de WhatsApp. Tienes 20 segundos para grabar el CPS. Entrena la voz y la síntesis.
 
 ### Entrena esta teoría
-*   [Día 5: Estructura CPS](../semana_01/dia_05.md)
-*   [Día 11: Cierres operativos](../semana_02/dia_11.md)
-*   [Día 25: Anti-dilación](../semana_04/dia_25.md)
+*   [Capítulo 1.5: Estructura CPS](../parte_01/1_5.md)
+*   [Capítulo 2.4: Cierres operativos](../parte_02/2_4.md)
+*   [Capítulo 4.4: Anti-dilación: fecha + responsable o muerte](../parte_04/4_4.md)

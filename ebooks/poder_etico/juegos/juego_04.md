@@ -39,5 +39,5 @@ El **Guionista** lee una de estas frases. El **Detector** debe gritar el color.
 Juega con los ojos cerrados para guiarte solo por el tono de voz (paralenguaje).
 
 ### Entrena esta teoría
-*   [Día 6: Derecho a hablar y micro-faltas](../semana_01/dia_06.md)
-*   [Día 24: Anti-broma descalificadora](../semana_04/dia_24.md)
+*   [Capítulo 1.6: Derecho a hablar y micro-faltas](../parte_01/1_6.md)
+*   [Capítulo 4.3: Anti-broma descalificadora](../parte_04/4_3.md)

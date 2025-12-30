@@ -33,4 +33,5 @@ El **Ponente** debe defender uno de estos temas con total seriedad profesional.
 *   ¿Cómo te ayuda la pausa a recuperar el control?
 
 ### Entrena esta teoría
-*   [Día 30: Presentaciones con autoridad](../semana_05_final/dia_30.md)
+### Entrena esta teoría
+*   [Capítulo 5.2: Presentaciones con autoridad: el escenario es tuyo](../parte_05/5_2.md)
