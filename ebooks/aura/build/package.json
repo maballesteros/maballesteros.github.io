@@ -1,0 +1,14 @@
+{
+    "name": "aura-builder",
+    "version": "1.0.0",
+    "description": "Builder for Aura Ebook",
+    "main": "build.js",
+    "scripts": {
+        "build": "node build.js"
+    },
+    "dependencies": {
+        "epub-gen": "^0.1.0",
+        "marked": "^11.1.0",
+        "puppeteer": "^24.34.0"
+    }
+}

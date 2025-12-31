@@ -1,0 +1,10 @@
+**Style**: Maximum Visual Impact / Cinematic / Hyper-realism / Movie Poster Quality
+**Subject**: "Aura" - A solitary, powerful adolescent figure (silhouette or back view) standing completely still on a high vantage point (like a rooftop edge or a vast empty concrete plain) against a massive, overwhelming crowd or storm in the distance. The figure is not fighting; they are simply existing with absolute stability.
+**Lighting**: The figure is outlined by a sharp, electric blue rim light (the "aura") that cuts through the darkness. The aura is not fuzzy; it's sharp, like a laser edge defined by their calmness.
+**Text (CRITICAL)**:
+1.  **Main Title (Huge)**: "AURA" (in sharp, futuristic, metallic or glowing white font, easy to read, centered).
+2.  **Subtitle (Smaller, below)**: "Cómo ganar respeto sin hacer ruido"
+3.  **Author (Bottom)**: "M. A. Ballesteros"
+**Mood**: Epic, Stoic, Unshakable. The calm in the eye of the hurricane.
+**Colors**: Deep Midnight Blue, Electric Cyan, Pitch Black, White text.
+**Model**: gemini-3-pro-image-preview

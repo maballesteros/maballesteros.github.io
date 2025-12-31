@@ -1,0 +1,166 @@
+{
+    "title": "Aura: Cómo ganar respeto sin hacer ruido",
+    "basePath": "/ebooks/aura/",
+    "chapters": [
+        {
+            "id": "parte_01",
+            "title": "Parte I: Qué es el Aura",
+            "sections": [
+                {
+                    "title": "Introducción Parte I",
+                    "path": "parte_01/intro.md"
+                },
+                {
+                    "title": "1. Todos tenemos aura (aunque no lo sepas)",
+                    "path": "parte_01/01_todos_tenemos_aura.md"
+                },
+                {
+                    "title": "2. El mayor mito: aura ≠ ser popular",
+                    "path": "parte_01/02_el_mayor_mito.md"
+                },
+                {
+                    "title": "3. La regla madre: coherencia",
+                    "path": "parte_01/03_la_regla_madre_coherencia.md"
+                },
+                {
+                    "title": "4. Por qué la gente pierde aura sin darse cuenta",
+                    "path": "parte_01/04_por_que_pierdes_aura.md"
+                }
+            ]
+        },
+        {
+            "id": "parte_02",
+            "title": "Parte II: Cómo se pierde Aura",
+            "sections": [
+                {
+                    "title": "Introducción Parte II",
+                    "path": "parte_02/intro.md"
+                },
+                {
+                    "title": "5. Reaccionar demasiado rápido",
+                    "path": "parte_02/05_reaccionar_demasiado_rapido.md"
+                },
+                {
+                    "title": "6. Reírte cuando algo te molesta",
+                    "path": "parte_02/06_reirte_cuando_te_molesta.md"
+                },
+                {
+                    "title": "7. Explicarte de más",
+                    "path": "parte_02/07_explicarte_de_mas.md"
+                },
+                {
+                    "title": "8. Entrar en dramas que no son tuyos",
+                    "path": "parte_02/08_entrar_en_dramas.md"
+                },
+                {
+                    "title": "9. Buscar aprobación",
+                    "path": "parte_02/09_buscar_aprobacion.md"
+                }
+            ]
+        },
+        {
+            "id": "parte_03",
+            "title": "Parte III: Cómo se gana Aura",
+            "sections": [
+                {
+                    "title": "Introducción Parte III",
+                    "path": "parte_03/intro.md"
+                },
+                {
+                    "title": "10. Pausar antes de hablar",
+                    "path": "parte_03/10_pausar_antes_de_hablar.md"
+                },
+                {
+                    "title": "11. Decir “no” corto y limpio",
+                    "path": "parte_03/11_decir_no_corto_y_limpio.md"
+                },
+                {
+                    "title": "12. Retirarte a tiempo",
+                    "path": "parte_03/12_retirarte_a_tiempo.md"
+                },
+                {
+                    "title": "13. Nombrar lo raro con calma",
+                    "path": "parte_03/13_nombrar_lo_raro.md"
+                },
+                {
+                    "title": "14. Mantener tu línea aunque pierdas risas",
+                    "path": "parte_03/14_mantener_tu_linea.md"
+                }
+            ]
+        },
+        {
+            "id": "parte_04",
+            "title": "Parte IV: Aura en el mundo real",
+            "sections": [
+                {
+                    "title": "Introducción Parte IV",
+                    "path": "parte_04/intro.md"
+                },
+                {
+                    "title": "15. Aura en clase",
+                    "path": "parte_04/15_aura_en_clase.md"
+                },
+                {
+                    "title": "16. Aura en el grupo",
+                    "path": "parte_04/16_aura_en_el_grupo.md"
+                },
+                {
+                    "title": "17. Aura en redes",
+                    "path": "parte_04/17_aura_en_redes.md"
+                },
+                {
+                    "title": "18. Aura y bromas",
+                    "path": "parte_04/18_aura_y_bromas.md"
+                },
+                {
+                    "title": "19. Aura y profesores / adultos",
+                    "path": "parte_04/19_aura_y_adultos.md"
+                }
+            ]
+        },
+        {
+            "id": "parte_05",
+            "title": "Parte V: Aura Interior",
+            "sections": [
+                {
+                    "title": "Introducción Parte V",
+                    "path": "parte_05/intro.md"
+                },
+                {
+                    "title": "20. No traicionarte",
+                    "path": "parte_05/20_no_traicionarte.md"
+                },
+                {
+                    "title": "21. Vergüenza, miedo y enfado",
+                    "path": "parte_05/21_verguenza_miedo_enfado.md"
+                },
+                {
+                    "title": "22. Ser distinto sin aislarte",
+                    "path": "parte_05/22_ser_distinto_sin_aislarte.md"
+                },
+                {
+                    "title": "23. Cuando pierdes aura (y no pasa nada)",
+                    "path": "parte_05/23_cuando_pierdes_aura.md"
+                }
+            ]
+        },
+        {
+            "id": "parte_06",
+            "title": "Parte VI: Cierre",
+            "sections": [
+                {
+                    "title": "Introducción Parte VI",
+                    "path": "parte_06/intro.md"
+                },
+                {
+                    "title": "24. No necesitas más aura que nadie",
+                    "path": "parte_06/24_no_necesitas_mas_aura.md"
+                },
+                {
+                    "title": "25. El juego largo",
+                    "path": "parte_06/25_el_juego_largo.md"
+                }
+            ]
+        }
+    ]
+}
