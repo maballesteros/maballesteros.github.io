@@ -14,5 +14,13 @@
         "cover": "/ebooks/poder_etico/images/cover.png",
         "description": "Manual de entrenamiento en dinámicas de poder ético.",
         "path": "/ebooks/poder_etico/index.json"
+    },
+    {
+        "id": "aura",
+        "title": "Aura: Cómo ganar respeto sin hacer ruido",
+        "author": "M. A. Ballesteros",
+        "cover": "/ebooks/aura/images/cover.png",
+        "description": "Guía para no ceder, no explotar y no desaparecer. Tu aura es lo que pasa cuando haces lo que dices.",
+        "path": "/ebooks/aura/index.json"
     }
 ]
