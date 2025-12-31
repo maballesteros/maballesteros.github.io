@@ -17,9 +17,6 @@ function getTitle(text) {
     return cleanLines.length > 0 ? cleanLines[0].substring(0, 50) : 'Sin Título';
 }
 
-// Helper to get body content (stripping title, as we might handle it via CSS/HTML structure)
-// Actually for PDF, keep the title in the HTML but maybe styled differently.
-// Let's keep it simple: render generic Markdown.
 // Helper to get body content logic
 function getHtmlContent(text) {
     const renderer = new marked.Renderer();
@@ -80,8 +77,6 @@ function processFile(filePath) {
     return `<section id="${id}" class="chapter ${filePath.includes('intro') ? 'intro-section' : ''}">${html}</section>`;
 }
 
-// ... (processDirectory remains similar but uses the updated processFile) ...
-
 // Helper to process directory
 function processDirectory(dirName) {
     const dirPath = path.join(BOOK_DIR, dirName);
@@ -123,8 +118,6 @@ function generateTocHtml() {
     return html;
 }
 
-// ...
-
 async function generatePdf() {
     console.log("Gathering content...");
     let fullHtml = '';
@@ -153,13 +146,56 @@ async function generatePdf() {
         contentHtml += processDirectory(part);
     });
 
+    // Inject decorative icons into specific blockquotes
+    const iconMap = [
+        { key: 'La verdad', file: 'icon_truth.png' },
+        { key: 'Regla del Aura', file: 'icon_rule.png' },
+        { key: 'Micro-reto', file: 'icon_challenge_v2.png' }
+    ];
+
+    iconMap.forEach(item => {
+        const iconFile = item.file;
+        const key = item.key;
+
+        const iconPath = path.join(BOOK_DIR, 'images', iconFile);
+        let src = '';
+        if (fs.existsSync(iconPath)) {
+            const data = fs.readFileSync(iconPath);
+            const b64 = data.toString('base64');
+            src = `data:image/png;base64,${b64}`;
+        }
+
+        let patternStr = '';
+        if (key === 'La verdad') patternStr = 'La verdad';
+        // User confirmed text is "Regla de Aura", but we can be flexible to match "de" or "del" just in case.
+        if (key === 'Regla del Aura') patternStr = 'Regla del? [Aa]ura';
+        if (key === 'Micro-reto') patternStr = 'Micro-?reto';
+
+        // Regex match logic updated to allow capturing the opening blockquote tag
+        // Capture groups: 
+        // $1: <blockquote>
+        // $2: \s*<p>\s*<strong>
+        // $3: Pattern + optional colon/space
+        const regex = new RegExp(`(<blockquote>)(\\s*<p>\\s*<strong>)(${patternStr}[:?]?\\s*)`, 'gi');
+
+        let className = '';
+        if (key === 'Micro-reto') className = 'challenge-block';
+        if (key === 'Regla del Aura') className = 'rule-block';
+
+        if (className) {
+            // Inject class for styling override
+            contentHtml = contentHtml.replace(regex, `<blockquote class="${className}">$2<img src="${src}" class="quote-icon" alt="${key}" /> $3`);
+        } else {
+            // Keep default style
+            contentHtml = contentHtml.replace(regex, `$1$2<img src="${src}" class="quote-icon" alt="${key}" /> $3`);
+        }
+    });
+
     // 3. TOC (Generated after content logic populates entries)
     const tocHtml = generateTocHtml();
 
     fullHtml += tocHtml;
     fullHtml += contentHtml;
-
-    // ...
 
     // Valid styling for A5 Print
     const htmlTemplate = `
@@ -193,8 +229,6 @@ async function generatePdf() {
             }
 
             .cover-page {
-                /* Explicitly larger than A5 to ensure bleed if there's minor offsetting, 
-                   but strictly sizing to A5 usually works with margin:0 */
                 width: 148mm;
                 height: 210mm;
                 position: relative;
@@ -206,7 +240,6 @@ async function generatePdf() {
             }
 
             .chapter {
-                /* Removed padding, relying on @page margins */
                 page-break-after: always;
                 width: 100%;
                 display: block;
@@ -229,8 +262,6 @@ async function generatePdf() {
                 page-break-before: always;
             }
 
-            /* Don't break before first H1 after cover (Introduction/Part 1) */
-            
             h2 {
                 font-size: 13pt;
                 margin-top: 1.5rem;
@@ -245,15 +276,49 @@ async function generatePdf() {
             }
 
 
+            /* Default Blockquote (Blue - Truth) */
             blockquote {
                 font-style: italic;
                 margin: 1.5em 1em;
-                padding: 1em 1.5em; /* More padding */
-                background-color: #f4ecf7; /* Very light purple */
-                border-left: 5px solid #9b59b6; /* Amethyst purple */
+                padding: 1em 1.5em;
+                background-color: #eff6ff; /* Cool Light Blue */
+                border-left: 5px solid #3b82f6; /* Electric Blue */
                 border-radius: 4px; 
-                color: #4a235a; /* Dark text for contrast */
+                color: #1e3a8a; /* Dark Navy Text */
                 box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+                position: relative;
+                font-size: 0.95em; 
+            }
+            
+            /* Rule Blockquote (Purple - Authority/Aura) */
+            blockquote.rule-block {
+                background-color: #f3e8ff; /* Light Purple */
+                border-left: 5px solid #a855f7; /* Purple */
+                color: #581c87; /* Dark Purple */
+            }
+
+            /* Challenge Blockquote (Orange - Action) */
+            blockquote.challenge-block {
+                background-color: #fff7ed; /* Light Orange */
+                border-left: 5px solid #f97316; /* Bright Orange */
+                color: #7c2d12; /* Dark Brown/Red Text */
+            }
+
+            .quote-icon {
+                float: left;
+                width: 48px;  /* Larger size */
+                height: 48px;
+                margin-right: 15px;
+                margin-top: 0px;
+                opacity: 0.9;
+                display: inline-block;
+                vertical-align: middle;
+                object-fit: contain;
+                border: none;
+                margin-bottom: 0;
+                margin-left: 0;
+                mix-blend-mode: multiply; /* Blends white background into transparency */
+                filter: grayscale(100%) contrast(1.2); /* Sharpen and ensure B&W */
             }
 
             img {
@@ -263,10 +328,6 @@ async function generatePdf() {
                 margin: 2rem auto;
             }
 
-            /* Intro Images specific styling */
-            /* Assuming they are the first image in a section or marked specifically? 
-               Markdown images don't have classes. But they are usually at the top of intros. */
-            
             ul, ol {
                 margin-left: 1.5em;
                 margin-bottom: 1em;
@@ -292,7 +353,7 @@ async function generatePdf() {
     const page = await browser.newPage();
 
     // Set content
-    await page.setContent(htmlTemplate, { waitUntil: 'networkidle0' });
+    await page.setContent(htmlTemplate, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
     console.log("Printing PDF...");
     await page.pdf({
