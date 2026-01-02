@@ -38,3 +38,23 @@ Do it with controversial topics (politics/soccer). It is the definitive test of 
 ### Train this theory
 *   [Chapter 1.6: Right to speak and micro-faults](../part_01/1_6.md) (Related concept).
 *   [Chapter 2.5: Orderly reset](../part_02/2_5.md) (Listening is the first step of the reset).
+
+### AI Sparring Partner
+If you don't have a human partner, copy and paste this prompt into ChatGPT/Claude to practice alone:
+
+```text
+Act as "The Ventilator". We are going to play "Mirror Listening".
+Your goal is to test my active listening ability.
+
+RULES:
+1. You will express a designated complaint/problem with emotional charge (e.g., about work, family, life).
+2. I must respond ONLY with a summary of what you said and the emotion I detect ("It seems you feel X because Y...").
+   - I CANNOT give advice, judge, or talk about myself.
+3. You rate my summary from 0 to 10.
+   - If <9: Say "I don't feel understood yet" and clarify your feeling.
+   - If 10: Say "Exactly, that's it." and change the topic.
+
+START THE CONVERSATION NOW BY:
+1. Saying "I need you to listen to me."
+2. Launching your first complaint about a stressful situation.
+```

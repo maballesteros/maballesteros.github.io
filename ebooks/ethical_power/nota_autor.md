@@ -1,16 +1,14 @@
-# Author's Note
+## Author’s Note
 
-This book is not about dominating anyone.
+This book is not about dominating others.
 
-It is about understanding how human interactions work when there is tension, disagreement, jokes that prick, uncomfortable silences, or boundaries that are not respected. It is about learning to move there with more clarity, more calm, and more dignity.
+It’s about understanding what actually happens in everyday interactions — when conversations feel tense, when boundaries blur, when you leave a situation uneasy without knowing why.
 
-For years I consciously avoided anything related to "power". It sounded dirty, manipulative, or incompatible with being a good person to me. Over time I understood that this renunciation did not make me more ethical; it made me less capable. Less capable of protecting boundaries, of ordering conversations, of caring for important relationships.
+For a long time, I avoided anything related to “power.” It felt manipulative, unethical, incompatible with being a decent person. Over time, I realized that avoiding power didn’t make me more ethical — it made me less capable. Less capable of setting boundaries, protecting relationships, or keeping conversations healthy.
 
-Power —understood as influence— is present everywhere: at home, at work, in groups, in informal conversations. Ignoring it does not eliminate it; it only makes others exercise it, sometimes clumsily or unfairly.
+Power, understood as influence, exists everywhere: at home, at work, in friendships, in small daily interactions. Ignoring it doesn’t make it disappear. It simply leaves it in untrained hands.
 
-This book proposes a simple idea: **exercise power consciously and ethically so that things work better**, not to impose yourself or to win.
+This book proposes a simple idea: **learn to use power consciously and ethically so interactions become clearer, calmer, and fairer — not harsher**.
 
-If what you are looking for are tricks to manipulate, intimidate, or get on top, this is not your book.
-If you are looking to speak more clearly, set boundaries without aggression, and participate in social games without losing yourself, probably yes.
-
-— Mike
+If you’re looking for tricks to manipulate or intimidate others, this is not your book.
+If you want to speak clearly, set boundaries without aggression, and move through social situations without losing yourself, you’re in the right place.

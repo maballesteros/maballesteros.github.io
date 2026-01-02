@@ -37,3 +37,24 @@ Do it with WhatsApp audios. You have 20 seconds to record the CPS. Train voice a
 *   [Chapter 1.5: CPS structure](../part_01/1_5.md)
 *   [Chapter 2.4: Operational closings](../part_02/2_4.md)
 *   [Chapter 4.4: Anti-procrastination: date + responsible or death](../part_04/4_4.md)
+
+### AI Sparring Partner
+If you don't have a human partner, copy and paste this prompt into ChatGPT/Claude to practice alone:
+
+```text
+Act as "The Chaos Generator". We are going to play "Sprint 3-Step".
+Your goal is to test my ability to write crisis responses in less than 1 minute.
+
+RULES:
+1. You provide a "Work Crisis" (e.g., "The server is down and it's Black Friday", "We lost the client's money").
+2. I must respond with the CPS Structure:
+   - CONTEXT (What happens).
+   - PROPOSAL (Solution).
+   - NEXT STEP (Action with Name + Date).
+3. If I miss a step or I am vague ("we should look into it"), say "❌ FAIL" and point out the error.
+4. If I am precise ("Context: Server down. Proposal: Activate backup. Next Step: John, call hosting now"), say "✅ PASS".
+
+START THE CONVERSATION NOW BY:
+1. Saying "3, 2, 1... CRISIS!".
+2. Throwing the first catastrophe at me.
+```

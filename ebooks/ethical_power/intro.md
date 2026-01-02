@@ -55,21 +55,21 @@ Theory is all very well, but relationships are learned by practicing. In the sec
 
 ---
 
-## Your invitation
+## Your Invitation
 
-We haven't written this book for you to become a cold strategist who analyzes their friends.
-We have written it so you **suffer less friction**.
+This book wasn’t written to turn you into a cold strategist analyzing everyone around you.
+It was written to help you experience **less friction**.
 
-The final goal of this book is **sovereignty**: that you own your interactions.
-That when you say "yes", it is because you want to.
-That when you say "no", it is respected.
+The ultimate goal is **sovereignty**: being the owner of your interactions.
+When you say “yes,” it’s because you choose to.
+When you say “no,” it’s respected.
 
-That you can move through the world building healthier, clearer, and fairer relationships.
+So you can move through the world building relationships that are clearer, healthier, and more fair.
 
-The world doesn't need more submissive people.
-It needs more adult, competent, and capable people.
+The world doesn’t need more submissive people.
+It needs more adults — capable, grounded, and self-directed.
 
-This book does not intend to teach you to "win" interactions.
-It intends for you to stop losing them without knowing why.
+This book won’t teach you how to “win” interactions.
+It will help you stop losing them without knowing why.
 
-Let's start at the beginning.
+Let’s start at the beginning.

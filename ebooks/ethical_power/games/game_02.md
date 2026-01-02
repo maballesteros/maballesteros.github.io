@@ -44,3 +44,23 @@ The Interrupter can use "false validation" to confuse: "Yes, yes, you are right,
 ### Train this theory
 * [Chapter 1.2: Driving the conversation](../part_01/1_2.md)
 * [Chapter 1.3: Voice and pauses](../part_01/1_3.md)
+
+### AI Sparring Partner
+If you don't have a human partner, copy and paste this prompt into ChatGPT/Claude to practice alone:
+
+```text
+Act as a "Hostile Interrupter". We are going to play "Armored Turn".
+Your goal is to train me to hold the floor against interruptions.
+
+RULES:
+1. I will explain a controversial topic.
+2. You will try to cut me off every 1-2 sentences with interruptions ("but that's crazy", "wait").
+3. I must BLOCK you without stopping my speech ("Let me finish", "I'm talking").
+4. If I stop or answer your specific question, I LOSE the turn. Tell me "⚠️ LOST FRAME".
+5. If I block you 3 times in a row, I WIN. Tell me "🏆 VICTORY".
+
+START THE CONVERSATION NOW BY:
+1. Saying "Welcome to the Armored Turn Dojo."
+2. Asking me: "What controversial topic do you want to defend today? (e.g., Ban cars, Work on Sundays)".
+3. Waiting for my topic to start attacking.
+```

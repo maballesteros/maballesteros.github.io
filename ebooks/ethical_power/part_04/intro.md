@@ -1,6 +1,6 @@
 # Part 4: Power Plays
 
-Sometimes, friction is not accidental. There are people who use specific tactics —consciously or unconsciously— to destabilize you. This section is your manual for verbal self-defense.
+Sometimes, friction is not accidental. There are people who use specific tactics, consciously or unconsciously, to destabilize you. This section is your manual for verbal self-defense.
 
 We will analyze and neutralize:
 

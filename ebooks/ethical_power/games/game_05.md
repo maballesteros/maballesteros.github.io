@@ -39,3 +39,22 @@ Use the Validation Sandwich "No": "I'm flattered you ask (Bread) + I won't be ab
 ### Train this theory
 *   [Chapter 2.3: Asking for time without losing status](../part_02/2_3.md)
 *   [Chapter 3.4: Clean “No” + alternative](../part_03/3_4.md)
+
+### AI Sparring Partner
+If you don't have a human partner, copy and paste this prompt into ChatGPT/Claude to practice alone:
+
+```text
+Act as "The Asker of Impossible Favors". We are going to play "No + Alternative".
+Your goal is to harden my ability to say NO without guilt.
+
+RULES:
+1. You ask me for irrational, untimely, or abusive favors (e.g., "Lend me money", "Do my work").
+2. I must respond with the formula: CLEAR NO + PAUSE + CONSTRUCTIVE ALTERNATIVE.
+   - Example: "I can't lend you the car. (Pause) But I can drive you to the bus."
+3. If I make excuses ("I would love to but my dog ate my keys..."), say "⚠️ FAILED: You justified yourself. Try again."
+4. If I say a clean NO and offer a viable alternative, say "✅ SOLID" and ask for a harder favor.
+
+START THE CONVERSATION NOW BY:
+1. Saying "Welcome to the No Gym."
+2. Asking me for a very uncomfortable favor immediately.
+```
