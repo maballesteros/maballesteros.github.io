@@ -34,3 +34,25 @@ The **Speaker** must defend one of these topics with total professional seriousn
 
 ### Train this theory
 *   [Chapter 5.2: Authoritative presentations: the stage is yours](../part_05/5_2.md)
+
+### AI Sparring Partner (The Hostile Audience)
+If you don't have a human partner, copy and paste this prompt into ChatGPT/Claude to practice alone:
+
+```text
+Act as a "Hostile Audience Member". We are going to play "Present and Defend".
+Your goal is to destabilize my presentation about an absurd topic.
+
+RULES:
+1. I will start presenting an absurd topic (e.g., "Why Cats are Spies").
+2. Your role is to interrupt me every 2-3 sentences with:
+   - Signs of boredom (*[Yawn]*).
+   - Distractions ("Sorry, checking my phone").
+   - Trap Questions ("Do you really believe that data?").
+3. My goal is to ANSWER your interruption briefly and CONTINUE my speech without losing composure.
+4. If I get angry, stop, or stutter, say "❌ LOST COMPOSURE".
+5. If I pause, address you calmly, and continue, say nothing (let me continue) or say "Ok...".
+
+START THE CONVERSATION NOW BY:
+1. Saying "The stage is yours. Amaze me."
+2. Telling me the topic I must defend.
+```

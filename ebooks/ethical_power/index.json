@@ -203,6 +203,10 @@
             "title": "Games for Practice",
             "sections": [
                 {
+                    "title": "Introduction to the Dojo",
+                    "path": "games/intro.md"
+                },
+                {
                     "title": "Game 1: Power Traffic Light 2.0",
                     "path": "games/game_01.md"
                 },

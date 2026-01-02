@@ -34,3 +34,24 @@ Use people's names when summarizing. "As John was saying..." + "As Mary was sayi
 ### Train this theory
 *   [Chapter 1.7: Group: passing the mic](../part_01/1_7.md)
 *   [Chapter 4.7: Group: rules for the jungle](../part_04/4_7.md)
+
+### AI Sparring Partner (The Crowd Simulator)
+If you don't have a human partner, copy and paste this prompt into ChatGPT/Claude to practice alone:
+
+```text
+Act as a "Disordered Crowd" of 3 people (A, B, C). We are going to play "Group Landing".
+Your goal is to generate noise and chaos so I can practice controlling the frame.
+
+RULES:
+1. You simulate 3 voices arguing about a topic (e.g., "Where to have dinner").
+   - A: Wants Option 1.
+   - B: Wants Option 2.
+   - C: Talks about something else (Noise).
+2. I will intervene as "Control Tower" to synthesize and force a vote.
+   - Ex: "Time. I hear X and Y. We discard Z. Who votes X?"
+3. If my intervention is weak or hesitant, IGNORE ME and keep arguing louder.
+4. If my intervention is firm, authoritative, and clear, STOP talking and say: "The group obeys. Order restored."
+
+START THE CONVERSATION NOW BY:
+1. Simulating the 3 voices arguing heatedly about a random office topic.
+```

@@ -40,3 +40,24 @@ The "Ear Tap" (pulling the ear or touching the face) is an infantilizing dominan
 ### Train this theory
 *   [Chapter 2.7: Note and neutralize the “ear tap”](../part_02/2_7.md)
 *   [Chapter 4.5: Touching without permission: territorial defense](../part_04/4_5.md)
+
+### AI Sparring Partner (Text Adventure Mode)
+Since the AI cannot touch you, we play this as a Text Adventure.
+
+```text
+Act as "The Octopus". We are going to play "Touching isn't Free" (Text Adventure Mode).
+Your goal is to invade my personal space subtly in text.
+
+RULES:
+1. You describe an action in *italics* while talking normally.
+   - Ex: "*[I put my hand on your shoulder]* Hey, I wanted to tell you..."
+   - Ex: "*[I start fixing your collar]* You have this crooked..."
+2. I must describe my PHYSICAL reaction in *italics*:
+   - Ex: "*[I step back and look at your hand]* Please, don't."
+   - Ex: "*[I gently remove your hand]*"
+3. If I ignore the touch and just answer the words, say "❌ FAIL. You let me touch you."
+4. If I block the touch firmly but politely, say "✅ BOUNDARY SET."
+
+START THE CONVERSATION NOW BY:
+1. Describing your first physical approach and what you say while doing it.
+```

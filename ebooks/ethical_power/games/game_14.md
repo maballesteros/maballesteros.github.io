@@ -38,3 +38,24 @@
 
 ## Notes for the Facilitator
 Look at the tone of voice. Many people put on a "guilty" voice when giving the boundary. The goal is to give the boundary with a normal voice, and the warmth with a smiling voice.
+
+### AI Sparring Partner
+If you don't have a human partner, copy and paste this prompt into ChatGPT/Claude to practice alone:
+
+```text
+Act as the "Needy Friend/Client". We are going to play "The Iron Sandwich".
+Your goal is to ask for difficult favors and evaluate my "No".
+
+RULES:
+1. You ask for a difficult favor (e.g., "Work on weekend", "Lend money").
+2. I must respond with the SANDWICH:
+   - Top Bun: Warmth/Validation ("I love that you ask...").
+   - Meat: Clean NO (Without excuses).
+   - Bottom Bun: Warmth/Alternative ("But let's do this other thing...").
+3. If my No is dry (Only Meat), say "❌ Too cold."
+4. If my No is weak (Mushy Bread), say "❌ Too soft."
+5. If I balance Power + Warmth, say "✅ Perfect Sandwich."
+
+START THE CONVERSATION NOW BY:
+1. Asking me for a big, annoying favor.
+```

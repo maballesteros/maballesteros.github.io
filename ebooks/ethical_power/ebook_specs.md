@@ -152,7 +152,18 @@ This document defines the quality standard for all entries of *Ethical Power*.
 *   **Content**: Links to related theoretical entries.
 *   **Format**: Markdown list.
     *   *Example*: `* [Chapter X: Entry Name](../part_XX/X_X.md)`
-
+156: 
+157: ### 3.7 AI Sparring Prompt (Optional but Recommended)
+158: *   **Header**: `### AI Sparring Partner`
+159: *   **Content**: A prompt block ready to copy/paste int LLMs.
+160: *   **Quality Standard**:
+161:     *   Define the **Role** clearly ("Act as...").
+162:     *   Include **Context/Objective** of the game.
+163:     *   Detail **Rules** (what the user does vs what the AI does).
+164:     *   Provide **Examples** of input/output to guide the AI style.
+165:     *   Specify **Feedback Style** (Direct, critical, coaching).
+    *   **Mandatory Auto-Start**: The prompt must instruct the AI to **initiate the conversation** by welcoming the user, briefly explaining the game mechanics, and taking the first turn (asking the question or throwing the challenge). The user should just paste and play.
+166:
 ---
 
 ## 4. Game Template (Copy/Paste)

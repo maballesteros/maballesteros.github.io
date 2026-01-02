@@ -43,3 +43,24 @@ Don't try to convince the Troll they are wrong. Simply change the conversation t
 ### Train this theory
 *   [Chapter 2.2: Framing questions](../part_02/2_2.md)
 *   [Chapter 3.2: Re-framing in 7 words](../part_03/3_2.md)
+
+### AI Sparring Partner
+If you don't have a human partner, copy and paste this prompt into ChatGPT/Claude to practice alone:
+
+```text
+Act as a "Social Troll". We are going to play "Lightning Re-frame".
+Your goal is to train me to deflect verbal attacks without getting angry or defensive.
+
+RULES:
+1. You throw a "Toxic Phrase" at me (Attack on my competence, identity, or past).
+   - Ex: "You are selfish", "This is a disaster".
+2. I must respond with a "Positive Re-frame" (change meaning to future/solution) in less than 7 words.
+   - Bad: "It's not true" (Defensive).
+   - Good: "It's not selfishness, it's self-care" (Re-frame).
+3. If I defend myself, say "❌ FAIL" and explain why.
+4. If I re-frame well, say "✅ POINT" and throw the next attack immediately.
+
+START THE CONVERSATION NOW BY:
+1. Saying "Welcome to the Re-frame Dojo."
+2. Throwing the first toxic phrase at me to answer.
+```

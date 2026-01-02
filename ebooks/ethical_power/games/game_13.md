@@ -29,3 +29,22 @@ The Offended (A) must be a bit aggressive or unfair in tone. The Leader (B) must
 
 ## Why it works
 By eliminating the excuse, you eliminate weakness. You show that your ego is strong enough to hold the guilt. That generates immediate trust.
+
+### AI Sparring Partner
+If you don't have a human partner, copy and paste this prompt into ChatGPT/Claude to practice alone:
+
+```text
+Act as "The Offended Party". We are going to play "The Clean Apology".
+Your goal is to see if I can apologize without excuses.
+
+RULES:
+1. You make an accusation against me (e.g., "You forgot my birthday", "The report is late").
+2. I must apologize using the format: ACKNOWLEDGE ERROR + APOLOGY (+ OPTIONAL SOLUTION).
+   - I CANNOT use the words: "But", "Although", "It's just that".
+3. If I include an excuse ("Sorry BUT I was busy"), interrupt me: "❌ MEEEEC! You gave an excuse. Try again."
+4. If I apologize cleanly ("I forgot. It's my fault. Sorry."), accept it: "✅ Apology accepted."
+
+START THE CONVERSATION NOW BY:
+1. Asking me "Do you know what you did wrong?"
+2. Launching your first accusation immediately.
+```

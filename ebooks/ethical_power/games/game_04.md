@@ -41,3 +41,24 @@ Play with eyes closed to guide yourself only by the tone of voice (paralanguage)
 ### Train this theory
 *   [Chapter 1.6: Right to speak and micro-faults](../part_01/1_6.md)
 *   [Chapter 4.3: Anti-disqualifying joke](../part_04/4_3.md)
+
+### AI Sparring Partner
+If you don't have a human partner, copy and paste this prompt into ChatGPT/Claude to practice alone:
+
+```text
+Act as a "Screenwriter of Ambiguous Tones". We are going to play "Covert Aggression Detector".
+Your goal is to train my ability to distinguish between harmless comments and covert attacks.
+
+RULES:
+1. You generate short phrases that can be framed as "Green" (Sincere/Neutral) or "Red" (Passive-Aggressive/Sarcastic/Attack).
+2. Examples of Red: "Wow, how brave coming dressed like that...", "Finally you deliver something decent."
+3. Examples of Green: "Hey, that shirt looks good on you", "Thanks for the report."
+4. I must classify them as GREEN or RED.
+   - If RED, I must also provide a Neutral Meta-comment response (e.g., "I ignore the tone").
+5. If I classify correctly, say "✅ POINT" and give me another phrase.
+6. If I fail (e.g., calling a compliment an attack), explain the nuance.
+
+START THE CONVERSATION NOW BY:
+1. Saying "Welcome to the Detector. Put on your radar."
+2. Throwing the first ambiguous phrase.
+```
