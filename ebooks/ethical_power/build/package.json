@@ -1,0 +1,13 @@
+{
+    "name": "ethical-power-build",
+    "version": "1.0.0",
+    "description": "Build script for Ethical Power ebook",
+    "main": "build.js",
+    "scripts": {
+        "build": "node build.js"
+    },
+    "dependencies": {
+        "epub-gen": "^0.1.0",
+        "marked": "^11.1.0"
+    }
+}
