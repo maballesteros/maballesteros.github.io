@@ -1,0 +1,35 @@
+{
+    "title": "Aura: La Historia",
+    "author": "M.A. Ballesteros",
+    "epubFilename": "aura_story_completo.epub",
+    "pdfFilename": "aura_story_impreso.pdf",
+    "parts": [
+        "parte_01",
+        "parte_02",
+        "parte_03",
+        "parte_04",
+        "parte_05",
+        "parte_06"
+    ],
+    "iconMap": [
+        {
+            "key": "La verdad",
+            "file": "icon_truth.png",
+            "pattern": "La verdad"
+        },
+        {
+            "key": "Regla del Aura",
+            "file": "icon_rule.png",
+            "pattern": "Regla del? [Aa]ura",
+            "className": "rule-block"
+        },
+        {
+            "key": "Micro-reto",
+            "file": "icon_challenge_v2.png",
+            "pattern": "Micro-?reto",
+            "className": "challenge-block"
+        }
+    ],
+    "epubCss": "\n        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #111; }\n        h1 { color: #000; text-align: center; margin-bottom: 1em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }\n        h2 { color: #000; margin-top: 2em; border-bottom: 2px solid #000; padding-bottom: 0.5em; font-weight: 600; }\n        p { margin-bottom: 1.2rem; }\n        blockquote { \n            font-style: normal; \n            border-left: 4px solid #00ced1; /* Electric Cyan-ish */\n            padding-left: 15px; \n            background: #f0faff; \n            padding: 15px; \n            margin: 1.5em 0; \n            font-weight: 500;\n        } \n        /* Specific styling for the Intro Images if needed */\n        img { max-width: 100%; display: block; margin: 2rem auto; border-radius: 4px; }\n        strong { color: #000; font-weight: 700; }\n    ",
+    "pdfCss": "\n            @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@400;700&display=swap');\n\n            /* Default page margins for text content */\n            @page {\n                size: A5;\n                margin: 20mm 15mm;\n            }\n            \n            /* Cover Page: Zero margins using :first pseudo-class */\n            @page :first {\n                margin: 0mm;\n            }\n\n            body {\n                font-family: 'Merriweather', serif;\n                font-size: 9pt; /* Reduced by 1pt */\n                line-height: 1.5;\n                color: #222;\n                text-align: justify;\n                -webkit-font-smoothing: antialiased;\n                margin: 0;\n                padding: 0;\n            }\n\n            .cover-page {\n                width: 148mm;\n                height: 210mm;\n                position: relative;\n                margin: 0;\n                padding: 0;\n                page-break-after: always;\n                overflow: hidden;\n                display: block;\n            }\n\n            .chapter {\n                page-break-after: always;\n                width: 100%;\n                display: block;\n            }\n\n            /* Headers */\n            h1, h2, h3 {\n                font-family: 'Montserrat', sans-serif;\n                color: #000;\n                page-break-after: avoid;\n            }\n\n            h1 {\n                font-size: 16pt;\n                text-transform: uppercase;\n                letter-spacing: 1px;\n                text-align: center;\n                margin-top: 2rem;\n                margin-bottom: 2rem;\n                page-break-before: always;\n            }\n\n            h2 {\n                font-size: 13pt;\n                margin-top: 1.5rem;\n                border-bottom: 1px solid #ddd;\n                padding-bottom: 0.2rem;\n            }\n\n            p {\n                margin-bottom: 0.8em;\n                orphans: 3;\n                widows: 3;\n            }\n\n\n            /* Default Blockquote (Blue - Truth) */\n            blockquote {\n                font-style: italic;\n                margin: 1.5em 1em;\n                padding: 1em 1.5em;\n                background-color: #eff6ff; /* Cool Light Blue */\n                border-left: 5px solid #3b82f6; /* Electric Blue */\n                border-radius: 4px; \n                color: #1e3a8a; /* Dark Navy Text */\n                box-shadow: 2px 2px 5px rgba(0,0,0,0.05);\n                position: relative;\n                font-size: 0.95em; \n            }\n            \n            /* Rule Blockquote (Purple - Authority/Aura) */\n            blockquote.rule-block {\n                background-color: #f3e8ff; /* Light Purple */\n                border-left: 5px solid #a855f7; /* Purple */\n                color: #581c87; /* Dark Purple */\n            }\n\n            /* Challenge Blockquote (Orange - Action) */\n            blockquote.challenge-block {\n                background-color: #fff7ed; /* Light Orange */\n                border-left: 5px solid #f97316; /* Bright Orange */\n                color: #7c2d12; /* Dark Brown/Red Text */\n            }\n\n            .quote-icon {\n                float: left;\n                width: 48px;  /* Larger size */\n                height: 48px;\n                margin-right: 15px;\n                margin-top: 0px;\n                opacity: 0.9;\n                display: inline-block;\n                vertical-align: middle;\n                object-fit: contain;\n                border: none;\n                margin-bottom: 0;\n                margin-left: 0;\n                mix-blend-mode: multiply; /* Blends white background into transparency */\n                filter: grayscale(100%) contrast(1.2); /* Sharpen and ensure B&W */\n            }\n\n            img {\n                max-width: 100%;\n                height: auto;\n                display: block;\n                margin: 2rem auto;\n            }\n\n            ul, ol {\n                margin-left: 1.5em;\n                margin-bottom: 1em;\n            }\n    "
+}
