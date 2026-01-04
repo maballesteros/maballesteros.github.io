@@ -24,6 +24,14 @@
         "path": "/ebooks/aura/index.json"
     },
     {
+        "id": "aura-story",
+        "title": "Aura: La Historia",
+        "author": "M. A. Ballesteros",
+        "cover": "/ebooks/aura/images/cover.png",
+        "description": "La versión novelada de Aura. Sigue a Leo y Vega en su camino hacia el respeto.",
+        "path": "/ebooks/aura_story/index.json"
+    },
+    {
         "id": "ethical-power",
         "title": "Ethical Power: The Social Game Rules No One Tells You About",
         "author": "M. A. Ballesteros",

@@ -1,0 +1,15 @@
+{
+    "title": "Poder Ético",
+    "author": "M.A. Ballesteros",
+    "epubFilename": "poder_etico_completo.epub",
+    "pdfFilename": "poder_etico_impreso.pdf",
+    "parts": [
+        "parte_01",
+        "parte_02",
+        "parte_03",
+        "parte_04",
+        "parte_05"
+    ],
+    "iconMap": [],
+    "epubCss": "body { font-family: sans-serif; }"
+}

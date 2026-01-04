@@ -6,6 +6,9 @@
     "dependencies": {
         "minimist": "^1.2.8",
         "dotenv": "^16.4.5",
-        "@google/generative-ai": "^0.2.0"
+        "@google/generative-ai": "^0.2.0",
+        "epub-gen": "^0.1.0",
+        "marked": "^11.1.0",
+        "puppeteer": "^24.34.0"
     }
 }

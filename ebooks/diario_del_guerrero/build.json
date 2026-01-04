@@ -1,0 +1,22 @@
+{
+    "title": "Diario del Guerrero",
+    "author": "M.A. Ballesteros",
+    "epubFilename": "diario_del_guerrero_completo.epub",
+    "pdfFilename": "diario_del_guerrero_impreso.pdf",
+    "parts": [
+        "mes_01_disciplina",
+        "mes_02_autocontrol",
+        "mes_03_percepcion",
+        "mes_04_accion",
+        "mes_05_resistencia",
+        "mes_06_estrategia",
+        "mes_07_maestria",
+        "mes_08_libertad",
+        "mes_09_entorno",
+        "mes_10_ego",
+        "mes_11_muerte",
+        "mes_12_integracion"
+    ],
+    "iconMap": [],
+    "epubCss": "body { font-family: sans-serif; }"
+}

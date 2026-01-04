@@ -1,0 +1,15 @@
+{
+    "title": "Ethical Power",
+    "author": "M.A. Ballesteros",
+    "epubFilename": "ethical_power_complete.epub",
+    "pdfFilename": "ethical_power_print.pdf",
+    "parts": [
+        "part_01",
+        "part_02",
+        "part_03",
+        "part_04",
+        "part_05"
+    ],
+    "iconMap": [],
+    "epubCss": "body { font-family: sans-serif; }"
+}
