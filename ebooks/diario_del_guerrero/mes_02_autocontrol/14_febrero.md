@@ -5,34 +5,16 @@
 
 **Foco:** Sentarse en el Fuego.
 
-Esta semana hemos hablado de la Ira.
-Hemos visto cómo usarla (Michael Jordan) y cómo no tomarla personal (Don Miguel Ruiz).
-Pero, ¿qué haces cuando la ira ya está ahí, ardiendo en tu pecho?
-La mayoría de la gente hace una de dos cosas:
-1.  **Expresión (Explosión):** Gritas, golpeas, insultas. La ira sale, pero destruye tu entorno.
-2.  **Represión (Implosión):** Te callas, sonríes falsamente, te lo tragas. La ira se queda dentro y te destruye a ti (úlceras, estrés, rencor).
+La ira rara vez avisa con palabras. Llega como un golpe de calor: mandíbula que aprieta, pulso que se acelera, visión que se estrecha. Es un animal que quiere tomar el volante. Y lo más peligroso no es sentirla; lo peligroso es creer que te obliga.
 
-El guerrero elige el **Tercer Camino**:
-3.  **Observación (Transmutación).**
+Estos días la has mirado desde varios ángulos: como señal, como orgullo herido, como historia personal, como energía que puede destruir o impulsar. Hoy no vienes a “entender” la ira. Vienes a conocerla por dentro, sin obedecerla.
 
-**La Práctica de Hoy:**
+El error habitual es tratar la ira como una orden. Explota y arrasa, o se traga y envenena. Ambas opciones tienen el mismo fondo: crees que no hay espacio. Que, cuando el fuego aparece, tú desapareces. El entrenamiento de hoy es recuperar ese espacio. No para ser frío, sino para ser dueño.
 
-Hoy vamos a practicar **Sentarse en el Fuego**.
-No necesitas esperar a que alguien te enfade. Vamos a invocarlo en el laboratorio del silencio.
+Busca un lugar quieto y siéntate. No como alguien que se castiga, sino como alguien que sostiene una guardia. En vez de “hacer una práctica”, entra como si entraras a un gimnasio interior. Permítete recordar una escena que te encienda: una frase, una persona, una injusticia. Deja que la imagen haga su trabajo. La mente intentará convertirlo todo en discurso. Querrá probar que tienes razón, que el otro merece el golpe, que “esto no se puede tolerar”. Ese es el truco: la historia alimenta el fuego.
 
-1.  **Siéntate en silencio:** Cierra los ojos.
-2.  **Invoca al Fantasma:** Visualiza a una persona o situación que te saque de quicio. Ese jefe, ese político, ese ex-amigo.
-3.  **Siente el Calor:** Deja que la ira surja. No la bloquees.
-    *   Nota dónde la sientes. ¿En el pecho? ¿En la mandíbula? ¿En las manos?
-    *   Nota la temperatura. ¿Es fuego? ¿Es hielo?
-4.  **Separa la Historia:** Tu mente empezará a contar la historia: "Es que es un idiota, es que no tiene derecho...".
-    CORTA la historia.
-    Quédate solo con la **Sensación Física**.
-    "Siento calor en el pecho". Punto.
-5.  **No Hagas Nada:** Tu instinto querrá moverse, abrir los ojos, dejar de pensar en ello.
-    No. Quédate ahí. Deja que el fuego arda.
-    Si solo observas la sensación sin alimentarla con pensamientos, verás algo mágico:
-    El fuego empieza a bajar. La energía se disipa o se transforma en claridad.
+Hoy practicas otra cosa. Vuelve al cuerpo. Nombra por dentro lo que es físico: calor en el pecho, presión en la garganta, tensión en las manos. Solo eso. Sin juicio, sin moral. Respira como si estuvieras enfriando metal: lenta, profunda, con una exhalación que alarga la distancia entre tú y el impulso. A veces sentirás ganas de levantarte, de abrir los ojos, de distraerte. Ahí está el momento exacto del autocontrol: quedarte.
 
-Has convertido el carbón en diamante.
-Ese es el poder del silencio.
+Si la ira te pide palabras, recuérdale lo que entrenaste: no tomártelo personal, no convertirlo en identidad. Si te pide ataque, recuerda la empatía táctica: la energía puede convertirse en precisión. Si te pide venganza, recuerda la carta no enviada: puedes permitirte sentir sin tener que actuar.
+
+Sostén el fuego el tiempo suficiente y ocurre algo sobrio: la ola baja. No porque “ganes”, sino porque deja de haber combustible. En ese silencio nace una claridad que no llega cuando estás poseído. Termina la práctica con una decisión mínima y digna: una acción concreta para reparar, poner un límite o soltar. Hoy no apagaste tu fuerza. Le quitaste la rabia.

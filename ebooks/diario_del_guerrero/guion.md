@@ -12,8 +12,8 @@ Esta guía contiene todas las instrucciones, plantillas y restricciones necesari
 **Tono:**
 *   **Directo y Marcial:** Sin retórica vacía, sin "fluff". Frases cortas y contundentes.
 *   **Riguroso:** Las historias históricas deben ser precisas.
-*   **Atemporal:** Evitar referencias a años concretos o días de la semana (Lunes/Martes). Usar "Día 1", "Día 2", etc.
-*   **Estructura Cíclica:** 5 días de Acción + 1 día de Revisión + 1 día de Silencio.
+*   **Atemporal:** Evitar referencias a años concretos (2025) o días de la semana (Lunes/Martes). Usar fechas estándar en el título (ej. `01 Enero`).
+*   **Estructura Semanal:** 6 días de Acción + 1 día de Silencio (Void). La última semana del mes se extiende hasta el final y el Silencio cierra el mes.
 
 ---
 
@@ -43,17 +43,18 @@ Todo el contenido reside en `/ebooks/diario_del_guerrero/`.
 ### Estructura de Directorios
 ```
 /ebooks/diario_del_guerrero/
-  ├── diario_estructura.md       # ESTE FICHERO (Guía Maestra)
-  ├── build/                     # Scripts de generación
-  │   └── build.js               # Script Node.js para montar el EPUB
+  ├── build.json                 # Config del build (EPUB/PDF)
+  ├── ebook_specs.md             # Estándares de calidad
+  ├── guion.md                   # ESTE FICHERO (Guía Maestra)
   ├── mes_01_disciplina/         # Directorio del Mes 1
-  │   ├── indice_mes_01.md       # Guión del mes
-  │   ├── intro_mes_01.md        # Introducción del mes
+  │   ├── _indice_mes_01.md      # Guión del mes (no se incluye en el build)
+  │   ├── 00_intro_mes_01.md     # Introducción del mes
   │   ├── 01_enero.md            # Contenido Día 1
   │   ├── ...
   │   └── 31_enero.md            # Contenido Día 31
-  ├── mes_02_serenidad/          # Directorio del Mes 2
+  ├── mes_02_autocontrol/        # Directorio del Mes 2
   │   └── ...
+  ├── images/                    # Assets (cover.png, ilustraciones)
   └── ... (hasta mes 12)
 ```
 
@@ -64,18 +65,18 @@ Todo el contenido reside en `/ebooks/diario_del_guerrero/`.
 Para generar un nuevo mes, sigue estrictamente este orden:
 
 1.  **Crear Directorio:** `mkdir mes_XX_nombre`.
-2.  **Generar Índice (Script):** Crea `indice_mes_XX.md` definiendo los temas y personajes para cada día del mes.
+2.  **Generar Índice:** Crea `_indice_mes_XX.md` definiendo los temas y personajes para cada día del mes.
     *   *Restricción:* Asegura variedad total. No repetir personajes del mes anterior si es posible. Mezclar épocas (Antigüedad, Samurai, S.XX, Contemporáneo).
-3.  **Generar Introducción:** Crea `intro_mes_XX.md` (~1000 palabras) sobre el foco del mes.
+3.  **Generar Introducción:** Crea `00_intro_mes_XX.md` (1000+ palabras) sobre el foco del mes.
 4.  **Generar Contenido Diario:** Crea un fichero `.md` por cada día del mes (`01_mes.md` a `31_mes.md`) siguiendo las plantillas.
-5.  **Actualizar Build:** Añade los nuevos ficheros al array `days` en `build/build.js`.
-6.  **Compilar:** Ejecuta `node build.js` en el directorio `build/`.
+5.  **Actualizar Build:** Asegura que el mes está listado en `build.json` dentro de `parts`.
+6.  **Compilar (Sistema Estándar):** Ejecuta los scripts genéricos desde la raíz del repo.
 
 ---
 
 ## 5. Plantillas de Contenido
 
-### A. Plantilla del Índice (`indice_mes_XX.md`)
+### A. Plantilla del Índice (`_indice_mes_XX.md`)
 Debe planificar el mes completo.
 ```markdown
 # Mes XX: [Nombre del Foco]
@@ -91,7 +92,7 @@ Debe planificar el mes completo.
 ```
 
 ### B. Plantilla de Introducción (`intro_mes_XX.md`)
-**Extensión:** ~800-1000 palabras.
+**Extensión:** 1000+ palabras.
 **Estructura:**
 1.  Título: `Enero: Disciplina (El Cimiento)` (Sin "Introducción" en el título).
 2.  Cita de apertura potente.
@@ -99,8 +100,8 @@ Debe planificar el mes completo.
 4.  Desglose de las 4 semanas/dimensiones del mes.
 5.  Llamada a la acción final.
 
-### C. Plantilla Día de Acción (Días 1-5 del ciclo)
-**Extensión:** 800-1000 palabras. (IMPORTANTE: Calidad Premium. La historia debe ser inmersiva y detallada).
+### C. Plantilla Día de Acción (Días 1-6 del ciclo)
+**Extensión:** 800-1000 palabras (Gold Premium). La historia debe ser inmersiva y detallada.
 ```markdown
 # [DD] [Mes]: [Título del Día]
 
@@ -134,72 +135,29 @@ Debe planificar el mes completo.
 
 ### D. Control de Calidad (Heurística)
 Para asegurar la homogeneidad y la calidad "Premium" en todo el diario, usa la siguiente referencia rápida:
-*   **Tamaño del fichero:** Un día de acción bien desarrollado debe ocupar **entre 5KB y 6KB** (aprox. 800-1000 palabras).
+*   **Tamaño del fichero:** Un día de acción bien desarrollado debe ocupar **aprox. 800-1000 palabras**.
 *   **Señal de Alerta:** Si un fichero generado pesa menos de **4KB**, es probable que la historia sea demasiado superficial o resumida. **Revisar y expandir.**
 *   **Profundidad:** Compara siempre con los primeros días de Enero (`01_enero.md`, `02_enero.md`) como "Gold Standard".
 
-### D. Plantilla Día de Revisión (Día 6 del ciclo)
-**Extensión:** 300-500 palabras.
-```markdown
-# [DD] [Mes]: Revisión Táctica (Semana X)
 
-> *"[Cita sobre análisis/mejora/honestidad]"*
-
-Día de revisión.
-
-[Breve resumen de los temas de la semana].
-
-**1. El Análisis**
-[Pregunta provocadora sobre el desempeño de la semana].
-
-**2. La Auditoría**
-[Checklist o pregunta binaria sobre el cumplimiento de las prácticas].
-
-**3. Ajuste de Rumbo**
-[Espacio para definir una corrección inmediata].
-
-**La Misión para la Semana [X+1]:**
-[Teaser de lo que viene].
-```
 
 ### E. Plantilla Día de Silencio (Día 7 del ciclo)
-**Extensión:** 200-300 palabras.
+**Extensión:** 400-500 palabras.
 ```markdown
-# [DD] [Mes]: Silencio
+# [DD] [Mes]: Silencio ([Coletilla])
 
 > *"[Cita sobre silencio/vacío/naturaleza]"*
 
 Día del Vacío Fértil.
 
-[Breve justificación de por qué parar es estratégico].
+[Breve justificación de por qué parar es estratégico, conectando con el foco de los 6 días previos (sin “resumen semanal”)].
 
 **La Práctica de Hoy:**
 
-[Instrucción simple de desconexión. Ej: Caminar sin móvil, mirar una pared, ayuno de dopamina].
+[Una práctica principal narrada (10–40 min), integrada en prosa: describe el gesto, el contexto, y el “por qué” sin convertirlo en checklist].
+
+[Cierre breve: una o dos frases para orientar el día siguiente, sin listas ni preguntas tipo examen].
 ```
-
-### F. Plantilla Resumen Semanal e Infografía (`DD_resumen_semana_X.md`)
-**Nombre del fichero:** Debe usar el **mismo número de día** que el último día de la semana para que se ordene justo después (ej: `07_resumen.md` va después de `07_enero.md`).
-
-**Contenido del Markdown:**
-1.  **Encabezado:** `# Resumen Semana X: [Título Temático]`
-2.  **Imagen:** `![Infografía Semana X](../images/resumen_semana_XX.png)`
-3.  **Cita Central:** La misma que aparece en la infografía.
-4.  **Los 7 Pilares (Desglose):** Breve explicación de cada día, alineada con los niveles de la infografía.
-5.  **Arco Narrativo:** Un párrafo final que explique la transición de la semana (de dónde venimos y a dónde vamos).
-
-**Especificaciones de la Infografía (Prompt Visual):**
-*   **Estrategia de Generación:** Debido a la longitud y detalle requeridos, **SIEMPRE** se debe generar un fichero de texto con el prompt completo antes de llamar al script.
-*   **Ubicación de Prompts:** `ebooks/diario_del_guerrero/prompts/prompt_mes_XX_semana_X.txt`. **NO BORRAR** estos ficheros; sirven de referencia y documentación.
-*   **Estilo Visual:** "Sumi-e Fantástico". Estética oriental y marcial, tinta negra con acentos de color vibrante (estilo acuarela/tinta). Alto contraste, dinámico, místico.
-*   **Formato:** Vertical (Portrait, 9:16).
-*   **Paleta:** Fondo claro/luna/papel arroz, tinta negra fuerte, acentos vibrantes (rojo sangre, azul eléctrico, dorado, violeta) según el tema.
-*   **Tipografía (en la imagen):** Títulos en caligrafía vertical. **IMPORTANTE:** Incluir bloques de texto breve (1-2 frases) en letra más pequeña y legible (tipo manuscrito o máquina de escribir antigua) acompañando a cada elemento visual para explicar el concepto.
-*   **Estructura Visual:**
-    1.  **Composición Vertical:** Elementos apilados o fluyendo de abajo a arriba.
-    2.  **Metáfora Central:** Una escena única integrada.
-    3.  **Texto Integrado:** El texto explicativo debe flotar en el espacio negativo o estar inscrito en pergaminos/piedras dentro de la escena.
-*   **Referencia:** Ver **Anexo A** al final de este documento para un ejemplo actualizado.
 
 ---
 
@@ -216,7 +174,10 @@ Día del Vacío Fértil.
 
 3.  **Formato EPUB:**
     *   Los títulos de los ficheros `.md` (`# Título`) se convierten en entradas de la Tabla de Contenidos (TOC).
-    *   **IMPORTANTE:** El script de build (`build.js`) elimina automáticamente la primera línea del contenido (el título) para evitar duplicados en el lector. **Mantén el título en la primera línea del MD**, el script se encarga del resto.
+    *   **IMPORTANTE:** El build estándar elimina automáticamente la primera línea del contenido (el título) para evitar duplicados en el lector. **Mantén el título en la primera línea del MD**, el build se encarga del resto.
+
+4.  **Resúmenes Semanales e Infografías (Legacy):**
+    *   No forman parte del producto final. Si existen en el repo, no deben incluirse en el EPUB/PDF y se consideran contenido a limpiar.
 
 ---
 
@@ -224,42 +185,7 @@ Día del Vacío Fértil.
 
 Para generar el EPUB final:
 
-1.  Asegúrate de tener node instalado.
-2.  Ve al directorio de build: `cd ebooks/diario_del_guerrero/build`.
-3.  Instala dependencias (solo la primera vez): `npm install`.
-4.  Ejecuta el script: `node build.js`.
-5.  El fichero se generará en: `ebooks/diario_del_guerrero/draft_mes_XX.epub`.
-
----
-
-## Anexo A: Ejemplo de Prompt Detallado para Infografía
-
-Este es el estándar de calidad y detalle esperado para la generación de los prompts de las infografías semanales.
-
-### Título de la Infografía: CRÓNICAS DEL GUERRERO: LA SEMANA DE CIMENTACIÓN
-
-**Estilo Visual General:**
-Estilo artístico oriental y marcial, fusionando la técnica tradicional Sumi-e (tinta negra) con elementos de fantasía moderna y colores vibrantes (acuarela/digital). La composición es VERTICAL (9:16). La atmósfera es mística, dinámica y poderosa. Fondo sugerido de papel de arroz o luz de luna. Trazos de tinta negra fuertes y expresivos que se disuelven en partículas o humo.
-
-### Estructura y Secciones de la Infografía
-
-#### 1. La Escena Central (Metáfora Integrada)
-En lugar de niveles rígidos, una escena vertical fluida.
-
-*   **Fondo:** Un cielo nocturno con una luna gigante pálida o un sol rojo naciente, textura de papel antiguo.
-*   **Figura Central:** Un guerrero samurai o monje en una postura de poder/meditación, o una estructura simbólica (templo, montaña) emergiendo de la niebla.
-*   **Elementos Integrados (Los 7 Pilares):** Los conceptos de la semana se integran como objetos o espíritus alrededor de la figura central.
-    *   *Barco en llamas:* En la base, tinta negra y fuego rojo.
-    *   *Cama/Orden:* Líneas geométricas limpias cerca de la base.
-    *   *Engranaje:* Un mandala mecánico sutil en el fondo.
-    *   *Plomada/Auditoría:* Una línea vertical dorada perfecta que cruza la imagen.
-    *   *Casco/Silencio:* El foco de la cabeza de la figura, en blanco negativo.
-    *   *Hielo/Incomodidad:* Cristales azules rompiéndose alrededor de los puños.
-    *   *Muro/Persistencia:* Una barrera de tinta negra que la figura está atravesando.
-
-#### 2. Texto y Tipografía (Integrado)
-**CRÍTICO:** La imagen **DEBE** incluir bloques de texto breve y legible integrados en el diseño.
-*   **Título Principal:** Caligrafía vertical (Kanji o Pincel).
-*   **Textos Explicativos:** Bloques de 1-2 frases cortas acompañando a cada elemento visual clave.
-    *   *Ejemplo:* Junto al barco en llamas -> "EL COMPROMISO: Quemar las naves para no tener retirada."
-*   **Estilo:** Letra tipo manuscrito antiguo, grabado o máquina de escribir, flotando en el espacio negativo o sobre pergaminos.
+1.  Asegúrate de tener Node instalado.
+2.  Generar EPUB: `node ebooks/scripts/build_epub.js ebooks/diario_del_guerrero`
+3.  (Opcional) Generar PDF: `node ebooks/scripts/build_pdf.js ebooks/diario_del_guerrero`
+4.  Los ficheros se generan dentro de `ebooks/diario_del_guerrero/` según `build.json` (`epubFilename` / `pdfFilename`).
