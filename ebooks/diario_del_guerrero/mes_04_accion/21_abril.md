@@ -5,32 +5,16 @@
 
 **Foco:** El Vacío (*Ku*).
 
-La audacia gasta mucha energía psíquica.
-Romper normas, enfrentar críticos y tomar riesgos agota las reservas de dopamina y adrenalina.
-Hoy recargamos.
-Pero no recargamos durmiendo. Recargamos conectando con el **Vacío**.
-En el budismo, el Vacío (*Ku*) no es la nada. Es la **Potencialidad Pura**.
-Es el momento exacto antes de que el arquero suelte la flecha.
-En ese instante, la flecha no se mueve, pero contiene toda la energía del disparo.
-Es el silencio antes del trueno.
-La mayoría de la gente tiene miedo a ese silencio.
-Por eso hablan sin parar. Por eso actúan compulsivamente.
-Tienen miedo de la potencia que se acumula en la pausa.
+Has entrenado la audacia: entrar en la arena, cruzar montañas, saltar sin garantía, desobedecer con inteligencia. La audacia parece movimiento, pero nace de una quietud previa. Hay un instante antes del salto en el que todo se detiene. Si lo pierdes, te precipitas. Si lo sostienes, concentras.
 
-**La Práctica de Hoy:**
+El Vacío, en su sentido más práctico, es ese instante. No es ausencia; es potencial. Es el arco tensado antes de soltar la flecha. Es el silencio antes de responder. La mayoría vive con miedo a esa pausa porque en la pausa aparece la verdad: lo que sientes, lo que temes, lo que de verdad quieres. Y la gente prefiere ruido.
 
-**La Pausa de Poder.**
-Hoy no vas a hacer un retiro de silencio. Vas a integrar el silencio en la acción.
-Tu misión es insertar **micro-vacíos** en tu día.
+Hoy no se trata de “no hacer nada” todo el día. Se trata de insertar el Vacío con intención, para que tu acción salga limpia. Elige tres momentos cotidianos en los que sueles actuar en automático y conviértelos en puertas. Antes de hablar, espera un instante y siente el cuerpo; deja que la respuesta salga desde la calma, no desde la prisa. Antes de comer, quédate unos segundos mirando la comida y nota el hambre sin obedecerla como un perro. Antes de entrar en tu casa o en una reunión, detente en el umbral y suelta lo que traes de fuera.
 
-1.  **Antes de Hablar:** Cuando alguien te pregunte algo, no respondas inmediatamente. Espera 3 segundos. Mírale a los ojos. Siente el silencio. Y luego responde. Verás que tu respuesta tiene más peso.
-2.  **Antes de Comer:** Siéntate delante de la comida. Espera 1 minuto sin tocarla. Siente el hambre. Y luego come.
-3.  **Antes de Entrar:** Antes de entrar en tu casa o en una reunión, detente en la puerta 5 segundos. Deja fuera lo de fuera. Entra limpio.
+No te parecerá mucho, pero te cambia. Cada pausa corta el impulso, y en el corte aparece elección. Ahí está el verdadero poder: no reaccionar por reflejo. El guerrero que se precipita regala su energía. El guerrero que espera, aunque sea un latido, recupera el mando.
 
-El guerrero que domina la pausa domina la situación.
-Quien se precipita, regala su poder.
-Quien espera, acumula su poder.
-Sé el dueño del tiempo.
+Este día de silencio también protege tu audacia. La audacia sostenida sin pausa se vuelve temeridad, y la temeridad acaba en caída. El Vacío no te frena; te afila. Te recuerda que la acción más valiente no siempre es avanzar. A veces es no decir lo que te pide el ego, no hacer lo que te pide la ansiedad.
 
-Recupera tu energía.
-La semana que viene hay guerra.
+Si hoy te asalta una decisión importante, no la resuelvas con ruido. Siéntate cinco minutos en silencio y deja que el cuerpo hable primero. La mente hará argumentos, pero el cuerpo te mostrará si hay miedo, orgullo o intuición. La audacia inteligente no es ausencia de miedo; es acción con claridad.
+
+Termina el día con una frase breve en tu cuaderno: “Mi pausa más importante hoy fue…” y describe cuándo detuviste el impulso. Esa es la antesala del salto. Mañana volverás al combate, pero con el Vacío como aliado.

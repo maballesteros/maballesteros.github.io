@@ -5,38 +5,16 @@
 
 **Foco:** Mushin (Mente sin Mente).
 
-La semana pasada fue de acción intensa.
-Hoy paramos.
-Pero no paramos para dormir. Paramos para acceder a un estado superior de acción.
-En el Zen y en las Artes Marciales, existe un concepto llamado **Mushin** (無心).
-Literalmente significa "Sin Mente".
-No significa ser un idiota o tener el cerebro vacío.
-Significa que la mente no se fija en nada.
-*   Si te fijas en la espada del enemigo, te matarán.
-*   Si te fijas en tu propia técnica ("¿estoy poniendo bien el pie?"), te matarán.
-*   Si te fijas en el miedo a morir, te matarán.
-La mente debe fluir libremente, reflejando todo como un espejo, pero sin detenerse en nada.
-Es el estado de **Flow**.
-Es cuando el bailarín *es* la danza.
-Es cuando el escritor *es* la escritura.
-No hay un "yo" que observa y critica. Solo hay acción pura.
+En los últimos días has entrenado el inicio: cortar el nudo, actuar con miedo, decir “no”, cruzar el Rubicón. Has visto que la resistencia inicial no se vence con teoría, sino con un primer paso. Pero también has visto otro peligro: empezar con tanta tensión que tu mente se vuelve rígida. La acción con la mente congelada se rompe.
 
-**La Práctica de Hoy:**
+Mushin es la otra cara del coraje. No es estar vacío por dentro; es no estar atrapado. Es la mente que no se engancha a un pensamiento, a una duda o a una obsesión. En Mushin, el cuerpo hace lo que sabe hacer y la mente acompaña sin interferir. Es el estado en el que el guerrero deja de “actuar” y simplemente actúa.
 
-Hoy vamos a practicar la acción sin pensamiento.
-Elige una tarea física simple y repetitiva:
-*   Lavar los platos.
-*   Barrer el suelo.
-*   Cortar verduras.
-*   Caminar.
+Hoy entrenas Mushin en algo pequeño para poder llevarlo a lo grande. Elige una tarea física simple y repetitiva: fregar platos, barrer, cortar verduras, caminar. Hazla en silencio. Antes de empezar, quédate quieto un momento y siente la prisa. La prisa es el ego disfrazado de productividad: quiere terminar para volver al ruido. Respira y comienza despacio.
 
-**Las Reglas:**
-1.  **Silencio Interno:** Intenta apagar la radio mental. No pienses en la lista de la compra ni en la discusión de ayer.
-2.  **Fusión:** Conviértete en la acción. Siente el agua, el peso de la escoba, el sonido del cuchillo.
-3.  **Sin Juicio:** Si lo haces "mal", no te critiques. Corrige y sigue. Si te distraes, vuelve.
+Recuerda lo que aprendiste estos días: el primer paso exige decisión, pero también exige ligereza. Si te obsesionas con hacerlo perfecto, vuelves a quedarte paralizado. Si te castigas por cada error, pagas el impuesto del arrepentimiento por adelantado. Mushin es cortar ese nudo desde dentro: actuar sin el látigo mental.
 
-Cuando actúas desde Mushin, no hay miedo.
-El miedo vive en el futuro ("¿y si fallo?").
-Mushin vive en el presente eterno.
-Recupera tu centro.
-Mañana necesitarás esta claridad para la velocidad.
+Mientras lo haces, observa cómo la mente intenta comentar todo. “Voy lento.” “Esto es tonto.” “Debería estar haciendo otra cosa.” No la discutas. No la sigas. Vuelve a la sensación: el agua en las manos, el sonido de la escoba, el peso del cuchillo, el roce del suelo. Si te equivocas, corrige sin violencia. Si te distraes, regresa sin drama. Ahí está la práctica.
+
+Este tipo de silencio te enseña algo importante para el mes de acción: la mayoría de tus bloqueos no son falta de capacidad, son exceso de pensamiento. Cuando el “yo” comenta demasiado, pierdes precisión. Cuando la atención se posa en lo que haces, la acción se vuelve limpia, casi inevitable.
+
+Al terminar, quédate unos segundos con la tarea completa. Nota la diferencia entre terminar con tensión y terminar con presencia. Mañana volverás a acelerar, pero con una ventaja: sabrás cómo entrar en movimiento sin congelarte. Mushin no te vuelve blando. Te vuelve fluido.

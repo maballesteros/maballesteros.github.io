@@ -74,26 +74,40 @@ function processDirectory(partName) {
     }
 
     const files = fs.readdirSync(dirPath)
-        .filter(f => f.endsWith('.md'))
+        .filter(f => f.endsWith('.md') && !f.startsWith('_'))
         .sort();
 
-    // Extract intro.md if present and put it first
-    const introIndex = files.indexOf('intro.md');
-    if (introIndex > -1) {
-        files.splice(introIndex, 1);
-        files.unshift('intro.md');
-    }
+    // With 00_intro naming convention, default sort works correctly.
+
 
     files.forEach(file => {
         processFile(path.join(dirPath, file));
     });
 }
 
+// Helper to process a part (file or directory)
+function processPart(partName) {
+    const fullPath = path.join(TARGET_DIR, partName);
+
+    if (!fs.existsSync(fullPath)) {
+        console.warn(`Warning: Part not found: ${fullPath}`);
+        return;
+    }
+
+    const stats = fs.statSync(fullPath);
+
+    if (stats.isFile()) {
+        processFile(fullPath);
+    } else if (stats.isDirectory()) {
+        processDirectory(partName);
+    }
+}
+
 // 3. Process Content
-// Config must have a "parts" array, e.g. ["parte_01", "parte_02"]
+// Config must have a "parts" array, e.g. ["intro.md", "parte_01"]
 if (config.parts && Array.isArray(config.parts)) {
     config.parts.forEach(part => {
-        processDirectory(part);
+        processPart(part);
     });
 } else {
     console.error("Error: 'parts' array missing in build.json");
@@ -113,7 +127,8 @@ const options = {
     output: OUTPUT_PATH,
     content: processedContent,
     css: config.epubCss || `body { font-family: sans-serif; }`, // Fallback CSS
-    cover: path.join(TARGET_DIR, 'images', 'cover.png')
+    cover: path.join(TARGET_DIR, 'images', 'cover.png'),
+    lang: config.lang || 'en'
 };
 
 // 6. Generate

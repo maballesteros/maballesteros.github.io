@@ -1,9 +1,11 @@
 {
     "title": "Diario del Guerrero",
     "author": "M.A. Ballesteros",
+    "lang": "es",
     "epubFilename": "diario_del_guerrero_completo.epub",
     "pdfFilename": "diario_del_guerrero_impreso.pdf",
     "parts": [
+        "nota_autor.md",
         "mes_01_disciplina",
         "mes_02_autocontrol",
         "mes_03_percepcion",

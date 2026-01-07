@@ -5,22 +5,18 @@
 
 Día del Vacío Fértil.
 
-El ego se alimenta de opiniones. Necesita juzgarlo todo: "esto es bueno", "esto es malo", "él es idiota", "yo lo haría mejor". Cada juicio es una forma de afirmar nuestra superioridad, de ponernos por encima de lo que observamos.
+Has visto el rostro del ego: fantasía, orgullo, victoria pasada convertida en enfermedad, ira cuando la realidad no se dobla, teatro de hablar en vez de hacer, tiranía de la imagen. El ego no solo quiere ganar; quiere comentar. Quiere tener una opinión sobre todo, porque cada juicio es una forma de sentirse por encima.
 
-El ego tiene terror al silencio neutral. Si no opina, siente que no existe.
+Piensa en Jerjes azotando el mar porque el mar no obedecía. Piensa en Hughes construyendo un mundo de fantasía hasta aislarse. Piensa en Napoleón creyendo que el éxito pasado garantizaba el siguiente paso. El ego se rompe siempre contra lo mismo: la realidad. Y, cuando no puede controlarla, la critica, la ridiculiza o la convierte en enemigo. La opinión es su forma barata de poder.
 
-Hoy vamos a matarlo de hambre.
+El ego odia el silencio neutral. Si no opina, siente que no existe. Por eso convierte cualquier estímulo en narrativa: “qué desastre”, “qué imbécil”, “yo lo haría mejor”, “mira qué bien lo hice”. Esa narración constante no es inteligencia; es necesidad de validación. Te roba tiempo, energía y paz.
 
-**La Práctica de Hoy: El Ayuno de Opinión**
+Hoy practicas un ayuno de opinión. No como prohibición rígida, sino como limpieza. Durante el día, cuando aparezca el impulso de comentar algo que no te compete directamente, detente un instante. Respira una vez y observa el hecho sin etiqueta. Deja que el clima sea clima. Que el tráfico sea tráfico. Que la noticia sea noticia. Que la torpeza ajena sea torpeza ajena. No estás renunciando a tu criterio; estás renunciando al reflejo.
 
-Tu misión es pasar el día sin expresar (y a ser posible, sin formar) opiniones sobre cosas que no te competen directamente.
+Esto incluye el mundo digital. Hoy, sé un fantasma. No para parecer superior, sino para notar cuánto del impulso de comentar era hambre de existir en la mirada de otros. Observa ese hambre con curiosidad, como un médico que hace una radiografía: ahí está el síntoma. El “vampiro del tiempo” se alimenta de palabras que no cambian nada.
 
-1.  **No comentes las noticias.**
-2.  **No juzgues el clima.**
-3.  **No critiques la forma de conducir de otros.**
-4.  **No des consejos no solicitados.**
-5.  **En redes sociales:** Cero comentarios, cero likes, cero shares. Sé un fantasma.
+Si hoy te equivocas y opinas, no lo dramatices. Solo date cuenta de qué estabas intentando conseguir: sentirte más listo, sentirte más seguro, sentirte más visto. Ese autoengaño es el punto exacto que estás entrenando. La disciplina no es perfección; es volver.
 
-Cuando sientas el impulso de decir "qué desastre" o "qué maravilla", detente. Respira. Observa el hecho sin la etiqueta. Deja que las cosas sean lo que son, sin tu comentario al margen.
+Verás algo raro si lo sostienes. Aparece espacio. Y en ese espacio, empieza a emerger lo que sí importa: tu trabajo real, tu vida real, tus decisiones reales. La opinión innecesaria es ruido. La atención recuperada es libertad.
 
-Descubre la inmensa paz que existe al otro lado de no tener que tener razón.
+Hoy no te has vuelto indiferente. Te has vuelto sobrio. Y hay una paz inmensa al otro lado de no tener que tener razón sobre todo.

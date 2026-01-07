@@ -1,44 +1,142 @@
-# 20 Mayo: Revisión Táctica (Semana 3)
+# 20 Mayo: La Causa Sagrada
 
 > *"La fe es dar el primer paso incluso cuando no ves toda la escalera."*
 > — **Martin Luther King Jr.**
 
-Día de revisión.
+**Fuente/Tradición:** Derechos Civiles / Resistencia Moral
 
-Esta semana hemos subido a la cumbre más alta: **El Espíritu**.
-Hemos visto que cuando el cuerpo falla y la mente duda, solo el espíritu (la convicción profunda) puede sostenernos.
-La resistencia espiritual es la capacidad de sufrir por un sentido.
+**La Historia: La Carta desde la Celda**
 
-*   Con **Juana de Arco**, aprendimos que la certeza absoluta ("Nací para esto") puede mover ejércitos y levantar sitios imposibles.
-*   Con **Mahatma Gandhi**, descubrimos la fuerza de la *Satyagraha*: la resistencia pacífica que desarma al opresor negándole el consentimiento.
-*   Con **Malala Yousafzai**, vimos que la voz y la educación son armas más fuertes que las balas, y que el miedo muere cuando nace el propósito.
-*   Con **Martin Luther King Jr.**, entendimos el poder radical del amor agresivo: romper el ciclo del odio absorbiendo el golpe sin devolverlo.
-*   Con **James Stockdale**, aprendimos la paradoja de la supervivencia: mantener la fe absoluta en el final mientras enfrentamos los hechos brutales del presente.
+Birmingham, Alabama, 1963.
+Martin Luther King Jr. está en una celda.
+No por crimen. Por desobediencia.
 
-**1. El Análisis**
+Las protestas no violentas estaban siendo atacadas con perros, porras y mangueras de agua a presión.
+Los periódicos lo llamaban agitador.
+Los “moderados” le pedían paciencia.
+“No ahora.” “No así.” “Más adelante.”
 
-Mira tu semana.
-¿Qué motor ha movido tus acciones? ¿El miedo, la obligación, el dinero... o el sentido?
-¿Has luchado tus batallas con odio o con dignidad?
+Y entonces llega lo más peligroso: una carta firmada por líderes religiosos blancos.
+No era una amenaza. Era una condena elegante.
+Lo llamaban “extremista” y le decían que esperara, que no tensara la cuerda, que confiara en el proceso.
 
-**2. La Auditoría**
+King podría haberse amargado.
+Podría haberse hundido.
+Podría haberse vuelto un animal rabioso.
 
-Responde con honestidad brutal (SÍ/NO):
-*   [ ] ¿Has sentido que tu trabajo tiene un propósito mayor que tú mismo?
-*   [ ] ¿Has respondido a una agresión con calma y no-violencia?
-*   [ ] ¿Has usado tu voz para defender una verdad incómoda?
-*   [ ] ¿Has mantenido la fe en tu victoria final a pesar de los problemas actuales?
+En lugar de eso, hizo algo que solo hace alguien con espíritu:
+respondió con claridad.
 
-**3. Ajuste de Rumbo**
+En esa celda, sin escritorio, sin comodidades, escribió una de las piezas más poderosas de la historia moderna: *Letter from Birmingham Jail*.
+No escribió para ganar un debate.
+Escribió para sostener una causa.
 
-El espíritu se atrofia si no se usa.
-Si solo vives para pagar facturas y ver Netflix, tu espíritu se duerme.
-*Corrección:* Necesitas una causa. Necesitas algo por lo que valga la pena sufrir.
-No tiene que ser "salvar el mundo". Puede ser "ser el mejor padre posible" o "crear un negocio ético".
-Pero tiene que ser sagrado para ti.
+En un momento, King admite algo incómodo: no quería ser “extremista”.
+Nadie quiere esa palabra.
+Pero luego la toma y la convierte en arma:
+si el mundo va a llamarte extremista, elige serlo por lo correcto.
+“Extremista del amor.” “Extremista de la justicia.”
+Eso es espíritu: no vivir a la defensiva.
 
-**La Misión para la Semana 4:**
+Explicó por qué la espera era una forma de violencia.
+Por qué “orden” sin justicia es una jaula bonita.
+Por qué la acción no violenta no es pasividad, sino disciplina agresiva: absorber el golpe sin devolverlo para romper el ciclo del odio.
 
-La semana que viene entramos en la fase final y más avanzada: **Antifragilidad**.
-No se trata solo de resistir el golpe. Se trata de *mejorar* con el golpe.
-Hablaremos de la Hidra, del Fénix y de cómo el caos puede ser tu mejor amigo.
+King entendía algo que muchos olvidan:
+cuando el cuerpo se cansa y la mente duda, solo queda el espíritu.
+Y el espíritu se alimenta de una palabra: **sentido**.
+
+Si te fijas, los enemigos más eficaces no siempre son violentos.
+Son blandos.
+Te ofrecen comodidad moral:
+“No hace falta tanto.”
+“No te expongas.”
+“No te metas en líos.”
+“No seas intenso.”
+
+Esas frases no te rompen el cuerpo.
+Te rompen la columna.
+
+**La Lección:**
+
+La resistencia espiritual es la capacidad de sufrir por algo que consideras sagrado.
+No es religión necesariamente.
+Es orientación.
+
+Cuando no tienes causa, todo te pesa.
+El esfuerzo parece injusto.
+El dolor parece estúpido.
+La disciplina parece castigo.
+
+Cuando tienes causa, ocurre lo contrario:
+el dolor se convierte en precio,
+la disciplina en identidad,
+la resistencia en orgullo.
+
+Tu espíritu se duerme cuando vives solo para pagar facturas y anestesiarte con pantallas.
+Despierta cuando declaras un “por qué” que no negocias.
+
+Ese “por qué” no tiene que ser grandioso:
+*   ser un padre/madre presente,
+*   recuperar tu salud,
+*   construir un oficio,
+*   romper un patrón familiar,
+*   crear algo honesto.
+
+Pero tiene que ser real.
+Porque si no es real, en cuanto aparezca el dolor, lo venderás.
+
+Aquí está la diferencia práctica:
+*   **Obligación:** haces algo para que no te critiquen.
+*   **Deseo:** haces algo cuando te apetece.
+*   **Causa:** haces algo aunque no te apetezca y aunque te critiquen.
+
+La causa te da continuidad.
+La continuidad te da libertad.
+
+**La Práctica de Hoy: Encender el Espíritu**
+
+1.  **Tu Causa (1 frase)**
+    Escribe por qué estás dispuesto a sufrir.
+    No lo hagas bonito. Hazlo verdadero.
+    Mi causa: ____________________________________________________________
+
+2.  **Tu Línea Roja**
+    ¿Qué no vas a negociar aunque cueste?
+    (Ejemplos: “no vuelvo a traicionarme”, “no vuelvo a vivir anestesiado”).  
+    Mi línea roja: _______________________________________________________
+
+3.  **El Primer Paso sin Escalera**
+    Elige un paso pequeño que apoye tu causa hoy.
+    No un gran cambio. Una prueba.
+    Mi primer paso: ______________________________________________________
+
+4.  **Amor Agresivo (sin odio)**
+    Identifica una situación donde reaccionas con rabia o resentimiento.
+    ¿Cuál sería una respuesta firme sin odio?
+    Mi respuesta firme: _________________________________________________
+
+5.  **Carta para Ti (10 líneas)**
+    Escribe 10 líneas como si estuvieras en una celda, sin excusas y sin drama:
+    “Estoy aquí por… / Sigo porque… / Lo que hago hoy es…”
+
+6.  **Prueba de Coste**
+    El espíritu se prueba cuando cuesta.
+    Elige un sacrificio pequeño hoy que apoye tu causa: 30 minutos sin pantalla, entrenar aunque no apetezca, decir la verdad en una conversación.
+    Mi coste voluntario de hoy: __________________________________________
+
+7.  **La Escalera Invisible (mantra)**
+    Escribe una frase para cuando no veas la escalera:
+    “No veo el camino completo, pero hoy doy el siguiente peldaño: _________”
+
+8.  **Tu Altar (visible)**
+    Pon tu causa en algún lugar que veas: una nota, una frase en el móvil, una foto, un símbolo.
+    La resistencia espiritual muere cuando tu “por qué” se vuelve abstracto.
+    Mi recordatorio visible: _____________________________________________
+
+El espíritu se entrena como un músculo.
+Hoy, dale una carga.
+No para sentirte superior.
+Para recordar quién eres cuando el mundo intente comprarte con comodidad.
+Tu causa es la brújula cuando la escalera se oculta.
+Hoy eliges eso.

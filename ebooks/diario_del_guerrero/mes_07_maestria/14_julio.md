@@ -1,37 +1,22 @@
-# 14 Julio: Silencio
+# 14 Julio: Silencio (Río de Pensamientos)
 
 > *"El hombre que no sabe estar en silencio no sabe hablar."*
 > — **Pitágoras**
 
 Día del Vacío Fértil.
 
-Hoy vamos a practicar el **Silencio Interno**.
-La semana pasada practicamos escuchar el material (silencio externo).
-Pero a veces, apagas el móvil, te encierras en tu Torre, y el ruido *aumenta*.
-Tu mente empieza a gritar.
-Lista de tareas pendientes. Preocupaciones sobre el dinero. Recuerdos vergonzosos de hace 10 años. Discusiones imaginarias con gente que te cae mal.
-Es el "Mono Loco" saltando de rama en rama.
-El silencio externo es fácil (basta con cerrar la puerta). El silencio interno es maestría.
+Has entrenado el trabajo profundo: construir una torre, entrar en flow, aislarte del ruido, hacer dieta de información, ejecutar una sola cosa con presencia. Pero hay una trampa: apagas el mundo y, de repente, la mente sube el volumen. Salen pendientes, preocupaciones, recuerdos viejos, discusiones imaginarias. El silencio externo era solo la puerta. El silencio interno es el cuarto de entrenamiento.
 
-**La Práctica de Hoy:**
+Hoy no vienes a “vaciar la mente” a golpes. Vienes a dejar de perseguirla. Siéntate cómodo, con la espalda digna, y cierra los ojos. Imagina que estás en la orilla de un río ancho. Tus pensamientos son hojas que flotan. No eres el río y no eres las hojas. Eres el que mira desde la orilla.
 
-**El Río de los Pensamientos.**
+Deja que aparezcan. Cuando venga una idea, mírala pasar sin pescarla. No te metas a analizarla y tampoco intentes hundirla con esfuerzo. Déjala ir, como quien ve pasar un barco y no se sube. Al principio el río puede traer basura: ansiedad acumulada, miedo, irritación. Es normal. Es descarga.
 
-1.  Siéntate en una silla cómoda o en el suelo. Espalda recta.
-2.  Cierra los ojos.
-3.  Imagina que estás sentado en la orilla de un río ancho y tranquilo.
-4.  Tus pensamientos no eres tú. Tus pensamientos son hojas secas que flotan en el agua.
-5.  Cuando aparezca un pensamiento ("tengo que comprar leche"), visualízalo como una hoja.
-6.  Mírala venir. Mírala pasar frente a ti. Mírala alejarse río abajo.
-7.  **No la pesques.** No te metas en el río para agarrarla y analizarla ("¿qué leche compro? ¿desnatada o entera?"). Déjala ir.
-8.  **No la hundas.** No luches contra ella ("no debo pensar en leche, estoy meditando"). Déjala flotar.
-9.  Quédate en la orilla.
-10. Tú eres el observador. El río es la mente.
+Vuelve una y otra vez a una sensación simple: la respiración en el pecho, el peso del cuerpo, el aire entrando y saliendo. No para concentrarte con rigidez, sino para recordar dónde estás. Si te distraes, regresas sin culpa. Ese regreso es la práctica deliberada de la mente.
 
-Al principio, el río estará lleno de basura. Troncos, ramas, botellas de plástico.
-Es normal. Es la descarga de la tensión acumulada.
-Si te mantienes en la orilla sin intervenir, poco a poco, el río se aclara.
-Los espacios entre hoja y hoja se hacen más grandes.
-En esos espacios... hay silencio.
-Y en ese silencio, reside tu verdadero Yo.
-Disfruta de la corriente.
+Con el tiempo, aparecen espacios entre hoja y hoja. Ese espacio no es un estado místico. Es una pausa. Es el mismo tipo de pausa que hace posible el flow: ausencia de comentario constante. En esa pausa, lo importante se vuelve audible. Y lo no importante pierde poder.
+
+Este silencio interno es el verdadero “monk mode”. No es aislarte del mundo para sentirte especial. Es crear una cámara donde el trabajo profundo puede ocurrir sin sabotaje. Si quieres llevarlo a la práctica, hoy mismo elige un bloque corto para mañana y protégelo: una hora de monotarea sin interrupciones, sin noticias, sin ventanas abiertas. No como productividad, sino como entrenamiento de carácter.
+
+Y si hoy la mente estuvo especialmente ruidosa, no lo tomes como fracaso. A veces el ruido es justo lo que sale cuando por fin le quitas la tapa. Lo importante es volver.
+
+Termina con una decisión silenciosa para mañana: proteger un bloque de profundidad sin negociar con el mono loco. No por productividad, sino por dignidad. La maestría, al final, es una mente que puede estar quieta y seguir siendo fuerte.

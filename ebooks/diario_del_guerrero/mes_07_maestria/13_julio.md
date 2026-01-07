@@ -1,48 +1,144 @@
-# 13 Julio: Revisión del Foco (Semana 2)
+# 13 Julio: El Contrato de Profundidad
 
 > *"La concentración es la raíz de todas las capacidades superiores del hombre."*
 > — **Bruce Lee**
 
-Día de revisión.
+**Fuente/Tradición:** Trabajo Profundo / Disciplina de Atención
 
-Esta semana hemos explorado la **Profundidad**.
-En un mundo que premia la velocidad y la superficialidad, hemos aprendido que el verdadero valor se crea en el fondo del océano, no en la espuma de las olas.
+**La Historia: La Cabaña del CEO**
 
-*   Con **Carl Jung**, construimos nuestra **Torre de Bollingen**. Aprendimos que necesitamos muros físicos y temporales para proteger nuestra mente del ruido.
-*   Con **Mihaly Csikszentmihalyi**, entramos en el **Flow**. Aprendimos a buscar el canal entre la ansiedad y el aburrimiento, donde el tiempo desaparece y el ego muere.
-*   Con **Isaac Newton**, convertimos la plaga en un **Annus Mirabilis**. Aprendimos que la soledad forzada es el mejor laboratorio para la invención.
-*   Con **Séneca**, practicamos la **Dieta de Información**. Aprendimos que leer demasiado sin digerir es indigestión mental.
-*   Con **Thich Nhat Hanh**, lavamos los platos. Aprendimos el poder del **Single-Tasking**. Una cosa a la vez.
+Cuando Bill Gates dirigía Microsoft, hacía algo que hoy parece herético: desaparecía.
+Se iba a una cabaña con una mochila de libros y papeles.
+No reuniones. No llamadas. No urgencias.
+Solo lectura, notas y pensamiento.
 
-**1. El Análisis**
+Lo llamaba “Think Week”.
 
-¿Cómo ha estado tu atención esta semana?
-¿Has sido un rayo láser o una bombilla difusa?
-¿Has controlado tú a tu tecnología, o tu tecnología te ha controlado a ti?
+No era un retiro espiritual.
+Era una decisión estratégica.
+Gates entendía que la empresa no se gana solo con velocidad.
+Se gana con claridad.
+Y la claridad exige silencio.
 
-**2. La Auditoría**
+En esas semanas, Gates no “consumía información” por dopamina.
+La procesaba.
+Subrayaba, escribía notas, hacía preguntas incómodas.
+Y, lo más importante, elegía.
+Porque el foco real no es concentración: es renuncia.
 
-Responde con honestidad brutal (SÍ/NO):
-*   [ ] **La Torre:** ¿Has tenido algún bloque de tiempo de más de 60 minutos sin interrupciones ni internet?
-*   [ ] **El Flow:** ¿Has sentido en algún momento que perdías la noción del tiempo trabajando, o has estado mirando el reloj constantemente?
-*   [ ] **La Soledad:** ¿Has pasado tiempo a solas con tus pensamientos sin angustiarte y sin buscar el móvil?
-*   [ ] **La Dieta:** ¿Te has intoxicado con noticias irrelevantes o cotilleos?
-*   [ ] **Los Platos:** ¿Has hecho alguna tarea doméstica con atención plena, o la has hecho con prisa y asco?
+En el mundo normal, tu atención está en subasta permanente.
+Cada notificación es una puja.
+Cada conversación te arrastra.
+Cada pantalla te roba fragmentos.
+Y al final del día te queda un cerebro cansado… pero no profundo.
 
-**3. Ajuste de Rumbo**
+Gates no era “más disciplinado” por naturaleza.
+Solo había firmado un contrato con su atención.
+La protegía como un general protege una colina.
 
-Si te sientes disperso, no te castigues.
-La atención es un músculo, y el mundo moderno está diseñado para atrofiarlo.
-Estás en rehabilitación.
-*Corrección:* No intentes estar concentrado 16 horas al día. Es imposible.
-Empieza con **Bloques de Profundidad**.
-Protege 2 horas al día. El resto del tiempo, sé superficial si quieres.
-Pero esas 2 horas son sagradas. Son tu Torre.
+**La Lección:**
 
-**La Misión para la Semana 3:**
+El valor real se crea en el fondo del océano, no en la espuma de las olas.
+En la espuma hay movimiento, ruido, “actividad”.
+En el fondo hay concentración, creación y decisiones difíciles.
 
-La próxima semana hablaremos de **Intuición**.
-Hablaremos de Bruce Lee y el agua.
-Hablaremos de pilotos de avión y matemáticos que ven a Dios en los números.
-Hablaremos de cómo saber cosas sin pensarlas.
-Pero antes, mañana, haremos silencio interno.
+Esta semana lo viste desde varios ángulos:
+Jung construye una torre para que el mundo no entre.
+Csikszentmihalyi describe el Flow: el canal entre ansiedad y aburrimiento.
+Newton usa la soledad como laboratorio.
+Séneca advierte: leer demasiado sin digerir es indigestión mental.
+Y Thich Nhat Hanh te recuerda la forma más simple de entrenamiento: una cosa a la vez.
+
+Todos dicen lo mismo con lenguajes distintos:
+si tu atención está repartida, tu vida está repartida.
+Si tu atención está protegida, tu vida empieza a tener forma.
+
+El mundo moderno te empuja a lo superficial porque lo superficial es rentable.
+Pero tú no eres un negocio de anuncios.
+Eres un guerrero construyendo maestría.
+Y la maestría solo crece donde hay profundidad.
+
+La profundidad no es un “estado mental bonito”.
+Es una infraestructura.
+Muros de tiempo.
+Muros de espacio.
+Muros de información.
+
+Si no construyes esos muros, la tecnología los construirá por ti… pero hacia dentro.
+Te encierra.
+Te fragmenta.
+Te vuelve reactivo.
+Y te deja un síntoma claro: haces mil cosas, terminas exhausto y sientes que no has hecho nada importante.
+
+El guerrero de la maestría hace lo contrario.
+Se vuelve dueño de su foco.
+
+**La Práctica de Hoy: Construir tu Torre**
+
+1.  **Tu Norte (1 tarea)**
+    ¿Cuál es la tarea que más mejora tu vida si le das profundidad?
+    (escritura, estudio, proyecto, negocio, entrenamiento, conversación importante).
+    Mi tarea-norte: ______________________________________________________
+
+2.  **El Contrato (2 horas sagradas)**
+    Reserva un bloque de 120 minutos hoy o mañana.
+    Sin internet. Sin móvil. Sin interrupciones.
+    Inicio: ________  Fin: ________
+
+3.  **Cierra la Puerta (3 barreras)**
+    Elige tres barreras físicas o digitales:
+    - Barrera 1: __________________________________________________________
+    - Barrera 2: __________________________________________________________
+    - Barrera 3: __________________________________________________________
+
+4.  **Dieta de Información (24 horas)**
+    Elige una cosa que hoy no consumirás: noticias, redes, podcasts, cotilleo.
+    No es moralismo. Es higiene mental.
+    Basura que corto: ____________________________________________________
+
+5.  **Single-Tasking (una acción lenta)**
+    Haz una tarea doméstica o física con atención plena: platos, paseo, ordenar.
+    Tu mente querrá huir.
+    Ahí está el entrenamiento.
+    Mi tarea lenta: ______________________________________________________
+
+6.  **Registro del Flow (2 señales)**
+    Al final del bloque, responde:
+    - ¿Qué me sacó del canal (ansiedad/aburrimiento)?: _____________________
+    - ¿Qué me metió en el canal?: ________________________________________
+
+7.  **Residuos de Atención (limpieza)**
+    Antes de empezar el bloque, vacía el residuo:
+    escribe en un papel lo que te preocupa o lo que “queda pendiente”.
+    No para resolverlo ahora. Para sacarlo de la RAM.
+    Mi descarga (3 líneas): ______________________________________________
+
+8.  **Regla de una Pestaña**
+    Durante el bloque, trabaja con una sola pestaña/ventana.
+    Si necesitas otra cosa, anótalo y vuelve.
+    La multitarea no es eficiencia: es fuga.
+
+9.  **Cierre con Puerta**
+    Termina el bloque con un gesto físico de cierre:
+    cerrar cuaderno, apagar luz, guardar portátil, salir a caminar 3 minutos.
+    El cerebro entiende rituales.
+    Mi ritual de cierre: _________________________________________________
+
+No intentes estar concentrado 16 horas.
+Eso es fantasía.
+Construye una torre.
+Defiéndela.
+Y el mundo se volverá más simple: porque, por fin, podrás oír una sola cosa.
+
+Hoy no se trata de hacer más.
+Se trata de estar aquí.
+Porque la atención no solo mejora tu trabajo.
+Mejora tu vida entera: tu paciencia, tus decisiones, tu calma, tu presencia.
+
+Y si hoy no puedes dos horas, no negocies con la excusa: reduce el bloque, no lo elimines.
+Haz 45 minutos.
+Haz 25.
+Pero que exista.
+La torre no se levanta de golpe.
+Se levanta ladrillo a ladrillo.
+Ese es tu contrato con el foco. Hoy lo firmas sin excusas.

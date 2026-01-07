@@ -1,34 +1,22 @@
-# 21 Julio: Silencio
+# 21 Julio: Silencio (Brújula Somática)
 
 > *"El silencio es la fuente de la fuerza."*
 > — **Lao-Tse**
 
 Día del Vacío Fértil.
 
-Hoy vamos a practicar el **Silencio Somático**.
-La intuición habla a través del cuerpo.
-Damasio lo llama "Marcadores Somáticos".
-Un nudo en el estómago. Una opresión en el pecho. Un escalofrío. Una sensación de expansión o ligereza.
-El ruido mental tapa estas señales sutiles.
-Si estás siempre pensando, no sientes.
-Y si no sientes, no tienes intuición.
+Has entrado en la fase de internalización. Has visto el camino Shu-Ha-Ri: obedecer la regla, romper la regla, ser la regla. Has visto intuición bajo presión, genialidad que siente antes de demostrar, la necesidad de desaprender, la zona donde el cuerpo se adelanta a la mente. Todo eso tiene una raíz: la intuición no vive en las palabras. Vive en el cuerpo.
 
-**La Práctica de Hoy:**
+El cuerpo habla con señales pequeñas: una contracción, un nudo, un peso en el pecho, una ligereza que aparece sin explicación. Si estás todo el día en la cabeza, no oyes ese idioma. Y sin ese idioma, tomas decisiones a ciegas: decisiones que “tienen sentido” pero te apagan por dentro.
 
-**Escuchar las Entrañas.**
+Hoy el silencio es somático. Siéntate quieto y trae a la mente una decisión real que tengas en el aire, aunque no sea monumental. No la analices con pros y contras. Sostén la pregunta como quien sostiene una piedra en la mano, sin moverla. Luego baja la atención al cuerpo. Nota el estómago. Nota el pecho. Nota la garganta. Respira y observa qué ocurre cuando imaginas decir sí y qué ocurre cuando imaginas decir no.
 
-1.  Siéntate en silencio.
-2.  Trae a tu mente una decisión que tengas que tomar (grande o pequeña). "¿Debo ir a esa cena?", "¿Debo aceptar ese proyecto?".
-3.  No la analices con la cabeza. No hagas listas de pros y contras.
-4.  Mantén la pregunta en el aire y lleva tu atención al cuerpo.
-5.  ¿Qué sientes en el estómago?
-6.  ¿Qué sientes en el pecho?
-7.  ¿Qué sientes en la garganta?
-8.  **Contracción vs Expansión.**
-    *   Si sientes que te encoges, te aprietas o te oscureces... la respuesta suele ser NO.
-    *   Si sientes que te abres, respiras mejor o te iluminas (aunque tengas miedo)... la respuesta suele ser SÍ.
-9.  Aprende el lenguaje de tu propio cuerpo. Él sabe cosas que tú no sabes.
-10. Quédate ahí 10 minutos, escaneando las respuestas físicas a tus preguntas vitales.
+No busques certeza instantánea. A veces la señal es clara; a veces es confusa. Lo importante es aprender el patrón. La contracción suele venir con autoengaño, con obligación, con miedo a decepcionar. La expansión suele venir con verdad, aunque venga acompañada de miedo. El miedo no significa “no”; a veces significa “sí, pero crece”.
 
-El cuerpo no miente. La mente miente todo el tiempo.
-En el silencio, la verdad del cuerpo grita.
+Quédate unos minutos con esa escucha. Si la mente intenta tomar el control, vuelve a sentir. Recuerda a Sully: la intuición que salva no es magia, es experiencia almacenada en el cuerpo. Recuerda a Ramanujan: una sensación del número que no cabe en explicaciones rápidas. Tú también tienes ese tipo de conocimiento, pero se apaga cuando hay ruido.
+
+Y recuerda la parte de desaprender. A veces tu cuerpo se contrae no porque sea un “no”, sino porque estás intentando repetir un patrón viejo. La intuición madura no es capricho; es sensibilidad entrenada. Por eso este mes insiste tanto en el silencio: para que puedas distinguir impulso de brújula.
+
+Termina escribiendo una frase: “Mi cuerpo me dijo…” y completa con honestidad. No es una orden; es una pista. Mañana decidirás, pero hoy has recuperado una brújula que estaba enterrada.
+
+En el silencio, esa brújula deja de temblar.
