@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { supabase } from '@/lib/supabaseClient';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/useAuth';
 import { useAppStore } from '@/store/appStore';
 
 export function useCollaborativeWorks() {

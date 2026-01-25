@@ -1,150 +1,186 @@
-## Sport Planner – Especificación de la SPA
+## Sport Planner – Especificación de la SPA (estado actual del código)
 
 ### 1. Contexto y propósito
-- Aplicación web de página única (SPA) para planificar clases o sesiones de entrenamiento, inicialmente para kung-fu pero con diseño agnóstico al deporte.
-- SPA **100 % cliente**: no habrá servidor propio, SSR ni endpoints personalizados; el bundle final debe poder servirse como archivos estáticos (por ejemplo, como parte de un dominio publicado en Github Pages).
-- Persistencia local en el navegador mediante `localStorage`, complementada con sincronización automática en Supabase (auth + tabla `planner_states` que almacena un snapshot JSON por usuario).
-- El bundle se sirve bajo `/sport-planner/` dentro de `maballesteros.com`, por lo que el router utiliza `basename` y Vite `base` para generar rutas y assets correctos.
-- Objetivos clave: planificar sesiones, gestionar un catálogo de trabajos, registrar asistencia y mantener la experiencia de uso fluida y agradable.
+- Aplicación web de página única (SPA) para planificar clases o sesiones de entrenamiento.
+- SPA **100 % cliente**: no hay servidor propio, SSR ni endpoints personalizados; el bundle final se sirve como archivos estáticos.
+- Supabase es un requisito (auth + datos) consumido directamente desde el cliente:
+  - `planner_states`: snapshot JSON por usuario.
+  - `works` y `work_collaborators`: catálogo de trabajos compartible (visibilidad + colaboradores) con refresco por Realtime.
+- Despliegue bajo `/sport-planner/` (por ejemplo, en `maballesteros.com`). La navegación usa `HashRouter` (`#/…`) y Vite `base` para que rutas y assets funcionen en hosting estático.
 
 ### 2. Objetivos principales
-- Planificar sesiones por fecha, con la posibilidad de anotar/nombrar cada sesión.
-- Facilitar la reutilización de sesiones pasadas (duplicar y ajustar).
-- Mantener un catálogo reutilizable de trabajos, organizado por objetivos (tipos de trabajo) que tienen identidad propia.
-- Permitir edición rápida de la secuencia de trabajos (añadir, quitar, reordenar con drag & drop) minimizando el espacio ocupado por cada ítem.
-- Disponer de una "Home" que muestre la siguiente sesión planificada (incluida la de hoy) en modo visualización optimizada para móvil, permitiendo únicamente marcar qué trabajos se han completado y navegar fácilmente entre sesiones por fecha.
-- Planificar desde un calendario semanal/mensual (semanas comienzan en lunes) en el que se destaquen las fechas con sesiones y se pueda crear/editar desde ahí.
-- Registrar asistencia de manera sencilla (checkboxes por alumno) y mantener un catálogo básico de asistentes.
-- Ofrecer respaldo y restauración completa de la base de datos mediante exportación/importación JSON.
+- Planificar sesiones por fecha, con título/descripcion/notas y hora de inicio.
+- Reutilizar sesiones (duplicar) y reutilizar trabajos desde catálogo.
+- Editar rápido la secuencia de trabajos dentro de una sesión (drag & drop) y ajustar duraciones.
+- Home móvil para la sesión “actual”: marcar trabajos completados, ver detalles (markdown + vídeos) y registrar asistencia real.
+- Planificador con calendario mensual (semanas empiezan en lunes) para crear/seleccionar sesiones.
+- Backups JSON para exportar/importar el estado completo.
 
-### 3. Alcance inicial
-- Autenticación mediante Supabase (email + contraseña) que habilita sincronización multi-dispositivo. La aplicación mantiene soporte offline gracias a `localStorage`.
-- No se gestionan múltiples agendas ni permisos.
-- No se contempla aún control de acceso por roles, recordatorios ni notificaciones.
-- Primera versión con visualización pensada para mobile (home) y edición avanzada optimizada para desktop, manteniendo responsividad completa.
+### 3. Alcance y restricciones actuales
+- Autenticación obligatoria mediante Supabase (email + contraseña). Todas las rutas están detrás de `/login`.
+- Sincronización multi-dispositivo:
+  - Estado general (objetivos/sesiones/asistentes) vía `planner_states`.
+  - Catálogo de trabajos vía `works`/`work_collaborators` (propietario + colaboradores por email).
+- Offline: el estado se cachea en `localStorage` y la sesión de Supabase se persiste. Sin red se puede navegar y editar sesiones/objetivos/asistentes; la edición/creación del catálogo depende de Supabase.
+- No hay múltiples agendas, roles complejos, recordatorios ni notificaciones.
 
-### 4. Entidades principales
-- **Usuario**: perfil propio, preferencia de idioma/tema (opcional).
-- **Objetivo (Tipo de trabajo)**: categoría que agrupa trabajos con identidad visual propia.
-  - Campos: `id`, `nombre`, `colorHex`, `descripcionMarkdown`, metadata (`created_at`, `updated_at`).
-- **Trabajo**: elemento del catálogo.
-  - Campos: `id`, `nombre`, `objetivoId`, `descripcionMarkdown`, `tiempoEstimado` (minutos), `notas`, `videosYoutube` (array de URLs), metadata (`created_at`, `updated_at`).
-- **Sesión**: planificación asociada a una fecha.
-  - Campos: `id`, `fecha`, `titulo` (ej. "7ª Mei Hua - 1/7"), `descripcion`, `notas`, `trabajos` (secuencia ordenada con referencias a `SesiónTrabajo`), `asistentes` (estado), metadata.
-- **Asistente**: representación ligera de quienes pueden asistir.
-  - Campos: `id`, `nombre`, `notas`, estado activo/inactivo.
-- **SesiónTrabajo** (tabla relacional/orden): mantiene la secuencia.
-  - Campos: `id`, `session_id`, `trabajo_id`, `orden`, `descripcionPersonalizada` (override markdown plegable), `duracionPersonalizada`, `notas`.
-- **SesiónAsistencia**: asociación de asistentes con sesiones y estado (`presente`, `ausente`, `pendiente`).
+### 4. Entidades principales (modelo real en la app)
+- **Usuario**
+  - Usuario autenticado de Supabase (`auth.users`). No existe un perfil adicional en la app.
 
-### 5. Casos de uso clave
-1. **Home de próxima sesión**: al abrir la app, mostrar la sesión más cercana (incluida la de hoy) en vista de solo lectura salvo checkboxes de trabajos completados, con navegación a sesión anterior/siguiente, selector de fecha y acceso directo al modo edición.
-2. **Explorar calendario**: vista mensual/semanal (semanas comienzan en lunes) resaltando fechas con sesiones planificadas; al seleccionar fecha se muestra la lista de sesiones y se puede crear/editar desde ahí.
-3. **Crear sesión**:
-   - Desde cero: seleccionar fecha, añadir título/notas, agregar trabajos desde catálogo.
-   - Desde sesión existente: duplicar sesión previa (incluyendo orden y notas de trabajos), editar lo necesario.
-4. **Editar sesión**: cambiar título/descripcion, plegar/desplegar detalles avanzados de cada trabajo, modificar orden de trabajos (drag & drop), ajustar duraciones, eliminar o insertar nuevos trabajos.
-5. **Gestionar asistencia**: lista de asistentes definidos; marcar presente/ausente con checkboxes; notas rápidas.
-6. **Catálogo de trabajos**:
-   - Crear nuevos trabajos, asignando objetivo/categoría.
-   - Editar/borrar trabajos existentes.
-   - Autocomplete sensible al teclear (por nombre/descripcion/objetivo).
-   - Gestionar enlaces de referencia (vídeos de YouTube) asociados a cada trabajo.
-7. **Gestionar objetivos**: crear/editar objetivos con nombre, color y descripción en markdown para reutilizarlos al definir trabajos.
-8. **Backups**:
-   - Exportar todas las tablas en un JSON legible.
-   - Importar desde JSON para restaurar (con confirmación y manejo de duplicados/conflictos).
+- **Objetivo** (`Objective`)
+  - `id`, `name`, `colorHex`, `descriptionMarkdown`, `createdAt`, `updatedAt`.
 
-### 6. Experiencia de usuario (UX)
-- Interfaz visualmente impactante, con microinteracciones cuidadas, paleta definida y tipografía consistente; Home enfocada en mobile, planificación/edición con layout optimizado para desktop sin perder responsividad.
-- Cabecera fija con branding y menús principales (`Home`, `Planificar`, `Catálogo`, `Objetivos`, `Asistentes`, `Backups`), más accesos rápidos a acciones recurrentes.
-- Home: tarjeta destacada con la próxima sesión (incluida la de hoy), listado compacto de trabajos con único control editable (checkbox de completado), navegación a sesión anterior/siguiente y selector de fecha.
-- Planificación: calendario mensual/semanal (lunes como inicio) con fechas marcadas según objetivos dominantes; al seleccionar una fecha se despliega panel lateral con sesiones del día y opciones de crear/editar.
-- Edición de sesión: lista ordenable por drag & drop fluido; cada fila usa el color del objetivo como fondo o banda lateral, se muestra plegada por defecto y ofrece un botón de acciones (tres puntos) para editar descripción/duración/notas; añadir/quitar trabajos desde catálogo mediante búsqueda/autocomplete contextual. La visualización reutiliza el mismo formato cromático pero sin controles de edición.
-- Contenido de trabajos: descripción en markdown enriquecido y chips de vídeos de YouTube abribles en modal; mostrar indicadores de duración total de la sesión y avisos de guardado automático o manual (a definir, evitando pérdida de cambios).
+- **Trabajo** (`Work`)
+  - Identidad y contenido: `id`, `name`, `subtitle`, `objectiveId`, `parentWorkId`, `descriptionMarkdown`, `estimatedMinutes`, `notes`, `videoUrls`, `createdAt`, `updatedAt`.
+  - Inventario/planificación: `nodeType`, `tags`, `orderHint`, `nextWorkId`, `variantOfWorkId`.
+  - Compartición: `visibility` (`private` | `shared` | `public`), `ownerId`, `ownerEmail`, `collaboratorEmails`, `collaborators`.
+  - Permisos efectivos (calculados): `canEdit`, `isOwner`.
 
-### 7. Flujos resumidos
+- **Sesión** (`Session`)
+  - `id`, `date` (`YYYY-MM-DD`), `kind` (`class` | `personal`), `title`, `description`, `notes`, `startTime` (`HH:mm`), `workItems`, `attendance`, `createdAt`, `updatedAt`.
+
+- **Trabajo en sesión** (`SessionWork`)
+  - `id`, `workId`, `order`, `focusLabel`, `customDescriptionMarkdown`, `customDurationMinutes`, `notes`, `completed`, `result`, `effort`.
+
+- **Asistente** (`Assistant`)
+  - `id`, `name`, `notes`, `active`, `createdAt`, `updatedAt`.
+
+- **Asistencia por sesión** (`SessionAttendance`)
+  - `assistantId`
+  - `status` (previsión: `present` | `absent` | `pending`)
+  - `actualStatus` (real: `present` | `absent`)
+  - `notes`, `actualNotes`
+
+### 5. Casos de uso clave (consistente con UI)
+1. **Home (próxima sesión)**:
+   - Selecciona automáticamente la sesión más cercana (incluida la de hoy).
+   - Permite marcar trabajos completados (`completed`), ver detalles, navegar por sesiones, y saltar a edición (link al planificador con `?session=<id>`).
+   - Permite marcar asistencia real (`actualStatus`) para asistentes activos.
+
+2. **Planificador (calendario mensual)**:
+   - Calendario mensual con inicio de semana en lunes.
+   - Lista de sesiones del mes + sesiones del día seleccionado.
+   - Crear sesión en el día seleccionado, duplicar una sesión al día seleccionado y eliminar sesiones.
+   - Editor completo de sesión con drag & drop y buscador del catálogo.
+
+3. **Personal (Kung Fu)**:
+   - `Personal > Hoy`: plan directo basado en programas + cadencias + histórico de sesiones personales, con registro rápido (`OK/Dudosa/Fallo` + RPE) y recap.
+   - `Personal > Sesiones`: histórico y edición de sesiones personales (sin asistencia).
+   - `Personal > Ajustes`: edita `kungfuPrograms`, `kungfuCadence` y `kungfuTodayPlan`.
+
+4. **Editar sesión**:
+   - Editar título, fecha, hora de inicio, descripción y notas.
+   - Añadir trabajos desde catálogo (búsqueda por nombre/objetivo/descripción/ruta de derivación).
+   - Reordenar trabajos con drag & drop.
+   - Ajustar foco, duración y descripción personalizada; duplicar un ítem; sustituir el trabajo por otro del catálogo.
+   - Editar previsión de asistencia (`status`) por asistente.
+
+5. **Catálogo de trabajos**:
+   - Vista jerárquica (trabajos “Deriva de …” vía `parentWorkId`) y agrupada por objetivos.
+   - Crear/editar/duplicar/eliminar trabajos (si `canEdit`).
+   - Configurar visibilidad (`private/shared/public`) y colaboradores (emails) con rol `editor`.
+   - Detalles: markdown + embeds de YouTube.
+
+6. **Backups**:
+   - Exporta un JSON versionado.
+   - Importa un JSON y sobrescribe el estado local actual (sin paso previo de confirmación en la UI).
+
+### 6. UX (lo que hace hoy la app)
+- Cabecera sticky con navegación: `Home`, `Personal`, `Planificar`, `Trabajos`, `Objetivos`, `Asistentes`, `Backups`.
+- Home optimizada para móvil: checklist de trabajos, horarios calculados desde `startTime` + duraciones, detalles colapsables y panel “asistencia en vivo”.
+- Planificador con calendario mensual y editor integrado.
+- Contenido de trabajos:
+  - Markdown con soporte GFM y enlaces externos abriendo en nueva pestaña.
+  - Embeds de YouTube inline usando `youtube-nocookie.com` + enlace “Abrir en YouTube”.
+  - En la Home, el markdown de trabajos puede autovincular nombres de trabajos al catálogo.
+
+### 7. Flujos resumidos (tal como se comporta hoy)
 - **Duplicar sesión**:
-  1. Elegir fecha origen.
-  2. Click en “Duplicar a…”; seleccionar nueva fecha.
-  3. Crear copia con misma secuencia de trabajos y notas.
-  4. Permitir edición inmediata de la copia.
+  1. Seleccionar el día destino en el planificador.
+  2. Pulsar “Duplicar” sobre una sesión del día.
+  3. Se crea una copia con título `"<título> (copia)"` y `workItems` clonados (incluyendo su estado actual).
+
 - **Registro de asistencia**:
-  1. Definir lista base de asistentes en la configuración.
-  2. Al abrir una sesión, mostrar checkboxes (presente/ausente).
-  3. Guardar estado por sesión.
-  4. Opcional: ver historial de asistencia por alumno (no imprescindible en MVP, pero tener en cuenta para estructura de datos).
+  1. Mantener una lista de asistentes con `active=true`.
+  2. En el editor de sesión: marcar previsión (`status`).
+  3. En la Home: marcar asistencia real (`actualStatus`).
+
 - **Exportar/Importar JSON**:
-  - Export: botón que descarga JSON con todas las tablas (estructurado por entidad).
-  - Import: selector de archivo; previsualización de conteos; botón “Importar” con paso de confirmación.
-- **Marcar trabajos completados**:
-  1. Desde la Home, revisar la próxima sesión en modo lectura.
-  2. Marcar/desmarcar cada trabajo como realizado mediante checkbox.
-  3. Guarda el estado inmediatamente y permite avanzar a la sesión siguiente/anterior.
-- **Gestión de objetivos**:
-  1. Abrir sección `Objetivos` desde la cabecera.
-  2. Crear o editar objetivo definiendo nombre, color y descripción en markdown.
-  3. Asociar trabajos existentes o nuevos a los objetivos disponibles.
+  - Export: descarga un JSON con colecciones y tablas relacionales.
+  - Import: carga y aplica el JSON; tras importar se muestra un resumen de conteos.
 
 ### 8. Persistencia y sincronización
-- **LocalStorage**: fuente de verdad en el MVP. Cada entidad se guarda con clave propia: `sport-planner-usuarios`, `sport-planner-objetivos`, `sport-planner-trabajos`, etc.
-- **Respaldo**: el módulo de import/export opera sobre estas colecciones locales.
-- **Supabase futuro**: se evaluará una sincronización con Supabase para trabajar desde varios dispositivos, reutilizando el mismo formato JSON. No es parte del MVP.
+- **LocalStorage** (cache/offline). Claves:
+  - `sport-planner-objetivos`
+  - `sport-planner-trabajos`
+  - `sport-planner-sesiones`
+  - `sport-planner-asistentes`
+  - `sport-planner-kungfu-programs`
+  - `sport-planner-kungfu-cadence`
+  - `sport-planner-kungfu-today-plan`
+
+- **Supabase (actual)**:
+  - `planner_states`:
+    - En login: descarga `data` del usuario (o lo inicializa con el estado local).
+    - En cambios: sube un snapshot con debounce (~600 ms).
+    - En logout: se resetea el estado local.
+    - `data` incluye también configuración de Personal Kung Fu (`kungfuPrograms`, `kungfuCadence`, `kungfuTodayPlan`).
+  - `works`/`work_collaborators`:
+    - El catálogo se carga desde Supabase y se vuelve a cargar cuando hay cambios (Realtime `postgres_changes`).
+    - La UI se apoya en `canEdit`/`isOwner` calculados en cliente; el filtrado real depende de RLS.
 
 ### 9. Arquitectura y stack
-- SPA puramente cliente construida con React + Vite, generando un bundle estático deployable (GitHub Pages, Netlify, etc.).
-- No se implementará ningún `hooks.server`, `+page.server`, Edge Functions propias ni lógica que requiera un runtime servidor dedicado dentro de la app.
-- Estilado con Tailwind CSS (o librería equivalente) combinada con componentes personalizados para alcanzar la estética descrita.
-- Estado: store global (por ejemplo, Zustand, Redux Toolkit o Context + Reducers) sincronizado con `localStorage`, con listeners para reaccionar a cambios en la pestaña actual.
-- Testing: configurar base mínima (unit tests o e2e ligeros) cuando se empiece desarrollo.
+- React + Vite + TypeScript.
+- Router: `HashRouter` (rutas `#/…`) para evitar configuración adicional del servidor en GitHub Pages.
+- Estado: Zustand con persistencia en `localStorage` y sincronización con Supabase vía hooks.
+- Build: Vite genera el bundle en `sport-planner/` con `base: "/sport-planner/"`.
 
 ### 10. Requisitos no funcionales
-- Clara separación entre catálogo, sesiones y asistentes.
-- Rendimiento fluido en mobile (vista Home) y desktop (edición avanzada).
-- Código mantenible y fácil de desplegar (build simple, idealmente `npm run dev` / `npm run build`).
-- Seguridad básica: al ejecutarse offline/local, no se cubren escenarios multiusuario. Para la sincronización futura se evaluarán opciones de auth.
-- Accesibilidad: componentes navegables con teclado, contraste suficiente.
+- Rendimiento fluido en mobile (Home) y desktop (editor/catálogo).
+- Accesibilidad básica (navegación con teclado, contraste).
+- Seguridad basada en RLS de Supabase (datos por usuario + catálogo con visibilidad/colaboradores).
 
 ### 11. Exportación / Importación
-- Formato JSON versionado (`version`: 1).
-- Estructura sugerida:
+- Formato exportado (versión 1):
   ```json
   {
     "version": 1,
-    "usuarios": [...],
-    "objetivos": [...],
-    "trabajos": [...],
-    "sesiones": [...],
-    "sesiones_trabajos": [...],
-    "asistentes": [...],
-    "sesiones_asistencias": [...]
+    "usuarios": [],
+    "objetivos": [],
+    "trabajos": [],
+    "sesiones": [],
+    "sesiones_trabajos": [],
+    "asistentes": [],
+    "sesiones_asistencias": [],
+    "kungfuPrograms": [],
+    "kungfuCadence": {},
+    "kungfuTodayPlan": {}
   }
   ```
-- Importación debe validar versión y mostrar resumen antes de aplicar. Para restauraciones completas, opción de sobrescribir tablas (requiere confirmación explícita).
+- Importación: soporta `version: 1` y sobrescribe el estado local actual.
 
-### 12. Consideraciones futuras
+### 12. Consideraciones futuras (no implementadas)
 - Reporte de asistencia por alumno y métricas por objetivo.
 - Compartir sesiones por enlace o PDF.
 - Etiquetas adicionales (nivel, equipamiento necesario).
-- Autosave incremental y versión móvil optimizada.
+- Mejorar autosave/conflictos (no hay resolución de conflictos entre dispositivos).
 
-### 13. Próximos pasos
-- Validar si hace falta flujo de alta de asistentes previo o inline desde la sesión.
-- Ajustar frecuencia/estrategia de guardado remoto (debounce, conflictos).
-- Definir diseño visual (paleta, tipografías).
-- Refinar despliegue en plataformas estáticas (GitHub Pages / Netlify) con Supabase como backend remoto.
+### 13. Próximos pasos sugeridos
+- Definir estrategia de conflictos para `planner_states` (por ejemplo, “last write wins” explícito, o merge).
+- Documentar y endurecer las políticas RLS de `works`/`work_collaborators`.
 
 ### 14. Integración Supabase
 
 1. **Variables de entorno**  
-   Crear un archivo `.env.local` (no se versiona) en `apps/sport-planner` con:
+   Crear un `.env.local` en `apps/sport-planner`:
    ```
    VITE_SUPABASE_URL=https://<tu-proyecto>.supabase.co
    VITE_SUPABASE_ANON_KEY=<tu-anon-key>
    ```
 
 2. **Tabla `planner_states`**  
-   Crear una tabla en Supabase con la política RLS activada:
+   Tabla para el snapshot por usuario:
    ```sql
    create table planner_states (
      id uuid primary key default gen_random_uuid(),
@@ -162,11 +198,41 @@
      with check (auth.uid() = user_id);
    ```
 
-3. **Sincronización**  
-   - Al iniciar sesión, se descarga (o inicializa) el snapshot remoto y se guarda también en `localStorage` para uso offline.  
-   - Cada cambio en objetivos, trabajos, sesiones o asistentes se guarda automáticamente con debounce (~600 ms).  
-   - Al cerrar sesión se limpia el estado local.
+3. **Tablas del catálogo (`works`, `work_collaborators`)**  
+   Estructura mínima esperada por el cliente (ajustable):
+   ```sql
+   create type work_visibility as enum ('private', 'shared', 'public');
 
-4. **Flujo de autenticación**  
-   - Formulario unificado para iniciar sesión o registrarse (password) con confirmación por correo.  
-   - El encabezado muestra el email activo y permite cerrar sesión tanto en desktop como en móvil.
+   create table works (
+     id text primary key,
+     name text not null,
+     subtitle text,
+     objective_id text not null,
+     parent_work_id text references works(id) on delete set null,
+     description_markdown text not null default '',
+     estimated_minutes integer,
+     notes text,
+     video_urls jsonb not null default '[]'::jsonb,
+     visibility work_visibility not null default 'private',
+     owner_id uuid not null references auth.users(id) on delete cascade,
+     owner_email text not null default '',
+     created_at timestamptz not null default now(),
+     updated_at timestamptz not null default now()
+   );
+
+   create table work_collaborators (
+     id uuid primary key default gen_random_uuid(),
+     work_id text not null references works(id) on delete cascade,
+     email text not null,
+     role text not null default 'editor',
+     user_id uuid references auth.users(id) on delete set null,
+     created_at timestamptz not null default now(),
+     unique (work_id, email)
+   );
+   ```
+   Notas:
+   - El cliente decide “solo lectura” si el actor no es propietario y su email no está en `work_collaborators`.
+   - El filtrado de “qué trabajos puedo ver” depende de RLS (el cliente hace `select` a `works` y asume que ya está filtrado).
+
+4. **Realtime**  
+   El cliente se suscribe a `postgres_changes` en `public.works` y `public.work_collaborators` para recargar el catálogo cuando cambie.

@@ -13,7 +13,10 @@ import type {
   BackupPayload,
   BackupSessionWork,
   BackupSessionAttendance,
-  BackupSession
+  BackupSession,
+  KungfuProgram,
+  KungfuCadenceConfig,
+  KungfuTodayPlanConfig
 } from '@/types';
 import {
   fetchAccessibleWorks,
@@ -29,7 +32,10 @@ const STORAGE_KEYS = {
   objectives: 'sport-planner-objetivos',
   works: 'sport-planner-trabajos',
   sessions: 'sport-planner-sesiones',
-  assistants: 'sport-planner-asistentes'
+  assistants: 'sport-planner-asistentes',
+  kungfuPrograms: 'sport-planner-kungfu-programs',
+  kungfuCadence: 'sport-planner-kungfu-cadence',
+  kungfuTodayPlan: 'sport-planner-kungfu-today-plan'
 };
 
 const isBrowser = typeof window !== 'undefined';
@@ -38,11 +44,61 @@ const nowIso = () => new Date().toISOString();
 
 const DEFAULT_SESSION_START_TIME = '18:30';
 
+const DEFAULT_KUNGFU_PROGRAMS: KungfuProgram[] = [
+  {
+    id: 'default',
+    name: 'Kung Fu — activo',
+    enabled: true,
+    include: [{ byTags: ['kungfu'] }],
+    exclude: []
+  }
+];
+
+const DEFAULT_KUNGFU_CADENCE: KungfuCadenceConfig = {
+  targetsDays: {
+    work: 7,
+    technique: 5,
+    segment: 8,
+    form: 10,
+    drill: 7
+  },
+  overrides: []
+};
+
+const DEFAULT_KUNGFU_TODAY_PLAN: KungfuTodayPlanConfig = {
+  limitMode: 'count',
+  maxItems: 12,
+  minutesBudget: 30,
+  template: {
+    totalMinutes: 30,
+    focusMinutes: 18,
+    rouletteMinutes: 10,
+    recapMinutes: 2
+  },
+  defaultMinutesByNodeType: {
+    work: 3,
+    technique: 1.5,
+    segment: 6,
+    form: 10,
+    drill: 4,
+    link: 2
+  }
+};
+
 const normalizeParentWorkId = (value?: string | null): string | null => {
   if (!value) return null;
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : null;
 };
+
+const normalizeTagList = (tags?: Array<string | null | undefined>): string[] =>
+  Array.from(
+    new Set(
+      (tags ?? [])
+        .map((tag) => (tag ?? '').trim().toLowerCase())
+        .filter((tag) => tag.length > 0)
+    )
+  );
 
 const normalizeOptionalText = (value?: string | null): string | undefined => {
   if (!value) return undefined;
@@ -62,6 +118,15 @@ const normalizeEmailList = (emails?: Array<string | null | undefined>): string[]
 const ensureWorkDefaults = (input: Partial<Work> & { id: string }): Work => {
   const now = nowIso();
   const parentWorkId = normalizeParentWorkId(input.parentWorkId ?? null);
+  const nextWorkId = normalizeParentWorkId(input.nextWorkId ?? null);
+  const variantOfWorkId = normalizeParentWorkId(input.variantOfWorkId ?? null);
+  const nodeType = normalizeOptionalText(input.nodeType ?? undefined);
+  const tags = normalizeTagList(input.tags);
+  const orderHint =
+    typeof input.orderHint === 'number' && Number.isFinite(input.orderHint)
+      ? input.orderHint
+      : undefined;
+
   const collaboratorsArray = (input.collaborators ?? []).map((item, index) => ({
     id: item.id ?? `${input.id}-collab-${index}`,
     email: (item.email ?? '').trim().toLowerCase(),
@@ -85,6 +150,11 @@ const ensureWorkDefaults = (input: Partial<Work> & { id: string }): Work => {
     subtitle: normalizeOptionalText(input.subtitle),
     objectiveId: input.objectiveId ?? '',
     parentWorkId,
+    nodeType,
+    tags,
+    orderHint,
+    nextWorkId,
+    variantOfWorkId,
     descriptionMarkdown: input.descriptionMarkdown ?? '',
     estimatedMinutes: input.estimatedMinutes ?? 0,
     notes: normalizeOptionalText(input.notes),
@@ -158,6 +228,9 @@ interface CollectionsState {
   works: Work[];
   sessions: Session[];
   assistants: Assistant[];
+  kungfuPrograms: KungfuProgram[];
+  kungfuCadence: KungfuCadenceConfig;
+  kungfuTodayPlan: KungfuTodayPlanConfig;
 }
 
 const persistCollections = (state: Partial<CollectionsState>) => {
@@ -167,6 +240,9 @@ const persistCollections = (state: Partial<CollectionsState>) => {
   window.localStorage.setItem(STORAGE_KEYS.works, JSON.stringify(normalized.works));
   window.localStorage.setItem(STORAGE_KEYS.sessions, JSON.stringify(normalized.sessions));
   window.localStorage.setItem(STORAGE_KEYS.assistants, JSON.stringify(normalized.assistants));
+  window.localStorage.setItem(STORAGE_KEYS.kungfuPrograms, JSON.stringify(normalized.kungfuPrograms));
+  window.localStorage.setItem(STORAGE_KEYS.kungfuCadence, JSON.stringify(normalized.kungfuCadence));
+  window.localStorage.setItem(STORAGE_KEYS.kungfuTodayPlan, JSON.stringify(normalized.kungfuTodayPlan));
 };
 
 const normalizeCollections = (state: Partial<CollectionsState>): CollectionsState => ({
@@ -181,14 +257,19 @@ const normalizeCollections = (state: Partial<CollectionsState>): CollectionsStat
   }),
   sessions: (state.sessions ?? []).map((session) => ({
     ...session,
+    kind: session.kind ?? 'class',
     startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
     workItems: (session.workItems ?? []).map((item) => ({
       ...item,
-      focusLabel: item.focusLabel
+      focusLabel: item.focusLabel,
+      completed: item.completed ?? false
     })),
     attendance: normalizeAttendance(session.attendance as PartialAttendance[])
   })),
-  assistants: state.assistants ?? []
+  assistants: state.assistants ?? [],
+  kungfuPrograms: state.kungfuPrograms ?? DEFAULT_KUNGFU_PROGRAMS,
+  kungfuCadence: state.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE,
+  kungfuTodayPlan: state.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN
 });
 
 interface ObjectiveInput {
@@ -202,6 +283,7 @@ type WorkPatchInput = WorkUpdateInput;
 
 interface SessionInput {
   date: string;
+  kind?: 'class' | 'personal';
   title: string;
   description?: string;
   notes?: string;
@@ -229,11 +311,17 @@ interface AppState {
   worksLoading: boolean;
   sessions: Session[];
   assistants: Assistant[];
+  kungfuPrograms: KungfuProgram[];
+  kungfuCadence: KungfuCadenceConfig;
+  kungfuTodayPlan: KungfuTodayPlanConfig;
   hydrate: () => void;
   setCollections: (payload: CollectionsState) => void;
   setWorks: (works: Work[]) => void;
   loadWorks: (context: WorkActionContext) => Promise<void>;
   reset: () => void;
+  setKungfuPrograms: (programs: KungfuProgram[]) => void;
+  setKungfuCadence: (cadence: KungfuCadenceConfig) => void;
+  setKungfuTodayPlan: (plan: KungfuTodayPlanConfig) => void;
   addObjective: (input: ObjectiveInput) => Objective;
   updateObjective: (id: string, patch: Partial<ObjectiveInput>) => void;
   deleteObjective: (id: string) => boolean;
@@ -282,6 +370,9 @@ export const useAppStore = create<AppState>((set, get) => ({
   worksLoading: false,
   sessions: [],
   assistants: [],
+  kungfuPrograms: DEFAULT_KUNGFU_PROGRAMS,
+  kungfuCadence: DEFAULT_KUNGFU_CADENCE,
+  kungfuTodayPlan: DEFAULT_KUNGFU_TODAY_PLAN,
   hydrate: () => {
     if (get().ready) return;
     const objectives = loadCollection<Objective[]>(STORAGE_KEYS.objectives, []);
@@ -295,19 +386,30 @@ export const useAppStore = create<AppState>((set, get) => ({
     });
     const sessions = loadCollection<Session[]>(STORAGE_KEYS.sessions, []).map((session) => ({
       ...session,
+      kind: session.kind ?? 'class',
       startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
       workItems: (session.workItems ?? []).map((item) => ({
         ...item,
-        focusLabel: item.focusLabel
+        focusLabel: item.focusLabel,
+        completed: item.completed ?? false
       })),
       attendance: normalizeAttendance(session.attendance as PartialAttendance[])
     }));
     const assistants = loadCollection<Assistant[]>(STORAGE_KEYS.assistants, []);
+    const kungfuPrograms = loadCollection<KungfuProgram[]>(STORAGE_KEYS.kungfuPrograms, DEFAULT_KUNGFU_PROGRAMS);
+    const kungfuCadence = loadCollection<KungfuCadenceConfig>(STORAGE_KEYS.kungfuCadence, DEFAULT_KUNGFU_CADENCE);
+    const kungfuTodayPlan = loadCollection<KungfuTodayPlanConfig>(
+      STORAGE_KEYS.kungfuTodayPlan,
+      DEFAULT_KUNGFU_TODAY_PLAN
+    );
     set({
       objectives,
       works,
       sessions,
       assistants,
+      kungfuPrograms,
+      kungfuCadence,
+      kungfuTodayPlan,
       ready: true
     });
   },
@@ -317,7 +419,10 @@ export const useAppStore = create<AppState>((set, get) => ({
         objectives: payload.objectives ?? state.objectives,
         works: payload.works ?? state.works,
         sessions: payload.sessions ?? state.sessions,
-        assistants: payload.assistants ?? state.assistants
+        assistants: payload.assistants ?? state.assistants,
+        kungfuPrograms: payload.kungfuPrograms ?? state.kungfuPrograms,
+        kungfuCadence: payload.kungfuCadence ?? state.kungfuCadence,
+        kungfuTodayPlan: payload.kungfuTodayPlan ?? state.kungfuTodayPlan
       });
       const merged = {
         ...state,
@@ -363,6 +468,11 @@ export const useAppStore = create<AppState>((set, get) => ({
               subtitle: legacy.subtitle,
               objectiveId: legacy.objectiveId,
               parentWorkId: legacy.parentWorkId ?? null,
+              nodeType: legacy.nodeType,
+              tags: legacy.tags,
+              orderHint: legacy.orderHint,
+              nextWorkId: legacy.nextWorkId ?? null,
+              variantOfWorkId: legacy.variantOfWorkId ?? null,
               descriptionMarkdown: legacy.descriptionMarkdown,
               estimatedMinutes: legacy.estimatedMinutes,
               notes: legacy.notes,
@@ -417,7 +527,10 @@ export const useAppStore = create<AppState>((set, get) => ({
         objectives: [],
         works: [],
         sessions: [],
-        assistants: []
+        assistants: [],
+        kungfuPrograms: DEFAULT_KUNGFU_PROGRAMS,
+        kungfuCadence: DEFAULT_KUNGFU_CADENCE,
+        kungfuTodayPlan: DEFAULT_KUNGFU_TODAY_PLAN
       });
       const merged = {
         ...state,
@@ -425,6 +538,30 @@ export const useAppStore = create<AppState>((set, get) => ({
         ready: true,
         worksLoading: false
       };
+      persistCollections(merged);
+      return merged;
+    });
+  },
+  setKungfuPrograms: (programs) => {
+    const normalizedPrograms = Array.isArray(programs) ? programs : DEFAULT_KUNGFU_PROGRAMS;
+    set((state) => {
+      const merged = { ...state, kungfuPrograms: normalizedPrograms };
+      persistCollections(merged);
+      return merged;
+    });
+  },
+  setKungfuCadence: (cadence) => {
+    const normalizedCadence = cadence ?? DEFAULT_KUNGFU_CADENCE;
+    set((state) => {
+      const merged = { ...state, kungfuCadence: normalizedCadence };
+      persistCollections(merged);
+      return merged;
+    });
+  },
+  setKungfuTodayPlan: (plan) => {
+    const normalizedPlan = plan ?? DEFAULT_KUNGFU_TODAY_PLAN;
+    set((state) => {
+      const merged = { ...state, kungfuTodayPlan: normalizedPlan };
       persistCollections(merged);
       return merged;
     });
@@ -486,6 +623,12 @@ export const useAppStore = create<AppState>((set, get) => ({
       subtitle: normalizeOptionalText(input.subtitle),
       objectiveId: input.objectiveId,
       parentWorkId,
+      nodeType: normalizeOptionalText(input.nodeType) ?? undefined,
+      tags: normalizeTagList(input.tags),
+      orderHint:
+        typeof input.orderHint === 'number' && Number.isFinite(input.orderHint) ? input.orderHint : undefined,
+      nextWorkId: normalizeParentWorkId(input.nextWorkId ?? null),
+      variantOfWorkId: normalizeParentWorkId(input.variantOfWorkId ?? null),
       descriptionMarkdown: input.descriptionMarkdown,
       estimatedMinutes: input.estimatedMinutes,
       notes: normalizeOptionalText(input.notes),
@@ -533,6 +676,18 @@ export const useAppStore = create<AppState>((set, get) => ({
       ...patch,
       subtitle: patch.subtitle !== undefined ? normalizeOptionalText(patch.subtitle) ?? null : undefined,
       parentWorkId,
+      nodeType: patch.nodeType !== undefined ? normalizeOptionalText(patch.nodeType ?? undefined) ?? null : undefined,
+      tags: patch.tags ? normalizeTagList(patch.tags) : undefined,
+      orderHint:
+        patch.orderHint !== undefined
+          ? typeof patch.orderHint === 'number' && Number.isFinite(patch.orderHint)
+            ? patch.orderHint
+            : null
+          : undefined,
+      nextWorkId:
+        patch.nextWorkId !== undefined ? normalizeParentWorkId(patch.nextWorkId ?? null) : undefined,
+      variantOfWorkId:
+        patch.variantOfWorkId !== undefined ? normalizeParentWorkId(patch.variantOfWorkId ?? null) : undefined,
       notes: patch.notes !== undefined ? normalizeOptionalText(patch.notes) ?? null : undefined,
       videoUrls: patch.videoUrls
         ? patch.videoUrls.map((url) => url.trim()).filter((url) => url.length > 0)
@@ -580,6 +735,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     const session: Session = {
       id: nanoid(),
       date: input.date,
+      kind: input.kind ?? 'class',
       title: input.title,
       description: input.description,
       notes: input.notes,
@@ -610,11 +766,15 @@ export const useAppStore = create<AppState>((set, get) => ({
       updatedAt: now,
       title: `${session.title} (copia)`
     };
-    clone.workItems = session.workItems.map((item, index) => ({
-      ...item,
-      id: nanoid(),
-      order: index
-    }));
+    clone.workItems = session.workItems
+      .slice()
+      .sort((a, b) => a.order - b.order)
+      .map((item, index) => ({
+        ...item,
+        id: nanoid(),
+        order: index,
+        completed: false
+      }));
     clone.attendance = session.attendance.map((entry) => ({
       assistantId: entry.assistantId,
       status: 'pending',
@@ -976,10 +1136,31 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     const works = (payload.trabajos ?? []).map((work) => {
       const legacyParent = (work as unknown as { parent_work_id?: string | null }).parent_work_id;
+      const legacyNodeType = (work as unknown as { node_type?: string | null }).node_type;
+      const legacyTags = (work as unknown as { tags?: unknown }).tags;
+      const legacyOrderHint = (work as unknown as { order_hint?: number | null }).order_hint;
+      const legacyNext = (work as unknown as { next_work_id?: string | null }).next_work_id;
+      const legacyVariant = (work as unknown as { variant_of_work_id?: string | null }).variant_of_work_id;
       return {
         ...work,
         subtitle: normalizeOptionalText(work.subtitle),
         parentWorkId: normalizeParentWorkId(work.parentWorkId ?? legacyParent ?? null),
+        nodeType: normalizeOptionalText(work.nodeType ?? legacyNodeType ?? undefined),
+        tags: normalizeTagList(
+          Array.isArray(work.tags)
+            ? work.tags
+            : Array.isArray(legacyTags)
+              ? (legacyTags as string[])
+              : []
+        ),
+        orderHint:
+          typeof work.orderHint === 'number'
+            ? work.orderHint
+            : typeof legacyOrderHint === 'number'
+              ? legacyOrderHint
+              : undefined,
+        nextWorkId: normalizeParentWorkId(work.nextWorkId ?? legacyNext ?? null),
+        variantOfWorkId: normalizeParentWorkId(work.variantOfWorkId ?? legacyVariant ?? null),
         createdAt: work.createdAt ?? now,
         updatedAt: work.updatedAt ?? now,
         videoUrls: work.videoUrls ?? []
@@ -993,6 +1174,10 @@ export const useAppStore = create<AppState>((set, get) => ({
       active: assistant.active ?? true
     }));
 
+    const kungfuPrograms = payload.kungfuPrograms ?? DEFAULT_KUNGFU_PROGRAMS;
+    const kungfuCadence = payload.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE;
+    const kungfuTodayPlan = payload.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN;
+
     const sessionsById = new Map<string, Session>();
 
     (payload.sesiones ?? []).forEach((raw: BackupSession) => {
@@ -1000,6 +1185,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       const session: Session = {
         id: sessionId,
         date: raw.date ?? dayjs().format('YYYY-MM-DD'),
+        kind: raw.kind ?? 'class',
         title: raw.title ?? 'Sesión importada',
         description: raw.description,
         notes: raw.notes,
@@ -1011,7 +1197,9 @@ export const useAppStore = create<AppState>((set, get) => ({
           customDurationMinutes: item.customDurationMinutes,
           notes: item.notes,
           focusLabel: item.focusLabel,
-          completed: item.completed ?? false
+          completed: item.completed ?? false,
+          result: item.result,
+          effort: item.effort
         })),
         attendance: normalizeAttendance(raw.attendance as PartialAttendance[]),
         startTime: raw.startTime ?? DEFAULT_SESSION_START_TIME,
@@ -1031,6 +1219,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         sessionsById.set(sessionId, {
           id: sessionId,
           date: raw.fecha ? dayjs(raw.fecha).format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD'),
+          kind: 'class',
           title: raw.titulo ?? 'Sesión importada',
           description: raw.descripcion,
           notes: raw.notasSesion ?? raw.notas,
@@ -1050,7 +1239,9 @@ export const useAppStore = create<AppState>((set, get) => ({
         customDurationMinutes: raw.duracionPersonalizada,
         notes: raw.notas,
         focusLabel: raw.focusLabel ?? raw.foco,
-        completed: false
+        completed: raw.completed ?? false,
+        result: (raw.result ?? raw.resultado) as SessionWork['result'] | undefined,
+        effort: raw.effort ?? raw.esfuerzo
       });
     });
 
@@ -1099,9 +1290,12 @@ export const useAppStore = create<AppState>((set, get) => ({
       works,
       sessions,
       assistants,
+      kungfuPrograms,
+      kungfuCadence,
+      kungfuTodayPlan,
       ready: true
     });
-    persistCollections({ objectives, works, sessions, assistants });
+    persistCollections({ objectives, works, sessions, assistants, kungfuPrograms, kungfuCadence, kungfuTodayPlan });
   },
   exportBackup: () => {
     const state = get();
@@ -1115,7 +1309,10 @@ export const useAppStore = create<AppState>((set, get) => ({
         duracionPersonalizada: item.customDurationMinutes,
         notas: item.notes,
         foco: item.focusLabel,
-        focusLabel: item.focusLabel
+        focusLabel: item.focusLabel,
+        completed: item.completed ?? false,
+        result: item.result,
+        effort: item.effort
       }))
     );
     const sesionesAsistencias: BackupSessionAttendance[] = state.sessions.flatMap((session) =>
@@ -1142,6 +1339,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     const sesiones: BackupSession[] = state.sessions.map((session) => ({
       id: session.id,
       date: session.date,
+      kind: session.kind,
       title: session.title,
       description: session.description,
       notes: session.notes,
@@ -1158,7 +1356,10 @@ export const useAppStore = create<AppState>((set, get) => ({
       sesiones,
       sesiones_trabajos: sesionesTrabajos,
       asistentes: state.assistants,
-      sesiones_asistencias: sesionesAsistencias
+      sesiones_asistencias: sesionesAsistencias,
+      kungfuPrograms: state.kungfuPrograms,
+      kungfuCadence: state.kungfuCadence,
+      kungfuTodayPlan: state.kungfuTodayPlan
     };
     return payload;
   }

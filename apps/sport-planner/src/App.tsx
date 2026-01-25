@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { HashRouter, Routes, Route, NavLink, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Dialog } from '@headlessui/react';
 
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/useAuth';
 import { useSupabaseSync } from '@/hooks/useSupabaseSync';
 import { useCollaborativeWorks } from '@/hooks/useCollaborativeWorks';
 import HomeView from './pages/HomeView';
@@ -12,10 +12,13 @@ import ObjectivesView from './pages/ObjectivesView';
 import AssistantsView from './pages/AssistantsView';
 import BackupsView from './pages/BackupsView';
 import LoginView from './pages/LoginView';
+import PersonalTodayView from './pages/PersonalTodayView';
+import PersonalSessionsView from './pages/PersonalSessionsView';
+import PersonalSettingsView from './pages/PersonalSettingsView';
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Home' },
-  { to: '/plan', label: 'Planificar' },
+  { to: '/', label: 'Sesiones' },
+  { to: '/personal', label: 'Personal' },
   { to: '/catalog', label: 'Trabajos' },
   { to: '/objectives', label: 'Objetivos' },
   { to: '/assistants', label: 'Asistentes' },
@@ -216,6 +219,9 @@ export default function App() {
         <Route element={<RequireAuth />}>
           <Route element={<AppLayout />}>
             <Route index element={<HomeView />} />
+            <Route path="personal" element={<PersonalTodayView />} />
+            <Route path="personal/sessions" element={<PersonalSessionsView />} />
+            <Route path="personal/settings" element={<PersonalSettingsView />} />
             <Route path="plan" element={<PlannerView />} />
             <Route path="catalog" element={<CatalogView />} />
             <Route path="objectives" element={<ObjectivesView />} />

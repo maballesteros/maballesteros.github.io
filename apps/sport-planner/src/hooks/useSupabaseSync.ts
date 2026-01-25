@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 
 import { supabase } from '@/lib/supabaseClient';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/useAuth';
 import { useAppStore, type CollectionsState, type AppState } from '@/store/appStore';
+import type { KungfuTodayPlanConfig } from '@/types';
 
 interface PlannerStatePayload extends CollectionsState {
   version?: number;
@@ -15,11 +16,55 @@ interface PlannerStateRow {
 
 const VERSION = 1;
 
+const DEFAULT_KUNGFU_PROGRAMS = [
+  {
+    id: 'default',
+    name: 'Kung Fu — activo',
+    enabled: true,
+    include: [{ byTags: ['kungfu'] }],
+    exclude: []
+  }
+];
+
+const DEFAULT_KUNGFU_CADENCE = {
+  targetsDays: {
+    work: 7,
+    technique: 5,
+    segment: 8,
+    form: 10,
+    drill: 7
+  },
+  overrides: []
+};
+
+const DEFAULT_KUNGFU_TODAY_PLAN: KungfuTodayPlanConfig = {
+  limitMode: 'count',
+  maxItems: 12,
+  minutesBudget: 30,
+  template: {
+    totalMinutes: 30,
+    focusMinutes: 18,
+    rouletteMinutes: 10,
+    recapMinutes: 2
+  },
+  defaultMinutesByNodeType: {
+    work: 3,
+    technique: 1.5,
+    segment: 6,
+    form: 10,
+    drill: 4,
+    link: 2
+  }
+};
+
 const selectCollections = (state: AppState): CollectionsState => ({
   objectives: state.objectives,
   works: state.works,
   sessions: state.sessions,
-  assistants: state.assistants
+  assistants: state.assistants,
+  kungfuPrograms: state.kungfuPrograms,
+  kungfuCadence: state.kungfuCadence,
+  kungfuTodayPlan: state.kungfuTodayPlan
 });
 
 const normalizeCollections = (payload: Partial<PlannerStatePayload>): CollectionsState => ({
@@ -27,17 +72,24 @@ const normalizeCollections = (payload: Partial<PlannerStatePayload>): Collection
   works: payload.works ?? [],
   sessions: (payload.sessions ?? []).map((session) => ({
     ...session,
+    kind: session.kind ?? 'class',
     workItems: session.workItems ?? [],
     attendance: session.attendance ?? []
   })),
-  assistants: payload.assistants ?? []
+  assistants: payload.assistants ?? [],
+  kungfuPrograms: payload.kungfuPrograms ?? DEFAULT_KUNGFU_PROGRAMS,
+  kungfuCadence: payload.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE,
+  kungfuTodayPlan: payload.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN
 });
 
 const collectionsChanged = (a: CollectionsState, b: CollectionsState) =>
   a.objectives !== b.objectives ||
   a.works !== b.works ||
   a.sessions !== b.sessions ||
-  a.assistants !== b.assistants;
+  a.assistants !== b.assistants ||
+  a.kungfuPrograms !== b.kungfuPrograms ||
+  a.kungfuCadence !== b.kungfuCadence ||
+  a.kungfuTodayPlan !== b.kungfuTodayPlan;
 
 export function useSupabaseSync() {
   const { user } = useAuth();

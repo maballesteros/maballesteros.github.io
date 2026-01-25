@@ -10,7 +10,7 @@ import { MarkdownContent } from '@/components/MarkdownContent';
 import { ObjectiveChip } from '@/components/ObjectiveChip';
 import { YouTubePreview } from '@/components/YouTubePreview';
 import { Menu } from '@headlessui/react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/useAuth';
 
 interface WorkFormState {
   id?: string;
@@ -18,6 +18,11 @@ interface WorkFormState {
   subtitle: string;
   objectiveId: string;
   parentWorkId: string;
+  nodeType: string;
+  tags: string;
+  orderHint: number;
+  nextWorkId: string;
+  variantOfWorkId: string;
   descriptionMarkdown: string;
   estimatedMinutes: number;
   notes: string;
@@ -37,6 +42,11 @@ const EMPTY_FORM: WorkFormState = {
   subtitle: '',
   objectiveId: '',
   parentWorkId: '',
+  nodeType: '',
+  tags: '',
+  orderHint: 0,
+  nextWorkId: '',
+  variantOfWorkId: '',
   descriptionMarkdown: '',
   estimatedMinutes: 10,
   notes: '',
@@ -44,6 +54,18 @@ const EMPTY_FORM: WorkFormState = {
   visibility: 'private',
   collaborators: ['']
 };
+
+const parseTagsInput = (input: string): string[] =>
+  Array.from(
+    new Set(
+      input
+        .split(',')
+        .map((tag) => tag.trim().toLowerCase())
+        .filter((tag) => tag.length > 0)
+    )
+  );
+
+const serializeTags = (tags: string[]) => tags.join(', ');
 
 interface FeedbackMessage {
   type: 'success' | 'error';
@@ -83,6 +105,8 @@ interface WorkViewCardProps {
   childCount: number;
   depth: number;
   expanded: boolean;
+  nextLabel?: string;
+  variantLabel?: string;
   onToggle: () => void;
   onEdit: () => void;
   onDuplicate: () => void;
@@ -96,6 +120,8 @@ function WorkViewCard({
   childCount,
   depth,
   expanded,
+  nextLabel,
+  variantLabel,
   onToggle,
   onEdit,
   onDuplicate,
@@ -119,6 +145,8 @@ function WorkViewCard({
   const canEdit = work.canEdit ?? false;
   const isOwner = work.isOwner ?? false;
   const ownerEmail = (work.ownerEmail ?? '').trim();
+  const nodeType = (work.nodeType ?? '').trim();
+  const tags = work.tags ?? [];
 
   return (
     <article
@@ -168,6 +196,19 @@ function WorkViewCard({
               <span className="rounded-full border border-white/20 px-2 py-0.5 text-[10px] font-semibold text-white/70">
                 {visibilityLabel}
               </span>
+              {nodeType ? (
+                <span className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 text-[10px] font-semibold text-white/70">
+                  {nodeType}
+                </span>
+              ) : null}
+              {tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] font-semibold text-white/60"
+                >
+                  {tag}
+                </span>
+              ))}
               {isOwner ? (
                 <span>Propietario</span>
               ) : ownerEmail ? (
@@ -178,6 +219,8 @@ function WorkViewCard({
                   +{collaboratorCount} colaborador{collaboratorCount === 1 ? '' : 'es'}
                 </span>
               ) : null}
+              {variantLabel ? <span className="text-white/50">Variante de: {variantLabel}</span> : null}
+              {nextLabel ? <span className="text-white/50">Siguiente: {nextLabel}</span> : null}
               {!canEdit ? <span className="text-amber-300/80">Solo lectura</span> : null}
             </div>
           </span>
@@ -322,6 +365,7 @@ interface WorkEditCardProps {
   form: WorkFormState;
   objectiveOptions: Objective[];
   parentOptions: Array<{ id: string; label: string }>;
+  workOptions: Array<{ id: string; label: string }>;
   depth: number;
   onFieldChange: (patch: Partial<WorkFormState>) => void;
   onVideoChange: (index: number, value: string) => void;
@@ -344,6 +388,7 @@ function WorkEditCard({
   form,
   objectiveOptions,
   parentOptions,
+  workOptions,
   depth,
   onFieldChange,
   onVideoChange,
@@ -363,6 +408,8 @@ function WorkEditCard({
 }: WorkEditCardProps) {
   const currentObjective = objectiveOptions.find((objective) => objective.id === form.objectiveId);
   const currentParent = parentOptions.find((option) => option.id === form.parentWorkId);
+  const currentNext = workOptions.find((option) => option.id === form.nextWorkId);
+  const currentVariant = workOptions.find((option) => option.id === form.variantOfWorkId);
   const indentStyle = depth > 0 ? { marginLeft: `${depth * 1.5}rem` } : undefined;
   const nameInputId = form.id ? `work-name-${form.id}` : undefined;
   const subtitleInputId = form.id ? `work-subtitle-${form.id}` : undefined;
@@ -462,6 +509,84 @@ function WorkEditCard({
             onChange={(event) => onFieldChange({ estimatedMinutes: Number(event.target.value) })}
             disabled={!canEditContent}
           />
+        </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-2">
+          <label className="text-xs uppercase tracking-wide text-white/40">Node type (opcional)</label>
+          <input
+            type="text"
+            className="input-field disabled:opacity-60"
+            value={form.nodeType}
+            onChange={(event) => onFieldChange({ nodeType: event.target.value })}
+            placeholder="Ej. form, segment, technique…"
+            disabled={!canEditContent}
+          />
+        </div>
+        <div className="grid gap-2">
+          <label className="text-xs uppercase tracking-wide text-white/40">Tags (coma-separadas)</label>
+          <input
+            type="text"
+            className="input-field disabled:opacity-60"
+            value={form.tags}
+            onChange={(event) => onFieldChange({ tags: event.target.value })}
+            placeholder="Ej. kungfu, shaolin, form"
+            disabled={!canEditContent}
+          />
+        </div>
+        <div className="grid gap-2">
+          <label className="text-xs uppercase tracking-wide text-white/40">Order hint (opcional)</label>
+          <input
+            type="number"
+            min={0}
+            className="input-field disabled:opacity-60"
+            value={form.orderHint}
+            onChange={(event) => onFieldChange({ orderHint: Number(event.target.value) })}
+            disabled={!canEditContent}
+          />
+        </div>
+        <div className="grid gap-2">
+          <label className="text-xs uppercase tracking-wide text-white/40">Siguiente (next)</label>
+          <select
+            className="input-field disabled:opacity-60"
+            value={form.nextWorkId}
+            onChange={(event) => onFieldChange({ nextWorkId: event.target.value })}
+            disabled={!canEditContent}
+          >
+            <option value="">Sin siguiente</option>
+            {workOptions
+              .filter((option) => option.id !== form.id)
+              .map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+          </select>
+          {form.nextWorkId && currentNext ? (
+            <p className="text-xs text-white/40">Siguiente: {currentNext.label}</p>
+          ) : null}
+        </div>
+        <div className="grid gap-2 sm:col-span-2">
+          <label className="text-xs uppercase tracking-wide text-white/40">Variante de (variant_of)</label>
+          <select
+            className="input-field disabled:opacity-60"
+            value={form.variantOfWorkId}
+            onChange={(event) => onFieldChange({ variantOfWorkId: event.target.value })}
+            disabled={!canEditContent}
+          >
+            <option value="">Sin base</option>
+            {workOptions
+              .filter((option) => option.id !== form.id)
+              .map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+          </select>
+          {form.variantOfWorkId && currentVariant ? (
+            <p className="text-xs text-white/40">Variante de: {currentVariant.label}</p>
+          ) : null}
         </div>
       </div>
 
@@ -789,31 +914,49 @@ export default function CatalogView() {
     [works, workPathById, descendantIdsByWorkId, worksById, objectiveMap]
   );
 
-  const searchTerm = search.trim().toLowerCase();
-
-  const matchesSearch = (workData: {
-    id?: string;
-    name: string;
-    subtitle?: string;
-    descriptionMarkdown: string;
-    objectiveId: string;
-    parentWorkId?: string;
-  }) => {
-    if (!searchTerm) return true;
-    const objectiveName = objectiveMap.get(workData.objectiveId)?.name ?? '';
-    const parentPath = workData.parentWorkId ? workPathById.get(workData.parentWorkId) ?? '' : '';
-    const selfPath = workData.id ? workPathById.get(workData.id) ?? '' : '';
-    return (
-      workData.name.toLowerCase().includes(searchTerm) ||
-      (workData.subtitle ?? '').toLowerCase().includes(searchTerm) ||
-      workData.descriptionMarkdown.toLowerCase().includes(searchTerm) ||
-      objectiveName.toLowerCase().includes(searchTerm) ||
-      parentPath.toLowerCase().includes(searchTerm) ||
-      selfPath.toLowerCase().includes(searchTerm)
-    );
-  };
+  const workOptions = useMemo(
+    () =>
+      works
+        .map((work) => {
+          const basePath = workPathById.get(work.id) ?? work.name;
+          const objectiveName = objectiveMap.get(work.objectiveId)?.name;
+          const label = objectiveName ? `${objectiveName} · ${basePath}` : basePath;
+          return { id: work.id, label };
+        })
+        .sort((a, b) => a.label.localeCompare(b.label, 'es', { sensitivity: 'base' })),
+    [works, workPathById, objectiveMap]
+  );
 
   const allEntries: WorkEntry[] = useMemo(() => {
+    const searchTerm = search.trim().toLowerCase();
+    const matchesSearch = (workData: {
+      id?: string;
+      name: string;
+      subtitle?: string;
+      descriptionMarkdown: string;
+      objectiveId: string;
+      parentWorkId?: string;
+      nodeType?: string;
+      tags?: string[] | string;
+    }) => {
+      if (!searchTerm) return true;
+      const objectiveName = objectiveMap.get(workData.objectiveId)?.name ?? '';
+      const parentPath = workData.parentWorkId ? workPathById.get(workData.parentWorkId) ?? '' : '';
+      const selfPath = workData.id ? workPathById.get(workData.id) ?? '' : '';
+      const nodeType = (workData.nodeType ?? '').toLowerCase();
+      const tagText = Array.isArray(workData.tags) ? workData.tags.join(' ') : workData.tags ?? '';
+      return (
+        workData.name.toLowerCase().includes(searchTerm) ||
+        (workData.subtitle ?? '').toLowerCase().includes(searchTerm) ||
+        workData.descriptionMarkdown.toLowerCase().includes(searchTerm) ||
+        objectiveName.toLowerCase().includes(searchTerm) ||
+        parentPath.toLowerCase().includes(searchTerm) ||
+        selfPath.toLowerCase().includes(searchTerm) ||
+        nodeType.includes(searchTerm) ||
+        tagText.toLowerCase().includes(searchTerm)
+      );
+    };
+
     const entries: WorkEntry[] = [];
     const computeDepth = (parentId?: string) => {
       if (!parentId) return 0;
@@ -836,6 +979,8 @@ export default function CatalogView() {
         id: work.id,
         name: work.name,
         subtitle: work.subtitle ?? '',
+        nodeType: work.nodeType ?? '',
+        tags: work.tags ?? [],
         descriptionMarkdown: work.descriptionMarkdown,
         objectiveId: work.objectiveId,
         parentWorkId: work.parentWorkId ?? ''
@@ -876,7 +1021,7 @@ export default function CatalogView() {
     });
 
     return entries;
-  }, [works, worksById, editingEntries, matchesSearch]);
+  }, [works, worksById, editingEntries, objectiveMap, workPathById, search]);
 
   const groupedEntries = useMemo(() => {
     const groups = new Map<string, WorkEntry[]>();
@@ -961,6 +1106,11 @@ export default function CatalogView() {
             subtitle: work.subtitle ?? '',
             objectiveId: work.objectiveId,
             parentWorkId: work.parentWorkId ?? '',
+            nodeType: work.nodeType ?? '',
+            tags: serializeTags(work.tags ?? []),
+            orderHint: work.orderHint ?? 0,
+            nextWorkId: work.nextWorkId ?? '',
+            variantOfWorkId: work.variantOfWorkId ?? '',
             descriptionMarkdown: work.descriptionMarkdown,
             estimatedMinutes: work.estimatedMinutes,
             notes: work.notes ?? '',
@@ -1012,6 +1162,11 @@ export default function CatalogView() {
           subtitle: work.subtitle ?? '',
           objectiveId: work.objectiveId,
           parentWorkId: work.parentWorkId ?? '',
+          nodeType: work.nodeType ?? '',
+          tags: serializeTags(work.tags ?? []),
+          orderHint: work.orderHint ?? 0,
+          nextWorkId: '',
+          variantOfWorkId: '',
           descriptionMarkdown: work.descriptionMarkdown,
           estimatedMinutes: work.estimatedMinutes,
           notes: work.notes ?? '',
@@ -1098,11 +1253,24 @@ export default function CatalogView() {
 
     const parentValue = (entry.data.parentWorkId ?? '').trim();
     const parentWorkId = parentValue.length > 0 ? parentValue : undefined;
+    const nodeTypeValue = entry.data.nodeType.trim();
+    const nodeType = nodeTypeValue.length > 0 ? nodeTypeValue : undefined;
+    const tags = parseTagsInput(entry.data.tags);
+    const orderHint = Number(entry.data.orderHint) > 0 ? Number(entry.data.orderHint) : undefined;
+    const nextValue = (entry.data.nextWorkId ?? '').trim();
+    const nextWorkId = nextValue.length > 0 ? nextValue : undefined;
+    const variantValue = (entry.data.variantOfWorkId ?? '').trim();
+    const variantOfWorkId = variantValue.length > 0 ? variantValue : undefined;
 
     const payload = {
       name: entry.data.name.trim(),
       subtitle: entry.data.subtitle.trim() || undefined,
       objectiveId: entry.data.objectiveId,
+      nodeType,
+      tags,
+      orderHint,
+      nextWorkId,
+      variantOfWorkId,
       descriptionMarkdown: entry.data.descriptionMarkdown,
       estimatedMinutes: Number(entry.data.estimatedMinutes) || 0,
       notes: entry.data.notes.trim() || undefined,
@@ -1140,6 +1308,16 @@ export default function CatalogView() {
       }
     }
 
+    if (entry.originalId && payload.nextWorkId === entry.originalId) {
+      setFeedback({ type: 'error', text: 'Un trabajo no puede tenerse como siguiente.' });
+      return;
+    }
+
+    if (entry.originalId && payload.variantOfWorkId === entry.originalId) {
+      setFeedback({ type: 'error', text: 'Un trabajo no puede ser variante de sí mismo.' });
+      return;
+    }
+
     const currentWork = entry.originalId ? worksById.get(entry.originalId) : undefined;
     const canManageSharing = entry.isNew || (currentWork?.isOwner ?? false);
 
@@ -1152,6 +1330,11 @@ export default function CatalogView() {
             subtitle: payload.subtitle,
             objectiveId: payload.objectiveId,
             parentWorkId: payload.parentWorkId,
+            nodeType: payload.nodeType,
+            tags: payload.tags,
+            orderHint: payload.orderHint,
+            nextWorkId: payload.nextWorkId,
+            variantOfWorkId: payload.variantOfWorkId,
             descriptionMarkdown: payload.descriptionMarkdown,
             estimatedMinutes: payload.estimatedMinutes,
             notes: payload.notes,
@@ -1174,6 +1357,11 @@ export default function CatalogView() {
           subtitle: payload.subtitle ?? null,
           objectiveId: payload.objectiveId,
           parentWorkId: payload.parentWorkId ?? null,
+          nodeType: payload.nodeType ?? null,
+          tags: payload.tags,
+          orderHint: payload.orderHint ?? null,
+          nextWorkId: payload.nextWorkId ?? null,
+          variantOfWorkId: payload.variantOfWorkId ?? null,
           descriptionMarkdown: payload.descriptionMarkdown,
           estimatedMinutes: payload.estimatedMinutes,
           notes: payload.notes ?? null,
@@ -1323,6 +1511,7 @@ export default function CatalogView() {
                           form={entry.form}
                           objectiveOptions={sortedObjectives}
                           parentOptions={parentOptions}
+                          workOptions={workOptions}
                           depth={entry.depth}
                           onFieldChange={(patch) =>
                             updateEditingEntry(entry.id, (prev) => {
@@ -1439,6 +1628,13 @@ export default function CatalogView() {
                       return null;
                     }
 
+                    const nextLabel = entry.work.nextWorkId
+                      ? workPathById.get(entry.work.nextWorkId) ?? worksById.get(entry.work.nextWorkId)?.name
+                      : undefined;
+                    const variantLabel = entry.work.variantOfWorkId
+                      ? workPathById.get(entry.work.variantOfWorkId) ?? worksById.get(entry.work.variantOfWorkId)?.name
+                      : undefined;
+
                     return (
                       <WorkViewCard
                         key={entry.id}
@@ -1447,6 +1643,8 @@ export default function CatalogView() {
                         childCount={childCount}
                         depth={entry.depth}
                         expanded={isExpanded}
+                        nextLabel={nextLabel}
+                        variantLabel={variantLabel}
                         onToggle={() => toggleExpanded(entry.id)}
                         onEdit={() => {
                           const target = entry.work;

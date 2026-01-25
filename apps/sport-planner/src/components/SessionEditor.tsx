@@ -57,6 +57,7 @@ interface SortableWorkRowProps {
   work?: Work;
   objective?: Objective;
   expanded: boolean;
+  isPersonal: boolean;
   onToggleExpanded: (id: string) => void;
   onRemove: () => void;
   onDuplicate: () => void;
@@ -74,6 +75,7 @@ function SortableWorkRow({
   work,
   objective,
   expanded,
+  isPersonal,
   onToggleExpanded,
   onRemove,
   onDuplicate,
@@ -141,6 +143,8 @@ function SortableWorkRow({
   }, [swapOpen]);
 
   const hasAnyReplacement = replacementCandidates.length > 0;
+  const effortValue = item.effort ?? 6;
+  const resultValue = item.result;
 
   return (
     <article
@@ -195,6 +199,51 @@ function SortableWorkRow({
                   className="input-field mt-1"
                 />
               </div>
+              {isPersonal ? (
+                <div className="mt-3 flex flex-wrap items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    {(['ok', 'doubt', 'fail'] as const).map((value) => (
+                      <button
+                        key={value}
+                        type="button"
+                        onClick={() =>
+                          onUpdateDetails(item.id, {
+                            result: value,
+                            completed: true
+                          })
+                        }
+                        className={clsx(
+                          'rounded-full border px-3 py-1 text-xs font-semibold transition',
+                          resultValue === value
+                            ? value === 'ok'
+                              ? 'border-emerald-500/60 bg-emerald-500/20 text-emerald-200'
+                              : value === 'doubt'
+                                ? 'border-amber-400/50 bg-amber-500/15 text-amber-200'
+                                : 'border-rose-500/60 bg-rose-500/15 text-rose-200'
+                            : 'border-white/10 text-white/60 hover:border-white/30 hover:text-white'
+                        )}
+                      >
+                        {value === 'ok' ? 'OK' : value === 'doubt' ? 'Dudosa' : 'Fallo'}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs uppercase tracking-wide text-white/40">RPE</label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={10}
+                      value={effortValue}
+                      onChange={(event) => {
+                        const parsed = Number(event.target.value);
+                        const clamped = Number.isFinite(parsed) ? Math.min(Math.max(parsed, 1), 10) : 6;
+                        onUpdateDetails(item.id, { effort: clamped, completed: true });
+                      }}
+                      className="input-field w-20 text-center"
+                    />
+                  </div>
+                </div>
+              ) : null}
             </div>
             <div className="flex items-center gap-2">
               {hasDetails ? (
@@ -340,6 +389,8 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
   const updateSessionWorkDetails = useAppStore((state) => state.updateSessionWorkDetails);
   const replaceSessionWork = useAppStore((state) => state.replaceSessionWork);
   const setAttendanceStatus = useAppStore((state) => state.setAttendanceStatus);
+
+  const isPersonal = session.kind === 'personal';
 
   const [query, setQuery] = useState('');
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
@@ -547,6 +598,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
                           work={currentWork}
                           objective={objective}
                           expanded={expandedItems.has(item.id)}
+                          isPersonal={isPersonal}
                           onToggleExpanded={toggleExpanded}
                           onRemove={() => removeWorkFromSession(session.id, item.id)}
                           onDuplicate={() => duplicateSessionWork(session.id, item.id)}
@@ -568,6 +620,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
         </div>
       </section>
 
+      {isPersonal ? null : (
       <section className="space-y-4">
         <header className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
           <div>
@@ -628,6 +681,7 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
           )}
         </div>
       </section>
+      )}
     </div>
   );
 }

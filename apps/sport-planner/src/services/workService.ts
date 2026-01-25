@@ -9,6 +9,11 @@ interface WorkRow {
   subtitle?: string | null;
   objective_id: string;
   parent_work_id?: string | null;
+  node_type?: string | null;
+  tags?: unknown;
+  order_hint?: number | null;
+  next_work_id?: string | null;
+  variant_of_work_id?: string | null;
   description_markdown: string;
   estimated_minutes: number | null;
   notes?: string | null;
@@ -33,6 +38,11 @@ export interface WorkCreateInput {
   subtitle?: string;
   objectiveId: string;
   parentWorkId?: string | null;
+  nodeType?: string;
+  tags?: string[];
+  orderHint?: number;
+  nextWorkId?: string | null;
+  variantOfWorkId?: string | null;
   descriptionMarkdown: string;
   estimatedMinutes: number;
   notes?: string;
@@ -46,6 +56,11 @@ export interface WorkUpdateInput {
   subtitle?: string | null;
   objectiveId?: string;
   parentWorkId?: string | null;
+  nodeType?: string | null;
+  tags?: string[];
+  orderHint?: number | null;
+  nextWorkId?: string | null;
+  variantOfWorkId?: string | null;
   descriptionMarkdown?: string;
   estimatedMinutes?: number;
   notes?: string | null;
@@ -65,6 +80,11 @@ const WORK_SELECT = `
   subtitle,
   objective_id,
   parent_work_id,
+  node_type,
+  tags,
+  order_hint,
+  next_work_id,
+  variant_of_work_id,
   description_markdown,
   estimated_minutes,
   notes,
@@ -101,6 +121,17 @@ const parseVideoUrls = (value: unknown): string[] => {
   return [];
 };
 
+const parseTags = (value: unknown): string[] => {
+  if (!Array.isArray(value)) return [];
+  return Array.from(
+    new Set(
+      value
+        .map((item) => (typeof item === 'string' ? item.trim().toLowerCase() : ''))
+        .filter((tag) => tag.length > 0)
+    )
+  );
+};
+
 const mapCollaborators = (rows: WorkRow['work_collaborators']): WorkCollaborator[] =>
   (rows ?? []).map((collaborator) => ({
     id: `${collaborator.id}`,
@@ -126,6 +157,11 @@ const mapWorkRow = (
     subtitle: row.subtitle ?? undefined,
     objectiveId: row.objective_id,
     parentWorkId: row.parent_work_id ?? null,
+    nodeType: row.node_type ?? undefined,
+    tags: parseTags(row.tags),
+    orderHint: typeof row.order_hint === 'number' ? row.order_hint : undefined,
+    nextWorkId: row.next_work_id ?? null,
+    variantOfWorkId: row.variant_of_work_id ?? null,
     descriptionMarkdown: row.description_markdown ?? '',
     estimatedMinutes: row.estimated_minutes ?? 0,
     notes: row.notes ?? undefined,
@@ -162,6 +198,12 @@ export async function createWork(
   const collaboratorEmails = normalizeEmails(input.collaboratorEmails);
   const ownerEmail = context.actorEmail.trim().toLowerCase();
 
+  const nodeType = input.nodeType?.trim() ? input.nodeType.trim() : null;
+  const tags = parseTags(input.tags ?? []);
+  const orderHint = typeof input.orderHint === 'number' && Number.isFinite(input.orderHint) ? input.orderHint : null;
+  const nextWorkId = input.nextWorkId ?? null;
+  const variantOfWorkId = input.variantOfWorkId ?? null;
+
   const { data, error } = await supabase
     .from('works')
     .insert({
@@ -170,6 +212,11 @@ export async function createWork(
       subtitle: input.subtitle ?? null,
       objective_id: input.objectiveId,
       parent_work_id: input.parentWorkId ?? null,
+      node_type: nodeType,
+      tags,
+      order_hint: orderHint,
+      next_work_id: nextWorkId,
+      variant_of_work_id: variantOfWorkId,
       description_markdown: input.descriptionMarkdown,
       estimated_minutes: input.estimatedMinutes,
       notes: input.notes ?? null,
@@ -226,6 +273,11 @@ export async function updateWork(
   if (patch.subtitle !== undefined) updatePayload.subtitle = patch.subtitle;
   if (patch.objectiveId !== undefined) updatePayload.objective_id = patch.objectiveId;
   if (patch.parentWorkId !== undefined) updatePayload.parent_work_id = patch.parentWorkId;
+  if (patch.nodeType !== undefined) updatePayload.node_type = patch.nodeType;
+  if (patch.tags !== undefined) updatePayload.tags = parseTags(patch.tags);
+  if (patch.orderHint !== undefined) updatePayload.order_hint = patch.orderHint;
+  if (patch.nextWorkId !== undefined) updatePayload.next_work_id = patch.nextWorkId;
+  if (patch.variantOfWorkId !== undefined) updatePayload.variant_of_work_id = patch.variantOfWorkId;
   if (patch.descriptionMarkdown !== undefined) {
     updatePayload.description_markdown = patch.descriptionMarkdown;
   }
