@@ -34,26 +34,44 @@ const LinkRenderer = (props: ComponentPropsWithoutRef<'a'>) => {
   );
 };
 
-type HastNode = {
+type MarkdownAstNode = {
   type?: string;
   value?: string;
   tagName?: string;
-  children?: HastNode[];
+  children?: MarkdownAstNode[];
 };
 
-function hastToText(node: HastNode | undefined): string {
+function nodeToText(node: MarkdownAstNode | undefined): string {
   if (!node) return '';
   if (node.type === 'text' && typeof node.value === 'string') return node.value;
-  if (Array.isArray(node.children)) return node.children.map(hastToText).join('');
+  if (Array.isArray(node.children)) return node.children.map(nodeToText).join('');
   return '';
 }
 
-function parseObsidianCallout(node: HastNode | undefined): { type: string; title: string } | null {
-  if (!node || node.type !== 'element' || node.tagName !== 'blockquote') return null;
-  const firstChild = node.children?.[0];
-  if (!firstChild || firstChild.type !== 'element' || firstChild.tagName !== 'p') return null;
+function stripWrappingQuotes(raw: string) {
+  const trimmed = raw.trim();
+  const match = trimmed.match(/^(["'“‘])(.*)(["'”’])$/s);
+  if (!match) return trimmed;
+  return match[2].trim();
+}
 
-  const raw = hastToText(firstChild).trim();
+function isBlockquoteNode(node: MarkdownAstNode | undefined) {
+  if (!node) return false;
+  return node.type === 'blockquote' || (node.type === 'element' && node.tagName === 'blockquote');
+}
+
+function isParagraphNode(node: MarkdownAstNode | undefined) {
+  if (!node) return false;
+  return node.type === 'paragraph' || (node.type === 'element' && node.tagName === 'p');
+}
+
+function parseObsidianCallout(node: MarkdownAstNode | undefined): { type: string; title: string } | null {
+  if (!node) return null;
+  if (!isBlockquoteNode(node)) return null;
+  const firstChild = node.children?.[0];
+  if (!isParagraphNode(firstChild)) return null;
+
+  const raw = stripWrappingQuotes(nodeToText(firstChild));
   const match = raw.match(/^\[!([^\]]+)\]([+-])?\s*(.*)$/i);
   if (!match) return null;
 
@@ -99,7 +117,7 @@ const CALLOUT_STYLES: Record<
 };
 
 const BlockquoteRenderer = (props: ComponentPropsWithoutRef<'blockquote'> & { node?: unknown }) => {
-  const callout = parseObsidianCallout(props.node as HastNode | undefined);
+  const callout = parseObsidianCallout(props.node as MarkdownAstNode | undefined);
   if (!callout) {
     return <blockquote {...props} />;
   }
