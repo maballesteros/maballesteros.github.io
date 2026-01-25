@@ -34,20 +34,6 @@ const LinkRenderer = (props: ComponentPropsWithoutRef<'a'>) => {
   );
 };
 
-type MarkdownAstNode = {
-  type?: string;
-  value?: string;
-  tagName?: string;
-  children?: MarkdownAstNode[];
-};
-
-function nodeToText(node: MarkdownAstNode | undefined): string {
-  if (!node) return '';
-  if (node.type === 'text' && typeof node.value === 'string') return node.value;
-  if (Array.isArray(node.children)) return node.children.map(nodeToText).join('');
-  return '';
-}
-
 function stripWrappingQuotes(raw: string) {
   const trimmed = raw.trim();
   const match = trimmed.match(/^(["'“‘])(.*)(["'”’])$/s);
@@ -55,30 +41,28 @@ function stripWrappingQuotes(raw: string) {
   return match[2].trim();
 }
 
-function isBlockquoteNode(node: MarkdownAstNode | undefined) {
-  if (!node) return false;
-  return node.type === 'blockquote' || (node.type === 'element' && node.tagName === 'blockquote');
-}
-
-function isParagraphNode(node: MarkdownAstNode | undefined) {
-  if (!node) return false;
-  return node.type === 'paragraph' || (node.type === 'element' && node.tagName === 'p');
-}
-
-function parseObsidianCallout(node: MarkdownAstNode | undefined): { type: string; title: string } | null {
-  if (!node) return null;
-  if (!isBlockquoteNode(node)) return null;
-  const firstChild = node.children?.[0];
-  if (!isParagraphNode(firstChild)) return null;
-
-  const raw = stripWrappingQuotes(nodeToText(firstChild));
+function parseObsidianCalloutLine(rawLine: string): { type: string; title: string } | null {
+  const raw = stripWrappingQuotes(rawLine.trim());
   const match = raw.match(/^\[!([^\]]+)\]([+-])?\s*(.*)$/i);
   if (!match) return null;
-
   const type = match[1].toLowerCase();
   const titleFromMarkdown = match[3]?.trim() ?? '';
   const title = titleFromMarkdown || type;
   return { type, title };
+}
+
+type ReactChild = unknown;
+
+function isReactElement(value: unknown): value is { type: unknown; props: { children?: unknown } } {
+  return typeof value === 'object' && value !== null && 'props' in value && 'type' in value;
+}
+
+function reactNodeToText(node: ReactChild): string {
+  if (node === null || node === undefined || typeof node === 'boolean') return '';
+  if (typeof node === 'string' || typeof node === 'number') return String(node);
+  if (Array.isArray(node)) return node.map(reactNodeToText).join('');
+  if (isReactElement(node)) return reactNodeToText(node.props.children);
+  return '';
 }
 
 const CALLOUT_STYLES: Record<
@@ -117,14 +101,19 @@ const CALLOUT_STYLES: Record<
 };
 
 const BlockquoteRenderer = (props: ComponentPropsWithoutRef<'blockquote'> & { node?: unknown }) => {
-  const callout = parseObsidianCallout(props.node as MarkdownAstNode | undefined);
+  const { node: _node, children, ...rest } = props;
+  const childrenArray = Array.isArray(children) ? children : [children];
+  const firstParagraphIndex = childrenArray.findIndex((child) => isReactElement(child) && child.type === 'p');
+  const firstParagraph = firstParagraphIndex >= 0 ? childrenArray[firstParagraphIndex] : undefined;
+  const firstParagraphText = reactNodeToText(firstParagraph).trim();
+  const callout = parseObsidianCalloutLine(firstParagraphText);
+
   if (!callout) {
-    return <blockquote {...props} />;
+    return <blockquote {...rest}>{children}</blockquote>;
   }
 
   const style = CALLOUT_STYLES[callout.type] ?? CALLOUT_STYLES.info;
-  const childrenArray = Array.isArray(props.children) ? props.children : [props.children];
-  const contentChildren = childrenArray.slice(1);
+  const contentChildren = childrenArray.filter((child, index) => index !== firstParagraphIndex);
 
   return (
     <aside className={clsx('my-4 rounded-2xl border p-5', style.containerClassName)}>
