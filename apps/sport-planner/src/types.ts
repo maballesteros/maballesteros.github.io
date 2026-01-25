@@ -30,6 +30,11 @@ export interface Work {
   estimatedMinutes: number;
   notes?: string;
   videoUrls: string[];
+  nodeType?: string;
+  tags: string[];
+  orderHint?: number;
+  nextWorkId?: string | null;
+  variantOfWorkId?: string | null;
   createdAt: string;
   updatedAt: string;
   visibility: WorkVisibility;
@@ -41,6 +46,51 @@ export interface Work {
   isOwner?: boolean;
 }
 
+export type SessionKind = 'class' | 'personal';
+
+export interface KungfuProgramSelector {
+  byTags?: string[];
+  byWorkIds?: string[];
+  byNodeTypes?: string[];
+}
+
+export interface KungfuProgram {
+  id: string;
+  name: string;
+  enabled: boolean;
+  include: KungfuProgramSelector[];
+  exclude: KungfuProgramSelector[];
+}
+
+export interface KungfuCadenceOverride {
+  match: {
+    tagsAny: string[];
+  };
+  multiplier: number;
+}
+
+export interface KungfuCadenceConfig {
+  targetsDays: Record<string, number>;
+  overrides: KungfuCadenceOverride[];
+}
+
+export type KungfuTodayLimitMode = 'count' | 'minutes' | 'both';
+
+export interface KungfuTodayTemplate {
+  totalMinutes: number;
+  focusMinutes: number;
+  rouletteMinutes: number;
+  recapMinutes: number;
+}
+
+export interface KungfuTodayPlanConfig {
+  limitMode: KungfuTodayLimitMode;
+  maxItems: number;
+  minutesBudget: number;
+  template: KungfuTodayTemplate;
+  defaultMinutesByNodeType: Record<string, number>;
+}
+
 export interface SessionWork {
   id: string;
   workId: string;
@@ -50,6 +100,8 @@ export interface SessionWork {
   notes?: string;
   focusLabel?: string;
   completed?: boolean;
+  result?: 'ok' | 'doubt' | 'fail';
+  effort?: number;
 }
 
 export interface SessionAttendance {
@@ -63,6 +115,7 @@ export interface SessionAttendance {
 export interface Session {
   id: string;
   date: string; // ISO date (yyyy-mm-dd)
+  kind: SessionKind;
   title: string;
   description?: string;
   notes?: string;
@@ -85,6 +138,7 @@ export interface Assistant {
 export interface BackupSession {
   id: string;
   date: string;
+  kind?: SessionKind;
   title: string;
   description?: string;
   notes?: string;
@@ -109,6 +163,11 @@ export interface BackupSessionWork {
   notasSesion?: string;
   foco?: string;
   focusLabel?: string;
+  result?: string;
+  resultado?: string;
+  effort?: number;
+  esfuerzo?: number;
+  completed?: boolean;
 }
 
 export interface BackupSessionAttendance {
@@ -134,4 +193,7 @@ export interface BackupPayload {
   sesiones_trabajos: BackupSessionWork[];
   asistentes: Assistant[];
   sesiones_asistencias: BackupSessionAttendance[];
+  kungfuPrograms?: KungfuProgram[];
+  kungfuCadence?: KungfuCadenceConfig;
+  kungfuTodayPlan?: KungfuTodayPlanConfig;
 }
