@@ -5,6 +5,9 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 import { useAppStore } from '@/store/appStore';
+import { useAuth } from '@/contexts/useAuth';
+import { MarkdownContent } from '@/components/MarkdownContent';
+import { YouTubePreview } from '@/components/YouTubePreview';
 import type {
   KungfuProgram,
   KungfuProgramSelector,
@@ -18,6 +21,8 @@ import type {
 dayjs.locale('es');
 
 type TrainingResult = NonNullable<SessionWork['result']>;
+
+const PERSONAL_EXCLUDE_TAG = 'personal-exclude';
 
 const RESULT_LABELS: Record<TrainingResult, string> = {
   ok: 'OK',
@@ -65,6 +70,7 @@ function matchesSelector(work: Work, selector: KungfuProgramSelector): boolean {
 
 function isWorkIncludedByPrograms(work: Work, programs: KungfuProgram[]): boolean {
   const enabledPrograms = (programs ?? []).filter((program) => program.enabled);
+  if (normalizeTags(work.tags).includes(PERSONAL_EXCLUDE_TAG)) return false;
   if (enabledPrograms.length === 0) {
     return normalizeTags(work.tags).includes('kungfu');
   }
@@ -256,8 +262,9 @@ function computePlan(opts: {
   todaySession?: Session;
   plan: KungfuTodayPlanConfig;
   today: string;
+  childCountByWorkId: Map<string, number>;
 }): PlannedSelection {
-  const { dueList, todaySession, plan, today } = opts;
+  const { dueList, todaySession, plan, today, childCountByWorkId } = opts;
   const limitByCount = plan.limitMode === 'count' || plan.limitMode === 'both';
   const limitByMinutes = plan.limitMode === 'minutes' || plan.limitMode === 'both';
 
@@ -271,8 +278,18 @@ function computePlan(opts: {
   );
 
   const available = dueList.filter((entry) => !trainedToday.has(entry.work.id));
-  const rouletteCandidates = available.filter((entry) => isRouletteCandidate(entry.work));
-  const focusCandidates = available.filter((entry) => !isRouletteCandidate(entry.work));
+
+  const rouletteSelectors = plan.rouletteSelectors ?? [];
+  const focusSelectors = plan.focusSelectors ?? [];
+
+  const getBucket = (work: Work): 'focus' | 'roulette' => {
+    if (rouletteSelectors.some((selector) => matchesSelector(work, selector))) return 'roulette';
+    if (focusSelectors.some((selector) => matchesSelector(work, selector))) return 'focus';
+    return isRouletteCandidate(work) ? 'roulette' : 'focus';
+  };
+
+  const rouletteCandidates = available.filter((entry) => getBucket(entry.work) === 'roulette');
+  const focusCandidates = available.filter((entry) => getBucket(entry.work) === 'focus');
 
   const seedLabel = `kungfu-${today}`;
 
@@ -287,17 +304,48 @@ function computePlan(opts: {
 
   const { focusCount, rouletteCount } = limitByCount ? computeSegmentCounts(plan) : { focusCount: Number.POSITIVE_INFINITY, rouletteCount: Number.POSITIVE_INFINITY };
 
-  const focusMinutesBudget = limitByMinutes ? Math.max(0, Number(plan.template?.focusMinutes) || 0) : Number.POSITIVE_INFINITY;
-  const rouletteMinutesBudget = limitByMinutes ? Math.max(0, Number(plan.template?.rouletteMinutes) || 0) : Number.POSITIVE_INFINITY;
+  const focusMinutesTemplate = Math.max(0, Number(plan.template?.focusMinutes) || 0);
+  const rouletteMinutesTemplate = Math.max(0, Number(plan.template?.rouletteMinutes) || 0);
+  const focusMinutesBudget = focusMinutesTemplate > 0 ? focusMinutesTemplate : Number.POSITIVE_INFINITY;
+  const rouletteMinutesBudget = rouletteMinutesTemplate > 0 ? rouletteMinutesTemplate : Number.POSITIVE_INFINITY;
 
-  const focusPool = focusCandidates.length > 0 ? focusCandidates : available;
+  const nodeTypeRankForFocus = (work: Work): number => {
+    const nodeType = (work.nodeType ?? 'work').trim().toLowerCase() || 'work';
+    const hasChildren = (childCountByWorkId.get(work.id) ?? 0) > 0;
+    if (hasChildren) {
+      // Prefer planning leaves first, so parent nodes don't eclipse their components.
+      return -10;
+    }
+    const rankMap: Record<string, number> = {
+      segment: 30,
+      drill: 22,
+      form: 20,
+      work: 10,
+      application: 0,
+      technique: 0,
+      link: 0,
+      style: -100
+    };
+    return rankMap[nodeType] ?? 5;
+  };
+
+  const focusOrder = [...(focusCandidates.length > 0 ? focusCandidates : available)].sort((a, b) => {
+    if (b.overdueScore !== a.overdueScore) return b.overdueScore - a.overdueScore;
+    const aDays = a.daysSince ?? 10_000;
+    const bDays = b.daysSince ?? 10_000;
+    if (bDays !== aDays) return bDays - aDays;
+    const rankDelta = nodeTypeRankForFocus(b.work) - nodeTypeRankForFocus(a.work);
+    if (rankDelta !== 0) return rankDelta;
+    return a.work.name.localeCompare(b.work.name, 'es', { sensitivity: 'base' });
+  });
+
   const focus: DueWork[] = [];
   let focusMinutes = 0;
-  for (const entry of focusPool) {
+  for (const entry of focusOrder) {
     if (focus.length >= maxItemsTotal) break;
     if (limitByCount && focus.length >= focusCount) break;
     const minutes = minutesForEntry(entry);
-    if (limitByMinutes && focusMinutes + minutes > focusMinutesBudget) continue;
+    if (focusMinutes + minutes > focusMinutesBudget) continue;
     focus.push(entry);
     focusMinutes += minutes;
   }
@@ -314,7 +362,7 @@ function computePlan(opts: {
     if (focus.length + roulette.length >= maxItemsTotal) break;
     if (limitByCount && roulette.length >= rouletteCount) break;
     const minutes = minutesForEntry(entry);
-    if (limitByMinutes && rouletteMinutes + minutes > rouletteMinutesBudget) continue;
+    if (rouletteMinutes + minutes > rouletteMinutesBudget) continue;
     roulette.push(entry);
     rouletteMinutes += minutes;
     if (limitByMinutes && focusMinutes + rouletteMinutes >= minutesBudgetTotal) break;
@@ -337,6 +385,9 @@ export default function PersonalTodayView() {
   const programs = useAppStore((state) => state.kungfuPrograms);
   const cadence = useAppStore((state) => state.kungfuCadence);
   const todayPlan = useAppStore((state) => state.kungfuTodayPlan);
+
+  const updateWork = useAppStore((state) => state.updateWork);
+  const { user } = useAuth();
 
   const addSession = useAppStore((state) => state.addSession);
   const addWorkToSession = useAppStore((state) => state.addWorkToSession);
@@ -364,14 +415,37 @@ export default function PersonalTodayView() {
     [works, personalSessions, programs, cadence, today]
   );
 
+  const childCountByWorkId = useMemo(() => {
+    const counts = new Map<string, number>();
+    works.forEach((work) => {
+      const parentId = work.parentWorkId ?? '';
+      if (!parentId) return;
+      counts.set(parentId, (counts.get(parentId) ?? 0) + 1);
+    });
+    return counts;
+  }, [works]);
+
   const planned = useMemo(
-    () => computePlan({ dueList, todaySession, plan: todayPlan, today }),
-    [dueList, todaySession, todayPlan, today]
+    () => computePlan({ dueList, todaySession, plan: todayPlan, today, childCountByWorkId }),
+    [dueList, todaySession, todayPlan, today, childCountByWorkId]
+  );
+
+  const actorContext = useMemo(
+    () =>
+      user
+        ? {
+            actorId: user.id,
+            actorEmail: user.email ?? ''
+          }
+        : null,
+    [user]
   );
 
   const [effortByWorkId, setEffortByWorkId] = useState<Record<string, number>>({});
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [recapNote, setRecapNote] = useState<string>(todaySession?.notes ?? '');
+  const [togglingWorkId, setTogglingWorkId] = useState<string | null>(null);
+  const [expandedWorkDetails, setExpandedWorkDetails] = useState<Set<string>>(new Set());
 
   const recapMinutes = Math.max(0, Number(todayPlan.template?.recapMinutes) || 0);
 
@@ -434,7 +508,44 @@ export default function PersonalTodayView() {
   const renderEntry = (entry: DueWork) => {
     const work = entry.work;
     const tags = normalizeTags(work.tags);
+    const isExcluded = tags.includes(PERSONAL_EXCLUDE_TAG);
+    const displayTags = tags.filter((tag) => tag !== PERSONAL_EXCLUDE_TAG);
     const nextEffort = effortByWorkId[work.id] ?? DEFAULT_EFFORT;
+    const canTogglePersonal = (work.canEdit ?? false) && ((work.nodeType ?? '').trim().toLowerCase() !== 'style');
+    const isBusy = togglingWorkId === work.id;
+    const isExpanded = expandedWorkDetails.has(work.id);
+
+    const trimmedDescription = (work.descriptionMarkdown ?? '').trim();
+    const trimmedNotes = (work.notes ?? '').trim();
+    const videoUrls = (work.videoUrls ?? []).map((url) => url.trim()).filter(Boolean);
+    const hasDetails = trimmedDescription.length > 0 || trimmedNotes.length > 0 || videoUrls.length > 0;
+
+    const togglePersonalIncluded = async () => {
+      if (!actorContext) {
+        setFeedback({ type: 'error', text: 'Inicia sesión para editar trabajos.' });
+        window.setTimeout(() => setFeedback(null), 2500);
+        return;
+      }
+      if (!canTogglePersonal) return;
+      setTogglingWorkId(work.id);
+      try {
+        const nextTags = isExcluded
+          ? displayTags
+          : Array.from(new Set([...displayTags, PERSONAL_EXCLUDE_TAG]));
+        await updateWork(work.id, { tags: nextTags }, actorContext);
+        setFeedback({
+          type: 'success',
+          text: isExcluded ? 'Incluido en el plan personal.' : 'Excluido del plan personal.'
+        });
+        window.setTimeout(() => setFeedback(null), 1800);
+      } catch (error) {
+        console.error('No se pudo actualizar el trabajo', error);
+        setFeedback({ type: 'error', text: 'No se pudo actualizar el trabajo.' });
+        window.setTimeout(() => setFeedback(null), 2500);
+      } finally {
+        setTogglingWorkId(null);
+      }
+    };
 
     return (
       <article
@@ -443,18 +554,46 @@ export default function PersonalTodayView() {
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <p className="text-lg font-semibold text-white">{work.name}</p>
-            {work.subtitle ? <p className="text-sm text-white/70">{work.subtitle}</p> : null}
+            <div className="flex items-start gap-3">
+              {hasDetails ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setExpandedWorkDetails((prev) => {
+                      const next = new Set(prev);
+                      if (next.has(work.id)) {
+                        next.delete(work.id);
+                      } else {
+                        next.add(work.id);
+                      }
+                      return next;
+                    })
+                  }
+                  className={clsx(
+                    'mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white',
+                    isExpanded ? 'rotate-90 border-white/30 text-white' : ''
+                  )}
+                  aria-label={isExpanded ? 'Ocultar detalles' : 'Ver detalles'}
+                  title={isExpanded ? 'Ocultar detalles' : 'Ver detalles'}
+                >
+                  ▶
+                </button>
+              ) : null}
+              <div>
+                <p className="text-lg font-semibold text-white">{work.name}</p>
+                {work.subtitle ? <p className="text-sm text-white/70">{work.subtitle}</p> : null}
+              </div>
+            </div>
             <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wide text-white/40">
               <span className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 text-[10px] font-semibold text-white/70">
                 {work.nodeType ?? 'work'}
               </span>
-              {tags.slice(0, 6).map((tag) => (
+              {displayTags.slice(0, 6).map((tag) => (
                 <span key={tag} className="rounded-full border border-white/10 px-2 py-0.5">
                   {tag}
                 </span>
               ))}
-              {tags.length > 6 ? <span className="text-white/50">+{tags.length - 6}</span> : null}
+              {displayTags.length > 6 ? <span className="text-white/50">+{displayTags.length - 6}</span> : null}
             </div>
           </div>
 
@@ -469,6 +608,38 @@ export default function PersonalTodayView() {
             </div>
           </div>
         </div>
+
+        {hasDetails && isExpanded ? (
+          <div className="space-y-3 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+            {trimmedDescription.length > 0 ? <MarkdownContent content={trimmedDescription} enableWorkLinks /> : null}
+            {trimmedNotes.length > 0 ? (
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/40">Notas</p>
+                <MarkdownContent content={trimmedNotes} enableWorkLinks />
+              </div>
+            ) : null}
+            {videoUrls.length > 0 ? (
+              <div className="space-y-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/40">Vídeos</p>
+                <div className="grid gap-4 lg:grid-cols-3">
+                  {videoUrls.map((url, index) => (
+                    <div key={`${work.id}-video-${index}`} className="space-y-2">
+                      <YouTubePreview url={url} title={`${work.name} vídeo ${index + 1}`} />
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80 transition hover:border-white/30 hover:text-white"
+                      >
+                        Abrir en YouTube
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap items-center gap-2">
@@ -506,6 +677,20 @@ export default function PersonalTodayView() {
             <Link to={`/catalog?workId=${encodeURIComponent(work.id)}`} className="btn-secondary">
               Ver en catálogo
             </Link>
+            <button
+              type="button"
+              onClick={togglePersonalIncluded}
+              disabled={!canTogglePersonal || isBusy}
+              className={clsx(
+                'inline-flex items-center rounded-full border px-4 py-2 text-xs font-semibold transition disabled:opacity-50',
+                isExcluded
+                  ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200 hover:border-emerald-400'
+                  : 'border-rose-500/40 bg-rose-500/10 text-rose-200 hover:border-rose-400'
+              )}
+              title={isExcluded ? 'Incluir en el plan personal' : 'Excluir del plan personal'}
+            >
+              {isBusy ? '...' : isExcluded ? 'Incluir' : 'Excluir'}
+            </button>
           </div>
         </div>
       </article>

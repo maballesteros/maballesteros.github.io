@@ -79,10 +79,12 @@ const DEFAULT_KUNGFU_TODAY_PLAN: KungfuTodayPlanConfig = {
     work: 3,
     technique: 1.5,
     segment: 6,
-    form: 10,
+    form: 15,
     drill: 4,
     link: 2
-  }
+  },
+  focusSelectors: [],
+  rouletteSelectors: []
 };
 
 const normalizeParentWorkId = (value?: string | null): string | null => {

@@ -80,6 +80,13 @@ function normalizeTodayPlan(plan: KungfuTodayPlanConfig): KungfuTodayPlanConfig 
   const recapMinutes = Math.max(0, Number(plan.template?.recapMinutes) || 0);
   const totalMinutes = Math.max(0, focusMinutes + rouletteMinutes + recapMinutes);
 
+  const focusSelectors = (plan.focusSelectors ?? [])
+    .map(normalizeSelectorDraft)
+    .filter((selector) => Object.keys(selector).length > 0);
+  const rouletteSelectors = (plan.rouletteSelectors ?? [])
+    .map(normalizeSelectorDraft)
+    .filter((selector) => Object.keys(selector).length > 0);
+
   const defaultMinutesByNodeType: Record<string, number> = {};
   Object.entries(plan.defaultMinutesByNodeType ?? {}).forEach(([key, value]) => {
     const cleanKey = key.trim().toLowerCase();
@@ -94,7 +101,9 @@ function normalizeTodayPlan(plan: KungfuTodayPlanConfig): KungfuTodayPlanConfig 
     maxItems,
     minutesBudget,
     template: { totalMinutes, focusMinutes, rouletteMinutes, recapMinutes },
-    defaultMinutesByNodeType
+    defaultMinutesByNodeType,
+    focusSelectors,
+    rouletteSelectors
   };
 }
 
@@ -340,6 +349,213 @@ export default function PersonalSettingsView() {
                   />
                 </label>
               ))}
+          </div>
+        </details>
+
+        <details className="rounded-2xl border border-white/10 bg-white/5 p-4">
+          <summary className="cursor-pointer text-sm font-semibold text-white/80">Sacos: foco vs ruleta</summary>
+          <p className="mt-2 text-sm text-white/60">
+            Reglas opcionales para forzar qué entra en cada saco. La ruleta tiene prioridad sobre el foco.
+          </p>
+
+          <div className="mt-4 grid gap-6 lg:grid-cols-2">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-semibold text-white/80">Ruleta (OR)</p>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() =>
+                    setDraftTodayPlan((prev) => ({
+                      ...prev,
+                      rouletteSelectors: [...(prev.rouletteSelectors ?? []), { ...EMPTY_SELECTOR }]
+                    }))
+                  }
+                >
+                  + Regla
+                </button>
+              </div>
+              {(draftTodayPlan.rouletteSelectors ?? []).length === 0 ? (
+                <p className="text-xs text-white/50">
+                  Vacío = ruleta automática (técnicas + tag <span className="font-semibold text-white">roulette</span>).
+                </p>
+              ) : null}
+
+              {(draftTodayPlan.rouletteSelectors ?? []).map((selector, selectorIndex) => (
+                <div
+                  key={`roulette-${selectorIndex}`}
+                  className="rounded-2xl border border-white/10 bg-slate-950/40 p-4"
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">Regla {selectorIndex + 1}</p>
+                    <button
+                      type="button"
+                      className="text-xs font-semibold text-rose-200 hover:text-rose-100"
+                      onClick={() =>
+                        setDraftTodayPlan((prev) => ({
+                          ...prev,
+                          rouletteSelectors: (prev.rouletteSelectors ?? []).filter((_, i) => i !== selectorIndex)
+                        }))
+                      }
+                    >
+                      Quitar
+                    </button>
+                  </div>
+
+                  <div className="mt-3 grid gap-3">
+                    <label className="grid gap-1">
+                      <span className="text-xs text-white/50">Tags (AND)</span>
+                      <input
+                        type="text"
+                        className="input-field"
+                        value={toCsv(selector.byTags)}
+                        placeholder="bei-shaolin"
+                        onChange={(event) => {
+                          const nextTags = normalizeListLower(event.target.value);
+                          setDraftTodayPlan((prev) => {
+                            const rouletteSelectors = [...(prev.rouletteSelectors ?? [])];
+                            rouletteSelectors[selectorIndex] = { ...rouletteSelectors[selectorIndex], byTags: nextTags };
+                            return { ...prev, rouletteSelectors };
+                          });
+                        }}
+                      />
+                    </label>
+                    <label className="grid gap-1">
+                      <span className="text-xs text-white/50">Node types</span>
+                      <input
+                        type="text"
+                        className="input-field"
+                        value={toCsv(selector.byNodeTypes)}
+                        placeholder="application, technique"
+                        onChange={(event) => {
+                          const nextNodeTypes = normalizeListLower(event.target.value);
+                          setDraftTodayPlan((prev) => {
+                            const rouletteSelectors = [...(prev.rouletteSelectors ?? [])];
+                            rouletteSelectors[selectorIndex] = {
+                              ...rouletteSelectors[selectorIndex],
+                              byNodeTypes: nextNodeTypes
+                            };
+                            return { ...prev, rouletteSelectors };
+                          });
+                        }}
+                      />
+                    </label>
+                    <label className="grid gap-1">
+                      <span className="text-xs text-white/50">Work IDs</span>
+                      <input
+                        type="text"
+                        className="input-field"
+                        value={toCsv(selector.byWorkIds)}
+                        placeholder="id1, id2"
+                        onChange={(event) => {
+                          const nextIds = normalizeIdList(event.target.value);
+                          setDraftTodayPlan((prev) => {
+                            const rouletteSelectors = [...(prev.rouletteSelectors ?? [])];
+                            rouletteSelectors[selectorIndex] = { ...rouletteSelectors[selectorIndex], byWorkIds: nextIds };
+                            return { ...prev, rouletteSelectors };
+                          });
+                        }}
+                      />
+                    </label>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-semibold text-white/80">Forzar foco (OR)</p>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() =>
+                    setDraftTodayPlan((prev) => ({
+                      ...prev,
+                      focusSelectors: [...(prev.focusSelectors ?? []), { ...EMPTY_SELECTOR }]
+                    }))
+                  }
+                >
+                  + Regla
+                </button>
+              </div>
+              {(draftTodayPlan.focusSelectors ?? []).length === 0 ? (
+                <p className="text-xs text-white/50">Opcional: por ejemplo, forzar técnicas concretas a foco.</p>
+              ) : null}
+
+              {(draftTodayPlan.focusSelectors ?? []).map((selector, selectorIndex) => (
+                <div key={`focus-${selectorIndex}`} className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">Regla {selectorIndex + 1}</p>
+                    <button
+                      type="button"
+                      className="text-xs font-semibold text-rose-200 hover:text-rose-100"
+                      onClick={() =>
+                        setDraftTodayPlan((prev) => ({
+                          ...prev,
+                          focusSelectors: (prev.focusSelectors ?? []).filter((_, i) => i !== selectorIndex)
+                        }))
+                      }
+                    >
+                      Quitar
+                    </button>
+                  </div>
+
+                  <div className="mt-3 grid gap-3">
+                    <label className="grid gap-1">
+                      <span className="text-xs text-white/50">Tags (AND)</span>
+                      <input
+                        type="text"
+                        className="input-field"
+                        value={toCsv(selector.byTags)}
+                        placeholder="segment"
+                        onChange={(event) => {
+                          const nextTags = normalizeListLower(event.target.value);
+                          setDraftTodayPlan((prev) => {
+                            const focusSelectors = [...(prev.focusSelectors ?? [])];
+                            focusSelectors[selectorIndex] = { ...focusSelectors[selectorIndex], byTags: nextTags };
+                            return { ...prev, focusSelectors };
+                          });
+                        }}
+                      />
+                    </label>
+                    <label className="grid gap-1">
+                      <span className="text-xs text-white/50">Node types</span>
+                      <input
+                        type="text"
+                        className="input-field"
+                        value={toCsv(selector.byNodeTypes)}
+                        placeholder="segment"
+                        onChange={(event) => {
+                          const nextNodeTypes = normalizeListLower(event.target.value);
+                          setDraftTodayPlan((prev) => {
+                            const focusSelectors = [...(prev.focusSelectors ?? [])];
+                            focusSelectors[selectorIndex] = { ...focusSelectors[selectorIndex], byNodeTypes: nextNodeTypes };
+                            return { ...prev, focusSelectors };
+                          });
+                        }}
+                      />
+                    </label>
+                    <label className="grid gap-1">
+                      <span className="text-xs text-white/50">Work IDs</span>
+                      <input
+                        type="text"
+                        className="input-field"
+                        value={toCsv(selector.byWorkIds)}
+                        placeholder="id1, id2"
+                        onChange={(event) => {
+                          const nextIds = normalizeIdList(event.target.value);
+                          setDraftTodayPlan((prev) => {
+                            const focusSelectors = [...(prev.focusSelectors ?? [])];
+                            focusSelectors[selectorIndex] = { ...focusSelectors[selectorIndex], byWorkIds: nextIds };
+                            return { ...prev, focusSelectors };
+                          });
+                        }}
+                      />
+                    </label>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </details>
       </section>
@@ -741,4 +957,3 @@ export default function PersonalSettingsView() {
     </div>
   );
 }
-
