@@ -147,6 +147,40 @@ function WorkViewCard({
   const ownerEmail = (work.ownerEmail ?? '').trim();
   const nodeType = (work.nodeType ?? '').trim();
   const tags = work.tags ?? [];
+  const normalizedNodeType = (nodeType || 'work').trim().toLowerCase();
+
+  const nodeTypeBadge = (() => {
+    const labelMap: Record<string, string> = {
+      form: 'Forma',
+      segment: 'Segmento',
+      application: 'Aplicación',
+      technique: 'Técnica',
+      drill: 'Drill',
+      style: 'Estilo',
+      link: 'Link',
+      work: 'Trabajo'
+    };
+
+    const styleMap: Record<string, string> = {
+      form: 'border-indigo-500/40 bg-indigo-500/15 text-indigo-100',
+      segment: 'border-sky-500/40 bg-sky-500/15 text-sky-100',
+      application: 'border-amber-500/40 bg-amber-500/15 text-amber-100',
+      technique: 'border-emerald-500/40 bg-emerald-500/15 text-emerald-100',
+      drill: 'border-purple-500/40 bg-purple-500/15 text-purple-100',
+      style: 'border-white/20 bg-white/10 text-white/70',
+      link: 'border-white/20 bg-white/10 text-white/70',
+      work: 'border-white/20 bg-white/10 text-white/70'
+    };
+
+    const label = labelMap[normalizedNodeType] ?? (nodeType || 'Trabajo');
+    const styles = styleMap[normalizedNodeType] ?? styleMap.work;
+
+    return (
+      <span className={clsx('inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold', styles)}>
+        {label}
+      </span>
+    );
+  })();
 
   return (
     <article
@@ -196,11 +230,6 @@ function WorkViewCard({
               <span className="rounded-full border border-white/20 px-2 py-0.5 text-[10px] font-semibold text-white/70">
                 {visibilityLabel}
               </span>
-              {nodeType ? (
-                <span className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 text-[10px] font-semibold text-white/70">
-                  {nodeType}
-                </span>
-              ) : null}
               {tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
@@ -226,7 +255,7 @@ function WorkViewCard({
           </span>
         </button>
         <div className="flex flex-wrap items-center gap-2 sm:justify-end">
-          <ObjectiveChip objective={objective} size="sm" />
+          {nodeTypeBadge}
           <Menu as="div" className="relative inline-flex">
             <Menu.Button className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40">
               <span className="sr-only">Abrir acciones</span>
