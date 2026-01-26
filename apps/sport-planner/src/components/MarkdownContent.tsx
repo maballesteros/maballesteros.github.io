@@ -34,6 +34,18 @@ const LinkRenderer = (props: ComponentPropsWithoutRef<'a'>) => {
   );
 };
 
+const UlRenderer = (props: ComponentPropsWithoutRef<'ul'>) => {
+  return <ul {...props} className={clsx('my-2 list-disc space-y-1 pl-6', props.className)} />;
+};
+
+const OlRenderer = (props: ComponentPropsWithoutRef<'ol'>) => {
+  return <ol {...props} className={clsx('my-2 list-decimal space-y-1 pl-6', props.className)} />;
+};
+
+const LiRenderer = (props: ComponentPropsWithoutRef<'li'>) => {
+  return <li {...props} className={clsx('leading-relaxed', props.className)} />;
+};
+
 function stripWrappingQuotes(raw: string) {
   const trimmed = raw.trim();
   const match = trimmed.match(/^(["'“‘])(.*)(["'”’])$/s);
@@ -128,7 +140,10 @@ const BlockquoteRenderer = (props: ComponentPropsWithoutRef<'blockquote'> & { no
 
 const defaultComponents = {
   a: LinkRenderer,
-  blockquote: BlockquoteRenderer
+  blockquote: BlockquoteRenderer,
+  ul: UlRenderer,
+  ol: OlRenderer,
+  li: LiRenderer
 };
 
 export function MarkdownContent({ content, enableWorkLinks = false }: MarkdownContentProps) {

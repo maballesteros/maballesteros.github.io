@@ -98,15 +98,22 @@ const VISIBILITY_DESCRIPTIONS: Record<WorkVisibility, string> = {
 };
 
 const MAX_COLLABORATORS = 5;
+const PERSONAL_EXCLUDE_TAG = 'personal-exclude';
 
 interface WorkViewCardProps {
   work: Work;
   childCount: number;
   depth: number;
   expanded: boolean;
+  isTreeCollapsed: boolean;
+  isPersonalExcluded: boolean;
+  canTogglePersonal: boolean;
+  personalToggleBusy: boolean;
   nextLabel?: string;
   variantLabel?: string;
   onToggle: () => void;
+  onToggleTree: () => void;
+  onTogglePersonal: () => void;
   onEdit: () => void;
   onDuplicate: () => void;
   onCreateChild: () => void;
@@ -118,9 +125,15 @@ function WorkViewCard({
   childCount,
   depth,
   expanded,
+  isTreeCollapsed,
+  isPersonalExcluded,
+  canTogglePersonal,
+  personalToggleBusy,
   nextLabel,
   variantLabel,
   onToggle,
+  onToggleTree,
+  onTogglePersonal,
   onEdit,
   onDuplicate,
   onCreateChild,
@@ -144,7 +157,7 @@ function WorkViewCard({
   const isOwner = work.isOwner ?? false;
   const ownerEmail = (work.ownerEmail ?? '').trim();
   const nodeType = (work.nodeType ?? '').trim();
-  const tags = work.tags ?? [];
+  const tags = (work.tags ?? []).filter((tag) => tag !== PERSONAL_EXCLUDE_TAG);
   const normalizedNodeType = (nodeType || 'work').trim().toLowerCase();
 
   const nodeTypeBadge = (() => {
@@ -219,45 +232,66 @@ function WorkViewCard({
     <article
       id={`work-${work.id}`}
       className={clsx(
-        'group relative space-y-4 rounded-3xl border bg-white/5 p-5 pb-10 shadow shadow-black/30',
+        'group relative space-y-4 rounded-xl border bg-white/5 p-4 pb-5 shadow shadow-black/30',
         nodeTypeAccent.borderClassName
       )}
       style={indentStyle}
     >
-      <div className={clsx('absolute inset-y-4 left-0 w-1 rounded-r-full', nodeTypeAccent.barClassName)} aria-hidden />
+      <div className={clsx('absolute inset-y-0 left-0 w-1 rounded-r-full', nodeTypeAccent.barClassName)} aria-hidden />
       {nodeTypeAccent.glowClassName ? (
-        <div className={clsx('absolute inset-0 -z-[1] rounded-3xl opacity-10 blur-3xl', nodeTypeAccent.glowClassName)} />
+        <div className={clsx('absolute inset-0 -z-[1] rounded-xl opacity-10 blur-3xl', nodeTypeAccent.glowClassName)} />
       ) : null}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <button
-          type="button"
+        <div
+          role={hasDetails ? 'button' : undefined}
+          tabIndex={hasDetails ? 0 : undefined}
           onClick={() => {
-            if (hasDetails) {
+            if (hasDetails) onToggle();
+          }}
+          onKeyDown={(event) => {
+            if (!hasDetails) return;
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
               onToggle();
             }
           }}
           className={clsx(
-            'flex flex-1 items-start gap-3 rounded-2xl border border-transparent px-3 py-2 text-left transition',
+            'flex flex-1 items-start gap-3 border border-transparent px-2 py-2 text-left transition',
             hasDetails
-              ? 'hover:border-white/10 hover:bg-white/5 focus-visible:border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40'
+              ? 'cursor-pointer hover:border-white/10 hover:bg-white/5 focus-visible:border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40'
               : 'cursor-default'
           )}
           aria-expanded={hasDetails ? expanded : undefined}
-          disabled={!hasDetails}
         >
+          {hasChildren ? (
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                onToggleTree();
+              }}
+              className={clsx(
+                'mt-1 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white'
+              )}
+              aria-label={isTreeCollapsed ? 'Mostrar trabajos hijos' : 'Ocultar trabajos hijos'}
+              title={isTreeCollapsed ? 'Mostrar hijos' : 'Ocultar hijos'}
+            >
+              {isTreeCollapsed ? '▸' : '▾'}
+            </button>
+          ) : null}
           {hasDetails ? (
             <span
               className={clsx(
-                'mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full border border-white/20 text-xs text-white/70 transition',
-                expanded ? 'rotate-90 border-white/40 text-white' : ''
+                'mt-1 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-sm font-semibold text-white/70 transition',
+                expanded ? 'rotate-90 border-white/30 text-white' : ''
               )}
               aria-hidden
             >
               ▶
             </span>
           ) : null}
-          <span>
-            <h3 className="text-xl font-semibold text-white">{work.name}</h3>
+          <div>
+            <h3 className="text-lg font-semibold text-white">{work.name}</h3>
             {hasSubtitle ? <p className="text-sm text-white/70">{trimmedSubtitle}</p> : null}
             <p className="text-sm text-white/60">{work.estimatedMinutes} minutos</p>
             <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wide text-white/40">
@@ -286,10 +320,27 @@ function WorkViewCard({
               {nextLabel ? <span className="text-white/50">Siguiente: {nextLabel}</span> : null}
               {!canEdit ? <span className="text-amber-300/80">Solo lectura</span> : null}
             </div>
-          </span>
-        </button>
+          </div>
+        </div>
         <div className="flex flex-wrap items-center gap-2 sm:justify-end">
           {nodeTypeBadge}
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onTogglePersonal();
+            }}
+            disabled={!canTogglePersonal || personalToggleBusy}
+            className={clsx(
+              'inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold transition disabled:opacity-50',
+              isPersonalExcluded
+                ? 'border-rose-500/40 bg-rose-500/10 text-rose-200 hover:border-rose-400'
+                : 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200 hover:border-emerald-400'
+            )}
+            title={isPersonalExcluded ? 'Incluir en el plan personal' : 'Excluir del plan personal'}
+          >
+            {personalToggleBusy ? '...' : isPersonalExcluded ? 'Fuera' : 'En plan'}
+          </button>
           <Menu as="div" className="relative inline-flex">
             <Menu.Button className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40">
               <span className="sr-only">Abrir acciones</span>
@@ -384,19 +435,21 @@ function WorkViewCard({
           ) : null}
           {hasVideos ? (
             <div className="space-y-3">
-              {videoUrls.map((url, index) => (
-                <div key={`${work.id}-video-${index}`} className="space-y-2">
-                  <YouTubePreview url={url} title={`${work.name} vídeo ${index + 1}`} />
-                  <a
-                    href={url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/40 hover:text-white"
-                  >
-                    Abrir en YouTube
-                  </a>
-                </div>
-              ))}
+              <div className="grid gap-4 lg:grid-cols-3">
+                {videoUrls.map((url, index) => (
+                  <div key={`${work.id}-video-${index}`} className="space-y-2">
+                    <YouTubePreview url={url} title={`${work.name} vídeo ${index + 1}`} />
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/40 hover:text-white"
+                    >
+                      Abrir en YouTube
+                    </a>
+                  </div>
+                ))}
+              </div>
             </div>
           ) : null}
         </div>
@@ -841,8 +894,11 @@ export default function CatalogView() {
   const [search, setSearch] = useState('');
   const [feedback, setFeedback] = useState<FeedbackMessage | null>(null);
   const [expandedWorks, setExpandedWorks] = useState<Set<string>>(new Set());
+  const [collapsedWorkTrees, setCollapsedWorkTrees] = useState<Set<string>>(new Set());
+  const [collapsedObjectiveGroups, setCollapsedObjectiveGroups] = useState<Set<string>>(new Set());
   const [editingEntries, setEditingEntries] = useState<Record<string, EditingEntry>>({});
   const [savingWorkId, setSavingWorkId] = useState<string | null>(null);
+  const [togglingPersonalWorkId, setTogglingPersonalWorkId] = useState<string | null>(null);
 
   const objectiveMap = useMemo(() => new Map(objectives.map((objective) => [objective.id, objective])), [objectives]);
   const sortedObjectives = useMemo(
@@ -1085,6 +1141,24 @@ export default function CatalogView() {
 
     return entries;
   }, [works, worksById, editingEntries, objectiveMap, workPathById, search]);
+
+  const isEntryHiddenByCollapsedTree = useCallback(
+    (entry: WorkEntry) => {
+      const startingParent =
+        (entry.isEditing && entry.form ? entry.form.parentWorkId : entry.parentWorkId) ?? '';
+      if (!startingParent) return false;
+      let current = startingParent;
+      const visited = new Set<string>();
+      while (current && !visited.has(current)) {
+        visited.add(current);
+        if (collapsedWorkTrees.has(current)) return true;
+        const next = worksById.get(current)?.parentWorkId ?? '';
+        current = next || '';
+      }
+      return false;
+    },
+    [collapsedWorkTrees, worksById]
+  );
 
   const groupedEntries = useMemo(() => {
     const groups = new Map<string, WorkEntry[]>();
@@ -1491,6 +1565,37 @@ export default function CatalogView() {
     }
   };
 
+  const togglePersonalPlanExcluded = async (work: Work) => {
+    if (!actorContext) {
+      setFeedback({ type: 'error', text: 'Inicia sesión para editar trabajos.' });
+      return;
+    }
+    if (!(work.canEdit ?? false)) return;
+    if ((work.nodeType ?? '').trim().toLowerCase() === 'style') return;
+
+    const existing = (work.tags ?? []).map((tag) => tag.trim().toLowerCase()).filter(Boolean);
+    const isExcluded = existing.includes(PERSONAL_EXCLUDE_TAG);
+    const nextTags = isExcluded ? existing.filter((tag) => tag !== PERSONAL_EXCLUDE_TAG) : Array.from(new Set([...existing, PERSONAL_EXCLUDE_TAG]));
+
+    setTogglingPersonalWorkId(work.id);
+    try {
+      await updateWork(work.id, { tags: nextTags }, actorContext);
+      setFeedback({
+        type: 'success',
+        text: isExcluded ? 'Incluido en el plan personal.' : 'Excluido del plan personal.'
+      });
+      window.setTimeout(() => setFeedback(null), 1800);
+    } catch (error) {
+      console.error('No se pudo actualizar el trabajo', error);
+      setFeedback({
+        type: 'error',
+        text: 'No se han podido guardar los cambios. Comprueba tus permisos e inténtalo de nuevo.'
+      });
+    } finally {
+      setTogglingPersonalWorkId(null);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <header className="glass-panel space-y-4 p-6 sm:p-10">
@@ -1543,10 +1648,31 @@ export default function CatalogView() {
         ) : (
           groupedEntries.map(({ objective, items }) => {
             const groupTitle = objective ? objective.name : 'Sin objetivo asignado';
+            const groupKey = objective?.id ?? NO_OBJECTIVE_KEY;
+            const isGroupCollapsed = collapsedObjectiveGroups.has(groupKey);
             return (
               <div key={objective?.id ?? 'sin-objetivo'} className="glass-panel space-y-4 p-6">
                 <header className="flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setCollapsedObjectiveGroups((prev) => {
+                          const next = new Set(prev);
+                          if (next.has(groupKey)) {
+                            next.delete(groupKey);
+                          } else {
+                            next.add(groupKey);
+                          }
+                          return next;
+                        })
+                      }
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white"
+                      aria-label={isGroupCollapsed ? 'Expandir grupo' : 'Colapsar grupo'}
+                      title={isGroupCollapsed ? 'Expandir' : 'Colapsar'}
+                    >
+                      {isGroupCollapsed ? '▸' : '▾'}
+                    </button>
                     <h3 className="text-lg font-semibold text-white">{groupTitle}</h3>
                     <ObjectiveChip objective={objective} size="sm" />
                   </div>
@@ -1554,8 +1680,11 @@ export default function CatalogView() {
                     {items.length} trabajo{items.length === 1 ? '' : 's'}
                   </span>
                 </header>
-                <div className="space-y-4">
-                  {items.map((entry) => {
+                {isGroupCollapsed ? null : (
+                  <div className="space-y-4">
+                    {items
+                      .filter((entry) => !isEntryHiddenByCollapsedTree(entry))
+                      .map((entry) => {
                     const isExpanded = expandedWorks.has(entry.id);
                     const currentParentId =
                       (entry.isEditing && entry.form ? entry.form.parentWorkId : entry.parentWorkId) ?? '';
@@ -1564,6 +1693,7 @@ export default function CatalogView() {
                       : [];
                     const childWorks = entry.work ? childrenByWorkId.get(entry.work.id) ?? [] : [];
                     const childCount = childWorks.length;
+                    const isTreeCollapsed = collapsedWorkTrees.has(entry.id);
                     if (entry.isEditing && entry.form) {
                       const canEditContent = entry.isNew || (entry.work?.canEdit ?? false);
                       const canManageSharing = entry.isNew || (entry.work?.isOwner ?? false);
@@ -1705,9 +1835,29 @@ export default function CatalogView() {
                         childCount={childCount}
                         depth={entry.depth}
                         expanded={isExpanded}
+                        isTreeCollapsed={isTreeCollapsed}
+                        isPersonalExcluded={(entry.work.tags ?? []).map((tag) => tag.trim().toLowerCase()).includes(PERSONAL_EXCLUDE_TAG)}
+                        canTogglePersonal={(entry.work.canEdit ?? false) && ((entry.work.nodeType ?? '').trim().toLowerCase() !== 'style')}
+                        personalToggleBusy={togglingPersonalWorkId === entry.id}
                         nextLabel={nextLabel}
                         variantLabel={variantLabel}
                         onToggle={() => toggleExpanded(entry.id)}
+                        onToggleTree={() =>
+                          setCollapsedWorkTrees((prev) => {
+                            const next = new Set(prev);
+                            if (next.has(entry.id)) {
+                              next.delete(entry.id);
+                            } else {
+                              next.add(entry.id);
+                            }
+                            return next;
+                          })
+                        }
+                        onTogglePersonal={() => {
+                          if (entry.work) {
+                            void togglePersonalPlanExcluded(entry.work);
+                          }
+                        }}
                         onEdit={() => {
                           const target = entry.work;
                           if (target && (target.canEdit ?? false)) {
@@ -1734,8 +1884,9 @@ export default function CatalogView() {
                         }}
                       />
                     );
-                  })}
-                </div>
+                      })}
+                  </div>
+                )}
               </div>
             );
           })

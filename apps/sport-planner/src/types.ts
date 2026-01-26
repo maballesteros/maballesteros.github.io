@@ -89,6 +89,8 @@ export interface KungfuTodayPlanConfig {
   minutesBudget: number;
   template: KungfuTodayTemplate;
   defaultMinutesByNodeType: Record<string, number>;
+  focusSelectors?: KungfuProgramSelector[];
+  rouletteSelectors?: KungfuProgramSelector[];
 }
 
 export interface SessionWork {
