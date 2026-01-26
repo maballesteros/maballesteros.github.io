@@ -101,7 +101,6 @@ const MAX_COLLABORATORS = 5;
 
 interface WorkViewCardProps {
   work: Work;
-  objective?: Objective;
   childCount: number;
   depth: number;
   expanded: boolean;
@@ -116,7 +115,6 @@ interface WorkViewCardProps {
 
 function WorkViewCard({
   work,
-  objective,
   childCount,
   depth,
   expanded,
@@ -182,17 +180,53 @@ function WorkViewCard({
     );
   })();
 
+  const nodeTypeAccent = (() => {
+    const borderMap: Record<string, string> = {
+      form: 'border-indigo-500/25',
+      segment: 'border-sky-500/25',
+      application: 'border-amber-500/25',
+      technique: 'border-emerald-500/25',
+      drill: 'border-purple-500/25',
+      work: 'border-white/10'
+    };
+
+    const glowMap: Record<string, string> = {
+      form: 'bg-indigo-500',
+      segment: 'bg-sky-500',
+      application: 'bg-amber-500',
+      technique: 'bg-emerald-500',
+      drill: 'bg-purple-500',
+      work: ''
+    };
+
+    const barMap: Record<string, string> = {
+      form: 'bg-indigo-400/60',
+      segment: 'bg-sky-400/60',
+      application: 'bg-amber-400/60',
+      technique: 'bg-emerald-400/60',
+      drill: 'bg-purple-400/60',
+      work: 'bg-white/10'
+    };
+
+    const borderClassName = borderMap[normalizedNodeType] ?? borderMap.work;
+    const glowClassName = glowMap[normalizedNodeType] ?? glowMap.work;
+    const barClassName = barMap[normalizedNodeType] ?? barMap.work;
+
+    return { borderClassName, glowClassName, barClassName };
+  })();
+
   return (
     <article
       id={`work-${work.id}`}
-      className="group relative space-y-4 rounded-3xl border border-white/10 bg-white/5 p-5 pb-10 shadow shadow-black/30"
+      className={clsx(
+        'group relative space-y-4 rounded-3xl border bg-white/5 p-5 pb-10 shadow shadow-black/30',
+        nodeTypeAccent.borderClassName
+      )}
       style={indentStyle}
     >
-      {objective ? (
-        <div
-          className="absolute inset-0 -z-[1] rounded-3xl opacity-20 blur-3xl"
-          style={{ backgroundColor: objective.colorHex }}
-        />
+      <div className={clsx('absolute inset-y-4 left-0 w-1 rounded-r-full', nodeTypeAccent.barClassName)} aria-hidden />
+      {nodeTypeAccent.glowClassName ? (
+        <div className={clsx('absolute inset-0 -z-[1] rounded-3xl opacity-10 blur-3xl', nodeTypeAccent.glowClassName)} />
       ) : null}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <button
@@ -1668,7 +1702,6 @@ export default function CatalogView() {
                       <WorkViewCard
                         key={entry.id}
                         work={entry.work}
-                        objective={objectiveMap.get(entry.work.objectiveId)}
                         childCount={childCount}
                         depth={entry.depth}
                         expanded={isExpanded}
