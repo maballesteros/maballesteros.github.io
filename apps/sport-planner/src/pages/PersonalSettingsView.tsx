@@ -4,7 +4,17 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 import { useAppStore } from '@/store/appStore';
-import type { KungfuProgram, KungfuProgramSelector, KungfuCadenceConfig, KungfuTodayPlanConfig } from '@/types';
+import type {
+  KungfuProgram,
+  KungfuProgramSelector,
+  KungfuCadenceConfig,
+  KungfuTodayPlanConfig,
+  KungfuPlanGroupConfig,
+  KungfuPlanGroupHierarchyRule,
+  KungfuPlanGroupStrategy,
+  KungfuPlanGroupType,
+  KungfuTodayLimitMode
+} from '@/types';
 
 type Feedback = { type: 'success' | 'error'; text: string } | null;
 
@@ -75,18 +85,6 @@ function normalizeTodayPlan(plan: KungfuTodayPlanConfig): KungfuTodayPlanConfig 
   const maxItems = Math.max(1, Math.round(Number(plan.maxItems) || 12));
   const minutesBudget = Math.max(1, Number(plan.minutesBudget) || 30);
 
-  const focusMinutes = Math.max(0, Number(plan.template?.focusMinutes) || 0);
-  const rouletteMinutes = Math.max(0, Number(plan.template?.rouletteMinutes) || 0);
-  const recapMinutes = Math.max(0, Number(plan.template?.recapMinutes) || 0);
-  const totalMinutes = Math.max(0, focusMinutes + rouletteMinutes + recapMinutes);
-
-  const focusSelectors = (plan.focusSelectors ?? [])
-    .map(normalizeSelectorDraft)
-    .filter((selector) => Object.keys(selector).length > 0);
-  const rouletteSelectors = (plan.rouletteSelectors ?? [])
-    .map(normalizeSelectorDraft)
-    .filter((selector) => Object.keys(selector).length > 0);
-
   const defaultMinutesByNodeType: Record<string, number> = {};
   Object.entries(plan.defaultMinutesByNodeType ?? {}).forEach(([key, value]) => {
     const cleanKey = key.trim().toLowerCase();
@@ -96,18 +94,131 @@ function normalizeTodayPlan(plan: KungfuTodayPlanConfig): KungfuTodayPlanConfig 
     defaultMinutesByNodeType[cleanKey] = Math.max(0.25, cleanValue);
   });
 
+  const isLimitMode = (value: unknown): value is KungfuTodayLimitMode =>
+    value === 'count' || value === 'minutes' || value === 'both';
+  const isGroupType = (value: unknown): value is KungfuPlanGroupType => value === 'work' || value === 'note';
+  const isStrategy = (value: unknown): value is KungfuPlanGroupStrategy => value === 'overdue' || value === 'weighted';
+  const isHierarchy = (value: unknown): value is KungfuPlanGroupHierarchyRule =>
+    value === 'allow_all' || value === 'prefer_leaves';
+
+  const normalizeDays = (raw: unknown): number[] => {
+    if (!Array.isArray(raw)) return [];
+    const days = raw
+      .map((value) => Number(value))
+      .filter((value) => Number.isFinite(value))
+      .map((value) => Math.round(value))
+      .filter((value) => value >= 0 && value <= 6);
+    return Array.from(new Set(days)).sort((a, b) => a - b);
+  };
+
+  const normalizeGroupDraft = (group: KungfuPlanGroupConfig, fallbackOrder: number): KungfuPlanGroupConfig => {
+    const id = (group.id ?? '').trim() || nanoid();
+    const type = isGroupType(group.type) ? group.type : 'work';
+    const enabled = typeof group.enabled === 'boolean' ? group.enabled : true;
+    const order = Number.isFinite(Number(group.order)) ? Number(group.order) : fallbackOrder;
+    const name = (group.name ?? '').trim() || (type === 'note' ? 'Recap' : 'Grupo');
+    const limitMode = isLimitMode(group.limitMode) ? group.limitMode : 'minutes';
+    const maxItems = Number.isFinite(Number(group.maxItems)) ? Math.max(0, Math.round(Number(group.maxItems))) : undefined;
+    const minutesBudget = Number.isFinite(Number(group.minutesBudget)) ? Math.max(0, Number(group.minutesBudget)) : undefined;
+    const strategy = isStrategy(group.strategy) ? group.strategy : 'overdue';
+    const hierarchyRule = isHierarchy(group.hierarchyRule) ? group.hierarchyRule : 'allow_all';
+
+    const include = (group.include ?? []).map(normalizeSelectorDraft).filter((selector) => Object.keys(selector).length > 0);
+    const exclude = (group.exclude ?? []).map(normalizeSelectorDraft).filter((selector) => Object.keys(selector).length > 0);
+
+    return {
+      id,
+      name,
+      enabled,
+      order,
+      type,
+      daysOfWeek: normalizeDays(group.daysOfWeek),
+      limitMode,
+      maxItems,
+      minutesBudget,
+      strategy,
+      hierarchyRule,
+      include,
+      exclude
+    };
+  };
+
+  const baseGroups =
+    (plan.groups ?? []).length > 0
+      ? (plan.groups ?? [])
+      : ([
+          {
+            id: 'formas',
+            name: 'Formas',
+            enabled: true,
+            order: 1,
+            type: 'work',
+            limitMode: 'minutes',
+            minutesBudget: 18,
+            strategy: 'overdue',
+            hierarchyRule: 'prefer_leaves',
+            include: [{ byNodeTypes: ['segment', 'form'] }],
+            exclude: []
+          },
+          {
+            id: 'tecnicas',
+            name: 'Técnicas',
+            enabled: true,
+            order: 2,
+            type: 'work',
+            limitMode: 'minutes',
+            minutesBudget: 10,
+            strategy: 'weighted',
+            hierarchyRule: 'allow_all',
+            include: [{ byNodeTypes: ['technique'] }, { byTags: ['roulette'] }],
+            exclude: []
+          },
+          {
+            id: 'recap',
+            name: 'Recap',
+            enabled: true,
+            order: 99,
+            type: 'note',
+            limitMode: 'minutes',
+            minutesBudget: 2
+          }
+        ] as KungfuPlanGroupConfig[]);
+
+  const normalizedGroups = baseGroups
+    .map((group, index) => normalizeGroupDraft(group, index + 1))
+    .sort((a, b) => a.order - b.order)
+    .map((group, index) => ({ ...group, order: index + 1 }));
+
+  const workGroups = normalizedGroups.filter((group) => (group.type ?? 'work') !== 'note');
+  const noteGroups = normalizedGroups.filter((group) => group.type === 'note');
+  const focusMinutes = Math.max(0, Number(workGroups[0]?.minutesBudget) || 0);
+  const rouletteMinutes = Math.max(0, Number(workGroups[1]?.minutesBudget) || 0);
+  const recapMinutes = Math.max(0, Number(noteGroups[0]?.minutesBudget) || 0);
+  const totalMinutes = Math.max(0, focusMinutes + rouletteMinutes + recapMinutes);
+
   return {
     limitMode: plan.limitMode,
     maxItems,
     minutesBudget,
     template: { totalMinutes, focusMinutes, rouletteMinutes, recapMinutes },
     defaultMinutesByNodeType,
-    focusSelectors,
-    rouletteSelectors
+    focusSelectors: [],
+    rouletteSelectors: [],
+    groups: normalizedGroups
   };
 }
 
 const EMPTY_SELECTOR: KungfuProgramSelector = {};
+
+const DAY_OPTIONS: Array<{ label: string; value: number }> = [
+  { label: 'L', value: 1 },
+  { label: 'M', value: 2 },
+  { label: 'X', value: 3 },
+  { label: 'J', value: 4 },
+  { label: 'V', value: 5 },
+  { label: 'S', value: 6 },
+  { label: 'D', value: 0 }
+];
 
 export default function PersonalSettingsView() {
   const programs = useAppStore((state) => state.kungfuPrograms);
@@ -170,10 +281,6 @@ export default function PersonalSettingsView() {
     setDraftTodayPlan(todayPlan);
     showFeedback({ type: 'success', text: 'Cambios descartados.' });
   };
-
-  const templateTotalMismatch =
-    Math.round((draftTodayPlan.template?.focusMinutes ?? 0) + (draftTodayPlan.template?.rouletteMinutes ?? 0) + (draftTodayPlan.template?.recapMinutes ?? 0)) !==
-    Math.round(draftTodayPlan.template?.totalMinutes ?? 0);
 
   return (
     <div className="space-y-6">
@@ -257,69 +364,368 @@ export default function PersonalSettingsView() {
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-4">
-          <div className="grid gap-2">
-            <label className="text-xs uppercase tracking-wide text-white/40">Foco (min)</label>
-            <input
-              type="number"
-              min={0}
-              className="input-field"
-              value={draftTodayPlan.template.focusMinutes}
-              onChange={(event) =>
-                setDraftTodayPlan((prev) => ({
-                  ...prev,
-                  template: { ...prev.template, focusMinutes: Number(event.target.value) }
-                }))
+        <div className="space-y-4 rounded-3xl border border-white/10 bg-white/5 p-5">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-white">Grupos</h3>
+              <p className="text-sm text-white/60">Define bloques con reglas, días de la semana y límites.</p>
+            </div>
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() =>
+                setDraftTodayPlan((prev) => {
+                  const ordered = [...(prev.groups ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+                  const nextGroup: KungfuPlanGroupConfig = {
+                    id: nanoid(),
+                    name: 'Nuevo grupo',
+                    enabled: true,
+                    order: ordered.length + 1,
+                    type: 'work',
+                    daysOfWeek: [],
+                    limitMode: 'minutes',
+                    maxItems: 12,
+                    minutesBudget: 5,
+                    strategy: 'overdue',
+                    hierarchyRule: 'allow_all',
+                    include: [],
+                    exclude: []
+                  };
+                  const next = [...ordered, nextGroup].map((group, index) => ({ ...group, order: index + 1 }));
+                  return { ...prev, groups: next };
+                })
               }
-            />
+            >
+              + Grupo
+            </button>
           </div>
-          <div className="grid gap-2">
-            <label className="text-xs uppercase tracking-wide text-white/40">Ruleta (min)</label>
-            <input
-              type="number"
-              min={0}
-              className="input-field"
-              value={draftTodayPlan.template.rouletteMinutes}
-              onChange={(event) =>
-                setDraftTodayPlan((prev) => ({
-                  ...prev,
-                  template: { ...prev.template, rouletteMinutes: Number(event.target.value) }
-                }))
-              }
-            />
-          </div>
-          <div className="grid gap-2">
-            <label className="text-xs uppercase tracking-wide text-white/40">Recap (min)</label>
-            <input
-              type="number"
-              min={0}
-              className="input-field"
-              value={draftTodayPlan.template.recapMinutes}
-              onChange={(event) =>
-                setDraftTodayPlan((prev) => ({
-                  ...prev,
-                  template: { ...prev.template, recapMinutes: Number(event.target.value) }
-                }))
-              }
-            />
-          </div>
-          <div className="grid gap-2">
-            <label className="text-xs uppercase tracking-wide text-white/40">Total (min)</label>
-            <input
-              type="number"
-              min={0}
-              className={clsx('input-field', templateTotalMismatch && 'border-amber-400/60')}
-              value={draftTodayPlan.template.totalMinutes}
-              onChange={(event) =>
-                setDraftTodayPlan((prev) => ({
-                  ...prev,
-                  template: { ...prev.template, totalMinutes: Number(event.target.value) }
-                }))
-              }
-            />
-            {templateTotalMismatch ? (
-              <p className="text-xs text-amber-200/90">Sugerencia: total = foco + ruleta + recap.</p>
-            ) : null}
+
+          <div className="space-y-4">
+            {[...(draftTodayPlan.groups ?? [])]
+              .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+              .map((group, index, list) => {
+                const groupType: KungfuPlanGroupType = (group.type ?? 'work') as KungfuPlanGroupType;
+                const days = group.daysOfWeek ?? [];
+                const isAllDays = days.length === 0;
+                const limitMode = (group.limitMode ?? 'minutes') as KungfuTodayLimitMode;
+                const strategy = (group.strategy ?? 'overdue') as KungfuPlanGroupStrategy;
+                const hierarchyRule = (group.hierarchyRule ?? 'allow_all') as KungfuPlanGroupHierarchyRule;
+
+                const updateGroup = (patch: Partial<KungfuPlanGroupConfig>) => {
+                  setDraftTodayPlan((prev) => {
+                    const ordered = [...(prev.groups ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+                    const next = ordered
+                      .map((item) => (item.id === group.id ? { ...item, ...patch } : item))
+                      .map((item, idx) => ({ ...item, order: idx + 1 }));
+                    return { ...prev, groups: next };
+                  });
+                };
+
+                const moveGroup = (direction: -1 | 1) => {
+                  setDraftTodayPlan((prev) => {
+                    const ordered = [...(prev.groups ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+                    const from = ordered.findIndex((item) => item.id === group.id);
+                    const to = from + direction;
+                    if (from < 0 || to < 0 || to >= ordered.length) return prev;
+                    const next = ordered.slice();
+                    const temp = next[from];
+                    next[from] = next[to];
+                    next[to] = temp;
+                    return { ...prev, groups: next.map((item, idx) => ({ ...item, order: idx + 1 })) };
+                  });
+                };
+
+                const removeGroup = () => {
+                  setDraftTodayPlan((prev) => {
+                    const ordered = [...(prev.groups ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+                    const next = ordered.filter((item) => item.id !== group.id).map((item, idx) => ({ ...item, order: idx + 1 }));
+                    return { ...prev, groups: next.length > 0 ? next : prev.groups };
+                  });
+                };
+
+                const updateSelectorList = (
+                  key: 'include' | 'exclude',
+                  updater: (prevList: KungfuProgramSelector[]) => KungfuProgramSelector[]
+                ) => {
+                  const current = (group[key] ?? []) as KungfuProgramSelector[];
+                  updateGroup({ [key]: updater(current) } as Partial<KungfuPlanGroupConfig>);
+                };
+
+                return (
+                  <div key={group.id} className="rounded-3xl border border-white/10 bg-slate-950/40 p-5">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="flex flex-1 flex-col gap-3">
+                        <div className="flex flex-wrap items-center gap-3">
+                          <label className="inline-flex items-center gap-2 text-sm text-white/70">
+                            <input
+                              type="checkbox"
+                              className="accent-sky-400"
+                              checked={group.enabled}
+                              onChange={(event) => updateGroup({ enabled: event.target.checked })}
+                            />
+                            Enabled
+                          </label>
+                          <input
+                            type="text"
+                            className="input-field flex-1"
+                            value={group.name}
+                            onChange={(event) => updateGroup({ name: event.target.value })}
+                            placeholder="Nombre del grupo"
+                          />
+                          <select
+                            className="input-field w-36"
+                            value={groupType}
+                            onChange={(event) => updateGroup({ type: event.target.value as KungfuPlanGroupType })}
+                          >
+                            <option value="work">Trabajos</option>
+                            <option value="note">Nota</option>
+                          </select>
+                        </div>
+
+                        <div className="grid gap-4 lg:grid-cols-2">
+                          <div className="space-y-2">
+                            <p className="text-xs uppercase tracking-[0.3em] text-white/40">Días</p>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <button
+                                type="button"
+                                className={clsx(
+                                  'rounded-full border px-3 py-1 text-xs font-semibold transition',
+                                  isAllDays
+                                    ? 'border-sky-500/40 bg-sky-500/10 text-sky-100'
+                                    : 'border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:text-white'
+                                )}
+                                onClick={() => updateGroup({ daysOfWeek: [] })}
+                                title="Vacío = todos los días"
+                              >
+                                Todos
+                              </button>
+                              {DAY_OPTIONS.map((day) => {
+                                const active = isAllDays ? true : days.includes(day.value);
+                                return (
+                                  <button
+                                    key={day.value}
+                                    type="button"
+                                    className={clsx(
+                                      'h-8 w-8 rounded-full border text-xs font-semibold transition',
+                                      active
+                                        ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-100'
+                                        : 'border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:text-white'
+                                    )}
+                                    onClick={() => {
+                                      const next = isAllDays ? [day.value] : days.includes(day.value) ? days.filter((d) => d !== day.value) : [...days, day.value];
+                                      updateGroup({ daysOfWeek: next.sort((a, b) => a - b) });
+                                    }}
+                                    title={active ? 'Activo' : 'Inactivo'}
+                                  >
+                                    {day.label}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                            <p className="text-xs text-white/50">Si eliges días específicos, solo aparecerá esos días.</p>
+                          </div>
+
+                          <div className="grid gap-3 sm:grid-cols-3">
+                            <label className="grid gap-1">
+                              <span className="text-xs uppercase tracking-wide text-white/40">Límite</span>
+                              <select
+                                className="input-field"
+                                value={limitMode}
+                                onChange={(event) => updateGroup({ limitMode: event.target.value as KungfuTodayLimitMode })}
+                              >
+                                <option value="count">Cantidad</option>
+                                <option value="minutes">Minutos</option>
+                                <option value="both">Ambos</option>
+                              </select>
+                            </label>
+                            <label className="grid gap-1">
+                              <span className="text-xs uppercase tracking-wide text-white/40">Máx ítems</span>
+                              <input
+                                type="number"
+                                min={0}
+                                className="input-field"
+                                value={group.maxItems ?? 0}
+                                onChange={(event) => updateGroup({ maxItems: Number(event.target.value) })}
+                              />
+                            </label>
+                            <label className="grid gap-1">
+                              <span className="text-xs uppercase tracking-wide text-white/40">Máx min</span>
+                              <input
+                                type="number"
+                                min={0}
+                                className="input-field"
+                                value={group.minutesBudget ?? 0}
+                                onChange={(event) => updateGroup({ minutesBudget: Number(event.target.value) })}
+                              />
+                            </label>
+                          </div>
+                        </div>
+
+                        {groupType === 'work' ? (
+                          <div className="mt-2 grid gap-4 lg:grid-cols-2">
+                            <label className="grid gap-1">
+                              <span className="text-xs uppercase tracking-wide text-white/40">Estrategia</span>
+                              <select
+                                className="input-field"
+                                value={strategy}
+                                onChange={(event) => updateGroup({ strategy: event.target.value as KungfuPlanGroupStrategy })}
+                              >
+                                <option value="overdue">Vencido (cadencia)</option>
+                                <option value="weighted">Ponderado (ruleta)</option>
+                              </select>
+                            </label>
+                            <label className="flex items-center gap-2 text-sm text-white/70">
+                              <input
+                                type="checkbox"
+                                className="accent-sky-400"
+                                checked={hierarchyRule === 'prefer_leaves'}
+                                onChange={(event) =>
+                                  updateGroup({
+                                    hierarchyRule: (event.target.checked ? 'prefer_leaves' : 'allow_all') as KungfuPlanGroupHierarchyRule
+                                  })
+                                }
+                              />
+                              Preferir hijos (evita padres cuando existan)
+                            </label>
+                          </div>
+                        ) : null}
+
+                        {groupType === 'work' ? (
+                          <div className="mt-4 grid gap-5 lg:grid-cols-2">
+                            {(['include', 'exclude'] as const).map((bucket) => (
+                              <div key={`${group.id}-${bucket}`} className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                  <p className="text-sm font-semibold text-white/80">
+                                    {bucket === 'include' ? 'Include (OR)' : 'Exclude (OR)'}
+                                  </p>
+                                  <button
+                                    type="button"
+                                    className="btn-secondary"
+                                    onClick={() => updateSelectorList(bucket, (prevList) => [...prevList, { ...EMPTY_SELECTOR }])}
+                                  >
+                                    + Regla
+                                  </button>
+                                </div>
+
+                                {(group[bucket] ?? []).length === 0 ? (
+                                  <p className="text-xs text-white/50">
+                                    {bucket === 'include' ? 'Vacío = incluye todo (se aplican excludes).' : 'Vacío = no excluye nada.'}
+                                  </p>
+                                ) : null}
+
+                                {(group[bucket] ?? []).map((selector, selectorIndex) => (
+                                  <div
+                                    key={`${bucket}-${group.id}-${selectorIndex}`}
+                                    className="rounded-2xl border border-white/10 bg-white/5 p-4"
+                                  >
+                                    <div className="flex items-center justify-between">
+                                      <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+                                        Regla {selectorIndex + 1}
+                                      </p>
+                                      <button
+                                        type="button"
+                                        className="text-xs font-semibold text-rose-200 hover:text-rose-100"
+                                        onClick={() =>
+                                          updateSelectorList(bucket, (prevList) => prevList.filter((_, i) => i !== selectorIndex))
+                                        }
+                                      >
+                                        Quitar
+                                      </button>
+                                    </div>
+
+                                    <div className="mt-3 grid gap-3">
+                                      <label className="grid gap-1">
+                                        <span className="text-xs text-white/50">Tags (AND)</span>
+                                        <input
+                                          type="text"
+                                          className="input-field"
+                                          value={toCsv(selector.byTags)}
+                                          placeholder="kungfu, bei-shaolin"
+                                          onChange={(event) => {
+                                            const nextTags = normalizeListLower(event.target.value);
+                                            updateSelectorList(bucket, (prevList) => {
+                                              const nextList = [...prevList];
+                                              nextList[selectorIndex] = { ...nextList[selectorIndex], byTags: nextTags };
+                                              return nextList;
+                                            });
+                                          }}
+                                        />
+                                      </label>
+                                      <label className="grid gap-1">
+                                        <span className="text-xs text-white/50">Node types</span>
+                                        <input
+                                          type="text"
+                                          className="input-field"
+                                          value={toCsv(selector.byNodeTypes)}
+                                          placeholder="segment, form"
+                                          onChange={(event) => {
+                                            const nextNodeTypes = normalizeListLower(event.target.value);
+                                            updateSelectorList(bucket, (prevList) => {
+                                              const nextList = [...prevList];
+                                              nextList[selectorIndex] = { ...nextList[selectorIndex], byNodeTypes: nextNodeTypes };
+                                              return nextList;
+                                            });
+                                          }}
+                                        />
+                                      </label>
+                                      <label className="grid gap-1">
+                                        <span className="text-xs text-white/50">Work IDs</span>
+                                        <input
+                                          type="text"
+                                          className="input-field"
+                                          value={toCsv(selector.byWorkIds)}
+                                          placeholder="id1, id2"
+                                          onChange={(event) => {
+                                            const nextIds = normalizeIdList(event.target.value);
+                                            updateSelectorList(bucket, (prevList) => {
+                                              const nextList = [...prevList];
+                                              nextList[selectorIndex] = { ...nextList[selectorIndex], byWorkIds: nextIds };
+                                              return nextList;
+                                            });
+                                          }}
+                                        />
+                                      </label>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
+
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => moveGroup(-1)}
+                          disabled={index === 0}
+                          title="Subir"
+                        >
+                          ↑
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => moveGroup(1)}
+                          disabled={index === list.length - 1}
+                          title="Bajar"
+                        >
+                          ↓
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={removeGroup}
+                          disabled={list.length <= 1}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         </div>
 
@@ -349,213 +755,6 @@ export default function PersonalSettingsView() {
                   />
                 </label>
               ))}
-          </div>
-        </details>
-
-        <details className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <summary className="cursor-pointer text-sm font-semibold text-white/80">Sacos: foco vs ruleta</summary>
-          <p className="mt-2 text-sm text-white/60">
-            Reglas opcionales para forzar qué entra en cada saco. La ruleta tiene prioridad sobre el foco.
-          </p>
-
-          <div className="mt-4 grid gap-6 lg:grid-cols-2">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-white/80">Ruleta (OR)</p>
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={() =>
-                    setDraftTodayPlan((prev) => ({
-                      ...prev,
-                      rouletteSelectors: [...(prev.rouletteSelectors ?? []), { ...EMPTY_SELECTOR }]
-                    }))
-                  }
-                >
-                  + Regla
-                </button>
-              </div>
-              {(draftTodayPlan.rouletteSelectors ?? []).length === 0 ? (
-                <p className="text-xs text-white/50">
-                  Vacío = ruleta automática (técnicas + tag <span className="font-semibold text-white">roulette</span>).
-                </p>
-              ) : null}
-
-              {(draftTodayPlan.rouletteSelectors ?? []).map((selector, selectorIndex) => (
-                <div
-                  key={`roulette-${selectorIndex}`}
-                  className="rounded-2xl border border-white/10 bg-slate-950/40 p-4"
-                >
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">Regla {selectorIndex + 1}</p>
-                    <button
-                      type="button"
-                      className="text-xs font-semibold text-rose-200 hover:text-rose-100"
-                      onClick={() =>
-                        setDraftTodayPlan((prev) => ({
-                          ...prev,
-                          rouletteSelectors: (prev.rouletteSelectors ?? []).filter((_, i) => i !== selectorIndex)
-                        }))
-                      }
-                    >
-                      Quitar
-                    </button>
-                  </div>
-
-                  <div className="mt-3 grid gap-3">
-                    <label className="grid gap-1">
-                      <span className="text-xs text-white/50">Tags (AND)</span>
-                      <input
-                        type="text"
-                        className="input-field"
-                        value={toCsv(selector.byTags)}
-                        placeholder="bei-shaolin"
-                        onChange={(event) => {
-                          const nextTags = normalizeListLower(event.target.value);
-                          setDraftTodayPlan((prev) => {
-                            const rouletteSelectors = [...(prev.rouletteSelectors ?? [])];
-                            rouletteSelectors[selectorIndex] = { ...rouletteSelectors[selectorIndex], byTags: nextTags };
-                            return { ...prev, rouletteSelectors };
-                          });
-                        }}
-                      />
-                    </label>
-                    <label className="grid gap-1">
-                      <span className="text-xs text-white/50">Node types</span>
-                      <input
-                        type="text"
-                        className="input-field"
-                        value={toCsv(selector.byNodeTypes)}
-                        placeholder="application, technique"
-                        onChange={(event) => {
-                          const nextNodeTypes = normalizeListLower(event.target.value);
-                          setDraftTodayPlan((prev) => {
-                            const rouletteSelectors = [...(prev.rouletteSelectors ?? [])];
-                            rouletteSelectors[selectorIndex] = {
-                              ...rouletteSelectors[selectorIndex],
-                              byNodeTypes: nextNodeTypes
-                            };
-                            return { ...prev, rouletteSelectors };
-                          });
-                        }}
-                      />
-                    </label>
-                    <label className="grid gap-1">
-                      <span className="text-xs text-white/50">Work IDs</span>
-                      <input
-                        type="text"
-                        className="input-field"
-                        value={toCsv(selector.byWorkIds)}
-                        placeholder="id1, id2"
-                        onChange={(event) => {
-                          const nextIds = normalizeIdList(event.target.value);
-                          setDraftTodayPlan((prev) => {
-                            const rouletteSelectors = [...(prev.rouletteSelectors ?? [])];
-                            rouletteSelectors[selectorIndex] = { ...rouletteSelectors[selectorIndex], byWorkIds: nextIds };
-                            return { ...prev, rouletteSelectors };
-                          });
-                        }}
-                      />
-                    </label>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-white/80">Forzar foco (OR)</p>
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={() =>
-                    setDraftTodayPlan((prev) => ({
-                      ...prev,
-                      focusSelectors: [...(prev.focusSelectors ?? []), { ...EMPTY_SELECTOR }]
-                    }))
-                  }
-                >
-                  + Regla
-                </button>
-              </div>
-              {(draftTodayPlan.focusSelectors ?? []).length === 0 ? (
-                <p className="text-xs text-white/50">Opcional: por ejemplo, forzar técnicas concretas a foco.</p>
-              ) : null}
-
-              {(draftTodayPlan.focusSelectors ?? []).map((selector, selectorIndex) => (
-                <div key={`focus-${selectorIndex}`} className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">Regla {selectorIndex + 1}</p>
-                    <button
-                      type="button"
-                      className="text-xs font-semibold text-rose-200 hover:text-rose-100"
-                      onClick={() =>
-                        setDraftTodayPlan((prev) => ({
-                          ...prev,
-                          focusSelectors: (prev.focusSelectors ?? []).filter((_, i) => i !== selectorIndex)
-                        }))
-                      }
-                    >
-                      Quitar
-                    </button>
-                  </div>
-
-                  <div className="mt-3 grid gap-3">
-                    <label className="grid gap-1">
-                      <span className="text-xs text-white/50">Tags (AND)</span>
-                      <input
-                        type="text"
-                        className="input-field"
-                        value={toCsv(selector.byTags)}
-                        placeholder="segment"
-                        onChange={(event) => {
-                          const nextTags = normalizeListLower(event.target.value);
-                          setDraftTodayPlan((prev) => {
-                            const focusSelectors = [...(prev.focusSelectors ?? [])];
-                            focusSelectors[selectorIndex] = { ...focusSelectors[selectorIndex], byTags: nextTags };
-                            return { ...prev, focusSelectors };
-                          });
-                        }}
-                      />
-                    </label>
-                    <label className="grid gap-1">
-                      <span className="text-xs text-white/50">Node types</span>
-                      <input
-                        type="text"
-                        className="input-field"
-                        value={toCsv(selector.byNodeTypes)}
-                        placeholder="segment"
-                        onChange={(event) => {
-                          const nextNodeTypes = normalizeListLower(event.target.value);
-                          setDraftTodayPlan((prev) => {
-                            const focusSelectors = [...(prev.focusSelectors ?? [])];
-                            focusSelectors[selectorIndex] = { ...focusSelectors[selectorIndex], byNodeTypes: nextNodeTypes };
-                            return { ...prev, focusSelectors };
-                          });
-                        }}
-                      />
-                    </label>
-                    <label className="grid gap-1">
-                      <span className="text-xs text-white/50">Work IDs</span>
-                      <input
-                        type="text"
-                        className="input-field"
-                        value={toCsv(selector.byWorkIds)}
-                        placeholder="id1, id2"
-                        onChange={(event) => {
-                          const nextIds = normalizeIdList(event.target.value);
-                          setDraftTodayPlan((prev) => {
-                            const focusSelectors = [...(prev.focusSelectors ?? [])];
-                            focusSelectors[selectorIndex] = { ...focusSelectors[selectorIndex], byWorkIds: nextIds };
-                            return { ...prev, focusSelectors };
-                          });
-                        }}
-                      />
-                    </label>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </details>
       </section>
