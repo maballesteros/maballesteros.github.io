@@ -22,8 +22,12 @@ import type {
   KungfuPlanGroupHierarchyRule,
   KungfuPlanGroupStrategy,
   KungfuPlanGroupType,
-  KungfuTodayLimitMode
+  KungfuTodayLimitMode,
+  WorkTaxonomy,
+  NodeTypeDefinition,
+  TagDefinition
 } from '@/types';
+import { slugify } from '@/lib/slugify';
 import {
   fetchAccessibleWorks,
   createWork as createWorkRemote,
@@ -41,7 +45,8 @@ const STORAGE_KEYS = {
   assistants: 'sport-planner-asistentes',
   kungfuPrograms: 'sport-planner-kungfu-programs',
   kungfuCadence: 'sport-planner-kungfu-cadence',
-  kungfuTodayPlan: 'sport-planner-kungfu-today-plan'
+  kungfuTodayPlan: 'sport-planner-kungfu-today-plan',
+  workTaxonomy: 'sport-planner-work-taxonomy'
 };
 
 const isBrowser = typeof window !== 'undefined';
@@ -128,6 +133,90 @@ const DEFAULT_KUNGFU_TODAY_PLAN: KungfuTodayPlanConfig = {
       minutesBudget: 2
     }
   ]
+};
+
+const DEFAULT_WORK_TAXONOMY: WorkTaxonomy = {
+  nodeTypes: [
+    { key: 'form', label: 'Form' },
+    { key: 'segment', label: 'Segment' },
+    { key: 'application', label: 'Application' },
+    { key: 'technique', label: 'Technique' },
+    { key: 'drill', label: 'Drill' },
+    { key: 'work', label: 'Work' },
+    { key: 'link', label: 'Link' },
+    { key: 'style', label: 'Style' }
+  ],
+  tags: []
+};
+
+const normalizeNodeTypeDefinitions = (value: unknown): NodeTypeDefinition[] => {
+  const raw = Array.isArray(value) ? value : [];
+  const cleaned = raw
+    .map((entry) => {
+      if (!entry || typeof entry !== 'object') return null;
+      const obj = entry as { key?: unknown; label?: unknown };
+      const key = String(obj.key ?? '').trim().toLowerCase();
+      const label = String(obj.label ?? '').trim();
+      if (!key) return null;
+      return { key, label: label || key };
+    })
+    .filter(Boolean) as NodeTypeDefinition[];
+  const map = new Map<string, NodeTypeDefinition>();
+  cleaned.forEach((nt) => {
+    map.set(nt.key, nt);
+  });
+  DEFAULT_WORK_TAXONOMY.nodeTypes.forEach((nt) => {
+    if (!map.has(nt.key)) {
+      map.set(nt.key, nt);
+    }
+  });
+  return Array.from(map.values()).sort((a, b) => a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }));
+};
+
+const normalizeTagDefinitions = (value: unknown): TagDefinition[] => {
+  const raw = Array.isArray(value) ? value : [];
+  const cleaned = raw
+    .map((entry) => {
+      if (typeof entry === 'string') {
+        const name = entry.trim().toLowerCase();
+        return name ? { name } : null;
+      }
+      if (!entry || typeof entry !== 'object') return null;
+      const obj = entry as { name?: unknown };
+      const name = String(obj.name ?? '').trim().toLowerCase();
+      return name ? { name } : null;
+    })
+    .filter(Boolean) as TagDefinition[];
+  const map = new Map<string, TagDefinition>();
+  cleaned.forEach((tag) => map.set(tag.name, tag));
+  return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+};
+
+const normalizeWorkTaxonomy = (raw: unknown, works: Work[]): WorkTaxonomy => {
+  const base = (raw && typeof raw === 'object' ? (raw as { nodeTypes?: unknown; tags?: unknown }) : {}) ?? {};
+  const nodeTypes = normalizeNodeTypeDefinitions(base.nodeTypes);
+  const tags = normalizeTagDefinitions(base.tags);
+
+  const nodeTypeMap = new Map(nodeTypes.map((nt) => [nt.key, nt]));
+  const tagMap = new Map(tags.map((tag) => [tag.name, tag]));
+
+  works.forEach((work) => {
+    const nodeTypeKey = (work.nodeType ?? '').trim().toLowerCase();
+    if (nodeTypeKey && !nodeTypeMap.has(nodeTypeKey)) {
+      nodeTypeMap.set(nodeTypeKey, { key: nodeTypeKey, label: nodeTypeKey });
+    }
+    (work.tags ?? []).forEach((tag) => {
+      const key = String(tag ?? '').trim().toLowerCase();
+      if (key && !tagMap.has(key)) {
+        tagMap.set(key, { name: key });
+      }
+    });
+  });
+
+  return {
+    nodeTypes: Array.from(nodeTypeMap.values()).sort((a, b) => a.label.localeCompare(b.label, 'en', { sensitivity: 'base' })),
+    tags: Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
+  };
 };
 
 const normalizeListLower = (value: unknown): string[] =>
@@ -463,11 +552,22 @@ interface CollectionsState {
   kungfuPrograms: KungfuProgram[];
   kungfuCadence: KungfuCadenceConfig;
   kungfuTodayPlan: KungfuTodayPlanConfig;
+  workTaxonomy: WorkTaxonomy;
 }
 
 const persistCollections = (state: Partial<CollectionsState>) => {
   if (!isBrowser) return;
-  const normalized = normalizeCollections(state);
+  const base: Partial<CollectionsState> = {
+    objectives: loadCollection<Objective[]>(STORAGE_KEYS.objectives, []),
+    works: loadCollection<Work[]>(STORAGE_KEYS.works, []),
+    sessions: loadCollection<Session[]>(STORAGE_KEYS.sessions, []),
+    assistants: loadCollection<Assistant[]>(STORAGE_KEYS.assistants, []),
+    kungfuPrograms: loadCollection<KungfuProgram[]>(STORAGE_KEYS.kungfuPrograms, DEFAULT_KUNGFU_PROGRAMS),
+    kungfuCadence: loadCollection<KungfuCadenceConfig>(STORAGE_KEYS.kungfuCadence, DEFAULT_KUNGFU_CADENCE),
+    kungfuTodayPlan: loadCollection<KungfuTodayPlanConfig>(STORAGE_KEYS.kungfuTodayPlan, DEFAULT_KUNGFU_TODAY_PLAN),
+    workTaxonomy: loadCollection<WorkTaxonomy>(STORAGE_KEYS.workTaxonomy, DEFAULT_WORK_TAXONOMY)
+  };
+  const normalized = normalizeCollections({ ...base, ...state });
   window.localStorage.setItem(STORAGE_KEYS.objectives, JSON.stringify(normalized.objectives));
   window.localStorage.setItem(STORAGE_KEYS.works, JSON.stringify(normalized.works));
   window.localStorage.setItem(STORAGE_KEYS.sessions, JSON.stringify(normalized.sessions));
@@ -475,34 +575,42 @@ const persistCollections = (state: Partial<CollectionsState>) => {
   window.localStorage.setItem(STORAGE_KEYS.kungfuPrograms, JSON.stringify(normalized.kungfuPrograms));
   window.localStorage.setItem(STORAGE_KEYS.kungfuCadence, JSON.stringify(normalized.kungfuCadence));
   window.localStorage.setItem(STORAGE_KEYS.kungfuTodayPlan, JSON.stringify(normalized.kungfuTodayPlan));
+  window.localStorage.setItem(STORAGE_KEYS.workTaxonomy, JSON.stringify(normalized.workTaxonomy));
 };
 
-const normalizeCollections = (state: Partial<CollectionsState>): CollectionsState => ({
-  objectives: state.objectives ?? [],
-  works: (state.works ?? []).map((work) => {
+const normalizeCollections = (state: Partial<CollectionsState>): CollectionsState => {
+  const works = (state.works ?? []).map((work) => {
     const legacyParent = (work as unknown as { parent_work_id?: string | null }).parent_work_id;
     return ensureWorkDefaults({
       ...work,
       id: (work as { id: string }).id,
       parentWorkId: normalizeParentWorkId(work.parentWorkId ?? legacyParent ?? null)
     });
-  }),
-  sessions: (state.sessions ?? []).map((session) => ({
-    ...session,
-    kind: session.kind ?? 'class',
-    startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
-    workItems: (session.workItems ?? []).map((item) => ({
-      ...item,
-      focusLabel: item.focusLabel,
-      completed: item.completed ?? false
+  });
+
+  const workTaxonomy = normalizeWorkTaxonomy(state.workTaxonomy ?? DEFAULT_WORK_TAXONOMY, works);
+
+  return {
+    objectives: state.objectives ?? [],
+    works,
+    sessions: (state.sessions ?? []).map((session) => ({
+      ...session,
+      kind: session.kind ?? 'class',
+      startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
+      workItems: (session.workItems ?? []).map((item) => ({
+        ...item,
+        focusLabel: item.focusLabel,
+        completed: item.completed ?? false
+      })),
+      attendance: normalizeAttendance(session.attendance as PartialAttendance[])
     })),
-    attendance: normalizeAttendance(session.attendance as PartialAttendance[])
-  })),
-  assistants: state.assistants ?? [],
-  kungfuPrograms: state.kungfuPrograms ?? DEFAULT_KUNGFU_PROGRAMS,
-  kungfuCadence: state.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE,
-  kungfuTodayPlan: normalizeKungfuTodayPlan(state.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN)
-});
+    assistants: state.assistants ?? [],
+    kungfuPrograms: state.kungfuPrograms ?? DEFAULT_KUNGFU_PROGRAMS,
+    kungfuCadence: state.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE,
+    kungfuTodayPlan: normalizeKungfuTodayPlan(state.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN),
+    workTaxonomy
+  };
+};
 
 interface ObjectiveInput {
   name: string;
@@ -546,6 +654,7 @@ interface AppState {
   kungfuPrograms: KungfuProgram[];
   kungfuCadence: KungfuCadenceConfig;
   kungfuTodayPlan: KungfuTodayPlanConfig;
+  workTaxonomy: WorkTaxonomy;
   hydrate: () => void;
   setCollections: (payload: CollectionsState) => void;
   setWorks: (works: Work[]) => void;
@@ -554,6 +663,11 @@ interface AppState {
   setKungfuPrograms: (programs: KungfuProgram[]) => void;
   setKungfuCadence: (cadence: KungfuCadenceConfig) => void;
   setKungfuTodayPlan: (plan: KungfuTodayPlanConfig) => void;
+  setWorkTaxonomy: (taxonomy: WorkTaxonomy) => void;
+  upsertNodeType: (raw: string) => string | null;
+  removeNodeType: (key: string) => boolean;
+  upsertTag: (raw: string) => string | null;
+  removeTag: (name: string) => boolean;
   addObjective: (input: ObjectiveInput) => Objective;
   updateObjective: (id: string, patch: Partial<ObjectiveInput>) => void;
   deleteObjective: (id: string) => boolean;
@@ -605,6 +719,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   kungfuPrograms: DEFAULT_KUNGFU_PROGRAMS,
   kungfuCadence: DEFAULT_KUNGFU_CADENCE,
   kungfuTodayPlan: DEFAULT_KUNGFU_TODAY_PLAN,
+  workTaxonomy: DEFAULT_WORK_TAXONOMY,
   hydrate: () => {
     if (get().ready) return;
     const objectives = loadCollection<Objective[]>(STORAGE_KEYS.objectives, []);
@@ -616,6 +731,8 @@ export const useAppStore = create<AppState>((set, get) => ({
         parentWorkId: normalizeParentWorkId(work.parentWorkId ?? legacyParent ?? null)
       });
     });
+    const rawTaxonomy = loadCollection<WorkTaxonomy>(STORAGE_KEYS.workTaxonomy, DEFAULT_WORK_TAXONOMY);
+    const workTaxonomy = normalizeWorkTaxonomy(rawTaxonomy, works);
     const sessions = loadCollection<Session[]>(STORAGE_KEYS.sessions, []).map((session) => ({
       ...session,
       kind: session.kind ?? 'class',
@@ -642,6 +759,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       kungfuPrograms,
       kungfuCadence,
       kungfuTodayPlan: normalizeKungfuTodayPlan(kungfuTodayPlan),
+      workTaxonomy,
       ready: true
     });
   },
@@ -654,7 +772,8 @@ export const useAppStore = create<AppState>((set, get) => ({
         assistants: payload.assistants ?? state.assistants,
         kungfuPrograms: payload.kungfuPrograms ?? state.kungfuPrograms,
         kungfuCadence: payload.kungfuCadence ?? state.kungfuCadence,
-        kungfuTodayPlan: payload.kungfuTodayPlan ?? state.kungfuTodayPlan
+        kungfuTodayPlan: payload.kungfuTodayPlan ?? state.kungfuTodayPlan,
+        workTaxonomy: payload.workTaxonomy ?? state.workTaxonomy
       });
       const merged = {
         ...state,
@@ -668,9 +787,11 @@ export const useAppStore = create<AppState>((set, get) => ({
   setWorks: (works) => {
     const normalized = works.map((work) => ensureWorkDefaults(work));
     set((state) => {
+      const workTaxonomy = normalizeWorkTaxonomy(state.workTaxonomy, normalized);
       const merged = {
         ...state,
-        works: normalized
+        works: normalized,
+        workTaxonomy
       };
       persistCollections({ works: normalized });
       return merged;
@@ -742,9 +863,11 @@ export const useAppStore = create<AppState>((set, get) => ({
         .sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
 
       set((state) => {
+        const workTaxonomy = normalizeWorkTaxonomy(state.workTaxonomy, normalized);
         const merged = {
           ...state,
-          works: normalized
+          works: normalized,
+          workTaxonomy
         };
         persistCollections({ works: normalized });
         return merged;
@@ -762,7 +885,8 @@ export const useAppStore = create<AppState>((set, get) => ({
         assistants: [],
         kungfuPrograms: DEFAULT_KUNGFU_PROGRAMS,
         kungfuCadence: DEFAULT_KUNGFU_CADENCE,
-        kungfuTodayPlan: DEFAULT_KUNGFU_TODAY_PLAN
+        kungfuTodayPlan: DEFAULT_KUNGFU_TODAY_PLAN,
+        workTaxonomy: DEFAULT_WORK_TAXONOMY
       });
       const merged = {
         ...state,
@@ -797,6 +921,74 @@ export const useAppStore = create<AppState>((set, get) => ({
       persistCollections(merged);
       return merged;
     });
+  },
+  setWorkTaxonomy: (taxonomy) => {
+    set((state) => {
+      const workTaxonomy = normalizeWorkTaxonomy(taxonomy ?? DEFAULT_WORK_TAXONOMY, state.works);
+      const merged = { ...state, workTaxonomy };
+      persistCollections(merged);
+      return merged;
+    });
+  },
+  upsertNodeType: (raw) => {
+    const key = slugify(raw);
+    if (!key) return null;
+    const label = raw.trim() || key;
+    set((state) => {
+      const existing = state.workTaxonomy.nodeTypes ?? [];
+      const next = existing.some((nt) => nt.key === key)
+        ? existing.map((nt) => (nt.key === key ? { ...nt, label } : nt))
+        : [...existing, { key, label }];
+      const workTaxonomy = normalizeWorkTaxonomy(
+        { ...state.workTaxonomy, nodeTypes: next },
+        state.works
+      );
+      const merged = { ...state, workTaxonomy };
+      persistCollections(merged);
+      return merged;
+    });
+    return key;
+  },
+  removeNodeType: (key) => {
+    const normalizedKey = (key ?? '').trim().toLowerCase();
+    if (!normalizedKey) return false;
+    const inUse = get().works.some((work) => (work.nodeType ?? '').trim().toLowerCase() === normalizedKey);
+    if (inUse) return false;
+    set((state) => {
+      const next = (state.workTaxonomy.nodeTypes ?? []).filter((nt) => nt.key !== normalizedKey);
+      const workTaxonomy = normalizeWorkTaxonomy({ ...state.workTaxonomy, nodeTypes: next }, state.works);
+      const merged = { ...state, workTaxonomy };
+      persistCollections(merged);
+      return merged;
+    });
+    return true;
+  },
+  upsertTag: (raw) => {
+    const name = slugify(raw);
+    if (!name) return null;
+    set((state) => {
+      const existing = state.workTaxonomy.tags ?? [];
+      const next = existing.some((tag) => tag.name === name) ? existing : [...existing, { name }];
+      const workTaxonomy = normalizeWorkTaxonomy({ ...state.workTaxonomy, tags: next }, state.works);
+      const merged = { ...state, workTaxonomy };
+      persistCollections(merged);
+      return merged;
+    });
+    return name;
+  },
+  removeTag: (name) => {
+    const normalizedName = slugify(name ?? '');
+    if (!normalizedName) return false;
+    const inUse = get().works.some((work) => (work.tags ?? []).includes(normalizedName));
+    if (inUse) return false;
+    set((state) => {
+      const next = (state.workTaxonomy.tags ?? []).filter((tag) => tag.name !== normalizedName);
+      const workTaxonomy = normalizeWorkTaxonomy({ ...state.workTaxonomy, tags: next }, state.works);
+      const merged = { ...state, workTaxonomy };
+      persistCollections(merged);
+      return merged;
+    });
+    return true;
   },
   addObjective: (input) => {
     const objective: Objective = {
@@ -874,10 +1066,12 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     set((prev) => {
       const works = [...prev.works.filter((work) => work.id !== normalized.id), normalized];
-      persistCollections({ works });
+      const workTaxonomy = normalizeWorkTaxonomy(prev.workTaxonomy, works);
+      persistCollections({ works, workTaxonomy });
       return {
         ...prev,
-        works
+        works,
+        workTaxonomy
       };
     });
 
@@ -934,10 +1128,12 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     set((prev) => {
       const works = prev.works.map((work) => (work.id === normalized.id ? normalized : work));
-      persistCollections({ works });
+      const workTaxonomy = normalizeWorkTaxonomy(prev.workTaxonomy, works);
+      persistCollections({ works, workTaxonomy });
       return {
         ...prev,
-        works
+        works,
+        workTaxonomy
       };
     });
 
@@ -955,10 +1151,12 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     set((state) => {
       const works = state.works.filter((work) => work.id !== id);
-      persistCollections({ works });
+      const workTaxonomy = normalizeWorkTaxonomy(state.workTaxonomy, works);
+      persistCollections({ works, workTaxonomy });
       return {
         ...state,
-        works
+        works,
+        workTaxonomy
       };
     });
     return true;
@@ -1409,6 +1607,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     const kungfuPrograms = payload.kungfuPrograms ?? DEFAULT_KUNGFU_PROGRAMS;
     const kungfuCadence = payload.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE;
     const kungfuTodayPlan = payload.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN;
+    const workTaxonomy = normalizeWorkTaxonomy(payload.workTaxonomy ?? DEFAULT_WORK_TAXONOMY, works);
 
     const sessionsById = new Map<string, Session>();
 
@@ -1525,9 +1724,10 @@ export const useAppStore = create<AppState>((set, get) => ({
       kungfuPrograms,
       kungfuCadence,
       kungfuTodayPlan,
+      workTaxonomy,
       ready: true
     });
-    persistCollections({ objectives, works, sessions, assistants, kungfuPrograms, kungfuCadence, kungfuTodayPlan });
+    persistCollections({ objectives, works, sessions, assistants, kungfuPrograms, kungfuCadence, kungfuTodayPlan, workTaxonomy });
   },
   exportBackup: () => {
     const state = get();
@@ -1591,7 +1791,8 @@ export const useAppStore = create<AppState>((set, get) => ({
       sesiones_asistencias: sesionesAsistencias,
       kungfuPrograms: state.kungfuPrograms,
       kungfuCadence: state.kungfuCadence,
-      kungfuTodayPlan: state.kungfuTodayPlan
+      kungfuTodayPlan: state.kungfuTodayPlan,
+      workTaxonomy: state.workTaxonomy
     };
     return payload;
   }

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { nanoid } from 'nanoid';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { useAppStore } from '@/store/appStore';
 import type { Objective, Work, WorkVisibility } from '@/types';
@@ -9,6 +9,7 @@ import type { WorkUpdateInput } from '@/services/workService';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { ObjectiveChip } from '@/components/ObjectiveChip';
 import { YouTubePreview } from '@/components/YouTubePreview';
+import { MultiSelectChips } from '@/components/MultiSelectChips';
 import { Menu } from '@headlessui/react';
 import { useAuth } from '@/contexts/useAuth';
 
@@ -19,7 +20,7 @@ interface WorkFormState {
   objectiveId: string;
   parentWorkId: string;
   nodeType: string;
-  tags: string;
+  tags: string[];
   orderHint: number;
   nextWorkId: string;
   variantOfWorkId: string;
@@ -43,7 +44,7 @@ const EMPTY_FORM: WorkFormState = {
   objectiveId: '',
   parentWorkId: '',
   nodeType: '',
-  tags: '',
+  tags: [],
   orderHint: 0,
   nextWorkId: '',
   variantOfWorkId: '',
@@ -55,17 +56,8 @@ const EMPTY_FORM: WorkFormState = {
   collaborators: ['']
 };
 
-const parseTagsInput = (input: string): string[] =>
-  Array.from(
-    new Set(
-      input
-        .split(',')
-        .map((tag) => tag.trim().toLowerCase())
-        .filter((tag) => tag.length > 0)
-    )
-  );
-
-const serializeTags = (tags: string[]) => tags.join(', ');
+const normalizeTagsSelection = (tags: string[]): string[] =>
+  Array.from(new Set((tags ?? []).map((tag) => tag.trim().toLowerCase()).filter(Boolean)));
 
 interface FeedbackMessage {
   type: 'success' | 'error';
@@ -159,6 +151,7 @@ function WorkViewCard({
   const nodeType = (work.nodeType ?? '').trim();
   const tags = (work.tags ?? []).filter((tag) => tag !== PERSONAL_EXCLUDE_TAG);
   const normalizedNodeType = (nodeType || 'work').trim().toLowerCase();
+  const taxonomyLabel = useAppStore((state) => state.workTaxonomy.nodeTypes.find((nt) => nt.key === normalizedNodeType)?.label);
 
   const nodeTypeBadge = (() => {
     const labelMap: Record<string, string> = {
@@ -183,7 +176,7 @@ function WorkViewCard({
       work: 'border-white/20 bg-white/10 text-white/70'
     };
 
-    const label = labelMap[normalizedNodeType] ?? (nodeType || 'Trabajo');
+    const label = taxonomyLabel ?? labelMap[normalizedNodeType] ?? (nodeType || 'Trabajo');
     const styles = styleMap[normalizedNodeType] ?? styleMap.work;
 
     return (
@@ -482,6 +475,10 @@ interface WorkEditCardProps {
   objectiveOptions: Objective[];
   parentOptions: Array<{ id: string; label: string }>;
   workOptions: Array<{ id: string; label: string }>;
+  nodeTypeOptions: Array<{ value: string; label: string }>;
+  tagOptions: Array<{ value: string; label: string }>;
+  onCreateNodeType: (raw: string) => string | null;
+  onCreateTag: (raw: string) => string | null;
   depth: number;
   onFieldChange: (patch: Partial<WorkFormState>) => void;
   onVideoChange: (index: number, value: string) => void;
@@ -505,6 +502,10 @@ function WorkEditCard({
   objectiveOptions,
   parentOptions,
   workOptions,
+  nodeTypeOptions,
+  tagOptions,
+  onCreateNodeType,
+  onCreateTag,
   depth,
   onFieldChange,
   onVideoChange,
@@ -631,24 +632,33 @@ function WorkEditCard({
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="grid gap-2">
           <label className="text-xs uppercase tracking-wide text-white/40">Node type (opcional)</label>
-          <input
-            type="text"
-            className="input-field disabled:opacity-60"
-            value={form.nodeType}
-            onChange={(event) => onFieldChange({ nodeType: event.target.value })}
-            placeholder="Ej. form, segment, technique…"
+          <MultiSelectChips
+            options={nodeTypeOptions}
+            value={form.nodeType ? [form.nodeType] : []}
+            maxSelected={1}
+            onChange={(next) => onFieldChange({ nodeType: next[0] ?? '' })}
+            placeholder="Search node types…"
             disabled={!canEditContent}
+            allowCreate
+            onCreate={(raw) => {
+              const created = onCreateNodeType(raw);
+              return created ? { createdValue: created, createdLabel: raw.trim() } : null;
+            }}
           />
         </div>
         <div className="grid gap-2">
-          <label className="text-xs uppercase tracking-wide text-white/40">Tags (coma-separadas)</label>
-          <input
-            type="text"
-            className="input-field disabled:opacity-60"
-            value={form.tags}
-            onChange={(event) => onFieldChange({ tags: event.target.value })}
-            placeholder="Ej. kungfu, shaolin, form"
+          <label className="text-xs uppercase tracking-wide text-white/40">Tags</label>
+          <MultiSelectChips
+            options={tagOptions}
+            value={form.tags ?? []}
+            onChange={(next) => onFieldChange({ tags: next })}
+            placeholder="Search tags…"
             disabled={!canEditContent}
+            allowCreate
+            onCreate={(raw) => {
+              const created = onCreateTag(raw);
+              return created ? { createdValue: created, createdLabel: created } : null;
+            }}
           />
         </div>
         <div className="grid gap-2">
@@ -873,9 +883,12 @@ function WorkEditCard({
 export default function CatalogView() {
   const works = useAppStore((state) => state.works);
   const objectives = useAppStore((state) => state.objectives);
+  const workTaxonomy = useAppStore((state) => state.workTaxonomy);
   const addWork = useAppStore((state) => state.addWork);
   const updateWork = useAppStore((state) => state.updateWork);
   const deleteWork = useAppStore((state) => state.deleteWork);
+  const upsertNodeType = useAppStore((state) => state.upsertNodeType);
+  const upsertTag = useAppStore((state) => state.upsertTag);
   const worksLoading = useAppStore((state) => state.worksLoading);
   const location = useLocation();
   const { user } = useAuth();
@@ -904,6 +917,22 @@ export default function CatalogView() {
   const sortedObjectives = useMemo(
     () => [...objectives].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? '', 'es')),
     [objectives]
+  );
+  const nodeTypeOptions = useMemo(
+    () =>
+      (workTaxonomy.nodeTypes ?? [])
+        .slice()
+        .sort((a, b) => a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }))
+        .map((nt) => ({ value: nt.key, label: nt.label })),
+    [workTaxonomy.nodeTypes]
+  );
+  const tagOptions = useMemo(
+    () =>
+      (workTaxonomy.tags ?? [])
+        .slice()
+        .sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
+        .map((tag) => ({ value: tag.name, label: tag.name })),
+    [workTaxonomy.tags]
   );
   const worksById = useMemo(() => new Map(works.map((work) => [work.id, work])), [works]);
   const childrenByWorkId = useMemo(() => {
@@ -1244,7 +1273,7 @@ export default function CatalogView() {
             objectiveId: work.objectiveId,
             parentWorkId: work.parentWorkId ?? '',
             nodeType: work.nodeType ?? '',
-            tags: serializeTags(work.tags ?? []),
+            tags: work.tags ?? [],
             orderHint: work.orderHint ?? 0,
             nextWorkId: work.nextWorkId ?? '',
             variantOfWorkId: work.variantOfWorkId ?? '',
@@ -1300,7 +1329,7 @@ export default function CatalogView() {
           objectiveId: work.objectiveId,
           parentWorkId: work.parentWorkId ?? '',
           nodeType: work.nodeType ?? '',
-          tags: serializeTags(work.tags ?? []),
+          tags: work.tags ?? [],
           orderHint: work.orderHint ?? 0,
           nextWorkId: '',
           variantOfWorkId: '',
@@ -1392,7 +1421,7 @@ export default function CatalogView() {
     const parentWorkId = parentValue.length > 0 ? parentValue : undefined;
     const nodeTypeValue = entry.data.nodeType.trim();
     const nodeType = nodeTypeValue.length > 0 ? nodeTypeValue : undefined;
-    const tags = parseTagsInput(entry.data.tags);
+    const tags = normalizeTagsSelection(entry.data.tags ?? []);
     const orderHint = Number(entry.data.orderHint) > 0 ? Number(entry.data.orderHint) : undefined;
     const nextValue = (entry.data.nextWorkId ?? '').trim();
     const nextWorkId = nextValue.length > 0 ? nextValue : undefined;
@@ -1614,6 +1643,9 @@ export default function CatalogView() {
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Buscar por nombre, descripción u objetivo"
             />
+            <Link to="/catalog/taxonomy" className="btn-secondary">
+              Taxonomy
+            </Link>
             <button type="button" className="btn-primary" onClick={startNewWork}>
               Nuevo trabajo
             </button>
@@ -1705,6 +1737,10 @@ export default function CatalogView() {
                           objectiveOptions={sortedObjectives}
                           parentOptions={parentOptions}
                           workOptions={workOptions}
+                          nodeTypeOptions={nodeTypeOptions}
+                          tagOptions={tagOptions}
+                          onCreateNodeType={upsertNodeType}
+                          onCreateTag={upsertTag}
                           depth={entry.depth}
                           onFieldChange={(patch) =>
                             updateEditingEntry(entry.id, (prev) => {

@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 import { useAppStore } from '@/store/appStore';
+import { MultiSelectChips } from '@/components/MultiSelectChips';
 import type {
   KungfuProgramSelector,
   KungfuCadenceConfig,
@@ -17,11 +18,10 @@ import type {
 
 type Feedback = { type: 'success' | 'error'; text: string } | null;
 
-const normalizeListLower = (value: string): string[] =>
+const normalizeLowerList = (values?: string[]): string[] =>
   Array.from(
     new Set(
-      value
-        .split(',')
+      (values ?? [])
         .map((item) => item.trim().toLowerCase())
         .filter(Boolean)
     )
@@ -40,9 +40,9 @@ const normalizeIdList = (value: string): string[] =>
 const toCsv = (list?: string[]) => (list ?? []).join(', ');
 
 function normalizeSelectorDraft(selector: KungfuProgramSelector): KungfuProgramSelector {
-  const tags = selector.byTags ? normalizeListLower(toCsv(selector.byTags)) : undefined;
-  const nodeTypes = selector.byNodeTypes ? normalizeListLower(toCsv(selector.byNodeTypes)) : undefined;
-  const workIds = selector.byWorkIds ? normalizeIdList(toCsv(selector.byWorkIds)) : undefined;
+  const tags = normalizeLowerList(selector.byTags);
+  const nodeTypes = normalizeLowerList(selector.byNodeTypes);
+  const workIds = normalizeIdList(toCsv(selector.byWorkIds));
 
   const next: KungfuProgramSelector = {};
   if (tags && tags.length > 0) next.byTags = tags;
@@ -63,7 +63,7 @@ function normalizeCadence(cadence: KungfuCadenceConfig): KungfuCadenceConfig {
 
   const overrides = (cadence.overrides ?? [])
     .map((override) => ({
-      match: { tagsAny: normalizeListLower(toCsv(override.match?.tagsAny ?? [])) },
+      match: { tagsAny: normalizeLowerList(override.match?.tagsAny ?? []) },
       multiplier: Math.max(0.1, Number(override.multiplier) || 1)
     }))
     .filter((override) => override.match.tagsAny.length > 0);
@@ -210,20 +210,12 @@ const DAY_OPTIONS: Array<{ label: string; value: number }> = [
   { label: 'D', value: 0 }
 ];
 
-const NODE_TYPE_OPTIONS: Array<{ label: string; value: string }> = [
-  { label: 'Form', value: 'form' },
-  { label: 'Segment', value: 'segment' },
-  { label: 'Application', value: 'application' },
-  { label: 'Technique', value: 'technique' },
-  { label: 'Drill', value: 'drill' },
-  { label: 'Work', value: 'work' },
-  { label: 'Link', value: 'link' },
-  { label: 'Style', value: 'style' }
-];
-
 export default function PersonalSettingsView() {
   const cadence = useAppStore((state) => state.kungfuCadence);
   const todayPlan = useAppStore((state) => state.kungfuTodayPlan);
+  const workTaxonomy = useAppStore((state) => state.workTaxonomy);
+  const upsertNodeType = useAppStore((state) => state.upsertNodeType);
+  const upsertTag = useAppStore((state) => state.upsertTag);
 
   const setCadence = useAppStore((state) => state.setKungfuCadence);
   const setTodayPlan = useAppStore((state) => state.setKungfuTodayPlan);
@@ -271,6 +263,24 @@ export default function PersonalSettingsView() {
     setDraftTodayPlan(todayPlan);
     showFeedback({ type: 'success', text: 'Cambios descartados.' });
   };
+
+  const nodeTypeOptions = useMemo(
+    () =>
+      (workTaxonomy.nodeTypes ?? [])
+        .slice()
+        .sort((a, b) => a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }))
+        .map((nt) => ({ value: nt.key, label: nt.label })),
+    [workTaxonomy.nodeTypes]
+  );
+
+  const tagOptions = useMemo(
+    () =>
+      (workTaxonomy.tags ?? [])
+        .slice()
+        .sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
+        .map((tag) => ({ value: tag.name, label: tag.name })),
+    [workTaxonomy.tags]
+  );
 
   return (
     <div className="space-y-6">
@@ -626,67 +636,43 @@ export default function PersonalSettingsView() {
                                     <div className="mt-3 grid gap-3">
                                       <label className="grid gap-1">
                                         <span className="text-xs text-white/50">Tags (AND)</span>
-                                        <input
-                                          type="text"
-                                          className="input-field"
-                                          value={toCsv(selector.byTags)}
-                                          placeholder="kungfu, bei-shaolin"
-                                          onChange={(event) => {
-                                            const nextTags = normalizeListLower(event.target.value);
+                                        <MultiSelectChips
+                                          options={tagOptions}
+                                          value={selector.byTags ?? []}
+                                          onChange={(nextTags) =>
                                             updateSelectorList(bucket, (prevList) => {
                                               const nextList = [...prevList];
                                               nextList[selectorIndex] = { ...nextList[selectorIndex], byTags: nextTags };
                                               return nextList;
-                                            });
+                                            })
+                                          }
+                                          placeholder="Search tags…"
+                                          allowCreate
+                                          onCreate={(raw) => {
+                                            const created = upsertTag(raw);
+                                            return created ? { createdValue: created, createdLabel: created } : null;
                                           }}
                                         />
                                       </label>
                                       <label className="grid gap-1">
                                         <span className="text-xs text-white/50">Node types</span>
-                                        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2">
-                                          {NODE_TYPE_OPTIONS.map((opt) => {
-                                            const current = selector.byNodeTypes ?? [];
-                                            const active = current.includes(opt.value);
-                                            return (
-                                              <button
-                                                key={opt.value}
-                                                type="button"
-                                                className={clsx(
-                                                  'rounded-full border px-3 py-1 text-xs font-semibold transition',
-                                                  active
-                                                    ? 'border-sky-500/40 bg-sky-500/10 text-sky-100'
-                                                    : 'border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:text-white'
-                                                )}
-                                                onClick={() => {
-                                                  const next = active
-                                                    ? current.filter((value) => value !== opt.value)
-                                                    : [...current, opt.value];
-                                                  updateSelectorList(bucket, (prevList) => {
-                                                    const nextList = [...prevList];
-                                                    nextList[selectorIndex] = { ...nextList[selectorIndex], byNodeTypes: next };
-                                                    return nextList;
-                                                  });
-                                                }}
-                                              >
-                                                {opt.label}
-                                              </button>
-                                            );
-                                          })}
-                                          <button
-                                            type="button"
-                                            className="ml-auto rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/30 hover:text-white"
-                                            onClick={() =>
-                                              updateSelectorList(bucket, (prevList) => {
-                                                const nextList = [...prevList];
-                                                nextList[selectorIndex] = { ...nextList[selectorIndex], byNodeTypes: [] };
-                                                return nextList;
-                                              })
-                                            }
-                                            title="Limpiar node types"
-                                          >
-                                            Clear
-                                          </button>
-                                        </div>
+                                        <MultiSelectChips
+                                          options={nodeTypeOptions}
+                                          value={selector.byNodeTypes ?? []}
+                                          onChange={(nextNodeTypes) =>
+                                            updateSelectorList(bucket, (prevList) => {
+                                              const nextList = [...prevList];
+                                              nextList[selectorIndex] = { ...nextList[selectorIndex], byNodeTypes: nextNodeTypes };
+                                              return nextList;
+                                            })
+                                          }
+                                          placeholder="Search node types…"
+                                          allowCreate
+                                          onCreate={(raw) => {
+                                            const created = upsertNodeType(raw);
+                                            return created ? { createdValue: created, createdLabel: raw.trim() } : null;
+                                          }}
+                                        />
                                       </label>
                                       <label className="grid gap-1">
                                         <span className="text-xs text-white/50">Work IDs</span>
@@ -1083,25 +1069,38 @@ export default function PersonalSettingsView() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          {Object.entries(draftCadence.targetsDays ?? {})
-            .sort(([a], [b]) => a.localeCompare(b, 'es', { sensitivity: 'base' }))
-            .map(([key, value]) => (
-              <label key={key} className="grid gap-2">
-                <span className="text-xs uppercase tracking-wide text-white/40">{key}</span>
-                <input
-                  type="number"
-                  min={1}
-                  className="input-field"
-                  value={value}
-                  onChange={(event) =>
-                    setDraftCadence((prev) => ({
-                      ...prev,
-                      targetsDays: { ...prev.targetsDays, [key]: Number(event.target.value) }
-                    }))
-                  }
-                />
-              </label>
-            ))}
+          {Array.from(
+            new Set([
+              ...Object.keys(draftCadence.targetsDays ?? {}),
+              ...(workTaxonomy.nodeTypes ?? []).map((nt) => nt.key)
+            ])
+          )
+            .map((key) => key.trim().toLowerCase())
+            .filter(Boolean)
+            .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }))
+            .map((key) => {
+              const label = (workTaxonomy.nodeTypes ?? []).find((nt) => nt.key === key)?.label ?? key;
+              const value = (draftCadence.targetsDays ?? {})[key] ?? (draftCadence.targetsDays ?? {}).work ?? 7;
+              return (
+                <label key={key} className="grid gap-2">
+                  <span className="text-xs uppercase tracking-wide text-white/40">
+                    {label} <span className="text-white/30">({key})</span>
+                  </span>
+                  <input
+                    type="number"
+                    min={1}
+                    className="input-field"
+                    value={value}
+                    onChange={(event) =>
+                      setDraftCadence((prev) => ({
+                        ...prev,
+                        targetsDays: { ...prev.targetsDays, [key]: Number(event.target.value) }
+                      }))
+                    }
+                  />
+                </label>
+              );
+            })}
         </div>
 
         <details className="rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -1124,18 +1123,21 @@ export default function PersonalSettingsView() {
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
                   <label className="grid gap-1">
                     <span className="text-xs text-white/50">Tags (ANY)</span>
-                    <input
-                      type="text"
-                      className="input-field"
-                      value={toCsv(override.match.tagsAny)}
-                      placeholder="weapon"
-                      onChange={(event) => {
-                        const tagsAny = normalizeListLower(event.target.value);
+                    <MultiSelectChips
+                      options={tagOptions}
+                      value={override.match.tagsAny ?? []}
+                      onChange={(tagsAny) =>
                         setDraftCadence((prev) => {
                           const overrides = [...(prev.overrides ?? [])];
                           overrides[index] = { ...override, match: { tagsAny } };
                           return { ...prev, overrides };
-                        });
+                        })
+                      }
+                      placeholder="Search tags…"
+                      allowCreate
+                      onCreate={(raw) => {
+                        const created = upsertTag(raw);
+                        return created ? { createdValue: created, createdLabel: created } : null;
                       }}
                     />
                   </label>
