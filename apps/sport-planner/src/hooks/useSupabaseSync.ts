@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/contexts/useAuth';
 import { useAppStore, type CollectionsState, type AppState } from '@/store/appStore';
-import type { KungfuTodayPlanConfig } from '@/types';
+import type { KungfuTodayPlanConfig, WorkTaxonomy } from '@/types';
 
 interface PlannerStatePayload extends CollectionsState {
   version?: number;
@@ -96,6 +96,20 @@ const DEFAULT_KUNGFU_TODAY_PLAN: KungfuTodayPlanConfig = {
   ]
 };
 
+const DEFAULT_WORK_TAXONOMY: WorkTaxonomy = {
+  nodeTypes: [
+    { key: 'form', label: 'Form' },
+    { key: 'segment', label: 'Segment' },
+    { key: 'application', label: 'Application' },
+    { key: 'technique', label: 'Technique' },
+    { key: 'drill', label: 'Drill' },
+    { key: 'work', label: 'Work' },
+    { key: 'link', label: 'Link' },
+    { key: 'style', label: 'Style' }
+  ],
+  tags: []
+};
+
 const selectCollections = (state: AppState): CollectionsState => ({
   objectives: state.objectives,
   works: state.works,
@@ -103,7 +117,8 @@ const selectCollections = (state: AppState): CollectionsState => ({
   assistants: state.assistants,
   kungfuPrograms: state.kungfuPrograms,
   kungfuCadence: state.kungfuCadence,
-  kungfuTodayPlan: state.kungfuTodayPlan
+  kungfuTodayPlan: state.kungfuTodayPlan,
+  workTaxonomy: state.workTaxonomy
 });
 
 const normalizeCollections = (payload: Partial<PlannerStatePayload>): CollectionsState => ({
@@ -118,7 +133,8 @@ const normalizeCollections = (payload: Partial<PlannerStatePayload>): Collection
   assistants: payload.assistants ?? [],
   kungfuPrograms: payload.kungfuPrograms ?? DEFAULT_KUNGFU_PROGRAMS,
   kungfuCadence: payload.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE,
-  kungfuTodayPlan: payload.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN
+  kungfuTodayPlan: payload.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN,
+  workTaxonomy: payload.workTaxonomy ?? DEFAULT_WORK_TAXONOMY
 });
 
 const collectionsChanged = (a: CollectionsState, b: CollectionsState) =>
@@ -128,7 +144,8 @@ const collectionsChanged = (a: CollectionsState, b: CollectionsState) =>
   a.assistants !== b.assistants ||
   a.kungfuPrograms !== b.kungfuPrograms ||
   a.kungfuCadence !== b.kungfuCadence ||
-  a.kungfuTodayPlan !== b.kungfuTodayPlan;
+  a.kungfuTodayPlan !== b.kungfuTodayPlan ||
+  a.workTaxonomy !== b.workTaxonomy;
 
 export function useSupabaseSync() {
   const { user } = useAuth();

@@ -8,6 +8,7 @@ import { useCollaborativeWorks } from '@/hooks/useCollaborativeWorks';
 import HomeView from './pages/HomeView';
 import PlannerView from './pages/PlannerView';
 import CatalogView from './pages/CatalogView';
+import TaxonomyView from './pages/TaxonomyView';
 import ObjectivesView from './pages/ObjectivesView';
 import AssistantsView from './pages/AssistantsView';
 import BackupsView from './pages/BackupsView';
@@ -224,6 +225,7 @@ export default function App() {
             <Route path="personal/settings" element={<PersonalSettingsView />} />
             <Route path="plan" element={<PlannerView />} />
             <Route path="catalog" element={<CatalogView />} />
+            <Route path="catalog/taxonomy" element={<TaxonomyView />} />
             <Route path="objectives" element={<ObjectivesView />} />
             <Route path="assistants" element={<AssistantsView />} />
             <Route path="backups" element={<BackupsView />} />

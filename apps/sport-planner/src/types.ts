@@ -20,6 +20,20 @@ export interface WorkCollaborator {
   createdAt: string;
 }
 
+export interface NodeTypeDefinition {
+  key: string;
+  label: string;
+}
+
+export interface TagDefinition {
+  name: string;
+}
+
+export interface WorkTaxonomy {
+  nodeTypes: NodeTypeDefinition[];
+  tags: TagDefinition[];
+}
+
 export interface Work {
   id: string;
   name: string;
@@ -219,4 +233,5 @@ export interface BackupPayload {
   kungfuPrograms?: KungfuProgram[];
   kungfuCadence?: KungfuCadenceConfig;
   kungfuTodayPlan?: KungfuTodayPlanConfig;
+  workTaxonomy?: WorkTaxonomy;
 }
