@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 import { useAppStore } from '@/store/appStore';
 import type {
-  KungfuProgram,
   KungfuProgramSelector,
   KungfuCadenceConfig,
   KungfuTodayPlanConfig,
@@ -50,15 +49,6 @@ function normalizeSelectorDraft(selector: KungfuProgramSelector): KungfuProgramS
   if (nodeTypes && nodeTypes.length > 0) next.byNodeTypes = nodeTypes;
   if (workIds && workIds.length > 0) next.byWorkIds = workIds;
   return next;
-}
-
-function normalizePrograms(programs: KungfuProgram[]): KungfuProgram[] {
-  return programs.map((program) => ({
-    ...program,
-    name: program.name.trim() || 'Kung Fu program',
-    include: (program.include ?? []).map(normalizeSelectorDraft).filter((selector) => Object.keys(selector).length > 0),
-    exclude: (program.exclude ?? []).map(normalizeSelectorDraft).filter((selector) => Object.keys(selector).length > 0)
-  }));
 }
 
 function normalizeCadence(cadence: KungfuCadenceConfig): KungfuCadenceConfig {
@@ -220,23 +210,27 @@ const DAY_OPTIONS: Array<{ label: string; value: number }> = [
   { label: 'D', value: 0 }
 ];
 
+const NODE_TYPE_OPTIONS: Array<{ label: string; value: string }> = [
+  { label: 'Form', value: 'form' },
+  { label: 'Segment', value: 'segment' },
+  { label: 'Application', value: 'application' },
+  { label: 'Technique', value: 'technique' },
+  { label: 'Drill', value: 'drill' },
+  { label: 'Work', value: 'work' },
+  { label: 'Link', value: 'link' },
+  { label: 'Style', value: 'style' }
+];
+
 export default function PersonalSettingsView() {
-  const programs = useAppStore((state) => state.kungfuPrograms);
   const cadence = useAppStore((state) => state.kungfuCadence);
   const todayPlan = useAppStore((state) => state.kungfuTodayPlan);
 
-  const setPrograms = useAppStore((state) => state.setKungfuPrograms);
   const setCadence = useAppStore((state) => state.setKungfuCadence);
   const setTodayPlan = useAppStore((state) => state.setKungfuTodayPlan);
 
-  const [draftPrograms, setDraftPrograms] = useState<KungfuProgram[]>(programs);
   const [draftCadence, setDraftCadence] = useState<KungfuCadenceConfig>(cadence);
   const [draftTodayPlan, setDraftTodayPlan] = useState<KungfuTodayPlanConfig>(todayPlan);
   const [feedback, setFeedback] = useState<Feedback>(null);
-
-  useEffect(() => {
-    setDraftPrograms(programs);
-  }, [programs]);
 
   useEffect(() => {
     setDraftCadence(cadence);
@@ -248,11 +242,10 @@ export default function PersonalSettingsView() {
 
   const hasUnsavedChanges = useMemo(() => {
     return (
-      JSON.stringify(programs) !== JSON.stringify(draftPrograms) ||
       JSON.stringify(cadence) !== JSON.stringify(draftCadence) ||
       JSON.stringify(todayPlan) !== JSON.stringify(draftTodayPlan)
     );
-  }, [programs, cadence, todayPlan, draftPrograms, draftCadence, draftTodayPlan]);
+  }, [cadence, todayPlan, draftCadence, draftTodayPlan]);
 
   const showFeedback = (next: Feedback) => {
     setFeedback(next);
@@ -262,10 +255,8 @@ export default function PersonalSettingsView() {
 
   const handleSave = () => {
     try {
-      const normalizedPrograms = normalizePrograms(draftPrograms);
       const normalizedCadence = normalizeCadence(draftCadence);
       const normalizedTodayPlan = normalizeTodayPlan(draftTodayPlan);
-      setPrograms(normalizedPrograms);
       setCadence(normalizedCadence);
       setTodayPlan(normalizedTodayPlan);
       showFeedback({ type: 'success', text: 'Guardado.' });
@@ -276,7 +267,6 @@ export default function PersonalSettingsView() {
   };
 
   const handleDiscard = () => {
-    setDraftPrograms(programs);
     setDraftCadence(cadence);
     setDraftTodayPlan(todayPlan);
     showFeedback({ type: 'success', text: 'Cambios descartados.' });
@@ -288,7 +278,7 @@ export default function PersonalSettingsView() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold">Kung Fu · Ajustes</h1>
-            <p className="text-white/60">Programa, cadencias y plantilla de sesión para el modo Personal.</p>
+            <p className="text-white/60">Grupos, cadencias y plantilla de sesión para el modo Personal.</p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link to="/personal" className="btn-secondary">
@@ -653,20 +643,50 @@ export default function PersonalSettingsView() {
                                       </label>
                                       <label className="grid gap-1">
                                         <span className="text-xs text-white/50">Node types</span>
-                                        <input
-                                          type="text"
-                                          className="input-field"
-                                          value={toCsv(selector.byNodeTypes)}
-                                          placeholder="segment, form"
-                                          onChange={(event) => {
-                                            const nextNodeTypes = normalizeListLower(event.target.value);
-                                            updateSelectorList(bucket, (prevList) => {
-                                              const nextList = [...prevList];
-                                              nextList[selectorIndex] = { ...nextList[selectorIndex], byNodeTypes: nextNodeTypes };
-                                              return nextList;
-                                            });
-                                          }}
-                                        />
+                                        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2">
+                                          {NODE_TYPE_OPTIONS.map((opt) => {
+                                            const current = selector.byNodeTypes ?? [];
+                                            const active = current.includes(opt.value);
+                                            return (
+                                              <button
+                                                key={opt.value}
+                                                type="button"
+                                                className={clsx(
+                                                  'rounded-full border px-3 py-1 text-xs font-semibold transition',
+                                                  active
+                                                    ? 'border-sky-500/40 bg-sky-500/10 text-sky-100'
+                                                    : 'border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:text-white'
+                                                )}
+                                                onClick={() => {
+                                                  const next = active
+                                                    ? current.filter((value) => value !== opt.value)
+                                                    : [...current, opt.value];
+                                                  updateSelectorList(bucket, (prevList) => {
+                                                    const nextList = [...prevList];
+                                                    nextList[selectorIndex] = { ...nextList[selectorIndex], byNodeTypes: next };
+                                                    return nextList;
+                                                  });
+                                                }}
+                                              >
+                                                {opt.label}
+                                              </button>
+                                            );
+                                          })}
+                                          <button
+                                            type="button"
+                                            className="ml-auto rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/30 hover:text-white"
+                                            onClick={() =>
+                                              updateSelectorList(bucket, (prevList) => {
+                                                const nextList = [...prevList];
+                                                nextList[selectorIndex] = { ...nextList[selectorIndex], byNodeTypes: [] };
+                                                return nextList;
+                                              })
+                                            }
+                                            title="Limpiar node types"
+                                          >
+                                            Clear
+                                          </button>
+                                        </div>
                                       </label>
                                       <label className="grid gap-1">
                                         <span className="text-xs text-white/50">Work IDs</span>
@@ -759,6 +779,7 @@ export default function PersonalSettingsView() {
         </details>
       </section>
 
+      {/*
       <section className="glass-panel space-y-5 p-6">
         <div>
           <h2 className="text-xl font-semibold text-white">Programas</h2>
@@ -1053,6 +1074,7 @@ export default function PersonalSettingsView() {
           </button>
         </div>
       </section>
+      */}
 
       <section className="glass-panel space-y-5 p-6">
         <div>
