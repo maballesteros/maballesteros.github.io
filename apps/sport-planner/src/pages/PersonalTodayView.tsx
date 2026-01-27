@@ -45,8 +45,6 @@ const RESULT_CARD_STYLES: Record<TrainingResult, string> = {
   fail: 'border-rose-500/25 bg-rose-500/10'
 };
 
-const DEFAULT_EFFORT = 6;
-
 function normalizeTags(tags: string[] | undefined): string[] {
   return Array.from(
     new Set(
@@ -520,7 +518,6 @@ export default function PersonalTodayView() {
     [user]
   );
 
-  const [effortByWorkId, setEffortByWorkId] = useState<Record<string, number>>({});
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [recapNote, setRecapNote] = useState<string>(todaySession?.notes ?? '');
   const [togglingWorkId, setTogglingWorkId] = useState<string | null>(null);
@@ -695,14 +692,11 @@ export default function PersonalTodayView() {
   const logWork = (workId: string, result: TrainingResult) => {
     try {
       const session = ensureTodaySession();
-      const effort = effortByWorkId[workId] ?? DEFAULT_EFFORT;
-      const clampedEffort = Math.min(Math.max(Math.round(effort), 1), 10);
       const existing = session.workItems.find((item) => item.workId === workId);
 
       if (existing) {
         updateSessionWorkDetails(session.id, existing.id, {
           result,
-          effort: clampedEffort,
           completed: true
         });
       } else {
@@ -712,7 +706,6 @@ export default function PersonalTodayView() {
         }
         updateSessionWorkDetails(session.id, created.id, {
           result,
-          effort: clampedEffort,
           completed: true
         });
       }
@@ -767,7 +760,6 @@ export default function PersonalTodayView() {
     const tags = normalizeTags(work.tags);
     const isExcluded = tags.includes(PERSONAL_EXCLUDE_TAG);
     const displayTags = tags.filter((tag) => tag !== PERSONAL_EXCLUDE_TAG);
-    const nextEffort = effortByWorkId[work.id] ?? DEFAULT_EFFORT;
     const canTogglePersonal = (work.canEdit ?? false) && ((work.nodeType ?? '').trim().toLowerCase() !== 'style');
     const isBusy = togglingWorkId === work.id;
     const isExpanded = expandedWorkDetails.has(work.id);
@@ -915,10 +907,10 @@ export default function PersonalTodayView() {
           </div>
         ) : null}
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center gap-2">
-              {(Object.keys(RESULT_LABELS) as TrainingResult[]).map((value) => (
-                <button
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-2">
+            {(Object.keys(RESULT_LABELS) as TrainingResult[]).map((value) => (
+              <button
                   key={value}
                   type="button"
                   className={clsx(
@@ -934,21 +926,6 @@ export default function PersonalTodayView() {
           </div>
 
           <div className="flex items-center gap-3">
-            <label className="text-xs font-semibold uppercase tracking-wide text-white/40">RPE</label>
-            <input
-              type="number"
-              min={1}
-              max={10}
-              value={nextEffort}
-              onChange={(event) => {
-                const parsed = Number(event.target.value);
-                setEffortByWorkId((prev) => ({
-                  ...prev,
-                  [work.id]: Number.isFinite(parsed) ? parsed : DEFAULT_EFFORT
-                }));
-              }}
-              className="input-field w-20 text-center"
-            />
             <Link to={`/catalog?workId=${encodeURIComponent(work.id)}`} className="btn-secondary">
               Ver en catálogo
             </Link>
