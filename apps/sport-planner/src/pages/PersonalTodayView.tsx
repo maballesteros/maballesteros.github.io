@@ -9,7 +9,6 @@ import { useAuth } from '@/contexts/useAuth';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { YouTubePreview } from '@/components/YouTubePreview';
 import type {
-  KungfuProgram,
   KungfuProgramSelector,
   KungfuCadenceConfig,
   KungfuTodayPlanConfig,
@@ -70,21 +69,6 @@ function matchesSelector(work: Work, selector: KungfuProgramSelector): boolean {
   }
 
   return true;
-}
-
-function isWorkIncludedByPrograms(work: Work, programs: KungfuProgram[]): boolean {
-  const enabledPrograms = (programs ?? []).filter((program) => program.enabled);
-  if (normalizeTags(work.tags).includes(PERSONAL_EXCLUDE_TAG)) return false;
-  if (enabledPrograms.length === 0) {
-    return normalizeTags(work.tags).includes('kungfu');
-  }
-
-  return enabledPrograms.some((program) => {
-    const included =
-      program.include.length === 0 ? true : program.include.some((selector) => matchesSelector(work, selector));
-    const excluded = program.exclude.some((selector) => matchesSelector(work, selector));
-    return included && !excluded;
-  });
 }
 
 function getTargetDays(work: Work, cadence: KungfuCadenceConfig): number {
@@ -256,16 +240,15 @@ type PlannedSelection = {
 function computeDueList(opts: {
   works: Work[];
   personalSessions: Session[];
-  programs: KungfuProgram[];
   cadence: KungfuCadenceConfig;
   today: string;
 }): DueWork[] {
-  const { works, personalSessions, programs, cadence, today } = opts;
+  const { works, personalSessions, cadence, today } = opts;
   const history = buildHistory(personalSessions);
 
   return works
     .filter((work) => isTrainableWork(work))
-    .filter((work) => isWorkIncludedByPrograms(work, programs))
+    .filter((work) => !normalizeTags(work.tags).includes(PERSONAL_EXCLUDE_TAG))
     .map((work) => {
       const entry = history.get(work.id);
       const targetDays = getTargetDays(work, cadence);
@@ -476,7 +459,6 @@ function computePlan(opts: {
 export default function PersonalTodayView() {
   const works = useAppStore((state) => state.works);
   const sessions = useAppStore((state) => state.sessions);
-  const programs = useAppStore((state) => state.kungfuPrograms);
   const cadence = useAppStore((state) => state.kungfuCadence);
   const todayPlan = useAppStore((state) => state.kungfuTodayPlan);
 
@@ -502,11 +484,10 @@ export default function PersonalTodayView() {
       computeDueList({
         works,
         personalSessions,
-        programs,
         cadence,
         today
       }),
-    [works, personalSessions, programs, cadence, today]
+    [works, personalSessions, cadence, today]
   );
 
   const childCountByWorkId = useMemo(() => {
