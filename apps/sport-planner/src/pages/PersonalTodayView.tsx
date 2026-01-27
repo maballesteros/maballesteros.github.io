@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import clsx from 'clsx';
@@ -37,6 +37,12 @@ const RESULT_STYLES: Record<TrainingResult, string> = {
   ok: 'border-emerald-500/50 bg-emerald-500/15 text-emerald-100 hover:border-emerald-400',
   doubt: 'border-amber-400/40 bg-amber-500/10 text-amber-200 hover:border-amber-300',
   fail: 'border-rose-500/50 bg-rose-500/10 text-rose-200 hover:border-rose-400'
+};
+
+const RESULT_CARD_STYLES: Record<TrainingResult, string> = {
+  ok: 'border-emerald-500/25 bg-emerald-500/10',
+  doubt: 'border-amber-400/25 bg-amber-500/10',
+  fail: 'border-rose-500/25 bg-rose-500/10'
 };
 
 const DEFAULT_EFFORT = 6;
@@ -468,6 +474,7 @@ export default function PersonalTodayView() {
   const addSession = useAppStore((state) => state.addSession);
   const addWorkToSession = useAppStore((state) => state.addWorkToSession);
   const updateSessionWorkDetails = useAppStore((state) => state.updateSessionWorkDetails);
+  const updateSessionWorkItems = useAppStore((state) => state.updateSessionWorkItems);
   const updateSession = useAppStore((state) => state.updateSession);
 
   const today = dayjs().format('YYYY-MM-DD');
@@ -500,10 +507,7 @@ export default function PersonalTodayView() {
     return counts;
   }, [works]);
 
-  const planned = useMemo(
-    () => computePlan({ dueList, todaySession, plan: todayPlan, today, childCountByWorkId }),
-    [dueList, todaySession, todayPlan, today, childCountByWorkId]
-  );
+  const worksById = useMemo(() => new Map(works.map((work) => [work.id, work])), [works]);
 
   const actorContext = useMemo(
     () =>
@@ -526,7 +530,7 @@ export default function PersonalTodayView() {
     setRecapNote(todaySession?.notes ?? '');
   }, [todaySession?.notes]);
 
-  const ensureTodaySession = (): Session => {
+  const ensureTodaySession = useCallback((): Session => {
     if (todaySession) return todaySession;
     return addSession({
       date: today,
@@ -535,7 +539,158 @@ export default function PersonalTodayView() {
       description: '',
       notes: ''
     });
-  };
+  }, [addSession, today, todaySession]);
+
+  const activeGroupsForToday = useMemo(() => {
+    const todayDow = dayjs(today).day();
+    return getPlanGroups(todayPlan)
+      .filter((group) => group.enabled)
+      .filter((group) => {
+        const days = group.daysOfWeek ?? [];
+        return days.length === 0 || days.includes(todayDow);
+      })
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  }, [todayPlan, today]);
+
+  const groupOrderByLabel = useMemo(() => {
+    const map = new Map<string, number>();
+    activeGroupsForToday
+      .filter((group) => (group.type ?? 'work') !== 'note')
+      .forEach((group, index) => {
+        map.set(group.name, index);
+      });
+    return map;
+  }, [activeGroupsForToday]);
+
+  const getGroupLabelForWork = useCallback(
+    (work: Work): string => {
+      const groups = activeGroupsForToday.filter((group) => (group.type ?? 'work') !== 'note');
+      for (const group of groups) {
+        const includeRules = group.include ?? [];
+        const excludeRules = group.exclude ?? [];
+        const included =
+          includeRules.length === 0 ? true : includeRules.some((selector) => matchesSelector(work, selector));
+        if (!included) continue;
+        const excluded = excludeRules.some((selector) => matchesSelector(work, selector));
+        if (excluded) continue;
+        return group.name;
+      }
+      return 'Hoy';
+    },
+    [activeGroupsForToday]
+  );
+
+  useEffect(() => {
+    if (dueList.length === 0) return;
+
+    const session = todaySession ?? ensureTodaySession();
+    const hasAnyPlanLabels = (session.workItems ?? []).some((item) => Boolean(item.focusLabel));
+    const shouldSeed = !hasAnyPlanLabels;
+
+    if (!shouldSeed) return;
+
+    const existingWorkIds = new Set((session.workItems ?? []).map((item) => item.workId));
+
+    const limitByCount = todayPlan.limitMode === 'count' || todayPlan.limitMode === 'both';
+    if (limitByCount && existingWorkIds.size >= Math.max(1, Math.round(todayPlan.maxItems || 12))) {
+      return;
+    }
+
+    const existingUsageByGroupId = new Map<string, { minutes: number; items: number }>();
+
+    (session.workItems ?? []).forEach((item) => {
+      const work = worksById.get(item.workId);
+      if (!work) return;
+      const label = getGroupLabelForWork(work);
+      const group = activeGroupsForToday.find((g) => g.name === label);
+      const groupId = group?.id ?? label;
+      const prev = existingUsageByGroupId.get(groupId) ?? { minutes: 0, items: 0 };
+      existingUsageByGroupId.set(groupId, {
+        minutes: prev.minutes + estimateWorkMinutes(work, todayPlan),
+        items: prev.items + 1
+      });
+    });
+
+    const existingMinutesTotal = (session.workItems ?? []).reduce((acc, item) => {
+      const work = worksById.get(item.workId);
+      if (!work) return acc;
+      return acc + estimateWorkMinutes(work, todayPlan);
+    }, 0);
+
+    const adjustedPlan: KungfuTodayPlanConfig = {
+      ...todayPlan,
+      maxItems: Math.max(0, Math.round((todayPlan.maxItems ?? 0) - existingWorkIds.size)),
+      minutesBudget: Math.max(0, Number(todayPlan.minutesBudget ?? 0) - existingMinutesTotal),
+      groups: activeGroupsForToday.map((group) => {
+        const usage = existingUsageByGroupId.get(group.id);
+        const next: KungfuPlanGroupConfig = { ...group };
+        if (usage) {
+          if (typeof group.minutesBudget === 'number' && Number.isFinite(group.minutesBudget)) {
+            next.minutesBudget = Math.max(0, group.minutesBudget - usage.minutes);
+          }
+          if (typeof group.maxItems === 'number' && Number.isFinite(group.maxItems)) {
+            next.maxItems = Math.max(0, Math.round(group.maxItems - usage.items));
+          }
+        }
+        return next;
+      })
+    };
+
+    const availableDue = dueList.filter((entry) => !existingWorkIds.has(entry.work.id));
+    const additions = computePlan({
+      dueList: availableDue,
+      todaySession: undefined,
+      plan: adjustedPlan,
+      today,
+      childCountByWorkId
+    });
+
+    additions.groups
+      .filter((groupEntry) => (groupEntry.group.type ?? 'work') !== 'note')
+      .forEach((groupEntry) => {
+        groupEntry.items.forEach((entry) => {
+          addWorkToSession(session.id, {
+            workId: entry.work.id,
+            focusLabel: groupEntry.group.name,
+            customDurationMinutes: estimateWorkMinutes(entry.work, todayPlan)
+          });
+        });
+      });
+
+    const freshSession = useAppStore.getState().sessions.find((s) => s.id === session.id);
+    if (!freshSession) return;
+
+    const nextItems = (freshSession.workItems ?? []).map((item) => {
+      if (item.focusLabel) return item;
+      const work = worksById.get(item.workId);
+      if (!work) return item;
+      return { ...item, focusLabel: getGroupLabelForWork(work) };
+    });
+
+    nextItems.sort((a, b) => {
+      const labelA = a.focusLabel ?? 'Hoy';
+      const labelB = b.focusLabel ?? 'Hoy';
+      const orderA = groupOrderByLabel.get(labelA) ?? 999;
+      const orderB = groupOrderByLabel.get(labelB) ?? 999;
+      if (orderA !== orderB) return orderA - orderB;
+      return (a.order ?? 0) - (b.order ?? 0);
+    });
+
+    updateSessionWorkItems(session.id, nextItems);
+  }, [
+    dueList,
+    todaySession,
+    todayPlan,
+    today,
+    childCountByWorkId,
+    addWorkToSession,
+    updateSessionWorkItems,
+    worksById,
+    activeGroupsForToday,
+    groupOrderByLabel,
+    getGroupLabelForWork,
+    ensureTodaySession
+  ]);
 
   const logWork = (workId: string, result: TrainingResult) => {
     try {
@@ -575,23 +730,37 @@ export default function PersonalTodayView() {
     ? todaySession.workItems.filter((item) => (item.completed ?? false) || typeof item.result !== 'undefined').length
     : 0;
 
-  const showLimitByCount = todayPlan.limitMode === 'count' || todayPlan.limitMode === 'both';
-  const showLimitByMinutes = todayPlan.limitMode === 'minutes' || todayPlan.limitMode === 'both';
-  const plannedWorkGroups = planned.groups.filter((entry) => (entry.group.type ?? 'work') !== 'note');
-  const plannedNoteGroups = planned.groups.filter((entry) => entry.group.type === 'note');
-  const hasWorkSuggestions = plannedWorkGroups.some((entry) => entry.items.length > 0);
-  const groupsSummary = [
-    ...plannedWorkGroups.map((entry) => {
-      const budget = Number(entry.group.minutesBudget);
-      return Number.isFinite(budget) && budget > 0 ? `${entry.group.name} ${budget} min` : entry.group.name;
-    }),
-    ...plannedNoteGroups.map((entry) => {
-      const budget = Number(entry.group.minutesBudget);
-      return Number.isFinite(budget) && budget > 0 ? `${entry.group.name} ${budget} min` : entry.group.name;
-    })
-  ]
-    .filter(Boolean)
-    .join(' · ');
+  const todayEntriesByGroup = useMemo(() => {
+    const map = new Map<string, DueWork[]>();
+    const todaySessionItems = todaySession?.workItems ?? [];
+    todaySessionItems
+      .slice()
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      .forEach((item) => {
+        const due = dueList.find((entry) => entry.work.id === item.workId);
+        const work = worksById.get(item.workId);
+        if (!work) return;
+        const fallback: DueWork = {
+          work,
+          targetDays: getTargetDays(work, cadence),
+          overdueScore: 0,
+          lastSeen: due?.lastSeen,
+          daysSince: due?.daysSince,
+          lastResult: due?.lastResult
+        };
+        const entry = due ?? fallback;
+        const label = item.focusLabel ?? getGroupLabelForWork(work);
+        const list = map.get(label) ?? [];
+        list.push(entry);
+        map.set(label, list);
+      });
+    return Array.from(map.entries()).sort(([a], [b]) => {
+      const orderA = groupOrderByLabel.get(a) ?? 999;
+      const orderB = groupOrderByLabel.get(b) ?? 999;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.localeCompare(b, 'es', { sensitivity: 'base' });
+    });
+  }, [todaySession?.workItems, dueList, worksById, cadence, groupOrderByLabel, getGroupLabelForWork]);
 
   const renderEntry = (entry: DueWork) => {
     const work = entry.work;
@@ -602,6 +771,8 @@ export default function PersonalTodayView() {
     const canTogglePersonal = (work.canEdit ?? false) && ((work.nodeType ?? '').trim().toLowerCase() !== 'style');
     const isBusy = togglingWorkId === work.id;
     const isExpanded = expandedWorkDetails.has(work.id);
+    const sessionItem = todaySession?.workItems.find((item) => item.workId === work.id);
+    const currentResult = sessionItem?.result as TrainingResult | undefined;
 
     const trimmedDescription = (work.descriptionMarkdown ?? '').trim();
     const trimmedNotes = (work.notes ?? '').trim();
@@ -638,7 +809,10 @@ export default function PersonalTodayView() {
     return (
       <article
         key={work.id}
-        className="flex flex-col gap-3 rounded-3xl border border-white/10 bg-white/5 p-4 shadow shadow-black/15"
+        className={clsx(
+          'flex flex-col gap-3 rounded-3xl border p-4 shadow shadow-black/15',
+          currentResult ? RESULT_CARD_STYLES[currentResult] : 'border-white/10 bg-white/5'
+        )}
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
@@ -668,7 +842,19 @@ export default function PersonalTodayView() {
                 </button>
               ) : null}
               <div>
-                <p className="text-lg font-semibold text-white">{work.name}</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-lg font-semibold text-white">{work.name}</p>
+                  {currentResult ? (
+                    <span
+                      className={clsx(
+                        'inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-semibold',
+                        RESULT_STYLES[currentResult]
+                      )}
+                    >
+                      {RESULT_LABELS[currentResult]}
+                    </span>
+                  ) : null}
+                </div>
                 {work.subtitle ? <p className="text-sm text-white/70">{work.subtitle}</p> : null}
               </div>
             </div>
@@ -729,20 +915,21 @@ export default function PersonalTodayView() {
           </div>
         ) : null}
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-2">
-            {(Object.keys(RESULT_LABELS) as TrainingResult[]).map((value) => (
-              <button
-                key={value}
-                type="button"
-                className={clsx(
-                  'inline-flex items-center justify-center rounded-full border px-3 py-1 text-xs font-semibold transition',
-                  RESULT_STYLES[value]
-                )}
-                onClick={() => logWork(work.id, value)}
-              >
-                {RESULT_LABELS[value]}
-              </button>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center gap-2">
+              {(Object.keys(RESULT_LABELS) as TrainingResult[]).map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={clsx(
+                    'inline-flex items-center justify-center rounded-full border px-3 py-1 text-xs font-semibold transition',
+                    RESULT_STYLES[value],
+                    currentResult === value ? 'ring-2 ring-white/30' : 'opacity-90 hover:opacity-100'
+                  )}
+                  onClick={() => logWork(work.id, value)}
+                >
+                  {RESULT_LABELS[value]}
+                </button>
             ))}
           </div>
 
@@ -841,55 +1028,33 @@ export default function PersonalTodayView() {
         </div>
       ) : (
         <section className="space-y-4">
-          <div className="glass-panel flex flex-col gap-3 p-6 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-xl font-semibold text-white">Sugerencias</h2>
-              <p className="text-sm text-white/60">
-                Priorizadas por lo “vencido” respecto a su cadencia objetivo.
-              </p>
-              <p className="mt-1 text-xs text-white/50">
-                {groupsSummary ? `Grupos: ${groupsSummary}` : 'Grupos: (sin configurar)'}
-                {showLimitByCount ? ` · máx ${todayPlan.maxItems} ítems` : ''}
-                {showLimitByMinutes ? ` · ${todayPlan.minutesBudget} min` : ''}
-              </p>
-            </div>
-            <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-              {planned.totalItems} sugeridos · {planned.plannedMinutes.total} min
-            </span>
-          </div>
-
           <div className="space-y-3">
-            {!hasWorkSuggestions ? (
+            {todayEntriesByGroup.length === 0 ? (
               <div className="glass-panel p-10 text-center text-white/50">
-                No hay sugerencias con los límites actuales. Revisa <span className="font-semibold text-white">Ajustes</span> o marca más trabajos como entrenables.
+                No hay ítems planificados para hoy. Revisa <span className="font-semibold text-white">Ajustes</span> o marca más trabajos como entrenables.
               </div>
             ) : null}
 
-            {plannedWorkGroups
-              .filter((entry) => entry.items.length > 0)
-              .map((entry) => (
-                <section key={entry.group.id} className="glass-panel space-y-4 p-3 sm:space-y-5 sm:p-6">
-                  <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.3em] text-white/40">{entry.group.name}</p>
-                      <p className="text-sm text-white/60">
-                        {entry.items.length} ítem{entry.items.length === 1 ? '' : 's'}
-                      </p>
-                    </div>
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
-                      {entry.plannedMinutes} min
-                    </span>
-                  </header>
-                  <div className="space-y-3 sm:space-y-4">{entry.items.map(renderEntry)}</div>
-                </section>
-              ))}
+            {todayEntriesByGroup.map(([label, entries]) => (
+              <section key={label} className="glass-panel space-y-4 p-3 sm:space-y-5 sm:p-6">
+                <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">{label}</p>
+                    <p className="text-sm text-white/60">
+                      {entries.length} ítem{entries.length === 1 ? '' : 's'}
+                    </p>
+                  </div>
+                </header>
+                <div className="space-y-3 sm:space-y-4">{entries.map(renderEntry)}</div>
+              </section>
+            ))}
 
-            {plannedNoteGroups.length > 0 ? (
+            {activeGroupsForToday.filter((group) => group.type === 'note').length > 0 ? (
               <div className="glass-panel space-y-3 p-6">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <p className="text-xs uppercase tracking-[0.3em] text-white/40">
-                      {plannedNoteGroups[0].group.name} ({Math.max(0, Number(plannedNoteGroups[0].group.minutesBudget) || 0)} min)
+                      {activeGroupsForToday.filter((group) => group.type === 'note')[0].name} ({Math.max(0, Number(activeGroupsForToday.filter((group) => group.type === 'note')[0].minutesBudget) || 0)} min)
                     </p>
                     <p className="text-sm text-white/60">Una corrección concreta para mañana.</p>
                   </div>
