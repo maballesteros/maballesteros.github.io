@@ -91,6 +91,27 @@ export interface KungfuTodayPlanConfig {
   defaultMinutesByNodeType: Record<string, number>;
   focusSelectors?: KungfuProgramSelector[];
   rouletteSelectors?: KungfuProgramSelector[];
+  groups?: KungfuPlanGroupConfig[];
+}
+
+export type KungfuPlanGroupType = 'work' | 'note';
+export type KungfuPlanGroupStrategy = 'overdue' | 'weighted';
+export type KungfuPlanGroupHierarchyRule = 'allow_all' | 'prefer_leaves';
+
+export interface KungfuPlanGroupConfig {
+  id: string;
+  name: string;
+  enabled: boolean;
+  order: number;
+  type?: KungfuPlanGroupType;
+  daysOfWeek?: number[]; // 0=Sunday ... 6=Saturday (dayjs().day())
+  limitMode?: KungfuTodayLimitMode;
+  maxItems?: number;
+  minutesBudget?: number;
+  strategy?: KungfuPlanGroupStrategy;
+  include?: KungfuProgramSelector[];
+  exclude?: KungfuProgramSelector[];
+  hierarchyRule?: KungfuPlanGroupHierarchyRule;
 }
 
 export interface SessionWork {

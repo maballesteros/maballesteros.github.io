@@ -15,8 +15,14 @@ import type {
   BackupSessionAttendance,
   BackupSession,
   KungfuProgram,
+  KungfuProgramSelector,
   KungfuCadenceConfig,
-  KungfuTodayPlanConfig
+  KungfuTodayPlanConfig,
+  KungfuPlanGroupConfig,
+  KungfuPlanGroupHierarchyRule,
+  KungfuPlanGroupStrategy,
+  KungfuPlanGroupType,
+  KungfuTodayLimitMode
 } from '@/types';
 import {
   fetchAccessibleWorks,
@@ -84,7 +90,231 @@ const DEFAULT_KUNGFU_TODAY_PLAN: KungfuTodayPlanConfig = {
     link: 2
   },
   focusSelectors: [],
-  rouletteSelectors: []
+  rouletteSelectors: [],
+  groups: [
+    {
+      id: 'formas',
+      name: 'Formas',
+      enabled: true,
+      order: 1,
+      type: 'work',
+      limitMode: 'minutes',
+      minutesBudget: 18,
+      strategy: 'overdue',
+      hierarchyRule: 'prefer_leaves',
+      include: [{ byNodeTypes: ['segment', 'form'] }],
+      exclude: []
+    },
+    {
+      id: 'tecnicas',
+      name: 'Técnicas',
+      enabled: true,
+      order: 2,
+      type: 'work',
+      limitMode: 'minutes',
+      minutesBudget: 10,
+      strategy: 'weighted',
+      hierarchyRule: 'allow_all',
+      include: [{ byNodeTypes: ['technique'] }, { byTags: ['roulette'] }],
+      exclude: []
+    },
+    {
+      id: 'recap',
+      name: 'Recap',
+      enabled: true,
+      order: 99,
+      type: 'note',
+      limitMode: 'minutes',
+      minutesBudget: 2
+    }
+  ]
+};
+
+const normalizeListLower = (value: unknown): string[] =>
+  Array.from(
+    new Set(
+      (Array.isArray(value) ? value : [])
+        .map((item) => String(item ?? '').trim().toLowerCase())
+        .filter((item) => item.length > 0)
+    )
+  );
+
+const normalizeWorkIdList = (value: unknown): string[] =>
+  Array.from(
+    new Set(
+      (Array.isArray(value) ? value : [])
+        .map((item) => String(item ?? '').trim())
+        .filter((item) => item.length > 0)
+    )
+  );
+
+const isTodayLimitMode = (value: unknown): value is KungfuTodayLimitMode =>
+  value === 'count' || value === 'minutes' || value === 'both';
+
+const isGroupType = (value: unknown): value is KungfuPlanGroupType => value === 'work' || value === 'note';
+
+const isGroupStrategy = (value: unknown): value is KungfuPlanGroupStrategy => value === 'overdue' || value === 'weighted';
+
+const isHierarchyRule = (value: unknown): value is KungfuPlanGroupHierarchyRule =>
+  value === 'allow_all' || value === 'prefer_leaves';
+
+const normalizeSelector = (selector: KungfuProgramSelector): KungfuProgramSelector => {
+  const next: KungfuProgramSelector = {};
+  const tags = normalizeListLower(selector.byTags);
+  const nodeTypes = normalizeListLower(selector.byNodeTypes);
+  const workIds = normalizeWorkIdList(selector.byWorkIds);
+  if (tags.length > 0) next.byTags = tags;
+  if (nodeTypes.length > 0) next.byNodeTypes = nodeTypes;
+  if (workIds.length > 0) next.byWorkIds = workIds;
+  return next;
+};
+
+const normalizeSelectorRules = (selectors: KungfuProgramSelector[] | undefined): KungfuProgramSelector[] =>
+  (selectors ?? []).map(normalizeSelector).filter((selector) => Object.keys(selector).length > 0);
+
+const normalizeDaysOfWeek = (value: unknown): number[] => {
+  if (!Array.isArray(value)) return [];
+  const days = value
+    .map((entry) => Number(entry))
+    .filter((entry) => Number.isFinite(entry))
+    .map((entry) => Math.round(entry))
+    .filter((entry) => entry >= 0 && entry <= 6);
+  return Array.from(new Set(days)).sort((a, b) => a - b);
+};
+
+const normalizeDefaultMinutesByNodeType = (value: unknown): Record<string, number> => {
+  const next: Record<string, number> = {};
+  if (!value || typeof value !== 'object') return { ...DEFAULT_KUNGFU_TODAY_PLAN.defaultMinutesByNodeType };
+  Object.entries(value as Record<string, unknown>).forEach(([key, rawValue]) => {
+    const cleanKey = key.trim().toLowerCase();
+    const cleanValue = Number(rawValue);
+    if (!cleanKey) return;
+    if (!Number.isFinite(cleanValue)) return;
+    next[cleanKey] = Math.max(0.25, cleanValue);
+  });
+  return Object.keys(next).length > 0 ? next : { ...DEFAULT_KUNGFU_TODAY_PLAN.defaultMinutesByNodeType };
+};
+
+const normalizeGroup = (group: KungfuPlanGroupConfig, fallbackOrder: number): KungfuPlanGroupConfig => {
+  const id = String(group.id ?? '').trim() || nanoid();
+  const type = isGroupType(group.type) ? group.type : 'work';
+  const enabled = typeof group.enabled === 'boolean' ? group.enabled : true;
+  const name = String(group.name ?? '').trim() || (type === 'note' ? 'Recap' : 'Grupo');
+  const order = Number.isFinite(Number(group.order)) ? Number(group.order) : fallbackOrder;
+  const daysOfWeek = normalizeDaysOfWeek(group.daysOfWeek);
+  const limitMode = isTodayLimitMode(group.limitMode) ? group.limitMode : 'minutes';
+  const maxItems = Number.isFinite(Number(group.maxItems)) ? Math.max(0, Math.round(Number(group.maxItems))) : undefined;
+  const minutesBudget = Number.isFinite(Number(group.minutesBudget)) ? Math.max(0, Number(group.minutesBudget)) : undefined;
+  const strategy = isGroupStrategy(group.strategy) ? group.strategy : 'overdue';
+  const hierarchyRule = isHierarchyRule(group.hierarchyRule) ? group.hierarchyRule : 'allow_all';
+
+  const include = normalizeSelectorRules(group.include);
+  const exclude = normalizeSelectorRules(group.exclude);
+
+  return {
+    id,
+    name,
+    enabled,
+    order,
+    type,
+    daysOfWeek,
+    limitMode,
+    maxItems,
+    minutesBudget,
+    strategy,
+    hierarchyRule,
+    include,
+    exclude
+  };
+};
+
+const legacyGroupsFromPlan = (plan: KungfuTodayPlanConfig): KungfuPlanGroupConfig[] => {
+  const focusMinutes = Math.max(0, Number(plan.template?.focusMinutes) || 0);
+  const rouletteMinutes = Math.max(0, Number(plan.template?.rouletteMinutes) || 0);
+  const recapMinutes = Math.max(0, Number(plan.template?.recapMinutes) || 0);
+  const focusSelectors = normalizeSelectorRules(plan.focusSelectors);
+  const rouletteSelectors = normalizeSelectorRules(plan.rouletteSelectors);
+
+  const focusInclude = focusSelectors.length > 0 ? focusSelectors : [{ byNodeTypes: ['segment', 'form'] }];
+  const rouletteInclude =
+    rouletteSelectors.length > 0 ? rouletteSelectors : [{ byNodeTypes: ['technique'] }, { byTags: ['roulette'] }];
+
+  const groups: KungfuPlanGroupConfig[] = [
+    {
+      id: 'formas',
+      name: 'Formas',
+      enabled: true,
+      order: 1,
+      type: 'work',
+      limitMode: 'minutes',
+      minutesBudget: focusMinutes > 0 ? focusMinutes : 18,
+      strategy: 'overdue',
+      hierarchyRule: 'prefer_leaves',
+      include: focusInclude,
+      exclude: []
+    },
+    {
+      id: 'tecnicas',
+      name: 'Técnicas',
+      enabled: true,
+      order: 2,
+      type: 'work',
+      limitMode: 'minutes',
+      minutesBudget: rouletteMinutes > 0 ? rouletteMinutes : 10,
+      strategy: 'weighted',
+      hierarchyRule: 'allow_all',
+      include: rouletteInclude,
+      exclude: []
+    }
+  ];
+
+  if (recapMinutes > 0) {
+    groups.push({
+      id: 'recap',
+      name: 'Recap',
+      enabled: true,
+      order: 99,
+      type: 'note',
+      limitMode: 'minutes',
+      minutesBudget: recapMinutes
+    });
+  }
+
+  return groups;
+};
+
+const normalizeKungfuTodayPlan = (raw: KungfuTodayPlanConfig | undefined): KungfuTodayPlanConfig => {
+  const plan = raw ?? DEFAULT_KUNGFU_TODAY_PLAN;
+  const limitMode = isTodayLimitMode(plan.limitMode) ? plan.limitMode : DEFAULT_KUNGFU_TODAY_PLAN.limitMode;
+  const maxItems = Math.max(1, Math.round(Number(plan.maxItems) || DEFAULT_KUNGFU_TODAY_PLAN.maxItems));
+  const minutesBudget = Math.max(1, Number(plan.minutesBudget) || DEFAULT_KUNGFU_TODAY_PLAN.minutesBudget);
+
+  const focusMinutes = Math.max(0, Number(plan.template?.focusMinutes) || DEFAULT_KUNGFU_TODAY_PLAN.template.focusMinutes);
+  const rouletteMinutes = Math.max(0, Number(plan.template?.rouletteMinutes) || DEFAULT_KUNGFU_TODAY_PLAN.template.rouletteMinutes);
+  const recapMinutes = Math.max(0, Number(plan.template?.recapMinutes) || DEFAULT_KUNGFU_TODAY_PLAN.template.recapMinutes);
+  const totalMinutes = Math.max(0, focusMinutes + rouletteMinutes + recapMinutes);
+
+  const defaultMinutesByNodeType = normalizeDefaultMinutesByNodeType(plan.defaultMinutesByNodeType);
+  const focusSelectors = normalizeSelectorRules(plan.focusSelectors);
+  const rouletteSelectors = normalizeSelectorRules(plan.rouletteSelectors);
+
+  const baseGroups = (plan.groups ?? []).length > 0 ? (plan.groups ?? []) : legacyGroupsFromPlan(plan);
+  const groups = baseGroups
+    .map((group, index) => normalizeGroup(group, index + 1))
+    .sort((a, b) => a.order - b.order)
+    .map((group, index) => ({ ...group, order: index + 1 }));
+
+  return {
+    ...plan,
+    limitMode,
+    maxItems,
+    minutesBudget,
+    template: { totalMinutes, focusMinutes, rouletteMinutes, recapMinutes },
+    defaultMinutesByNodeType,
+    focusSelectors,
+    rouletteSelectors,
+    groups
+  };
 };
 
 const normalizeParentWorkId = (value?: string | null): string | null => {
@@ -271,7 +501,7 @@ const normalizeCollections = (state: Partial<CollectionsState>): CollectionsStat
   assistants: state.assistants ?? [],
   kungfuPrograms: state.kungfuPrograms ?? DEFAULT_KUNGFU_PROGRAMS,
   kungfuCadence: state.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE,
-  kungfuTodayPlan: state.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN
+  kungfuTodayPlan: normalizeKungfuTodayPlan(state.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN)
 });
 
 interface ObjectiveInput {
@@ -411,7 +641,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       assistants,
       kungfuPrograms,
       kungfuCadence,
-      kungfuTodayPlan,
+      kungfuTodayPlan: normalizeKungfuTodayPlan(kungfuTodayPlan),
       ready: true
     });
   },
@@ -561,7 +791,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     });
   },
   setKungfuTodayPlan: (plan) => {
-    const normalizedPlan = plan ?? DEFAULT_KUNGFU_TODAY_PLAN;
+    const normalizedPlan = normalizeKungfuTodayPlan(plan ?? DEFAULT_KUNGFU_TODAY_PLAN);
     set((state) => {
       const merged = { ...state, kungfuTodayPlan: normalizedPlan };
       persistCollections(merged);

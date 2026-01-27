@@ -13,6 +13,10 @@ import type {
   KungfuProgramSelector,
   KungfuCadenceConfig,
   KungfuTodayPlanConfig,
+  KungfuPlanGroupConfig,
+  KungfuPlanGroupHierarchyRule,
+  KungfuPlanGroupStrategy,
+  KungfuPlanGroupType,
   Work,
   Session,
   SessionWork
@@ -105,12 +109,6 @@ function isTrainableWork(work: Work): boolean {
   return true;
 }
 
-function isRouletteCandidate(work: Work): boolean {
-  const nodeType = (work.nodeType ?? '').trim().toLowerCase();
-  if (nodeType === 'technique') return true;
-  return normalizeTags(work.tags).includes('roulette');
-}
-
 function estimateWorkMinutes(work: Work, config: KungfuTodayPlanConfig): number {
   const explicit = typeof work.estimatedMinutes === 'number' ? work.estimatedMinutes : 0;
   if (Number.isFinite(explicit) && explicit > 0) return explicit;
@@ -119,21 +117,64 @@ function estimateWorkMinutes(work: Work, config: KungfuTodayPlanConfig): number 
   return Math.max(0.25, Number(fallback) || 3);
 }
 
-function clampInt(value: number, min: number, max: number): number {
-  return Math.min(Math.max(Math.round(value), min), max);
-}
-
-function computeSegmentCounts(config: KungfuTodayPlanConfig): { focusCount: number; rouletteCount: number } {
-  const maxItems = Math.max(1, Math.round(config.maxItems || 12));
-  const focus = Math.max(0, Number(config.template?.focusMinutes) || 0);
-  const roulette = Math.max(0, Number(config.template?.rouletteMinutes) || 0);
-  const total = focus + roulette;
-  if (total <= 0) {
-    return { focusCount: maxItems, rouletteCount: 0 };
+function getPlanGroups(plan: KungfuTodayPlanConfig): KungfuPlanGroupConfig[] {
+  const groups = plan.groups ?? [];
+  if (groups.length > 0) {
+    return [...groups].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   }
-  const focusRatio = focus / total;
-  const focusCount = clampInt(Math.round(maxItems * focusRatio), 0, maxItems);
-  return { focusCount, rouletteCount: Math.max(0, maxItems - focusCount) };
+
+  const focusMinutes = Math.max(0, Number(plan.template?.focusMinutes) || 18);
+  const rouletteMinutes = Math.max(0, Number(plan.template?.rouletteMinutes) || 10);
+  const recapMinutes = Math.max(0, Number(plan.template?.recapMinutes) || 0);
+  const focusSelectors = plan.focusSelectors ?? [];
+  const rouletteSelectors = plan.rouletteSelectors ?? [];
+
+  const focusInclude = focusSelectors.length > 0 ? focusSelectors : [{ byNodeTypes: ['segment', 'form'] }];
+  const rouletteInclude =
+    rouletteSelectors.length > 0 ? rouletteSelectors : [{ byNodeTypes: ['technique'] }, { byTags: ['roulette'] }];
+
+  const legacyGroups: KungfuPlanGroupConfig[] = [
+    {
+      id: 'formas',
+      name: 'Formas',
+      enabled: true,
+      order: 1,
+      type: 'work',
+      limitMode: 'minutes',
+      minutesBudget: focusMinutes,
+      strategy: 'overdue',
+      hierarchyRule: 'prefer_leaves',
+      include: focusInclude,
+      exclude: []
+    },
+    {
+      id: 'tecnicas',
+      name: 'Técnicas',
+      enabled: true,
+      order: 2,
+      type: 'work',
+      limitMode: 'minutes',
+      minutesBudget: rouletteMinutes,
+      strategy: 'weighted',
+      hierarchyRule: 'allow_all',
+      include: rouletteInclude,
+      exclude: []
+    }
+  ];
+
+  if (recapMinutes > 0) {
+    legacyGroups.push({
+      id: 'recap',
+      name: 'Recap',
+      enabled: true,
+      order: 99,
+      type: 'note',
+      limitMode: 'minutes',
+      minutesBudget: recapMinutes
+    });
+  }
+
+  return legacyGroups;
 }
 
 function fnv1a32(input: string): number {
@@ -199,13 +240,17 @@ type DueWork = {
 };
 
 type PlannedSelection = {
-  focus: DueWork[];
-  roulette: DueWork[];
+  groups: Array<{
+    group: KungfuPlanGroupConfig;
+    items: DueWork[];
+    plannedMinutes: number;
+  }>;
   plannedMinutes: {
-    focus: number;
-    roulette: number;
+    work: number;
+    reserved: number;
     total: number;
   };
+  totalItems: number;
 };
 
 function computeDueList(opts: {
@@ -278,22 +323,30 @@ function computePlan(opts: {
   );
 
   const available = dueList.filter((entry) => !trainedToday.has(entry.work.id));
+  const todayDow = dayjs(today).day();
+  const groups = getPlanGroups(plan)
+    .filter((group) => group.enabled)
+    .filter((group) => {
+      const days = group.daysOfWeek ?? [];
+      return days.length === 0 || days.includes(todayDow);
+    })
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
-  const rouletteSelectors = plan.rouletteSelectors ?? [];
-  const focusSelectors = plan.focusSelectors ?? [];
+  const reservedMinutes = groups
+    .filter((group) => (group.type ?? 'work') === 'note')
+    .reduce((acc, group) => {
+      const groupLimitByMinutes = group.limitMode === 'minutes' || group.limitMode === 'both';
+      if (!groupLimitByMinutes) return acc;
+      return acc + Math.max(0, Number(group.minutesBudget) || 0);
+    }, 0);
 
-  const getBucket = (work: Work): 'focus' | 'roulette' => {
-    if (rouletteSelectors.some((selector) => matchesSelector(work, selector))) return 'roulette';
-    if (focusSelectors.some((selector) => matchesSelector(work, selector))) return 'focus';
-    return isRouletteCandidate(work) ? 'roulette' : 'focus';
-  };
-
-  const rouletteCandidates = available.filter((entry) => getBucket(entry.work) === 'roulette');
-  const focusCandidates = available.filter((entry) => getBucket(entry.work) === 'focus');
+  const minutesBudgetForWork = Number.isFinite(minutesBudgetTotal)
+    ? Math.max(0, minutesBudgetTotal - reservedMinutes)
+    : Number.POSITIVE_INFINITY;
 
   const seedLabel = `kungfu-${today}`;
 
-  const weightForRoulette = (entry: DueWork) => {
+  const weightForWeighted = (entry: DueWork) => {
     const base = entry.overdueScore >= 10_000 ? 1000 : Math.max(0, entry.overdueScore + 1);
     if (entry.lastResult === 'fail') return base * 1.6;
     if (entry.lastResult === 'doubt') return base * 1.25;
@@ -302,20 +355,8 @@ function computePlan(opts: {
 
   const minutesForEntry = (entry: DueWork) => estimateWorkMinutes(entry.work, plan);
 
-  const { focusCount, rouletteCount } = limitByCount ? computeSegmentCounts(plan) : { focusCount: Number.POSITIVE_INFINITY, rouletteCount: Number.POSITIVE_INFINITY };
-
-  const focusMinutesTemplate = Math.max(0, Number(plan.template?.focusMinutes) || 0);
-  const rouletteMinutesTemplate = Math.max(0, Number(plan.template?.rouletteMinutes) || 0);
-  const focusMinutesBudget = focusMinutesTemplate > 0 ? focusMinutesTemplate : Number.POSITIVE_INFINITY;
-  const rouletteMinutesBudget = rouletteMinutesTemplate > 0 ? rouletteMinutesTemplate : Number.POSITIVE_INFINITY;
-
-  const nodeTypeRankForFocus = (work: Work): number => {
+  const nodeTypeRank = (work: Work): number => {
     const nodeType = (work.nodeType ?? 'work').trim().toLowerCase() || 'work';
-    const hasChildren = (childCountByWorkId.get(work.id) ?? 0) > 0;
-    if (hasChildren) {
-      // Prefer planning leaves first, so parent nodes don't eclipse their components.
-      return -10;
-    }
     const rankMap: Record<string, number> = {
       segment: 30,
       drill: 22,
@@ -329,53 +370,106 @@ function computePlan(opts: {
     return rankMap[nodeType] ?? 5;
   };
 
-  const focusOrder = [...(focusCandidates.length > 0 ? focusCandidates : available)].sort((a, b) => {
-    if (b.overdueScore !== a.overdueScore) return b.overdueScore - a.overdueScore;
-    const aDays = a.daysSince ?? 10_000;
-    const bDays = b.daysSince ?? 10_000;
-    if (bDays !== aDays) return bDays - aDays;
-    const rankDelta = nodeTypeRankForFocus(b.work) - nodeTypeRankForFocus(a.work);
-    if (rankDelta !== 0) return rankDelta;
-    return a.work.name.localeCompare(b.work.name, 'es', { sensitivity: 'base' });
-  });
+  const sortByOverdue = (list: DueWork[]) =>
+    [...list].sort((a, b) => {
+      if (b.overdueScore !== a.overdueScore) return b.overdueScore - a.overdueScore;
+      const aDays = a.daysSince ?? 10_000;
+      const bDays = b.daysSince ?? 10_000;
+      if (bDays !== aDays) return bDays - aDays;
+      const rankDelta = nodeTypeRank(b.work) - nodeTypeRank(a.work);
+      if (rankDelta !== 0) return rankDelta;
+      return a.work.name.localeCompare(b.work.name, 'es', { sensitivity: 'base' });
+    });
 
-  const focus: DueWork[] = [];
-  let focusMinutes = 0;
-  for (const entry of focusOrder) {
-    if (focus.length >= maxItemsTotal) break;
-    if (limitByCount && focus.length >= focusCount) break;
-    const minutes = minutesForEntry(entry);
-    if (focusMinutes + minutes > focusMinutesBudget) continue;
-    focus.push(entry);
-    focusMinutes += minutes;
+  const assigned = new Set<string>();
+  const plannedGroups: PlannedSelection['groups'] = [];
+  let plannedWorkMinutes = 0;
+  let plannedItems = 0;
+
+  for (const group of groups) {
+    const groupType: KungfuPlanGroupType = (group.type ?? 'work') as KungfuPlanGroupType;
+    if (groupType === 'note') {
+      plannedGroups.push({ group, items: [], plannedMinutes: 0 });
+      continue;
+    }
+
+    const includeRules = group.include ?? [];
+    const excludeRules = group.exclude ?? [];
+
+    let pool = available.filter((entry) => {
+      if (assigned.has(entry.work.id)) return false;
+      const included = includeRules.length === 0 ? true : includeRules.some((selector) => matchesSelector(entry.work, selector));
+      if (!included) return false;
+      const excluded = excludeRules.some((selector) => matchesSelector(entry.work, selector));
+      return !excluded;
+    });
+
+    const hierarchyRule: KungfuPlanGroupHierarchyRule = (group.hierarchyRule ?? 'allow_all') as KungfuPlanGroupHierarchyRule;
+    if (hierarchyRule === 'prefer_leaves') {
+      const parentIds = new Set(pool.map((entry) => entry.work.parentWorkId).filter(Boolean) as string[]);
+      pool = pool.filter((entry) => {
+        if (!parentIds.has(entry.work.id)) return true;
+        return (childCountByWorkId.get(entry.work.id) ?? 0) === 0;
+      });
+    }
+
+    const strategy: KungfuPlanGroupStrategy = (group.strategy ?? 'overdue') as KungfuPlanGroupStrategy;
+    const ordered =
+      strategy === 'weighted'
+        ? weightedShuffle(pool, weightForWeighted, `${seedLabel}-${group.id}`)
+        : sortByOverdue(pool);
+
+    const groupLimitMode = group.limitMode ?? 'minutes';
+    const groupLimitByCount = groupLimitMode === 'count' || groupLimitMode === 'both';
+    const groupLimitByMinutes = groupLimitMode === 'minutes' || groupLimitMode === 'both';
+
+    const groupMaxItemsRaw = Number(group.maxItems);
+    const groupMaxItems = groupLimitByCount
+      ? Number.isFinite(groupMaxItemsRaw) && groupMaxItemsRaw > 0
+        ? Math.round(groupMaxItemsRaw)
+        : Number.POSITIVE_INFINITY
+      : Number.POSITIVE_INFINITY;
+
+    const groupMinutesBudgetRaw = Number(group.minutesBudget);
+    const groupMinutesBudget = groupLimitByMinutes
+      ? Number.isFinite(groupMinutesBudgetRaw)
+        ? Math.max(0, groupMinutesBudgetRaw)
+        : Number.POSITIVE_INFINITY
+      : Number.POSITIVE_INFINITY;
+
+    const items: DueWork[] = [];
+    let groupMinutes = 0;
+
+    for (const entry of ordered) {
+      if (plannedItems >= maxItemsTotal) break;
+      if (items.length >= groupMaxItems) break;
+      const minutes = minutesForEntry(entry);
+      if (groupMinutes + minutes > groupMinutesBudget) continue;
+      if (plannedWorkMinutes + minutes > minutesBudgetForWork) continue;
+
+      items.push(entry);
+      groupMinutes += minutes;
+      plannedWorkMinutes += minutes;
+      plannedItems += 1;
+      assigned.add(entry.work.id);
+      if (limitByMinutes && plannedWorkMinutes >= minutesBudgetForWork) break;
+    }
+
+    plannedGroups.push({ group, items, plannedMinutes: Math.round(groupMinutes * 10) / 10 });
+    if (plannedItems >= maxItemsTotal) break;
+    if (limitByMinutes && plannedWorkMinutes >= minutesBudgetForWork) break;
   }
 
-  const remainingAfterFocus = available.filter((entry) => !focus.some((picked) => picked.work.id === entry.work.id));
-  const roulettePoolBase = rouletteCandidates.filter((entry) => !focus.some((picked) => picked.work.id === entry.work.id));
-  const roulettePool = roulettePoolBase.length > 0 ? roulettePoolBase : remainingAfterFocus;
-
-  const rouletteOrder = weightedShuffle(roulettePool, weightForRoulette, `${seedLabel}-roulette`);
-  const roulette: DueWork[] = [];
-  let rouletteMinutes = 0;
-
-  for (const entry of rouletteOrder) {
-    if (focus.length + roulette.length >= maxItemsTotal) break;
-    if (limitByCount && roulette.length >= rouletteCount) break;
-    const minutes = minutesForEntry(entry);
-    if (rouletteMinutes + minutes > rouletteMinutesBudget) continue;
-    roulette.push(entry);
-    rouletteMinutes += minutes;
-    if (limitByMinutes && focusMinutes + rouletteMinutes >= minutesBudgetTotal) break;
-  }
+  const plannedTotalMinutes = Math.round((plannedWorkMinutes + reservedMinutes) * 10) / 10;
 
   return {
-    focus,
-    roulette,
+    groups: plannedGroups,
     plannedMinutes: {
-      focus: Math.round(focusMinutes * 10) / 10,
-      roulette: Math.round(rouletteMinutes * 10) / 10,
-      total: Math.round((focusMinutes + rouletteMinutes) * 10) / 10
-    }
+      work: Math.round(plannedWorkMinutes * 10) / 10,
+      reserved: Math.round(reservedMinutes * 10) / 10,
+      total: plannedTotalMinutes
+    },
+    totalItems: plannedItems
   };
 }
 
@@ -447,8 +541,6 @@ export default function PersonalTodayView() {
   const [togglingWorkId, setTogglingWorkId] = useState<string | null>(null);
   const [expandedWorkDetails, setExpandedWorkDetails] = useState<Set<string>>(new Set());
 
-  const recapMinutes = Math.max(0, Number(todayPlan.template?.recapMinutes) || 0);
-
   useEffect(() => {
     setRecapNote(todaySession?.notes ?? '');
   }, [todaySession?.notes]);
@@ -504,6 +596,21 @@ export default function PersonalTodayView() {
 
   const showLimitByCount = todayPlan.limitMode === 'count' || todayPlan.limitMode === 'both';
   const showLimitByMinutes = todayPlan.limitMode === 'minutes' || todayPlan.limitMode === 'both';
+  const plannedWorkGroups = planned.groups.filter((entry) => (entry.group.type ?? 'work') !== 'note');
+  const plannedNoteGroups = planned.groups.filter((entry) => entry.group.type === 'note');
+  const hasWorkSuggestions = plannedWorkGroups.some((entry) => entry.items.length > 0);
+  const groupsSummary = [
+    ...plannedWorkGroups.map((entry) => {
+      const budget = Number(entry.group.minutesBudget);
+      return Number.isFinite(budget) && budget > 0 ? `${entry.group.name} ${budget} min` : entry.group.name;
+    }),
+    ...plannedNoteGroups.map((entry) => {
+      const budget = Number(entry.group.minutesBudget);
+      return Number.isFinite(budget) && budget > 0 ? `${entry.group.name} ${budget} min` : entry.group.name;
+    })
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   const renderEntry = (entry: DueWork) => {
     const work = entry.work;
@@ -760,62 +867,49 @@ export default function PersonalTodayView() {
                 Priorizadas por lo “vencido” respecto a su cadencia objetivo.
               </p>
               <p className="mt-1 text-xs text-white/50">
-                Plantilla: {todayPlan.template.focusMinutes} foco · {todayPlan.template.rouletteMinutes} ruleta · {todayPlan.template.recapMinutes} recap
+                {groupsSummary ? `Grupos: ${groupsSummary}` : 'Grupos: (sin configurar)'}
                 {showLimitByCount ? ` · máx ${todayPlan.maxItems} ítems` : ''}
                 {showLimitByMinutes ? ` · ${todayPlan.minutesBudget} min` : ''}
               </p>
             </div>
             <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-              {planned.focus.length + planned.roulette.length} sugeridos · {planned.plannedMinutes.total} min
+              {planned.totalItems} sugeridos · {planned.plannedMinutes.total} min
             </span>
           </div>
 
           <div className="space-y-3">
-            {planned.focus.length === 0 && planned.roulette.length === 0 ? (
+            {!hasWorkSuggestions ? (
               <div className="glass-panel p-10 text-center text-white/50">
                 No hay sugerencias con los límites actuales. Revisa <span className="font-semibold text-white">Ajustes</span> o marca más trabajos como entrenables.
               </div>
             ) : null}
 
-            {planned.focus.length > 0 ? (
-              <section className="glass-panel space-y-4 p-3 sm:space-y-5 sm:p-6">
-                <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">Foco</p>
-                    <p className="text-sm text-white/60">
-                      {planned.focus.length} ítem{planned.focus.length === 1 ? '' : 's'}
-                    </p>
-                  </div>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
-                    {planned.plannedMinutes.focus} min
-                  </span>
-                </header>
-                <div className="space-y-3 sm:space-y-4">{planned.focus.map(renderEntry)}</div>
-              </section>
-            ) : null}
+            {plannedWorkGroups
+              .filter((entry) => entry.items.length > 0)
+              .map((entry) => (
+                <section key={entry.group.id} className="glass-panel space-y-4 p-3 sm:space-y-5 sm:p-6">
+                  <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/40">{entry.group.name}</p>
+                      <p className="text-sm text-white/60">
+                        {entry.items.length} ítem{entry.items.length === 1 ? '' : 's'}
+                      </p>
+                    </div>
+                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
+                      {entry.plannedMinutes} min
+                    </span>
+                  </header>
+                  <div className="space-y-3 sm:space-y-4">{entry.items.map(renderEntry)}</div>
+                </section>
+              ))}
 
-            {planned.roulette.length > 0 ? (
-              <section className="glass-panel space-y-4 p-3 sm:space-y-5 sm:p-6">
-                <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">Ruleta</p>
-                    <p className="text-sm text-white/60">
-                      {planned.roulette.length} ítem{planned.roulette.length === 1 ? '' : 's'}
-                    </p>
-                  </div>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
-                    {planned.plannedMinutes.roulette} min
-                  </span>
-                </header>
-                <div className="space-y-3 sm:space-y-4">{planned.roulette.map(renderEntry)}</div>
-              </section>
-            ) : null}
-
-            {recapMinutes > 0 ? (
+            {plannedNoteGroups.length > 0 ? (
               <div className="glass-panel space-y-3 p-6">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">Recap ({recapMinutes} min)</p>
+                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+                      {plannedNoteGroups[0].group.name} ({Math.max(0, Number(plannedNoteGroups[0].group.minutesBudget) || 0)} min)
+                    </p>
                     <p className="text-sm text-white/60">Una corrección concreta para mañana.</p>
                   </div>
                   <button type="button" className="btn-secondary" onClick={saveRecap}>

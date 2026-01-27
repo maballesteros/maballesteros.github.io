@@ -56,7 +56,44 @@ const DEFAULT_KUNGFU_TODAY_PLAN: KungfuTodayPlanConfig = {
     link: 2
   },
   focusSelectors: [],
-  rouletteSelectors: []
+  rouletteSelectors: [],
+  groups: [
+    {
+      id: 'formas',
+      name: 'Formas',
+      enabled: true,
+      order: 1,
+      type: 'work',
+      limitMode: 'minutes',
+      minutesBudget: 18,
+      strategy: 'overdue',
+      hierarchyRule: 'prefer_leaves',
+      include: [{ byNodeTypes: ['segment', 'form'] }],
+      exclude: []
+    },
+    {
+      id: 'tecnicas',
+      name: 'Técnicas',
+      enabled: true,
+      order: 2,
+      type: 'work',
+      limitMode: 'minutes',
+      minutesBudget: 10,
+      strategy: 'weighted',
+      hierarchyRule: 'allow_all',
+      include: [{ byNodeTypes: ['technique'] }, { byTags: ['roulette'] }],
+      exclude: []
+    },
+    {
+      id: 'recap',
+      name: 'Recap',
+      enabled: true,
+      order: 99,
+      type: 'note',
+      limitMode: 'minutes',
+      minutesBudget: 2
+    }
+  ]
 };
 
 const selectCollections = (state: AppState): CollectionsState => ({
