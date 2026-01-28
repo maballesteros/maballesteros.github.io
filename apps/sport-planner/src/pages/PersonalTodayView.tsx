@@ -939,7 +939,38 @@ export default function PersonalTodayView() {
         if (orderA !== orderB) return orderA - orderB;
         return a.label.localeCompare(b.label, 'es', { sensitivity: 'base' });
       });
-  }, [todaySession?.workItems, dueList, worksById, cadence, groupOrderByLabel, getGroupLabelForWork]);
+  }, [todaySession?.workItems, dueList, worksById, cadence, groupOrderByLabel, resolveGroupLabelForItem]);
+
+  const sectionsToRender = useMemo(() => {
+    type WorkSection = { kind: 'work'; label: string; entries: DueWork[]; total: number; done: number };
+    type NoteSection = { kind: 'note'; group: KungfuPlanGroupConfig };
+
+    const byLabel = new Map(todayEntriesByGroup.map((section) => [section.label, section] as const));
+    const renderedLabels = new Set<string>();
+    const out: Array<WorkSection | NoteSection> = [];
+
+    let didAddNote = false;
+    activeGroupsForToday.forEach((group) => {
+      if ((group.type ?? 'work') === 'note') {
+        if (didAddNote) return;
+        didAddNote = true;
+        out.push({ kind: 'note', group });
+        return;
+      }
+
+      const section = byLabel.get(group.name);
+      if (!section) return;
+      renderedLabels.add(section.label);
+      out.push({ kind: 'work', ...section });
+    });
+
+    todayEntriesByGroup.forEach((section) => {
+      if (renderedLabels.has(section.label)) return;
+      out.push({ kind: 'work', ...section });
+    });
+
+    return out;
+  }, [activeGroupsForToday, todayEntriesByGroup]);
 
   const renderEntry = (entry: DueWork) => {
     const work = entry.work;
@@ -1226,15 +1257,39 @@ export default function PersonalTodayView() {
               </div>
             ) : null}
 
-            {todayEntriesByGroup.map(({ label, entries, total, done }) => {
-              const safeTotal = Math.max(0, total);
-              const safeDone = Math.min(Math.max(0, done), safeTotal);
+            {sectionsToRender.map((section) => {
+              if (section.kind === 'note') {
+                return (
+                  <div key={section.group.id} className="glass-panel space-y-3 p-6">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+                          {section.group.name} ({Math.max(0, Number(section.group.minutesBudget) || 0)} min)
+                        </p>
+                        <p className="text-sm text-white/60">Notas de la sesión.</p>
+                      </div>
+                      <button type="button" className="btn-secondary" onClick={saveRecap}>
+                        Guardar
+                      </button>
+                    </div>
+                    <textarea
+                      className="input-field min-h-[120px] w-full resize-y"
+                      value={recapNote}
+                      onChange={(event) => setRecapNote(event.target.value)}
+                      placeholder="Escribe aquí…"
+                    />
+                  </div>
+                );
+              }
+
+              const safeTotal = Math.max(0, section.total);
+              const safeDone = Math.min(Math.max(0, section.done), safeTotal);
               const percent = safeTotal > 0 ? Math.round((safeDone / safeTotal) * 100) : 0;
               return (
-                <section key={label} className="glass-panel space-y-4 p-3 sm:space-y-5 sm:p-6">
+                <section key={section.label} className="glass-panel space-y-4 p-3 sm:space-y-5 sm:p-6">
                   <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.3em] text-white/40">{label}</p>
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/40">{section.label}</p>
                       <p className="mt-1 text-sm text-white/60">
                         {safeDone}/{safeTotal} ítem{safeTotal === 1 ? '' : 's'} · {percent}% completado
                       </p>
@@ -1246,32 +1301,10 @@ export default function PersonalTodayView() {
                       </div>
                     </div>
                   </header>
-                  <div className="space-y-3 sm:space-y-4">{entries.map(renderEntry)}</div>
+                  <div className="space-y-3 sm:space-y-4">{section.entries.map(renderEntry)}</div>
                 </section>
               );
             })}
-
-            {activeGroupsForToday.filter((group) => group.type === 'note').length > 0 ? (
-              <div className="glass-panel space-y-3 p-6">
-                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">
-                      {activeGroupsForToday.filter((group) => group.type === 'note')[0].name} ({Math.max(0, Number(activeGroupsForToday.filter((group) => group.type === 'note')[0].minutesBudget) || 0)} min)
-                    </p>
-                    <p className="text-sm text-white/60">Una corrección concreta para mañana.</p>
-                  </div>
-                  <button type="button" className="btn-secondary" onClick={saveRecap}>
-                    Guardar recap
-                  </button>
-                </div>
-                <textarea
-                  className="input-field min-h-[90px] w-full resize-y"
-                  value={recapNote}
-                  onChange={(event) => setRecapNote(event.target.value)}
-                  placeholder="Ej: Transición B→C: bajar hombros y cerrar cadera."
-                />
-              </div>
-            ) : null}
           </div>
         </section>
       )}
