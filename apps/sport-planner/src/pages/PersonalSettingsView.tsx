@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { nanoid } from 'nanoid';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
@@ -223,6 +223,7 @@ export default function PersonalSettingsView() {
   const [draftCadence, setDraftCadence] = useState<KungfuCadenceConfig>(cadence);
   const [draftTodayPlan, setDraftTodayPlan] = useState<KungfuTodayPlanConfig>(todayPlan);
   const [feedback, setFeedback] = useState<Feedback>(null);
+  const [expandedGroupIds, setExpandedGroupIds] = useState<string[]>([]);
 
   useEffect(() => {
     setDraftCadence(cadence);
@@ -281,6 +282,42 @@ export default function PersonalSettingsView() {
         .map((tag) => ({ value: tag.name, label: tag.name })),
     [workTaxonomy.tags]
   );
+
+  const dayLabelByValue = useMemo(() => new Map(DAY_OPTIONS.map((day) => [day.value, day.label])), []);
+
+  const toggleExpanded = useCallback((groupId: string, next?: boolean) => {
+    setExpandedGroupIds((prev) => {
+      const has = prev.includes(groupId);
+      const shouldOpen = typeof next === 'boolean' ? next : !has;
+      if (shouldOpen === has) return prev;
+      return shouldOpen ? [...prev, groupId] : prev.filter((id) => id !== groupId);
+    });
+  }, []);
+
+  const handleAddGroup = useCallback(() => {
+    const newId = nanoid();
+    setDraftTodayPlan((prev) => {
+      const ordered = [...(prev.groups ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+      const nextGroup: KungfuPlanGroupConfig = {
+        id: newId,
+        name: 'Nuevo grupo',
+        enabled: true,
+        order: ordered.length + 1,
+        type: 'work',
+        daysOfWeek: [],
+        limitMode: 'minutes',
+        maxItems: 12,
+        minutesBudget: 5,
+        strategy: 'overdue',
+        hierarchyRule: 'allow_all',
+        include: [],
+        exclude: []
+      };
+      const next = [...ordered, nextGroup].map((group, index) => ({ ...group, order: index + 1 }));
+      return { ...prev, groups: next };
+    });
+    toggleExpanded(newId, true);
+  }, [toggleExpanded]);
 
   return (
     <div className="space-y-6">
@@ -373,28 +410,7 @@ export default function PersonalSettingsView() {
             <button
               type="button"
               className="btn-secondary"
-              onClick={() =>
-                setDraftTodayPlan((prev) => {
-                  const ordered = [...(prev.groups ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-                  const nextGroup: KungfuPlanGroupConfig = {
-                    id: nanoid(),
-                    name: 'Nuevo grupo',
-                    enabled: true,
-                    order: ordered.length + 1,
-                    type: 'work',
-                    daysOfWeek: [],
-                    limitMode: 'minutes',
-                    maxItems: 12,
-                    minutesBudget: 5,
-                    strategy: 'overdue',
-                    hierarchyRule: 'allow_all',
-                    include: [],
-                    exclude: []
-                  };
-                  const next = [...ordered, nextGroup].map((group, index) => ({ ...group, order: index + 1 }));
-                  return { ...prev, groups: next };
-                })
-              }
+              onClick={handleAddGroup}
             >
               + Grupo
             </button>
@@ -410,6 +426,25 @@ export default function PersonalSettingsView() {
                 const limitMode = (group.limitMode ?? 'minutes') as KungfuTodayLimitMode;
                 const strategy = (group.strategy ?? 'overdue') as KungfuPlanGroupStrategy;
                 const hierarchyRule = (group.hierarchyRule ?? 'allow_all') as KungfuPlanGroupHierarchyRule;
+                const isExpanded = expandedGroupIds.includes(group.id);
+
+                const groupDaysLabel = isAllDays
+                  ? 'Todos'
+                  : days
+                      .map((value) => dayLabelByValue.get(value) ?? String(value))
+                      .filter(Boolean)
+                      .join(' ');
+
+                const limitLabel = (() => {
+                  const maxItems = Math.max(0, Math.round(Number(group.maxItems ?? 0)));
+                  const maxMinutes = Math.max(0, Number(group.minutesBudget ?? 0));
+                  if (limitMode === 'count') return `${maxItems} ítems`;
+                  if (limitMode === 'minutes') return `${maxMinutes} min`;
+                  return `${maxItems} ítems · ${maxMinutes} min`;
+                })();
+
+                const includeCount = (group.include ?? []).length;
+                const excludeCount = (group.exclude ?? []).length;
 
                 const updateGroup = (patch: Partial<KungfuPlanGroupConfig>) => {
                   setDraftTodayPlan((prev) => {
@@ -441,6 +476,27 @@ export default function PersonalSettingsView() {
                     const next = ordered.filter((item) => item.id !== group.id).map((item, idx) => ({ ...item, order: idx + 1 }));
                     return { ...prev, groups: next.length > 0 ? next : prev.groups };
                   });
+                  setExpandedGroupIds((prev) => prev.filter((id) => id !== group.id));
+                };
+
+                const duplicateGroup = () => {
+                  const newId = nanoid();
+                  setDraftTodayPlan((prev) => {
+                    const ordered = [...(prev.groups ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+                    const fromIndex = ordered.findIndex((item) => item.id === group.id);
+                    if (fromIndex < 0) return prev;
+
+                    const baseName = (group.name ?? '').trim() || 'Grupo';
+                    const duplicated: KungfuPlanGroupConfig = {
+                      ...group,
+                      id: newId,
+                      name: `${baseName} (copia)`
+                    };
+                    const next = ordered.slice();
+                    next.splice(fromIndex + 1, 0, duplicated);
+                    return { ...prev, groups: next.map((item, idx) => ({ ...item, order: idx + 1 })) };
+                  });
+                  toggleExpanded(newId, true);
                 };
 
                 const updateSelectorList = (
@@ -452,252 +508,38 @@ export default function PersonalSettingsView() {
                 };
 
                 return (
-                  <div key={group.id} className="rounded-3xl border border-white/10 bg-slate-950/40 p-5">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                      <div className="flex flex-1 flex-col gap-3">
-                        <div className="flex flex-wrap items-center gap-3">
-                          <label className="inline-flex items-center gap-2 text-sm text-white/70">
-                            <input
-                              type="checkbox"
-                              className="accent-sky-400"
-                              checked={group.enabled}
-                              onChange={(event) => updateGroup({ enabled: event.target.checked })}
-                            />
-                            Enabled
-                          </label>
-                          <input
-                            type="text"
-                            className="input-field flex-1"
-                            value={group.name}
-                            onChange={(event) => updateGroup({ name: event.target.value })}
-                            placeholder="Nombre del grupo"
-                          />
-                          <select
-                            className="input-field w-36"
-                            value={groupType}
-                            onChange={(event) => updateGroup({ type: event.target.value as KungfuPlanGroupType })}
-                          >
-                            <option value="work">Trabajos</option>
-                            <option value="note">Nota</option>
-                          </select>
+                  <div key={group.id} className="rounded-3xl border border-white/10 bg-slate-950/40">
+                    <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="flex flex-1 flex-wrap items-center gap-3">
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => toggleExpanded(group.id)}
+                          aria-expanded={isExpanded}
+                          title={isExpanded ? 'Colapsar' : 'Expandir'}
+                        >
+                          {isExpanded ? '▾' : '▸'}
+                        </button>
+
+                        <div className="min-w-[240px] flex-1">
+                          <p className="text-sm font-semibold text-white">{(group.name ?? '').trim() || 'Grupo'}</p>
+                          <p className="text-xs text-white/50">
+                            {groupType === 'note' ? 'Nota' : 'Trabajos'} · {groupDaysLabel} · {limitLabel}
+                            {groupType === 'work' ? ` · ${strategy === 'weighted' ? 'Ruleta' : 'Cadencia'}` : ''}
+                            {groupType === 'work' ? ` · Incluye:${includeCount || '∅'} Excluye:${excludeCount || '∅'}` : ''}
+                          </p>
                         </div>
 
-                        <div className="grid gap-4 lg:grid-cols-2">
-                          <div className="space-y-2">
-                            <p className="text-xs uppercase tracking-[0.3em] text-white/40">Días</p>
-                            <div className="flex flex-wrap items-center gap-2">
-                              <button
-                                type="button"
-                                className={clsx(
-                                  'rounded-full border px-3 py-1 text-xs font-semibold transition',
-                                  isAllDays
-                                    ? 'border-sky-500/40 bg-sky-500/10 text-sky-100'
-                                    : 'border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:text-white'
-                                )}
-                                onClick={() => updateGroup({ daysOfWeek: [] })}
-                                title="Vacío = todos los días"
-                              >
-                                Todos
-                              </button>
-                              {DAY_OPTIONS.map((day) => {
-                                const active = isAllDays ? true : days.includes(day.value);
-                                return (
-                                  <button
-                                    key={day.value}
-                                    type="button"
-                                    className={clsx(
-                                      'h-8 w-8 rounded-full border text-xs font-semibold transition',
-                                      active
-                                        ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-100'
-                                        : 'border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:text-white'
-                                    )}
-                                    onClick={() => {
-                                      const next = isAllDays ? [day.value] : days.includes(day.value) ? days.filter((d) => d !== day.value) : [...days, day.value];
-                                      updateGroup({ daysOfWeek: next.sort((a, b) => a - b) });
-                                    }}
-                                    title={active ? 'Activo' : 'Inactivo'}
-                                  >
-                                    {day.label}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                            <p className="text-xs text-white/50">Si eliges días específicos, solo aparecerá esos días.</p>
-                          </div>
-
-                          <div className="grid gap-3 sm:grid-cols-3">
-                            <label className="grid gap-1">
-                              <span className="text-xs uppercase tracking-wide text-white/40">Límite</span>
-                              <select
-                                className="input-field"
-                                value={limitMode}
-                                onChange={(event) => updateGroup({ limitMode: event.target.value as KungfuTodayLimitMode })}
-                              >
-                                <option value="count">Cantidad</option>
-                                <option value="minutes">Minutos</option>
-                                <option value="both">Ambos</option>
-                              </select>
-                            </label>
-                            <label className="grid gap-1">
-                              <span className="text-xs uppercase tracking-wide text-white/40">Máx ítems</span>
-                              <input
-                                type="number"
-                                min={0}
-                                className="input-field"
-                                value={group.maxItems ?? 0}
-                                onChange={(event) => updateGroup({ maxItems: Number(event.target.value) })}
-                              />
-                            </label>
-                            <label className="grid gap-1">
-                              <span className="text-xs uppercase tracking-wide text-white/40">Máx min</span>
-                              <input
-                                type="number"
-                                min={0}
-                                className="input-field"
-                                value={group.minutesBudget ?? 0}
-                                onChange={(event) => updateGroup({ minutesBudget: Number(event.target.value) })}
-                              />
-                            </label>
-                          </div>
-                        </div>
-
-                        {groupType === 'work' ? (
-                          <div className="mt-2 grid gap-4 lg:grid-cols-2">
-                            <label className="grid gap-1">
-                              <span className="text-xs uppercase tracking-wide text-white/40">Estrategia</span>
-                              <select
-                                className="input-field"
-                                value={strategy}
-                                onChange={(event) => updateGroup({ strategy: event.target.value as KungfuPlanGroupStrategy })}
-                              >
-                                <option value="overdue">Vencido (cadencia)</option>
-                                <option value="weighted">Ponderado (ruleta)</option>
-                              </select>
-                            </label>
-                            <label className="flex items-center gap-2 text-sm text-white/70">
-                              <input
-                                type="checkbox"
-                                className="accent-sky-400"
-                                checked={hierarchyRule === 'prefer_leaves'}
-                                onChange={(event) =>
-                                  updateGroup({
-                                    hierarchyRule: (event.target.checked ? 'prefer_leaves' : 'allow_all') as KungfuPlanGroupHierarchyRule
-                                  })
-                                }
-                              />
-                              Preferir hijos (evita padres cuando existan)
-                            </label>
-                          </div>
-                        ) : null}
-
-                        {groupType === 'work' ? (
-                          <div className="mt-4 grid gap-5 lg:grid-cols-2">
-                            {(['include', 'exclude'] as const).map((bucket) => (
-                              <div key={`${group.id}-${bucket}`} className="space-y-3">
-                                <div className="flex items-center justify-between">
-                                  <p className="text-sm font-semibold text-white/80">
-                                    {bucket === 'include' ? 'Include (OR)' : 'Exclude (OR)'}
-                                  </p>
-                                  <button
-                                    type="button"
-                                    className="btn-secondary"
-                                    onClick={() => updateSelectorList(bucket, (prevList) => [...prevList, { ...EMPTY_SELECTOR }])}
-                                  >
-                                    + Regla
-                                  </button>
-                                </div>
-
-                                {(group[bucket] ?? []).length === 0 ? (
-                                  <p className="text-xs text-white/50">
-                                    {bucket === 'include' ? 'Vacío = incluye todo (se aplican excludes).' : 'Vacío = no excluye nada.'}
-                                  </p>
-                                ) : null}
-
-                                {(group[bucket] ?? []).map((selector, selectorIndex) => (
-                                  <div
-                                    key={`${bucket}-${group.id}-${selectorIndex}`}
-                                    className="rounded-2xl border border-white/10 bg-white/5 p-4"
-                                  >
-                                    <div className="flex items-center justify-between">
-                                      <p className="text-xs uppercase tracking-[0.3em] text-white/40">
-                                        Regla {selectorIndex + 1}
-                                      </p>
-                                      <button
-                                        type="button"
-                                        className="text-xs font-semibold text-rose-200 hover:text-rose-100"
-                                        onClick={() =>
-                                          updateSelectorList(bucket, (prevList) => prevList.filter((_, i) => i !== selectorIndex))
-                                        }
-                                      >
-                                        Quitar
-                                      </button>
-                                    </div>
-
-                                    <div className="mt-3 grid gap-3">
-                                      <label className="grid gap-1">
-                                        <span className="text-xs text-white/50">Tags (AND)</span>
-                                        <MultiSelectChips
-                                          options={tagOptions}
-                                          value={selector.byTags ?? []}
-                                          onChange={(nextTags) =>
-                                            updateSelectorList(bucket, (prevList) => {
-                                              const nextList = [...prevList];
-                                              nextList[selectorIndex] = { ...nextList[selectorIndex], byTags: nextTags };
-                                              return nextList;
-                                            })
-                                          }
-                                          placeholder="Search tags…"
-                                          allowCreate
-                                          onCreate={(raw) => {
-                                            const created = upsertTag(raw);
-                                            return created ? { createdValue: created, createdLabel: created } : null;
-                                          }}
-                                        />
-                                      </label>
-                                      <label className="grid gap-1">
-                                        <span className="text-xs text-white/50">Node types</span>
-                                        <MultiSelectChips
-                                          options={nodeTypeOptions}
-                                          value={selector.byNodeTypes ?? []}
-                                          onChange={(nextNodeTypes) =>
-                                            updateSelectorList(bucket, (prevList) => {
-                                              const nextList = [...prevList];
-                                              nextList[selectorIndex] = { ...nextList[selectorIndex], byNodeTypes: nextNodeTypes };
-                                              return nextList;
-                                            })
-                                          }
-                                          placeholder="Search node types…"
-                                          allowCreate
-                                          onCreate={(raw) => {
-                                            const created = upsertNodeType(raw);
-                                            return created ? { createdValue: created, createdLabel: raw.trim() } : null;
-                                          }}
-                                        />
-                                      </label>
-                                      <label className="grid gap-1">
-                                        <span className="text-xs text-white/50">Work IDs</span>
-                                        <input
-                                          type="text"
-                                          className="input-field"
-                                          value={toCsv(selector.byWorkIds)}
-                                          placeholder="id1, id2"
-                                          onChange={(event) => {
-                                            const nextIds = normalizeIdList(event.target.value);
-                                            updateSelectorList(bucket, (prevList) => {
-                                              const nextList = [...prevList];
-                                              nextList[selectorIndex] = { ...nextList[selectorIndex], byWorkIds: nextIds };
-                                              return nextList;
-                                            });
-                                          }}
-                                        />
-                                      </label>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
-                        ) : null}
+                        <span
+                          className={clsx(
+                            'rounded-full border px-3 py-1 text-xs font-semibold',
+                            group.enabled
+                              ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
+                              : 'border-white/15 bg-white/5 text-white/60'
+                          )}
+                        >
+                          {group.enabled ? 'Enabled' : 'Disabled'}
+                        </span>
                       </div>
 
                       <div className="flex items-center justify-end gap-2">
@@ -719,6 +561,9 @@ export default function PersonalSettingsView() {
                         >
                           ↓
                         </button>
+                        <button type="button" className="btn-secondary" onClick={duplicateGroup} title="Duplicar">
+                          Duplicar
+                        </button>
                         <button
                           type="button"
                           className="btn-secondary"
@@ -729,6 +574,280 @@ export default function PersonalSettingsView() {
                         </button>
                       </div>
                     </div>
+
+                    {isExpanded ? (
+                      <div className="border-t border-white/10 p-5">
+                        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                          <div className="flex flex-1 flex-col gap-3">
+                            <div className="flex flex-wrap items-center gap-3">
+                              <label className="inline-flex items-center gap-2 text-sm text-white/70">
+                                <input
+                                  type="checkbox"
+                                  className="accent-sky-400"
+                                  checked={group.enabled}
+                                  onChange={(event) => updateGroup({ enabled: event.target.checked })}
+                                />
+                                Enabled
+                              </label>
+                              <input
+                                type="text"
+                                className="input-field flex-1"
+                                value={group.name}
+                                onChange={(event) => updateGroup({ name: event.target.value })}
+                                placeholder="Nombre del grupo"
+                              />
+                              <select
+                                className="input-field w-36"
+                                value={groupType}
+                                onChange={(event) => updateGroup({ type: event.target.value as KungfuPlanGroupType })}
+                              >
+                                <option value="work">Trabajos</option>
+                                <option value="note">Nota</option>
+                              </select>
+                            </div>
+
+                            <div className="grid gap-4 lg:grid-cols-2">
+                              <div className="space-y-2">
+                                <p className="text-xs uppercase tracking-[0.3em] text-white/40">Días</p>
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <button
+                                    type="button"
+                                    className={clsx(
+                                      'rounded-full border px-3 py-1 text-xs font-semibold transition',
+                                      isAllDays
+                                        ? 'border-sky-500/40 bg-sky-500/10 text-sky-100'
+                                        : 'border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:text-white'
+                                    )}
+                                    onClick={() => updateGroup({ daysOfWeek: [] })}
+                                    title="Vacío = todos los días"
+                                  >
+                                    Todos
+                                  </button>
+                                  {DAY_OPTIONS.map((day) => {
+                                    const active = isAllDays ? true : days.includes(day.value);
+                                    return (
+                                      <button
+                                        key={day.value}
+                                        type="button"
+                                        className={clsx(
+                                          'h-8 w-8 rounded-full border text-xs font-semibold transition',
+                                          active
+                                            ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-100'
+                                            : 'border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:text-white'
+                                        )}
+                                        onClick={() => {
+                                          const next = isAllDays
+                                            ? [day.value]
+                                            : days.includes(day.value)
+                                              ? days.filter((d) => d !== day.value)
+                                              : [...days, day.value];
+                                          updateGroup({ daysOfWeek: next.sort((a, b) => a - b) });
+                                        }}
+                                        title={active ? 'Activo' : 'Inactivo'}
+                                      >
+                                        {day.label}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                                <p className="text-xs text-white/50">Si eliges días específicos, solo aparecerá esos días.</p>
+                              </div>
+
+                              <div className="grid gap-3 sm:grid-cols-3">
+                                <label className="grid gap-1">
+                                  <span className="text-xs uppercase tracking-wide text-white/40">Límite</span>
+                                  <select
+                                    className="input-field"
+                                    value={limitMode}
+                                    onChange={(event) =>
+                                      updateGroup({ limitMode: event.target.value as KungfuTodayLimitMode })
+                                    }
+                                  >
+                                    <option value="count">Cantidad</option>
+                                    <option value="minutes">Minutos</option>
+                                    <option value="both">Ambos</option>
+                                  </select>
+                                </label>
+                                <label className="grid gap-1">
+                                  <span className="text-xs uppercase tracking-wide text-white/40">Máx ítems</span>
+                                  <input
+                                    type="number"
+                                    min={0}
+                                    className="input-field"
+                                    value={group.maxItems ?? 0}
+                                    onChange={(event) => updateGroup({ maxItems: Number(event.target.value) })}
+                                  />
+                                </label>
+                                <label className="grid gap-1">
+                                  <span className="text-xs uppercase tracking-wide text-white/40">Máx min</span>
+                                  <input
+                                    type="number"
+                                    min={0}
+                                    className="input-field"
+                                    value={group.minutesBudget ?? 0}
+                                    onChange={(event) => updateGroup({ minutesBudget: Number(event.target.value) })}
+                                  />
+                                </label>
+                              </div>
+                            </div>
+
+                            {groupType === 'work' ? (
+                              <div className="mt-2 grid gap-4 lg:grid-cols-2">
+                                <label className="grid gap-1">
+                                  <span className="text-xs uppercase tracking-wide text-white/40">Estrategia</span>
+                                  <select
+                                    className="input-field"
+                                    value={strategy}
+                                    onChange={(event) =>
+                                      updateGroup({ strategy: event.target.value as KungfuPlanGroupStrategy })
+                                    }
+                                  >
+                                    <option value="overdue">Vencido (cadencia)</option>
+                                    <option value="weighted">Ponderado (ruleta)</option>
+                                  </select>
+                                </label>
+                                <label className="flex items-center gap-2 text-sm text-white/70">
+                                  <input
+                                    type="checkbox"
+                                    className="accent-sky-400"
+                                    checked={hierarchyRule === 'prefer_leaves'}
+                                    onChange={(event) =>
+                                      updateGroup({
+                                        hierarchyRule: (event.target.checked
+                                          ? 'prefer_leaves'
+                                          : 'allow_all') as KungfuPlanGroupHierarchyRule
+                                      })
+                                    }
+                                  />
+                                  Preferir hijos (evita padres cuando existan)
+                                </label>
+                              </div>
+                            ) : null}
+
+                            {groupType === 'work' ? (
+                              <div className="mt-4 grid gap-5 lg:grid-cols-2">
+                                {(['include', 'exclude'] as const).map((bucket) => (
+                                  <div key={`${group.id}-${bucket}`} className="space-y-3">
+                                    <div className="flex items-center justify-between">
+                                      <p className="text-sm font-semibold text-white/80">
+                                        {bucket === 'include' ? 'Include (OR)' : 'Exclude (OR)'}
+                                      </p>
+                                      <button
+                                        type="button"
+                                        className="btn-secondary"
+                                        onClick={() =>
+                                          updateSelectorList(bucket, (prevList) => [...prevList, { ...EMPTY_SELECTOR }])
+                                        }
+                                      >
+                                        + Regla
+                                      </button>
+                                    </div>
+
+                                    {(group[bucket] ?? []).length === 0 ? (
+                                      <p className="text-xs text-white/50">
+                                        {bucket === 'include'
+                                          ? 'Vacío = incluye todo (se aplican excludes).'
+                                          : 'Vacío = no excluye nada.'}
+                                      </p>
+                                    ) : null}
+
+                                    {(group[bucket] ?? []).map((selector, selectorIndex) => (
+                                      <div
+                                        key={`${bucket}-${group.id}-${selectorIndex}`}
+                                        className="rounded-2xl border border-white/10 bg-white/5 p-4"
+                                      >
+                                        <div className="flex items-center justify-between">
+                                          <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+                                            Regla {selectorIndex + 1}
+                                          </p>
+                                          <button
+                                            type="button"
+                                            className="text-xs font-semibold text-rose-200 hover:text-rose-100"
+                                            onClick={() =>
+                                              updateSelectorList(bucket, (prevList) =>
+                                                prevList.filter((_, i) => i !== selectorIndex)
+                                              )
+                                            }
+                                          >
+                                            Quitar
+                                          </button>
+                                        </div>
+
+                                        <div className="mt-3 grid gap-3">
+                                          <label className="grid gap-1">
+                                            <span className="text-xs text-white/50">Tags (AND)</span>
+                                            <MultiSelectChips
+                                              options={tagOptions}
+                                              value={selector.byTags ?? []}
+                                              onChange={(nextTags) =>
+                                                updateSelectorList(bucket, (prevList) => {
+                                                  const nextList = [...prevList];
+                                                  nextList[selectorIndex] = { ...nextList[selectorIndex], byTags: nextTags };
+                                                  return nextList;
+                                                })
+                                              }
+                                              placeholder="Search tags…"
+                                              allowCreate
+                                              onCreate={(raw) => {
+                                                const created = upsertTag(raw);
+                                                return created ? { createdValue: created, createdLabel: created } : null;
+                                              }}
+                                            />
+                                          </label>
+                                          <label className="grid gap-1">
+                                            <span className="text-xs text-white/50">Node types</span>
+                                            <MultiSelectChips
+                                              options={nodeTypeOptions}
+                                              value={selector.byNodeTypes ?? []}
+                                              onChange={(nextNodeTypes) =>
+                                                updateSelectorList(bucket, (prevList) => {
+                                                  const nextList = [...prevList];
+                                                  nextList[selectorIndex] = {
+                                                    ...nextList[selectorIndex],
+                                                    byNodeTypes: nextNodeTypes
+                                                  };
+                                                  return nextList;
+                                                })
+                                              }
+                                              placeholder="Search node types…"
+                                              allowCreate
+                                              onCreate={(raw) => {
+                                                const created = upsertNodeType(raw);
+                                                return created ? { createdValue: created, createdLabel: raw.trim() } : null;
+                                              }}
+                                            />
+                                          </label>
+                                          <label className="grid gap-1">
+                                            <span className="text-xs text-white/50">Work IDs</span>
+                                            <input
+                                              type="text"
+                                              className="input-field"
+                                              value={toCsv(selector.byWorkIds)}
+                                              placeholder="id1, id2"
+                                              onChange={(event) => {
+                                                const nextIds = normalizeIdList(event.target.value);
+                                                updateSelectorList(bucket, (prevList) => {
+                                                  const nextList = [...prevList];
+                                                  nextList[selectorIndex] = {
+                                                    ...nextList[selectorIndex],
+                                                    byWorkIds: nextIds
+                                                  };
+                                                  return nextList;
+                                                });
+                                              }}
+                                            />
+                                          </label>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                ))}
+                              </div>
+                            ) : null}
+                          </div>
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 );
               })}
