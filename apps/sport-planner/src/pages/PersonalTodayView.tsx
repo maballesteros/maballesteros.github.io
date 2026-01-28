@@ -520,13 +520,9 @@ export default function PersonalTodayView() {
   );
 
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [recapNote, setRecapNote] = useState<string>(todaySession?.notes ?? '');
+  const [noteDrafts, setNoteDrafts] = useState<Record<string, string>>({});
   const [togglingWorkId, setTogglingWorkId] = useState<string | null>(null);
   const [expandedWorkDetails, setExpandedWorkDetails] = useState<Set<string>>(new Set());
-
-  useEffect(() => {
-    setRecapNote(todaySession?.notes ?? '');
-  }, [todaySession?.notes]);
 
   const ensureTodaySession = useCallback((): Session => {
     if (todaySession) return todaySession;
@@ -599,6 +595,27 @@ export default function PersonalTodayView() {
       })
       .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   }, [todayPlan, today]);
+
+  useEffect(() => {
+    const next: Record<string, string> = {};
+    const fromSession = todaySession?.notesByGroupId ?? undefined;
+    if (fromSession) {
+      Object.entries(fromSession).forEach(([key, value]) => {
+        const cleanKey = (key ?? '').trim();
+        if (!cleanKey) return;
+        next[cleanKey] = String(value ?? '');
+      });
+    }
+    const legacy = (todaySession?.notes ?? '').toString();
+    if (legacy.trim().length > 0) {
+      const firstNoteGroupId =
+        activeGroupsForToday.find((group) => (group.type ?? 'work') === 'note')?.id ?? 'note';
+      if (!next[firstNoteGroupId]) {
+        next[firstNoteGroupId] = legacy;
+      }
+    }
+    setNoteDrafts(next);
+  }, [todaySession?.notes, todaySession?.notesByGroupId, activeGroupsForToday]);
 
   const groupOrderByLabel = useMemo(() => {
     const map = new Map<string, number>();
@@ -949,11 +966,8 @@ export default function PersonalTodayView() {
     const renderedLabels = new Set<string>();
     const out: Array<WorkSection | NoteSection> = [];
 
-    let didAddNote = false;
     activeGroupsForToday.forEach((group) => {
       if ((group.type ?? 'work') === 'note') {
-        if (didAddNote) return;
-        didAddNote = true;
         out.push({ kind: 'note', group });
         return;
       }
@@ -1185,10 +1199,18 @@ export default function PersonalTodayView() {
     );
   };
 
-  const saveRecap = () => {
+  const saveNoteForGroup = (groupId: string) => {
     const session = ensureTodaySession();
-    updateSession(session.id, { notes: recapNote });
-    setFeedback({ type: 'success', text: 'Recap guardado.' });
+    const cleanId = (groupId ?? '').trim();
+    if (!cleanId) return;
+    const nextNotesByGroupId = {
+      ...(session.notesByGroupId ?? {}),
+      [cleanId]: noteDrafts[cleanId] ?? ''
+    };
+    const firstNoteGroupId =
+      activeGroupsForToday.find((group) => (group.type ?? 'work') === 'note')?.id ?? cleanId;
+    updateSession(session.id, { notesByGroupId: nextNotesByGroupId, notes: nextNotesByGroupId[firstNoteGroupId] ?? '' });
+    setFeedback({ type: 'success', text: 'Guardado.' });
     window.setTimeout(() => setFeedback(null), 1800);
   };
 
@@ -1259,6 +1281,8 @@ export default function PersonalTodayView() {
 
             {sectionsToRender.map((section) => {
               if (section.kind === 'note') {
+                const groupId = section.group.id;
+                const noteValue = noteDrafts[groupId] ?? '';
                 return (
                   <div key={section.group.id} className="glass-panel space-y-3 p-6">
                     <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
@@ -1268,14 +1292,19 @@ export default function PersonalTodayView() {
                         </p>
                         <p className="text-sm text-white/60">Notas de la sesión.</p>
                       </div>
-                      <button type="button" className="btn-secondary" onClick={saveRecap}>
+                      <button type="button" className="btn-secondary" onClick={() => saveNoteForGroup(groupId)}>
                         Guardar
                       </button>
                     </div>
                     <textarea
                       className="input-field min-h-[120px] w-full resize-y"
-                      value={recapNote}
-                      onChange={(event) => setRecapNote(event.target.value)}
+                      value={noteValue}
+                      onChange={(event) =>
+                        setNoteDrafts((prev) => ({
+                          ...prev,
+                          [groupId]: event.target.value
+                        }))
+                      }
                       placeholder="Escribe aquí…"
                     />
                   </div>

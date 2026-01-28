@@ -627,6 +627,7 @@ interface SessionInput {
   title: string;
   description?: string;
   notes?: string;
+  notesByGroupId?: Record<string, string>;
   startTime?: string;
 }
 
@@ -1169,6 +1170,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       title: input.title,
       description: input.description,
       notes: input.notes,
+      notesByGroupId: input.notesByGroupId,
       workItems: [],
       attendance: [],
       startTime: input.startTime ?? DEFAULT_SESSION_START_TIME,
@@ -1613,6 +1615,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     (payload.sesiones ?? []).forEach((raw: BackupSession) => {
       const sessionId = raw.id ?? nanoid();
+      const rawNotesByGroup = (raw as unknown as { notesByGroupId?: Record<string, string> | null }).notesByGroupId ?? undefined;
       const session: Session = {
         id: sessionId,
         date: raw.date ?? dayjs().format('YYYY-MM-DD'),
@@ -1620,6 +1623,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         title: raw.title ?? 'Sesión importada',
         description: raw.description,
         notes: raw.notes,
+        notesByGroupId: rawNotesByGroup ?? undefined,
         workItems: (raw.workItems ?? []).map((item, index) => ({
           id: item.id ?? nanoid(),
           workId: item.workId,
@@ -1775,6 +1779,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       title: session.title,
       description: session.description,
       notes: session.notes,
+      notesByGroupId: session.notesByGroupId,
       startTime: session.startTime,
       createdAt: session.createdAt,
       updatedAt: session.updatedAt

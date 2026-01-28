@@ -156,6 +156,7 @@ export interface Session {
   title: string;
   description?: string;
   notes?: string;
+  notesByGroupId?: Record<string, string>;
   workItems: SessionWork[];
   attendance: SessionAttendance[];
   startTime: string;
@@ -179,6 +180,7 @@ export interface BackupSession {
   title: string;
   description?: string;
   notes?: string;
+  notesByGroupId?: Record<string, string>;
   workItems?: SessionWork[];
   attendance?: SessionAttendance[];
   startTime?: string;
