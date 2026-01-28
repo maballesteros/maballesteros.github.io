@@ -474,6 +474,7 @@ export default function PersonalTodayView() {
   const updateSessionWorkDetails = useAppStore((state) => state.updateSessionWorkDetails);
   const updateSessionWorkItems = useAppStore((state) => state.updateSessionWorkItems);
   const updateSession = useAppStore((state) => state.updateSession);
+  const removeWorkFromSession = useAppStore((state) => state.removeWorkFromSession);
 
   const today = dayjs().format('YYYY-MM-DD');
 
@@ -538,6 +539,56 @@ export default function PersonalTodayView() {
     });
   }, [addSession, today, todaySession]);
 
+  const dedupeSessionWorkItems = useCallback((items: SessionWork[]): SessionWork[] => {
+    const ordered = (items ?? []).slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    const byWorkId = new Map<string, SessionWork>();
+    const orderKeys: string[] = [];
+
+    ordered.forEach((item) => {
+      const workId = item.workId;
+      if (!workId) return;
+      const existing = byWorkId.get(workId);
+      if (!existing) {
+        byWorkId.set(workId, { ...item });
+        orderKeys.push(workId);
+        return;
+      }
+
+      const merged: SessionWork = {
+        ...existing,
+        customDescriptionMarkdown: existing.customDescriptionMarkdown ?? item.customDescriptionMarkdown,
+        customDurationMinutes: existing.customDurationMinutes ?? item.customDurationMinutes,
+        notes: existing.notes ?? item.notes,
+        focusLabel: existing.focusLabel ?? item.focusLabel,
+        completed: Boolean(existing.completed ?? false) || Boolean(item.completed ?? false),
+        result: existing.result ?? item.result,
+        effort: existing.effort ?? item.effort
+      };
+
+      byWorkId.set(workId, merged);
+    });
+
+    return orderKeys.map((workId, index) => ({ ...byWorkId.get(workId)!, order: index }));
+  }, []);
+
+  useEffect(() => {
+    if (!todaySession) return;
+    const items = todaySession.workItems ?? [];
+    const workIdCounts = items.reduce((acc, item) => {
+      const workId = item.workId;
+      if (!workId) return acc;
+      acc.set(workId, (acc.get(workId) ?? 0) + 1);
+      return acc;
+    }, new Map<string, number>());
+
+    const hasDuplicates = Array.from(workIdCounts.values()).some((count) => count > 1);
+    if (!hasDuplicates) return;
+
+    const deduped = dedupeSessionWorkItems(items);
+    if (deduped.length === items.length) return;
+    updateSessionWorkItems(todaySession.id, deduped);
+  }, [todaySession, updateSessionWorkItems, dedupeSessionWorkItems]);
+
   const activeGroupsForToday = useMemo(() => {
     const todayDow = dayjs(today).day();
     return getPlanGroups(todayPlan)
@@ -577,6 +628,215 @@ export default function PersonalTodayView() {
     [activeGroupsForToday]
   );
 
+  const activeWorkGroupNames = useMemo(() => {
+    return new Set(
+      activeGroupsForToday
+        .filter((group) => (group.type ?? 'work') !== 'note')
+        .map((group) => group.name)
+        .filter(Boolean)
+    );
+  }, [activeGroupsForToday]);
+
+  const resolveGroupLabelForItem = useCallback(
+    (item: { focusLabel?: string }, work: Work) => {
+      const current = (item.focusLabel ?? '').trim();
+      if (current && activeWorkGroupNames.has(current)) return current;
+      return getGroupLabelForWork(work);
+    },
+    [activeWorkGroupNames, getGroupLabelForWork]
+  );
+
+  const buildNextSessionWorkItems = useCallback(
+    (sessionId: string) => {
+      const freshSession = useAppStore.getState().sessions.find((s) => s.id === sessionId);
+      if (!freshSession) return null;
+
+      const nextItems = (freshSession.workItems ?? []).map((item) => {
+        const work = worksById.get(item.workId);
+        if (!work) return item;
+        const resolved = resolveGroupLabelForItem(item, work);
+        if (resolved === item.focusLabel) return item;
+        return { ...item, focusLabel: resolved };
+      });
+
+      nextItems.sort((a, b) => {
+        const labelA = a.focusLabel ?? 'Hoy';
+        const labelB = b.focusLabel ?? 'Hoy';
+        const orderA = groupOrderByLabel.get(labelA) ?? 999;
+        const orderB = groupOrderByLabel.get(labelB) ?? 999;
+        if (orderA !== orderB) return orderA - orderB;
+        return (a.order ?? 0) - (b.order ?? 0);
+      });
+
+      return nextItems;
+    },
+    [groupOrderByLabel, worksById, resolveGroupLabelForItem]
+  );
+
+  const [isFillingPlan, setIsFillingPlan] = useState(false);
+
+  const fillTodayPlan = useCallback(
+    (opts?: { reason?: string; includeDiagnostics?: boolean }) => {
+      if (isFillingPlan) return;
+      if (dueList.length === 0) return;
+
+      setIsFillingPlan(true);
+      try {
+        const session = todaySession ?? ensureTodaySession();
+
+        const itemsBefore = session.workItems ?? [];
+        const existingWorkIds = new Set(itemsBefore.map((item) => item.workId));
+
+        const limitByCount = todayPlan.limitMode === 'count' || todayPlan.limitMode === 'both';
+        if (limitByCount && existingWorkIds.size >= Math.max(1, Math.round(todayPlan.maxItems || 12))) {
+          if (opts?.includeDiagnostics) {
+            setFeedback({
+              type: 'success',
+              text: 'Plan ya está lleno por cantidad. Sube el máximo de ítems en Ajustes.'
+            });
+            window.setTimeout(() => setFeedback(null), 2500);
+          }
+          return;
+        }
+
+        const existingUsageByGroupId = new Map<string, { minutes: number; items: number }>();
+
+        itemsBefore.forEach((item) => {
+          const work = worksById.get(item.workId);
+          if (!work) return;
+          const label = resolveGroupLabelForItem(item, work);
+          const group = activeGroupsForToday.find((g) => g.name === label);
+          const groupId = group?.id ?? label;
+          const prev = existingUsageByGroupId.get(groupId) ?? { minutes: 0, items: 0 };
+          existingUsageByGroupId.set(groupId, {
+            minutes: prev.minutes + estimateWorkMinutes(work, todayPlan),
+            items: prev.items + 1
+          });
+        });
+
+        const existingMinutesTotal = itemsBefore.reduce((acc, item) => {
+          const work = worksById.get(item.workId);
+          if (!work) return acc;
+          return acc + estimateWorkMinutes(work, todayPlan);
+        }, 0);
+
+        const adjustedPlan: KungfuTodayPlanConfig = {
+          ...todayPlan,
+          maxItems: Math.max(0, Math.round((todayPlan.maxItems ?? 0) - existingWorkIds.size)),
+          minutesBudget: Math.max(0, Number(todayPlan.minutesBudget ?? 0) - existingMinutesTotal),
+          groups: activeGroupsForToday.map((group) => {
+            const usage = existingUsageByGroupId.get(group.id);
+            const next: KungfuPlanGroupConfig = { ...group };
+            if (usage) {
+              if (typeof group.minutesBudget === 'number' && Number.isFinite(group.minutesBudget)) {
+                next.minutesBudget = Math.max(0, group.minutesBudget - usage.minutes);
+              }
+              if (typeof group.maxItems === 'number' && Number.isFinite(group.maxItems)) {
+                next.maxItems = Math.max(0, Math.round(group.maxItems - usage.items));
+              }
+            }
+            return next;
+          })
+        };
+
+        const availableDue = dueList.filter((entry) => !existingWorkIds.has(entry.work.id));
+        const additions = computePlan({
+          dueList: availableDue,
+          todaySession: undefined,
+          plan: adjustedPlan,
+          today,
+          childCountByWorkId
+        });
+
+        let addedCount = 0;
+        additions.groups
+          .filter((groupEntry) => (groupEntry.group.type ?? 'work') !== 'note')
+          .forEach((groupEntry) => {
+            groupEntry.items.forEach((entry) => {
+              addWorkToSession(session.id, {
+                workId: entry.work.id,
+                focusLabel: groupEntry.group.name,
+                customDurationMinutes: estimateWorkMinutes(entry.work, todayPlan)
+              });
+              addedCount += 1;
+            });
+          });
+
+        const nextItems = buildNextSessionWorkItems(session.id);
+        if (nextItems) {
+          updateSessionWorkItems(session.id, dedupeSessionWorkItems(nextItems));
+        }
+
+        if (opts?.includeDiagnostics) {
+          if (addedCount > 0) {
+            setFeedback({
+              type: 'success',
+              text: `Plan actualizado: +${addedCount} ítem${addedCount === 1 ? '' : 's'}.`
+            });
+            window.setTimeout(() => setFeedback(null), 2000);
+          } else {
+            const diagnostics = activeGroupsForToday
+              .filter((group) => (group.type ?? 'work') !== 'note')
+              .map((group) => {
+                const includeRules = group.include ?? [];
+                const excludeRules = group.exclude ?? [];
+                const matching = availableDue.filter((entry) => {
+                  const included =
+                    includeRules.length === 0
+                      ? true
+                      : includeRules.some((selector) => matchesSelector(entry.work, selector));
+                  if (!included) return false;
+                  const excluded = excludeRules.some((selector) => matchesSelector(entry.work, selector));
+                  return !excluded;
+                });
+                const budget =
+                  group.limitMode === 'minutes' || group.limitMode === 'both'
+                    ? Math.max(0, Number(group.minutesBudget) || 0)
+                    : undefined;
+                const maxItems =
+                  group.limitMode === 'count' || group.limitMode === 'both'
+                    ? Math.max(0, Math.round(Number(group.maxItems) || 0))
+                    : undefined;
+                const parts = [
+                  `${group.name}: ${matching.length} match`,
+                  typeof budget === 'number' ? `${budget}m` : null,
+                  typeof maxItems === 'number' ? `${maxItems} items` : null
+                ].filter(Boolean);
+                return parts.join(' · ');
+              })
+              .slice(0, 3)
+              .join(' | ');
+            setFeedback({
+              type: 'success',
+              text: diagnostics
+                ? `No hay nuevos ítems para añadir. ${diagnostics}`
+                : 'No hay nuevos ítems para añadir con los límites actuales.'
+            });
+            window.setTimeout(() => setFeedback(null), 4000);
+          }
+        }
+      } finally {
+        setIsFillingPlan(false);
+      }
+    },
+    [
+      isFillingPlan,
+      dueList,
+      todaySession,
+      ensureTodaySession,
+      todayPlan,
+      worksById,
+      getGroupLabelForWork,
+      activeGroupsForToday,
+      today,
+      childCountByWorkId,
+      addWorkToSession,
+      updateSessionWorkItems,
+      dedupeSessionWorkItems,
+      buildNextSessionWorkItems
+    ]
+  );
+
   useEffect(() => {
     if (dueList.length === 0) return;
 
@@ -585,108 +845,20 @@ export default function PersonalTodayView() {
     const shouldSeed = !hasAnyPlanLabels;
 
     if (!shouldSeed) return;
-
-    const existingWorkIds = new Set((session.workItems ?? []).map((item) => item.workId));
-
-    const limitByCount = todayPlan.limitMode === 'count' || todayPlan.limitMode === 'both';
-    if (limitByCount && existingWorkIds.size >= Math.max(1, Math.round(todayPlan.maxItems || 12))) {
-      return;
-    }
-
-    const existingUsageByGroupId = new Map<string, { minutes: number; items: number }>();
-
-    (session.workItems ?? []).forEach((item) => {
-      const work = worksById.get(item.workId);
-      if (!work) return;
-      const label = getGroupLabelForWork(work);
-      const group = activeGroupsForToday.find((g) => g.name === label);
-      const groupId = group?.id ?? label;
-      const prev = existingUsageByGroupId.get(groupId) ?? { minutes: 0, items: 0 };
-      existingUsageByGroupId.set(groupId, {
-        minutes: prev.minutes + estimateWorkMinutes(work, todayPlan),
-        items: prev.items + 1
-      });
-    });
-
-    const existingMinutesTotal = (session.workItems ?? []).reduce((acc, item) => {
-      const work = worksById.get(item.workId);
-      if (!work) return acc;
-      return acc + estimateWorkMinutes(work, todayPlan);
-    }, 0);
-
-    const adjustedPlan: KungfuTodayPlanConfig = {
-      ...todayPlan,
-      maxItems: Math.max(0, Math.round((todayPlan.maxItems ?? 0) - existingWorkIds.size)),
-      minutesBudget: Math.max(0, Number(todayPlan.minutesBudget ?? 0) - existingMinutesTotal),
-      groups: activeGroupsForToday.map((group) => {
-        const usage = existingUsageByGroupId.get(group.id);
-        const next: KungfuPlanGroupConfig = { ...group };
-        if (usage) {
-          if (typeof group.minutesBudget === 'number' && Number.isFinite(group.minutesBudget)) {
-            next.minutesBudget = Math.max(0, group.minutesBudget - usage.minutes);
-          }
-          if (typeof group.maxItems === 'number' && Number.isFinite(group.maxItems)) {
-            next.maxItems = Math.max(0, Math.round(group.maxItems - usage.items));
-          }
-        }
-        return next;
-      })
-    };
-
-    const availableDue = dueList.filter((entry) => !existingWorkIds.has(entry.work.id));
-    const additions = computePlan({
-      dueList: availableDue,
-      todaySession: undefined,
-      plan: adjustedPlan,
-      today,
-      childCountByWorkId
-    });
-
-    additions.groups
-      .filter((groupEntry) => (groupEntry.group.type ?? 'work') !== 'note')
-      .forEach((groupEntry) => {
-        groupEntry.items.forEach((entry) => {
-          addWorkToSession(session.id, {
-            workId: entry.work.id,
-            focusLabel: groupEntry.group.name,
-            customDurationMinutes: estimateWorkMinutes(entry.work, todayPlan)
-          });
-        });
-      });
-
-    const freshSession = useAppStore.getState().sessions.find((s) => s.id === session.id);
-    if (!freshSession) return;
-
-    const nextItems = (freshSession.workItems ?? []).map((item) => {
-      if (item.focusLabel) return item;
-      const work = worksById.get(item.workId);
-      if (!work) return item;
-      return { ...item, focusLabel: getGroupLabelForWork(work) };
-    });
-
-    nextItems.sort((a, b) => {
-      const labelA = a.focusLabel ?? 'Hoy';
-      const labelB = b.focusLabel ?? 'Hoy';
-      const orderA = groupOrderByLabel.get(labelA) ?? 999;
-      const orderB = groupOrderByLabel.get(labelB) ?? 999;
-      if (orderA !== orderB) return orderA - orderB;
-      return (a.order ?? 0) - (b.order ?? 0);
-    });
-
-    updateSessionWorkItems(session.id, nextItems);
+    fillTodayPlan({ reason: 'initial-seed' });
   }, [
     dueList,
     todaySession,
     todayPlan,
     today,
     childCountByWorkId,
-    addWorkToSession,
     updateSessionWorkItems,
     worksById,
     activeGroupsForToday,
     groupOrderByLabel,
     getGroupLabelForWork,
-    ensureTodaySession
+    ensureTodaySession,
+    fillTodayPlan
   ]);
 
   const logWork = (workId: string, result: TrainingResult) => {
@@ -724,7 +896,9 @@ export default function PersonalTodayView() {
     : 0;
 
   const todayEntriesByGroup = useMemo(() => {
-    const map = new Map<string, DueWork[]>();
+    const entriesByGroup = new Map<string, DueWork[]>();
+    const totalsByGroup = new Map<string, { total: number; done: number }>();
+
     const todaySessionItems = todaySession?.workItems ?? [];
     todaySessionItems
       .slice()
@@ -733,6 +907,7 @@ export default function PersonalTodayView() {
         const due = dueList.find((entry) => entry.work.id === item.workId);
         const work = worksById.get(item.workId);
         if (!work) return;
+        const isDone = (item.completed ?? false) || typeof item.result !== 'undefined';
         const fallback: DueWork = {
           work,
           targetDays: getTargetDays(work, cadence),
@@ -742,17 +917,28 @@ export default function PersonalTodayView() {
           lastResult: due?.lastResult
         };
         const entry = due ?? fallback;
-        const label = item.focusLabel ?? getGroupLabelForWork(work);
-        const list = map.get(label) ?? [];
+        const label = resolveGroupLabelForItem(item, work);
+        const list = entriesByGroup.get(label) ?? [];
         list.push(entry);
-        map.set(label, list);
+        entriesByGroup.set(label, list);
+
+        const totals = totalsByGroup.get(label) ?? { total: 0, done: 0 };
+        totals.total += 1;
+        if (isDone) totals.done += 1;
+        totalsByGroup.set(label, totals);
       });
-    return Array.from(map.entries()).sort(([a], [b]) => {
-      const orderA = groupOrderByLabel.get(a) ?? 999;
-      const orderB = groupOrderByLabel.get(b) ?? 999;
-      if (orderA !== orderB) return orderA - orderB;
-      return a.localeCompare(b, 'es', { sensitivity: 'base' });
-    });
+
+    return Array.from(entriesByGroup.entries())
+      .map(([label, entries]) => {
+        const totals = totalsByGroup.get(label) ?? { total: entries.length, done: 0 };
+        return { label, entries, total: totals.total, done: totals.done };
+      })
+      .sort((a, b) => {
+        const orderA = groupOrderByLabel.get(a.label) ?? 999;
+        const orderB = groupOrderByLabel.get(b.label) ?? 999;
+        if (orderA !== orderB) return orderA - orderB;
+        return a.label.localeCompare(b.label, 'es', { sensitivity: 'base' });
+      });
   }, [todaySession?.workItems, dueList, worksById, cadence, groupOrderByLabel, getGroupLabelForWork]);
 
   const renderEntry = (entry: DueWork) => {
@@ -765,6 +951,7 @@ export default function PersonalTodayView() {
     const isExpanded = expandedWorkDetails.has(work.id);
     const sessionItem = todaySession?.workItems.find((item) => item.workId === work.id);
     const currentResult = sessionItem?.result as TrainingResult | undefined;
+    const isDone = Boolean(sessionItem?.completed ?? false) || typeof sessionItem?.result !== 'undefined';
 
     const trimmedDescription = (work.descriptionMarkdown ?? '').trim();
     const trimmedNotes = (work.notes ?? '').trim();
@@ -929,6 +1116,24 @@ export default function PersonalTodayView() {
             <Link to={`/catalog?workId=${encodeURIComponent(work.id)}`} className="btn-secondary">
               Ver en catálogo
             </Link>
+            {todaySession && sessionItem ? (
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => {
+                  if (isDone) {
+                    const ok = window.confirm('Este ítem ya está marcado/registrado hoy. ¿Quieres quitarlo igualmente de la sesión?');
+                    if (!ok) return;
+                  }
+                  removeWorkFromSession(todaySession.id, sessionItem.id);
+                  setFeedback({ type: 'success', text: 'Quitado de la sesión de hoy.' });
+                  window.setTimeout(() => setFeedback(null), 1800);
+                }}
+                title="Quitar de la sesión de hoy"
+              >
+                Quitar
+              </button>
+            ) : null}
             <button
               type="button"
               onClick={togglePersonalIncluded}
@@ -978,6 +1183,15 @@ export default function PersonalTodayView() {
               <Link to="/personal/sessions" className="btn-secondary">
                 Ver sesiones
               </Link>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => fillTodayPlan({ reason: 'manual-refresh', includeDiagnostics: true })}
+                disabled={isFillingPlan || dueList.length === 0}
+                title="Añade ítems si has cambiado la configuración de grupos o límites"
+              >
+                {isFillingPlan ? 'Actualizando…' : 'Actualizar plan'}
+              </button>
               <Link to="/personal/settings" className="btn-secondary">
                 Ajustes
               </Link>
@@ -1012,19 +1226,30 @@ export default function PersonalTodayView() {
               </div>
             ) : null}
 
-            {todayEntriesByGroup.map(([label, entries]) => (
-              <section key={label} className="glass-panel space-y-4 p-3 sm:space-y-5 sm:p-6">
-                <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-white/40">{label}</p>
-                    <p className="text-sm text-white/60">
-                      {entries.length} ítem{entries.length === 1 ? '' : 's'}
-                    </p>
-                  </div>
-                </header>
-                <div className="space-y-3 sm:space-y-4">{entries.map(renderEntry)}</div>
-              </section>
-            ))}
+            {todayEntriesByGroup.map(({ label, entries, total, done }) => {
+              const safeTotal = Math.max(0, total);
+              const safeDone = Math.min(Math.max(0, done), safeTotal);
+              const percent = safeTotal > 0 ? Math.round((safeDone / safeTotal) * 100) : 0;
+              return (
+                <section key={label} className="glass-panel space-y-4 p-3 sm:space-y-5 sm:p-6">
+                  <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/40">{label}</p>
+                      <p className="mt-1 text-sm text-white/60">
+                        {safeDone}/{safeTotal} ítem{safeTotal === 1 ? '' : 's'} · {percent}% completado
+                      </p>
+                      <div className="mt-2 h-2 w-full overflow-hidden rounded-full border border-white/10 bg-slate-950/50">
+                        <div
+                          className="h-full rounded-full bg-white/25"
+                          style={{ width: `${Math.min(Math.max(percent, 0), 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  </header>
+                  <div className="space-y-3 sm:space-y-4">{entries.map(renderEntry)}</div>
+                </section>
+              );
+            })}
 
             {activeGroupsForToday.filter((group) => group.type === 'note').length > 0 ? (
               <div className="glass-panel space-y-3 p-6">
