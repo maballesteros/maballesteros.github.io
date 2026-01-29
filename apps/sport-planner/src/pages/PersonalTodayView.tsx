@@ -485,6 +485,22 @@ export default function PersonalTodayView() {
     [personalSessions, today]
   );
 
+  const prevSessionId = useMemo(() => {
+    const candidates = personalSessions
+      .filter((session) => session.date < today)
+      .slice()
+      .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+    return candidates[0]?.id;
+  }, [personalSessions, today]);
+
+  const nextSessionId = useMemo(() => {
+    const candidates = personalSessions
+      .filter((session) => session.date > today)
+      .slice()
+      .sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
+    return candidates[0]?.id;
+  }, [personalSessions, today]);
+
   const dueList = useMemo(
     () =>
       computeDueList({
@@ -1222,31 +1238,38 @@ export default function PersonalTodayView() {
     const session = ensureTodaySession();
     const cleanId = (groupId ?? '').trim();
     if (!cleanId) return;
-    const nextNotesByGroupId = {
-      ...(session.notesByGroupId ?? {}),
-      [cleanId]: noteDrafts[cleanId] ?? ''
-    };
+    const rawValue = noteDrafts[cleanId] ?? '';
+    const isEmpty = rawValue.trim().length === 0;
+    const nextNotesByGroupId = { ...(session.notesByGroupId ?? {}) };
+    if (isEmpty) {
+      delete nextNotesByGroupId[cleanId];
+    } else {
+      nextNotesByGroupId[cleanId] = rawValue;
+    }
     const firstNoteGroupId =
       activeGroupsForToday.find((group) => (group.type ?? 'work') === 'note')?.id ?? cleanId;
-    updateSession(session.id, { notesByGroupId: nextNotesByGroupId, notes: nextNotesByGroupId[firstNoteGroupId] ?? '' });
-    setFeedback({ type: 'success', text: 'Guardado.' });
-    window.setTimeout(() => setFeedback(null), 1800);
+    updateSession(session.id, {
+      notesByGroupId: Object.keys(nextNotesByGroupId).length > 0 ? nextNotesByGroupId : undefined,
+      notes: nextNotesByGroupId[firstNoteGroupId] ?? ''
+    });
   };
 
   return (
     <div className="space-y-6">
       <header className="glass-panel p-6 sm:p-10">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-3 sm:flex sm:items-start sm:justify-between sm:gap-6 sm:space-y-0">
           <div>
-            <h1 className="text-3xl font-bold">Kung Fu · Hoy</h1>
-            <p className="text-white/60">Plan directo de entrenamiento basado en cadencias y tu histórico personal.</p>
+            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/40">
+              <span>Fecha</span>
+            </div>
+            <h1 className="font-display text-2xl font-semibold text-white sm:text-3xl">
+              {dayjs(today).format('dddd, D [de] MMMM')}
+            </h1>
+            <p className="text-sm font-medium text-white/80 sm:text-lg">{todaySession?.title ?? 'Entrenamiento personal'}</p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/70">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/40">Sesión de hoy</p>
-              <p className="mt-1 font-semibold text-white">
-                {dayjs(today).format('dddd, D [de] MMMM')}
-              </p>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/40">Sesión</p>
               <p className="mt-1 text-xs text-white/50">
                 {todaysLoggedCount} {todaysLoggedCount === 1 ? 'ítem registrado' : 'ítems registrados'}
               </p>
@@ -1260,23 +1283,51 @@ export default function PersonalTodayView() {
                 />
               </div>
             </div>
-            <div className="flex gap-3">
-              <Link to="/personal/sessions" className="btn-secondary">
-                Ver sesiones
-              </Link>
-              <button
-                type="button"
-                className="btn-secondary"
-                onClick={() => fillTodayPlan({ reason: 'manual-refresh', includeDiagnostics: true })}
-                disabled={isFillingPlan || dueList.length === 0}
-                title="Añade ítems si has cambiado la configuración de grupos o límites"
-              >
-                {isFillingPlan ? 'Actualizando…' : 'Actualizar plan'}
-              </button>
-              <Link to="/personal/settings" className="btn-secondary">
-                Ajustes
-              </Link>
-            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to={prevSessionId ? `/personal/sessions?session=${encodeURIComponent(prevSessionId)}` : '#'}
+              className={clsx(
+                'btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm',
+                !prevSessionId && 'pointer-events-none opacity-40'
+              )}
+              aria-disabled={!prevSessionId}
+              tabIndex={!prevSessionId ? -1 : 0}
+            >
+              ← Anterior
+            </Link>
+            <Link
+              to={nextSessionId ? `/personal/sessions?session=${encodeURIComponent(nextSessionId)}` : '#'}
+              className={clsx(
+                'btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm',
+                !nextSessionId && 'pointer-events-none opacity-40'
+              )}
+              aria-disabled={!nextSessionId}
+              tabIndex={!nextSessionId ? -1 : 0}
+            >
+              Siguiente →
+            </Link>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <Link to="/personal/sessions" className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm">
+              Ver sesiones
+            </Link>
+            <button
+              type="button"
+              className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm"
+              onClick={() => fillTodayPlan({ reason: 'manual-refresh', includeDiagnostics: true })}
+              disabled={isFillingPlan || dueList.length === 0}
+              title="Añade ítems si has cambiado la configuración de grupos o límites"
+            >
+              {isFillingPlan ? 'Actualizando…' : 'Actualizar plan'}
+            </button>
+            <Link to="/personal/settings" className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm">
+              Ajustes
+            </Link>
           </div>
         </div>
 
@@ -1330,12 +1381,9 @@ export default function PersonalTodayView() {
                           >
                             {isDone ? 'OK' : 'Pendiente'}
                           </span>
-                          <p className="text-sm text-white/60">Notas de la sesión.</p>
+                          <p className="text-sm text-white/60">Notas de la sesión · se guarda al salir del campo.</p>
                         </div>
                       </div>
-                      <button type="button" className="btn-secondary" onClick={() => saveNoteForGroup(groupId)}>
-                        Guardar
-                      </button>
                     </div>
                     <textarea
                       className="input-field min-h-[120px] w-full resize-y"
@@ -1346,6 +1394,7 @@ export default function PersonalTodayView() {
                           [groupId]: event.target.value
                         }))
                       }
+                      onBlur={() => saveNoteForGroup(groupId)}
                       placeholder="Escribe aquí…"
                     />
                   </div>
