@@ -912,6 +912,25 @@ export default function PersonalTodayView() {
     ? todaySession.workItems.filter((item) => (item.completed ?? false) || typeof item.result !== 'undefined').length
     : 0;
 
+  const noteGroupsForToday = useMemo(
+    () => activeGroupsForToday.filter((group) => (group.type ?? 'work') === 'note'),
+    [activeGroupsForToday]
+  );
+
+  const globalProgress = useMemo(() => {
+    const items = todaySession?.workItems ?? [];
+    const totalWorks = items.length;
+    const doneWorks = items.filter((item) => (item.completed ?? false) || typeof item.result !== 'undefined').length;
+
+    const totalNotes = noteGroupsForToday.length;
+    const doneNotes = noteGroupsForToday.filter((group) => (noteDrafts[group.id] ?? '').trim().length > 0).length;
+
+    const total = totalWorks + totalNotes;
+    const done = doneWorks + doneNotes;
+    const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+    return { total, done, percent, totalWorks, doneWorks, totalNotes, doneNotes };
+  }, [noteDrafts, noteGroupsForToday, todaySession?.workItems]);
+
   const todayEntriesByGroup = useMemo(() => {
     const entriesByGroup = new Map<string, DueWork[]>();
     const totalsByGroup = new Map<string, { total: number; done: number }>();
@@ -1231,6 +1250,15 @@ export default function PersonalTodayView() {
               <p className="mt-1 text-xs text-white/50">
                 {todaysLoggedCount} {todaysLoggedCount === 1 ? 'ítem registrado' : 'ítems registrados'}
               </p>
+              <p className="mt-2 text-xs text-white/60">
+                Progreso: {globalProgress.done}/{globalProgress.total} · {globalProgress.percent}%
+              </p>
+              <div className="mt-2 h-2 w-full overflow-hidden rounded-full border border-white/10 bg-slate-950/50">
+                <div
+                  className="h-full rounded-full bg-white/25"
+                  style={{ width: `${Math.min(Math.max(globalProgress.percent, 0), 100)}%` }}
+                />
+              </div>
             </div>
             <div className="flex gap-3">
               <Link to="/personal/sessions" className="btn-secondary">
@@ -1283,6 +1311,7 @@ export default function PersonalTodayView() {
               if (section.kind === 'note') {
                 const groupId = section.group.id;
                 const noteValue = noteDrafts[groupId] ?? '';
+                const isDone = noteValue.trim().length > 0;
                 return (
                   <div key={section.group.id} className="glass-panel space-y-3 p-6">
                     <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
@@ -1290,7 +1319,19 @@ export default function PersonalTodayView() {
                         <p className="text-xs uppercase tracking-[0.3em] text-white/40">
                           {section.group.name} ({Math.max(0, Number(section.group.minutesBudget) || 0)} min)
                         </p>
-                        <p className="text-sm text-white/60">Notas de la sesión.</p>
+                        <div className="mt-2 flex flex-wrap items-center gap-2">
+                          <span
+                            className={clsx(
+                              'rounded-full border px-3 py-1 text-xs font-semibold',
+                              isDone
+                                ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
+                                : 'border-white/15 bg-white/5 text-white/60'
+                            )}
+                          >
+                            {isDone ? 'OK' : 'Pendiente'}
+                          </span>
+                          <p className="text-sm text-white/60">Notas de la sesión.</p>
+                        </div>
                       </div>
                       <button type="button" className="btn-secondary" onClick={() => saveNoteForGroup(groupId)}>
                         Guardar
