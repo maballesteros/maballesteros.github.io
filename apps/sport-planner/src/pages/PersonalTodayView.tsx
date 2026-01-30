@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
+import { Menu, Transition } from '@headlessui/react';
 
 import { useAppStore } from '@/store/appStore';
 import { useAuth } from '@/contexts/useAuth';
@@ -870,6 +871,38 @@ export default function PersonalTodayView() {
     ]
   );
 
+  const recreateTodaySession = useCallback(() => {
+    if (isFillingPlan) return;
+
+    const ok = window.confirm(
+      'Recrear sesión volverá a planificar el día de hoy. Mantendrá los ítems ya registrados (OK/Dudosa/Fallo) y las notas, pero quitará el resto. ¿Continuar?'
+    );
+    if (!ok) return;
+
+    const session = todaySession ?? ensureTodaySession();
+    const kept = (session.workItems ?? [])
+      .filter((item) => (item.completed ?? false) || typeof item.result !== 'undefined')
+      .map((item) => {
+        const work = worksById.get(item.workId);
+        if (!work) return item;
+        return { ...item, focusLabel: resolveGroupLabelForItem(item, work) };
+      })
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      .map((item, index) => ({ ...item, order: index }));
+
+    updateSessionWorkItems(session.id, dedupeSessionWorkItems(kept));
+    window.setTimeout(() => fillTodayPlan({ reason: 'recreate', includeDiagnostics: true }), 0);
+  }, [
+    dedupeSessionWorkItems,
+    ensureTodaySession,
+    fillTodayPlan,
+    isFillingPlan,
+    resolveGroupLabelForItem,
+    todaySession,
+    updateSessionWorkItems,
+    worksById
+  ]);
+
   useEffect(() => {
     if (dueList.length === 0) return;
 
@@ -1316,15 +1349,57 @@ export default function PersonalTodayView() {
             <Link to="/personal/sessions" className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm">
               Ver sesiones
             </Link>
-            <button
-              type="button"
-              className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm"
-              onClick={() => fillTodayPlan({ reason: 'manual-refresh', includeDiagnostics: true })}
-              disabled={isFillingPlan || dueList.length === 0}
-              title="Añade ítems si has cambiado la configuración de grupos o límites"
-            >
-              {isFillingPlan ? 'Actualizando…' : 'Actualizar plan'}
-            </button>
+            <Menu as="div" className="relative">
+              <Menu.Button className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm">
+                Plan ▾
+              </Menu.Button>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute right-0 z-20 mt-2 w-60 rounded-2xl border border-white/10 bg-slate-950/95 p-1 shadow-xl shadow-black/40 focus:outline-none">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        type="button"
+                        className={clsx(
+                          'w-full rounded-xl px-3 py-2 text-left text-sm font-medium transition',
+                          active ? 'bg-white/10 text-white' : 'text-white/80',
+                          (isFillingPlan || dueList.length === 0) && 'opacity-50'
+                        )}
+                        onClick={() => fillTodayPlan({ reason: 'manual-refresh', includeDiagnostics: true })}
+                        disabled={isFillingPlan || dueList.length === 0}
+                        title="Añade ítems si has cambiado la configuración de grupos o límites"
+                      >
+                        {isFillingPlan ? 'Actualizando…' : 'Actualizar plan'}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        type="button"
+                        className={clsx(
+                          'w-full rounded-xl px-3 py-2 text-left text-sm font-medium transition',
+                          active ? 'bg-white/10 text-white' : 'text-white/80',
+                          isFillingPlan && 'opacity-50'
+                        )}
+                        onClick={recreateTodaySession}
+                        disabled={isFillingPlan}
+                        title="Rehace la planificación de hoy manteniendo lo registrado"
+                      >
+                        Recrear sesión
+                      </button>
+                    )}
+                  </Menu.Item>
+                </Menu.Items>
+              </Transition>
+            </Menu>
             <Link to="/personal/settings" className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm">
               Ajustes
             </Link>
