@@ -13,14 +13,13 @@ import ObjectivesView from './pages/ObjectivesView';
 import AssistantsView from './pages/AssistantsView';
 import BackupsView from './pages/BackupsView';
 import LoginView from './pages/LoginView';
-import PersonalTodayView from './pages/PersonalTodayView';
 import PersonalSessionsView from './pages/PersonalSessionsView';
 import PersonalSettingsView from './pages/PersonalSettingsView';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Sesiones' },
-  { to: '/personal', label: 'Personal' },
   { to: '/catalog', label: 'Trabajos' },
+  { to: '/settings', label: 'Ajustes' },
   { to: '/objectives', label: 'Objetivos' },
   { to: '/assistants', label: 'Asistentes' },
   { to: '/backups', label: 'Backups' }
@@ -220,9 +219,10 @@ export default function App() {
         <Route element={<RequireAuth />}>
           <Route element={<AppLayout />}>
             <Route index element={<HomeView />} />
-            <Route path="personal" element={<PersonalTodayView />} />
+            <Route path="personal" element={<Navigate to="/?plan=personal-kungfu" replace />} />
             <Route path="personal/sessions" element={<PersonalSessionsView />} />
             <Route path="personal/settings" element={<PersonalSettingsView />} />
+            <Route path="settings" element={<PersonalSettingsView />} />
             <Route path="plan" element={<PlannerView />} />
             <Route path="catalog" element={<CatalogView />} />
             <Route path="catalog/taxonomy" element={<TaxonomyView />} />

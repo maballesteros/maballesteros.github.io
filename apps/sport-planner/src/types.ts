@@ -62,6 +62,19 @@ export interface Work {
 
 export type SessionKind = 'class' | 'personal';
 
+export type PlanKind = SessionKind;
+
+export interface Plan {
+  id: string;
+  name: string;
+  kind: PlanKind;
+  enabled: boolean;
+  cadence?: KungfuCadenceConfig;
+  todayPlan?: KungfuTodayPlanConfig;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface KungfuProgramSelector {
   byTags?: string[];
   byWorkIds?: string[];
@@ -151,6 +164,7 @@ export interface SessionAttendance {
 
 export interface Session {
   id: string;
+  planId?: string;
   date: string; // ISO date (yyyy-mm-dd)
   kind: SessionKind;
   title: string;
@@ -175,6 +189,7 @@ export interface Assistant {
 
 export interface BackupSession {
   id: string;
+  planId?: string;
   date: string;
   kind?: SessionKind;
   title: string;
@@ -232,6 +247,7 @@ export interface BackupPayload {
   sesiones_trabajos: BackupSessionWork[];
   asistentes: Assistant[];
   sesiones_asistencias: BackupSessionAttendance[];
+  plans?: Plan[];
   kungfuPrograms?: KungfuProgram[];
   kungfuCadence?: KungfuCadenceConfig;
   kungfuTodayPlan?: KungfuTodayPlanConfig;

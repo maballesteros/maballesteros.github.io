@@ -2,7 +2,7 @@ import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 
 import { useAppStore } from '@/store/appStore';
@@ -464,8 +464,9 @@ function computePlan(opts: {
 export default function PersonalTodayView() {
   const works = useAppStore((state) => state.works);
   const sessions = useAppStore((state) => state.sessions);
-  const cadence = useAppStore((state) => state.kungfuCadence);
-  const todayPlan = useAppStore((state) => state.kungfuTodayPlan);
+  const plans = useAppStore((state) => state.plans);
+  const cadenceFallback = useAppStore((state) => state.kungfuCadence);
+  const todayPlanFallback = useAppStore((state) => state.kungfuTodayPlan);
 
   const updateWork = useAppStore((state) => state.updateWork);
   const { user } = useAuth();
@@ -477,9 +478,42 @@ export default function PersonalTodayView() {
   const updateSession = useAppStore((state) => state.updateSession);
   const removeWorkFromSession = useAppStore((state) => state.removeWorkFromSession);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedPlanIdParam = (searchParams.get('plan') ?? '').trim();
+
   const today = dayjs().format('YYYY-MM-DD');
 
-  const personalSessions = useMemo(() => sessions.filter((session) => session.kind === 'personal'), [sessions]);
+  const personalPlans = useMemo(
+    () => plans.filter((plan) => plan.kind === 'personal' && plan.enabled),
+    [plans]
+  );
+
+  const selectedPlan = useMemo(() => {
+    if (personalPlans.length === 0) return undefined;
+    const byParam = personalPlans.find((plan) => plan.id === selectedPlanIdParam);
+    return byParam ?? personalPlans[0];
+  }, [personalPlans, selectedPlanIdParam]);
+
+  const selectedPlanId = selectedPlan?.id ?? 'personal-kungfu';
+
+  useEffect(() => {
+    if (!selectedPlan) return;
+    if (selectedPlanIdParam === selectedPlan.id) return;
+    const next = new URLSearchParams(searchParams);
+    next.set('plan', selectedPlan.id);
+    setSearchParams(next, { replace: true });
+  }, [selectedPlan, selectedPlanIdParam, searchParams, setSearchParams]);
+
+  const cadence = selectedPlan?.cadence ?? cadenceFallback;
+  const todayPlan = selectedPlan?.todayPlan ?? todayPlanFallback;
+
+  const personalSessions = useMemo(
+    () =>
+      sessions.filter(
+        (session) => session.kind === 'personal' && (session.planId ?? 'personal-kungfu') === selectedPlanId
+      ),
+    [sessions, selectedPlanId]
+  );
 
   const todaySession = useMemo(
     () => personalSessions.find((session) => session.date === today),
@@ -546,11 +580,12 @@ export default function PersonalTodayView() {
     return addSession({
       date: today,
       kind: 'personal',
-      title: 'Entrenamiento personal',
+      planId: selectedPlanId,
+      title: selectedPlan?.name ?? 'Entrenamiento personal',
       description: '',
       notes: ''
     });
-  }, [addSession, today, todaySession]);
+  }, [addSession, selectedPlan?.name, selectedPlanId, today, todaySession]);
 
   const dedupeSessionWorkItems = useCallback((items: SessionWork[]): SessionWork[] => {
     const ordered = (items ?? []).slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -860,14 +895,14 @@ export default function PersonalTodayView() {
       ensureTodaySession,
       todayPlan,
       worksById,
-      getGroupLabelForWork,
       activeGroupsForToday,
       today,
       childCountByWorkId,
       addWorkToSession,
       updateSessionWorkItems,
       dedupeSessionWorkItems,
-      buildNextSessionWorkItems
+      buildNextSessionWorkItems,
+      resolveGroupLabelForItem
     ]
   );
 
@@ -1322,7 +1357,11 @@ export default function PersonalTodayView() {
         <div className="mt-4 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-2">
             <Link
-              to={prevSessionId ? `/personal/sessions?session=${encodeURIComponent(prevSessionId)}` : '#'}
+              to={
+                prevSessionId
+                  ? `/personal/sessions?plan=${encodeURIComponent(selectedPlanId)}&session=${encodeURIComponent(prevSessionId)}`
+                  : '#'
+              }
               className={clsx(
                 'btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm',
                 !prevSessionId && 'pointer-events-none opacity-40'
@@ -1333,7 +1372,11 @@ export default function PersonalTodayView() {
               ← Anterior
             </Link>
             <Link
-              to={nextSessionId ? `/personal/sessions?session=${encodeURIComponent(nextSessionId)}` : '#'}
+              to={
+                nextSessionId
+                  ? `/personal/sessions?plan=${encodeURIComponent(selectedPlanId)}&session=${encodeURIComponent(nextSessionId)}`
+                  : '#'
+              }
               className={clsx(
                 'btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm',
                 !nextSessionId && 'pointer-events-none opacity-40'
@@ -1346,7 +1389,10 @@ export default function PersonalTodayView() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <Link to="/personal/sessions" className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm">
+            <Link
+              to={`/personal/sessions?plan=${encodeURIComponent(selectedPlanId)}`}
+              className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm"
+            >
               Ver sesiones
             </Link>
             <Menu as="div" className="relative">
@@ -1400,7 +1446,10 @@ export default function PersonalTodayView() {
                 </Menu.Items>
               </Transition>
             </Menu>
-            <Link to="/personal/settings" className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm">
+            <Link
+              to={`/settings?plan=${encodeURIComponent(selectedPlanId)}`}
+              className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm"
+            >
               Ajustes
             </Link>
           </div>

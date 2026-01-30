@@ -115,6 +115,7 @@ const selectCollections = (state: AppState): CollectionsState => ({
   works: state.works,
   sessions: state.sessions,
   assistants: state.assistants,
+  plans: state.plans,
   kungfuPrograms: state.kungfuPrograms,
   kungfuCadence: state.kungfuCadence,
   kungfuTodayPlan: state.kungfuTodayPlan,
@@ -126,11 +127,13 @@ const normalizeCollections = (payload: Partial<PlannerStatePayload>): Collection
   works: payload.works ?? [],
   sessions: (payload.sessions ?? []).map((session) => ({
     ...session,
+    planId: (session.planId ?? '').trim() || undefined,
     kind: session.kind ?? 'class',
     workItems: session.workItems ?? [],
     attendance: session.attendance ?? []
   })),
   assistants: payload.assistants ?? [],
+  plans: payload.plans ?? [],
   kungfuPrograms: payload.kungfuPrograms ?? DEFAULT_KUNGFU_PROGRAMS,
   kungfuCadence: payload.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE,
   kungfuTodayPlan: payload.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN,
@@ -142,6 +145,7 @@ const collectionsChanged = (a: CollectionsState, b: CollectionsState) =>
   a.works !== b.works ||
   a.sessions !== b.sessions ||
   a.assistants !== b.assistants ||
+  a.plans !== b.plans ||
   a.kungfuPrograms !== b.kungfuPrograms ||
   a.kungfuCadence !== b.kungfuCadence ||
   a.kungfuTodayPlan !== b.kungfuTodayPlan ||

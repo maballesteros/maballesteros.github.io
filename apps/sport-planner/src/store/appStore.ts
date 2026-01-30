@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 import type {
   Objective,
   Work,
+  Plan,
+  PlanKind,
   Session,
   SessionWork,
   SessionAttendance,
@@ -43,6 +45,7 @@ const STORAGE_KEYS = {
   works: 'sport-planner-trabajos',
   sessions: 'sport-planner-sesiones',
   assistants: 'sport-planner-asistentes',
+  plans: 'sport-planner-plans',
   kungfuPrograms: 'sport-planner-kungfu-programs',
   kungfuCadence: 'sport-planner-kungfu-cadence',
   kungfuTodayPlan: 'sport-planner-kungfu-today-plan',
@@ -54,6 +57,9 @@ const isBrowser = typeof window !== 'undefined';
 const nowIso = () => new Date().toISOString();
 
 const DEFAULT_SESSION_START_TIME = '18:30';
+
+const DEFAULT_CLASS_PLAN_ID = 'classes';
+const DEFAULT_PERSONAL_PLAN_ID = 'personal-kungfu';
 
 const DEFAULT_KUNGFU_PROGRAMS: KungfuProgram[] = [
   {
@@ -147,6 +153,106 @@ const DEFAULT_WORK_TAXONOMY: WorkTaxonomy = {
     { key: 'style', label: 'Style' }
   ],
   tags: []
+};
+
+const isPlanKind = (value: unknown): value is PlanKind => value === 'class' || value === 'personal';
+
+const normalizePlan = (raw: unknown, fallback: Plan): Plan => {
+  if (!raw || typeof raw !== 'object') return fallback;
+  const obj = raw as Partial<Plan>;
+  const id = String(obj.id ?? '').trim();
+  if (!id) return fallback;
+  const kind = isPlanKind(obj.kind) ? obj.kind : fallback.kind;
+  const name = String(obj.name ?? '').trim() || fallback.name;
+  const enabled = typeof obj.enabled === 'boolean' ? obj.enabled : fallback.enabled;
+  const createdAt = String(obj.createdAt ?? '').trim() || fallback.createdAt;
+  const updatedAt = String(obj.updatedAt ?? '').trim() || fallback.updatedAt;
+  return {
+    ...fallback,
+    id,
+    kind,
+    name,
+    enabled,
+    cadence: obj.cadence ?? fallback.cadence,
+    todayPlan: obj.todayPlan ?? fallback.todayPlan,
+    createdAt,
+    updatedAt
+  };
+};
+
+const makeDefaultPlans = (now: string, cadence: KungfuCadenceConfig, todayPlan: KungfuTodayPlanConfig): Plan[] => [
+  {
+    id: DEFAULT_CLASS_PLAN_ID,
+    name: 'Clases',
+    kind: 'class',
+    enabled: true,
+    createdAt: now,
+    updatedAt: now
+  },
+  {
+    id: DEFAULT_PERSONAL_PLAN_ID,
+    name: 'Personal Kung Fu',
+    kind: 'personal',
+    enabled: true,
+    cadence,
+    todayPlan,
+    createdAt: now,
+    updatedAt: now
+  }
+];
+
+const normalizePlans = (
+  rawPlans: unknown,
+  legacyCadence: KungfuCadenceConfig,
+  legacyTodayPlan: KungfuTodayPlanConfig,
+  now: string
+): Plan[] => {
+  const defaults = makeDefaultPlans(now, legacyCadence, legacyTodayPlan);
+  const list = Array.isArray(rawPlans) ? rawPlans : [];
+  const normalized = list
+    .map((entry) => {
+      const entryId = String((entry as Partial<Plan> | undefined)?.id ?? '').trim();
+      const fallback =
+        defaults.find((plan) => plan.id === entryId) ??
+        ({
+          id: entryId || nanoid(),
+          name: 'Plan',
+          kind: 'personal',
+          enabled: true,
+          cadence: legacyCadence,
+          todayPlan: legacyTodayPlan,
+          createdAt: now,
+          updatedAt: now
+        } satisfies Plan);
+      return normalizePlan(entry, fallback);
+    })
+    .filter((plan) => plan.id.length > 0);
+
+  const byId = new Map<string, Plan>();
+  normalized.forEach((plan) => {
+    byId.set(plan.id, plan);
+  });
+
+  defaults.forEach((plan) => {
+    if (!byId.has(plan.id)) {
+      byId.set(plan.id, plan);
+    }
+  });
+
+  const personal = byId.get(DEFAULT_PERSONAL_PLAN_ID);
+  if (personal) {
+    byId.set(DEFAULT_PERSONAL_PLAN_ID, {
+      ...personal,
+      cadence: personal.cadence ?? legacyCadence,
+      todayPlan: personal.todayPlan ?? legacyTodayPlan
+    });
+  }
+
+  return Array.from(byId.values()).sort((a, b) => {
+    const kindOrder = a.kind === b.kind ? 0 : a.kind === 'class' ? -1 : 1;
+    if (kindOrder !== 0) return kindOrder;
+    return a.name.localeCompare(b.name, 'es', { sensitivity: 'base' });
+  });
 };
 
 const normalizeNodeTypeDefinitions = (value: unknown): NodeTypeDefinition[] => {
@@ -549,6 +655,7 @@ interface CollectionsState {
   works: Work[];
   sessions: Session[];
   assistants: Assistant[];
+  plans: Plan[];
   kungfuPrograms: KungfuProgram[];
   kungfuCadence: KungfuCadenceConfig;
   kungfuTodayPlan: KungfuTodayPlanConfig;
@@ -562,6 +669,7 @@ const persistCollections = (state: Partial<CollectionsState>) => {
     works: loadCollection<Work[]>(STORAGE_KEYS.works, []),
     sessions: loadCollection<Session[]>(STORAGE_KEYS.sessions, []),
     assistants: loadCollection<Assistant[]>(STORAGE_KEYS.assistants, []),
+    plans: loadCollection<Plan[]>(STORAGE_KEYS.plans, []),
     kungfuPrograms: loadCollection<KungfuProgram[]>(STORAGE_KEYS.kungfuPrograms, DEFAULT_KUNGFU_PROGRAMS),
     kungfuCadence: loadCollection<KungfuCadenceConfig>(STORAGE_KEYS.kungfuCadence, DEFAULT_KUNGFU_CADENCE),
     kungfuTodayPlan: loadCollection<KungfuTodayPlanConfig>(STORAGE_KEYS.kungfuTodayPlan, DEFAULT_KUNGFU_TODAY_PLAN),
@@ -572,6 +680,7 @@ const persistCollections = (state: Partial<CollectionsState>) => {
   window.localStorage.setItem(STORAGE_KEYS.works, JSON.stringify(normalized.works));
   window.localStorage.setItem(STORAGE_KEYS.sessions, JSON.stringify(normalized.sessions));
   window.localStorage.setItem(STORAGE_KEYS.assistants, JSON.stringify(normalized.assistants));
+  window.localStorage.setItem(STORAGE_KEYS.plans, JSON.stringify(normalized.plans));
   window.localStorage.setItem(STORAGE_KEYS.kungfuPrograms, JSON.stringify(normalized.kungfuPrograms));
   window.localStorage.setItem(STORAGE_KEYS.kungfuCadence, JSON.stringify(normalized.kungfuCadence));
   window.localStorage.setItem(STORAGE_KEYS.kungfuTodayPlan, JSON.stringify(normalized.kungfuTodayPlan));
@@ -579,6 +688,7 @@ const persistCollections = (state: Partial<CollectionsState>) => {
 };
 
 const normalizeCollections = (state: Partial<CollectionsState>): CollectionsState => {
+  const now = nowIso();
   const works = (state.works ?? []).map((work) => {
     const legacyParent = (work as unknown as { parent_work_id?: string | null }).parent_work_id;
     return ensureWorkDefaults({
@@ -589,12 +699,18 @@ const normalizeCollections = (state: Partial<CollectionsState>): CollectionsStat
   });
 
   const workTaxonomy = normalizeWorkTaxonomy(state.workTaxonomy ?? DEFAULT_WORK_TAXONOMY, works);
+  const kungfuCadence = state.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE;
+  const kungfuTodayPlan = normalizeKungfuTodayPlan(state.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN);
+  const plans = normalizePlans(state.plans, kungfuCadence, kungfuTodayPlan, now);
 
   return {
     objectives: state.objectives ?? [],
     works,
     sessions: (state.sessions ?? []).map((session) => ({
       ...session,
+      planId:
+        (session.planId ?? '').trim() ||
+        ((session.kind ?? 'class') === 'personal' ? DEFAULT_PERSONAL_PLAN_ID : DEFAULT_CLASS_PLAN_ID),
       kind: session.kind ?? 'class',
       startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
       workItems: (session.workItems ?? []).map((item) => ({
@@ -605,9 +721,10 @@ const normalizeCollections = (state: Partial<CollectionsState>): CollectionsStat
       attendance: normalizeAttendance(session.attendance as PartialAttendance[])
     })),
     assistants: state.assistants ?? [],
+    plans,
     kungfuPrograms: state.kungfuPrograms ?? DEFAULT_KUNGFU_PROGRAMS,
-    kungfuCadence: state.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE,
-    kungfuTodayPlan: normalizeKungfuTodayPlan(state.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN),
+    kungfuCadence,
+    kungfuTodayPlan,
     workTaxonomy
   };
 };
@@ -624,6 +741,7 @@ type WorkPatchInput = WorkUpdateInput;
 interface SessionInput {
   date: string;
   kind?: 'class' | 'personal';
+  planId?: string;
   title: string;
   description?: string;
   notes?: string;
@@ -652,6 +770,7 @@ interface AppState {
   worksLoading: boolean;
   sessions: Session[];
   assistants: Assistant[];
+  plans: Plan[];
   kungfuPrograms: KungfuProgram[];
   kungfuCadence: KungfuCadenceConfig;
   kungfuTodayPlan: KungfuTodayPlanConfig;
@@ -665,6 +784,10 @@ interface AppState {
   setKungfuCadence: (cadence: KungfuCadenceConfig) => void;
   setKungfuTodayPlan: (plan: KungfuTodayPlanConfig) => void;
   setWorkTaxonomy: (taxonomy: WorkTaxonomy) => void;
+  addPlan: (input: { name: string; kind: PlanKind }) => Plan;
+  updatePlan: (id: string, patch: Partial<Omit<Plan, 'id' | 'createdAt'>>) => void;
+  duplicatePlan: (id: string) => Plan | undefined;
+  deletePlan: (id: string) => boolean;
   upsertNodeType: (raw: string) => string | null;
   removeNodeType: (key: string) => boolean;
   upsertTag: (raw: string) => string | null;
@@ -717,6 +840,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   worksLoading: false,
   sessions: [],
   assistants: [],
+  plans: makeDefaultPlans(nowIso(), DEFAULT_KUNGFU_CADENCE, DEFAULT_KUNGFU_TODAY_PLAN),
   kungfuPrograms: DEFAULT_KUNGFU_PROGRAMS,
   kungfuCadence: DEFAULT_KUNGFU_CADENCE,
   kungfuTodayPlan: DEFAULT_KUNGFU_TODAY_PLAN,
@@ -736,6 +860,9 @@ export const useAppStore = create<AppState>((set, get) => ({
     const workTaxonomy = normalizeWorkTaxonomy(rawTaxonomy, works);
     const sessions = loadCollection<Session[]>(STORAGE_KEYS.sessions, []).map((session) => ({
       ...session,
+      planId:
+        (session.planId ?? '').trim() ||
+        ((session.kind ?? 'class') === 'personal' ? DEFAULT_PERSONAL_PLAN_ID : DEFAULT_CLASS_PLAN_ID),
       kind: session.kind ?? 'class',
       startTime: session.startTime ?? DEFAULT_SESSION_START_TIME,
       workItems: (session.workItems ?? []).map((item) => ({
@@ -752,14 +879,18 @@ export const useAppStore = create<AppState>((set, get) => ({
       STORAGE_KEYS.kungfuTodayPlan,
       DEFAULT_KUNGFU_TODAY_PLAN
     );
+    const normalizedTodayPlan = normalizeKungfuTodayPlan(kungfuTodayPlan);
+    const plansRaw = loadCollection<Plan[]>(STORAGE_KEYS.plans, []);
+    const plans = normalizePlans(plansRaw, kungfuCadence, normalizedTodayPlan, nowIso());
     set({
       objectives,
       works,
       sessions,
       assistants,
+      plans,
       kungfuPrograms,
       kungfuCadence,
-      kungfuTodayPlan: normalizeKungfuTodayPlan(kungfuTodayPlan),
+      kungfuTodayPlan: normalizedTodayPlan,
       workTaxonomy,
       ready: true
     });
@@ -771,6 +902,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         works: payload.works ?? state.works,
         sessions: payload.sessions ?? state.sessions,
         assistants: payload.assistants ?? state.assistants,
+        plans: payload.plans ?? state.plans,
         kungfuPrograms: payload.kungfuPrograms ?? state.kungfuPrograms,
         kungfuCadence: payload.kungfuCadence ?? state.kungfuCadence,
         kungfuTodayPlan: payload.kungfuTodayPlan ?? state.kungfuTodayPlan,
@@ -930,6 +1062,86 @@ export const useAppStore = create<AppState>((set, get) => ({
       persistCollections(merged);
       return merged;
     });
+  },
+  addPlan: ({ name, kind }) => {
+    const now = nowIso();
+    const plan: Plan = {
+      id: nanoid(),
+      name: name.trim() || (kind === 'class' ? 'Clases' : 'Personal'),
+      kind,
+      enabled: true,
+      cadence: kind === 'personal' ? get().kungfuCadence : undefined,
+      todayPlan: kind === 'personal' ? get().kungfuTodayPlan : undefined,
+      createdAt: now,
+      updatedAt: now
+    };
+    set((state) => {
+      const plans = normalizePlans([...state.plans, plan], state.kungfuCadence, state.kungfuTodayPlan, now);
+      const merged = { ...state, plans };
+      persistCollections(merged);
+      return merged;
+    });
+    return plan;
+  },
+  updatePlan: (id, patch) => {
+    const now = nowIso();
+    set((state) => {
+      const plans = normalizePlans(
+        state.plans.map((plan) =>
+          plan.id === id
+            ? {
+                ...plan,
+                ...patch,
+                updatedAt: now
+              }
+            : plan
+        ),
+        state.kungfuCadence,
+        state.kungfuTodayPlan,
+        now
+      );
+      const merged = { ...state, plans };
+      persistCollections(merged);
+      return merged;
+    });
+  },
+  duplicatePlan: (id) => {
+    const source = get().plans.find((plan) => plan.id === id);
+    if (!source) return undefined;
+    const now = nowIso();
+    const clone: Plan = {
+      ...source,
+      id: nanoid(),
+      name: `${source.name} (copia)`,
+      createdAt: now,
+      updatedAt: now
+    };
+    set((state) => {
+      const plans = normalizePlans([...state.plans, clone], state.kungfuCadence, state.kungfuTodayPlan, now);
+      const merged = { ...state, plans };
+      persistCollections(merged);
+      return merged;
+    });
+    return clone;
+  },
+  deletePlan: (id) => {
+    const state = get();
+    if (id === DEFAULT_CLASS_PLAN_ID || id === DEFAULT_PERSONAL_PLAN_ID) return false;
+    const hasSessions = state.sessions.some((session) => (session.planId ?? '') === id);
+    if (hasSessions) return false;
+    set((prev) => {
+      const now = nowIso();
+      const plans = normalizePlans(
+        prev.plans.filter((plan) => plan.id !== id),
+        prev.kungfuCadence,
+        prev.kungfuTodayPlan,
+        now
+      );
+      const merged = { ...prev, plans };
+      persistCollections(merged);
+      return merged;
+    });
+    return true;
   },
   upsertNodeType: (raw) => {
     const key = slugify(raw);
@@ -1163,10 +1375,14 @@ export const useAppStore = create<AppState>((set, get) => ({
     return true;
   },
   addSession: (input) => {
+    const planId =
+      (input.planId ?? '').trim() ||
+      ((input.kind ?? 'class') === 'personal' ? DEFAULT_PERSONAL_PLAN_ID : DEFAULT_CLASS_PLAN_ID);
     const session: Session = {
       id: nanoid(),
+      planId,
       date: input.date,
-      kind: input.kind ?? 'class',
+      kind: input.kind ?? (get().plans.find((plan) => plan.id === planId)?.kind ?? 'class'),
       title: input.title,
       description: input.description,
       notes: input.notes,
@@ -1610,6 +1826,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     const kungfuCadence = payload.kungfuCadence ?? DEFAULT_KUNGFU_CADENCE;
     const kungfuTodayPlan = payload.kungfuTodayPlan ?? DEFAULT_KUNGFU_TODAY_PLAN;
     const workTaxonomy = normalizeWorkTaxonomy(payload.workTaxonomy ?? DEFAULT_WORK_TAXONOMY, works);
+    const plans = normalizePlans(payload.plans, kungfuCadence, normalizeKungfuTodayPlan(kungfuTodayPlan), now);
 
     const sessionsById = new Map<string, Session>();
 
@@ -1618,6 +1835,9 @@ export const useAppStore = create<AppState>((set, get) => ({
       const rawNotesByGroup = (raw as unknown as { notesByGroupId?: Record<string, string> | null }).notesByGroupId ?? undefined;
       const session: Session = {
         id: sessionId,
+        planId:
+          (raw.planId ?? '').trim() ||
+          ((raw.kind ?? 'class') === 'personal' ? DEFAULT_PERSONAL_PLAN_ID : DEFAULT_CLASS_PLAN_ID),
         date: raw.date ?? dayjs().format('YYYY-MM-DD'),
         kind: raw.kind ?? 'class',
         title: raw.title ?? 'Sesión importada',
@@ -1653,6 +1873,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       if (!sessionsById.has(sessionId)) {
         sessionsById.set(sessionId, {
           id: sessionId,
+          planId: DEFAULT_CLASS_PLAN_ID,
           date: raw.fecha ? dayjs(raw.fecha).format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD'),
           kind: 'class',
           title: raw.titulo ?? 'Sesión importada',
@@ -1725,13 +1946,24 @@ export const useAppStore = create<AppState>((set, get) => ({
       works,
       sessions,
       assistants,
+      plans,
       kungfuPrograms,
       kungfuCadence,
       kungfuTodayPlan,
       workTaxonomy,
       ready: true
     });
-    persistCollections({ objectives, works, sessions, assistants, kungfuPrograms, kungfuCadence, kungfuTodayPlan, workTaxonomy });
+    persistCollections({
+      objectives,
+      works,
+      sessions,
+      assistants,
+      plans,
+      kungfuPrograms,
+      kungfuCadence,
+      kungfuTodayPlan,
+      workTaxonomy
+    });
   },
   exportBackup: () => {
     const state = get();
@@ -1774,6 +2006,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     const sesiones: BackupSession[] = state.sessions.map((session) => ({
       id: session.id,
+      planId: session.planId,
       date: session.date,
       kind: session.kind,
       title: session.title,
@@ -1794,6 +2027,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       sesiones_trabajos: sesionesTrabajos,
       asistentes: state.assistants,
       sesiones_asistencias: sesionesAsistencias,
+      plans: state.plans,
       kungfuPrograms: state.kungfuPrograms,
       kungfuCadence: state.kungfuCadence,
       kungfuTodayPlan: state.kungfuTodayPlan,
