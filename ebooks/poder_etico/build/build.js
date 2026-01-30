@@ -52,19 +52,32 @@ function processDirectory(dirName) {
 
     const files = fs.readdirSync(dirPath)
         .filter(f => f.endsWith('.md'))
-    // Lexicographical sort (1_1, 1_2...)
+        .sort((a, b) => {
+            if (a === 'intro.md') return -1;
+            if (b === 'intro.md') return 1;
+
+            const matchA = a.match(/^(\d+)_([0-9]+)\.md$/);
+            const matchB = b.match(/^(\d+)_([0-9]+)\.md$/);
+
+            if (matchA && matchB) {
+                const partA = Number(matchA[1]);
+                const chapterA = Number(matchA[2]);
+                const partB = Number(matchB[1]);
+                const chapterB = Number(matchB[2]);
+
+                if (partA !== partB) return partA - partB;
+                return chapterA - chapterB;
+            }
+
+            if (matchA) return -1;
+            if (matchB) return 1;
+            return a.localeCompare(b, 'es');
+        });
 
     // B. Explicitly confirm intro.md exists or rely on sorting?
     // "intro.md" starts with 'i', while "1_1.md" starts with '1'.
     // In ASCII/Unicode, '1' (49) comes before 'i' (105).
     // So default sort will put intro.md at the END. We need it at the START.
-
-    // Extract intro.md if present
-    const introIndex = files.indexOf('intro.md');
-    if (introIndex > -1) {
-        files.splice(introIndex, 1);
-        files.unshift('intro.md');
-    }
 
     files.forEach(file => {
         processFile(path.join(dirPath, file));

@@ -1,46 +1,19 @@
-# Especificaciones Editoriales y Pedagógicas (v3.0)
+# Especificaciones Editoriales y Pedagógicas (v4.0 - Formato Inmersivo)
 
 Este documento define el estándar de calidad para todas las entradas de *Poder Ético*.
 
 ## 1. Estructura de Capitular (Obligatoria)
 
-### 1.1 Título y Objetivo
+### 1.1 Título
 *   **Título**: `1.1 Habilidad + Beneficio` (≤70 caracteres).
-*   **Objetivo**: En una caja `aside` o `blockquote` diferenciada.
-    *   Formato: `> **Objetivo de aprendizaje**: [Qué logrará el lector hoy].`
+*   **Sin bloque de “Objetivo de aprendizaje”** al inicio: rompe la inmersión.
 
 ### 1.2 Relato Inicial (300–400 palabras)
 *   **Función**: Escenificar el conflicto y la solución como una **narrativa fluida y literaria**.
 *   **Formato**: Prosa continua. **PROHIBIDO usar listas, bullets o esquemas numéricos** dentro del relato. Debe leerse como una novela, no como un manual.
-*   **Marcas Técnicas**: Las palabras clave del diálogo que denotan la técnica usada deben ir en **negrita y entre corchetes**.
-    *   *Ejemplo*: `—**[Contexto:]** veo que hay dudas. **[Propuesta:]** revisemos el plan.`
+*   **Regla de Inmersión**: Evitar etiquetas técnicas dentro del diálogo (`[Contexto]`, `[Propuesta]`, etc.). La técnica se explica en `## La jugada` y se integra en `## Explicación Profunda`.
 
-### 1.3 Especificaciones de Ilustración (Estricto - Protocolo de Fidelidad)
-*   **Ubicación**: Inmediatamente **después** del apartado "Relato".
-*   **Estilo Visual**: Manga Moderno / Seinen (Blanco y negro, tinta, alto contraste). Estilo serio y detallado.
-*   **Formato de Panel**: Composición de página completa (Manga Page Layout).
-    *   **Flexibilidad**: Entre **4 y 8 viñetas** por imagen.
-    *   **Ritmo Visual**: Se deben usar viñetas grandes para momentos clave (clímax/revelación) y viñetas pequeñas para detalles o diálogos rápidos.
-    *   **Disposición**: No forzar filas horizontales idénticas. Usar cortes verticales, superposiciones o viñetas a página completa si la narrativa lo pide.
-*   **Densidad de Texto (Crítico)**:
-    *   **Prioridad**: El texto es tan importante como el dibujo. Las imágenes deben leerse como un cómic real.
-    *   **Bocadillos Grandes**: Los "speech bubbles" deben ser grandes, blancos y legibles, ocupando espacio significativo (hasta el 30% de la viñeta si es necesario).
-    *   **Diálogo Verbatim**: Usar las frases exactas del relato. Si son largas, dividirlas en varios bocadillos conectados.
-*   **Protocolo de Fidelidad Narrativa**:
-    *   **Cero Alucinaciones**: La imagen no puede inventar elementos no descritos (si es una cocina, es una cocina, no una nave espacial).
-    *   **Traducción de Matices**: Si el texto dice "sonrisa de aprobación", el prompt debe especificar "small, subtle upward curve of lips, eyes crinkling warmly".
-    *   **Texto Literal**: Los bocadillos deben contener el diálogo *exacto* del relato, resumido si es necesario, pero manteniendo las palabras clave (las marcas técnicas).
-*   **Prompting**: El prompt debe ser un guion técnico detallado de cada viñeta.
-    *   *Panel 1*: [Acción] + [Expresión Facial] + [Texto].
-    *   *Panel 2*: ...
-
-### 1.3.1 Protocolo Técnico de Generación (Scripting)
-*   **Script**: Usar siempre `ebooks/scripts/generate_image.js`.
-*   **Directorio de Ejecución**: Ejecutar desde `ebooks/scripts/` para cargar correctamente el `.env`.
-*   **Modelo Obligatorio**: Usar `--model "gemini-3-pro-image-preview"` (o superior). **NO USAR** modelos antiguos como `gemini-pro-image`.
-    *   *Comando Tipo*: `node generate_image.js --promptFile "../poder_etico/prompts/X_X.txt" --output "../poder_etico/images/X_X.png" --model "gemini-3-pro-image-preview"`
-
-### 1.3.2 Protocolo de Portada (Cover Design)
+### 1.3 Protocolo de Portada (Cover Design)
 *   **Estilo**: High Concept / Arte Conceptual Simbólico.
     *   **Diferencia**: NO usar estilo Manga (reservado para el interior). La portada debe parecer un *bestseller* de no-ficción moderno (estilo "48 Laws of Power" o "Atomic Habits" pero más artístico).
     *   **Vibe**: Serio, Premium, Misterioso pero Elegante.
@@ -55,7 +28,13 @@ Este documento define el estándar de calidad para todas las entradas de *Poder 
 
 
 
-### 1.4 Explicación Profunda y Teoría (500–700 palabras)
+### 1.4 La Jugada (Síntesis sin romper la historia)
+*   **Ubicación**: Inmediatamente después del relato.
+*   **Función**: Sintetizar la técnica en 2–5 líneas.
+*   **Formato**: Breve, directo. Se admiten bullets cortos (máximo 4–5).
+*   **Regla**: No repetir la teoría; es “qué hizo / por qué funcionó” en un golpe.
+
+### 1.5 Explicación Profunda y Teoría (500–700 palabras)
 *   **Estilo**: Narrativa expositiva rica y detallada. **Cero bullets**.
 *   **Contenido**:
     *   Desarrollar la teoría detrás de la habilidad.
@@ -63,38 +42,21 @@ Este documento define el estándar de calidad para todas las entradas de *Poder 
     *   Explicar el *porqué* psicológico o social de lo que ocurre en el relato.
     *   No quedarse en la superficie; ir al fondo de la dinámica de poder.
 
-### 1.4 Síntesis de Ideas Clave
-*   **Función**: Resumen esquemático *post-explicación*.
-*   **Formato**: Lista de bullets con referencias a TPM.
-    *   *Ejemplo*: `* **Concepto**: Definición breve.`
+### 1.6 Aplicación en Múltiples Contextos (Integrada en la Explicación)
+*   **Regla**: No crear una sección separada de “Ejemplos Prácticos” con bullets.
+*   **Formato**: Integrar 2–3 mini-escenas dentro de `## Explicación Profunda`, con esta forma:
+    *   “La característica X aparece en múltiples escenarios. Por ejemplo…”
+    *   Mini-escena en `> blockquote` (2–6 líneas).
+    *   Remate: “Aquí fulano hizo X, pero debería Y / por eso funciona…”
+*   **Contextos recomendados**: Profesional, Familiar/Educativo, Social/Pares.
 
-### 1.5 Ejemplos Prácticos (Variantes de Contexto)
-*   Desarrollar **3 casos de uso** obligatorios para asegurar la utilidad transversal:
-    1.  **Entorno Profesional** (Oficina, clientes, jerarquía).
-    2.  **Entorno Familiar / Educativo** (Padres-hijos, aula, hermanos).
-    3.  **Entorno Social / Pares** (Amigos, pareja, adolescencia).
-*   Formato para cada uno:
-    1.  **[Técnica] en [Contexto]**
-        *   *Situación*: Breve descripción.
-        *   *Acción*: Qué hacer específicamente.
-        *   *Frase*: `"La frase literal entre comillas"`.
-        *   *Por qué funciona*: Breve justificación.
-
-### 1.6 Señales de Progreso (Unificado con Rúbrica)
-*   Listado de 3 indicadores observables de mejora.
-*   Formato híbrido: **Pregunta de auto-chequeo** + **Explicación del beneficio**.
-    *   *Formato*: `**1. [Nombre]**: ¿[Pregunta de autoevaluación]? Explicación de por qué esto indica mejora...`
-
-### 1.7 Errores Habituales (Ampliado)
-*   3-4 errores comunes detallados.
-*   Para cada uno, incluir **varios ejemplos** de cómo se ve el error y la **alternativa** correcta.
-
-### 1.9 Práctica Deliberada (Juegos Recomendados)
-*   **Encabezado**: `## Práctica Deliberada`
-*   **Propósito**: Conectar la teoría con la práctica. Indicar qué juego ayuda a entrenar esta habilidad específica.
-*   **Formato**:
-    *   `Ficha: [Nombre del Juego](url_relativa)`
-    *   `Por qué ayuda`: Breve explicación de la conexión.
+### 1.7 Conclusiones (Cierre + Señales + Trampas + Práctica)
+*   **Encabezado**: `## Conclusiones`
+*   **Contenido (en prosa, sin secciones extra)**:
+    *   Cierre ético de 1–2 párrafos.
+    *   Señales de progreso (3 ideas).
+    *   Trampas/errores típicos (2–4 ideas + alternativa).
+    *   Práctica: enlace a un juego (y 1–2 frases de por qué ayuda).
 
 ### 1.10 Referencias y Lecturas Relacionadas (Web TPM)
 *   **Encabezado**: `## Referencias`
@@ -109,54 +71,28 @@ Este documento define el estándar de calidad para todas las entradas de *Poder 
 ```markdown
 # 1.1 Título
 
-> **Objetivo de aprendizaje**: [Texto del objetivo]
-
 ## Relato
-[Texto del relato con marcas en negrita y corchetes]
+[Texto del relato en prosa continua (sin etiquetas técnicas ni listas).]
+
+## La jugada
+- Punto 1 (qué hizo / por qué funcionó)
+- Punto 2
 
 ## Explicación Profunda
-[Narrativa extensa explicando la dinámica, integrando conceptos TPM, sin bullets]
+[Narrativa extensa explicando la dinámica, integrando conceptos TPM.]
 
-## Síntesis de Ideas Clave
-* **Concepto**: Definición.
-* **Concepto**: Definición.
+La característica X aparece en múltiples escenarios. Por ejemplo:
 
-## Ejemplos Prácticos
+> [Mini-escena 1]
 
-### 1. [Técnica] en Entorno Profesional
-* **Situación**: ...
-* **Acción**: ...
-* **Frase**: "..."
-* **Por qué funciona**: ...
+Aquí [fulano] hizo X, pero debería Y / por qué funciona.
 
-### 2. [Técnica] en Entorno Familiar (Niños/Casa)
-* **Situación**: ...
-* **Acción**: ...
-* **Frase**: "..."
+> [Mini-escena 2]
 
-### 3. [Técnica] en Entorno Social (Amigos/Pareja)
-...
-
-## Señales de Progreso
-
-1. **[Nombre Señal 1]**: ¿[Pregunta de control]? [Explicación del beneficio].
-2. **[Nombre Señal 2]**: ...
-3. **[Nombre Señal 3]**: ...
-
-## Errores Habituales
-
-* **[Error 1]**: Descripción.
-  * *Se ve así*: "..." / "..."
-  * *Alternativa*: "..."
-* **[Error 2]**: ...
+Aquí [fulano] hizo X, pero debería Y / por qué funciona.
 
 ## Conclusiones
-[Reflexión final ética y de cierre]
-
-## Práctica Deliberada
-
-* **Ficha**: [Link al Juego](../juegos/juego_XX.md).
-* **Por qué ayuda**: [Explicación de qué mecánica entrena esta habilidad].
+[Cierre ético + señales + trampas + práctica (en prosa).]
 
 ## Referencias
 
@@ -230,26 +166,21 @@ Antes de dar una entrada por cerrada, verifica estos puntos.
 ### 5.1 QC para Diario de Aprendizaje
 
 **Estructura Visual**
-* [ ] El **Objetivo** está dentro de un bloque `> quote`.
+* [ ] No hay bloque de **Objetivo de aprendizaje** al inicio.
+* [ ] Existe `## La jugada` tras el relato (2–5 líneas).
 * [ ] Los encabezados usan la jerarquía correcta (`## Secciones`, `### Ejemplos`).
-* [ ] Las **marcas técnicas** en el relato están en **negrita y [entre corchetes]**.
+* [ ] El relato no contiene etiquetas técnicas tipo `[Contexto]`, `[Propuesta]`, etc.
 
 **Contenido Narrativo**
-* [ ] La **Explicación Profunda** es narrativa (sin bullets) y enlaza el relato con la teoría.
-* [ ] Se incluyen **3 Ejemplos Prácticos** diferenciados: Profesional, Familiar/Educativo, Social/Pares.
-* [ ] Las **Señales de Progreso** siguen el formato "¿Pregunta? + Explicación".
+* [ ] La **Explicación Profunda** es narrativa y enlaza el relato con la teoría.
+* [ ] La aplicación multi-contexto está **integrada** en la explicación con mini-escenas en `> blockquote`.
+* [ ] Existe `## Conclusiones` con señales, trampas y práctica (en prosa).
 
 **Calidad y Ética**
 * [ ] Las fuentes TPM son citadas en la sección final.
-* [ ] **Práctica Deliberada**: Se incluye referencia a un Juego específico para entrenar la habilidad.
+* [ ] La práctica (juego) está enlazada dentro de `## Conclusiones`.
 * [ ] Los ejemplos cubren variantes de edad/contexto.
 * [ ] El tono es asertivo y constructivo, nunca manipulador.
-
-**Control de Calidad de Imágenes (Crítico)**
-* [ ] **Prompt Escrito**: Existe un archivo `prompts/X_X.txt`.
-* [ ] **Estilo Manga**: El prompt define paneles, diálogos y estilo "Manga Seinen". No es una ilustración conceptual.
-* [ ] **Generación**: Se ha ejecutado el script y la imagen `images/X_X.png` existe.
-* [ ] **Verificación Visual**: La imagen generada contiene texto/bocadillos legibles (si aplica) y respeta la composición de página.
 
 ### 5.2 QC para Juegos
 
