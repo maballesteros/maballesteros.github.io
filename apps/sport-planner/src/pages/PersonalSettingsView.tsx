@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { nanoid } from 'nanoid';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import { useAppStore } from '@/store/appStore';
 import { MultiSelectChips } from '@/components/MultiSelectChips';
@@ -13,7 +13,8 @@ import type {
   KungfuPlanGroupHierarchyRule,
   KungfuPlanGroupStrategy,
   KungfuPlanGroupType,
-  KungfuTodayLimitMode
+  KungfuTodayLimitMode,
+  Plan
 } from '@/types';
 
 type Feedback = { type: 'success' | 'error'; text: string } | null;
@@ -211,34 +212,88 @@ const DAY_OPTIONS: Array<{ label: string; value: number }> = [
 ];
 
 export default function PersonalSettingsView() {
-  const cadence = useAppStore((state) => state.kungfuCadence);
-  const todayPlan = useAppStore((state) => state.kungfuTodayPlan);
+  const cadenceFallback = useAppStore((state) => state.kungfuCadence);
+  const todayPlanFallback = useAppStore((state) => state.kungfuTodayPlan);
+  const plans = useAppStore((state) => state.plans);
   const workTaxonomy = useAppStore((state) => state.workTaxonomy);
   const upsertNodeType = useAppStore((state) => state.upsertNodeType);
   const upsertTag = useAppStore((state) => state.upsertTag);
 
-  const setCadence = useAppStore((state) => state.setKungfuCadence);
-  const setTodayPlan = useAppStore((state) => state.setKungfuTodayPlan);
+  const addPlan = useAppStore((state) => state.addPlan);
+  const updatePlan = useAppStore((state) => state.updatePlan);
+  const duplicatePlan = useAppStore((state) => state.duplicatePlan);
+  const deletePlan = useAppStore((state) => state.deletePlan);
 
-  const [draftCadence, setDraftCadence] = useState<KungfuCadenceConfig>(cadence);
-  const [draftTodayPlan, setDraftTodayPlan] = useState<KungfuTodayPlanConfig>(todayPlan);
+  const setCadenceLegacy = useAppStore((state) => state.setKungfuCadence);
+  const setTodayPlanLegacy = useAppStore((state) => state.setKungfuTodayPlan);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedPlanIdParam = (searchParams.get('plan') ?? '').trim();
+
+  const orderedPlans = useMemo(() => {
+    const next = [...plans];
+    next.sort((a, b) => {
+      const kindOrder = a.kind === b.kind ? 0 : a.kind === 'class' ? -1 : 1;
+      if (kindOrder !== 0) return kindOrder;
+      return a.name.localeCompare(b.name, 'es', { sensitivity: 'base' });
+    });
+    return next;
+  }, [plans]);
+
+  const selectedPlan = useMemo(() => {
+    if (orderedPlans.length === 0) return undefined;
+    const byParam = orderedPlans.find((plan) => plan.id === selectedPlanIdParam);
+    return byParam ?? orderedPlans[0];
+  }, [orderedPlans, selectedPlanIdParam]);
+
+  const selectedPlanId = selectedPlan?.id ?? 'personal-kungfu';
+  const selectedCadence = selectedPlan?.cadence ?? cadenceFallback;
+  const selectedTodayPlan = selectedPlan?.todayPlan ?? todayPlanFallback;
+
+  const [draftPlanName, setDraftPlanName] = useState<string>(selectedPlan?.name ?? 'Plan');
+  const [draftPlanEnabled, setDraftPlanEnabled] = useState<boolean>(selectedPlan?.enabled ?? true);
+  const [draftCadence, setDraftCadence] = useState<KungfuCadenceConfig>(selectedCadence);
+  const [draftTodayPlan, setDraftTodayPlan] = useState<KungfuTodayPlanConfig>(selectedTodayPlan);
   const [feedback, setFeedback] = useState<Feedback>(null);
   const [expandedGroupIds, setExpandedGroupIds] = useState<string[]>([]);
+  const [newPlanKind, setNewPlanKind] = useState<Plan['kind']>('personal');
 
   useEffect(() => {
-    setDraftCadence(cadence);
-  }, [cadence]);
-
-  useEffect(() => {
-    setDraftTodayPlan(todayPlan);
-  }, [todayPlan]);
+    if (!selectedPlan) return;
+    if (selectedPlanIdParam !== selectedPlan.id) {
+      const next = new URLSearchParams(searchParams);
+      next.set('plan', selectedPlan.id);
+      setSearchParams(next, { replace: true });
+    }
+    setDraftPlanName(selectedPlan.name);
+    setDraftPlanEnabled(selectedPlan.enabled);
+    if (selectedPlan.kind === 'personal') {
+      setDraftCadence(selectedPlan.cadence ?? cadenceFallback);
+      setDraftTodayPlan(selectedPlan.todayPlan ?? todayPlanFallback);
+    } else {
+      setDraftCadence(cadenceFallback);
+      setDraftTodayPlan(todayPlanFallback);
+    }
+  }, [selectedPlan, selectedPlanIdParam, searchParams, setSearchParams, cadenceFallback, todayPlanFallback]);
 
   const hasUnsavedChanges = useMemo(() => {
+    if (!selectedPlan) return false;
+    const baseChanged = selectedPlan.name !== draftPlanName || selectedPlan.enabled !== draftPlanEnabled;
+    if (selectedPlan.kind !== 'personal') return baseChanged;
     return (
-      JSON.stringify(cadence) !== JSON.stringify(draftCadence) ||
-      JSON.stringify(todayPlan) !== JSON.stringify(draftTodayPlan)
+      baseChanged ||
+      JSON.stringify(selectedCadence) !== JSON.stringify(draftCadence) ||
+      JSON.stringify(selectedTodayPlan) !== JSON.stringify(draftTodayPlan)
     );
-  }, [cadence, todayPlan, draftCadence, draftTodayPlan]);
+  }, [
+    selectedPlan,
+    selectedCadence,
+    selectedTodayPlan,
+    draftPlanName,
+    draftPlanEnabled,
+    draftCadence,
+    draftTodayPlan
+  ]);
 
   const showFeedback = (next: Feedback) => {
     setFeedback(next);
@@ -248,10 +303,21 @@ export default function PersonalSettingsView() {
 
   const handleSave = () => {
     try {
-      const normalizedCadence = normalizeCadence(draftCadence);
-      const normalizedTodayPlan = normalizeTodayPlan(draftTodayPlan);
-      setCadence(normalizedCadence);
-      setTodayPlan(normalizedTodayPlan);
+      const basePatch = {
+        name: draftPlanName.trim() || selectedPlan?.name || 'Plan',
+        enabled: draftPlanEnabled
+      };
+      if (selectedPlan?.kind === 'personal') {
+        const normalizedCadence = normalizeCadence(draftCadence);
+        const normalizedTodayPlan = normalizeTodayPlan(draftTodayPlan);
+        updatePlan(selectedPlanId, { ...basePatch, cadence: normalizedCadence, todayPlan: normalizedTodayPlan });
+        if (selectedPlanId === 'personal-kungfu') {
+          setCadenceLegacy(normalizedCadence);
+          setTodayPlanLegacy(normalizedTodayPlan);
+        }
+      } else {
+        updatePlan(selectedPlanId, basePatch);
+      }
       showFeedback({ type: 'success', text: 'Guardado.' });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'No se pudo guardar.';
@@ -260,8 +326,12 @@ export default function PersonalSettingsView() {
   };
 
   const handleDiscard = () => {
-    setDraftCadence(cadence);
-    setDraftTodayPlan(todayPlan);
+    if (selectedPlan) {
+      setDraftPlanName(selectedPlan.name);
+      setDraftPlanEnabled(selectedPlan.enabled);
+    }
+    setDraftCadence(selectedCadence);
+    setDraftTodayPlan(selectedTodayPlan);
     showFeedback({ type: 'success', text: 'Cambios descartados.' });
   };
 
@@ -319,27 +389,109 @@ export default function PersonalSettingsView() {
     toggleExpanded(newId, true);
   }, [toggleExpanded]);
 
+  const selectPlanId = (planId: string) => {
+    const next = new URLSearchParams(searchParams);
+    next.set('plan', planId);
+    setSearchParams(next, { replace: true });
+  };
+
+  const handleCreatePlan = () => {
+    const created = addPlan({
+      kind: newPlanKind,
+      name: newPlanKind === 'class' ? 'Clases' : 'Personal'
+    });
+    selectPlanId(created.id);
+    showFeedback({ type: 'success', text: 'Plan creado.' });
+  };
+
+  const handleDuplicatePlan = () => {
+    if (!selectedPlan) return;
+    const duplicated = duplicatePlan(selectedPlan.id);
+    if (!duplicated) {
+      showFeedback({ type: 'error', text: 'No se pudo duplicar el plan.' });
+      return;
+    }
+    selectPlanId(duplicated.id);
+    showFeedback({ type: 'success', text: 'Plan duplicado.' });
+  };
+
+  const handleDeletePlan = () => {
+    if (!selectedPlan) return;
+    const ok = window.confirm(`Eliminar el plan "${selectedPlan.name}"? (No se borrarán sesiones)`);
+    if (!ok) return;
+    const success = deletePlan(selectedPlan.id);
+    if (!success) {
+      showFeedback({
+        type: 'error',
+        text: 'No se pudo eliminar. Puede ser un plan protegido o tener sesiones asociadas.'
+      });
+      return;
+    }
+    const nextPlan = orderedPlans.find((plan) => plan.id !== selectedPlan.id);
+    if (nextPlan) selectPlanId(nextPlan.id);
+    showFeedback({ type: 'success', text: 'Plan eliminado.' });
+  };
+
   return (
     <div className="space-y-6">
       <header className="glass-panel p-6 sm:p-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Kung Fu · Ajustes</h1>
-            <p className="text-white/60">Grupos, cadencias y plantilla de sesión para el modo Personal.</p>
+            <h1 className="text-3xl font-bold">Ajustes · Planes</h1>
+            <p className="text-white/60">Configura planes (personales y clases) y sus reglas.</p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link to="/personal" className="btn-secondary">
-              Volver a hoy
-            </Link>
-            <div className="flex gap-3">
-              <button type="button" className="btn-secondary" onClick={handleDiscard} disabled={!hasUnsavedChanges}>
-                Descartar
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <select
+                className="input-field h-10 w-[9.5rem] rounded-2xl px-3 text-sm"
+                value={newPlanKind}
+                onChange={(event) => setNewPlanKind(event.target.value as Plan['kind'])}
+                title="Tipo del nuevo plan"
+              >
+                <option value="personal">Personal</option>
+                <option value="class">Clases</option>
+              </select>
+              <button type="button" className="btn-secondary" onClick={handleCreatePlan}>
+                Nuevo
               </button>
+              <button type="button" className="btn-secondary" onClick={handleDuplicatePlan} disabled={!selectedPlan}>
+                Duplicar
+              </button>
+              <button type="button" className="btn-secondary" onClick={handleDeletePlan} disabled={!selectedPlan}>
+                Eliminar
+              </button>
+            </div>
+
+            <div className="flex gap-3">
+              {hasUnsavedChanges ? (
+                <button type="button" className="btn-secondary" onClick={handleDiscard}>
+                  Descartar
+                </button>
+              ) : null}
               <button type="button" className="btn-primary" onClick={handleSave} disabled={!hasUnsavedChanges}>
                 Guardar
               </button>
             </div>
           </div>
+        </div>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+          {orderedPlans.map((plan) => (
+            <button
+              key={plan.id}
+              type="button"
+              onClick={() => selectPlanId(plan.id)}
+              className={clsx(
+                'rounded-full border px-4 py-2 text-sm font-semibold transition',
+                plan.id === selectedPlan?.id
+                  ? 'border-sky-400/70 bg-sky-500/10 text-white'
+                  : 'border-white/10 bg-white/5 text-white/70 hover:border-white/30 hover:text-white'
+              )}
+              title={plan.kind === 'class' ? 'Plan de clases' : 'Plan personal'}
+            >
+              {plan.name}
+            </button>
+          ))}
         </div>
 
         {feedback ? (
@@ -356,6 +508,44 @@ export default function PersonalSettingsView() {
         ) : null}
       </header>
 
+      <section className="glass-panel space-y-5 p-6">
+        <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+          <label className="grid gap-2">
+            <span className="text-xs uppercase tracking-wide text-white/40">Nombre del plan</span>
+            <input
+              type="text"
+              className="input-field"
+              value={draftPlanName}
+              onChange={(event) => setDraftPlanName(event.target.value)}
+            />
+          </label>
+          <label className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+            <div>
+              <p className="text-sm font-semibold text-white/80">Plan activo</p>
+              <p className="text-xs text-white/50">{selectedPlan?.kind === 'class' ? 'Clases' : 'Personal'}</p>
+            </div>
+            <input
+              type="checkbox"
+              className="h-5 w-5 accent-sky-400"
+              checked={draftPlanEnabled}
+              onChange={(event) => setDraftPlanEnabled(event.target.checked)}
+            />
+          </label>
+        </div>
+
+        {selectedPlan?.kind === 'class' ? (
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-white/70">
+            <p className="font-semibold text-white/80">Este plan es de tipo “Clases”.</p>
+            <p className="mt-1 text-white/60">
+              Por ahora, los grupos automáticos (cadencias + “Plan de hoy”) solo aplican a planes personales. Para clases,
+              planifica desde <span className="font-semibold text-white">Sesiones</span> en modo Editar.
+            </p>
+          </div>
+        ) : null}
+      </section>
+
+      {selectedPlan?.kind !== 'personal' ? null : (
+        <>
       <section className="glass-panel space-y-5 p-6">
         <div>
           <h2 className="text-xl font-semibold text-white">Plan de hoy</h2>
@@ -1296,6 +1486,8 @@ export default function PersonalSettingsView() {
           </div>
         </details>
       </section>
+        </>
+      )}
     </div>
   );
 }

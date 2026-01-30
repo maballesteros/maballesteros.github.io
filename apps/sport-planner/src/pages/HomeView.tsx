@@ -1,5 +1,5 @@
-import ClassSessionsView from './ClassSessionsView';
+import SessionsView from './SessionsView';
 
 export default function HomeView() {
-  return <ClassSessionsView />;
+  return <SessionsView />;
 }

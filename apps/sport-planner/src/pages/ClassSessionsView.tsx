@@ -203,7 +203,8 @@ function SessionSummaryCard({
 }
 
 export default function ClassSessionsView() {
-  const sessions = useAppStore((state) => state.sessions).filter((session) => session.kind === 'class');
+  const allSessions = useAppStore((state) => state.sessions);
+  const plans = useAppStore((state) => state.plans);
   const works = useAppStore((state) => state.works);
   const objectives = useAppStore((state) => state.objectives);
   const assistants = useAppStore((state) => state.assistants);
@@ -216,8 +217,38 @@ export default function ClassSessionsView() {
   const toggleCompletion = useAppStore((state) => state.toggleSessionWorkCompletion);
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const selectedPlanIdParam = (searchParams.get('plan') ?? '').trim();
   const sessionParam = searchParams.get('session') ?? undefined;
   const mode: Mode = searchParams.get('mode') === 'edit' ? 'edit' : 'view';
+
+  const classPlans = useMemo(
+    () => plans.filter((plan) => plan.kind === 'class' && plan.enabled),
+    [plans]
+  );
+
+  const selectedPlan = useMemo(() => {
+    if (classPlans.length === 0) return undefined;
+    const byParam = classPlans.find((plan) => plan.id === selectedPlanIdParam);
+    return byParam ?? classPlans[0];
+  }, [classPlans, selectedPlanIdParam]);
+
+  const selectedPlanId = selectedPlan?.id ?? 'classes';
+
+  useEffect(() => {
+    if (!selectedPlan) return;
+    if (selectedPlanIdParam === selectedPlan.id) return;
+    const next = new URLSearchParams(searchParams);
+    next.set('plan', selectedPlan.id);
+    setSearchParams(next, { replace: true });
+  }, [selectedPlan, selectedPlanIdParam, searchParams, setSearchParams]);
+
+  const sessions = useMemo(
+    () =>
+      allSessions.filter(
+        (session) => session.kind === 'class' && (session.planId ?? 'classes') === selectedPlanId
+      ),
+    [allSessions, selectedPlanId]
+  );
 
   const [calendarOpen, setCalendarOpen] = useState(() => mode === 'edit');
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
@@ -352,6 +383,7 @@ export default function ClassSessionsView() {
   const handleCreateSession = () => {
     const session = addSession({
       date: selectedDate,
+      planId: selectedPlanId,
       title: 'Nueva sesión',
       description: '',
       notes: ''

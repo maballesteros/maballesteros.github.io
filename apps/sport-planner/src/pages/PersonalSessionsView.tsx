@@ -11,13 +11,38 @@ import type { Session } from '@/types';
 dayjs.locale('es');
 
 export default function PersonalSessionsView() {
-  const sessions = useAppStore((state) => state.sessions).filter((session) => session.kind === 'personal');
+  const plans = useAppStore((state) => state.plans);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedPlanIdParam = (searchParams.get('plan') ?? '').trim();
+
+  const personalPlans = useMemo(
+    () => plans.filter((plan) => plan.kind === 'personal' && plan.enabled),
+    [plans]
+  );
+
+  const selectedPlan = useMemo(() => {
+    if (personalPlans.length === 0) return undefined;
+    const byParam = personalPlans.find((plan) => plan.id === selectedPlanIdParam);
+    return byParam ?? personalPlans[0];
+  }, [personalPlans, selectedPlanIdParam]);
+
+  const selectedPlanId = selectedPlan?.id ?? 'personal-kungfu';
+
+  useEffect(() => {
+    if (!selectedPlan) return;
+    if (selectedPlanIdParam === selectedPlan.id) return;
+    const next = new URLSearchParams(searchParams);
+    next.set('plan', selectedPlan.id);
+    setSearchParams(next, { replace: true });
+  }, [selectedPlan, selectedPlanIdParam, searchParams, setSearchParams]);
+
+  const sessions = useAppStore((state) => state.sessions).filter(
+    (session) => session.kind === 'personal' && (session.planId ?? 'personal-kungfu') === selectedPlanId
+  );
   const works = useAppStore((state) => state.works);
   const objectives = useAppStore((state) => state.objectives);
   const assistants = useAppStore((state) => state.assistants);
   const addSession = useAppStore((state) => state.addSession);
-
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const sortedSessions = useMemo(
     () => [...sessions].sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()),
@@ -32,9 +57,11 @@ export default function PersonalSessionsView() {
   useEffect(() => {
     if (initialSessionId && !sessions.some((session) => session.id === initialSessionId)) {
       setSelectedSessionId(undefined);
-      setSearchParams({}, { replace: true });
+      const next = new URLSearchParams(searchParams);
+      next.delete('session');
+      setSearchParams(next, { replace: true });
     }
-  }, [initialSessionId, sessions, setSearchParams]);
+  }, [initialSessionId, sessions, searchParams, setSearchParams]);
 
   const selectedSession: Session | undefined = selectedSessionId
     ? sessions.find((session) => session.id === selectedSessionId)
@@ -42,7 +69,10 @@ export default function PersonalSessionsView() {
 
   const handleSelectSession = (sessionId: string) => {
     setSelectedSessionId(sessionId);
-    setSearchParams({ session: sessionId }, { replace: true });
+    const next = new URLSearchParams(searchParams);
+    next.set('session', sessionId);
+    next.set('plan', selectedPlanId);
+    setSearchParams(next, { replace: true });
   };
 
   const handleCreateToday = () => {
@@ -55,7 +85,8 @@ export default function PersonalSessionsView() {
     const created = addSession({
       date: today,
       kind: 'personal',
-      title: 'Entrenamiento personal',
+      planId: selectedPlanId,
+      title: selectedPlan?.name ?? 'Entrenamiento personal',
       description: '',
       notes: ''
     });
@@ -67,14 +98,14 @@ export default function PersonalSessionsView() {
       <header className="glass-panel p-6 sm:p-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Kung Fu · Sesiones</h1>
-            <p className="text-white/60">Histórico y edición de sesiones de entreno personal.</p>
+            <h1 className="text-3xl font-bold">{selectedPlan?.name ?? 'Personal'} · Sesiones</h1>
+            <p className="text-white/60">Histórico y edición de sesiones para este plan.</p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Link to="/personal" className="btn-secondary">
+            <Link to={`/personal?plan=${encodeURIComponent(selectedPlanId)}`} className="btn-secondary">
               Volver a hoy
             </Link>
-            <Link to="/personal/settings" className="btn-secondary">
+            <Link to={`/settings?plan=${encodeURIComponent(selectedPlanId)}`} className="btn-secondary">
               Ajustes
             </Link>
             <button type="button" className="btn-primary" onClick={handleCreateToday}>
