@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState, type ChangeEvent } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import clsx from 'clsx';
@@ -9,6 +9,7 @@ import { useAppStore } from '@/store/appStore';
 import { useAuth } from '@/contexts/useAuth';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { YouTubePreview } from '@/components/YouTubePreview';
+import { SessionEditor } from '@/components/SessionEditor';
 import type {
   KungfuProgramSelector,
   KungfuCadenceConfig,
@@ -25,6 +26,7 @@ import type {
 dayjs.locale('es');
 
 type TrainingResult = NonNullable<SessionWork['result']>;
+type Mode = 'view' | 'edit';
 
 const PERSONAL_EXCLUDE_TAG = 'personal-exclude';
 
@@ -164,6 +166,39 @@ function getPlanGroups(plan: KungfuTodayPlanConfig): KungfuPlanGroupConfig[] {
   }
 
   return legacyGroups;
+}
+
+function ModeSwitch({ mode, onChange }: { mode: Mode; onChange: (nextMode: Mode) => void }) {
+  return (
+    <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 p-1">
+      <button
+        type="button"
+        className={clsx(
+          'rounded-full px-4 py-2 text-sm font-semibold transition',
+          mode === 'view' ? 'bg-white text-slate-900' : 'text-white/70 hover:text-white'
+        )}
+        onClick={() => {
+          if (mode === 'view') return;
+          onChange('view');
+        }}
+      >
+        Vista
+      </button>
+      <button
+        type="button"
+        className={clsx(
+          'rounded-full px-4 py-2 text-sm font-semibold transition',
+          mode === 'edit' ? 'bg-white text-slate-900' : 'text-white/70 hover:text-white'
+        )}
+        onClick={() => {
+          if (mode === 'edit') return;
+          onChange('edit');
+        }}
+      >
+        Editar
+      </button>
+    </div>
+  );
 }
 
 function fnv1a32(input: string): number {
@@ -465,6 +500,8 @@ export default function PersonalTodayView() {
   const works = useAppStore((state) => state.works);
   const sessions = useAppStore((state) => state.sessions);
   const plans = useAppStore((state) => state.plans);
+  const objectives = useAppStore((state) => state.objectives);
+  const assistants = useAppStore((state) => state.assistants);
   const cadenceFallback = useAppStore((state) => state.kungfuCadence);
   const todayPlanFallback = useAppStore((state) => state.kungfuTodayPlan);
 
@@ -481,7 +518,10 @@ export default function PersonalTodayView() {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedPlanIdParam = (searchParams.get('plan') ?? '').trim();
 
-  const today = dayjs().format('YYYY-MM-DD');
+  const todayIso = dayjs().format('YYYY-MM-DD');
+  const dateParam = (searchParams.get('date') ?? '').trim();
+  const activeDate = dayjs(dateParam, 'YYYY-MM-DD', true).isValid() ? dateParam : todayIso;
+  const mode: Mode = searchParams.get('mode') === 'edit' ? 'edit' : 'view';
 
   const personalPlans = useMemo(
     () => plans.filter((plan) => plan.kind === 'personal' && plan.enabled),
@@ -504,6 +544,14 @@ export default function PersonalTodayView() {
     setSearchParams(next, { replace: true });
   }, [selectedPlan, selectedPlanIdParam, searchParams, setSearchParams]);
 
+  useEffect(() => {
+    const shouldSetDate = !dayjs(dateParam, 'YYYY-MM-DD', true).isValid();
+    if (!shouldSetDate) return;
+    const next = new URLSearchParams(searchParams);
+    next.set('date', activeDate);
+    setSearchParams(next, { replace: true });
+  }, [activeDate, dateParam, searchParams, setSearchParams]);
+
   const cadence = selectedPlan?.cadence ?? cadenceFallback;
   const todayPlan = selectedPlan?.todayPlan ?? todayPlanFallback;
 
@@ -515,26 +563,10 @@ export default function PersonalTodayView() {
     [sessions, selectedPlanId]
   );
 
-  const todaySession = useMemo(
-    () => personalSessions.find((session) => session.date === today),
-    [personalSessions, today]
+  const activeSession = useMemo(
+    () => personalSessions.find((session) => session.date === activeDate),
+    [personalSessions, activeDate]
   );
-
-  const prevSessionId = useMemo(() => {
-    const candidates = personalSessions
-      .filter((session) => session.date < today)
-      .slice()
-      .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
-    return candidates[0]?.id;
-  }, [personalSessions, today]);
-
-  const nextSessionId = useMemo(() => {
-    const candidates = personalSessions
-      .filter((session) => session.date > today)
-      .slice()
-      .sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
-    return candidates[0]?.id;
-  }, [personalSessions, today]);
 
   const dueList = useMemo(
     () =>
@@ -542,9 +574,9 @@ export default function PersonalTodayView() {
         works,
         personalSessions,
         cadence,
-        today
+        today: activeDate
       }),
-    [works, personalSessions, cadence, today]
+    [works, personalSessions, cadence, activeDate]
   );
 
   const childCountByWorkId = useMemo(() => {
@@ -575,17 +607,22 @@ export default function PersonalTodayView() {
   const [togglingWorkId, setTogglingWorkId] = useState<string | null>(null);
   const [expandedWorkDetails, setExpandedWorkDetails] = useState<Set<string>>(new Set());
 
-  const ensureTodaySession = useCallback((): Session => {
-    if (todaySession) return todaySession;
+  const ensureSession = useCallback(
+    (dateIso?: string): Session => {
+      const key = (dateIso ?? activeDate).trim() || activeDate;
+      const existing = personalSessions.find((session) => session.date === key);
+      if (existing) return existing;
     return addSession({
-      date: today,
+      date: key,
       kind: 'personal',
       planId: selectedPlanId,
       title: selectedPlan?.name ?? 'Entrenamiento personal',
       description: '',
       notes: ''
     });
-  }, [addSession, selectedPlan?.name, selectedPlanId, today, todaySession]);
+    },
+    [activeDate, addSession, personalSessions, selectedPlan?.name, selectedPlanId]
+  );
 
   const dedupeSessionWorkItems = useCallback((items: SessionWork[]): SessionWork[] => {
     const ordered = (items ?? []).slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -620,8 +657,8 @@ export default function PersonalTodayView() {
   }, []);
 
   useEffect(() => {
-    if (!todaySession) return;
-    const items = todaySession.workItems ?? [];
+    if (!activeSession) return;
+    const items = activeSession.workItems ?? [];
     const workIdCounts = items.reduce((acc, item) => {
       const workId = item.workId;
       if (!workId) return acc;
@@ -634,11 +671,11 @@ export default function PersonalTodayView() {
 
     const deduped = dedupeSessionWorkItems(items);
     if (deduped.length === items.length) return;
-    updateSessionWorkItems(todaySession.id, deduped);
-  }, [todaySession, updateSessionWorkItems, dedupeSessionWorkItems]);
+    updateSessionWorkItems(activeSession.id, deduped);
+  }, [activeSession, updateSessionWorkItems, dedupeSessionWorkItems]);
 
   const activeGroupsForToday = useMemo(() => {
-    const todayDow = dayjs(today).day();
+    const todayDow = dayjs(activeDate).day();
     return getPlanGroups(todayPlan)
       .filter((group) => group.enabled)
       .filter((group) => {
@@ -646,11 +683,11 @@ export default function PersonalTodayView() {
         return days.length === 0 || days.includes(todayDow);
       })
       .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-  }, [todayPlan, today]);
+  }, [todayPlan, activeDate]);
 
   useEffect(() => {
     const next: Record<string, string> = {};
-    const fromSession = todaySession?.notesByGroupId ?? undefined;
+    const fromSession = activeSession?.notesByGroupId ?? undefined;
     if (fromSession) {
       Object.entries(fromSession).forEach(([key, value]) => {
         const cleanKey = (key ?? '').trim();
@@ -658,7 +695,7 @@ export default function PersonalTodayView() {
         next[cleanKey] = String(value ?? '');
       });
     }
-    const legacy = (todaySession?.notes ?? '').toString();
+    const legacy = (activeSession?.notes ?? '').toString();
     if (legacy.trim().length > 0) {
       const firstNoteGroupId =
         activeGroupsForToday.find((group) => (group.type ?? 'work') === 'note')?.id ?? 'note';
@@ -667,7 +704,7 @@ export default function PersonalTodayView() {
       }
     }
     setNoteDrafts(next);
-  }, [todaySession?.notes, todaySession?.notesByGroupId, activeGroupsForToday]);
+  }, [activeSession?.notes, activeSession?.notesByGroupId, activeGroupsForToday]);
 
   const groupOrderByLabel = useMemo(() => {
     const map = new Map<string, number>();
@@ -751,7 +788,7 @@ export default function PersonalTodayView() {
 
       setIsFillingPlan(true);
       try {
-        const session = todaySession ?? ensureTodaySession();
+        const session = activeSession ?? ensureSession();
 
         const itemsBefore = session.workItems ?? [];
         const existingWorkIds = new Set(itemsBefore.map((item) => item.workId));
@@ -813,7 +850,7 @@ export default function PersonalTodayView() {
           dueList: availableDue,
           todaySession: undefined,
           plan: adjustedPlan,
-          today,
+          today: activeDate,
           childCountByWorkId
         });
 
@@ -891,12 +928,12 @@ export default function PersonalTodayView() {
     [
       isFillingPlan,
       dueList,
-      todaySession,
-      ensureTodaySession,
+      activeSession,
+      ensureSession,
       todayPlan,
       worksById,
       activeGroupsForToday,
-      today,
+      activeDate,
       childCountByWorkId,
       addWorkToSession,
       updateSessionWorkItems,
@@ -910,11 +947,11 @@ export default function PersonalTodayView() {
     if (isFillingPlan) return;
 
     const ok = window.confirm(
-      'Recrear sesión volverá a planificar el día de hoy. Mantendrá los ítems ya registrados (OK/Dudosa/Fallo) y las notas, pero quitará el resto. ¿Continuar?'
+      'Recrear sesión volverá a planificar el día seleccionado. Mantendrá los ítems ya registrados (OK/Dudosa/Fallo) y las notas, pero quitará el resto. ¿Continuar?'
     );
     if (!ok) return;
 
-    const session = todaySession ?? ensureTodaySession();
+    const session = activeSession ?? ensureSession();
     const kept = (session.workItems ?? [])
       .filter((item) => (item.completed ?? false) || typeof item.result !== 'undefined')
       .map((item) => {
@@ -929,11 +966,11 @@ export default function PersonalTodayView() {
     window.setTimeout(() => fillTodayPlan({ reason: 'recreate', includeDiagnostics: true }), 0);
   }, [
     dedupeSessionWorkItems,
-    ensureTodaySession,
+    ensureSession,
     fillTodayPlan,
     isFillingPlan,
     resolveGroupLabelForItem,
-    todaySession,
+    activeSession,
     updateSessionWorkItems,
     worksById
   ]);
@@ -941,7 +978,7 @@ export default function PersonalTodayView() {
   useEffect(() => {
     if (dueList.length === 0) return;
 
-    const session = todaySession ?? ensureTodaySession();
+    const session = activeSession ?? ensureSession();
     const hasAnyPlanLabels = (session.workItems ?? []).some((item) => Boolean(item.focusLabel));
     const shouldSeed = !hasAnyPlanLabels;
 
@@ -949,22 +986,22 @@ export default function PersonalTodayView() {
     fillTodayPlan({ reason: 'initial-seed' });
   }, [
     dueList,
-    todaySession,
     todayPlan,
-    today,
+    activeDate,
     childCountByWorkId,
     updateSessionWorkItems,
     worksById,
     activeGroupsForToday,
     groupOrderByLabel,
     getGroupLabelForWork,
-    ensureTodaySession,
+    activeSession,
+    ensureSession,
     fillTodayPlan
   ]);
 
   const logWork = (workId: string, result: TrainingResult) => {
     try {
-      const session = ensureTodaySession();
+      const session = ensureSession();
       const existing = session.workItems.find((item) => item.workId === workId);
 
       if (existing) {
@@ -992,8 +1029,8 @@ export default function PersonalTodayView() {
     }
   };
 
-  const todaysLoggedCount = todaySession
-    ? todaySession.workItems.filter((item) => (item.completed ?? false) || typeof item.result !== 'undefined').length
+  const todaysLoggedCount = activeSession
+    ? activeSession.workItems.filter((item) => (item.completed ?? false) || typeof item.result !== 'undefined').length
     : 0;
 
   const noteGroupsForToday = useMemo(
@@ -1002,7 +1039,7 @@ export default function PersonalTodayView() {
   );
 
   const globalProgress = useMemo(() => {
-    const items = todaySession?.workItems ?? [];
+    const items = activeSession?.workItems ?? [];
     const totalWorks = items.length;
     const doneWorks = items.filter((item) => (item.completed ?? false) || typeof item.result !== 'undefined').length;
 
@@ -1013,13 +1050,13 @@ export default function PersonalTodayView() {
     const done = doneWorks + doneNotes;
     const percent = total > 0 ? Math.round((done / total) * 100) : 0;
     return { total, done, percent, totalWorks, doneWorks, totalNotes, doneNotes };
-  }, [noteDrafts, noteGroupsForToday, todaySession?.workItems]);
+  }, [noteDrafts, noteGroupsForToday, activeSession?.workItems]);
 
   const todayEntriesByGroup = useMemo(() => {
     const entriesByGroup = new Map<string, DueWork[]>();
     const totalsByGroup = new Map<string, { total: number; done: number }>();
 
-    const todaySessionItems = todaySession?.workItems ?? [];
+    const todaySessionItems = activeSession?.workItems ?? [];
     todaySessionItems
       .slice()
       .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
@@ -1059,7 +1096,7 @@ export default function PersonalTodayView() {
         if (orderA !== orderB) return orderA - orderB;
         return a.label.localeCompare(b.label, 'es', { sensitivity: 'base' });
       });
-  }, [todaySession?.workItems, dueList, worksById, cadence, groupOrderByLabel, resolveGroupLabelForItem]);
+  }, [activeSession?.workItems, dueList, worksById, cadence, groupOrderByLabel, resolveGroupLabelForItem]);
 
   const sectionsToRender = useMemo(() => {
     type WorkSection = { kind: 'work'; label: string; entries: DueWork[]; total: number; done: number };
@@ -1097,7 +1134,7 @@ export default function PersonalTodayView() {
     const canTogglePersonal = (work.canEdit ?? false) && ((work.nodeType ?? '').trim().toLowerCase() !== 'style');
     const isBusy = togglingWorkId === work.id;
     const isExpanded = expandedWorkDetails.has(work.id);
-    const sessionItem = todaySession?.workItems.find((item) => item.workId === work.id);
+    const sessionItem = activeSession?.workItems.find((item) => item.workId === work.id);
     const currentResult = sessionItem?.result as TrainingResult | undefined;
     const isDone = Boolean(sessionItem?.completed ?? false) || typeof sessionItem?.result !== 'undefined';
 
@@ -1264,7 +1301,7 @@ export default function PersonalTodayView() {
             <Link to={`/catalog?workId=${encodeURIComponent(work.id)}`} className="btn-secondary">
               Ver en catálogo
             </Link>
-            {todaySession && sessionItem ? (
+            {activeSession && sessionItem ? (
               <button
                 type="button"
                 className="btn-secondary"
@@ -1273,7 +1310,7 @@ export default function PersonalTodayView() {
                     const ok = window.confirm('Este ítem ya está marcado/registrado hoy. ¿Quieres quitarlo igualmente de la sesión?');
                     if (!ok) return;
                   }
-                  removeWorkFromSession(todaySession.id, sessionItem.id);
+                  removeWorkFromSession(activeSession.id, sessionItem.id);
                   setFeedback({ type: 'success', text: 'Quitado de la sesión de hoy.' });
                   window.setTimeout(() => setFeedback(null), 1800);
                 }}
@@ -1303,7 +1340,7 @@ export default function PersonalTodayView() {
   };
 
   const saveNoteForGroup = (groupId: string) => {
-    const session = ensureTodaySession();
+    const session = ensureSession();
     const cleanId = (groupId ?? '').trim();
     if (!cleanId) return;
     const rawValue = noteDrafts[cleanId] ?? '';
@@ -1322,22 +1359,70 @@ export default function PersonalTodayView() {
     });
   };
 
+  useEffect(() => {
+    if (activeSession) return;
+    ensureSession(activeDate);
+  }, [activeDate, activeSession, ensureSession]);
+
+  const estimatedMinutes = useMemo(() => {
+    const items = activeSession?.workItems ?? [];
+    return Math.round(
+      items.reduce((acc, item) => {
+        const work = worksById.get(item.workId);
+        if (!work) return acc;
+        const minutes = item.customDurationMinutes ?? work.estimatedMinutes ?? estimateWorkMinutes(work, todayPlan);
+        return acc + minutes;
+      }, 0)
+    );
+  }, [activeSession?.workItems, worksById, todayPlan]);
+
+  const setMode = (nextMode: Mode) => {
+    const next = new URLSearchParams(searchParams);
+    if (nextMode === 'edit') next.set('mode', 'edit');
+    else next.delete('mode');
+    setSearchParams(next, { replace: true });
+  };
+
+  const setDate = (nextDate: string) => {
+    const next = new URLSearchParams(searchParams);
+    next.set('date', nextDate);
+    next.delete('session');
+    setSearchParams(next, { replace: true });
+  };
+
+  const handleDateSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (!value) return;
+    setDate(dayjs(value).format('YYYY-MM-DD'));
+  };
+
+  const goPrev = () => setDate(dayjs(activeDate).subtract(1, 'day').format('YYYY-MM-DD'));
+  const goNext = () => setDate(dayjs(activeDate).add(1, 'day').format('YYYY-MM-DD'));
+  const goToday = () => setDate(todayIso);
+
   return (
     <div className="space-y-6">
-      <header className="glass-panel p-6 sm:p-10">
+      <header className="glass-panel space-y-4 p-3 sm:space-y-6 sm:p-6 lg:p-8">
         <div className="space-y-3 sm:flex sm:items-start sm:justify-between sm:gap-6 sm:space-y-0">
-          <div>
+          <div className="space-y-1.5">
             <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/40">
-              <span>Fecha</span>
+              <span className="sm:hidden">Sesión</span>
+              <span className="hidden sm:inline">Fecha</span>
             </div>
             <h1 className="font-display text-2xl font-semibold text-white sm:text-3xl">
-              {dayjs(today).format('dddd, D [de] MMMM')}
+              {dayjs(activeDate).format('dddd, D [de] MMMM')}
             </h1>
-            <p className="text-sm font-medium text-white/80 sm:text-lg">{todaySession?.title ?? 'Entrenamiento personal'}</p>
+            <p className="text-sm font-medium text-white/80 sm:text-lg">
+              {activeSession?.title ?? selectedPlan?.name ?? 'Entrenamiento personal'}
+            </p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/70">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/40">Sesión</p>
+
+          <div className="flex flex-col gap-2.5 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/70 sm:w-auto">
+            <div className="flex items-center justify-between gap-4">
+              <p className="font-semibold text-white">Duración estimada</p>
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/80">{estimatedMinutes} min</span>
+            </div>
+            <div>
               <p className="mt-1 text-xs text-white/50">
                 {todaysLoggedCount} {todaysLoggedCount === 1 ? 'ítem registrado' : 'ítems registrados'}
               </p>
@@ -1351,50 +1436,41 @@ export default function PersonalTodayView() {
                 />
               </div>
             </div>
+            <div className="flex flex-col gap-2 sm:items-end">
+              <label className="text-[11px] uppercase tracking-wide text-white/40 sm:text-xs">Ir a fecha</label>
+              <input type="date" className="input-field w-full sm:w-auto" value={activeDate} onChange={handleDateSelect} />
+            </div>
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-2">
-            <Link
-              to={
-                prevSessionId
-                  ? `/personal/sessions?plan=${encodeURIComponent(selectedPlanId)}&session=${encodeURIComponent(prevSessionId)}`
-                  : '#'
-              }
-              className={clsx(
-                'btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm',
-                !prevSessionId && 'pointer-events-none opacity-40'
-              )}
-              aria-disabled={!prevSessionId}
-              tabIndex={!prevSessionId ? -1 : 0}
+            <button
+              type="button"
+              onClick={goPrev}
+              className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm"
             >
               ← Anterior
-            </Link>
-            <Link
-              to={
-                nextSessionId
-                  ? `/personal/sessions?plan=${encodeURIComponent(selectedPlanId)}&session=${encodeURIComponent(nextSessionId)}`
-                  : '#'
-              }
-              className={clsx(
-                'btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm',
-                !nextSessionId && 'pointer-events-none opacity-40'
-              )}
-              aria-disabled={!nextSessionId}
-              tabIndex={!nextSessionId ? -1 : 0}
+            </button>
+            <button
+              type="button"
+              onClick={goToday}
+              disabled={activeDate === todayIso}
+              className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold disabled:opacity-40 sm:h-10 sm:text-sm"
+            >
+              Hoy
+            </button>
+            <button
+              type="button"
+              onClick={goNext}
+              className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm"
             >
               Siguiente →
-            </Link>
+            </button>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <Link
-              to={`/personal/sessions?plan=${encodeURIComponent(selectedPlanId)}`}
-              className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm"
-            >
-              Ver sesiones
-            </Link>
+            <ModeSwitch mode={mode} onChange={setMode} />
             <Menu as="div" className="relative">
               <Menu.Button className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm">
                 Plan ▾
@@ -1437,7 +1513,7 @@ export default function PersonalTodayView() {
                         )}
                         onClick={recreateTodaySession}
                         disabled={isFillingPlan}
-                        title="Rehace la planificación de hoy manteniendo lo registrado"
+                        title="Rehace la planificación del día manteniendo lo registrado"
                       >
                         Recrear sesión
                       </button>
@@ -1446,12 +1522,6 @@ export default function PersonalTodayView() {
                 </Menu.Items>
               </Transition>
             </Menu>
-            <Link
-              to={`/settings?plan=${encodeURIComponent(selectedPlanId)}`}
-              className="btn-secondary h-9 rounded-2xl px-3 text-xs font-semibold sm:h-10 sm:text-sm"
-            >
-              Ajustes
-            </Link>
           </div>
         </div>
 
@@ -1473,6 +1543,60 @@ export default function PersonalTodayView() {
         <div className="glass-panel p-10 text-center text-white/50">
           No hay ningún trabajo incluido en tu programa activo. Añade la tag <span className="font-semibold text-white">kungfu</span> a los trabajos que quieras entrenar.
         </div>
+      ) : mode === 'edit' ? (
+        <section className="space-y-4">
+          {activeSession ? (
+            <div className="glass-panel p-3 sm:p-4">
+              <SessionEditor session={activeSession} works={works} objectives={objectives} assistants={assistants} />
+            </div>
+          ) : (
+            <div className="glass-panel p-10 text-center text-white/60">Cargando sesión…</div>
+          )}
+
+          {sectionsToRender
+            .filter((section) => section.kind === 'note')
+            .map((section) => {
+              const groupId = section.group.id;
+              const noteValue = noteDrafts[groupId] ?? '';
+              const isDone = noteValue.trim().length > 0;
+              return (
+                <div key={section.group.id} className="glass-panel space-y-3 p-6">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+                        {section.group.name} ({Math.max(0, Number(section.group.minutesBudget) || 0)} min)
+                      </p>
+                      <div className="mt-2 flex flex-wrap items-center gap-2">
+                        <span
+                          className={clsx(
+                            'rounded-full border px-3 py-1 text-xs font-semibold',
+                            isDone
+                              ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
+                              : 'border-white/15 bg-white/5 text-white/60'
+                          )}
+                        >
+                          {isDone ? 'OK' : 'Pendiente'}
+                        </span>
+                        <p className="text-sm text-white/60">Notas de la sesión · se guarda al salir del campo.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <textarea
+                    className="input-field min-h-[120px] w-full resize-y"
+                    value={noteValue}
+                    onChange={(event) =>
+                      setNoteDrafts((prev) => ({
+                        ...prev,
+                        [groupId]: event.target.value
+                      }))
+                    }
+                    onBlur={() => saveNoteForGroup(groupId)}
+                    placeholder="Escribe aquí…"
+                  />
+                </div>
+              );
+            })}
+        </section>
       ) : (
         <section className="space-y-4">
           <div className="space-y-3">

@@ -302,6 +302,14 @@ export default function ClassSessionsView() {
     return nextSession;
   }, [sortedSessions, activeSessionId, nextSession]);
 
+  const activeSessionProgress = useMemo(() => {
+    const items = activeSession?.workItems ?? [];
+    const total = items.length;
+    const done = items.filter((item) => item.completed ?? false).length;
+    const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+    return { total, done, percent };
+  }, [activeSession?.workItems]);
+
   const updateSearchParamSession = (nextId: string | undefined) => {
     const next = new URLSearchParams(searchParams);
     if (nextId) {
@@ -773,6 +781,17 @@ export default function ClassSessionsView() {
                     .reduce((acc, val) => acc + val, 0)) || 0}{' '}
                   min
                 </span>
+              </div>
+              <div>
+                <p className="mt-1 text-xs text-white/60">
+                  Progreso: {activeSessionProgress.done}/{activeSessionProgress.total} · {activeSessionProgress.percent}%
+                </p>
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full border border-white/10 bg-slate-950/50">
+                  <div
+                    className="h-full rounded-full bg-white/25"
+                    style={{ width: `${Math.min(Math.max(activeSessionProgress.percent, 0), 100)}%` }}
+                  />
+                </div>
               </div>
               <div className="flex flex-col gap-2 sm:items-end">
                 <label className="text-[11px] uppercase tracking-wide text-white/40 sm:text-xs">Ir a fecha</label>
