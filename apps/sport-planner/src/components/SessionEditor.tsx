@@ -143,7 +143,6 @@ function SortableWorkRow({
   }, [swapOpen]);
 
   const hasAnyReplacement = replacementCandidates.length > 0;
-  const effortValue = item.effort ?? 6;
   const resultValue = item.result;
 
   return (
@@ -226,21 +225,6 @@ function SortableWorkRow({
                         {value === 'ok' ? 'OK' : value === 'doubt' ? 'Dudosa' : 'Fallo'}
                       </button>
                     ))}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <label className="text-xs uppercase tracking-wide text-white/40">RPE</label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={10}
-                      value={effortValue}
-                      onChange={(event) => {
-                        const parsed = Number(event.target.value);
-                        const clamped = Number.isFinite(parsed) ? Math.min(Math.max(parsed, 1), 10) : 6;
-                        onUpdateDetails(item.id, { effort: clamped, completed: true });
-                      }}
-                      className="input-field w-20 text-center"
-                    />
                   </div>
                 </div>
               ) : null}
@@ -484,56 +468,58 @@ export function SessionEditor({ session, works, objectives, assistants, onDateCh
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
-        <div className="grid gap-2 sm:grid-cols-3">
+      {isPersonal ? null : (
+        <div className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
+          <div className="grid gap-2 sm:grid-cols-3">
+            <div className="grid gap-2">
+              <label className="text-xs uppercase tracking-wide text-white/40">Título</label>
+              <input
+                type="text"
+                className="input-field"
+                value={session.title}
+                onChange={handleSessionField('title')}
+                placeholder="Nombre de la sesión"
+              />
+            </div>
+            <div className="grid gap-2">
+              <label className="text-xs uppercase tracking-wide text-white/40">Fecha</label>
+              <input
+                type="date"
+                className="input-field"
+                value={session.date}
+                onChange={handleSessionField('date')}
+              />
+            </div>
+            <div className="grid gap-2">
+              <label className="text-xs uppercase tracking-wide text-white/40">Hora de inicio</label>
+              <input
+                type="time"
+                className="input-field"
+                value={session.startTime ?? '18:30'}
+                onChange={handleSessionField('startTime')}
+              />
+            </div>
+          </div>
           <div className="grid gap-2">
-            <label className="text-xs uppercase tracking-wide text-white/40">Título</label>
-            <input
-              type="text"
-              className="input-field"
-              value={session.title}
-              onChange={handleSessionField('title')}
-              placeholder="Nombre de la sesión"
+            <label className="text-xs uppercase tracking-wide text-white/40">Descripción</label>
+            <textarea
+              className="input-field min-h-[120px]"
+              value={session.description ?? ''}
+              onChange={handleSessionField('description')}
+              placeholder="Contexto general, objetivos o recordatorios"
             />
           </div>
           <div className="grid gap-2">
-            <label className="text-xs uppercase tracking-wide text-white/40">Fecha</label>
-            <input
-              type="date"
-              className="input-field"
-              value={session.date}
-              onChange={handleSessionField('date')}
-            />
-          </div>
-          <div className="grid gap-2">
-            <label className="text-xs uppercase tracking-wide text-white/40">Hora de inicio</label>
-            <input
-              type="time"
-              className="input-field"
-              value={session.startTime ?? '18:30'}
-              onChange={handleSessionField('startTime')}
+            <label className="text-xs uppercase tracking-wide text-white/40">Notas privadas</label>
+            <textarea
+              className="input-field min-h-[100px]"
+              value={session.notes ?? ''}
+              onChange={handleSessionField('notes')}
+              placeholder="Notas para ti o recordatorios de material"
             />
           </div>
         </div>
-        <div className="grid gap-2">
-          <label className="text-xs uppercase tracking-wide text-white/40">Descripción</label>
-          <textarea
-            className="input-field min-h-[120px]"
-            value={session.description ?? ''}
-            onChange={handleSessionField('description')}
-            placeholder="Contexto general, objetivos o recordatorios"
-          />
-        </div>
-        <div className="grid gap-2">
-          <label className="text-xs uppercase tracking-wide text-white/40">Notas privadas</label>
-          <textarea
-            className="input-field min-h-[100px]"
-            value={session.notes ?? ''}
-            onChange={handleSessionField('notes')}
-            placeholder="Notas para ti o recordatorios de material"
-          />
-        </div>
-      </div>
+      )}
 
       <section className="space-y-4">
         <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
