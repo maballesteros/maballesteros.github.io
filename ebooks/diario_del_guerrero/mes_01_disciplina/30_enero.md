@@ -19,7 +19,7 @@ Quedó cojo para el resto de su vida. Pero en ese momento de dolor extremo, Epic
 Esta distinción radical —la Dicotomía del Control— se convirtió en la base de su enseñanza cuando finalmente fue liberado y fundó su escuela.
 "Eres un actor en una obra de teatro", decía. "El autor (el destino/Dios) elige el papel. Puede que te toque ser rey o mendigo, sano o cojo. Tu trabajo no es elegir el papel. Tu trabajo es interpretarlo con excelencia".
 
-Mañana empezamos el mes del **Autocontrol**. Y la base del autocontrol es saber dónde termina tu poder y dónde empieza el caos del mundo. Si intentas controlar lo que no es tuyo (la opinión de otros, el clima, la economía, el pasado), serás un esclavo perpetuo, ansioso y frustrado. Si te centras solo en lo que es tuyo (tus juicios, tus acciones, tu voluntad), serás invencible.
+Mañana, 31 de enero, cerramos el mes. El 1 de febrero empezamos el mes del **Autocontrol**. Y la base del autocontrol es saber dónde termina tu poder y dónde empieza el caos del mundo. Si intentas controlar lo que no es tuyo (la opinión de otros, el clima, la economía, el pasado), serás un esclavo perpetuo, ansioso y frustrado. Si te centras solo en lo que es tuyo (tus juicios, tus acciones, tu voluntad), serás invencible.
 
 **La Lección:**
 
