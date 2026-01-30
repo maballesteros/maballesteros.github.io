@@ -11,8 +11,14 @@ Analizaremos y neutralizaremos:
 *   La distorsión del debate: **straw man** y ataques a la identidad (**ad hominem**).
 *   La niebla mental: **gaslighting** y realidad disputada.
 *   La presión del grupo: **triangulación** (“todos piensan…”).
+*   La exclusión y los clubes: **coaliciones** y decisiones fuera de la mesa.
 *   Las **metas móviles** (moving goalposts) y el cierre de criterios.
 *   Los castigos invisibles: **silencio** y **deuda emocional** (love bombing).
+*   La culpa como arma: **moralización** y chantaje ético.
+*   El giro sucio de roles: **DARVO** y provocación.
+*   El borrado del mérito: **crédito robado**.
+*   Las trampas sin salida: **doble vínculo** y ambigüedad calculada.
+*   La negociación que te mueve la mente: **anclaje** y concesiones.
 *   La dilación y la falta de compromiso.
 *   El contacto físico no solicitado ("tocar sin permiso").
 *   La dinámica **Teacher-Pupil** (cuando te explican lo obvio).
