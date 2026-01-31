@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { Link, useLocation } from 'react-router-dom';
 
 import { useAppStore } from '@/store/appStore';
-import type { Objective, Work, WorkVisibility } from '@/types';
+import type { Objective, Work, WorkScheduleKind, WorkVisibility } from '@/types';
 import type { WorkUpdateInput } from '@/services/workService';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { ObjectiveChip } from '@/components/ObjectiveChip';
@@ -20,6 +20,8 @@ interface WorkFormState {
   objectiveId: string;
   parentWorkId: string;
   nodeType: string;
+  scheduleKind: string;
+  scheduleNumber: number;
   tags: string[];
   orderHint: number;
   nextWorkId: string;
@@ -44,6 +46,8 @@ const EMPTY_FORM: WorkFormState = {
   objectiveId: '',
   parentWorkId: '',
   nodeType: '',
+  scheduleKind: '',
+  scheduleNumber: 1,
   tags: [],
   orderHint: 0,
   nextWorkId: '',
@@ -58,6 +62,9 @@ const EMPTY_FORM: WorkFormState = {
 
 const normalizeTagsSelection = (tags: string[]): string[] =>
   Array.from(new Set((tags ?? []).map((tag) => tag.trim().toLowerCase()).filter(Boolean)));
+
+const isWorkScheduleKind = (value: unknown): value is WorkScheduleKind =>
+  value === 'day_of_year' || value === 'day_of_month' || value === 'day_of_week';
 
 interface FeedbackMessage {
   type: 'success' | 'error';
@@ -160,6 +167,7 @@ function WorkViewCard({
       application: 'Aplicación',
       technique: 'Técnica',
       drill: 'Drill',
+      reading: 'Lectura',
       style: 'Estilo',
       link: 'Link',
       work: 'Trabajo'
@@ -171,6 +179,7 @@ function WorkViewCard({
       application: 'border-amber-500/40 bg-amber-500/15 text-amber-100',
       technique: 'border-emerald-500/40 bg-emerald-500/15 text-emerald-100',
       drill: 'border-purple-500/40 bg-purple-500/15 text-purple-100',
+      reading: 'border-fuchsia-500/40 bg-fuchsia-500/15 text-fuchsia-100',
       style: 'border-white/20 bg-white/10 text-white/70',
       link: 'border-white/20 bg-white/10 text-white/70',
       work: 'border-white/20 bg-white/10 text-white/70'
@@ -193,6 +202,7 @@ function WorkViewCard({
       application: 'border-amber-500/25',
       technique: 'border-emerald-500/25',
       drill: 'border-purple-500/25',
+      reading: 'border-fuchsia-500/25',
       work: 'border-white/10'
     };
 
@@ -202,6 +212,7 @@ function WorkViewCard({
       application: 'bg-amber-500',
       technique: 'bg-emerald-500',
       drill: 'bg-purple-500',
+      reading: 'bg-fuchsia-500',
       work: ''
     };
 
@@ -211,6 +222,7 @@ function WorkViewCard({
       application: 'bg-amber-400/60',
       technique: 'bg-emerald-400/60',
       drill: 'bg-purple-400/60',
+      reading: 'bg-fuchsia-400/60',
       work: 'bg-white/10'
     };
 
@@ -530,6 +542,8 @@ function WorkEditCard({
   const indentStyle = depth > 0 ? { marginLeft: `${depth * 1.5}rem` } : undefined;
   const nameInputId = form.id ? `work-name-${form.id}` : undefined;
   const subtitleInputId = form.id ? `work-subtitle-${form.id}` : undefined;
+  const normalizedNodeType = (form.nodeType ?? '').trim().toLowerCase();
+  const showSchedule = normalizedNodeType === 'reading' || form.scheduleKind.trim().length > 0;
 
   return (
     <article
@@ -661,6 +675,38 @@ function WorkEditCard({
             }}
           />
         </div>
+        {showSchedule ? (
+          <>
+            <div className="grid gap-2">
+              <label className="text-xs uppercase tracking-wide text-white/40">Schedule (para lecturas)</label>
+              <select
+                className="input-field disabled:opacity-60"
+                value={form.scheduleKind}
+                onChange={(event) => onFieldChange({ scheduleKind: event.target.value })}
+                disabled={!canEditContent}
+              >
+                <option value="">Sin schedule</option>
+                <option value="day_of_year">Día del año (1-365)</option>
+                <option value="day_of_month">Día del mes (1-31)</option>
+                <option value="day_of_week">Día de la semana (0-6)</option>
+              </select>
+              <p className="text-xs text-white/40">
+                Para `nodeType=reading`, el planificador solo propone esta lectura cuando el día coincide.
+              </p>
+            </div>
+            <div className="grid gap-2">
+              <label className="text-xs uppercase tracking-wide text-white/40">Número</label>
+              <input
+                type="number"
+                min={0}
+                className="input-field disabled:opacity-60"
+                value={form.scheduleNumber}
+                onChange={(event) => onFieldChange({ scheduleNumber: Number(event.target.value) })}
+                disabled={!canEditContent || !form.scheduleKind}
+              />
+            </div>
+          </>
+        ) : null}
         <div className="grid gap-2">
           <label className="text-xs uppercase tracking-wide text-white/40">Order hint (opcional)</label>
           <input
@@ -1273,6 +1319,8 @@ export default function CatalogView() {
             objectiveId: work.objectiveId,
             parentWorkId: work.parentWorkId ?? '',
             nodeType: work.nodeType ?? '',
+            scheduleKind: work.schedule?.kind ?? '',
+            scheduleNumber: work.schedule?.number ?? 1,
             tags: work.tags ?? [],
             orderHint: work.orderHint ?? 0,
             nextWorkId: work.nextWorkId ?? '',
@@ -1329,6 +1377,8 @@ export default function CatalogView() {
           objectiveId: work.objectiveId,
           parentWorkId: work.parentWorkId ?? '',
           nodeType: work.nodeType ?? '',
+          scheduleKind: work.schedule?.kind ?? '',
+          scheduleNumber: work.schedule?.number ?? 1,
           tags: work.tags ?? [],
           orderHint: work.orderHint ?? 0,
           nextWorkId: '',
@@ -1421,6 +1471,13 @@ export default function CatalogView() {
     const parentWorkId = parentValue.length > 0 ? parentValue : undefined;
     const nodeTypeValue = entry.data.nodeType.trim();
     const nodeType = nodeTypeValue.length > 0 ? nodeTypeValue : undefined;
+    const scheduleKindRaw = (entry.data.scheduleKind ?? '').trim();
+    const scheduleKindCandidate = scheduleKindRaw.length > 0 ? scheduleKindRaw : undefined;
+    const scheduleKind = isWorkScheduleKind(scheduleKindCandidate) ? scheduleKindCandidate : undefined;
+    const scheduleNumberRaw = Number(entry.data.scheduleNumber);
+    const scheduleNumber = Number.isFinite(scheduleNumberRaw) ? Math.trunc(scheduleNumberRaw) : undefined;
+    const effectiveScheduleKind = (nodeType ?? '').trim().toLowerCase() === 'reading' ? scheduleKind : undefined;
+    const effectiveScheduleNumber = effectiveScheduleKind ? scheduleNumber : undefined;
     const tags = normalizeTagsSelection(entry.data.tags ?? []);
     const orderHint = Number(entry.data.orderHint) > 0 ? Number(entry.data.orderHint) : undefined;
     const nextValue = (entry.data.nextWorkId ?? '').trim();
@@ -1433,6 +1490,8 @@ export default function CatalogView() {
       subtitle: entry.data.subtitle.trim() || undefined,
       objectiveId: entry.data.objectiveId,
       nodeType,
+      scheduleKind: effectiveScheduleKind,
+      scheduleNumber: effectiveScheduleNumber,
       tags,
       orderHint,
       nextWorkId,
@@ -1497,6 +1556,8 @@ export default function CatalogView() {
             objectiveId: payload.objectiveId,
             parentWorkId: payload.parentWorkId,
             nodeType: payload.nodeType,
+            scheduleKind: payload.scheduleKind,
+            scheduleNumber: payload.scheduleNumber,
             tags: payload.tags,
             orderHint: payload.orderHint,
             nextWorkId: payload.nextWorkId,
@@ -1524,6 +1585,8 @@ export default function CatalogView() {
           objectiveId: payload.objectiveId,
           parentWorkId: payload.parentWorkId ?? null,
           nodeType: payload.nodeType ?? null,
+          scheduleKind: payload.scheduleKind ?? null,
+          scheduleNumber: payload.scheduleKind ? payload.scheduleNumber ?? null : null,
           tags: payload.tags,
           orderHint: payload.orderHint ?? null,
           nextWorkId: payload.nextWorkId ?? null,

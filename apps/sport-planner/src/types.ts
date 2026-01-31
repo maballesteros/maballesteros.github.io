@@ -34,6 +34,13 @@ export interface WorkTaxonomy {
   tags: TagDefinition[];
 }
 
+export type WorkScheduleKind = 'day_of_year' | 'day_of_month' | 'day_of_week';
+
+export interface WorkSchedule {
+  kind: WorkScheduleKind;
+  number: number;
+}
+
 export interface Work {
   id: string;
   name: string;
@@ -45,6 +52,7 @@ export interface Work {
   notes?: string;
   videoUrls: string[];
   nodeType?: string;
+  schedule?: WorkSchedule;
   tags: string[];
   orderHint?: number;
   nextWorkId?: string | null;

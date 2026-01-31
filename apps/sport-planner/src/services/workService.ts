@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
 import { supabase } from '@/lib/supabaseClient';
-import type { Work, WorkCollaborator, WorkVisibility } from '@/types';
+import type { Work, WorkCollaborator, WorkScheduleKind, WorkVisibility } from '@/types';
 
 interface WorkRow {
   id: string;
@@ -10,6 +10,8 @@ interface WorkRow {
   objective_id: string;
   parent_work_id?: string | null;
   node_type?: string | null;
+  schedule_kind?: string | null;
+  schedule_number?: number | null;
   tags?: unknown;
   order_hint?: number | null;
   next_work_id?: string | null;
@@ -39,6 +41,8 @@ export interface WorkCreateInput {
   objectiveId: string;
   parentWorkId?: string | null;
   nodeType?: string;
+  scheduleKind?: WorkScheduleKind;
+  scheduleNumber?: number;
   tags?: string[];
   orderHint?: number;
   nextWorkId?: string | null;
@@ -57,6 +61,8 @@ export interface WorkUpdateInput {
   objectiveId?: string;
   parentWorkId?: string | null;
   nodeType?: string | null;
+  scheduleKind?: WorkScheduleKind | null;
+  scheduleNumber?: number | null;
   tags?: string[];
   orderHint?: number | null;
   nextWorkId?: string | null;
@@ -81,6 +87,8 @@ const WORK_SELECT = `
   objective_id,
   parent_work_id,
   node_type,
+  schedule_kind,
+  schedule_number,
   tags,
   order_hint,
   next_work_id,
@@ -132,6 +140,16 @@ const parseTags = (value: unknown): string[] => {
   );
 };
 
+const isScheduleKind = (value: unknown): value is WorkScheduleKind =>
+  value === 'day_of_year' || value === 'day_of_month' || value === 'day_of_week';
+
+const parseSchedule = (kind: unknown, number: unknown): Work['schedule'] => {
+  if (!isScheduleKind(kind)) return undefined;
+  const numeric = typeof number === 'number' ? number : Number(number);
+  if (!Number.isFinite(numeric)) return undefined;
+  return { kind, number: Math.trunc(numeric) };
+};
+
 const mapCollaborators = (rows: WorkRow['work_collaborators']): WorkCollaborator[] =>
   (rows ?? []).map((collaborator) => ({
     id: `${collaborator.id}`,
@@ -158,6 +176,7 @@ const mapWorkRow = (
     objectiveId: row.objective_id,
     parentWorkId: row.parent_work_id ?? null,
     nodeType: row.node_type ?? undefined,
+    schedule: parseSchedule(row.schedule_kind, row.schedule_number),
     tags: parseTags(row.tags),
     orderHint: typeof row.order_hint === 'number' ? row.order_hint : undefined,
     nextWorkId: row.next_work_id ?? null,
@@ -199,6 +218,11 @@ export async function createWork(
   const ownerEmail = context.actorEmail.trim().toLowerCase();
 
   const nodeType = input.nodeType?.trim() ? input.nodeType.trim() : null;
+  const scheduleKind = input.scheduleKind ?? null;
+  const scheduleNumber =
+    typeof input.scheduleNumber === 'number' && Number.isFinite(input.scheduleNumber)
+      ? Math.trunc(input.scheduleNumber)
+      : null;
   const tags = parseTags(input.tags ?? []);
   const orderHint = typeof input.orderHint === 'number' && Number.isFinite(input.orderHint) ? input.orderHint : null;
   const nextWorkId = input.nextWorkId ?? null;
@@ -213,6 +237,8 @@ export async function createWork(
       objective_id: input.objectiveId,
       parent_work_id: input.parentWorkId ?? null,
       node_type: nodeType,
+      schedule_kind: scheduleKind,
+      schedule_number: scheduleNumber,
       tags,
       order_hint: orderHint,
       next_work_id: nextWorkId,
@@ -274,6 +300,8 @@ export async function updateWork(
   if (patch.objectiveId !== undefined) updatePayload.objective_id = patch.objectiveId;
   if (patch.parentWorkId !== undefined) updatePayload.parent_work_id = patch.parentWorkId;
   if (patch.nodeType !== undefined) updatePayload.node_type = patch.nodeType;
+  if (patch.scheduleKind !== undefined) updatePayload.schedule_kind = patch.scheduleKind;
+  if (patch.scheduleNumber !== undefined) updatePayload.schedule_number = patch.scheduleNumber;
   if (patch.tags !== undefined) updatePayload.tags = parseTags(patch.tags);
   if (patch.orderHint !== undefined) updatePayload.order_hint = patch.orderHint;
   if (patch.nextWorkId !== undefined) updatePayload.next_work_id = patch.nextWorkId;
