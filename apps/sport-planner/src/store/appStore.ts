@@ -27,7 +27,8 @@ import type {
   KungfuTodayLimitMode,
   WorkTaxonomy,
   NodeTypeDefinition,
-  TagDefinition
+  TagDefinition,
+  WorkScheduleKind
 } from '@/types';
 import { slugify } from '@/lib/slugify';
 import {
@@ -98,6 +99,7 @@ const DEFAULT_KUNGFU_TODAY_PLAN: KungfuTodayPlanConfig = {
     segment: 6,
     form: 15,
     drill: 4,
+    reading: 5,
     link: 2
   },
   focusSelectors: [],
@@ -148,6 +150,7 @@ const DEFAULT_WORK_TAXONOMY: WorkTaxonomy = {
     { key: 'application', label: 'Application' },
     { key: 'technique', label: 'Technique' },
     { key: 'drill', label: 'Drill' },
+    { key: 'reading', label: 'Reading' },
     { key: 'work', label: 'Work' },
     { key: 'link', label: 'Link' },
     { key: 'style', label: 'Style' }
@@ -533,6 +536,9 @@ const normalizeOptionalText = (value?: string | null): string | undefined => {
   return trimmed.length > 0 ? trimmed : undefined;
 };
 
+const isWorkScheduleKind = (value: unknown): value is WorkScheduleKind =>
+  value === 'day_of_year' || value === 'day_of_month' || value === 'day_of_week';
+
 const normalizeEmailList = (emails?: Array<string | null | undefined>): string[] =>
   Array.from(
     new Set(
@@ -549,6 +555,14 @@ const ensureWorkDefaults = (input: Partial<Work> & { id: string }): Work => {
   const variantOfWorkId = normalizeParentWorkId(input.variantOfWorkId ?? null);
   const nodeType = normalizeOptionalText(input.nodeType ?? undefined);
   const tags = normalizeTagList(input.tags);
+  const scheduleKind = isWorkScheduleKind(input.schedule?.kind) ? input.schedule?.kind : undefined;
+  const scheduleNumberRaw = input.schedule?.number;
+  const scheduleNumber = typeof scheduleNumberRaw === 'number' && Number.isFinite(scheduleNumberRaw)
+    ? Math.trunc(scheduleNumberRaw)
+    : undefined;
+  const schedule = scheduleKind && typeof scheduleNumber === 'number'
+    ? { kind: scheduleKind, number: scheduleNumber }
+    : undefined;
   const orderHint =
     typeof input.orderHint === 'number' && Number.isFinite(input.orderHint)
       ? input.orderHint
@@ -578,6 +592,7 @@ const ensureWorkDefaults = (input: Partial<Work> & { id: string }): Work => {
     objectiveId: input.objectiveId ?? '',
     parentWorkId,
     nodeType,
+    schedule,
     tags,
     orderHint,
     nextWorkId,

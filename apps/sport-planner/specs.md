@@ -1,6 +1,6 @@
 ## Sport Planner — Specs (single source of truth)
 
-Este documento describe **lo que hace hoy** Sport Planner según el código actual. También define la extensión prevista para incorporar `nodeType=reading` (dieta de información), dejando claro qué está implementado y qué es futuro.
+Este documento describe **lo que hace hoy** Sport Planner según el código actual. Debe mantenerse siempre sincronizado con el comportamiento real (modelo, persistencia y UI).
 
 ---
 
@@ -46,6 +46,7 @@ Contenido:
 
 Clasificación y grafo:
 - `nodeType?: string` (definiciones en `workTaxonomy.nodeTypes`)
+- `schedule?: { kind: 'day_of_year' | 'day_of_month' | 'day_of_week', number: number }` (solo se usa para `nodeType=reading`; ver sección 12)
 - `tags: string[]` (definiciones en `workTaxonomy.tags`)
 - `parentWorkId?: string | null` (jerarquía)
 - `nextWorkId?: string | null` (secuencia)
@@ -199,7 +200,7 @@ En modo vista, clases y personal comparten un componente de card con:
 - Permite colapsar grupos y colapsar ramas (trabajo padre ↔ hijos).
 - Cards tintadas por `nodeType` (badge + acento visual).
 - Permite crear/editar/duplicar/borrar works (si `canEdit`).
-- Campos editables clave: objetivo, parent, `nodeType`, `tags`, `orderHint`, `nextWorkId`, `variantOfWorkId`, markdown, vídeos, visibilidad y colaboradores.
+- Campos editables clave: objetivo, parent, `nodeType`, **schedule** (solo lecturas), `tags`, `orderHint`, `nextWorkId`, `variantOfWorkId`, markdown, vídeos, visibilidad y colaboradores.
 - Control de inclusión en personal:
   - Tag especial `personal-exclude` excluye el work del auto-planning personal.
 
@@ -213,6 +214,7 @@ Taxonomy:
 La configuración vive dentro del `Plan` personal (persistida en `planner_states`):
 - `cadence`: objetivos de días por `nodeType` + overrides por tags.
 - `todayPlan`: lista de grupos (N), límites y estrategias.
+  - `defaultMinutesByNodeType`: fallback de minutos por `nodeType` (incluye `reading`).
 
 **Grupos**
 Cada grupo puede definir:
@@ -229,6 +231,7 @@ Cada grupo puede definir:
 **Cadencia / due scoring**
 - El sistema calcula `lastSeen`/histórico desde sesiones personales.
 - Estima “vencido” con `targetDays` por `nodeType`, y usa el resultado previo para ponderar (en weighted).
+- **Lecturas (`nodeType=reading`) con schedule**: solo entran en el pool si su `schedule` coincide con la fecha activa (ver sección 12). Si no se leen, no se arrastran (regla strict por diseño: simplemente no “tocan” hasta la próxima ocurrencia).
 
 **Actualizar vs Recrear**
 - `Actualizar plan` añade ítems respetando límites, sin reemplazar lo ya existente.
@@ -244,6 +247,7 @@ Cada grupo puede definir:
 **Supabase**
 - `planner_states`: snapshot JSON por usuario, con debounce (last-write-wins).
 - `works`/`work_collaborators`: catálogo con RLS y refresco por Realtime.
+  - `works` incluye `schedule_kind` + `schedule_number` (para `nodeType=reading`), reflejados en cliente como `work.schedule`.
 
 **Backups**
 - `version: 1`
@@ -252,31 +256,23 @@ Cada grupo puede definir:
 
 ---
 
-### 12) Extensión prevista: `nodeType=reading` (dieta de información)
+### 12) Lecturas programadas (`nodeType=reading`) — dieta de información
 
-#### 12.1 Objetivo funcional
-Incorporar un tipo de Work `reading` que actúe como “post/lectura” curada para asegurar una dieta de información óptima (ej. *Diario del Guerrero*).
+Objetivo funcional:
+- Añadir ítems de tipo “post/lectura” para una dieta de información (ej. *Diario del Guerrero*), planificables automáticamente dentro de un grupo del plan personal.
 
-Requisitos:
-- Se planifica dentro de un grupo del plan personal (p.ej. “Diario del Guerrero”).
-- Tiene una **recurrencia** tipo calendario (día del año / mes / semana).
-- Regla strict: si no se lee, se ignora hasta la siguiente ocurrencia (no se arrastra).
+Implementación actual:
+- `Work.nodeType = 'reading'` (taxonomy).
+- `Work.schedule?: { kind, number }`:
+  - `kind = day_of_year` con `number` 1–366
+  - `kind = day_of_month` con `number` 1–31
+  - `kind = day_of_week` con `number` 0–6 (dayjs; 0=domingo)
+- Persistencia en Supabase: `works.schedule_kind` + `works.schedule_number` (con constraints).
+- Planner personal:
+  - Si el Work es `reading` y tiene `schedule`, solo entra en el pool cuando **la fecha activa coincide**.
+  - Regla strict: si no se lee, no se “arrastra” (simplemente no aparece hasta la siguiente ocurrencia).
 
-#### 12.2 Estado actual
-Hoy el motor personal solo tiene recurrencia a nivel de grupo por `daysOfWeek` y filtros por `tags/nodeType/ids`.
-No existe una regla de “día del año/mes/semana” a nivel de Work.
-
-#### 12.3 Diseño compatible (a implementar)
-Agregar una capa de “schedule matching” para Works `nodeType=reading`, con una de estas persistencias:
-
-- **Opción A (rápida, sin migración):** codificar schedule en `tags`.
-  - Ejemplos: `schedule:doy=030`, `schedule:dom=15`, `schedule:dow=5`, `schedule:woy=12`
-  - El planner filtra readings por la ocurrencia que toca “hoy”.
-
-- **Opción B (limpia, con migración):** campos estructurados en `works`.
-  - Ejemplo: `scheduleType` (`day_of_year` | `day_of_month` | `week_of_year`), `scheduleValue` (número), `scheduleDayOfWeek` (opcional), `scheduleStrict` (bool)
-
-Con esto, el grupo “Diario del Guerrero” podría incluir:
-- `include: [{ byNodeTypes: ['reading'], byTags: ['diario-del-guerrero'] }]`
-y el motor seleccionaría solo el reading correspondiente al día.
-
+Configuración típica:
+- Crear un grupo de tipo `work` con:
+  - `include: [{ byNodeTypes: ['reading'], byTags: ['diario-del-guerrero'] }]`
+  - límite por count (p.ej. `maxItems=1`) para mostrar solo la lectura del día.

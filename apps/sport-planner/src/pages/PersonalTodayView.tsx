@@ -18,6 +18,7 @@ import type {
   KungfuPlanGroupStrategy,
   KungfuPlanGroupType,
   Work,
+  WorkSchedule,
   Session,
   SessionWork
 } from '@/types';
@@ -99,6 +100,26 @@ function estimateWorkMinutes(work: Work, config: KungfuTodayPlanConfig): number 
   const nodeType = (work.nodeType ?? 'work').trim().toLowerCase() || 'work';
   const fallback = config.defaultMinutesByNodeType[nodeType] ?? config.defaultMinutesByNodeType.work ?? 3;
   return Math.max(0.25, Number(fallback) || 3);
+}
+
+function dayOfYear(date: dayjs.Dayjs): number {
+  return date.startOf('day').diff(date.startOf('year'), 'day') + 1;
+}
+
+function scheduleMatchesDate(schedule: WorkSchedule, todayIso: string): boolean {
+  const date = dayjs(todayIso);
+  const number = Math.trunc(Number(schedule.number));
+  if (!Number.isFinite(number)) return false;
+  switch (schedule.kind) {
+    case 'day_of_year':
+      return dayOfYear(date) === number;
+    case 'day_of_month':
+      return date.date() === number;
+    case 'day_of_week':
+      return date.day() === number;
+    default:
+      return false;
+  }
 }
 
 function getPlanGroups(plan: KungfuTodayPlanConfig): KungfuPlanGroupConfig[] {
@@ -281,6 +302,12 @@ function computeDueList(opts: {
 
   return works
     .filter((work) => isTrainableWork(work))
+    .filter((work) => {
+      const nodeType = (work.nodeType ?? '').trim().toLowerCase();
+      if (nodeType !== 'reading') return true;
+      if (!work.schedule) return true;
+      return scheduleMatchesDate(work.schedule, today);
+    })
     .filter((work) => !normalizeTags(work.tags).includes(PERSONAL_EXCLUDE_TAG))
     .map((work) => {
       const entry = history.get(work.id);

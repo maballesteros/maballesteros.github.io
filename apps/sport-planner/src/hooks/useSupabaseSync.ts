@@ -53,6 +53,7 @@ const DEFAULT_KUNGFU_TODAY_PLAN: KungfuTodayPlanConfig = {
     segment: 6,
     form: 15,
     drill: 4,
+    reading: 5,
     link: 2
   },
   focusSelectors: [],
@@ -103,6 +104,7 @@ const DEFAULT_WORK_TAXONOMY: WorkTaxonomy = {
     { key: 'application', label: 'Application' },
     { key: 'technique', label: 'Technique' },
     { key: 'drill', label: 'Drill' },
+    { key: 'reading', label: 'Reading' },
     { key: 'work', label: 'Work' },
     { key: 'link', label: 'Link' },
     { key: 'style', label: 'Style' }
