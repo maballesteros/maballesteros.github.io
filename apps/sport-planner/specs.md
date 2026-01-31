@@ -1,238 +1,282 @@
-## Sport Planner – Especificación de la SPA (estado actual del código)
+## Sport Planner — Specs (single source of truth)
 
-### 1. Contexto y propósito
-- Aplicación web de página única (SPA) para planificar clases o sesiones de entrenamiento.
-- SPA **100 % cliente**: no hay servidor propio, SSR ni endpoints personalizados; el bundle final se sirve como archivos estáticos.
-- Supabase es un requisito (auth + datos) consumido directamente desde el cliente:
-  - `planner_states`: snapshot JSON por usuario.
-  - `works` y `work_collaborators`: catálogo de trabajos compartible (visibilidad + colaboradores) con refresco por Realtime.
-- Despliegue bajo `/sport-planner/` (por ejemplo, en `maballesteros.com`). La navegación usa `HashRouter` (`#/…`) y Vite `base` para que rutas y assets funcionen en hosting estático.
+Este documento describe **lo que hace hoy** Sport Planner según el código actual. También define la extensión prevista para incorporar `nodeType=reading` (dieta de información), dejando claro qué está implementado y qué es futuro.
 
-### 2. Objetivos principales
-- Planificar sesiones por fecha, con título/descripcion/notas y hora de inicio.
-- Reutilizar sesiones (duplicar) y reutilizar trabajos desde catálogo.
-- Editar rápido la secuencia de trabajos dentro de una sesión (drag & drop) y ajustar duraciones.
-- Home móvil para la sesión “actual”: marcar trabajos completados, ver detalles (markdown + vídeos) y registrar asistencia real.
-- Planificador con calendario mensual (semanas empiezan en lunes) para crear/seleccionar sesiones.
-- Backups JSON para exportar/importar el estado completo.
+---
 
-### 3. Alcance y restricciones actuales
-- Autenticación obligatoria mediante Supabase (email + contraseña). Todas las rutas están detrás de `/login`.
-- Sincronización multi-dispositivo:
-  - Estado general (objetivos/sesiones/asistentes) vía `planner_states`.
-  - Catálogo de trabajos vía `works`/`work_collaborators` (propietario + colaboradores por email).
-- Offline: el estado se cachea en `localStorage` y la sesión de Supabase se persiste. Sin red se puede navegar y editar sesiones/objetivos/asistentes; la edición/creación del catálogo depende de Supabase.
-- No hay múltiples agendas, roles complejos, recordatorios ni notificaciones.
+### 1) Propósito (insight clave)
 
-### 4. Entidades principales (modelo real en la app)
-- **Usuario**
-  - Usuario autenticado de Supabase (`auth.users`). No existe un perfil adicional en la app.
+Sport Planner es un instrumento para dos usos, bajo el mismo modelo:
 
-- **Objetivo** (`Objective`)
-  - `id`, `name`, `colorHex`, `descriptionMarkdown`, `createdAt`, `updatedAt`.
+1. **Planificar y ejecutar clases** (sesiones manuales) para tus alumnos.
+2. **Eliminar fricción diaria** para implementar hábitos y construir identidad: kungfu (formas/técnicas/segmentos/aplicaciones), fuerza, baile y una **dieta de información** (lecturas curadas tipo “post” diario, como el *Diario del Guerrero*).
 
-- **Trabajo** (`Work`)
-  - Identidad y contenido: `id`, `name`, `subtitle`, `objectiveId`, `parentWorkId`, `descriptionMarkdown`, `estimatedMinutes`, `notes`, `videoUrls`, `createdAt`, `updatedAt`.
-  - Inventario/planificación: `nodeType`, `tags`, `orderHint`, `nextWorkId`, `variantOfWorkId`.
-  - Compartición: `visibility` (`private` | `shared` | `public`), `ownerId`, `ownerEmail`, `collaboratorEmails`, `collaborators`.
-  - Permisos efectivos (calculados): `canEdit`, `isOwner`.
+El producto está diseñado para que cada día puedas entrar y “ver” qué toca, ejecutarlo con mínimo coste, y registrar el histórico.
 
-- **Sesión** (`Session`)
-  - `id`, `date` (`YYYY-MM-DD`), `kind` (`class` | `personal`), `title`, `description`, `notes`, `startTime` (`HH:mm`), `workItems`, `attendance`, `createdAt`, `updatedAt`.
+---
 
-- **Trabajo en sesión** (`SessionWork`)
-  - `id`, `workId`, `order`, `focusLabel`, `customDescriptionMarkdown`, `customDurationMinutes`, `notes`, `completed`, `result`, `effort`.
+### 2) Arquitectura (tal cual)
 
-- **Asistente** (`Assistant`)
-  - `id`, `name`, `notes`, `active`, `createdAt`, `updatedAt`.
+- SPA (React + Vite + TypeScript), desplegada como archivos estáticos bajo `/sport-planner/`.
+- Router: `HashRouter` (`#/…`) para hosting estático (GitHub Pages / static hosting).
+- Estado: Zustand con persistencia en `localStorage`.
+- Supabase (consumido directamente desde el cliente):
+  - `planner_states`: snapshot JSON por usuario (estado completo).
+  - `works` + `work_collaborators`: catálogo compartible (visibilidad + colaboradores), refresco por Realtime.
+- No hay servidor propio ni endpoints custom.
 
-- **Asistencia por sesión** (`SessionAttendance`)
-  - `assistantId`
-  - `status` (previsión: `present` | `absent` | `pending`)
-  - `actualStatus` (real: `present` | `absent`)
-  - `notes`, `actualNotes`
+---
 
-### 5. Casos de uso clave (consistente con UI)
-1. **Home (próxima sesión)**:
-   - Selecciona automáticamente la sesión más cercana (incluida la de hoy).
-   - Permite marcar trabajos completados (`completed`), ver detalles, navegar por sesiones, y saltar a edición (link al planificador con `?session=<id>`).
-   - Permite marcar asistencia real (`actualStatus`) para asistentes activos.
+### 3) Modelo de dominio
 
-2. **Planificador (calendario mensual)**:
-   - Calendario mensual con inicio de semana en lunes.
-   - Lista de sesiones del mes + sesiones del día seleccionado.
-   - Crear sesión en el día seleccionado, duplicar una sesión al día seleccionado y eliminar sesiones.
-   - Editor completo de sesión con drag & drop y buscador del catálogo.
+#### 3.1 Objective
+Objetivos agrupan trabajos y aportan identidad visual (tinte de cards).
 
-3. **Personal (Kung Fu)**:
-   - `Personal > Hoy`: plan directo basado en programas + cadencias + histórico de sesiones personales, con registro rápido (`OK/Dudosa/Fallo` + RPE) y recap.
-   - `Personal > Sesiones`: histórico y edición de sesiones personales (sin asistencia).
-   - `Personal > Ajustes`: edita `kungfuPrograms`, `kungfuCadence` y `kungfuTodayPlan`.
+Campos: `id`, `name`, `colorHex`, `descriptionMarkdown`, `createdAt`, `updatedAt`.
 
-4. **Editar sesión**:
-   - Editar título, fecha, hora de inicio, descripción y notas.
-   - Añadir trabajos desde catálogo (búsqueda por nombre/objetivo/descripción/ruta de derivación).
-   - Reordenar trabajos con drag & drop.
-   - Ajustar foco, duración y descripción personalizada; duplicar un ítem; sustituir el trabajo por otro del catálogo.
-   - Editar previsión de asistencia (`status`) por asistente.
+#### 3.2 Work (catálogo)
+Un `Work` es un ítem reutilizable que puede planificarse en sesiones.
 
-5. **Catálogo de trabajos**:
-   - Vista jerárquica (trabajos “Deriva de …” vía `parentWorkId`) y agrupada por objetivos.
-   - Crear/editar/duplicar/eliminar trabajos (si `canEdit`).
-   - Configurar visibilidad (`private/shared/public`) y colaboradores (emails) con rol `editor`.
-   - Detalles: markdown + embeds de YouTube.
+Contenido:
+- `name`, `subtitle`
+- `descriptionMarkdown` (markdown)
+- `notes` (markdown libre)
+- `videoUrls` (URLs; YouTube)
+- `estimatedMinutes`
 
-6. **Backups**:
-   - Exporta un JSON versionado.
-   - Importa un JSON y sobrescribe el estado local actual (sin paso previo de confirmación en la UI).
+Clasificación y grafo:
+- `nodeType?: string` (definiciones en `workTaxonomy.nodeTypes`)
+- `tags: string[]` (definiciones en `workTaxonomy.tags`)
+- `parentWorkId?: string | null` (jerarquía)
+- `nextWorkId?: string | null` (secuencia)
+- `variantOfWorkId?: string | null` (variante)
+- `orderHint?: number` (orden auxiliar entre hermanos)
 
-### 6. UX (lo que hace hoy la app)
-- Cabecera sticky con navegación: `Home`, `Personal`, `Planificar`, `Trabajos`, `Objetivos`, `Asistentes`, `Backups`.
-- Home optimizada para móvil: checklist de trabajos, horarios calculados desde `startTime` + duraciones, detalles colapsables y panel “asistencia en vivo”.
-- Planificador con calendario mensual y editor integrado.
-- Contenido de trabajos:
-  - Markdown con soporte GFM y enlaces externos abriendo en nueva pestaña.
-  - Embeds de YouTube inline usando `youtube-nocookie.com` + enlace “Abrir en YouTube”.
-  - En la Home, el markdown de trabajos puede autovincular nombres de trabajos al catálogo.
+Colaboración (Supabase):
+- `visibility`: `private | shared | public`
+- `ownerId` / `ownerEmail`
+- `collaborators` / `collaboratorEmails`
+- flags calculadas en cliente: `canEdit`, `isOwner`
 
-### 7. Flujos resumidos (tal como se comporta hoy)
-- **Duplicar sesión**:
-  1. Seleccionar el día destino en el planificador.
-  2. Pulsar “Duplicar” sobre una sesión del día.
-  3. Se crea una copia con título `"<título> (copia)"` y `workItems` clonados (incluyendo su estado actual).
+#### 3.3 Session
+Una sesión es una ejecución planificada en un día (`YYYY-MM-DD`).
 
-- **Registro de asistencia**:
-  1. Mantener una lista de asistentes con `active=true`.
-  2. En el editor de sesión: marcar previsión (`status`).
-  3. En la Home: marcar asistencia real (`actualStatus`).
+Campos:
+- `id`, `date`, `title`, `description`, `notes`, `startTime`
+- `kind`: `class | personal`
+- `planId`: referencia al Plan que gobierna esa “agenda”
+- `workItems: SessionWork[]`
+- `attendance: SessionAttendance[]` (relevante en clases)
+- `notesByGroupId?: Record<string,string>` (notas por grupo en personal)
+- `createdAt`, `updatedAt`
 
-- **Exportar/Importar JSON**:
-  - Export: descarga un JSON con colecciones y tablas relacionales.
-  - Import: carga y aplica el JSON; tras importar se muestra un resumen de conteos.
+#### 3.4 SessionWork
+Un Work dentro de una sesión:
+- `id`, `workId`, `order`
+- personalización por sesión: `focusLabel`, `customDescriptionMarkdown`, `customDurationMinutes`, `notes`
+- tracking:
+  - `completed: boolean`
+  - `result?: ok | doubt | fail`
+  - `effort?: number` (puede existir en datos; su presencia en UI ha ido variando)
 
-### 8. Persistencia y sincronización
-- **LocalStorage** (cache/offline). Claves:
-  - `sport-planner-objetivos`
-  - `sport-planner-trabajos`
-  - `sport-planner-sesiones`
-  - `sport-planner-asistentes`
-  - `sport-planner-kungfu-programs`
-  - `sport-planner-kungfu-cadence`
-  - `sport-planner-kungfu-today-plan`
+#### 3.5 Assistant + SessionAttendance
+Asistentes (alumnos) y asistencia por sesión:
+- `Assistant`: `id`, `name`, `notes`, `active`, timestamps
+- `SessionAttendance`: `assistantId`, `status` (previsión), `actualStatus` (real), `notes`, `actualNotes`
 
-- **Supabase (actual)**:
-  - `planner_states`:
-    - En login: descarga `data` del usuario (o lo inicializa con el estado local).
-    - En cambios: sube un snapshot con debounce (~600 ms).
-    - En logout: se resetea el estado local.
-    - `data` incluye también configuración de Personal Kung Fu (`kungfuPrograms`, `kungfuCadence`, `kungfuTodayPlan`).
-  - `works`/`work_collaborators`:
-    - El catálogo se carga desde Supabase y se vuelve a cargar cuando hay cambios (Realtime `postgres_changes`).
-    - La UI se apoya en `canEdit`/`isOwner` calculados en cliente; el filtrado real depende de RLS.
+#### 3.6 Plan
+Un Plan es una configuración con nombre y tipo:
+- `id`, `name`, `kind` (`class | personal`), `enabled`
+- En personal: `cadence` + `todayPlan`
 
-### 9. Arquitectura y stack
-- React + Vite + TypeScript.
-- Router: `HashRouter` (rutas `#/…`) para evitar configuración adicional del servidor en GitHub Pages.
-- Estado: Zustand con persistencia en `localStorage` y sincronización con Supabase vía hooks.
-- Build: Vite genera el bundle en `sport-planner/` con `base: "/sport-planner/"`.
+---
 
-### 10. Requisitos no funcionales
-- Rendimiento fluido en mobile (Home) y desktop (editor/catálogo).
-- Accesibilidad básica (navegación con teclado, contraste).
-- Seguridad basada en RLS de Supabase (datos por usuario + catálogo con visibilidad/colaboradores).
+### 4) Navegación y pantallas (rutas reales)
 
-### 11. Exportación / Importación
-- Formato exportado (versión 1):
-  ```json
-  {
-    "version": 1,
-    "usuarios": [],
-    "objetivos": [],
-    "trabajos": [],
-    "sesiones": [],
-    "sesiones_trabajos": [],
-    "asistentes": [],
-    "sesiones_asistencias": [],
-    "kungfuPrograms": [],
-    "kungfuCadence": {},
-    "kungfuTodayPlan": {}
-  }
-  ```
-- Importación: soporta `version: 1` y sobrescribe el estado local actual.
+Cabecera fija (menú):
+- `Sesiones` (`/`)
+- `Trabajos` (`/catalog`)
+- `Ajustes` (`/settings`)
+- `Objetivos` (`/objectives`)
+- `Asistentes` (`/assistants`)
+- `Backups` (`/backups`)
 
-### 12. Consideraciones futuras (no implementadas)
-- Reporte de asistencia por alumno y métricas por objetivo.
-- Compartir sesiones por enlace o PDF.
-- Etiquetas adicionales (nivel, equipamiento necesario).
-- Mejorar autosave/conflictos (no hay resolución de conflictos entre dispositivos).
+Rutas adicionales existentes:
+- `personal/sessions` (histórico personal)
+- `personal` redirige a `/?plan=personal-kungfu`
+- `catalog/taxonomy` (editor de taxonomy)
+- `plan` (Planner legacy; el flujo principal actual está en `Sesiones`)
 
-### 13. Próximos pasos sugeridos
-- Definir estrategia de conflictos para `planner_states` (por ejemplo, “last write wins” explícito, o merge).
-- Documentar y endurecer las políticas RLS de `works`/`work_collaborators`.
+Login obligatorio (`/login`).
 
-### 14. Integración Supabase
+---
 
-1. **Variables de entorno**  
-   Crear un `.env.local` en `apps/sport-planner`:
-   ```
-   VITE_SUPABASE_URL=https://<tu-proyecto>.supabase.co
-   VITE_SUPABASE_ANON_KEY=<tu-anon-key>
-   ```
+### 5) Sesiones (vista unificada por Plan)
 
-2. **Tabla `planner_states`**  
-   Tabla para el snapshot por usuario:
-   ```sql
-   create table planner_states (
-     id uuid primary key default gen_random_uuid(),
-     user_id uuid not null unique references auth.users on delete cascade,
-     data jsonb not null,
-     updated_at timestamptz not null default now()
-   );
+`/` muestra una vista unificada con tabs por Plan activo. Según `Plan.kind`:
 
-   alter table planner_states enable row level security;
+- `class` → UI de clases (manual, con calendario).
+- `personal` → UI personal (por fecha, con grupos y progreso).
 
-   create policy "allow individual access"
-     on planner_states
-     for all
-     using (auth.uid() = user_id)
-     with check (auth.uid() = user_id);
-   ```
+---
 
-3. **Tablas del catálogo (`works`, `work_collaborators`)**  
-   Estructura mínima esperada por el cliente (ajustable):
-   ```sql
-   create type work_visibility as enum ('private', 'shared', 'public');
+### 6) Clases (plan manual)
 
-   create table works (
-     id text primary key,
-     name text not null,
-     subtitle text,
-     objective_id text not null,
-     parent_work_id text references works(id) on delete set null,
-     description_markdown text not null default '',
-     estimated_minutes integer,
-     notes text,
-     video_urls jsonb not null default '[]'::jsonb,
-     visibility work_visibility not null default 'private',
-     owner_id uuid not null references auth.users(id) on delete cascade,
-     owner_email text not null default '',
-     created_at timestamptz not null default now(),
-     updated_at timestamptz not null default now()
-   );
+**Calendario**
+- Calendario mensual para saltar de día y gestionar sesiones.
+- Crear, duplicar y eliminar sesiones.
 
-   create table work_collaborators (
-     id uuid primary key default gen_random_uuid(),
-     work_id text not null references works(id) on delete cascade,
-     email text not null,
-     role text not null default 'editor',
-     user_id uuid references auth.users(id) on delete set null,
-     created_at timestamptz not null default now(),
-     unique (work_id, email)
-   );
-   ```
-   Notas:
-   - El cliente decide “solo lectura” si el actor no es propietario y su email no está en `work_collaborators`.
-   - El filtrado de “qué trabajos puedo ver” depende de RLS (el cliente hace `select` a `works` y asume que ya está filtrado).
+**Header por sesión**
+- Fecha + título.
+- Duración estimada (suma de duraciones).
+- Progreso (ítems completados).
+- Switch `Vista/Editar`.
+- “Ir a fecha”.
 
-4. **Realtime**  
-   El cliente se suscribe a `postgres_changes` en `public.works` y `public.work_collaborators` para recargar el catálogo cuando cambie.
+**Vista**
+- Lista de works con card unificada (checkbox).
+- Detalle expandible (markdown + vídeos).
+- “Última vez” (calculada a partir de sesiones anteriores del mismo plan de clases, si existe).
+- Asistencia “en vivo” para asistentes activos (marcar presentes/ausentes).
+
+**Editar**
+- `SessionEditor`: reordenar (drag&drop), añadir desde catálogo, swap, duplicar item, eliminar, ajustar duración/descr/foco.
+- Previsión de asistencia (status) editable.
+
+---
+
+### 7) Personal (plan automático por día)
+
+**Navegación**
+- La sesión personal es por fecha (prev / hoy / next + date picker).
+- Switch `Vista/Editar`.
+
+**Header**
+- Duración estimada.
+- Progreso global:
+  - works: “done” si `completed` o `result` definido.
+  - grupos “nota”: “done” si el texto no está vacío.
+- Acciones de planificación:
+  - `Actualizar plan`
+  - `Recrear sesión`
+
+**Vista**
+- Render por grupos.
+- Cards unificadas con:
+  - checkbox = marcar hecho (en personal marca `completed=true` y `result=ok`).
+  - tags visibles.
+  - “Última vez” en pequeño (desde histórico personal).
+  - detalle expandible (markdown + vídeos) y acción “Editar en catálogo” dentro del detalle.
+- Grupos “nota”: textarea con autosave al perder foco; si vacío ⇒ no hecho.
+
+**Editar**
+- `SessionEditor` reutilizado para reordenar/swap/add/remove.
+- En personal se ocultan los campos meta de sesión en el editor (título/fecha/desc/notas), porque la fecha se controla desde el header y las notas son por grupo.
+
+---
+
+### 8) Card unificada (modo vista)
+
+En modo vista, clases y personal comparten un componente de card con:
+- checkbox principal de “hecho”
+- número de orden (cambia de estilo al marcar)
+- tinte por `Objective.colorHex` + badge del objective
+- título + “extra en azul” (normalmente `focusLabel` si representa un foco interno real)
+- tags visibles
+- “Última vez” (pequeño)
+- detalle expandible:
+  - `descriptionMarkdown`
+  - `notes`
+  - grid de vídeos (3 columnas en desktop)
+  - acciones dentro del detalle (según pantalla)
+
+---
+
+### 9) Catálogo (Works)
+
+`/catalog`:
+- Agrupa por objetivo y muestra jerarquía por `parentWorkId`.
+- Permite colapsar grupos y colapsar ramas (trabajo padre ↔ hijos).
+- Cards tintadas por `nodeType` (badge + acento visual).
+- Permite crear/editar/duplicar/borrar works (si `canEdit`).
+- Campos editables clave: objetivo, parent, `nodeType`, `tags`, `orderHint`, `nextWorkId`, `variantOfWorkId`, markdown, vídeos, visibilidad y colaboradores.
+- Control de inclusión en personal:
+  - Tag especial `personal-exclude` excluye el work del auto-planning personal.
+
+Taxonomy:
+- `catalog/taxonomy` permite crear/borrar `nodeTypes` y `tags` (borrado bloqueado si están en uso).
+
+---
+
+### 10) Configuración del plan personal (algoritmo actual)
+
+La configuración vive dentro del `Plan` personal (persistida en `planner_states`):
+- `cadence`: objetivos de días por `nodeType` + overrides por tags.
+- `todayPlan`: lista de grupos (N), límites y estrategias.
+
+**Grupos**
+Cada grupo puede definir:
+- `type`: `work` o `note`
+- `daysOfWeek` (0=domingo … 6=sábado)
+- `include[]` / `exclude[]` por:
+  - `byNodeTypes`
+  - `byTags` (AND)
+  - `byWorkIds`
+- `strategy`: `overdue` o `weighted`
+- `hierarchyRule`: `allow_all` o `prefer_leaves`
+- límites: por `count` / `minutes` / `both`
+
+**Cadencia / due scoring**
+- El sistema calcula `lastSeen`/histórico desde sesiones personales.
+- Estima “vencido” con `targetDays` por `nodeType`, y usa el resultado previo para ponderar (en weighted).
+
+**Actualizar vs Recrear**
+- `Actualizar plan` añade ítems respetando límites, sin reemplazar lo ya existente.
+- `Recrear sesión` conserva lo registrado (done/result) y notas, elimina el resto y vuelve a planificar.
+
+---
+
+### 11) Persistencia, sync y backups
+
+**Local**
+- Zustand persiste colecciones en `localStorage` (objetivos, works, sesiones, asistentes, planes, taxonomy, config personal).
+
+**Supabase**
+- `planner_states`: snapshot JSON por usuario, con debounce (last-write-wins).
+- `works`/`work_collaborators`: catálogo con RLS y refresco por Realtime.
+
+**Backups**
+- `version: 1`
+- export/import incluye: objetivos, works, sesiones, asistentes, relaciones, planes, config personal y taxonomy.
+- importar sobrescribe estado (sin undo).
+
+---
+
+### 12) Extensión prevista: `nodeType=reading` (dieta de información)
+
+#### 12.1 Objetivo funcional
+Incorporar un tipo de Work `reading` que actúe como “post/lectura” curada para asegurar una dieta de información óptima (ej. *Diario del Guerrero*).
+
+Requisitos:
+- Se planifica dentro de un grupo del plan personal (p.ej. “Diario del Guerrero”).
+- Tiene una **recurrencia** tipo calendario (día del año / mes / semana).
+- Regla strict: si no se lee, se ignora hasta la siguiente ocurrencia (no se arrastra).
+
+#### 12.2 Estado actual
+Hoy el motor personal solo tiene recurrencia a nivel de grupo por `daysOfWeek` y filtros por `tags/nodeType/ids`.
+No existe una regla de “día del año/mes/semana” a nivel de Work.
+
+#### 12.3 Diseño compatible (a implementar)
+Agregar una capa de “schedule matching” para Works `nodeType=reading`, con una de estas persistencias:
+
+- **Opción A (rápida, sin migración):** codificar schedule en `tags`.
+  - Ejemplos: `schedule:doy=030`, `schedule:dom=15`, `schedule:dow=5`, `schedule:woy=12`
+  - El planner filtra readings por la ocurrencia que toca “hoy”.
+
+- **Opción B (limpia, con migración):** campos estructurados en `works`.
+  - Ejemplo: `scheduleType` (`day_of_year` | `day_of_month` | `week_of_year`), `scheduleValue` (número), `scheduleDayOfWeek` (opcional), `scheduleStrict` (bool)
+
+Con esto, el grupo “Diario del Guerrero” podría incluir:
+- `include: [{ byNodeTypes: ['reading'], byTags: ['diario-del-guerrero'] }]`
+y el motor seleccionaría solo el reading correspondiente al día.
+
