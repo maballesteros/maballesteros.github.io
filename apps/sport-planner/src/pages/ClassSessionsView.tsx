@@ -8,8 +8,8 @@ import { useAppStore } from '@/store/appStore';
 import type { Session, AttendanceStatus, SessionAttendance, ActualAttendanceStatus, Objective, Work } from '@/types';
 import { ObjectiveChip } from '@/components/ObjectiveChip';
 import { MarkdownContent } from '@/components/MarkdownContent';
-import { YouTubePreview } from '@/components/YouTubePreview';
 import { SessionEditor } from '@/components/SessionEditor';
+import { SessionWorkViewCard } from '@/components/SessionWorkViewCard';
 import { formatMinutesToTime, parseTimeToMinutes } from '@/utils/time';
 import { getCalendarMatrix, isSameDate } from '@/utils/dates';
 
@@ -309,6 +309,19 @@ export default function ClassSessionsView() {
     const percent = total > 0 ? Math.round((done / total) * 100) : 0;
     return { total, done, percent };
   }, [activeSession?.workItems]);
+
+  const lastSeenByWorkId = useMemo(() => {
+    const map = new Map<string, string>();
+    if (!activeSession) return map;
+    sortedSessions.forEach((session) => {
+      if (session.date >= activeSession.date) return;
+      session.workItems.forEach((item) => {
+        if (!item.workId) return;
+        map.set(item.workId, session.date);
+      });
+    });
+    return map;
+  }, [sortedSessions, activeSession]);
 
   const updateSearchParamSession = (nextId: string | undefined) => {
     const next = new URLSearchParams(searchParams);
@@ -851,126 +864,55 @@ export default function ClassSessionsView() {
             </div>
           ) : (
             <>
-            {activeSession.description && (
-              <div className="rounded-2xl border border-white/5 bg-white/5 p-3 sm:p-4">
-                <MarkdownContent content={activeSession.description} />
-              </div>
-            )}
+              {activeSession.description && (
+                <div className="rounded-2xl border border-white/5 bg-white/5 p-3 sm:p-4">
+                  <MarkdownContent content={activeSession.description} />
+                </div>
+              )}
 
-            <div className="space-y-3 sm:space-y-4">
-              <h3 className="text-sm uppercase tracking-[0.3em] text-white/40">Trabajos</h3>
               <div className="space-y-3 sm:space-y-4">
-                {activeSession.workItems.map((item) => {
-                  const work = workMap.get(item.workId);
-                  const objective = work ? objectiveMap.get(work.objectiveId) : undefined;
-                  const isExpanded = expandedItems.has(item.id);
-                  const scheduleEntry = workSchedule.get(item.id);
-                  const startLabel = scheduleEntry?.startLabel ?? formatMinutesToTime(sessionStartMinutes);
-                  const durationMinutes = scheduleEntry?.duration ?? (item.customDurationMinutes ?? work?.estimatedMinutes ?? 0);
-                  const focusLabel = (item.focusLabel ?? '').trim();
-                  const hasFocus = focusLabel.length > 0;
-                  const descriptionContent = item.customDescriptionMarkdown ?? work?.descriptionMarkdown ?? '';
-                  const hasDescription = descriptionContent.trim().length > 0;
-                  const videoUrls = (work?.videoUrls ?? []).map((url) => url.trim()).filter(Boolean);
-                  const hasVideos = videoUrls.length > 0;
-                  const showDetailsToggle = hasDescription || hasVideos;
-                  const workSubtitle = (work?.subtitle ?? '').trim();
+                <h3 className="text-sm uppercase tracking-[0.3em] text-white/40">Trabajos</h3>
+                <div className="space-y-3 sm:space-y-4">
+                  {activeSession.workItems.map((item) => {
+                    const work = workMap.get(item.workId);
+                    const objective = work ? objectiveMap.get(work.objectiveId) : undefined;
+                    const isExpanded = expandedItems.has(item.id);
+                    const scheduleEntry = workSchedule.get(item.id);
+                    const startLabel = scheduleEntry?.startLabel ?? formatMinutesToTime(sessionStartMinutes);
+                    const durationMinutes =
+                      scheduleEntry?.duration ?? (item.customDurationMinutes ?? work?.estimatedMinutes ?? 0);
+                    const focusLabel = (item.focusLabel ?? '').trim();
+                    const descriptionContent = item.customDescriptionMarkdown ?? work?.descriptionMarkdown ?? '';
+                    const videoUrls = (work?.videoUrls ?? []).map((url) => url.trim()).filter(Boolean);
+                    const workSubtitle = (work?.subtitle ?? '').trim();
 
-                  return (
-                    <article
-                      key={item.id}
-                      className="flex flex-col gap-2.5 rounded-3xl border border-white/10 bg-white/5 p-2.5 shadow shadow-black/20 sm:gap-3 sm:p-4"
-                      style={
-                        objective
-                          ? {
-                              background: `linear-gradient(120deg, ${objective.colorHex}1a, rgba(15,23,42,0.8))`
-                            }
-                          : undefined
-                      }
-                    >
-                      <div className="flex items-start gap-3">
-                        <label className="mt-1 flex items-center gap-3 text-left">
-                          <input
-                            type="checkbox"
-                            className="h-5 w-5 rounded-full border-2 border-white/30 bg-transparent text-sky-400 transition focus:ring-sky-400"
-                            checked={item.completed ?? false}
-                            onChange={(event) => toggleCompletion(activeSession.id, item.id, event.target.checked)}
-                          />
-                        </label>
-                        <div className="flex-1 space-y-2">
-                          <div className="flex flex-wrap items-center justify-between gap-2">
-                            <div>
-                              <p className="text-lg font-semibold text-white">
-                                {work?.name ?? 'Trabajo eliminado'}
-                                {hasFocus ? <span className="ml-2 text-sky-300">· {focusLabel}</span> : null}
-                              </p>
-                              {workSubtitle ? <p className="text-sm text-white/70">{workSubtitle}</p> : null}
-                              <p className="text-sm text-white/60">
-                                <span className="text-xs uppercase tracking-wide text-white/40">{startLabel}</span>
-                                <span className="mx-2 text-white/30">·</span>
-                                <span>{durationMinutes} min</span>
-                              </p>
-                            </div>
-                            <ObjectiveChip objective={objective} size="sm" />
-                          </div>
-                          {(showDetailsToggle || hasVideos) && (
-                            <div className="flex items-center gap-3 text-xs text-white/50">
-                              {showDetailsToggle ? (
-                                <button
-                                  type="button"
-                                  onClick={() => toggleExpanded(item.id)}
-                                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/30 hover:text-white"
-                                >
-                                  <span className={clsx('transition-transform', isExpanded ? 'rotate-90' : 'rotate-0')}>
-                                    ▶
-                                  </span>
-                                  {isExpanded ? 'Ocultar detalles' : 'Ver detalles'}
-                                </button>
-                              ) : null}
-                              {hasVideos ? (
-                                <span>
-                                  {videoUrls.length} vídeo{videoUrls.length > 1 ? 's' : ''}
-                                </span>
-                              ) : null}
-                            </div>
-                          )}
-                        </div>
-                        <div
-                          className={clsx(
-                            'mt-1 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-xs font-semibold uppercase text-white/60',
-                            item.completed ? 'bg-white/20 text-white' : ''
-                          )}
-                        >
-                          {item.order + 1}
-                        </div>
-                      </div>
-                      {showDetailsToggle && isExpanded && (
-                        <div className="space-y-3 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                          {hasDescription ? <MarkdownContent content={descriptionContent} enableWorkLinks /> : null}
-                          {hasVideos ? (
-                            <div className="space-y-3">
-                              {videoUrls.map((url, index) => (
-                                <div key={`${item.id}-video-${index}`} className="space-y-2">
-                                  <YouTubePreview url={url} title={`${work?.name ?? 'Trabajo'} vídeo ${index + 1}`} />
-                                  <a
-                                    href={url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80 transition hover:border-white/30 hover:text-white"
-                                  >
-                                    Abrir en YouTube
-                                  </a>
-                                </div>
-                              ))}
-                            </div>
-                          ) : null}
-                        </div>
-                      )}
-                    </article>
-                  );
-                })}
+                    return (
+                      <SessionWorkViewCard
+                        key={item.id}
+                        title={work?.name ?? 'Trabajo eliminado'}
+                        titleExtra={focusLabel}
+                        subtitle={workSubtitle}
+                        objective={objective}
+                        checked={item.completed ?? false}
+                        onCheckedChange={(nextChecked) => toggleCompletion(activeSession.id, item.id, nextChecked)}
+                        orderNumber={(item.order ?? 0) + 1}
+                        startLabel={startLabel}
+                        durationMinutes={durationMinutes}
+                        tags={work?.tags}
+                        lastSeenLabel={
+                          lastSeenByWorkId.get(item.workId)
+                            ? dayjs(lastSeenByWorkId.get(item.workId)!).format('D MMM YYYY')
+                            : undefined
+                        }
+                        descriptionMarkdown={descriptionContent}
+                        videoUrls={videoUrls}
+                        isExpanded={isExpanded}
+                        onToggleExpanded={() => toggleExpanded(item.id)}
+                      />
+                    );
+                  })}
+                </div>
               </div>
-            </div>
             </>
           )}
 

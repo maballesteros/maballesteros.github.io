@@ -7,9 +7,8 @@ import { Menu, Transition } from '@headlessui/react';
 
 import { useAppStore } from '@/store/appStore';
 import { useAuth } from '@/contexts/useAuth';
-import { MarkdownContent } from '@/components/MarkdownContent';
-import { YouTubePreview } from '@/components/YouTubePreview';
 import { SessionEditor } from '@/components/SessionEditor';
+import { SessionWorkViewCard } from '@/components/SessionWorkViewCard';
 import type {
   KungfuProgramSelector,
   KungfuCadenceConfig,
@@ -40,12 +39,6 @@ const RESULT_STYLES: Record<TrainingResult, string> = {
   ok: 'border-emerald-500/50 bg-emerald-500/15 text-emerald-100 hover:border-emerald-400',
   doubt: 'border-amber-400/40 bg-amber-500/10 text-amber-200 hover:border-amber-300',
   fail: 'border-rose-500/50 bg-rose-500/10 text-rose-200 hover:border-rose-400'
-};
-
-const RESULT_CARD_STYLES: Record<TrainingResult, string> = {
-  ok: 'border-emerald-500/25 bg-emerald-500/10',
-  doubt: 'border-amber-400/25 bg-amber-500/10',
-  fail: 'border-rose-500/25 bg-rose-500/10'
 };
 
 function normalizeTags(tags: string[] | undefined): string[] {
@@ -505,16 +498,13 @@ export default function PersonalTodayView() {
   const cadenceFallback = useAppStore((state) => state.kungfuCadence);
   const todayPlanFallback = useAppStore((state) => state.kungfuTodayPlan);
 
-  const updateWork = useAppStore((state) => state.updateWork);
-  const { user } = useAuth();
+  useAuth();
 
   const addSession = useAppStore((state) => state.addSession);
   const addWorkToSession = useAppStore((state) => state.addWorkToSession);
   const updateSessionWorkDetails = useAppStore((state) => state.updateSessionWorkDetails);
   const updateSessionWorkItems = useAppStore((state) => state.updateSessionWorkItems);
   const updateSession = useAppStore((state) => state.updateSession);
-  const removeWorkFromSession = useAppStore((state) => state.removeWorkFromSession);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedPlanIdParam = (searchParams.get('plan') ?? '').trim();
 
@@ -590,21 +580,10 @@ export default function PersonalTodayView() {
   }, [works]);
 
   const worksById = useMemo(() => new Map(works.map((work) => [work.id, work])), [works]);
-
-  const actorContext = useMemo(
-    () =>
-      user
-        ? {
-            actorId: user.id,
-            actorEmail: user.email ?? ''
-          }
-        : null,
-    [user]
-  );
+  const objectiveById = useMemo(() => new Map(objectives.map((objective) => [objective.id, objective])), [objectives]);
 
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [noteDrafts, setNoteDrafts] = useState<Record<string, string>>({});
-  const [togglingWorkId, setTogglingWorkId] = useState<string | null>(null);
   const [expandedWorkDetails, setExpandedWorkDetails] = useState<Set<string>>(new Set());
 
   const ensureSession = useCallback(
@@ -999,36 +978,6 @@ export default function PersonalTodayView() {
     fillTodayPlan
   ]);
 
-  const logWork = (workId: string, result: TrainingResult) => {
-    try {
-      const session = ensureSession();
-      const existing = session.workItems.find((item) => item.workId === workId);
-
-      if (existing) {
-        updateSessionWorkDetails(session.id, existing.id, {
-          result,
-          completed: true
-        });
-      } else {
-        const created = addWorkToSession(session.id, { workId });
-        if (!created) {
-          throw new Error('No se pudo añadir el trabajo a la sesión.');
-        }
-        updateSessionWorkDetails(session.id, created.id, {
-          result,
-          completed: true
-        });
-      }
-
-      setFeedback({ type: 'success', text: 'Registrado.' });
-      window.setTimeout(() => setFeedback(null), 1800);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'No se pudo registrar.';
-      setFeedback({ type: 'error', text: message });
-      window.setTimeout(() => setFeedback(null), 2500);
-    }
-  };
-
   const todaysLoggedCount = activeSession
     ? activeSession.workItems.filter((item) => (item.completed ?? false) || typeof item.result !== 'undefined').length
     : 0;
@@ -1129,213 +1078,90 @@ export default function PersonalTodayView() {
   const renderEntry = (entry: DueWork) => {
     const work = entry.work;
     const tags = normalizeTags(work.tags);
-    const isExcluded = tags.includes(PERSONAL_EXCLUDE_TAG);
     const displayTags = tags.filter((tag) => tag !== PERSONAL_EXCLUDE_TAG);
-    const canTogglePersonal = (work.canEdit ?? false) && ((work.nodeType ?? '').trim().toLowerCase() !== 'style');
-    const isBusy = togglingWorkId === work.id;
     const isExpanded = expandedWorkDetails.has(work.id);
     const sessionItem = activeSession?.workItems.find((item) => item.workId === work.id);
     const currentResult = sessionItem?.result as TrainingResult | undefined;
     const isDone = Boolean(sessionItem?.completed ?? false) || typeof sessionItem?.result !== 'undefined';
 
-    const trimmedDescription = (work.descriptionMarkdown ?? '').trim();
-    const trimmedNotes = (work.notes ?? '').trim();
     const videoUrls = (work.videoUrls ?? []).map((url) => url.trim()).filter(Boolean);
-    const hasDetails = trimmedDescription.length > 0 || trimmedNotes.length > 0 || videoUrls.length > 0;
+    const objective = objectiveById.get(work.objectiveId);
+    const durationMinutes = sessionItem?.customDurationMinutes ?? work.estimatedMinutes ?? estimateWorkMinutes(work, todayPlan);
 
-    const togglePersonalIncluded = async () => {
-      if (!actorContext) {
-        setFeedback({ type: 'error', text: 'Inicia sesión para editar trabajos.' });
-        window.setTimeout(() => setFeedback(null), 2500);
+    const focusLabelRaw = (sessionItem?.focusLabel ?? '').trim();
+    const titleExtra = focusLabelRaw && activeWorkGroupNames.has(focusLabelRaw) ? '' : focusLabelRaw;
+
+    const statusPill =
+      currentResult
+        ? {
+            label: RESULT_LABELS[currentResult],
+            className: RESULT_STYLES[currentResult]
+          }
+        : undefined;
+
+    const toggleExpanded = () =>
+      setExpandedWorkDetails((prev) => {
+        const next = new Set(prev);
+        if (next.has(work.id)) next.delete(work.id);
+        else next.add(work.id);
+        return next;
+      });
+
+    const toggleDone = (nextChecked: boolean) => {
+      const session = ensureSession();
+      const existing = session.workItems.find((item) => item.workId === work.id);
+      if (!existing) {
+        const created = addWorkToSession(session.id, {
+          workId: work.id,
+          focusLabel: resolveGroupLabelForItem({ focusLabel: undefined }, work),
+          customDurationMinutes: durationMinutes
+        });
+        if (!created) return;
+        updateSessionWorkDetails(session.id, created.id, {
+          completed: nextChecked,
+          result: nextChecked ? 'ok' : undefined
+        });
         return;
       }
-      if (!canTogglePersonal) return;
-      setTogglingWorkId(work.id);
-      try {
-        const nextTags = isExcluded
-          ? displayTags
-          : Array.from(new Set([...displayTags, PERSONAL_EXCLUDE_TAG]));
-        await updateWork(work.id, { tags: nextTags }, actorContext);
-        setFeedback({
-          type: 'success',
-          text: isExcluded ? 'Incluido en el plan personal.' : 'Excluido del plan personal.'
+
+      if (nextChecked) {
+        updateSessionWorkDetails(session.id, existing.id, {
+          completed: true,
+          result: existing.result ?? 'ok'
         });
-        window.setTimeout(() => setFeedback(null), 1800);
-      } catch (error) {
-        console.error('No se pudo actualizar el trabajo', error);
-        setFeedback({ type: 'error', text: 'No se pudo actualizar el trabajo.' });
-        window.setTimeout(() => setFeedback(null), 2500);
-      } finally {
-        setTogglingWorkId(null);
+      } else {
+        updateSessionWorkDetails(session.id, existing.id, {
+          completed: false,
+          result: undefined
+        });
       }
     };
 
     return (
-      <article
+      <SessionWorkViewCard
         key={work.id}
-        className={clsx(
-          'flex flex-col gap-3 rounded-3xl border p-4 shadow shadow-black/15',
-          currentResult ? RESULT_CARD_STYLES[currentResult] : 'border-white/10 bg-white/5'
-        )}
-      >
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1">
-            <div className="flex items-start gap-3">
-              {hasDetails ? (
-                <button
-                  type="button"
-                  onClick={() =>
-                    setExpandedWorkDetails((prev) => {
-                      const next = new Set(prev);
-                      if (next.has(work.id)) {
-                        next.delete(work.id);
-                      } else {
-                        next.add(work.id);
-                      }
-                      return next;
-                    })
-                  }
-                  className={clsx(
-                    'mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white',
-                    isExpanded ? 'rotate-90 border-white/30 text-white' : ''
-                  )}
-                  aria-label={isExpanded ? 'Ocultar detalles' : 'Ver detalles'}
-                  title={isExpanded ? 'Ocultar detalles' : 'Ver detalles'}
-                >
-                  ▶
-                </button>
-              ) : null}
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="text-lg font-semibold text-white">{work.name}</p>
-                  {currentResult ? (
-                    <span
-                      className={clsx(
-                        'inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-semibold',
-                        RESULT_STYLES[currentResult]
-                      )}
-                    >
-                      {RESULT_LABELS[currentResult]}
-                    </span>
-                  ) : null}
-                </div>
-                {work.subtitle ? <p className="text-sm text-white/70">{work.subtitle}</p> : null}
-              </div>
-            </div>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wide text-white/40">
-              <span className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 text-[10px] font-semibold text-white/70">
-                {work.nodeType ?? 'work'}
-              </span>
-              {displayTags.slice(0, 6).map((tag) => (
-                <span key={tag} className="rounded-full border border-white/10 px-2 py-0.5">
-                  {tag}
-                </span>
-              ))}
-              {displayTags.length > 6 ? <span className="text-white/50">+{displayTags.length - 6}</span> : null}
-            </div>
-          </div>
-
-          <div className="flex flex-col items-start gap-2 sm:items-end">
-            <div className="rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white/70">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/40">Última vez</p>
-              <p className="mt-1 font-semibold text-white">{formatLastSeen(entry.lastSeen)}</p>
-              <p className="mt-1 text-xs text-white/50">
-                Objetivo: {entry.targetDays} día{entry.targetDays === 1 ? '' : 's'} ·{' '}
-                {entry.overdueScore >= 10_000 ? 'Nuevo' : `${entry.overdueScore} vencido`}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {hasDetails && isExpanded ? (
-          <div className="space-y-3 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-            {trimmedDescription.length > 0 ? <MarkdownContent content={trimmedDescription} enableWorkLinks /> : null}
-            {trimmedNotes.length > 0 ? (
-              <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/40">Notas</p>
-                <MarkdownContent content={trimmedNotes} enableWorkLinks />
-              </div>
-            ) : null}
-            {videoUrls.length > 0 ? (
-              <div className="space-y-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/40">Vídeos</p>
-                <div className="grid gap-4 lg:grid-cols-3">
-                  {videoUrls.map((url, index) => (
-                    <div key={`${work.id}-video-${index}`} className="space-y-2">
-                      <YouTubePreview url={url} title={`${work.name} vídeo ${index + 1}`} />
-                      <a
-                        href={url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80 transition hover:border-white/30 hover:text-white"
-                      >
-                        Abrir en YouTube
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </div>
-        ) : null}
-
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-2">
-            {(Object.keys(RESULT_LABELS) as TrainingResult[]).map((value) => (
-              <button
-                  key={value}
-                  type="button"
-                  className={clsx(
-                    'inline-flex items-center justify-center rounded-full border px-3 py-1 text-xs font-semibold transition',
-                    RESULT_STYLES[value],
-                    currentResult === value ? 'ring-2 ring-white/30' : 'opacity-90 hover:opacity-100'
-                  )}
-                  onClick={() => logWork(work.id, value)}
-                >
-                  {RESULT_LABELS[value]}
-                </button>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link to={`/catalog?workId=${encodeURIComponent(work.id)}`} className="btn-secondary">
-              Ver en catálogo
-            </Link>
-            {activeSession && sessionItem ? (
-              <button
-                type="button"
-                className="btn-secondary"
-                onClick={() => {
-                  if (isDone) {
-                    const ok = window.confirm('Este ítem ya está marcado/registrado hoy. ¿Quieres quitarlo igualmente de la sesión?');
-                    if (!ok) return;
-                  }
-                  removeWorkFromSession(activeSession.id, sessionItem.id);
-                  setFeedback({ type: 'success', text: 'Quitado de la sesión de hoy.' });
-                  window.setTimeout(() => setFeedback(null), 1800);
-                }}
-                title="Quitar de la sesión de hoy"
-              >
-                Quitar
-              </button>
-            ) : null}
-            <button
-              type="button"
-              onClick={togglePersonalIncluded}
-              disabled={!canTogglePersonal || isBusy}
-              className={clsx(
-                'inline-flex items-center rounded-full border px-4 py-2 text-xs font-semibold transition disabled:opacity-50',
-                isExcluded
-                  ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200 hover:border-emerald-400'
-                  : 'border-rose-500/40 bg-rose-500/10 text-rose-200 hover:border-rose-400'
-              )}
-              title={isExcluded ? 'Incluir en el plan personal' : 'Excluir del plan personal'}
-            >
-              {isBusy ? '...' : isExcluded ? 'Incluir' : 'Excluir'}
-            </button>
-          </div>
-        </div>
-      </article>
+        title={work.name}
+        titleExtra={titleExtra}
+        subtitle={work.subtitle}
+        objective={objective}
+        checked={isDone}
+        onCheckedChange={toggleDone}
+        orderNumber={(sessionItem?.order ?? 0) + 1}
+        durationMinutes={durationMinutes}
+        tags={displayTags}
+        statusPill={statusPill}
+        lastSeenLabel={formatLastSeen(entry.lastSeen)}
+        descriptionMarkdown={work.descriptionMarkdown}
+        notesMarkdown={work.notes}
+        videoUrls={videoUrls}
+        isExpanded={isExpanded}
+        onToggleExpanded={toggleExpanded}
+        detailsActions={
+          <Link to={`/catalog?workId=${encodeURIComponent(work.id)}`} className="btn-secondary">
+            Editar en catálogo
+          </Link>
+        }
+      />
     );
   };
 
