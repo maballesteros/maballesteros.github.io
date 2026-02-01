@@ -197,7 +197,7 @@ En modo vista, clases y personal comparten un componente de card con:
 
 `/catalog`:
 - Agrupa por objetivo y muestra jerarquía por `parentWorkId`.
-- Permite colapsar grupos y colapsar ramas (trabajo padre ↔ hijos).
+- Los grupos por objetivo aparecen colapsados por defecto (para facilitar catálogos grandes). Permite colapsar/expandir grupos y colapsar ramas (trabajo padre ↔ hijos).
 - Cards tintadas por `nodeType` (badge + acento visual).
 - Permite crear/editar/duplicar/borrar works (si `canEdit`).
 - Campos editables clave: objetivo, parent, `nodeType`, **schedule** (solo lecturas), `tags`, `orderHint`, `nextWorkId`, `variantOfWorkId`, markdown, vídeos, visibilidad y colaboradores.

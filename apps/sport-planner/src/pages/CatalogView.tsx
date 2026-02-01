@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { nanoid } from 'nanoid';
 import { Link, useLocation } from 'react-router-dom';
@@ -955,6 +955,7 @@ export default function CatalogView() {
   const [expandedWorks, setExpandedWorks] = useState<Set<string>>(new Set());
   const [collapsedWorkTrees, setCollapsedWorkTrees] = useState<Set<string>>(new Set());
   const [collapsedObjectiveGroups, setCollapsedObjectiveGroups] = useState<Set<string>>(new Set());
+  const initializedObjectiveCollapseRef = useRef(false);
   const [editingEntries, setEditingEntries] = useState<Record<string, EditingEntry>>({});
   const [savingWorkId, setSavingWorkId] = useState<string | null>(null);
   const [togglingPersonalWorkId, setTogglingPersonalWorkId] = useState<string | null>(null);
@@ -1290,6 +1291,14 @@ export default function CatalogView() {
   }, [allEntries, objectiveMap, sortedObjectives, workPathById, worksById]);
 
   const defaultObjectiveId = sortedObjectives[0]?.id ?? '';
+
+  useEffect(() => {
+    if (initializedObjectiveCollapseRef.current) return;
+    if (search.trim().length > 0) return;
+    if (groupedEntries.length === 0) return;
+    initializedObjectiveCollapseRef.current = true;
+    setCollapsedObjectiveGroups(new Set(groupedEntries.map((group) => group.objective?.id ?? NO_OBJECTIVE_KEY)));
+  }, [groupedEntries, search]);
 
   const updateEditingEntry = (id: string, updater: (prev: EditingEntry) => EditingEntry) => {
     setEditingEntries((prev) => {
