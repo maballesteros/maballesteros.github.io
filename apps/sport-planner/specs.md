@@ -160,9 +160,8 @@ Orden de tabs:
 - Progreso global:
   - works: “done” si `completed` o `result` definido.
   - grupos “nota”: “done” si el texto no está vacío.
-- Acciones de planificación:
-  - `Actualizar plan`
-  - `Recrear sesión`
+- Acción de planificación:
+  - `Recrear sesión` (rehace la planificación del día manteniendo lo registrado)
 
 **Vista**
 - Render por grupos.
@@ -237,7 +236,6 @@ Cada grupo puede definir:
 - **Lecturas (`nodeType=reading`) con schedule**: solo entran en el pool si su `schedule` coincide con la fecha activa (ver sección 12). Si no se leen, no se arrastran (regla strict por diseño: simplemente no “tocan” hasta la próxima ocurrencia).
 
 **Actualizar vs Recrear**
-- `Actualizar plan` añade ítems respetando límites, sin reemplazar lo ya existente.
 - `Recrear sesión` conserva lo registrado (done/result) y notas, elimina el resto y vuelve a planificar.
 
 ---
