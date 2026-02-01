@@ -229,6 +229,10 @@ Cada grupo puede definir:
 - `strategy`: `overdue` o `weighted`
 - `hierarchyRule`: `allow_all` o `prefer_leaves`
 - límites: por `count` / `minutes` / `both`
+  - `maxItems` solo aplica en `count`/`both`
+  - `minutesBudget` solo aplica en `minutes`/`both`
+  - el editor ajusta el `limitMode` automáticamente si introduces `maxItems>0` estando en `minutes`, o `minutesBudget>0` estando en `count` (para evitar configuraciones “que parecen correctas” pero no limitan).
+  - `maxItems=0` (o vacío) se interpreta como “sin límite” (se persiste como `undefined`).
 
 **Cadencia / due scoring**
 - El sistema calcula `lastSeen`/histórico desde sesiones personales.

@@ -398,8 +398,12 @@ const normalizeGroup = (group: KungfuPlanGroupConfig, fallbackOrder: number): Ku
   const order = Number.isFinite(Number(group.order)) ? Number(group.order) : fallbackOrder;
   const daysOfWeek = normalizeDaysOfWeek(group.daysOfWeek);
   const limitMode = isTodayLimitMode(group.limitMode) ? group.limitMode : 'minutes';
-  const maxItems = Number.isFinite(Number(group.maxItems)) ? Math.max(0, Math.round(Number(group.maxItems))) : undefined;
-  const minutesBudget = Number.isFinite(Number(group.minutesBudget)) ? Math.max(0, Number(group.minutesBudget)) : undefined;
+  const maxItemsRaw = Number(group.maxItems);
+  const maxItems =
+    Number.isFinite(maxItemsRaw) && Math.round(maxItemsRaw) > 0 ? Math.round(maxItemsRaw) : undefined;
+  const minutesBudgetRaw = Number(group.minutesBudget);
+  const minutesBudget =
+    Number.isFinite(minutesBudgetRaw) && minutesBudgetRaw > 0 ? Math.max(0, minutesBudgetRaw) : undefined;
   const strategy = isGroupStrategy(group.strategy) ? group.strategy : 'overdue';
   const hierarchyRule = isHierarchyRule(group.hierarchyRule) ? group.hierarchyRule : 'allow_all';
 

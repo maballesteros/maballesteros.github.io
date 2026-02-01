@@ -110,8 +110,12 @@ function normalizeTodayPlan(plan: KungfuTodayPlanConfig): KungfuTodayPlanConfig 
     const order = Number.isFinite(Number(group.order)) ? Number(group.order) : fallbackOrder;
     const name = (group.name ?? '').trim() || (type === 'note' ? 'Recap' : 'Grupo');
     const limitMode = isLimitMode(group.limitMode) ? group.limitMode : 'minutes';
-    const maxItems = Number.isFinite(Number(group.maxItems)) ? Math.max(0, Math.round(Number(group.maxItems))) : undefined;
-    const minutesBudget = Number.isFinite(Number(group.minutesBudget)) ? Math.max(0, Number(group.minutesBudget)) : undefined;
+    const maxItemsRaw = Number(group.maxItems);
+    const maxItems =
+      Number.isFinite(maxItemsRaw) && Math.round(maxItemsRaw) > 0 ? Math.round(maxItemsRaw) : undefined;
+    const minutesBudgetRaw = Number(group.minutesBudget);
+    const minutesBudget =
+      Number.isFinite(minutesBudgetRaw) && minutesBudgetRaw > 0 ? Math.max(0, minutesBudgetRaw) : undefined;
     const strategy = isStrategy(group.strategy) ? group.strategy : 'overdue';
     const hierarchyRule = isHierarchy(group.hierarchyRule) ? group.hierarchyRule : 'allow_all';
 
@@ -371,7 +375,7 @@ export default function PersonalSettingsView() {
         type: 'work',
         daysOfWeek: [],
         limitMode: 'minutes',
-        maxItems: 12,
+        maxItems: 0,
         minutesBudget: 5,
         strategy: 'overdue',
         hierarchyRule: 'allow_all',
@@ -621,11 +625,17 @@ export default function PersonalSettingsView() {
                       .join(' ');
 
                 const limitLabel = (() => {
-                  const maxItems = Math.max(0, Math.round(Number(group.maxItems ?? 0)));
-                  const maxMinutes = Math.max(0, Number(group.minutesBudget ?? 0));
-                  if (limitMode === 'count') return `${maxItems} ítems`;
-                  if (limitMode === 'minutes') return `${maxMinutes} min`;
-                  return `${maxItems} ítems · ${maxMinutes} min`;
+                  const maxItems = Math.round(Number(group.maxItems ?? 0));
+                  const maxMinutes = Number(group.minutesBudget ?? 0);
+
+                  const itemsLabel =
+                    Number.isFinite(maxItems) && maxItems > 0 ? `${Math.max(0, maxItems)} ítems` : 'Sin límite';
+                  const minutesLabel =
+                    Number.isFinite(maxMinutes) && maxMinutes > 0 ? `${Math.max(0, maxMinutes)} min` : 'Sin límite';
+
+                  if (limitMode === 'count') return itemsLabel;
+                  if (limitMode === 'minutes') return minutesLabel;
+                  return `${itemsLabel} · ${minutesLabel}`;
                 })();
 
                 const includeCount = (group.include ?? []).length;
@@ -860,7 +870,19 @@ export default function PersonalSettingsView() {
                                     min={0}
                                     className="input-field"
                                     value={group.maxItems ?? 0}
-                                    onChange={(event) => updateGroup({ maxItems: Number(event.target.value) })}
+                                    onChange={(event) => {
+                                      const nextMaxItems = Number(event.target.value);
+                                      const patch: Partial<KungfuPlanGroupConfig> = { maxItems: nextMaxItems };
+
+                                      if (Number.isFinite(nextMaxItems) && nextMaxItems > 0) {
+                                        const nextMinutes = Number(group.minutesBudget ?? 0);
+                                        if (limitMode === 'minutes') {
+                                          patch.limitMode = nextMinutes > 0 ? 'both' : 'count';
+                                        }
+                                      }
+
+                                      updateGroup(patch);
+                                    }}
                                   />
                                 </label>
                                 <label className="grid gap-1">
@@ -870,7 +892,19 @@ export default function PersonalSettingsView() {
                                     min={0}
                                     className="input-field"
                                     value={group.minutesBudget ?? 0}
-                                    onChange={(event) => updateGroup({ minutesBudget: Number(event.target.value) })}
+                                    onChange={(event) => {
+                                      const nextMinutesBudget = Number(event.target.value);
+                                      const patch: Partial<KungfuPlanGroupConfig> = { minutesBudget: nextMinutesBudget };
+
+                                      if (Number.isFinite(nextMinutesBudget) && nextMinutesBudget > 0) {
+                                        const nextMaxItems = Number(group.maxItems ?? 0);
+                                        if (limitMode === 'count') {
+                                          patch.limitMode = nextMaxItems > 0 ? 'both' : 'minutes';
+                                        }
+                                      }
+
+                                      updateGroup(patch);
+                                    }}
                                   />
                                 </label>
                               </div>

@@ -467,8 +467,8 @@ function computePlan(opts: {
 
     const groupMaxItemsRaw = Number(group.maxItems);
     const groupMaxItems = groupLimitByCount
-      ? Number.isFinite(groupMaxItemsRaw) && groupMaxItemsRaw > 0
-        ? Math.round(groupMaxItemsRaw)
+      ? Number.isFinite(groupMaxItemsRaw)
+        ? Math.max(0, Math.round(groupMaxItemsRaw))
         : Number.POSITIVE_INFINITY
       : Number.POSITIVE_INFINITY;
 
@@ -513,6 +513,58 @@ function computePlan(opts: {
     },
     totalItems: plannedItems
   };
+}
+
+function enforceGroupCountCaps(opts: {
+  items: SessionWork[];
+  groups: KungfuPlanGroupConfig[];
+  worksById: Map<string, Work>;
+  resolveGroupLabelForItem: (item: { focusLabel?: string }, work: Work) => string;
+}): SessionWork[] {
+  const { items, groups, worksById, resolveGroupLabelForItem } = opts;
+  if (items.length === 0) return items;
+
+  let next = [...items];
+
+  const isDone = (item: SessionWork) => (item.completed ?? false) || typeof item.result !== 'undefined';
+
+  groups
+    .filter((group) => (group.type ?? 'work') !== 'note')
+    .forEach((group) => {
+      const limitMode = group.limitMode ?? 'minutes';
+      const limitByCount = limitMode === 'count' || limitMode === 'both';
+      if (!limitByCount) return;
+      const maxItems = Number(group.maxItems);
+      if (!Number.isFinite(maxItems) || maxItems <= 0) return;
+
+      const matchingIndexes: number[] = [];
+      next.forEach((item, index) => {
+        const work = worksById.get(item.workId);
+        if (!work) return;
+        const label = resolveGroupLabelForItem(item, work);
+        if (label !== group.name) return;
+        matchingIndexes.push(index);
+      });
+
+      if (matchingIndexes.length <= maxItems) return;
+
+      const doneCount = matchingIndexes.reduce((acc, index) => acc + (isDone(next[index]) ? 1 : 0), 0);
+      const remaining = Math.max(0, maxItems - doneCount);
+
+      const removableIndexes: number[] = [];
+      matchingIndexes.forEach((index) => {
+        if (isDone(next[index])) return;
+        removableIndexes.push(index);
+      });
+
+      if (removableIndexes.length <= remaining) return;
+
+      const toRemove = removableIndexes.length - remaining;
+      const removalSet = new Set(removableIndexes.slice(-toRemove));
+      next = next.filter((_item, index) => !removalSet.has(index));
+    });
+
+  return next.map((item, index) => ({ ...item, order: index }));
 }
 
 export default function PersonalTodayView() {
@@ -794,8 +846,9 @@ export default function PersonalTodayView() {
       setIsFillingPlan(true);
       try {
         const session = activeSession ?? ensureSession();
+        const freshSession = useAppStore.getState().sessions.find((s) => s.id === session.id) ?? session;
 
-        const itemsBefore = session.workItems ?? [];
+        const itemsBefore = freshSession.workItems ?? [];
         const existingWorkIds = new Set(itemsBefore.map((item) => item.workId));
 
         const limitByCount = todayPlan.limitMode === 'count' || todayPlan.limitMode === 'both';
@@ -875,7 +928,14 @@ export default function PersonalTodayView() {
 
         const nextItems = buildNextSessionWorkItems(session.id);
         if (nextItems) {
-          updateSessionWorkItems(session.id, dedupeSessionWorkItems(nextItems));
+          const deduped = dedupeSessionWorkItems(nextItems);
+          const capped = enforceGroupCountCaps({
+            items: deduped,
+            groups: activeGroupsForToday,
+            worksById,
+            resolveGroupLabelForItem
+          });
+          updateSessionWorkItems(session.id, capped);
         }
 
         if (opts?.includeDiagnostics) {
