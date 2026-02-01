@@ -114,7 +114,7 @@ const DEFAULT_WORK_TAXONOMY: WorkTaxonomy = {
 
 const selectCollections = (state: AppState): CollectionsState => ({
   objectives: state.objectives,
-  works: state.works,
+  works: [],
   sessions: state.sessions,
   assistants: state.assistants,
   plans: state.plans,
@@ -126,7 +126,7 @@ const selectCollections = (state: AppState): CollectionsState => ({
 
 const normalizeCollections = (payload: Partial<PlannerStatePayload>): CollectionsState => ({
   objectives: payload.objectives ?? [],
-  works: payload.works ?? [],
+  works: [],
   sessions: (payload.sessions ?? []).map((session) => ({
     ...session,
     planId: (session.planId ?? '').trim() || undefined,
@@ -144,7 +144,6 @@ const normalizeCollections = (payload: Partial<PlannerStatePayload>): Collection
 
 const collectionsChanged = (a: CollectionsState, b: CollectionsState) =>
   a.objectives !== b.objectives ||
-  a.works !== b.works ||
   a.sessions !== b.sessions ||
   a.assistants !== b.assistants ||
   a.plans !== b.plans ||
