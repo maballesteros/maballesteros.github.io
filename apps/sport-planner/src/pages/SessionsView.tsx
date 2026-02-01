@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { useAppStore } from '@/store/appStore';
+import { sortPlansForUi } from '@/utils/planOrdering';
 import ClassSessionsView from './ClassSessionsView';
 import PersonalTodayView from './PersonalTodayView';
 
@@ -15,13 +16,7 @@ export default function SessionsView() {
   const enabledPlans = useMemo(() => plans.filter((plan) => plan.enabled), [plans]);
 
   const orderedPlans = useMemo(() => {
-    const next = [...enabledPlans];
-    next.sort((a, b) => {
-      const kindOrder = a.kind === b.kind ? 0 : a.kind === 'class' ? -1 : 1;
-      if (kindOrder !== 0) return kindOrder;
-      return a.name.localeCompare(b.name, 'es', { sensitivity: 'base' });
-    });
-    return next;
+    return sortPlansForUi(enabledPlans);
   }, [enabledPlans]);
 
   const selectedPlan = useMemo(() => {
@@ -88,4 +83,3 @@ export default function SessionsView() {
     </div>
   );
 }
-

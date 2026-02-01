@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { useAppStore } from '@/store/appStore';
 import { MultiSelectChips } from '@/components/MultiSelectChips';
+import { sortPlansForUi } from '@/utils/planOrdering';
 import type {
   KungfuProgramSelector,
   KungfuCadenceConfig,
@@ -231,13 +232,7 @@ export default function PersonalSettingsView() {
   const selectedPlanIdParam = (searchParams.get('plan') ?? '').trim();
 
   const orderedPlans = useMemo(() => {
-    const next = [...plans];
-    next.sort((a, b) => {
-      const kindOrder = a.kind === b.kind ? 0 : a.kind === 'class' ? -1 : 1;
-      if (kindOrder !== 0) return kindOrder;
-      return a.name.localeCompare(b.name, 'es', { sensitivity: 'base' });
-    });
-    return next;
+    return sortPlansForUi(plans);
   }, [plans]);
 
   const selectedPlan = useMemo(() => {
