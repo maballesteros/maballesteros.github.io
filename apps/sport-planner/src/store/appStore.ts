@@ -160,6 +160,17 @@ const DEFAULT_WORK_TAXONOMY: WorkTaxonomy = {
 
 const isPlanKind = (value: unknown): value is PlanKind => value === 'class' || value === 'personal';
 
+const PLAN_NAME_COLLATOR = new Intl.Collator('es', { numeric: true, sensitivity: 'base' });
+
+const parseLeadingOrderPrefix = (name: string): { order: number | null; rest: string } => {
+  const trimmed = (name ?? '').trim();
+  const match = trimmed.match(/^(\d+)\s*[\.)-]?\s*(.*)$/);
+  if (!match) return { order: null, rest: trimmed };
+  const order = Number(match[1]);
+  if (!Number.isFinite(order)) return { order: null, rest: trimmed };
+  return { order: Math.trunc(order), rest: (match[2] ?? '').trim() };
+};
+
 const normalizePlan = (raw: unknown, fallback: Plan): Plan => {
   if (!raw || typeof raw !== 'object') return fallback;
   const obj = raw as Partial<Plan>;
@@ -252,9 +263,14 @@ const normalizePlans = (
   }
 
   return Array.from(byId.values()).sort((a, b) => {
-    const kindOrder = a.kind === b.kind ? 0 : a.kind === 'class' ? -1 : 1;
-    if (kindOrder !== 0) return kindOrder;
-    return a.name.localeCompare(b.name, 'es', { sensitivity: 'base' });
+    const aParsed = parseLeadingOrderPrefix(a.name);
+    const bParsed = parseLeadingOrderPrefix(b.name);
+    const aOrder = aParsed.order ?? Number.POSITIVE_INFINITY;
+    const bOrder = bParsed.order ?? Number.POSITIVE_INFINITY;
+    if (aOrder !== bOrder) return aOrder - bOrder;
+    const byName = PLAN_NAME_COLLATOR.compare(aParsed.rest || a.name, bParsed.rest || b.name);
+    if (byName !== 0) return byName;
+    return PLAN_NAME_COLLATOR.compare(a.id, b.id);
   });
 };
 
