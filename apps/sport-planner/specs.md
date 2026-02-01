@@ -119,6 +119,9 @@ Login obligatorio (`/login`).
 - `class` → UI de clases (manual, con calendario).
 - `personal` → UI personal (por fecha, con grupos y progreso).
 
+Orden de tabs:
+- Los planes se ordenan por nombre (colación con números), soportando prefijos tipo `1. ...`, `2. ...` para forzar el orden visual.
+
 ---
 
 ### 6) Clases (plan manual)
