@@ -7,3 +7,6 @@ node_modules/
 .DS_Store
 **/.DS_Store
 .idea/
+apps/sport-planner/diario_del_guerrero*.sql
+apps/sport-planner/*.upsert.sql
+apps/sport-planner/diario_del_guerrero_sql/
