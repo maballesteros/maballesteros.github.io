@@ -677,6 +677,42 @@ interface CollectionsState {
   workTaxonomy: WorkTaxonomy;
 }
 
+const isQuotaExceededError = (error: unknown): boolean => {
+  if (!error || typeof error !== 'object') return false;
+  const err = error as { name?: unknown; code?: unknown };
+  const name = String(err.name ?? '');
+  const code = typeof err.code === 'number' ? err.code : Number(err.code);
+  return name === 'QuotaExceededError' || code === 22 || code === 1014;
+};
+
+const buildCompactWorksForStorage = (works: Work[]): Work[] =>
+  works.map((work) => ({
+    id: work.id,
+    name: work.name,
+    subtitle: work.subtitle,
+    objectiveId: work.objectiveId,
+    parentWorkId: work.parentWorkId ?? null,
+    descriptionMarkdown: '',
+    estimatedMinutes: work.estimatedMinutes ?? 0,
+    notes: undefined,
+    videoUrls: [],
+    nodeType: work.nodeType,
+    schedule: work.schedule,
+    tags: work.tags ?? [],
+    orderHint: work.orderHint,
+    nextWorkId: work.nextWorkId ?? null,
+    variantOfWorkId: work.variantOfWorkId ?? null,
+    createdAt: work.createdAt,
+    updatedAt: work.updatedAt,
+    visibility: work.visibility ?? 'private',
+    ownerId: work.ownerId,
+    ownerEmail: work.ownerEmail,
+    collaborators: [],
+    collaboratorEmails: [],
+    canEdit: work.canEdit,
+    isOwner: work.isOwner
+  }));
+
 const persistCollections = (state: Partial<CollectionsState>) => {
   if (!isBrowser) return;
   const base: Partial<CollectionsState> = {
@@ -691,15 +727,43 @@ const persistCollections = (state: Partial<CollectionsState>) => {
     workTaxonomy: loadCollection<WorkTaxonomy>(STORAGE_KEYS.workTaxonomy, DEFAULT_WORK_TAXONOMY)
   };
   const normalized = normalizeCollections({ ...base, ...state });
-  window.localStorage.setItem(STORAGE_KEYS.objectives, JSON.stringify(normalized.objectives));
-  window.localStorage.setItem(STORAGE_KEYS.works, JSON.stringify(normalized.works));
-  window.localStorage.setItem(STORAGE_KEYS.sessions, JSON.stringify(normalized.sessions));
-  window.localStorage.setItem(STORAGE_KEYS.assistants, JSON.stringify(normalized.assistants));
-  window.localStorage.setItem(STORAGE_KEYS.plans, JSON.stringify(normalized.plans));
-  window.localStorage.setItem(STORAGE_KEYS.kungfuPrograms, JSON.stringify(normalized.kungfuPrograms));
-  window.localStorage.setItem(STORAGE_KEYS.kungfuCadence, JSON.stringify(normalized.kungfuCadence));
-  window.localStorage.setItem(STORAGE_KEYS.kungfuTodayPlan, JSON.stringify(normalized.kungfuTodayPlan));
-  window.localStorage.setItem(STORAGE_KEYS.workTaxonomy, JSON.stringify(normalized.workTaxonomy));
+
+  const safeSet = (key: string, value: unknown) => {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (error) {
+      if (!isQuotaExceededError(error)) {
+        console.warn(`No se pudo persistir ${key} en localStorage`, error);
+        return false;
+      }
+
+      if (key === STORAGE_KEYS.works) {
+        try {
+          const compactWorks = buildCompactWorksForStorage(normalized.works);
+          window.localStorage.setItem(key, JSON.stringify(compactWorks));
+          console.warn('localStorage quota alcanzada: guardando catálogo en modo reducido (sin markdown).');
+          return true;
+        } catch (fallbackError) {
+          console.warn('localStorage quota alcanzada: no se pudo persistir el catálogo.', fallbackError);
+          return false;
+        }
+      }
+
+      console.warn(`localStorage quota alcanzada: omitiendo persistencia de ${key}.`);
+      return false;
+    }
+  };
+
+  safeSet(STORAGE_KEYS.objectives, normalized.objectives);
+  safeSet(STORAGE_KEYS.works, normalized.works);
+  safeSet(STORAGE_KEYS.sessions, normalized.sessions);
+  safeSet(STORAGE_KEYS.assistants, normalized.assistants);
+  safeSet(STORAGE_KEYS.plans, normalized.plans);
+  safeSet(STORAGE_KEYS.kungfuPrograms, normalized.kungfuPrograms);
+  safeSet(STORAGE_KEYS.kungfuCadence, normalized.kungfuCadence);
+  safeSet(STORAGE_KEYS.kungfuTodayPlan, normalized.kungfuTodayPlan);
+  safeSet(STORAGE_KEYS.workTaxonomy, normalized.workTaxonomy);
 };
 
 const normalizeCollections = (state: Partial<CollectionsState>): CollectionsState => {

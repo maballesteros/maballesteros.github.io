@@ -249,6 +249,9 @@ Cada grupo puede definir:
 - `works`/`work_collaborators`: catálogo con RLS y refresco por Realtime.
   - `works` incluye `schedule_kind` + `schedule_number` (para `nodeType=reading`), reflejados en cliente como `work.schedule`.
 
+Notas de escala:
+- El catálogo (`works`) puede ser grande (ej. 365 lecturas con markdown). Para evitar snapshots enormes y problemas de cuota, el sync de `planner_states` **no incluye** el catálogo; el catálogo se carga desde `works` (Realtime) y se cachea localmente si cabe.
+
 **Backups**
 - `version: 1`
 - export/import incluye: objetivos, works, sesiones, asistentes, relaciones, planes, config personal y taxonomy.
