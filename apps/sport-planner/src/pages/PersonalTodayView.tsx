@@ -8,6 +8,13 @@ import { useAppStore } from '@/store/appStore';
 import { useAuth } from '@/contexts/useAuth';
 import { SessionEditor } from '@/components/SessionEditor';
 import { SessionWorkViewCard } from '@/components/SessionWorkViewCard';
+import { EbookWorkDetails } from '@/components/EbookWorkDetails';
+import {
+  fetchEbookIndex,
+  flattenEbookSections,
+  resolveDailyFixedSection,
+  resolveNextSequentialSection
+} from '@/services/ebookService';
 import type {
   KungfuProgramSelector,
   KungfuCadenceConfig,
@@ -686,6 +693,17 @@ export default function PersonalTodayView() {
     const byWorkId = new Map<string, SessionWork>();
     const orderKeys: string[] = [];
 
+    const mergeReadPaths = (a: string[] | undefined, b: string[] | undefined): string[] | undefined => {
+      const cleanedA = (a ?? []).map((p) => String(p ?? '').trim()).filter(Boolean);
+      const cleanedB = (b ?? []).map((p) => String(p ?? '').trim()).filter(Boolean);
+      if (cleanedA.length === 0 && cleanedB.length === 0) return undefined;
+      const out: string[] = [...cleanedA];
+      cleanedB.forEach((p) => {
+        if (!out.includes(p)) out.push(p);
+      });
+      return out;
+    };
+
     ordered.forEach((item) => {
       const workId = item.workId;
       if (!workId) return;
@@ -704,7 +722,9 @@ export default function PersonalTodayView() {
         focusLabel: existing.focusLabel ?? item.focusLabel,
         completed: Boolean(existing.completed ?? false) || Boolean(item.completed ?? false),
         result: existing.result ?? item.result,
-        effort: existing.effort ?? item.effort
+        effort: existing.effort ?? item.effort,
+        contentRef: existing.contentRef ?? item.contentRef,
+        readPaths: mergeReadPaths(existing.readPaths, item.readPaths)
       };
 
       byWorkId.set(workId, merged);
@@ -838,6 +858,107 @@ export default function PersonalTodayView() {
 
   const [isFillingPlan, setIsFillingPlan] = useState(false);
 
+  const hydrateEbookContentRefs = useCallback(
+    async (sessionId: string) => {
+      const state = useAppStore.getState();
+      const session = state.sessions.find((s) => s.id === sessionId);
+      if (!session) return;
+
+      const planId = (session.planId ?? selectedPlanId).trim() || selectedPlanId;
+      const sessionDate = session.date;
+
+      const planSessions = state.sessions.filter(
+        (s) => s.kind === 'personal' && (s.planId ?? selectedPlanId) === planId
+      );
+      const previousSessions = planSessions
+        .filter((s) => dayjs(s.date).isBefore(dayjs(sessionDate), 'day'))
+        .slice()
+        .sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf());
+
+      const getLastReadPath = (workId: string, currentItem: SessionWork): string | undefined => {
+        const own = (currentItem.readPaths ?? []).map((p) => String(p ?? '').trim()).filter(Boolean);
+        if (own.length > 0) return own[own.length - 1];
+        for (const prev of previousSessions) {
+          const item = (prev.workItems ?? []).find((entry) => entry.workId === workId);
+          if (!item) continue;
+          if (item.result !== 'ok' && item.completed !== true) continue;
+          const paths = (item.readPaths ?? []).map((p) => String(p ?? '').trim()).filter(Boolean);
+          if (paths.length > 0) return paths[paths.length - 1];
+        }
+        return undefined;
+      };
+
+      const nextItems = await Promise.all(
+        (session.workItems ?? []).map(async (item) => {
+          const work = worksById.get(item.workId);
+          const nodeType = (work?.nodeType ?? 'work').trim().toLowerCase();
+          if (!work || nodeType !== 'ebook' || !work.ebookRef) return item;
+
+          const ebookRef = work.ebookRef;
+          try {
+            const index = await fetchEbookIndex(ebookRef.indexUrl);
+            const sections = flattenEbookSections(index);
+
+            let resolved:
+              | { section: (typeof sections)[number]; index: number }
+              | null = null;
+
+            const pinned = item.contentRef;
+            if (
+              pinned &&
+              pinned.kind === 'ebook_section' &&
+              pinned.ebookId === ebookRef.ebookId &&
+              pinned.indexUrl === ebookRef.indexUrl
+            ) {
+              const foundIndex = sections.findIndex((section) => section.path === pinned.sectionPath);
+              if (foundIndex >= 0) {
+                resolved = { section: sections[foundIndex], index: foundIndex };
+              }
+            }
+
+            if (!resolved) {
+              if (ebookRef.mode === 'daily_fixed') {
+                const daily = resolveDailyFixedSection(index, sessionDate);
+                if (daily) {
+                  const dailyIndex = sections.findIndex((section) => section.path === daily.path);
+                  resolved = { section: daily, index: dailyIndex >= 0 ? dailyIndex : 0 };
+                }
+              } else {
+                resolved = resolveNextSequentialSection(sections, getLastReadPath(work.id, item));
+              }
+            }
+
+            if (!resolved) return item;
+
+            const nextContentRef: NonNullable<SessionWork['contentRef']> = {
+              kind: 'ebook_section',
+              ebookId: ebookRef.ebookId,
+              indexUrl: ebookRef.indexUrl,
+              sectionPath: resolved.section.path,
+              sectionTitle: resolved.section.title,
+              chapterTitle: resolved.section.chapterTitle
+            };
+
+            const same =
+              item.contentRef?.kind === 'ebook_section' &&
+              item.contentRef.ebookId === nextContentRef.ebookId &&
+              item.contentRef.indexUrl === nextContentRef.indexUrl &&
+              item.contentRef.sectionPath === nextContentRef.sectionPath;
+            if (same) return item;
+            return { ...item, contentRef: nextContentRef };
+          } catch {
+            return item;
+          }
+        })
+      );
+
+      const changed = nextItems.some((item, index) => item.contentRef !== (session.workItems ?? [])[index]?.contentRef);
+      if (!changed) return;
+      updateSessionWorkItems(sessionId, nextItems);
+    },
+    [selectedPlanId, updateSessionWorkItems, worksById]
+  );
+
   const fillTodayPlan = useCallback(
     (opts?: { reason?: string; includeDiagnostics?: boolean }) => {
       if (isFillingPlan) return;
@@ -936,6 +1057,7 @@ export default function PersonalTodayView() {
             resolveGroupLabelForItem
           });
           updateSessionWorkItems(session.id, capped);
+          void hydrateEbookContentRefs(session.id);
         }
 
         if (opts?.includeDiagnostics) {
@@ -1211,17 +1333,44 @@ export default function PersonalTodayView() {
       }
 
       if (nextChecked) {
+        const normalizedNodeType = (work.nodeType ?? 'work').trim().toLowerCase();
+        const ebookPath =
+          normalizedNodeType === 'ebook' && existing.contentRef?.kind === 'ebook_section'
+            ? existing.contentRef.sectionPath
+            : undefined;
+        const nextReadPaths = (() => {
+          if (!ebookPath) return existing.readPaths;
+          const cleaned = (existing.readPaths ?? []).map((p) => String(p ?? '').trim()).filter(Boolean);
+          if (cleaned.includes(ebookPath)) return cleaned;
+          return [...cleaned, ebookPath];
+        })();
         updateSessionWorkDetails(session.id, existing.id, {
           completed: true,
-          result: existing.result ?? 'ok'
+          result: existing.result ?? 'ok',
+          readPaths: nextReadPaths
         });
       } else {
         updateSessionWorkDetails(session.id, existing.id, {
           completed: false,
-          result: undefined
+          result: undefined,
+          readPaths: undefined
         });
       }
     };
+
+    const normalizedNodeType = (work.nodeType ?? 'work').trim().toLowerCase();
+    const detailsContent =
+      normalizedNodeType === 'ebook' && sessionItem && activeSession?.planId
+        ? (
+            <EbookWorkDetails
+              work={work}
+              sessionId={activeSession.id}
+              sessionDate={activeSession.date}
+              planId={activeSession.planId}
+              sessionItem={sessionItem}
+            />
+          )
+        : undefined;
 
     return (
       <SessionWorkViewCard
@@ -1237,6 +1386,7 @@ export default function PersonalTodayView() {
         tags={displayTags}
         statusPill={statusPill}
         lastSeenLabel={formatLastSeen(entry.lastSeen)}
+        detailsContent={detailsContent}
         descriptionMarkdown={work.descriptionMarkdown}
         notesMarkdown={work.notes}
         videoUrls={videoUrls}

@@ -41,6 +41,20 @@ export interface WorkSchedule {
   number: number;
 }
 
+export type EbookMode = 'daily_fixed' | 'sequential';
+
+export interface EbookRef {
+  /**
+   * Stable identifier coming from ebooks.json (e.g. "diario-del-guerrero").
+   */
+  ebookId: string;
+  /**
+   * Absolute or host-relative URL to the ebook index.json (e.g. https://.../ebooks/foo/index.json).
+   */
+  indexUrl: string;
+  mode: EbookMode;
+}
+
 export interface Work {
   id: string;
   name: string;
@@ -53,6 +67,7 @@ export interface Work {
   videoUrls: string[];
   nodeType?: string;
   schedule?: WorkSchedule;
+  ebookRef?: EbookRef;
   tags: string[];
   orderHint?: number;
   nextWorkId?: string | null;
@@ -160,6 +175,23 @@ export interface SessionWork {
   completed?: boolean;
   result?: 'ok' | 'doubt' | 'fail';
   effort?: number;
+  /**
+   * Optional payload describing what content this item resolved to (e.g. a section inside an ebook).
+   * This is persisted so a session stays stable even if resolution rules change.
+   */
+  contentRef?: {
+    kind: 'ebook_section';
+    ebookId: string;
+    indexUrl: string;
+    sectionPath: string;
+    sectionTitle?: string;
+    chapterTitle?: string;
+  };
+  /**
+   * For ebook items, keeps track of which section paths were marked as read in this session.
+   * Stored for traceability and to compute "next" entry for sequential ebooks (per plan).
+   */
+  readPaths?: string[];
 }
 
 export interface SessionAttendance {

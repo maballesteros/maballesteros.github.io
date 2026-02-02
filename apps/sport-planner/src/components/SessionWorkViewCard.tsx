@@ -40,6 +40,7 @@ export type SessionWorkViewCardProps = {
   descriptionMarkdown?: string;
   notesMarkdown?: string;
   videoUrls?: string[];
+  detailsContent?: ReactNode;
 
   isExpanded: boolean;
   onToggleExpanded: () => void;
@@ -64,6 +65,7 @@ export function SessionWorkViewCard({
   descriptionMarkdown,
   notesMarkdown,
   videoUrls,
+  detailsContent,
   isExpanded,
   onToggleExpanded,
   actions,
@@ -75,11 +77,12 @@ export function SessionWorkViewCard({
   const cleanDescription = (descriptionMarkdown ?? '').trim();
   const cleanNotes = (notesMarkdown ?? '').trim();
   const cleanVideoUrls = (videoUrls ?? []).map((url) => url.trim()).filter(Boolean);
+  const hasDetailsContent = Boolean(detailsContent);
 
   const normalizedTags = normalizeTags(tags);
   const hasTags = normalizedTags.length > 0;
   const hasMeta = Boolean(startLabel) || typeof durationMinutes === 'number' || Boolean(lastSeenLabel);
-  const hasDetails = cleanDescription.length > 0 || cleanNotes.length > 0 || cleanVideoUrls.length > 0;
+  const hasDetails = hasDetailsContent || cleanDescription.length > 0 || cleanNotes.length > 0 || cleanVideoUrls.length > 0;
   const hasDetailsActions = Boolean(detailsActions);
 
   const handleToggleExpanded = () => {
@@ -219,6 +222,7 @@ export function SessionWorkViewCard({
           onClick={(event) => event.stopPropagation()}
           onKeyDown={(event) => event.stopPropagation()}
         >
+          {hasDetailsContent ? detailsContent : null}
           {cleanDescription ? <MarkdownContent content={cleanDescription} enableWorkLinks /> : null}
           {cleanNotes ? (
             <div className="space-y-2">
