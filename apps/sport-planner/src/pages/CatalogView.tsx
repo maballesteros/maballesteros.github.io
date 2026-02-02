@@ -175,6 +175,7 @@ function WorkViewCard({
       technique: 'Técnica',
       drill: 'Drill',
       reading: 'Lectura',
+      ebook: 'Ebook',
       style: 'Estilo',
       link: 'Link',
       work: 'Trabajo'
@@ -187,6 +188,7 @@ function WorkViewCard({
       technique: 'border-emerald-500/40 bg-emerald-500/15 text-emerald-100',
       drill: 'border-purple-500/40 bg-purple-500/15 text-purple-100',
       reading: 'border-fuchsia-500/40 bg-fuchsia-500/15 text-fuchsia-100',
+      ebook: 'border-cyan-500/40 bg-cyan-500/15 text-cyan-100',
       style: 'border-white/20 bg-white/10 text-white/70',
       link: 'border-white/20 bg-white/10 text-white/70',
       work: 'border-white/20 bg-white/10 text-white/70'
@@ -210,6 +212,7 @@ function WorkViewCard({
       technique: 'border-emerald-500/25',
       drill: 'border-purple-500/25',
       reading: 'border-fuchsia-500/25',
+      ebook: 'border-cyan-500/25',
       work: 'border-white/10'
     };
 
@@ -220,6 +223,7 @@ function WorkViewCard({
       technique: 'bg-emerald-500',
       drill: 'bg-purple-500',
       reading: 'bg-fuchsia-500',
+      ebook: 'bg-cyan-500',
       work: ''
     };
 
@@ -230,6 +234,7 @@ function WorkViewCard({
       technique: 'bg-emerald-400/60',
       drill: 'bg-purple-400/60',
       reading: 'bg-fuchsia-400/60',
+      ebook: 'bg-cyan-400/60',
       work: 'bg-white/10'
     };
 
@@ -310,6 +315,22 @@ function WorkViewCard({
               <span className="rounded-full border border-white/20 px-2 py-0.5 text-[10px] font-semibold text-white/70">
                 {visibilityLabel}
               </span>
+              {normalizedNodeType === 'ebook' ? (
+                work.ebookRef ? (
+                  <>
+                    <span className="rounded-full border border-cyan-400/25 bg-cyan-500/10 px-2 py-0.5 text-[10px] font-semibold text-cyan-100">
+                      {work.ebookRef.ebookId}
+                    </span>
+                    <span className="rounded-full border border-cyan-400/15 bg-cyan-500/5 px-2 py-0.5 text-[10px] font-semibold text-cyan-100/80">
+                      {work.ebookRef.mode}
+                    </span>
+                  </>
+                ) : (
+                  <span className="rounded-full border border-rose-500/30 bg-rose-500/10 px-2 py-0.5 text-[10px] font-semibold text-rose-200">
+                    ebook_ref missing
+                  </span>
+                )
+              ) : null}
               {tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}

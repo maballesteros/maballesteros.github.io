@@ -541,6 +541,17 @@ const normalizeOptionalText = (value?: string | null): string | undefined => {
 const isWorkScheduleKind = (value: unknown): value is WorkScheduleKind =>
   value === 'day_of_year' || value === 'day_of_month' || value === 'day_of_week';
 
+const normalizeEbookRef = (raw: unknown): Work['ebookRef'] => {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const obj = raw as Partial<NonNullable<Work['ebookRef']>>;
+  const ebookId = String(obj.ebookId ?? '').trim();
+  const indexUrl = String(obj.indexUrl ?? '').trim();
+  const mode = String(obj.mode ?? '').trim();
+  if (!ebookId || !indexUrl) return undefined;
+  if (mode !== 'daily_fixed' && mode !== 'sequential') return undefined;
+  return { ebookId, indexUrl, mode };
+};
+
 const normalizeEmailList = (emails?: Array<string | null | undefined>): string[] =>
   Array.from(
     new Set(
@@ -565,6 +576,7 @@ const ensureWorkDefaults = (input: Partial<Work> & { id: string }): Work => {
   const schedule = scheduleKind && typeof scheduleNumber === 'number'
     ? { kind: scheduleKind, number: scheduleNumber }
     : undefined;
+  const ebookRef = normalizeEbookRef(input.ebookRef);
   const orderHint =
     typeof input.orderHint === 'number' && Number.isFinite(input.orderHint)
       ? input.orderHint
@@ -595,6 +607,7 @@ const ensureWorkDefaults = (input: Partial<Work> & { id: string }): Work => {
     parentWorkId,
     nodeType,
     schedule,
+    ebookRef,
     tags,
     orderHint,
     nextWorkId,
@@ -1336,12 +1349,24 @@ export const useAppStore = create<AppState>((set, get) => ({
         ? parentCandidate
         : null;
 
+    const scheduleKind = isWorkScheduleKind((input as Partial<WorkCreateInput>).scheduleKind)
+      ? (input as Partial<WorkCreateInput>).scheduleKind
+      : undefined;
+    const scheduleNumberRaw = (input as Partial<WorkCreateInput>).scheduleNumber;
+    const scheduleNumber = typeof scheduleNumberRaw === 'number' && Number.isFinite(scheduleNumberRaw)
+      ? Math.trunc(scheduleNumberRaw)
+      : undefined;
+    const ebookRef = normalizeEbookRef((input as Partial<WorkCreateInput>).ebookRef);
+
     const payload: WorkCreateInput = {
       name: input.name,
       subtitle: normalizeOptionalText(input.subtitle),
       objectiveId: input.objectiveId,
       parentWorkId,
       nodeType: normalizeOptionalText(input.nodeType) ?? undefined,
+      scheduleKind,
+      scheduleNumber: scheduleKind ? scheduleNumber : undefined,
+      ebookRef,
       tags: normalizeTagList(input.tags),
       orderHint:
         typeof input.orderHint === 'number' && Number.isFinite(input.orderHint) ? input.orderHint : undefined,
