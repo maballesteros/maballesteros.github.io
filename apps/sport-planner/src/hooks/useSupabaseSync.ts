@@ -105,6 +105,7 @@ const DEFAULT_WORK_TAXONOMY: WorkTaxonomy = {
     { key: 'technique', label: 'Technique' },
     { key: 'drill', label: 'Drill' },
     { key: 'reading', label: 'Reading' },
+    { key: 'ebook', label: 'Ebook' },
     { key: 'work', label: 'Work' },
     { key: 'link', label: 'Link' },
     { key: 'style', label: 'Style' }

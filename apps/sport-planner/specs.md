@@ -47,6 +47,7 @@ Contenido:
 Clasificación y grafo:
 - `nodeType?: string` (definiciones en `workTaxonomy.nodeTypes`)
 - `schedule?: { kind: 'day_of_year' | 'day_of_month' | 'day_of_week', number: number }` (solo se usa para `nodeType=reading`; ver sección 12)
+- `ebookRef?: { ebookId: string, indexUrl: string, mode: 'daily_fixed' | 'sequential' }` (solo se usa para `nodeType=ebook`; ver sección 13)
 - `tags: string[]` (definiciones en `workTaxonomy.tags`)
 - `parentWorkId?: string | null` (jerarquía)
 - `nextWorkId?: string | null` (secuencia)
@@ -79,6 +80,8 @@ Un Work dentro de una sesión:
   - `completed: boolean`
   - `result?: ok | doubt | fail`
   - `effort?: number` (puede existir en datos; su presencia en UI ha ido variando)
+  - `contentRef?` (payload persistido de “qué contenido se resolvió” en el momento de la sesión; hoy se usa para ebooks)
+  - `readPaths?: string[]` (para ebooks: paths marcados como leídos en esta sesión; trazabilidad + progreso secuencial por plan)
 
 #### 3.5 Assistant + SessionAttendance
 Asistentes (alumnos) y asistencia por sesión:
@@ -254,6 +257,7 @@ Cada grupo puede definir:
 - `planner_states`: snapshot JSON por usuario, con debounce (last-write-wins).
 - `works`/`work_collaborators`: catálogo con RLS y refresco por Realtime.
   - `works` incluye `schedule_kind` + `schedule_number` (para `nodeType=reading`), reflejados en cliente como `work.schedule`.
+  - `works` incluye `ebook_ref` (JSONB) para `nodeType=ebook`, reflejado en cliente como `work.ebookRef`.
 
 Notas de escala:
 - El catálogo (`works`) puede ser grande (ej. 365 lecturas con markdown). Para evitar snapshots enormes y problemas de cuota, el sync de `planner_states` **no incluye** el catálogo; el catálogo se carga desde `works` (Realtime) y se cachea localmente si cabe.
@@ -285,3 +289,39 @@ Configuración típica:
 - Crear un grupo de tipo `work` con:
   - `include: [{ byNodeTypes: ['reading'], byTags: ['diario-del-guerrero'] }]`
   - límite por count (p.ej. `maxItems=1`) para mostrar solo la lectura del día.
+
+---
+
+### 13) Ebooks (`nodeType=ebook`) — dieta de información sin “1 work por entrada”
+
+Motivación:
+- `nodeType=reading` funciona pero obliga a crear un work por entrada (p.ej. 365 para un diario), lo que hace caro dar de alta un ebook completo.
+- `nodeType=ebook` reduce el catálogo: **un solo work por ebook** y la app resuelve qué entrada mostrar.
+
+Modelo:
+- `Work.nodeType = 'ebook'`
+- `Work.ebookRef`:
+  - `ebookId`: id de `ebooks.json` (p.ej. `diario-del-guerrero`, `poder-etico`)
+  - `indexUrl`: URL (absoluta o relativa) al `index.json` del ebook
+  - `mode`:
+    - `daily_fixed`: la entrada depende de la fecha del calendario (ej. diario).
+    - `sequential`: la entrada es la siguiente a la última marcada como leída.
+
+Datos publicados (fuente):
+- La app consume el catálogo público `ebooks.json` (intenta `/ebooks/ebooks.json` y si no existe cae a `https://maballesteros.com/ebooks/ebooks.json`).
+- Cada ebook tiene un `index.json` con `basePath` + capítulos + secciones (`path` a markdown).
+
+Resolución en sesiones personales:
+- La sesión mantiene `SessionWork.contentRef` para “fijar” qué sección se planificó (evita sorpresas si cambian reglas).
+- Trazabilidad y progreso:
+  - `SessionWork.readPaths[]` guarda cada `sectionPath` marcado como leído en la sesión.
+  - En modo `sequential`, la siguiente sesión busca el último `readPaths[-1]` previo en el mismo `planId` para continuar.
+- Casos:
+  - `daily_fixed`: intenta encontrar la sección con título tipo `DD <Mes>:` (y fallback por nombre de fichero). **29-feb** no tiene entrada ⇒ no hay sección.
+  - `sequential`: muestra `sections[0]` si nunca se leyó; si se llegó al final, no hay sección.
+
+UI (hoy):
+- En la card, el detalle expandido renderiza el markdown de la sección del ebook.
+- Acciones:
+  - `Marcar leído`: marca `completed=true`, `result=ok` y añade el `sectionPath` a `readPaths[]`.
+  - `Ver más` (solo en `sequential`): permite avanzar a la siguiente sección dentro de la misma sesión (sin crear nuevos ítems).

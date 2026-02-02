@@ -12,6 +12,7 @@ import { YouTubePreview } from '@/components/YouTubePreview';
 import { MultiSelectChips } from '@/components/MultiSelectChips';
 import { Menu } from '@headlessui/react';
 import { useAuth } from '@/contexts/useAuth';
+import { fetchEbookCatalog, resolveEbookIndexUrl } from '@/services/ebookService';
 
 interface WorkFormState {
   id?: string;
@@ -22,6 +23,9 @@ interface WorkFormState {
   nodeType: string;
   scheduleKind: string;
   scheduleNumber: number;
+  ebookId: string;
+  ebookIndexUrl: string;
+  ebookMode: string;
   tags: string[];
   orderHint: number;
   nextWorkId: string;
@@ -48,6 +52,9 @@ const EMPTY_FORM: WorkFormState = {
   nodeType: '',
   scheduleKind: '',
   scheduleNumber: 1,
+  ebookId: '',
+  ebookIndexUrl: '',
+  ebookMode: 'sequential',
   tags: [],
   orderHint: 0,
   nextWorkId: '',
@@ -489,6 +496,7 @@ interface WorkEditCardProps {
   workOptions: Array<{ id: string; label: string }>;
   nodeTypeOptions: Array<{ value: string; label: string }>;
   tagOptions: Array<{ value: string; label: string }>;
+  ebookOptions: Array<{ id: string; title: string; indexUrl: string }>;
   onCreateNodeType: (raw: string) => string | null;
   onCreateTag: (raw: string) => string | null;
   depth: number;
@@ -516,6 +524,7 @@ function WorkEditCard({
   workOptions,
   nodeTypeOptions,
   tagOptions,
+  ebookOptions,
   onCreateNodeType,
   onCreateTag,
   depth,
@@ -544,6 +553,7 @@ function WorkEditCard({
   const subtitleInputId = form.id ? `work-subtitle-${form.id}` : undefined;
   const normalizedNodeType = (form.nodeType ?? '').trim().toLowerCase();
   const showSchedule = normalizedNodeType === 'reading' || form.scheduleKind.trim().length > 0;
+  const showEbook = normalizedNodeType === 'ebook' || form.ebookIndexUrl.trim().length > 0;
 
   return (
     <article
@@ -703,6 +713,58 @@ function WorkEditCard({
                 value={form.scheduleNumber}
                 onChange={(event) => onFieldChange({ scheduleNumber: Number(event.target.value) })}
                 disabled={!canEditContent || !form.scheduleKind}
+              />
+            </div>
+          </>
+        ) : null}
+        {showEbook ? (
+          <>
+            <div className="grid gap-2 sm:col-span-2">
+              <label className="text-xs uppercase tracking-wide text-white/40">Ebook (para `nodeType=ebook`)</label>
+              <select
+                className="input-field disabled:opacity-60"
+                value={form.ebookId}
+                onChange={(event) => {
+                  const nextId = event.target.value;
+                  const found = ebookOptions.find((entry) => entry.id === nextId);
+                  onFieldChange({
+                    ebookId: nextId,
+                    ebookIndexUrl: found?.indexUrl ?? form.ebookIndexUrl
+                  });
+                }}
+                disabled={!canEditContent}
+              >
+                <option value="">Selecciona un ebook…</option>
+                {ebookOptions.map((entry) => (
+                  <option key={entry.id} value={entry.id}>
+                    {entry.title}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-white/40">
+                Se carga desde `ebooks.json` publicado. Un solo work puede renderizar la entrada “que toca” (diario) o la siguiente (secuencial).
+              </p>
+            </div>
+            <div className="grid gap-2">
+              <label className="text-xs uppercase tracking-wide text-white/40">Modo</label>
+              <select
+                className="input-field disabled:opacity-60"
+                value={form.ebookMode}
+                onChange={(event) => onFieldChange({ ebookMode: event.target.value })}
+                disabled={!canEditContent}
+              >
+                <option value="sequential">Sequential</option>
+                <option value="daily_fixed">Daily fixed (day-of-year)</option>
+              </select>
+            </div>
+            <div className="grid gap-2">
+              <label className="text-xs uppercase tracking-wide text-white/40">Index URL</label>
+              <input
+                type="text"
+                className="input-field disabled:opacity-60"
+                value={form.ebookIndexUrl}
+                onChange={(event) => onFieldChange({ ebookIndexUrl: event.target.value })}
+                disabled={!canEditContent}
               />
             </div>
           </>
@@ -959,6 +1021,7 @@ export default function CatalogView() {
   const [editingEntries, setEditingEntries] = useState<Record<string, EditingEntry>>({});
   const [savingWorkId, setSavingWorkId] = useState<string | null>(null);
   const [togglingPersonalWorkId, setTogglingPersonalWorkId] = useState<string | null>(null);
+  const [ebookCatalog, setEbookCatalog] = useState<Array<{ id: string; title: string; indexUrl: string }>>([]);
 
   const objectiveMap = useMemo(() => new Map(objectives.map((objective) => [objective.id, objective])), [objectives]);
   const sortedObjectives = useMemo(
@@ -981,6 +1044,27 @@ export default function CatalogView() {
         .map((tag) => ({ value: tag.name, label: tag.name })),
     [workTaxonomy.tags]
   );
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        const entries = await fetchEbookCatalog();
+        if (cancelled) return;
+        setEbookCatalog(
+          entries.map((entry) => ({
+            id: entry.id,
+            title: entry.title,
+            indexUrl: resolveEbookIndexUrl(entry.path)
+          }))
+        );
+      } catch {
+        if (!cancelled) setEbookCatalog([]);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   const worksById = useMemo(() => new Map(works.map((work) => [work.id, work])), [works]);
   const childrenByWorkId = useMemo(() => {
     const map = new Map<string, Work[]>();
@@ -1330,6 +1414,9 @@ export default function CatalogView() {
             nodeType: work.nodeType ?? '',
             scheduleKind: work.schedule?.kind ?? '',
             scheduleNumber: work.schedule?.number ?? 1,
+            ebookId: work.ebookRef?.ebookId ?? '',
+            ebookIndexUrl: work.ebookRef?.indexUrl ?? '',
+            ebookMode: work.ebookRef?.mode ?? 'sequential',
             tags: work.tags ?? [],
             orderHint: work.orderHint ?? 0,
             nextWorkId: work.nextWorkId ?? '',
@@ -1388,6 +1475,9 @@ export default function CatalogView() {
           nodeType: work.nodeType ?? '',
           scheduleKind: work.schedule?.kind ?? '',
           scheduleNumber: work.schedule?.number ?? 1,
+          ebookId: work.ebookRef?.ebookId ?? '',
+          ebookIndexUrl: work.ebookRef?.indexUrl ?? '',
+          ebookMode: work.ebookRef?.mode ?? 'sequential',
           tags: work.tags ?? [],
           orderHint: work.orderHint ?? 0,
           nextWorkId: '',
@@ -1480,13 +1570,22 @@ export default function CatalogView() {
     const parentWorkId = parentValue.length > 0 ? parentValue : undefined;
     const nodeTypeValue = entry.data.nodeType.trim();
     const nodeType = nodeTypeValue.length > 0 ? nodeTypeValue : undefined;
+    const normalizedNodeType = (nodeType ?? '').trim().toLowerCase();
     const scheduleKindRaw = (entry.data.scheduleKind ?? '').trim();
     const scheduleKindCandidate = scheduleKindRaw.length > 0 ? scheduleKindRaw : undefined;
     const scheduleKind = isWorkScheduleKind(scheduleKindCandidate) ? scheduleKindCandidate : undefined;
     const scheduleNumberRaw = Number(entry.data.scheduleNumber);
     const scheduleNumber = Number.isFinite(scheduleNumberRaw) ? Math.trunc(scheduleNumberRaw) : undefined;
-    const effectiveScheduleKind = (nodeType ?? '').trim().toLowerCase() === 'reading' ? scheduleKind : undefined;
+    const effectiveScheduleKind = normalizedNodeType === 'reading' ? scheduleKind : undefined;
     const effectiveScheduleNumber = effectiveScheduleKind ? scheduleNumber : undefined;
+    const ebookIdRaw = (entry.data.ebookId ?? '').trim();
+    const ebookIndexUrlRaw = (entry.data.ebookIndexUrl ?? '').trim();
+    const ebookModeRaw = (entry.data.ebookMode ?? '').trim();
+    const ebookMode: 'daily_fixed' | 'sequential' = ebookModeRaw === 'daily_fixed' ? 'daily_fixed' : 'sequential';
+    const ebookRef =
+      normalizedNodeType === 'ebook' && ebookIdRaw && ebookIndexUrlRaw
+        ? { ebookId: ebookIdRaw, indexUrl: resolveEbookIndexUrl(ebookIndexUrlRaw), mode: ebookMode }
+        : undefined;
     const tags = normalizeTagsSelection(entry.data.tags ?? []);
     const orderHint = Number(entry.data.orderHint) > 0 ? Number(entry.data.orderHint) : undefined;
     const nextValue = (entry.data.nextWorkId ?? '').trim();
@@ -1501,6 +1600,7 @@ export default function CatalogView() {
       nodeType,
       scheduleKind: effectiveScheduleKind,
       scheduleNumber: effectiveScheduleNumber,
+      ebookRef,
       tags,
       orderHint,
       nextWorkId,
@@ -1527,6 +1627,11 @@ export default function CatalogView() {
 
     if (!payload.objectiveId) {
       setFeedback({ type: 'error', text: 'Selecciona un objetivo para el trabajo.' });
+      return;
+    }
+
+    if (normalizedNodeType === 'ebook' && !payload.ebookRef) {
+      setFeedback({ type: 'error', text: 'Para `nodeType=ebook`, selecciona un ebook y un indexUrl válido.' });
       return;
     }
 
@@ -1567,6 +1672,7 @@ export default function CatalogView() {
             nodeType: payload.nodeType,
             scheduleKind: payload.scheduleKind,
             scheduleNumber: payload.scheduleNumber,
+            ebookRef: payload.ebookRef,
             tags: payload.tags,
             orderHint: payload.orderHint,
             nextWorkId: payload.nextWorkId,
@@ -1596,6 +1702,7 @@ export default function CatalogView() {
           nodeType: payload.nodeType ?? null,
           scheduleKind: payload.scheduleKind ?? null,
           scheduleNumber: payload.scheduleKind ? payload.scheduleNumber ?? null : null,
+          ebookRef: normalizedNodeType === 'ebook' ? payload.ebookRef ?? null : null,
           tags: payload.tags,
           orderHint: payload.orderHint ?? null,
           nextWorkId: payload.nextWorkId ?? null,
@@ -1811,6 +1918,7 @@ export default function CatalogView() {
                           workOptions={workOptions}
                           nodeTypeOptions={nodeTypeOptions}
                           tagOptions={tagOptions}
+                          ebookOptions={ebookCatalog}
                           onCreateNodeType={upsertNodeType}
                           onCreateTag={upsertTag}
                           depth={entry.depth}

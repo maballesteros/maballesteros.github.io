@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
 import { supabase } from '@/lib/supabaseClient';
-import type { Work, WorkCollaborator, WorkScheduleKind, WorkVisibility } from '@/types';
+import type { EbookRef, Work, WorkCollaborator, WorkScheduleKind, WorkVisibility } from '@/types';
 
 interface WorkRow {
   id: string;
@@ -12,6 +12,7 @@ interface WorkRow {
   node_type?: string | null;
   schedule_kind?: string | null;
   schedule_number?: number | null;
+  ebook_ref?: unknown;
   tags?: unknown;
   order_hint?: number | null;
   next_work_id?: string | null;
@@ -43,6 +44,7 @@ export interface WorkCreateInput {
   nodeType?: string;
   scheduleKind?: WorkScheduleKind;
   scheduleNumber?: number;
+  ebookRef?: EbookRef;
   tags?: string[];
   orderHint?: number;
   nextWorkId?: string | null;
@@ -63,6 +65,7 @@ export interface WorkUpdateInput {
   nodeType?: string | null;
   scheduleKind?: WorkScheduleKind | null;
   scheduleNumber?: number | null;
+  ebookRef?: EbookRef | null;
   tags?: string[];
   orderHint?: number | null;
   nextWorkId?: string | null;
@@ -89,6 +92,7 @@ const WORK_SELECT = `
   node_type,
   schedule_kind,
   schedule_number,
+  ebook_ref,
   tags,
   order_hint,
   next_work_id,
@@ -150,6 +154,17 @@ const parseSchedule = (kind: unknown, number: unknown): Work['schedule'] => {
   return { kind, number: Math.trunc(numeric) };
 };
 
+const parseEbookRef = (value: unknown): EbookRef | undefined => {
+  if (!value || typeof value !== 'object') return undefined;
+  const raw = value as Partial<EbookRef>;
+  const ebookId = String(raw.ebookId ?? '').trim();
+  const indexUrl = String(raw.indexUrl ?? '').trim();
+  const mode = String(raw.mode ?? '').trim() as EbookRef['mode'];
+  if (!ebookId || !indexUrl) return undefined;
+  if (mode !== 'daily_fixed' && mode !== 'sequential') return undefined;
+  return { ebookId, indexUrl, mode };
+};
+
 const mapCollaborators = (rows: WorkRow['work_collaborators']): WorkCollaborator[] =>
   (rows ?? []).map((collaborator) => ({
     id: `${collaborator.id}`,
@@ -177,6 +192,7 @@ const mapWorkRow = (
     parentWorkId: row.parent_work_id ?? null,
     nodeType: row.node_type ?? undefined,
     schedule: parseSchedule(row.schedule_kind, row.schedule_number),
+    ebookRef: parseEbookRef(row.ebook_ref),
     tags: parseTags(row.tags),
     orderHint: typeof row.order_hint === 'number' ? row.order_hint : undefined,
     nextWorkId: row.next_work_id ?? null,
@@ -223,6 +239,7 @@ export async function createWork(
     typeof input.scheduleNumber === 'number' && Number.isFinite(input.scheduleNumber)
       ? Math.trunc(input.scheduleNumber)
       : null;
+  const ebookRef = input.ebookRef ?? null;
   const tags = parseTags(input.tags ?? []);
   const orderHint = typeof input.orderHint === 'number' && Number.isFinite(input.orderHint) ? input.orderHint : null;
   const nextWorkId = input.nextWorkId ?? null;
@@ -239,6 +256,7 @@ export async function createWork(
       node_type: nodeType,
       schedule_kind: scheduleKind,
       schedule_number: scheduleNumber,
+      ebook_ref: ebookRef,
       tags,
       order_hint: orderHint,
       next_work_id: nextWorkId,
@@ -302,6 +320,7 @@ export async function updateWork(
   if (patch.nodeType !== undefined) updatePayload.node_type = patch.nodeType;
   if (patch.scheduleKind !== undefined) updatePayload.schedule_kind = patch.scheduleKind;
   if (patch.scheduleNumber !== undefined) updatePayload.schedule_number = patch.scheduleNumber;
+  if (patch.ebookRef !== undefined) updatePayload.ebook_ref = patch.ebookRef;
   if (patch.tags !== undefined) updatePayload.tags = parseTags(patch.tags);
   if (patch.orderHint !== undefined) updatePayload.order_hint = patch.orderHint;
   if (patch.nextWorkId !== undefined) updatePayload.next_work_id = patch.nextWorkId;
