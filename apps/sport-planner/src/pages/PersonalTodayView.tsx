@@ -959,6 +959,11 @@ export default function PersonalTodayView() {
     [selectedPlanId, updateSessionWorkItems, worksById]
   );
 
+  useEffect(() => {
+    if (!activeSession) return;
+    void hydrateEbookContentRefs(activeSession.id);
+  }, [activeSession?.id, activeSession, hydrateEbookContentRefs]);
+
   const fillTodayPlan = useCallback(
     (opts?: { reason?: string; includeDiagnostics?: boolean }) => {
       if (isFillingPlan) return;
@@ -1297,7 +1302,7 @@ export default function PersonalTodayView() {
     const durationMinutes = sessionItem?.customDurationMinutes ?? work.estimatedMinutes ?? estimateWorkMinutes(work, todayPlan);
 
     const focusLabelRaw = (sessionItem?.focusLabel ?? '').trim();
-    const titleExtra = focusLabelRaw && activeWorkGroupNames.has(focusLabelRaw) ? '' : focusLabelRaw;
+    const focusLabelExtra = focusLabelRaw && activeWorkGroupNames.has(focusLabelRaw) ? '' : focusLabelRaw;
 
     const statusPill =
       currentResult
@@ -1372,12 +1377,28 @@ export default function PersonalTodayView() {
           )
         : undefined;
 
+    const ebookSectionTitle =
+      normalizedNodeType === 'ebook' && sessionItem?.contentRef?.kind === 'ebook_section'
+        ? (sessionItem.contentRef.sectionTitle ?? '').trim()
+        : '';
+    const ebookChapterTitle =
+      normalizedNodeType === 'ebook' && sessionItem?.contentRef?.kind === 'ebook_section'
+        ? (sessionItem.contentRef.chapterTitle ?? '').trim()
+        : '';
+
+    const titleExtra = [focusLabelExtra, ebookSectionTitle].filter((value) => value.length > 0).join(' — ');
+    const subtitle = work.subtitle?.trim()
+      ? work.subtitle
+      : ebookChapterTitle
+        ? ebookChapterTitle
+        : undefined;
+
     return (
       <SessionWorkViewCard
         key={work.id}
         title={work.name}
         titleExtra={titleExtra}
-        subtitle={work.subtitle}
+        subtitle={subtitle}
         objective={objective}
         checked={isDone}
         onCheckedChange={toggleDone}
