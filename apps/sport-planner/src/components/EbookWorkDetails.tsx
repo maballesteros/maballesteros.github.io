@@ -14,6 +14,65 @@ import {
   resolveNextSequentialSection
 } from '@/services/ebookService';
 
+function markdownToPlainText(markdown: string): string {
+  let text = String(markdown ?? '');
+  if (!text.trim()) return '';
+
+  text = text.replace(/\r\n/g, '\n');
+  text = text.replace(/^---\n[\s\S]*?\n---\n/m, '');
+
+  text = text.replace(/```([\s\S]*?)```/g, (_match, code) => String(code ?? '').trim());
+  text = text.replace(/`([^`]+)`/g, '$1');
+
+  text = text.replace(/^>\s?/gm, '');
+  text = text.replace(/^\s{0,3}#{1,6}\s+/gm, '');
+  text = text.replace(/^\s{0,3}([-*+]|\d+\.)\s+/gm, '- ');
+
+  text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, url) => {
+    const a = String(alt ?? '').trim();
+    const u = String(url ?? '').trim();
+    if (a && u) return `${a} (${u})`;
+    return a || u;
+  });
+  text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, label, url) => {
+    const l = String(label ?? '').trim();
+    const u = String(url ?? '').trim();
+    if (l && u) return `${l} (${u})`;
+    return l || u;
+  });
+
+  text = text.replace(/(\*\*|__)(.*?)\1/g, '$2');
+  text = text.replace(/(\*|_)(.*?)\1/g, '$2');
+  text = text.replace(/~~(.*?)~~/g, '$1');
+
+  text = text.replace(/\n{3,}/g, '\n\n');
+  return text.trim();
+}
+
+async function copyToClipboard(text: string): Promise<boolean> {
+  const value = String(text ?? '');
+  if (!value) return false;
+  try {
+    await navigator.clipboard.writeText(value);
+    return true;
+  } catch {
+    try {
+      const el = document.createElement('textarea');
+      el.value = value;
+      el.setAttribute('readonly', 'true');
+      el.style.position = 'fixed';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(el);
+      return ok;
+    } catch {
+      return false;
+    }
+  }
+}
+
 function mergeReadPaths(existing: string[] | undefined, nextPath: string): string[] {
   const cleaned = (existing ?? []).map((p) => String(p ?? '').trim()).filter(Boolean);
   const candidate = String(nextPath ?? '').trim();
@@ -52,6 +111,7 @@ export function EbookWorkDetails({
   const [cursorIndex, setCursorIndex] = useState<number | null>(null);
   const [markdown, setMarkdown] = useState<string>('');
   const [markdownLoading, setMarkdownLoading] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState<'idle' | 'copied' | 'error'>('idle');
 
   const sections = useMemo(() => (indexData ? flattenEbookSections(indexData) : []), [indexData]);
 
@@ -192,6 +252,18 @@ export function EbookWorkDetails({
     setCursorIndex((prev) => (prev === null ? prev : Math.min(prev + 1, sections.length - 1)));
   };
 
+  const handleCopy = async () => {
+    if (!ebookRef || !currentSection || !indexData) return;
+    const url = resolveMarkdownUrl(ebookRef.indexUrl, indexData, currentSection.path);
+    const titleLine = `${indexData.title} — ${currentSection.title}`;
+    const chapterLine = currentSection.chapterTitle ? `(${currentSection.chapterTitle})` : '';
+    const plain = markdownToPlainText(markdown);
+    const payload = [titleLine, chapterLine, '', plain, '', url].filter((line) => String(line ?? '').trim().length > 0).join('\n');
+    const ok = await copyToClipboard(payload);
+    setCopyFeedback(ok ? 'copied' : 'error');
+    window.setTimeout(() => setCopyFeedback('idle'), ok ? 1500 : 2500);
+  };
+
   const handleMarkRead = () => {
     if (!ebookRef || !currentSection) return;
     updateSessionWorkDetails(sessionId, sessionItem.id, {
@@ -253,6 +325,17 @@ export function EbookWorkDetails({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            className={clsx(
+              'btn-secondary',
+              copyFeedback === 'copied' && 'border-emerald-400/30 text-emerald-100',
+              copyFeedback === 'error' && 'border-rose-400/30 text-rose-100'
+            )}
+            onClick={handleCopy}
+          >
+            {copyFeedback === 'copied' ? 'Copiado' : copyFeedback === 'error' ? 'Error al copiar' : 'Copiar'}
+          </button>
           {ebookRef.mode === 'sequential' ? (
             <button type="button" className="btn-secondary" onClick={handleAdvance} disabled={!canAdvance}>
               Ver más
@@ -275,4 +358,3 @@ export function EbookWorkDetails({
     </div>
   );
 }
-

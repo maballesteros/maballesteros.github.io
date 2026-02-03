@@ -325,4 +325,5 @@ UI (hoy):
 - El detalle expandido renderiza el markdown de la sección del ebook.
 - Acciones:
   - `Marcar leído`: marca `completed=true`, `result=ok` y añade el `sectionPath` a `readPaths[]`.
+  - `Copiar`: copia al portapapeles el título + contenido (texto plano derivado del markdown) + URL de la entrada, para compartir (WhatsApp, etc.).
   - `Ver más` (solo en `sequential`): permite avanzar a la siguiente sección dentro de la misma sesión (sin crear nuevos ítems).
