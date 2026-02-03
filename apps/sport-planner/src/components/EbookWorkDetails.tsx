@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 
+import { Menu } from '@headlessui/react';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { useAppStore } from '@/store/appStore';
 import type { SessionWork, Work } from '@/types';
@@ -14,20 +15,19 @@ import {
   resolveNextSequentialSection
 } from '@/services/ebookService';
 
-function markdownToPlainText(markdown: string): string {
-  let text = String(markdown ?? '');
-  if (!text.trim()) return '';
+function normalizeMarkdownForCopy(markdown: string): string {
+  const text = String(markdown ?? '').replace(/\r\n/g, '\n').trim();
+  return text;
+}
 
-  text = text.replace(/\r\n/g, '\n');
-  text = text.replace(/^---\n[\s\S]*?\n---\n/m, '');
+function markdownToWhatsAppText(markdown: string): string {
+  let text = String(markdown ?? '').replace(/\r\n/g, '\n').trim();
+  if (!text) return '';
 
-  text = text.replace(/```([\s\S]*?)```/g, (_match, code) => String(code ?? '').trim());
-  text = text.replace(/`([^`]+)`/g, '$1');
+  // Headings -> bold line.
+  text = text.replace(/^\s{0,3}#{1,6}\s+(.+)$/gm, (_match, title) => `*${String(title ?? '').trim()}*`);
 
-  text = text.replace(/^>\s?/gm, '');
-  text = text.replace(/^\s{0,3}#{1,6}\s+/gm, '');
-  text = text.replace(/^\s{0,3}([-*+]|\d+\.)\s+/gm, '- ');
-
+  // Markdown links/images -> WhatsApp-friendly.
   text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, url) => {
     const a = String(alt ?? '').trim();
     const u = String(url ?? '').trim();
@@ -41,10 +41,10 @@ function markdownToPlainText(markdown: string): string {
     return l || u;
   });
 
-  text = text.replace(/(\*\*|__)(.*?)\1/g, '$2');
-  text = text.replace(/(\*|_)(.*?)\1/g, '$2');
-  text = text.replace(/~~(.*?)~~/g, '$1');
+  // Bold: **x** -> *x* (WhatsApp).
+  text = text.replace(/\*\*([^*]+)\*\*/g, (_match, inner) => `*${String(inner ?? '').trim()}*`);
 
+  // Collapse extra blank lines.
   text = text.replace(/\n{3,}/g, '\n\n');
   return text.trim();
 }
@@ -112,6 +112,7 @@ export function EbookWorkDetails({
   const [markdown, setMarkdown] = useState<string>('');
   const [markdownLoading, setMarkdownLoading] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState<'idle' | 'copied' | 'error'>('idle');
+  const [copyLabel, setCopyLabel] = useState<string>('Copiar');
 
   const sections = useMemo(() => (indexData ? flattenEbookSections(indexData) : []), [indexData]);
 
@@ -252,15 +253,16 @@ export function EbookWorkDetails({
     setCursorIndex((prev) => (prev === null ? prev : Math.min(prev + 1, sections.length - 1)));
   };
 
-  const handleCopy = async () => {
+  const handleCopy = async (mode: 'markdown' | 'whatsapp') => {
     if (!ebookRef || !currentSection || !indexData) return;
     const url = resolveMarkdownUrl(ebookRef.indexUrl, indexData, currentSection.path);
-    const titleLine = `${indexData.title} — ${currentSection.title}`;
-    const chapterLine = currentSection.chapterTitle ? `(${currentSection.chapterTitle})` : '';
-    const plain = markdownToPlainText(markdown);
-    const payload = [titleLine, chapterLine, '', plain, '', url].filter((line) => String(line ?? '').trim().length > 0).join('\n');
+    const normalized = normalizeMarkdownForCopy(markdown);
+    const prefix = normalized.startsWith('#') ? '' : `# ${currentSection.title}\n\n`;
+    const content = mode === 'whatsapp' ? markdownToWhatsAppText(`${prefix}${normalized}`) : `${prefix}${normalized}`.trim();
+    const payload = [content, '', url].filter((line) => String(line ?? '').trim().length > 0).join('\n');
     const ok = await copyToClipboard(payload);
     setCopyFeedback(ok ? 'copied' : 'error');
+    setCopyLabel(mode === 'whatsapp' ? 'Copiar WhatsApp' : 'Copiar');
     window.setTimeout(() => setCopyFeedback('idle'), ok ? 1500 : 2500);
   };
 
@@ -325,17 +327,51 @@ export function EbookWorkDetails({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            className={clsx(
-              'btn-secondary',
-              copyFeedback === 'copied' && 'border-emerald-400/30 text-emerald-100',
-              copyFeedback === 'error' && 'border-rose-400/30 text-rose-100'
-            )}
-            onClick={handleCopy}
-          >
-            {copyFeedback === 'copied' ? 'Copiado' : copyFeedback === 'error' ? 'Error al copiar' : 'Copiar'}
-          </button>
+          <Menu as="div" className="relative inline-flex">
+            <Menu.Button
+              className={clsx(
+                'btn-secondary',
+                copyFeedback === 'copied' && 'border-emerald-400/30 text-emerald-100',
+                copyFeedback === 'error' && 'border-rose-400/30 text-rose-100'
+              )}
+            >
+              {copyFeedback === 'copied'
+                ? 'Copiado'
+                : copyFeedback === 'error'
+                  ? 'Error al copiar'
+                  : copyLabel}
+            </Menu.Button>
+            <Menu.Items className="absolute right-0 top-full z-20 mt-2 w-44 overflow-hidden rounded-2xl border border-white/15 bg-slate-950/95 p-1 text-sm shadow-lg shadow-black/40 focus:outline-none">
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="button"
+                    className={clsx(
+                      'w-full rounded-xl px-3 py-2 text-left text-sm transition',
+                      active ? 'bg-white/10 text-white' : 'text-white/80'
+                    )}
+                    onClick={() => void handleCopy('markdown')}
+                  >
+                    Copiar (Markdown)
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="button"
+                    className={clsx(
+                      'w-full rounded-xl px-3 py-2 text-left text-sm transition',
+                      active ? 'bg-white/10 text-white' : 'text-white/80'
+                    )}
+                    onClick={() => void handleCopy('whatsapp')}
+                  >
+                    Copiar (WhatsApp)
+                  </button>
+                )}
+              </Menu.Item>
+            </Menu.Items>
+          </Menu>
           {ebookRef.mode === 'sequential' ? (
             <button type="button" className="btn-secondary" onClick={handleAdvance} disabled={!canAdvance}>
               Ver más
