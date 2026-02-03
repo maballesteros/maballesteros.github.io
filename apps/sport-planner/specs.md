@@ -321,7 +321,8 @@ Resolución en sesiones personales:
   - `sequential`: muestra `sections[0]` si nunca se leyó; si se llegó al final, no hay sección.
 
 UI (hoy):
-- En la card, el detalle expandido renderiza el markdown de la sección del ebook.
+- En la card, el preview muestra el **título de la sección resuelta** (sin expandir).
+- El detalle expandido renderiza el markdown de la sección del ebook.
 - Acciones:
   - `Marcar leído`: marca `completed=true`, `result=ok` y añade el `sectionPath` a `readPaths[]`.
   - `Ver más` (solo en `sequential`): permite avanzar a la siguiente sección dentro de la misma sesión (sin crear nuevos ítems).
