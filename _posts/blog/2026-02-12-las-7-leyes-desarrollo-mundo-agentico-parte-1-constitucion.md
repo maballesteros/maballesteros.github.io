@@ -8,8 +8,6 @@ comments: true
 ref: las-7-leyes-desarrollo-mundo-agentico-parte-1-constitucion
 ---
 
-
-
 Durante años, la coherencia del software se ha sostenido con un pacto tácito: **si alguien revisa, el sistema se mantiene sano**. La arquitectura no deriva, las convenciones se respetan, las decisiones se recuerdan... porque hay ojos humanos mirando cada cambio.
 
 Ese pacto funciona mientras el volumen es humano.
@@ -103,9 +101,220 @@ Constitución = un conjunto pequeño de leyes que **si se rompen, el cambio no e
 
 La diferencia entre "reglas" y "constitución" es que aquí no hablamos de preferencias. Hablamos de propiedades estructurales que evitan que el sistema colapse cuando aceleras.
 
+Y aquí hay una idea clave para que esto sea realmente operable: **features e invariantes son dos contratos distintos, pero deben vivir reconciliados**.  
+Las features explican intención y comportamiento end-to-end; los invariantes fijan qué no se puede romper y cómo se verifica.
+
 ### Invariant Framework: bloque listo para pegar en `AGENTS.md`
 
-Si quieres llevar este principio a un repo sin ambigüedad, aquí tienes un bloque directo para copiar/pegar:
+El detalle completo en formato copy/paste está en el **Anexo A**.
+
+La regla de fondo sigue siendo la misma: si no puede fallar en CI con mensaje accionable, no es un invariante, es una intención.
+
+Eso cubre la mitad técnica del problema. La otra mitad es organizativa: **ownership**.
+Un invariante sin owner acaba en tierra de nadie cuando falla.
+
+### Ownership Framework: quién responde de qué
+
+Ownership no es "a quién mencionar en Slack". Es el sistema que decide, en cada ejecución del agente, **quién tiene autoridad, quién debe validar y quién responde cuando algo se rompe**.
+
+Su función operativa por ejecución es concreta:
+
+* **Routing**: cada tarea se enruta a un dominio con owner explícito.
+* **Authority**: el nivel de autonomía permitido depende del owner + riesgo.
+* **Escalation**: si hay ambigüedad o impacto alto, se escala al owner antes de actuar.
+* **Approval**: cambios en rutas críticas no se cierran sin validación del owner.
+* **Accountability**: fallos de invariantes y drift generan follow-up con dueño asignado.
+
+Plantilla base para pegar en `AGENTS.md` (incluye formato de `OWNERSHIP.md`): **ver Anexo B**.
+
+Sin esta capa, los invariantes existen "en papel", pero el agente no sabe a quién obedecer ni quién decide en casos límite.
+
+### Auto-Doc Framework: bloquear deriva y ahorrar tokens
+
+Con agentes, la documentación deja de ser "nice to have": se convierte en infraestructura operativa.
+Sirve para dos cosas: bajar coste de tokens y capturar intenciones de negocio que no se deducen del código.
+
+Bloque unificado para copiar/pegar en `AGENTS.md`: **ver Anexo D**.
+
+Sin este sistema auto-doc, el agente paga "impuesto de exploración" en cada tarea y además pierde contexto de negocio crítico.
+
+### Ejemplo realista (formato completo): `INV-BILL-004`
+
+Ejemplo completo del invariante `INV-BILL-004`:
+
+```markdown
+---
+id: INV-BILL-004
+name: Idempotent capture requests
+domain: billing
+type: operational
+status: blocking
+owner: "@team-billing-platform"
+last_reviewed: 2026-02-12
+---
+
+## Formal Statement (IF/THEN)
+
+IF two or more capture requests arrive with the same `payment_intent_id` + `idempotency_key`,
+THEN the system must produce at most one successful provider capture side effect.
+
+IF a capture has already succeeded for that key pair,
+THEN every subsequent request must return the same logical result (`capture_id`, `status=CAPTURED`)
+without issuing a second provider charge.
+
+## Why this exists
+
+Prevents duplicate customer charges under retries, race conditions, or client/network instability.
+
+## Enforcement Points
+
+1. API boundary:
+   * reject capture requests without `idempotency_key`.
+2. Persistence:
+   * unique constraint on (`payment_intent_id`, `idempotency_key`).
+3. Domain/service:
+   * concurrency-safe lock/transaction around capture decision.
+4. CI tests:
+   * parallel request test proving one side effect only.
+   * retry test proving same response payload.
+
+## Failure Message (actionable)
+
+`INV-BILL-004 violated: duplicate capture side effect detected for payment_intent_id=<id>, idempotency_key=<key>. Ensure idempotency key validation + unique constraint + single capture path in BillingCaptureService.`
+
+## Exceptions
+
+- none
+
+## Related Features
+
+- ../../features/billing-checkout.md
+- ../../features/billing-refunds.md
+
+## Tests and Evidence
+
+- tests/billing/capture_idempotency_concurrency_test.*
+- tests/billing/capture_idempotency_retry_test.*
+- ci/checks/billing_invariants.yml
+```
+
+Por qué este ejemplo es útil para agentes:
+
+* es binario (se cumple/no se cumple),
+* define dónde se rompe (API, DB, dominio, CI),
+* y ofrece remediación concreta sin interpretación ambigua.
+
+### Segundo ejemplo realista (arquitectura/operación): `INV-ARCH-011`
+
+Este ejemplo resuelve un problema muy común en producción: mezclar errores accionables con ruido (p. ej. desconexiones de cliente).  
+Ejemplo completo del invariante `INV-ARCH-011`:
+
+```markdown
+---
+id: INV-ARCH-011
+name: Actionable error classification on critical HTTP boundaries
+domain: architecture
+type: observability
+status: blocking
+owner: "@team-platform-observability"
+last_reviewed: 2026-02-12
+---
+
+## Formal Statement (IF/THEN)
+
+IF an error in a critical HTTP boundary matches a known non-actionable client-abort signature
+(`client_closed_request`, `broken_pipe`, `ECONNRESET` before server-side effect),
+THEN it must be emitted as `actionable=false`, `severity=info|warn`, and excluded from pager/SLO error budget.
+
+IF an error can affect correctness, integrity, or completed side effects,
+THEN it must be emitted as `actionable=true`, `severity=error`, and included in pager/SLO error budget.
+
+## Why this exists
+
+Prevents alert fatigue and keeps production error signals trustworthy for operators and agents.
+
+## Enforcement Points
+
+1. Error middleware:
+   * all boundary exceptions pass through a centralized classifier.
+2. Taxonomy source:
+   * signatures and classes versioned in `docs/observability/error-taxonomy.yml`.
+3. CI tests:
+   * classification contract tests for known signatures.
+   * pager query tests asserting only `actionable=true` contributes to alerting.
+4. Logging guard:
+   * lint/check forbids raw `logger.error` in HTTP boundaries without classification fields.
+
+## Failure Message (actionable)
+
+`INV-ARCH-011 violated: unclassified or misclassified boundary error detected. Route exception through ErrorClassifier and set actionable/severity according to docs/observability/error-taxonomy.yml.`
+
+## Exceptions
+
+- id: EXC-ARCH-2026-02-12-01
+  reason: new upstream signature pending classification
+  expires_at: 2026-02-19
+
+## Related Features
+
+- ../../features/api-gateway.md
+- ../../features/platform-observability.md
+
+## Tests and Evidence
+
+- tests/observability/error_classification_contract_test.*
+- tests/observability/pager_budget_filter_test.*
+- ci/checks/observability_invariants.yml
+```
+
+### Anti-patrones (confundir invariante con regla de negocio)
+
+**Anti-patrón 1 (mal):**  
+"Durante campaña, descuentos al 20% para nuevos usuarios" como invariante.
+
+**Correcto:**  
+Es `Policy` (cambia por estrategia). Lo invariante sería algo como: "nunca aplicar descuento fuera de la unidad de facturación definida".
+
+**Anti-patrón 2 (mal):**  
+"Enviar push a las 09:00" como invariante.
+
+**Correcto:**  
+Es `Policy` de canal/horario. Lo invariante sería: "si un evento requiere notificación crítica, debe dejar traza auditable y estado de entrega".
+
+**Anti-patrón 3 (mal):**  
+"Usar color verde para éxito" como invariante.
+
+**Correcto:**  
+Es decisión UI. Lo invariante sería: "un estado terminal exitoso debe mapearse a una semántica consistente en API/UI/analytics".
+
+### Verificación contra la definición (ambos ejemplos)
+
+Checklist de definición de `System invariant`:
+
+* **Binario:** sí. Ambos definen condiciones IF/THEN evaluables (cumple/no cumple).
+* **Verificable mecánicamente:** sí. Ambos incluyen enforcement en CI/tests/checks.
+* **Fallo accionable:** sí. Ambos incluyen mensaje de fallo con remediación concreta.
+* **No es policy cambiante:** sí. Ambos protegen coherencia/safety, no una preferencia de negocio temporal.
+
+---
+
+## Cierre de la Parte 1
+
+Conclusión breve: no hay autonomía segura sin constitución operativa.
+
+* Los invariantes convierten intención estable en checks ejecutables.
+* El ownership evita que la calidad quede "sin dueño".
+* El sistema docs-first reduce coste de razonamiento y preserva intención de negocio.
+
+Con esa base, en la Parte 2 bajamos a ejecución diaria: cómo operar esa constitución con entornos deterministas, observabilidad, guardrails por riesgo, reconciliación continua y seguridad por diseño.
+
+Siguiente entrega: [Parte 2: De entornos deterministas a seguridad operativa](/blog/las-7-leyes-desarrollo-mundo-agentico-parte-2-operacion-segura/).
+
+---
+
+## Anexos (snippets copy/paste para `AGENTS.md`)
+
+### Anexo A — `Invariant Framework`
 
 ```markdown
 # Invariant Framework
@@ -121,6 +330,26 @@ Si quieres llevar este principio a un repo sin ambigüedad, aquí tienes un bloq
 * `docs/invariants/*` captures non-negotiable system guarantees.
 * If intent is stable and safety/consistency-critical, it must become an invariant.
 
+**Domain catalog (required)**
+
+* Canonical domain list lives in `docs/domains/catalog.yml`.
+* Each domain entry must declare: `domain`, `owner`, `backup_owner`, `risk_level`, `status`.
+* New domains cannot be used in invariants until registered in the catalog.
+
+**Storage model (recommended)**
+
+* One file per invariant: `docs/invariants/<domain>/INV-*.md`.
+* One index per domain: `docs/invariants/<domain>/index.md`.
+* Domain index summarizes status/owner/enforcement and links to each invariant file.
+* Cross-domain invariants live under `docs/invariants/_cross/INV-CROSS-*.md`.
+
+**Location and naming rules (at scale)**
+
+* Invariant IDs follow: `INV-<DOMAIN>-NNN` (e.g., `INV-BILL-001`).
+* `<DOMAIN>` token must exist in `docs/domains/catalog.yml`.
+* Invariant file name must match its ID exactly.
+* Feature guides live in `docs/features/<feature>.md` and reference invariants by ID + relative link.
+
 **Invariant types (examples)**
 
 * Structural (architecture, ownership, coupling)
@@ -133,9 +362,8 @@ Si quieres llevar este principio a un repo sin ambigüedad, aquí tienes un bloq
 
 1. Write an invariant spec file under `docs/invariants/<domain>/<ID>.md` using the template.
 2. Implement enforcement:
-
-    * Prefer: CI checks / linters / structural tests.
-    * If needed: webhook guards + reconciliation job.
+   * Prefer: CI checks / linters / structural tests.
+   * If needed: webhook guards + reconciliation job.
 3. Add tests proving it fails when violated and passes when fixed.
 4. Ensure CI error messages include a short remediation instruction.
 
@@ -214,26 +442,53 @@ Never retire only to unblock delivery. If delivery pressure exists, define a tim
    * new/updated/retired invariant spec, or
    * explicit "no invariant change needed" rationale.
 5. CI fails if invariant-impacting PR lacks required invariant delta evidence.
+
+**Feature-Invariant link contract**
+
+* Feature guides must reference applicable invariant IDs.
+* Invariant specs must reference related feature guides.
+* Critical feature changes must include:
+  * invariant delta, or
+  * explicit `no-invariant-needed` rationale.
+* CI fails on:
+  * missing references in critical feature docs,
+  * invariant IDs referenced by features that do not exist,
+  * invariant specs without linked feature context (when feature exists).
+
+**Scalability checks (CI)**
+
+* invariant ID uniqueness across repository.
+* invariant file name == invariant ID.
+* invariant domain token exists in domain catalog.
+* every critical-path feature declares `## Invariants` section.
+* every blocking invariant has at least one enforcement hook (CI/test/lint/job).
+
+**Reference format (normative)**
+
+In `docs/features/<feature>.md`:
+
+`## Invariants`
+
+`- INV-BILL-001 - [No negative settled amount](../invariants/billing/INV-BILL-001.md) - protects billing integrity after settlement.`
+
+`- INV-BILL-004 - [Idempotent capture requests](../invariants/billing/INV-BILL-004.md) - prevents duplicated charges on retries.`
+
+If no invariant applies:
+
+`## Invariants`
+
+`- no-invariant-needed: reason="UI-only copy update"; owner="@team-content"; reviewed="2026-02-12"`
+
+In `docs/invariants/<domain>/INV-*.md`:
+
+`## Related Features`
+
+`- ../../features/billing-checkout.md`
+
+`- ../../features/billing-refunds.md`
 ```
 
-La regla de fondo sigue siendo la misma: si no puede fallar en CI con mensaje accionable, no es un invariante, es una intención.
-
-Eso cubre la mitad técnica del problema. La otra mitad es organizativa: **ownership**.
-Un invariante sin owner acaba en tierra de nadie cuando falla.
-
-### Ownership Framework: quién responde de qué
-
-Ownership no es "a quién mencionar en Slack". Es el sistema que decide, en cada ejecución del agente, **quién tiene autoridad, quién debe validar y quién responde cuando algo se rompe**.
-
-Su función operativa por ejecución es concreta:
-
-* **Routing**: cada tarea se enruta a un dominio con owner explícito.
-* **Authority**: el nivel de autonomía permitido depende del owner + riesgo.
-* **Escalation**: si hay ambigüedad o impacto alto, se escala al owner antes de actuar.
-* **Approval**: cambios en rutas críticas no se cierran sin validación del owner.
-* **Accountability**: fallos de invariantes y drift generan follow-up con dueño asignado.
-
-Plantilla base para pegar también en `AGENTS.md`:
+### Anexo B — `Ownership Framework`
 
 ```markdown
 # Ownership Framework
@@ -257,6 +512,14 @@ Plantilla base para pegar también en `AGENTS.md`:
 3. Invariant specs with `Owner` field and review date.
 4. Risk map (paths/domains -> autonomy level) used by CI/policy engine.
 
+**`OWNERSHIP.md` format (normative example)**
+
+| Domain | Owner | Backup owner | SLA (critical) | Critical paths | Invariants |
+|---|---|---|---|---|---|
+| billing | @team-billing-platform | @team-platform-oncall | 30m | `src/billing/`, `migrations/billing/` | INV-BILL-001, INV-BILL-004 |
+| auth | @team-auth-platform | @team-platform-oncall | 30m | `src/auth/` | INV-AUTH-002 |
+| content | @team-content | @team-platform-oncall | 4h | `src/content/` | INV-CONT-003 |
+
 **CI/policy enforcement**
 
 * CI fails if changed critical path has no owner mapping.
@@ -270,26 +533,7 @@ Plantilla base para pegar también en `AGENTS.md`:
 * If no clear owner exists, no autonomy for that domain.
 ```
 
-Ejemplo mínimo de `OWNERSHIP.md`:
-
-```markdown
-# Ownership Map
-
-| Domain | Owner | Backup owner | SLA (critical) | Critical paths | Invariants |
-|---|---|---|---|---|---|
-| billing | @team-billing-platform | @team-platform-oncall | 30m | `src/billing/`, `migrations/billing/` | INV-BILL-001, INV-BILL-004 |
-| auth | @team-auth-platform | @team-platform-oncall | 30m | `src/auth/` | INV-AUTH-002 |
-| content | @team-content | @team-platform-oncall | 4h | `src/content/` | INV-CONT-003 |
-```
-
-Sin esta capa, los invariantes existen "en papel", pero el agente no sabe a quién obedecer ni quién decide en casos límite.
-
-### Auto-Doc Framework: bloquear deriva y ahorrar tokens
-
-Con agentes, la documentación deja de ser "nice to have": se convierte en infraestructura operativa.
-Sirve para dos cosas: bajar coste de tokens y capturar intenciones de negocio que no se deducen del código.
-
-Bloque unificado para copiar/pegar en `AGENTS.md`:
+### Anexo D — `Documentation Framework (/docs)`
 
 ```markdown
 # Documentation Framework (/docs)
@@ -332,6 +576,14 @@ Bloque unificado para copiar/pegar en `AGENTS.md`:
 * API contracts and frontend surfaces.
 * Security constraints and migration notes.
 * Build/test commands relevant for validation.
+* Related invariant IDs (or explicit `no-invariant-needed` rationale).
+
+**Feature-Invariant reconciliation**
+
+* Add an `Invariants` section in each feature guide with invariant IDs + one-line intent.
+* If no invariant applies, add `No invariant needed` with reason, owner, and review date.
+* Keep bidirectional links: feature -> invariant and invariant -> feature.
+* Update both sides in the same PR/task when behavior or guarantees change.
 
 **Intent capture from developer conversations**
 
@@ -350,46 +602,5 @@ Bloque unificado para copiar/pegar en `AGENTS.md`:
 * GitHub Mermaid constraints:
   * avoid commas in ER attributes (use `string id PK`, not `PK, FK`)
   * use simple names and basic types (`string`, `int`, `bool`)
-  * keep node labels plain; if needed, use `\n` with alphanumeric/hyphen text
+* keep node labels plain; if needed, use `\n` with alphanumeric/hyphen text
 ```
-
-Sin este sistema auto-doc, el agente paga "impuesto de exploración" en cada tarea y además pierde contexto de negocio crítico.
-
-### Ejemplo agnóstico: un invariante de arquitectura que sirve en cualquier proyecto
-
-**Invariante (agnóstico): "No saltarse capas"**  
-Imagina una arquitectura por capas (da igual el framework): UI -> Application -> Domain -> Infrastructure.
-
-* La UI nunca habla con Infrastructure directamente.
-* Domain no depende de Infrastructure.
-* Infrastructure puede depender de Domain (interfaces), pero no al revés.
-
-Esto evita la deriva típica: el primer "atajo" se copia, luego se normaliza, y en tres meses el dominio está lleno de acoplamientos.
-
-**Cómo se verifica sin casarte con una tecnología**
-
-* Generas (o infieres) el grafo de dependencias del repo.
-* Defines reglas de dirección (quién puede importar a quién).
-* Lo conviertes en un check que falla en CI.
-
-**Cómo lo entiende un agente**  
-Porque es binario: "este import está prohibido". Y la remediación puede ser guiarlo: "introduce una interfaz en Domain y una implementación en Infrastructure".
-
-### Anti-patrón común
-
-"Tenemos un doc con arquitectura".  
-Si ese doc no se refleja en checks, en seis meses es literatura.
-
----
-
-## Cierre de la Parte 1
-
-Conclusión breve: no hay autonomía segura sin constitución operativa.
-
-* Los invariantes convierten intención estable en checks ejecutables.
-* El ownership evita que la calidad quede "sin dueño".
-* El sistema docs-first reduce coste de razonamiento y preserva intención de negocio.
-
-Con esa base, en la Parte 2 bajamos a ejecución diaria: cómo operar esa constitución con entornos deterministas, observabilidad, guardrails por riesgo, reconciliación continua y seguridad por diseño.
-
-Siguiente entrega: [Parte 2](/blog/las-7-leyes-desarrollo-mundo-agentico-parte-2-operacion-segura/).
