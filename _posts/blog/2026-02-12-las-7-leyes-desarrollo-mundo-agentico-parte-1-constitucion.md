@@ -139,6 +139,25 @@ Si quieres llevar este principio a un repo sin ambigüedad, aquí tienes un bloq
 3. Add tests proving it fails when violated and passes when fixed.
 4. Ensure CI error messages include a short remediation instruction.
 
+**Bootstrap mode (docs-first, zero invariants yet)**
+
+If the repo already has docs-first but no invariants, bootstrap in phases:
+
+1. Build an invariant candidate backlog from docs (`must`, `never`, `always`, critical constraints).
+2. Map each candidate to domain owner + risk level.
+3. Prioritize top 3-5 high-blast-radius candidates first.
+4. Implement checks in CI as `warn-only` for a short calibration window.
+5. Fix noise/false positives, then promote critical checks to `blocking`.
+6. Keep PR contract active during bootstrap:
+   * invariant delta included, or
+   * explicit rationale for "no invariant change needed".
+
+**Bootstrap exit criteria**
+
+* Critical domains have at least one blocking invariant.
+* Recurrent incidents have corresponding invariant candidates or implemented checks.
+* Owner/risk mapping is complete for critical paths.
+
 **When to create a new invariant**
 
 Create one when at least one condition is true:
