@@ -204,37 +204,49 @@ Un invariante sin owner acaba en tierra de nadie cuando falla.
 
 ### Ownership Framework: quién responde de qué
 
-Ownership no es "a quién mencionar en Slack". Es un contrato operativo:
+Ownership no es "a quién mencionar en Slack". Es el sistema que decide, en cada ejecución del agente, **quién tiene autoridad, quién debe validar y quién responde cuando algo se rompe**.
 
-* cada dominio tiene owner explícito
-* cada invariante referencia ese owner
-* los paths críticos tienen `CODEOWNERS`
-* hay SLA de respuesta cuando un invariante rompe CI
+Su función operativa por ejecución es concreta:
+
+* **Routing**: cada tarea se enruta a un dominio con owner explícito.
+* **Authority**: el nivel de autonomía permitido depende del owner + riesgo.
+* **Escalation**: si hay ambigüedad o impacto alto, se escala al owner antes de actuar.
+* **Approval**: cambios en rutas críticas no se cierran sin validación del owner.
+* **Accountability**: fallos de invariantes y drift generan follow-up con dueño asignado.
 
 Plantilla base para pegar también en `AGENTS.md`:
 
 ```markdown
-# Ownership Framework (GoKoan)
+# Ownership Framework
 
-**Scope**
+**Purpose**
 
-* Every critical domain has an explicit owner team.
-* Every invariant must declare an owner mapped to that domain.
+* Ownership is execution routing + authority + accountability for agentic changes.
+
+**Runtime function (per execution)**
+
+1. Route task to domain owner using `docs/ownership/OWNERSHIP.md`.
+2. Derive allowed autonomy level from domain criticality/risk.
+3. Enforce escalation when uncertainty or high-blast-radius impact exists.
+4. Require owner validation on critical-path changes.
+5. Auto-route invariant failures/incidents to the corresponding owner.
 
 **Minimum artifacts**
 
-1. `docs/ownership/OWNERSHIP.md` with domain -> owner mapping.
+1. `docs/ownership/OWNERSHIP.md` with domain -> owner mapping, backup owner, and response SLA.
 2. `CODEOWNERS` entries for critical paths.
 3. Invariant specs with `Owner` field and review date.
+4. Risk map (paths/domains -> autonomy level) used by CI/policy engine.
 
-**Enforcement**
+**CI/policy enforcement**
 
+* CI fails if changed critical path has no owner mapping.
 * CI fails if an invariant spec has no owner.
 * CI fails if owner is not present in ownership map.
-* Changes in critical paths require CODEOWNERS review.
-* Invariant-breaking PRs auto-route to domain owner.
+* CI fails if required owner approval is missing for high-risk changes.
+* Invariant-breaking PRs/incidents auto-route to domain owner.
 
-**Operating rule**
+**No-owner rule**
 
 * If no clear owner exists, no autonomy for that domain.
 ```
@@ -244,14 +256,14 @@ Ejemplo mínimo de `OWNERSHIP.md`:
 ```markdown
 # Ownership Map
 
-| Domain | Owner team | Critical paths | Invariants |
-|---|---|---|---|
-| billing | @team-billing-platform | `src/billing/`, `migrations/billing/` | INV-BILL-001, INV-BILL-004 |
-| auth | @team-auth-platform | `src/auth/` | INV-AUTH-002 |
-| content | @team-content | `src/content/` | INV-CONT-003 |
+| Domain | Owner | Backup owner | SLA (critical) | Critical paths | Invariants |
+|---|---|---|---|---|---|
+| billing | @team-billing-platform | @team-platform-oncall | 30m | `src/billing/`, `migrations/billing/` | INV-BILL-001, INV-BILL-004 |
+| auth | @team-auth-platform | @team-platform-oncall | 30m | `src/auth/` | INV-AUTH-002 |
+| content | @team-content | @team-platform-oncall | 4h | `src/content/` | INV-CONT-003 |
 ```
 
-Sin esta capa, los invariantes existen "en papel", pero nadie responde por su salud cuando sube el throughput.
+Sin esta capa, los invariantes existen "en papel", pero el agente no sabe a quién obedecer ni quién decide en casos límite.
 
 ### Auto-Doc Framework: bloquear deriva y ahorrar tokens
 
