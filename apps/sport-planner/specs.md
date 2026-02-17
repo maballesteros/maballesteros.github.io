@@ -271,6 +271,27 @@ Notas de escala:
 
 ---
 
+### 11.1) PWA instalable (iPhone/Android/Desktop)
+
+La app se publica como PWA bajo `/sport-planner/`:
+- `manifest.webmanifest` generado en build (Vite PWA plugin), con:
+  - `name`: Sport Planner
+  - `display: standalone`
+  - `start_url` y `scope`: `/sport-planner/`
+  - iconos `192x192` y `512x512` (`purpose: maskable` en 512)
+- Service Worker autogenerado (Workbox) con `registerType: autoUpdate`.
+- Registro del SW en cliente (`virtual:pwa-register`) solo en `PROD`.
+- Metadatos iOS en `index.html`:
+  - `apple-mobile-web-app-capable=yes`
+  - `apple-mobile-web-app-title=Sport Planner`
+  - `apple-touch-icon` dedicado.
+
+Notas:
+- En iPhone la instalación se hace desde Safari: Compartir → Añadir a pantalla de inicio.
+- El routing interno sigue basado en `HashRouter`; la PWA abre en modo standalone y conserva ese comportamiento.
+
+---
+
 ### 12) Lecturas programadas (`nodeType=reading`) — dieta de información
 
 Objetivo funcional:
