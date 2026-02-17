@@ -8,16 +8,18 @@ export function useCollaborativeWorks() {
   const { user } = useAuth();
   const loadWorks = useAppStore((state) => state.loadWorks);
   const setWorks = useAppStore((state) => state.setWorks);
+  const userId = user?.id ?? null;
+  const userEmail = (user?.email ?? '').trim().toLowerCase();
 
   useEffect(() => {
-    if (!user) {
+    if (!userId) {
       setWorks([]);
       return;
     }
 
     const context = {
-      actorId: user.id,
-      actorEmail: user.email ?? ''
+      actorId: userId,
+      actorEmail: userEmail
     };
 
     const fetchWorks = async () => {
@@ -51,5 +53,5 @@ export function useCollaborativeWorks() {
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [user, loadWorks, setWorks]);
+  }, [userId, userEmail, loadWorks, setWorks]);
 }

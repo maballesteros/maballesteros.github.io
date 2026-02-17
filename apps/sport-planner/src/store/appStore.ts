@@ -692,6 +692,8 @@ interface CollectionsState {
   workTaxonomy: WorkTaxonomy;
 }
 
+export type SyncedCollectionsState = Omit<CollectionsState, 'works'>;
+
 const isQuotaExceededError = (error: unknown): boolean => {
   if (!error || typeof error !== 'object') return false;
   const err = error as { name?: unknown; code?: unknown };
@@ -870,7 +872,7 @@ interface AppState {
   kungfuTodayPlan: KungfuTodayPlanConfig;
   workTaxonomy: WorkTaxonomy;
   hydrate: () => void;
-  setCollections: (payload: CollectionsState) => void;
+  setCollections: (payload: SyncedCollectionsState) => void;
   setWorks: (works: Work[]) => void;
   loadWorks: (context: WorkActionContext) => Promise<void>;
   reset: () => void;
@@ -993,7 +995,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     set((state) => {
       const normalized = normalizeCollections({
         objectives: payload.objectives ?? state.objectives,
-        works: payload.works ?? state.works,
+        works: state.works,
         sessions: payload.sessions ?? state.sessions,
         assistants: payload.assistants ?? state.assistants,
         plans: payload.plans ?? state.plans,
