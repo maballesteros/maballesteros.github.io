@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react';
 
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/contexts/useAuth';
-import { useAppStore, type CollectionsState, type AppState } from '@/store/appStore';
+import { useAppStore, type SyncedCollectionsState, type AppState } from '@/store/appStore';
 import type { KungfuTodayPlanConfig, WorkTaxonomy } from '@/types';
 
-interface PlannerStatePayload extends CollectionsState {
+interface PlannerStatePayload extends SyncedCollectionsState {
   version?: number;
 }
 
@@ -113,9 +113,8 @@ const DEFAULT_WORK_TAXONOMY: WorkTaxonomy = {
   tags: []
 };
 
-const selectCollections = (state: AppState): CollectionsState => ({
+const selectCollections = (state: AppState): SyncedCollectionsState => ({
   objectives: state.objectives,
-  works: [],
   sessions: state.sessions,
   assistants: state.assistants,
   plans: state.plans,
@@ -125,9 +124,8 @@ const selectCollections = (state: AppState): CollectionsState => ({
   workTaxonomy: state.workTaxonomy
 });
 
-const normalizeCollections = (payload: Partial<PlannerStatePayload>): CollectionsState => ({
+const normalizeCollections = (payload: Partial<PlannerStatePayload>): SyncedCollectionsState => ({
   objectives: payload.objectives ?? [],
-  works: [],
   sessions: (payload.sessions ?? []).map((session) => ({
     ...session,
     planId: (session.planId ?? '').trim() || undefined,
@@ -143,7 +141,7 @@ const normalizeCollections = (payload: Partial<PlannerStatePayload>): Collection
   workTaxonomy: payload.workTaxonomy ?? DEFAULT_WORK_TAXONOMY
 });
 
-const collectionsChanged = (a: CollectionsState, b: CollectionsState) =>
+const collectionsChanged = (a: SyncedCollectionsState, b: SyncedCollectionsState) =>
   a.objectives !== b.objectives ||
   a.sessions !== b.sessions ||
   a.assistants !== b.assistants ||
@@ -158,12 +156,13 @@ export function useSupabaseSync() {
   const setCollections = useAppStore((state) => state.setCollections);
   const reset = useAppStore((state) => state.reset);
   const ready = useAppStore((state) => state.ready);
+  const userId = user?.id ?? null;
 
   const skipNextSyncRef = useRef(false);
   const syncTimeoutRef = useRef<number | null>(null);
-  const pendingPayloadRef = useRef<CollectionsState | null>(null);
+  const pendingPayloadRef = useRef<SyncedCollectionsState | null>(null);
   const lastRemoteUpdatedAtRef = useRef<string | null>(null);
-  const prevPayloadRef = useRef<CollectionsState>(selectCollections(useAppStore.getState()));
+  const prevPayloadRef = useRef<SyncedCollectionsState>(selectCollections(useAppStore.getState()));
 
   useEffect(() => {
     return () => {
@@ -175,7 +174,7 @@ export function useSupabaseSync() {
   }, []);
 
   useEffect(() => {
-    if (!user) {
+    if (!userId) {
       reset();
       lastRemoteUpdatedAtRef.current = null;
       pendingPayloadRef.current = null;
@@ -186,10 +185,10 @@ export function useSupabaseSync() {
         syncTimeoutRef.current = null;
       }
     }
-  }, [user, reset]);
+  }, [userId, reset]);
 
   useEffect(() => {
-    if (!user) {
+    if (!userId) {
       return;
     }
 
@@ -199,7 +198,7 @@ export function useSupabaseSync() {
       const { data: remoteRow, error } = await supabase
         .from('planner_states')
         .select('data, updated_at')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .maybeSingle();
 
       if (!isMounted) return;
@@ -224,7 +223,7 @@ export function useSupabaseSync() {
           .from('planner_states')
           .upsert(
             {
-              user_id: user.id,
+              user_id: userId,
               data: {
                 version: VERSION,
                 ...localState
@@ -272,7 +271,7 @@ export function useSupabaseSync() {
             .from('planner_states')
             .upsert(
               {
-                user_id: user.id,
+                user_id: userId,
                 data: {
                   version: VERSION,
                   ...payload
@@ -300,5 +299,5 @@ export function useSupabaseSync() {
         syncTimeoutRef.current = null;
       }
     };
-  }, [user, ready, setCollections]);
+  }, [userId, ready, setCollections]);
 }

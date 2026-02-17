@@ -261,6 +261,8 @@ Cada grupo puede definir:
 
 Notas de escala:
 - El catálogo (`works`) puede ser grande (ej. 365 lecturas con markdown). Para evitar snapshots enormes y problemas de cuota, el sync de `planner_states` **no incluye** el catálogo; el catálogo se carga desde `works` (Realtime) y se cachea localmente si cabe.
+- Al hidratar `planner_states`, el cliente **no sobrescribe** `works` con vacío; conserva el catálogo vigente y evita estados transitorios donde “faltan trabajos” hasta que termine una recarga.
+- La resuscripción/recarga de catálogo está anclada a `user.id`/email (no a la identidad completa del objeto sesión), para evitar refetch innecesario en renovaciones de token al volver a foco.
 
 **Backups**
 - `version: 1`
