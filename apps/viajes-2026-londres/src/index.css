@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --paper: #f6efe8;
+  --paper-deep: #efe3d6;
+  --mist: #f4e4d2;
+  --ink: #241710;
+  --muted: #644a39;
+  --muted-strong: #7f624f;
+  --line: rgba(96, 67, 47, 0.14);
+  --accent-deep: #6b412d;
+  --accent-soft: #9d5e3a;
+  --gold: #deb46d;
+  --shadow: rgba(49, 30, 20, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: 'Manrope', sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(255, 246, 229, 0.95), transparent 38%),
+    radial-gradient(circle at top right, rgba(196, 132, 74, 0.12), transparent 28%),
+    linear-gradient(180deg, #fbf6f1 0%, #f6efe8 35%, #efe7df 100%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+#root {
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(125, 88, 61, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 88, 61, 0.04) 1px, transparent 1px);
+  background-size: 30px 30px;
+  mask-image: radial-gradient(circle at center, black 52%, transparent 100%);
+}
+
+#root {
+  isolation: isolate;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@layer components {
+  .hero-shell {
+    position: relative;
+    background:
+      linear-gradient(140deg, rgba(255, 255, 255, 0.8), rgba(252, 240, 228, 0.7) 44%, rgba(230, 210, 189, 0.55)),
+      radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.88), transparent 26%),
+      radial-gradient(circle at 85% 18%, rgba(186, 126, 74, 0.16), transparent 24%);
+    backdrop-filter: blur(18px);
+  }
+
+  .hero-shell::after {
+    content: '';
+    position: absolute;
+    inset: auto -8% -28% auto;
+    width: min(38vw, 360px);
+    height: min(38vw, 360px);
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(166, 104, 58, 0.22), transparent 68%);
+    filter: blur(8px);
+    pointer-events: none;
+  }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.9rem, 12vw, 7.4rem);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+  }
+
+  .editorial-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.65);
+    padding: 0.58rem 0.9rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .timeline-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .support-card {
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
+
+  .support-card[open] {
+    border-color: rgba(157, 94, 58, 0.42);
+    box-shadow: 0 14px 36px rgba(64, 42, 28, 0.08);
+  }
+
+  .support-card-summary {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(247, 238, 230, 0.26));
+  }
+
+  .support-card-body {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(246, 236, 227, 0.9));
+  }
+
+  .timeline-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: linear-gradient(180deg, rgba(157, 94, 58, 0.85), rgba(222, 180, 109, 0.4));
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-shell {
+    border-radius: 28px;
+  }
+
+  .editorial-chip {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.78rem;
+  }
+}
+
+.page-glow {
+  pointer-events: none;
+  position: fixed;
+  z-index: -1;
+  width: 36rem;
+  height: 36rem;
+  border-radius: 999px;
+  filter: blur(90px);
+  opacity: 0.32;
+}
+
+.page-glow-left {
+  top: 6rem;
+  left: -10rem;
+  background: rgba(194, 121, 62, 0.2);
+}
+
+.page-glow-right {
+  top: 14rem;
+  right: -12rem;
+  background: rgba(121, 86, 159, 0.09);
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+@media (max-width: 1024px) {
+  .timeline-card::before {
+    top: 0;
+    bottom: auto;
+    width: 100%;
+    height: 4px;
+  }
+}
