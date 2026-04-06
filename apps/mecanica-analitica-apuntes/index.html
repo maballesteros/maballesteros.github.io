@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Apuntes Mike Mecánica Analítica — HTML5</title>
+    <title>Mecánica Analítica — Curso visual interactivo</title>
     <link
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2830'/%3E%3Cpath d='M12 40c10-18 30-18 40 0' fill='none' stroke='%23f4ede0' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='40' r='4' fill='%23d16f2b'/%3E%3Ccircle cx='44' cy='40' r='4' fill='%230e7278'/%3E%3C/svg%3E"
@@ -116,6 +116,19 @@
         align-items: end;
       }
 
+      .hero-copy {
+        max-width: 780px;
+      }
+
+      .hero-grid > *,
+      .layout > *,
+      .content > *,
+      .subgrid > *,
+      .equation-panel > *,
+      .world-grid > * {
+        min-width: 0;
+      }
+
       .eyebrow {
         display: inline-flex;
         align-items: center;
@@ -175,6 +188,19 @@
         line-height: 1.78;
       }
 
+      .hero-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 22px;
+      }
+
+      .hero-note {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
       .layout {
         display: grid;
         grid-template-columns: 260px minmax(0, 1fr);
@@ -229,6 +255,81 @@
 
       .content > * {
         scroll-margin-top: 18px;
+      }
+
+      .chapter-index {
+        margin-top: 24px;
+      }
+
+      .chapter-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .chapter-card {
+        padding: 20px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px solid rgba(27, 40, 48, 0.08);
+      }
+
+      .chapter-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.18rem;
+      }
+
+      .chapter-card p {
+        margin: 0 0 14px;
+      }
+
+      .chapter-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .chapter-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 12px;
+        border-radius: 999px;
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: rgba(14, 114, 120, 0.1);
+        color: var(--accent-2);
+        border: 1px solid rgba(14, 114, 120, 0.16);
+      }
+
+      .chapter-tag.soon {
+        background: rgba(27, 40, 48, 0.07);
+        color: var(--muted);
+        border-color: rgba(27, 40, 48, 0.1);
+      }
+
+      .chapter-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-weight: 800;
+        color: var(--accent);
+      }
+
+      .chapter-link.disabled {
+        color: var(--muted);
+        pointer-events: none;
+      }
+
+      .chapter-intro {
+        background:
+          radial-gradient(circle at 84% 20%, rgba(14, 114, 120, 0.08), transparent 22%),
+          linear-gradient(135deg, rgba(255, 252, 247, 0.96), rgba(255, 248, 240, 0.9));
       }
 
       .section-card {
@@ -483,15 +584,15 @@
 
       @media (max-width: 1150px) {
         .layout,
-        .hero-grid,
         .subgrid,
         .equation-panel,
-        .world-grid {
+        .world-grid,
+        .chapter-grid {
           grid-template-columns: 1fr;
         }
 
         .hero {
-          padding: 34px 32px;
+          padding: 34px 32px 30px;
         }
 
         .hero::after {
@@ -502,22 +603,27 @@
         }
 
         .hero-grid {
-          max-width: 820px;
-          margin: 0 auto;
+          grid-template-columns: 1fr;
+          max-width: none;
+          margin: 0;
           gap: 18px;
           align-items: start;
         }
 
+        .hero-copy {
+          max-width: 760px;
+        }
+
         .hero h1 {
-          max-width: 14ch;
+          max-width: 10ch;
           font-size: clamp(3rem, 6vw, 4.9rem);
           line-height: 0.95;
         }
 
         .hero p {
-          max-width: 58ch;
-          font-size: 1rem;
-          line-height: 1.76;
+          max-width: 42ch;
+          font-size: 1.04rem;
+          line-height: 1.74;
         }
 
         .toc {
@@ -525,8 +631,117 @@
         }
 
         .quote-card {
-          max-width: none;
+          max-width: 620px;
           width: 100%;
+        }
+      }
+
+      @media (max-width: 920px) {
+        .page {
+          width: min(100vw - 10px, 100%);
+          padding: 10px 0 30px;
+        }
+
+        .hero {
+          padding: 28px 22px 22px;
+          border-radius: 28px;
+        }
+
+        .hero::after {
+          right: -56px;
+          top: -54px;
+          width: 220px;
+          height: 220px;
+          opacity: 0.72;
+        }
+
+        .hero-grid {
+          gap: 14px;
+        }
+
+        .hero-copy,
+        .quote-card {
+          max-width: none;
+        }
+
+        .hero h1 {
+          margin: 14px 0 12px;
+          max-width: none;
+          font-size: clamp(2.9rem, 8.2vw, 4.2rem);
+          line-height: 0.93;
+        }
+
+        .hero p {
+          max-width: 42ch;
+          font-size: 1.08rem;
+          line-height: 1.68;
+        }
+
+        .hero-actions {
+          margin-top: 18px;
+        }
+
+        .quote-card {
+          padding: 19px 18px 17px;
+        }
+
+        .quote-card .equation {
+          font-size: 1.42rem;
+        }
+
+        .quote-card p {
+          font-size: 0.99rem;
+          line-height: 1.7;
+        }
+
+        .layout {
+          gap: 18px;
+          margin-top: 18px;
+        }
+
+        .toc {
+          padding: 14px;
+        }
+
+        .toc a {
+          font-size: 1rem;
+        }
+
+        .section-card {
+          padding: 24px 22px 26px;
+        }
+
+        .section-card h2 {
+          font-size: clamp(2.25rem, 8.4vw, 3rem);
+        }
+
+        .section-card p,
+        .section-card .lede,
+        .concept-card p,
+        .concept-card ul,
+        .callout p,
+        .callout ul,
+        .world-body ul,
+        .stat-box p {
+          font-size: 1.02rem;
+          line-height: 1.74;
+        }
+
+        .concept-card h3,
+        .world-head h3 {
+          font-size: 1.24rem;
+        }
+
+        .world-body {
+          padding: 20px;
+        }
+
+        .viz-shell {
+          min-height: 286px;
+        }
+
+        .btn {
+          font-size: 0.9rem;
         }
       }
 
@@ -543,14 +758,23 @@
 
         .hero h1 {
           margin-top: 14px;
-          max-width: 9ch;
-          font-size: clamp(2.6rem, 14vw, 4.2rem);
+          max-width: none;
+          font-size: clamp(2.7rem, 12.8vw, 3.85rem);
           line-height: 0.94;
         }
 
         .hero p {
-          font-size: 0.98rem;
-          line-height: 1.72;
+          font-size: 1.06rem;
+          line-height: 1.66;
+        }
+
+        .hero-actions .btn {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .hero-note {
+          width: 100%;
         }
 
         .quote-card {
@@ -559,7 +783,7 @@
         }
 
         .quote-card .equation {
-          font-size: 1.28rem;
+          font-size: 1.34rem;
         }
 
         .layout {
@@ -592,7 +816,7 @@
         .toc a {
           white-space: nowrap;
           padding: 10px 12px;
-          font-size: 0.9rem;
+          font-size: 0.98rem;
           border-radius: 12px;
         }
 
@@ -602,12 +826,12 @@
         }
 
         .section-card h2 {
-          font-size: clamp(1.9rem, 10vw, 2.8rem);
+          font-size: clamp(2.15rem, 11vw, 3rem);
         }
 
         .section-card p,
         .section-card .lede {
-          font-size: 0.96rem;
+          font-size: 1rem;
           line-height: 1.72;
         }
 
@@ -629,7 +853,7 @@
         }
 
         .equation-box {
-          font-size: 1.2rem;
+          font-size: 1.28rem;
         }
 
         .world-card {
@@ -644,7 +868,7 @@
         }
 
         .world-head h3 {
-          font-size: 1.22rem;
+          font-size: 1.3rem;
         }
 
         .world-body {
@@ -673,11 +897,11 @@
           width: fit-content;
           align-self: flex-start;
           padding: 9px 12px;
-          font-size: 0.82rem;
+          font-size: 0.9rem;
         }
 
         .mini-label {
-          font-size: 0.8rem;
+          font-size: 0.86rem;
         }
       }
 
@@ -687,21 +911,33 @@
         }
 
         .hero {
-          padding: 20px 16px;
+          padding: 22px 16px 18px;
         }
 
         .hero h1 {
-          font-size: clamp(2.3rem, 13vw, 3.4rem);
+          font-size: clamp(2.55rem, 12.8vw, 3.35rem);
+          max-width: none;
+        }
+
+        .hero p,
+        .quote-card p {
+          font-size: 1.02rem;
+          line-height: 1.66;
         }
 
         .section-card {
-          padding: 18px 14px 20px;
+          padding: 20px 16px 22px;
+        }
+
+        .section-card p,
+        .section-card .lede {
+          font-size: 0.995rem;
         }
 
         .world-body,
         .world-head {
-          padding-left: 14px;
-          padding-right: 14px;
+          padding-left: 16px;
+          padding-right: 16px;
         }
 
         .viz-shell {
@@ -714,43 +950,160 @@
     <div class="page">
       <header class="hero">
         <div class="hero-grid">
-          <div>
-            <div class="eyebrow">Apuntes Mike · Mecánica analítica</div>
-            <h1>Qué hay que saber antes de escribir una ley</h1>
+          <div class="hero-copy">
+            <div class="eyebrow">Curso visual interactivo · Mecánica analítica</div>
+            <h1>Mecánica analítica desde primeros principios</h1>
             <p>
-              Esta versión web sigue el mismo guion que tus apuntes:
-              <strong>sistema</strong>, <strong>configuración</strong>,
-              <strong>estado</strong>, <strong>ley dinámica</strong> y, por
-              contraste, dos mundos posibles que ayudan a entender por qué
-              nuestro mundo mecánico tiene la forma que tiene.
+              Esta app convierte el tutorial en una lectura más visual,
+              interactiva y exploratoria. La idea no es solo leer fórmulas,
+              sino ver cómo cambian los sistemas, qué esconden las coordenadas
+              redundantes y por qué ciertas elecciones de variables dejan la
+              estructura real del problema a la vista.
             </p>
+            <div class="hero-actions">
+              <a class="btn" href="#capitulo-1">Entrar al capítulo 1</a>
+              <span class="hero-note">Ahora mismo está desarrollado el primer capítulo.</span>
+            </div>
           </div>
 
           <aside class="quote-card">
-            <div class="label">La pregunta buena</div>
-            <div class="equation">\( \text{estado} \neq \text{foto} \)</div>
+            <div class="label">El arco del curso</div>
+            <div class="equation">\( \text{de estados a historias, de historias a estructura} \)</div>
             <p>
-              La configuración te dice cómo está el sistema. El estado te dice
-              cuánto necesitas saber para no perder su futuro. Si esa idea queda
-              clara, el resto del curso empieza a encajar.
+              El capítulo 1 prepara el problema: sistema, configuración, ley
+              dinámica, grados de libertad y el papel de las coordenadas
+              adaptadas. A partir de ahí, el resto del curso puede construir
+              acción, simetrías, Hamilton y el puente hacia cuántica.
             </p>
-          </aside>
+          </div>
         </div>
       </header>
 
+      <section id="portada" class="section-card chapter-index">
+        <div class="eyebrow">Mapa del curso</div>
+        <h2>Siete capítulos, una misma escalera conceptual</h2>
+        <p class="lede">
+          El recorrido completo avanza desde la pregunta más básica —qué hay
+          que saber para describir un sistema— hasta la lectura cuántica de la
+          acción. La app irá creciendo capítulo a capítulo, pero ya deja
+          visible la arquitectura completa del curso.
+        </p>
+
+        <div class="chapter-grid">
+          <article class="chapter-card">
+            <h3>Capítulo 1 · Qué hay que saber antes de escribir una ley</h3>
+            <p>
+              Sistema, configuración, grados de libertad, vínculos, leyes de
+              distinto orden y la aparición del estado como memoria justa del
+              mundo mecánico ordinario.
+            </p>
+            <div class="chapter-meta">
+              <span class="chapter-tag">Disponible</span>
+              <a class="chapter-link" href="#capitulo-1">Abrir capítulo 1</a>
+            </div>
+          </article>
+
+          <article class="chapter-card">
+            <h3>Capítulo 2 · Cómo emerge la acción</h3>
+            <p>
+              El paso de estados a historias completas, la acción como criterio
+              componible y local, y el nacimiento de Euler–Lagrange.
+            </p>
+            <div class="chapter-meta">
+              <span class="chapter-tag soon">Próximamente</span>
+              <span class="chapter-link disabled">En preparación</span>
+            </div>
+          </article>
+
+          <article class="chapter-card">
+            <h3>Capítulo 3 · Simetría y Noether</h3>
+            <p>
+              Coordenadas generalizadas, ausencias significativas en el
+              lagrangiano y el vínculo profundo entre simetría y conservación.
+            </p>
+            <div class="chapter-meta">
+              <span class="chapter-tag soon">Próximamente</span>
+              <span class="chapter-link disabled">En preparación</span>
+            </div>
+          </article>
+
+          <article class="chapter-card">
+            <h3>Capítulo 4 · El paso a Hamilton</h3>
+            <p>
+              Momento conjugado, transformación de Legendre, espacio de fases y
+              una nueva forma de leer estados y evolución.
+            </p>
+            <div class="chapter-meta">
+              <span class="chapter-tag soon">Próximamente</span>
+              <span class="chapter-link disabled">En preparación</span>
+            </div>
+          </article>
+
+          <article class="chapter-card">
+            <h3>Capítulo 5 · Problemas clásicos</h3>
+            <p>
+              Osciladores, potenciales centrales, pequeñas oscilaciones y las
+              maniobras estructurales que hacen legible la mecánica clásica.
+            </p>
+            <div class="chapter-meta">
+              <span class="chapter-tag soon">Próximamente</span>
+              <span class="chapter-link disabled">En preparación</span>
+            </div>
+          </article>
+
+          <article class="chapter-card">
+            <h3>Capítulo 6 · Geometría hamiltoniana</h3>
+            <p>
+              Forma simpléctica, transformaciones canónicas, Liouville,
+              integrabilidad y la lectura geométrica del flujo hamiltoniano.
+            </p>
+            <div class="chapter-meta">
+              <span class="chapter-tag soon">Próximamente</span>
+              <span class="chapter-link disabled">En preparación</span>
+            </div>
+          </article>
+
+          <article class="chapter-card">
+            <h3>Capítulo 7 · Acción como fase</h3>
+            <p>
+              Integral de caminos, fase estacionaria, aproximación semiclasica,
+              WKB y el puente conceptual hacia la mecánica cuántica.
+            </p>
+            <div class="chapter-meta">
+              <span class="chapter-tag soon">Próximamente</span>
+              <span class="chapter-link disabled">En preparación</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <div class="layout">
         <aside class="toc">
-          <h2>Mapa del capítulo</h2>
+          <h2>Capítulo 1</h2>
           <nav>
+            <a href="#capitulo-1">Apertura</a>
             <a href="#sistema">Sistema</a>
             <a href="#observamos">Qué observamos</a>
-            <a href="#estado">Configuración y estado</a>
             <a href="#ley">Ley dinámica</a>
             <a href="#mundos">Mundos posibles</a>
+            <a href="#estado">Estado</a>
           </nav>
         </aside>
 
         <main class="content">
+          <section id="capitulo-1" class="section-card chapter-intro">
+            <div class="eyebrow">Capítulo 1 · Disponible</div>
+            <h2>Qué hay que saber antes de escribir una ley</h2>
+            <p class="lede">
+              Este primer capítulo no arranca preguntando por fuerzas o por
+              ecuaciones concretas. Arranca más atrás: qué parte del mundo
+              elegimos estudiar, cómo la describimos, cuántos grados de
+              libertad tiene de verdad y qué clase de memoria necesita una ley
+              dinámica para no parecerse ni a un mundo sin inercia ni a un
+              mundo con demasiada.
+            </p>
+          </section>
+
           <section id="sistema" class="section-card">
             <div class="eyebrow">1. Sistema</div>
             <h2>¿Qué parte del mundo hemos decidido estudiar?</h2>
@@ -803,113 +1156,192 @@
                 </p>
               </div>
               <div>
-                <h3>Casos particulares</h3>
+                <h3>Grados de libertad</h3>
                 <p>
-                  Para una partícula moviéndose sobre una línea, \(q=x\). Para
-                  un péndulo, \(q=\theta\). Para varias partículas sin vínculos,
-                  las \(q_i\) pueden coincidir con posiciones cartesianas.
+                  Lo importante no es cuántas letras escribes, sino cuántos
+                  parámetros independientes hacen falta para fijar la
+                  configuración. Ese número es el de
+                  <strong>grados de libertad</strong>. Las coordenadas son solo
+                  el idioma concreto con el que eliges describirlos.
                 </p>
               </div>
             </div>
-          </section>
 
-          <section id="estado" class="section-card">
-            <div class="eyebrow">3. Estado</div>
-            <h2>¿Qué información mínima necesitamos para conocer esa trayectoria?</h2>
-            <p class="lede">
-              Dar \(q(t_0)\) es decir cómo está colocado el sistema en un cierto
-              instante. Dar \(\dot q(t_0)\) es decir cómo está cambiando esa
-              configuración en ese mismo instante.
+            <p style="margin-top: 20px;">
+              Aquí conviene separar dos ideas que muchas veces se mezclan. Una
+              cosa es el <strong>grado de libertad</strong>: cuántos parámetros
+              independientes hacen falta para fijar la configuración. Otra cosa
+              es la <strong>coordenada</strong>: qué etiquetas concretas eliges
+              para describir esa configuración. En cuanto aparecen ligaduras o
+              vínculos, la diferencia se vuelve decisiva.
             </p>
 
-            <div class="subgrid">
-              <article class="concept-card">
-                <h3>Configuración</h3>
-                <p>
-                  \[
-                  q(t_0)
-                  \]
-                </p>
-                <p>
-                  La configuración dice dónde está colocado el sistema en un
-                  instante dado.
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Estado</h3>
-                <p>
-                  \[
-                  (q(t_0),\dot q(t_0))
-                  \]
-                </p>
-                <p>
-                  El estado es la información mínima que debo dar si quiero
-                  poder continuar la evolución de un sistema.
-                </p>
-              </article>
-            </div>
+            <p>
+              Una partícula sobre una línea tiene un solo grado de libertad y
+              resulta natural describirla con \(q=x\). Un péndulo simple puede
+              escribirse con \((x,y)\), pero esas dos coordenadas no son
+              independientes: la masa solo puede moverse sobre una
+              circunferencia de radio fijo. Por eso, aunque escribas dos
+              cartesianas, el sistema tiene en realidad un único grado de
+              libertad. La coordenada adaptada es \(\theta\).
+            </p>
 
-            <div class="callout">
-              <h3>Ojo</h3>
-              <p>
-                Ni la configuración se corresponde necesariamente con
-                coordenadas cartesianas, ni el estado es simplemente
-                “configuración + velocidades” en bruto.
-              </p>
-              <ul>
-                <li>
-                  La configuración puede describirse mediante coordenadas
-                  generalizadas \(q=(q_1,\dots,q_n)\).
-                </li>
-                <li>
-                  Para un péndulo es más natural usar el ángulo \(\theta\) que
-                  las coordenadas \((x,y)\) de la masa.
-                </li>
-                <li>
-                  En mecánica clásica ordinaria, el estado suele escribirse como
-                  \((q,\dot q)\) o, de forma equivalente, como \((q,p)\).
-                </li>
-                <li>
-                  El estado no se cuenta por partículas, sino por grados de
-                  libertad independientes.
-                </li>
-              </ul>
-            </div>
+            <article class="world-card" style="margin-top: 22px;">
+              <div class="world-head">
+                <div>
+                  <h3>Péndulo: dos coordenadas escritas, un solo grado de libertad</h3>
+                  <p>
+                    Puedes describir la masa por sus coordenadas cartesianas
+                    \((x,y)\). Eso es correcto. Pero esas dos coordenadas no son
+                    independientes, porque deben satisfacer
+                    \[
+                    x^2 + y^2 = \ell^2.
+                    \]
+                    La ligadura deja libre en realidad solo un ángulo.
+                  </p>
+                </div>
+                <button class="btn secondary" id="reset-pendulum-config" type="button">Reset</button>
+              </div>
 
-            <div class="callout" style="border-left-color: var(--accent-2); background: linear-gradient(180deg, rgba(14,114,120,0.08), rgba(14,114,120,0.03));">
-              <h3>Ejemplo: dos partículas ligadas</h3>
-              <p>
-                Si dos partículas se mueven sobre una línea y están unidas por
-                una barra rígida, sus posiciones cumplen
-              </p>
-              <p>
-                \[
-                x_2 - x_1 = \ell.
-                \]
-              </p>
-              <p>
-                Eso significa que \(x_1\) y \(x_2\) no son independientes. En
-                realidad basta una sola coordenada, por ejemplo la posición del
-                centro de masas \(X\). El estado natural se escribe entonces
-                como \((X,\dot X)\), no como “dos posiciones y dos velocidades”.
-              </p>
-            </div>
+              <div class="world-body">
+                <p>
+                  En otras palabras: el péndulo no tiene dos grados de libertad
+                  efectivos. Tiene uno. Puedes escribir \((x,y)\), pero la
+                  geometría del sistema ya te está diciendo que una sola
+                  coordenada adaptada, \(\theta\), basta para recorrer toda la
+                  familia de configuraciones permitidas.
+                </p>
+
+                <div class="world-grid">
+                  <div>
+                    <div id="viz-pendulum-config" class="viz-shell"></div>
+                    <div class="control-row">
+                      <label for="pendulum-angle">ángulo</label>
+                      <input id="pendulum-angle" type="range" min="-1.05" max="1.05" step="0.01" value="0.68" />
+                      <span class="mini-label" id="pendulum-angle-value">θ = 39°</span>
+                    </div>
+                  </div>
+
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Grado de libertad</h4>
+                      <p>
+                        Es el número de parámetros independientes que hacen
+                        falta para fijar la configuración. En el péndulo simple,
+                        ese número es \(1\).
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Coordenadas redundantes</h4>
+                      <p>
+                        Las cartesianas \((x,y)\) sirven, pero esconden la
+                        ligadura. No puedes elegir \(x\) e \(y\) libremente:
+                        deben vivir sobre la circunferencia de radio \(\ell\).
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Coordenada adaptada</h4>
+                      <p>
+                        El ángulo \(\theta\) ve desde el principio lo que las
+                        cartesianas esconden: el movimiento real del sistema
+                        ocurre sobre una familia muy particular de
+                        configuraciones.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="world-card" style="margin-top: 22px;">
+              <div class="world-head">
+                <div>
+                  <h3>Péndulo doble: escribir cuatro variables no crea cuatro grados de libertad</h3>
+                  <p>
+                    Si insistes en describir las dos masas con cartesianas,
+                    empiezas con
+                    \[
+                    (x_1,y_1,x_2,y_2),
+                    \]
+                    pero enseguida debes imponer dos vínculos de longitud fija:
+                    \[
+                    x_1^2+y_1^2=\ell_1^2,\qquad
+                    (x_2-x_1)^2+(y_2-y_1)^2=\ell_2^2.
+                    \]
+                    La geometría real del sistema queda enterrada bajo
+                    coordenadas redundantes y restricciones.
+                  </p>
+                </div>
+                <button class="btn secondary" id="reset-double-pendulum-config" type="button">Reset</button>
+              </div>
+
+              <div class="world-body">
+                <p>
+                  En cambio, si usas directamente dos ángulos
+                  \((\theta_1,\theta_2)\), la configuración efectiva aparece
+                  desde el principio: el sistema tiene dos grados de libertad,
+                  no cuatro. Elegir bien las coordenadas no simplifica solo la
+                  escritura. Hace visible la estructura real del problema.
+                </p>
+
+                <div class="world-grid">
+                  <div>
+                    <div id="viz-double-pendulum-config" class="viz-shell"></div>
+                    <div class="control-row">
+                      <label for="double-theta-1">ángulo superior</label>
+                      <input id="double-theta-1" type="range" min="-1.1" max="1.1" step="0.01" value="0.54" />
+                      <span class="mini-label" id="double-theta-1-value">θ₁ = 31°</span>
+                    </div>
+                    <div class="control-row">
+                      <label for="double-theta-2">ángulo inferior</label>
+                      <input id="double-theta-2" type="range" min="-1.2" max="1.2" step="0.01" value="0.38" />
+                      <span class="mini-label" id="double-theta-2-value">θ₂ = 22°</span>
+                    </div>
+                  </div>
+
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Cartesiana + vínculos</h4>
+                      <p>
+                        Escribes cuatro coordenadas, pero dos de ellas quedan
+                        atrapadas por los vínculos. El sistema no puede explorar
+                        libremente el plano.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Grados de libertad efectivos</h4>
+                      <p>
+                        \(4\) coordenadas escritas menos \(2\) restricciones
+                        independientes dejan \(2\) grados de libertad reales.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Coordenadas adaptadas</h4>
+                      <p>
+                        Los ángulos \((\theta_1,\theta_2)\) muestran desde el
+                        principio qué puede cambiar de verdad. La dinámica sigue
+                        siendo rica, pero deja de estar sepultada bajo
+                        redundancias.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
           </section>
 
           <section id="ley" class="section-card">
-            <div class="eyebrow">4. Ley dinámica</div>
+            <div class="eyebrow">3. Ley dinámica</div>
             <h2>¿Qué es una ley dinámica?</h2>
             <p class="lede">
               Una <strong>ley dinámica</strong> es la regla que te dice cómo
-              cambia ese <strong>estado</strong> con el tiempo.
+              evoluciona el sistema con el tiempo.
             </p>
             <p>
               En la mecánica clásica ordinaria, eso suele tomar la forma de una
               ecuación diferencial respecto del tiempo: una regla que relaciona
-              la evolución de las coordenadas generalizadas y de los datos de
-              cambio asociados a ellas. Si el estado se escribe como
-              \((q,\dot q)\), la ley dinámica nos dice cómo sigue la historia
-              \(q(t)\) a partir de esos datos iniciales.
+              cómo cambia la configuración y qué clase de presente hace falta
+              especificar para continuar la historia.
             </p>
             <p>
               Aquí ya se asume que la ley dinámica es
@@ -920,7 +1352,7 @@
           </section>
 
           <section id="mundos" class="section-card">
-            <div class="eyebrow">5. Mundos posibles</div>
+            <div class="eyebrow">4. Mundos posibles</div>
             <h2>¿Qué leyes dinámicas son posibles?</h2>
             <p class="lede">
               Aquí es donde podemos jugar en un playground de físicas posibles y
@@ -1081,6 +1513,177 @@
                 </div>
               </div>
             </article>
+
+            <article class="world-card" style="margin-top: 22px;">
+              <div class="world-head">
+                <div>
+                  <h3>Nuestro mundo: la memoria justa</h3>
+                  <p>
+                    El caso ordinario que queremos entender mejor es el de
+                    segundo orden:
+                    \[
+                    m\ddot x = -\frac{dV}{dx}.
+                    \]
+                    Hacen falta exactamente dos datos iniciales: posición y
+                    velocidad.
+                  </p>
+                </div>
+                <button class="btn" id="reset-real-world" type="button">Reset</button>
+              </div>
+
+              <div class="world-body">
+                <p>
+                  Aquí no falta memoria, como en el mundo de primer orden, ni
+                  sobra memoria, como en el de tercero. Si el caso libre cumple
+                </p>
+                <p>
+                  \[
+                  \ddot x = 0,
+                  \]
+                </p>
+                <p>
+                  entonces la solución general es
+                </p>
+                <p>
+                  \[
+                  x(t)=x_0+v_0(t-t_0),
+                  \]
+                </p>
+                <p>
+                  y aparece la idea newtoniana central: una partícula libre no
+                  tiene por qué quedarse quieta, pero tampoco cambia su
+                  velocidad por sí sola. Si la velocidad cambia, buscamos una
+                  causa externa en la fuerza o, de forma equivalente, en el
+                  potencial.
+                </p>
+
+                <div class="world-grid">
+                  <div>
+                    <div id="viz-real-world" class="viz-shell"></div>
+                    <div class="control-row">
+                      <label for="spring-k">fuerza restauradora</label>
+                      <input id="spring-k" type="range" min="0" max="0.65" step="0.05" value="0" />
+                      <span class="mini-label" id="spring-k-value">k = 0.00</span>
+                    </div>
+                  </div>
+
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Memoria justa</h4>
+                      <p>
+                        La posición sola no basta, porque el sistema conserva
+                        inercia. Pero la aceleración inicial tampoco hace falta:
+                        el presente no arrastra un grado de libertad extra.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Partícula libre</h4>
+                      <p>
+                        Con \(k=0\), todas las partículas parten del mismo
+                        punto, pero cada velocidad inicial genera su historia.
+                        El movimiento uniforme pasa a ser la forma natural del
+                        movimiento libre.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Cuando aparece una fuerza</h4>
+                      <p>
+                        Si aumentas \(k\), aparece una causa que curva las
+                        trayectorias. Eso es justo lo que queremos del mundo
+                        ordinario: que el cambio de velocidad no sea capricho
+                        del estado, sino efecto de la dinámica externa.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="estado" class="section-card">
+              <div class="eyebrow">5. Estado</div>
+              <h2>¿Qué llamaremos estado?</h2>
+              <p class="lede">
+                Ahora sí podemos decirlo con limpieza. El
+                <strong>estado</strong> es la información mínima que hace falta
+                dar en un instante para poder continuar la evolución.
+              </p>
+              <p>
+                La configuración te dice cómo está colocado el sistema. El
+                estado te dice cuánto necesitas saber para no perder su futuro.
+                Y eso solo se entiende del todo después de comparar leyes de
+                primer, segundo y tercer orden.
+              </p>
+
+              <div class="subgrid">
+                <article class="concept-card">
+                  <h3>Configuración</h3>
+                  <p>
+                    \[
+                    q(t_0)
+                    \]
+                  </p>
+                  <p>
+                    La configuración dice cómo está colocado el sistema en un
+                    instante dado.
+                  </p>
+                </article>
+                <article class="concept-card">
+                  <h3>Estado en el caso ordinario</h3>
+                  <p>
+                    \[
+                    (q(t_0),\dot q(t_0))
+                    \]
+                  </p>
+                  <p>
+                    En la mecánica clásica ordinaria, el mundo de segundo orden
+                    nos pide justo dos datos iniciales por grado de libertad.
+                  </p>
+                </article>
+              </div>
+
+              <div class="callout">
+                <h3>Lo importante</h3>
+                <p>
+                  No es verdad que el estado se obtenga siempre “añadiendo una
+                  velocidad por cada partícula”. Lo correcto es otra cosa: en
+                  mecánica clásica ordinaria, el estado añade un dato
+                  independiente de cambio por cada grado de libertad
+                  independiente.
+                </p>
+                <ul>
+                  <li>
+                    En un mundo de primer orden, bastaría la posición.
+                  </li>
+                  <li>
+                    En uno de tercer orden, posición y velocidad no bastarían.
+                  </li>
+                  <li>
+                    En el caso ordinario de segundo orden, hacen falta dos
+                    datos iniciales por grado de libertad.
+                  </li>
+                </ul>
+              </div>
+
+              <div class="callout" style="border-left-color: var(--accent-2); background: linear-gradient(180deg, rgba(14,114,120,0.08), rgba(14,114,120,0.03));">
+                <h3>Ejemplo: dos partículas ligadas</h3>
+                <p>
+                  Si dos partículas se mueven sobre una línea y están unidas por
+                  una barra rígida, sus posiciones cumplen
+                </p>
+                <p>
+                  \[
+                  x_2 - x_1 = \ell.
+                  \]
+                </p>
+                <p>
+                  Eso significa que \(x_1\) y \(x_2\) no son independientes. En
+                  realidad basta una sola coordenada, por ejemplo la posición del
+                  centro de masas \(X\). El estado natural se escribe entonces
+                  como \((X,\dot X)\), no como “dos posiciones y dos
+                  velocidades”.
+                </p>
+              </div>
           </section>
         </main>
       </div>
@@ -1088,6 +1691,7 @@
 
     <script>
       let noInertiaController;
+      let realWorldController;
 
       window.addEventListener("DOMContentLoaded", () => {
         renderMathInElement(document.body, {
@@ -1099,8 +1703,10 @@
           ]
         });
 
+        initPendulumConfigViz();
         initNoInertiaSketch();
         initMemoryWorld();
+        initRealWorldSketch();
       });
 
       function renderInlineMath(container) {
@@ -1112,6 +1718,570 @@
             { left: "$", right: "$", display: false }
           ]
         });
+      }
+
+      function initPendulumConfigViz() {
+        const simpleHost = document.getElementById("viz-pendulum-config");
+        const simpleAngleInput = document.getElementById("pendulum-angle");
+        const simpleAngleValue = document.getElementById("pendulum-angle-value");
+        const simpleResetButton = document.getElementById("reset-pendulum-config");
+
+        const doubleHost = document.getElementById("viz-double-pendulum-config");
+        const theta1Input = document.getElementById("double-theta-1");
+        const theta2Input = document.getElementById("double-theta-2");
+        const theta1Value = document.getElementById("double-theta-1-value");
+        const theta2Value = document.getElementById("double-theta-2-value");
+        const doubleResetButton = document.getElementById("reset-double-pendulum-config");
+
+        function degLabel(value) {
+          return `${Math.round((value * 180) / Math.PI)}°`;
+        }
+
+        function polarPoint(cx, cy, radius, theta) {
+          return {
+            x: cx + radius * Math.sin(theta),
+            y: cy + radius * Math.cos(theta)
+          };
+        }
+
+        function arcPath(cx, cy, radius, startAngle, endAngle) {
+          const start = polarPoint(cx, cy, radius, startAngle);
+          const end = polarPoint(cx, cy, radius, endAngle);
+          const largeArc = Math.abs(endAngle - startAngle) > Math.PI ? 1 : 0;
+          const sweep = endAngle > startAngle ? 1 : 0;
+          return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArc} ${sweep} ${end.x} ${end.y}`;
+        }
+
+        function renderSimple() {
+          if (!simpleHost) return;
+
+          const theta = Number(simpleAngleInput.value);
+          simpleAngleValue.textContent = `θ = ${degLabel(theta)}`;
+          simpleHost.innerHTML = "";
+
+          const width = simpleHost.clientWidth;
+          const stacked = width < 640;
+          const height = stacked ? 460 : 340;
+          const svg = d3
+            .select(simpleHost)
+            .append("svg")
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("width", width)
+            .attr("height", height);
+
+          const margin = 24;
+          const panelGap = 24;
+          const panelWidth = stacked
+            ? width - margin * 2
+            : (width - margin * 2 - panelGap) / 2;
+          const panelHeight = stacked
+            ? (height - margin * 2 - panelGap) / 2
+            : height - margin * 2;
+          const leftTop = { x: margin, y: margin };
+          const rightTop = stacked
+            ? { x: margin, y: margin + panelHeight + panelGap }
+            : { x: margin + panelWidth + panelGap, y: margin };
+
+          const panels = [
+            { top: leftTop, title: "cartesianas + restricción" },
+            { top: rightTop, title: "una coordenada basta" }
+          ];
+
+          panels.forEach((panel) => {
+            svg
+              .append("rect")
+              .attr("x", panel.top.x)
+              .attr("y", panel.top.y)
+              .attr("width", panelWidth)
+              .attr("height", panelHeight)
+              .attr("rx", 20)
+              .attr("fill", "rgba(255,255,255,0.52)")
+              .attr("stroke", "rgba(27,40,48,0.08)");
+          });
+
+          const leftPivot = {
+            x: leftTop.x + panelWidth * 0.36,
+            y: leftTop.y + panelHeight * 0.54
+          };
+          const leftRadius = Math.min(panelWidth, panelHeight) * 0.28;
+          const leftBob = polarPoint(leftPivot.x, leftPivot.y, leftRadius, theta);
+
+          svg
+            .append("circle")
+            .attr("cx", leftPivot.x)
+            .attr("cy", leftPivot.y)
+            .attr("r", leftRadius)
+            .attr("fill", "none")
+            .attr("stroke", "rgba(27,40,48,0.26)")
+            .attr("stroke-dasharray", "8 8");
+
+          svg
+            .append("line")
+            .attr("x1", leftTop.x + 28)
+            .attr("x2", leftTop.x + panelWidth - 26)
+            .attr("y1", leftPivot.y)
+            .attr("y2", leftPivot.y)
+            .attr("stroke", "rgba(27,40,48,0.55)")
+            .attr("stroke-width", 1.5);
+
+          svg
+            .append("line")
+            .attr("x1", leftPivot.x)
+            .attr("x2", leftPivot.x)
+            .attr("y1", leftTop.y + 22)
+            .attr("y2", leftTop.y + panelHeight - 22)
+            .attr("stroke", "rgba(27,40,48,0.55)")
+            .attr("stroke-width", 1.5);
+
+          svg
+            .append("text")
+            .attr("x", leftTop.x + panelWidth - 24)
+            .attr("y", leftPivot.y - 10)
+            .attr("text-anchor", "end")
+            .attr("fill", "#607180")
+            .attr("font-size", width < 480 ? 11 : 13)
+            .text("x");
+
+          svg
+            .append("text")
+            .attr("x", leftPivot.x + 10)
+            .attr("y", leftTop.y + 26)
+            .attr("fill", "#607180")
+            .attr("font-size", width < 480 ? 11 : 13)
+            .text("y");
+
+          svg
+            .append("line")
+            .attr("x1", leftPivot.x)
+            .attr("y1", leftPivot.y)
+            .attr("x2", leftBob.x)
+            .attr("y2", leftBob.y)
+            .attr("stroke", "#1b2830")
+            .attr("stroke-width", 3);
+
+          svg
+            .append("line")
+            .attr("x1", leftBob.x)
+            .attr("x2", leftBob.x)
+            .attr("y1", leftBob.y)
+            .attr("y2", leftPivot.y)
+            .attr("stroke", "rgba(209,111,43,0.55)")
+            .attr("stroke-dasharray", "5 5");
+
+          svg
+            .append("line")
+            .attr("x1", leftBob.x)
+            .attr("x2", leftPivot.x)
+            .attr("y1", leftBob.y)
+            .attr("y2", leftBob.y)
+            .attr("stroke", "rgba(14,114,120,0.55)")
+            .attr("stroke-dasharray", "5 5");
+
+          svg
+            .append("circle")
+            .attr("cx", leftPivot.x)
+            .attr("cy", leftPivot.y)
+            .attr("r", 5.5)
+            .attr("fill", "#1b2830");
+
+          svg
+            .append("circle")
+            .attr("cx", leftBob.x)
+            .attr("cy", leftBob.y)
+            .attr("r", 9)
+            .attr("fill", "#d16f2b");
+
+          svg
+            .append("text")
+            .attr("x", leftBob.x + 10)
+            .attr("y", leftBob.y - 8)
+            .attr("fill", "#1b2830")
+            .attr("font-size", width < 480 ? 11 : 13)
+            .text("(x, y)");
+
+          svg
+            .append("text")
+            .attr("x", leftTop.x + 20)
+            .attr("y", leftTop.y + panelHeight - 16)
+            .attr("fill", "#607180")
+            .attr("font-size", width < 480 ? 11 : 13)
+            .text("x² + y² = ℓ²");
+
+          svg
+            .append("text")
+            .attr("x", leftTop.x + 20)
+            .attr("y", leftTop.y + 22)
+            .attr("fill", "#607180")
+            .attr("font-size", width < 480 ? 11 : 13)
+            .attr("font-weight", 700)
+            .text("cartesianas + restricción");
+
+          const rightPivot = {
+            x: rightTop.x + panelWidth * 0.5,
+            y: rightTop.y + panelHeight * 0.2
+          };
+          const rightRadius = Math.min(panelWidth, panelHeight) * 0.36;
+          const rightBob = polarPoint(rightPivot.x, rightPivot.y, rightRadius, theta);
+
+          svg
+            .append("line")
+            .attr("x1", rightPivot.x)
+            .attr("x2", rightPivot.x)
+            .attr("y1", rightPivot.y)
+            .attr("y2", rightTop.y + panelHeight - 28)
+            .attr("stroke", "rgba(27,40,48,0.28)")
+            .attr("stroke-dasharray", "7 7")
+            .attr("stroke-width", 1.5);
+
+          svg
+            .append("path")
+            .attr("d", arcPath(rightPivot.x, rightPivot.y, rightRadius * 0.34, 0, theta))
+            .attr("fill", "none")
+            .attr("stroke", "#0e7278")
+            .attr("stroke-width", 3);
+
+          svg
+            .append("line")
+            .attr("x1", rightPivot.x)
+            .attr("y1", rightPivot.y)
+            .attr("x2", rightBob.x)
+            .attr("y2", rightBob.y)
+            .attr("stroke", "#1b2830")
+            .attr("stroke-width", 3.2);
+
+          svg
+            .append("circle")
+            .attr("cx", rightPivot.x)
+            .attr("cy", rightPivot.y)
+            .attr("r", 5.5)
+            .attr("fill", "#1b2830");
+
+          svg
+            .append("circle")
+            .attr("cx", rightBob.x)
+            .attr("cy", rightBob.y)
+            .attr("r", 9)
+            .attr("fill", "#0e7278");
+
+          svg
+            .append("text")
+            .attr("x", rightPivot.x + rightRadius * 0.18)
+            .attr("y", rightPivot.y + rightRadius * 0.22)
+            .attr("fill", "#0e7278")
+            .attr("font-size", width < 480 ? 12 : 14)
+            .attr("font-weight", 700)
+            .text("θ");
+
+          svg
+            .append("text")
+            .attr("x", rightTop.x + 20)
+            .attr("y", rightTop.y + 22)
+            .attr("fill", "#607180")
+            .attr("font-size", width < 480 ? 11 : 13)
+            .attr("font-weight", 700)
+            .text("una coordenada basta");
+        }
+
+        function renderDouble() {
+          if (!doubleHost) return;
+
+          const theta1 = Number(theta1Input.value);
+          const theta2 = Number(theta2Input.value);
+          theta1Value.textContent = `θ₁ = ${degLabel(theta1)}`;
+          theta2Value.textContent = `θ₂ = ${degLabel(theta2)}`;
+          doubleHost.innerHTML = "";
+
+          const width = doubleHost.clientWidth;
+          const stacked = width < 700;
+          const height = stacked ? 500 : 340;
+          const svg = d3
+            .select(doubleHost)
+            .append("svg")
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("width", width)
+            .attr("height", height);
+
+          const margin = 24;
+          const panelGap = 24;
+          const panelWidth = stacked
+            ? width - margin * 2
+            : (width - margin * 2 - panelGap) / 2;
+          const panelHeight = stacked
+            ? (height - margin * 2 - panelGap) / 2
+            : height - margin * 2;
+          const leftTop = { x: margin, y: margin };
+          const rightTop = stacked
+            ? { x: margin, y: margin + panelHeight + panelGap }
+            : { x: margin + panelWidth + panelGap, y: margin };
+
+          [leftTop, rightTop].forEach((top) => {
+            svg
+              .append("rect")
+              .attr("x", top.x)
+              .attr("y", top.y)
+              .attr("width", panelWidth)
+              .attr("height", panelHeight)
+              .attr("rx", 20)
+              .attr("fill", "rgba(255,255,255,0.52)")
+              .attr("stroke", "rgba(27,40,48,0.08)");
+          });
+
+          const l1 = Math.min(panelWidth, panelHeight) * 0.25;
+          const l2 = Math.min(panelWidth, panelHeight) * 0.23;
+
+          const leftPivot = {
+            x: leftTop.x + panelWidth * 0.28,
+            y: leftTop.y + panelHeight * 0.28
+          };
+          const bob1 = polarPoint(leftPivot.x, leftPivot.y, l1, theta1);
+          const bob2 = polarPoint(bob1.x, bob1.y, l2, theta2);
+
+          svg
+            .append("line")
+            .attr("x1", leftTop.x + 24)
+            .attr("x2", leftTop.x + panelWidth - 24)
+            .attr("y1", leftPivot.y)
+            .attr("y2", leftPivot.y)
+            .attr("stroke", "rgba(27,40,48,0.55)")
+            .attr("stroke-width", 1.5);
+
+          svg
+            .append("line")
+            .attr("x1", leftPivot.x)
+            .attr("x2", leftPivot.x)
+            .attr("y1", leftTop.y + 20)
+            .attr("y2", leftTop.y + panelHeight - 24)
+            .attr("stroke", "rgba(27,40,48,0.55)")
+            .attr("stroke-width", 1.5);
+
+          svg
+            .append("text")
+            .attr("x", leftTop.x + panelWidth - 24)
+            .attr("y", leftPivot.y - 10)
+            .attr("text-anchor", "end")
+            .attr("fill", "#607180")
+            .attr("font-size", width < 520 ? 11 : 13)
+            .text("x");
+
+          svg
+            .append("text")
+            .attr("x", leftPivot.x + 10)
+            .attr("y", leftTop.y + 24)
+            .attr("fill", "#607180")
+            .attr("font-size", width < 520 ? 11 : 13)
+            .text("y");
+
+          svg
+            .append("line")
+            .attr("x1", leftPivot.x)
+            .attr("y1", leftPivot.y)
+            .attr("x2", bob1.x)
+            .attr("y2", bob1.y)
+            .attr("stroke", "#1b2830")
+            .attr("stroke-width", 3);
+
+          svg
+            .append("line")
+            .attr("x1", bob1.x)
+            .attr("y1", bob1.y)
+            .attr("x2", bob2.x)
+            .attr("y2", bob2.y)
+            .attr("stroke", "#1b2830")
+            .attr("stroke-width", 3);
+
+          svg
+            .append("circle")
+            .attr("cx", leftPivot.x)
+            .attr("cy", leftPivot.y)
+            .attr("r", 5.5)
+            .attr("fill", "#1b2830");
+
+          svg
+            .append("circle")
+            .attr("cx", bob1.x)
+            .attr("cy", bob1.y)
+            .attr("r", 8.5)
+            .attr("fill", "#d16f2b");
+
+          svg
+            .append("circle")
+            .attr("cx", bob2.x)
+            .attr("cy", bob2.y)
+            .attr("r", 8.5)
+            .attr("fill", "#0e7278");
+
+          if (panelWidth > 220) {
+            svg
+              .append("text")
+              .attr("x", bob1.x + 10)
+              .attr("y", bob1.y - 8)
+              .attr("fill", "#1b2830")
+              .attr("font-size", width < 520 ? 11 : 13)
+              .text("(x₁, y₁)");
+
+            svg
+              .append("text")
+              .attr("x", bob2.x + 10)
+              .attr("y", bob2.y + 14)
+              .attr("fill", "#1b2830")
+              .attr("font-size", width < 520 ? 11 : 13)
+              .text("(x₂, y₂)");
+          }
+
+          svg
+            .append("text")
+            .attr("x", leftTop.x + 20)
+            .attr("y", leftTop.y + 22)
+            .attr("fill", "#607180")
+            .attr("font-size", width < 520 ? 11 : 13)
+            .attr("font-weight", 700)
+            .text("cartesianas + vínculos");
+
+          svg
+            .append("text")
+            .attr("x", leftTop.x + 20)
+            .attr("y", leftTop.y + panelHeight - 16)
+            .attr("fill", "#607180")
+            .attr("font-size", width < 520 ? 11 : 13)
+            .text("4 coordenadas, 2 restricciones");
+
+          const rightPivot = {
+            x: rightTop.x + panelWidth * 0.34,
+            y: rightTop.y + panelHeight * 0.2
+          };
+          const rightBob1 = polarPoint(rightPivot.x, rightPivot.y, l1, theta1);
+          const rightBob2 = polarPoint(rightBob1.x, rightBob1.y, l2, theta2);
+
+          svg
+            .append("line")
+            .attr("x1", rightPivot.x)
+            .attr("x2", rightPivot.x)
+            .attr("y1", rightPivot.y)
+            .attr("y2", rightTop.y + panelHeight - 22)
+            .attr("stroke", "rgba(27,40,48,0.28)")
+            .attr("stroke-dasharray", "7 7")
+            .attr("stroke-width", 1.5);
+
+          svg
+            .append("line")
+            .attr("x1", rightBob1.x)
+            .attr("x2", rightBob1.x)
+            .attr("y1", rightBob1.y)
+            .attr("y2", rightTop.y + panelHeight - 22)
+            .attr("stroke", "rgba(27,40,48,0.24)")
+            .attr("stroke-dasharray", "7 7")
+            .attr("stroke-width", 1.3);
+
+          svg
+            .append("path")
+            .attr("d", arcPath(rightPivot.x, rightPivot.y, l1 * 0.34, 0, theta1))
+            .attr("fill", "none")
+            .attr("stroke", "#0e7278")
+            .attr("stroke-width", 3);
+
+          svg
+            .append("path")
+            .attr("d", arcPath(rightBob1.x, rightBob1.y, l2 * 0.34, 0, theta2))
+            .attr("fill", "none")
+            .attr("stroke", "#d16f2b")
+            .attr("stroke-width", 3);
+
+          svg
+            .append("line")
+            .attr("x1", rightPivot.x)
+            .attr("y1", rightPivot.y)
+            .attr("x2", rightBob1.x)
+            .attr("y2", rightBob1.y)
+            .attr("stroke", "#1b2830")
+            .attr("stroke-width", 3);
+
+          svg
+            .append("line")
+            .attr("x1", rightBob1.x)
+            .attr("y1", rightBob1.y)
+            .attr("x2", rightBob2.x)
+            .attr("y2", rightBob2.y)
+            .attr("stroke", "#1b2830")
+            .attr("stroke-width", 3);
+
+          svg
+            .append("circle")
+            .attr("cx", rightPivot.x)
+            .attr("cy", rightPivot.y)
+            .attr("r", 5.5)
+            .attr("fill", "#1b2830");
+
+          svg
+            .append("circle")
+            .attr("cx", rightBob1.x)
+            .attr("cy", rightBob1.y)
+            .attr("r", 8.5)
+            .attr("fill", "#d16f2b");
+
+          svg
+            .append("circle")
+            .attr("cx", rightBob2.x)
+            .attr("cy", rightBob2.y)
+            .attr("r", 8.5)
+            .attr("fill", "#0e7278");
+
+          svg
+            .append("text")
+            .attr("x", rightPivot.x + l1 * 0.18)
+            .attr("y", rightPivot.y + l1 * 0.22)
+            .attr("fill", "#0e7278")
+            .attr("font-size", width < 520 ? 12 : 14)
+            .attr("font-weight", 700)
+            .text("θ₁");
+
+          svg
+            .append("text")
+            .attr("x", rightBob1.x + l2 * 0.12)
+            .attr("y", rightBob1.y + l2 * 0.18)
+            .attr("fill", "#d16f2b")
+            .attr("font-size", width < 520 ? 12 : 14)
+            .attr("font-weight", 700)
+            .text("θ₂");
+
+          svg
+            .append("text")
+            .attr("x", rightTop.x + 20)
+            .attr("y", rightTop.y + 22)
+            .attr("fill", "#607180")
+            .attr("font-size", width < 520 ? 11 : 13)
+            .attr("font-weight", 700)
+            .text("ángulos adaptados");
+
+          svg
+            .append("text")
+            .attr("x", rightTop.x + 20)
+            .attr("y", rightTop.y + panelHeight - 16)
+            .attr("fill", "#607180")
+            .attr("font-size", width < 520 ? 11 : 13)
+            .text("θ₁ y θ₂ muestran 2 gdl");
+        }
+
+        if (simpleHost && simpleAngleInput && simpleResetButton) {
+          simpleAngleInput.addEventListener("input", renderSimple);
+          simpleResetButton.addEventListener("click", () => {
+            simpleAngleInput.value = "0.68";
+            renderSimple();
+          });
+          window.addEventListener("resize", renderSimple);
+          renderSimple();
+        }
+
+        if (doubleHost && theta1Input && theta2Input && doubleResetButton) {
+          theta1Input.addEventListener("input", renderDouble);
+          theta2Input.addEventListener("input", renderDouble);
+          doubleResetButton.addEventListener("click", () => {
+            theta1Input.value = "0.54";
+            theta2Input.value = "0.38";
+            renderDouble();
+          });
+          window.addEventListener("resize", renderDouble);
+          renderDouble();
+        }
       }
 
       function initNoInertiaSketch() {
@@ -1372,6 +2542,129 @@
         slider.addEventListener("input", () => render(true));
         resetButton.addEventListener("click", () => render(true));
         window.addEventListener("resize", () => render(false));
+      }
+
+      function initRealWorldSketch() {
+        const host = document.getElementById("viz-real-world");
+        const springInput = document.getElementById("spring-k");
+        const springValue = document.getElementById("spring-k-value");
+        const resetButton = document.getElementById("reset-real-world");
+        const baseVelocities = [-1.45, -0.75, -0.15, 0.7, 1.4];
+        const colors = ["#b6421f", "#d16f2b", "#1b2830", "#0e7278", "#2b9892"];
+
+        const controller = {
+          particles: [],
+          reset() {
+            this.particles = baseVelocities.map((v, index) => ({
+              x: 0,
+              v,
+              lane: index,
+              trail: [0]
+            }));
+          }
+        };
+        controller.reset();
+        realWorldController = controller;
+
+        const sketch = (p) => {
+          function vizHeight() {
+            const width = host.clientWidth;
+            if (width < 420) return 252;
+            if (width < 640) return 286;
+            return 340;
+          }
+
+          function trackY(index) {
+            const center = p.height * 0.58;
+            return center + (index - 2) * (p.width < 440 ? 18 : 22);
+          }
+
+          function scaledX(x, width) {
+            const normalized = Math.tanh(x / 2.8);
+            return p.map(normalized, -1, 1, 40, width - 40);
+          }
+
+          p.setup = () => {
+            const canvas = p.createCanvas(host.clientWidth, vizHeight());
+            canvas.parent(host);
+            p.pixelDensity(2);
+          };
+
+          p.windowResized = () => {
+            p.resizeCanvas(host.clientWidth, vizHeight());
+          };
+
+          p.draw = () => {
+            const k = Number(springInput.value);
+            springValue.textContent = `k = ${k.toFixed(2)}`;
+
+            const rawDt = Math.min(p.deltaTime * 0.00105, 0.028);
+            const substeps = 2;
+            const dt = rawDt / substeps;
+
+            for (let step = 0; step < substeps; step += 1) {
+              controller.particles.forEach((particle) => {
+                particle.v += -k * particle.x * dt;
+                particle.x += particle.v * dt;
+                particle.trail.push(particle.x);
+                if (particle.trail.length > 150) particle.trail.shift();
+              });
+            }
+
+            p.clear();
+            p.background(252, 248, 240);
+
+            const axisX = scaledX(0, p.width);
+            const tiny = p.width < 430;
+
+            p.noStroke();
+            for (let i = 0; i < 6; i += 1) {
+              p.fill(209, 111, 43, 11 - i);
+              p.circle(p.width * 0.82, p.height * 0.2, 180 + i * 24);
+            }
+
+            p.stroke(27, 40, 48, 38);
+            p.strokeWeight(1.2);
+            controller.particles.forEach((particle) => {
+              const y = trackY(particle.lane);
+              p.line(34, y, p.width - 34, y);
+            });
+
+            p.stroke(27, 40, 48, 82);
+            p.strokeWeight(2);
+            p.line(axisX, 28, axisX, p.height - 30);
+
+            p.noStroke();
+            p.fill(96, 113, 128);
+            p.textAlign(p.LEFT, p.CENTER);
+            p.textSize(tiny ? 10 : 12);
+            p.text(k === 0 ? "misma posición, futuros distintos por la velocidad" : "la fuerza curva historias, no inventa el estado", 18, 20);
+            p.text("x = 0", axisX - 10, p.height - (tiny ? 12 : 10));
+
+            controller.particles.forEach((particle, index) => {
+              const y = trackY(index);
+
+              p.noFill();
+              p.stroke(colors[index] + "80");
+              p.strokeWeight(index === 2 ? 2.8 : 2.2);
+              p.beginShape();
+              particle.trail.forEach((trailX) => {
+                p.vertex(scaledX(trailX, p.width), y);
+              });
+              p.endShape();
+
+              const xPos = scaledX(particle.x, p.width);
+              p.noStroke();
+              p.fill(colors[index]);
+              p.circle(xPos, y, index === 2 ? 12 : 11);
+            });
+          };
+        };
+
+        new p5(sketch);
+
+        springInput.addEventListener("input", () => controller.reset());
+        resetButton.addEventListener("click", () => controller.reset());
       }
     </script>
   </body>
