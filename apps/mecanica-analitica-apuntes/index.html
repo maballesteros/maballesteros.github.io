@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Apuntes Mike Mecánica Analítica — HTML5</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2830'/%3E%3Cpath d='M12 40c10-18 30-18 40 0' fill='none' stroke='%23f4ede0' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='40' r='4' fill='%23d16f2b'/%3E%3Ccircle cx='44' cy='40' r='4' fill='%230e7278'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+      :root {
+        --bg: #f6f0e3;
+        --bg-deep: #ece0ca;
+        --paper: rgba(255, 251, 244, 0.84);
+        --paper-strong: rgba(255, 251, 244, 0.94);
+        --ink: #1b2830;
+        --muted: #607180;
+        --accent: #d16f2b;
+        --accent-2: #0e7278;
+        --accent-3: #b6421f;
+        --line: rgba(27, 40, 48, 0.1);
+        --shadow-soft: 0 18px 60px rgba(71, 49, 23, 0.13);
+        --shadow-strong: 0 24px 74px rgba(34, 28, 20, 0.18);
+        --radius-xl: 34px;
+        --radius-lg: 24px;
+        --radius-md: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Manrope", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 15% 10%, rgba(209, 111, 43, 0.18), transparent 24%),
+          radial-gradient(circle at 82% 12%, rgba(14, 114, 120, 0.18), transparent 26%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.44), transparent 22%),
+          linear-gradient(180deg, var(--bg), var(--bg-deep));
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(27, 40, 48, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(27, 40, 48, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.34), transparent 78%);
+      }
+
+      .page {
+        width: min(1340px, calc(100vw - 28px));
+        margin: 0 auto;
+        padding: 20px 0 56px;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 46px 44px;
+        border-radius: var(--radius-xl);
+        background:
+          radial-gradient(circle at 18% 12%, rgba(209, 111, 43, 0.14), transparent 22%),
+          radial-gradient(circle at 84% 16%, rgba(14, 114, 120, 0.15), transparent 24%),
+          linear-gradient(135deg, rgba(255, 252, 247, 0.96), rgba(255, 248, 240, 0.9));
+        border: 1px solid rgba(27, 40, 48, 0.08);
+        box-shadow: var(--shadow-strong);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        right: -120px;
+        top: -120px;
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(14, 114, 120, 0.12), transparent 68%);
+        pointer-events: none;
+      }
+
+      .hero-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.7fr);
+        gap: 28px;
+        align-items: end;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 15px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-2);
+        background: rgba(14, 114, 120, 0.1);
+        border: 1px solid rgba(14, 114, 120, 0.16);
+      }
+
+      .hero h1 {
+        margin: 18px 0 14px;
+        max-width: 11ch;
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(3.2rem, 7vw, 6.2rem);
+        line-height: 0.92;
+        letter-spacing: -0.04em;
+      }
+
+      .hero p {
+        margin: 0;
+        max-width: 64ch;
+        font-size: 1.08rem;
+        line-height: 1.86;
+        color: var(--muted);
+      }
+
+      .quote-card {
+        padding: 24px;
+        border-radius: var(--radius-lg);
+        color: #f8f3ea;
+        background: linear-gradient(145deg, rgba(27, 40, 48, 0.96), rgba(42, 57, 68, 0.94));
+        box-shadow: 0 18px 44px rgba(27, 40, 48, 0.24);
+      }
+
+      .quote-card .label {
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(248, 243, 234, 0.62);
+      }
+
+      .quote-card .equation {
+        margin: 16px 0 10px;
+        font-size: 1.6rem;
+      }
+
+      .quote-card p {
+        color: rgba(248, 243, 234, 0.76);
+        font-size: 0.94rem;
+        line-height: 1.78;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        gap: 24px;
+        margin-top: 24px;
+      }
+
+      .toc {
+        position: sticky;
+        top: 24px;
+        align-self: start;
+        padding: 18px;
+        border-radius: var(--radius-lg);
+        background: var(--paper);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(27, 40, 48, 0.08);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .toc h2 {
+        margin: 0 0 14px;
+        font-size: 0.98rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+      }
+
+      .toc nav {
+        display: grid;
+        gap: 10px;
+      }
+
+      .toc a {
+        display: block;
+        padding: 12px 14px;
+        text-decoration: none;
+        color: var(--ink);
+        border-radius: 14px;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.66);
+        border: 1px solid rgba(27, 40, 48, 0.08);
+      }
+
+      .toc a:hover {
+        background: rgba(209, 111, 43, 0.09);
+      }
+
+      .content {
+        display: grid;
+        gap: 24px;
+      }
+
+      .content > * {
+        scroll-margin-top: 18px;
+      }
+
+      .section-card {
+        padding: 30px 30px 32px;
+        border-radius: var(--radius-xl);
+        background: var(--paper);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(27, 40, 48, 0.08);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .section-card h2 {
+        margin: 10px 0 16px;
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2.2rem, 4vw, 3.4rem);
+        line-height: 0.98;
+        letter-spacing: -0.035em;
+      }
+
+      .section-card p {
+        margin: 0 0 16px;
+        font-size: 1rem;
+        line-height: 1.85;
+        color: var(--muted);
+      }
+
+      .section-card .lede {
+        font-size: 1.08rem;
+        color: var(--ink);
+      }
+
+      .subgrid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 22px;
+      }
+
+      .concept-card {
+        padding: 20px;
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(27, 40, 48, 0.08);
+      }
+
+      .concept-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.08rem;
+      }
+
+      .concept-card p,
+      .concept-card ul {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.78;
+      }
+
+      .equation-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-top: 22px;
+        padding: 22px;
+        border-radius: 24px;
+        background: linear-gradient(150deg, rgba(27, 40, 48, 0.96), rgba(43, 57, 67, 0.94));
+        color: #f8f3ea;
+      }
+
+      .equation-panel h3 {
+        margin: 0 0 8px;
+        font-size: 0.88rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(248, 243, 234, 0.62);
+      }
+
+      .equation-panel p {
+        color: rgba(248, 243, 234, 0.78);
+        margin: 0;
+      }
+
+      .equation-box {
+        font-size: 1.45rem;
+        margin: 10px 0 14px;
+      }
+
+      .callout {
+        margin-top: 22px;
+        padding: 22px 22px 22px 20px;
+        border-left: 4px solid var(--accent-3);
+        border-radius: 18px;
+        background: linear-gradient(180deg, rgba(184, 66, 31, 0.08), rgba(184, 66, 31, 0.03));
+      }
+
+      .callout h3 {
+        margin: 0 0 10px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--accent-3);
+      }
+
+      .callout p,
+      .callout ul {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .callout ul {
+        margin-top: 10px;
+        padding-left: 18px;
+      }
+
+      .world-card {
+        overflow: hidden;
+        border-radius: 26px;
+        border: 1px solid rgba(27, 40, 48, 0.08);
+        background: rgba(255, 255, 255, 0.74);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .world-head {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 22px 22px 18px;
+        border-bottom: 1px solid rgba(27, 40, 48, 0.08);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.56));
+      }
+
+      .world-head h3 {
+        margin: 0 0 8px;
+        font-size: 1.45rem;
+      }
+
+      .world-head p {
+        margin: 0;
+      }
+
+      .world-body {
+        padding: 22px;
+      }
+
+      .world-body p {
+        margin-bottom: 14px;
+      }
+
+      .world-body ul {
+        margin: 0 0 16px;
+        padding-left: 20px;
+        color: var(--muted);
+        line-height: 1.85;
+      }
+
+      .world-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .viz-shell {
+        min-height: 330px;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(27, 40, 48, 0.08);
+        background:
+          radial-gradient(circle at top left, rgba(14, 114, 120, 0.12), transparent 28%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(243, 235, 221, 0.92));
+      }
+
+      .world-side {
+        display: grid;
+        gap: 16px;
+      }
+
+      .stat-box {
+        padding: 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px solid rgba(27, 40, 48, 0.08);
+      }
+
+      .stat-box h4 {
+        margin: 0 0 8px;
+        font-size: 0.86rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+
+      .stat-box p {
+        margin: 0;
+      }
+
+      .control-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .control-row label {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--muted);
+      }
+
+      .control-row input[type="range"] {
+        width: min(100%, 220px);
+        accent-color: var(--accent);
+      }
+
+      .btn {
+        appearance: none;
+        border: 0;
+        cursor: pointer;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-family: inherit;
+        font-size: 0.88rem;
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        color: #fff9f1;
+        background: linear-gradient(135deg, var(--accent), #e08b37);
+        box-shadow: 0 12px 24px rgba(209, 111, 43, 0.24);
+      }
+
+      .btn:hover {
+        filter: brightness(1.02);
+      }
+
+      .btn.secondary {
+        background: linear-gradient(135deg, var(--accent-2), #1e9199);
+        box-shadow: 0 12px 24px rgba(14, 114, 120, 0.24);
+      }
+
+      .mini-label {
+        font-size: 0.84rem;
+        color: var(--muted);
+      }
+
+      .katex-display {
+        margin: 0.9em 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 2px;
+      }
+
+      @media (max-width: 1150px) {
+        .layout,
+        .hero-grid,
+        .subgrid,
+        .equation-panel,
+        .world-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding: 34px 32px;
+        }
+
+        .hero::after {
+          right: -80px;
+          top: -90px;
+          width: 280px;
+          height: 280px;
+        }
+
+        .hero-grid {
+          max-width: 820px;
+          margin: 0 auto;
+          gap: 18px;
+          align-items: start;
+        }
+
+        .hero h1 {
+          max-width: 14ch;
+          font-size: clamp(3rem, 6vw, 4.9rem);
+          line-height: 0.95;
+        }
+
+        .hero p {
+          max-width: 58ch;
+          font-size: 1rem;
+          line-height: 1.76;
+        }
+
+        .toc {
+          position: static;
+        }
+
+        .quote-card {
+          max-width: none;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .page {
+          width: min(100vw - 12px, 100%);
+          padding: 8px 0 24px;
+        }
+
+        .hero {
+          padding: 24px 20px;
+          border-radius: 26px;
+        }
+
+        .hero h1 {
+          margin-top: 14px;
+          max-width: 9ch;
+          font-size: clamp(2.6rem, 14vw, 4.2rem);
+          line-height: 0.94;
+        }
+
+        .hero p {
+          font-size: 0.98rem;
+          line-height: 1.72;
+        }
+
+        .quote-card {
+          padding: 18px;
+          border-radius: 18px;
+        }
+
+        .quote-card .equation {
+          font-size: 1.28rem;
+        }
+
+        .layout {
+          gap: 16px;
+          margin-top: 16px;
+        }
+
+        .toc {
+          padding: 12px;
+          border-radius: 18px;
+        }
+
+        .toc h2 {
+          margin-bottom: 10px;
+          font-size: 0.82rem;
+        }
+
+        .toc nav {
+          display: flex;
+          gap: 8px;
+          overflow-x: auto;
+          padding-bottom: 4px;
+          scrollbar-width: none;
+        }
+
+        .toc nav::-webkit-scrollbar {
+          display: none;
+        }
+
+        .toc a {
+          white-space: nowrap;
+          padding: 10px 12px;
+          font-size: 0.9rem;
+          border-radius: 12px;
+        }
+
+        .section-card {
+          padding: 20px 18px 22px;
+          border-radius: 24px;
+        }
+
+        .section-card h2 {
+          font-size: clamp(1.9rem, 10vw, 2.8rem);
+        }
+
+        .section-card p,
+        .section-card .lede {
+          font-size: 0.96rem;
+          line-height: 1.72;
+        }
+
+        .eyebrow {
+          padding: 7px 12px;
+          font-size: 0.7rem;
+        }
+
+        .concept-card,
+        .callout,
+        .stat-box {
+          padding: 16px;
+          border-radius: 16px;
+        }
+
+        .equation-panel {
+          padding: 16px;
+          border-radius: 18px;
+        }
+
+        .equation-box {
+          font-size: 1.2rem;
+        }
+
+        .world-card {
+          border-radius: 22px;
+        }
+
+        .world-head {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 12px;
+          padding: 18px 18px 16px;
+        }
+
+        .world-head h3 {
+          font-size: 1.22rem;
+        }
+
+        .world-body {
+          padding: 18px;
+        }
+
+        .viz-shell {
+          min-height: 270px;
+          border-radius: 16px;
+        }
+
+        .control-row {
+          align-items: stretch;
+          gap: 10px;
+        }
+
+        .control-row label {
+          font-size: 0.84rem;
+        }
+
+        .control-row input[type="range"] {
+          width: 100%;
+        }
+
+        .btn {
+          width: fit-content;
+          align-self: flex-start;
+          padding: 9px 12px;
+          font-size: 0.82rem;
+        }
+
+        .mini-label {
+          font-size: 0.8rem;
+        }
+      }
+
+      @media (max-width: 460px) {
+        .page {
+          width: min(100vw - 8px, 100%);
+        }
+
+        .hero {
+          padding: 20px 16px;
+        }
+
+        .hero h1 {
+          font-size: clamp(2.3rem, 13vw, 3.4rem);
+        }
+
+        .section-card {
+          padding: 18px 14px 20px;
+        }
+
+        .world-body,
+        .world-head {
+          padding-left: 14px;
+          padding-right: 14px;
+        }
+
+        .viz-shell {
+          min-height: 248px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">Apuntes Mike · Mecánica analítica</div>
+            <h1>Qué hay que saber antes de escribir una ley</h1>
+            <p>
+              Esta versión web sigue el mismo guion que tus apuntes:
+              <strong>sistema</strong>, <strong>configuración</strong>,
+              <strong>estado</strong>, <strong>ley dinámica</strong> y, por
+              contraste, dos mundos posibles que ayudan a entender por qué
+              nuestro mundo mecánico tiene la forma que tiene.
+            </p>
+          </div>
+
+          <aside class="quote-card">
+            <div class="label">La pregunta buena</div>
+            <div class="equation">\( \text{estado} \neq \text{foto} \)</div>
+            <p>
+              La configuración te dice cómo está el sistema. El estado te dice
+              cuánto necesitas saber para no perder su futuro. Si esa idea queda
+              clara, el resto del curso empieza a encajar.
+            </p>
+          </aside>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="toc">
+          <h2>Mapa del capítulo</h2>
+          <nav>
+            <a href="#sistema">Sistema</a>
+            <a href="#observamos">Qué observamos</a>
+            <a href="#estado">Configuración y estado</a>
+            <a href="#ley">Ley dinámica</a>
+            <a href="#mundos">Mundos posibles</a>
+          </nav>
+        </aside>
+
+        <main class="content">
+          <section id="sistema" class="section-card">
+            <div class="eyebrow">1. Sistema</div>
+            <h2>¿Qué parte del mundo hemos decidido estudiar?</h2>
+            <p class="lede">
+              Le llamaremos <strong>sistema</strong>. Puede ser un conjunto de
+              \(N\) partículas, un péndulo, un cohete, lo que sea. La pregunta
+              viene antes que cualquier ecuación: primero decides qué objeto vas
+              a tomar como foco.
+            </p>
+
+            <div class="subgrid">
+              <article class="concept-card">
+                <h3>Idea mínima</h3>
+                <p>
+                  “Sistema” no es todavía una descripción matemática. Es la
+                  decisión inicial sobre qué parte del mundo quieres entender.
+                </p>
+              </article>
+              <article class="concept-card">
+                <h3>Consecuencia</h3>
+                <p>
+                  Solo después de fijar el sistema tiene sentido preguntar qué
+                  variables lo describen y qué datos hacen falta para continuar
+                  su evolución.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section id="observamos" class="section-card">
+            <div class="eyebrow">2. Historias</div>
+            <h2>¿Qué observamos?</h2>
+            <p class="lede">
+              Observamos historias en el tiempo. Si describimos el sistema
+              mediante coordenadas de configuración, escribiremos
+            </p>
+
+            <div class="equation-panel">
+              <div>
+                <h3>Coordenadas de configuración</h3>
+                <div class="equation-box">
+                  \[
+                  q(t) = (q_1(t), \dots, q_n(t))
+                  \]
+                </div>
+                <p>
+                  En esta notación el sistema no tiene por qué vivir en
+                  coordenadas cartesianas. Lo importante es que \(q\) capture la
+                  colocación del sistema de la forma más natural posible.
+                </p>
+              </div>
+              <div>
+                <h3>Casos particulares</h3>
+                <p>
+                  Para una partícula moviéndose sobre una línea, \(q=x\). Para
+                  un péndulo, \(q=\theta\). Para varias partículas sin vínculos,
+                  las \(q_i\) pueden coincidir con posiciones cartesianas.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section id="estado" class="section-card">
+            <div class="eyebrow">3. Estado</div>
+            <h2>¿Qué información mínima necesitamos para conocer esa trayectoria?</h2>
+            <p class="lede">
+              Dar \(q(t_0)\) es decir cómo está colocado el sistema en un cierto
+              instante. Dar \(\dot q(t_0)\) es decir cómo está cambiando esa
+              configuración en ese mismo instante.
+            </p>
+
+            <div class="subgrid">
+              <article class="concept-card">
+                <h3>Configuración</h3>
+                <p>
+                  \[
+                  q(t_0)
+                  \]
+                </p>
+                <p>
+                  La configuración dice dónde está colocado el sistema en un
+                  instante dado.
+                </p>
+              </article>
+              <article class="concept-card">
+                <h3>Estado</h3>
+                <p>
+                  \[
+                  (q(t_0),\dot q(t_0))
+                  \]
+                </p>
+                <p>
+                  El estado es la información mínima que debo dar si quiero
+                  poder continuar la evolución de un sistema.
+                </p>
+              </article>
+            </div>
+
+            <div class="callout">
+              <h3>Ojo</h3>
+              <p>
+                Ni la configuración se corresponde necesariamente con
+                coordenadas cartesianas, ni el estado es simplemente
+                “configuración + velocidades” en bruto.
+              </p>
+              <ul>
+                <li>
+                  La configuración puede describirse mediante coordenadas
+                  generalizadas \(q=(q_1,\dots,q_n)\).
+                </li>
+                <li>
+                  Para un péndulo es más natural usar el ángulo \(\theta\) que
+                  las coordenadas \((x,y)\) de la masa.
+                </li>
+                <li>
+                  En mecánica clásica ordinaria, el estado suele escribirse como
+                  \((q,\dot q)\) o, de forma equivalente, como \((q,p)\).
+                </li>
+                <li>
+                  El estado no se cuenta por partículas, sino por grados de
+                  libertad independientes.
+                </li>
+              </ul>
+            </div>
+
+            <div class="callout" style="border-left-color: var(--accent-2); background: linear-gradient(180deg, rgba(14,114,120,0.08), rgba(14,114,120,0.03));">
+              <h3>Ejemplo: dos partículas ligadas</h3>
+              <p>
+                Si dos partículas se mueven sobre una línea y están unidas por
+                una barra rígida, sus posiciones cumplen
+              </p>
+              <p>
+                \[
+                x_2 - x_1 = \ell.
+                \]
+              </p>
+              <p>
+                Eso significa que \(x_1\) y \(x_2\) no son independientes. En
+                realidad basta una sola coordenada, por ejemplo la posición del
+                centro de masas \(X\). El estado natural se escribe entonces
+                como \((X,\dot X)\), no como “dos posiciones y dos velocidades”.
+              </p>
+            </div>
+          </section>
+
+          <section id="ley" class="section-card">
+            <div class="eyebrow">4. Ley dinámica</div>
+            <h2>¿Qué es una ley dinámica?</h2>
+            <p class="lede">
+              Una <strong>ley dinámica</strong> es la regla que te dice cómo
+              cambia ese <strong>estado</strong> con el tiempo.
+            </p>
+            <p>
+              En la mecánica clásica ordinaria, eso suele tomar la forma de una
+              ecuación diferencial respecto del tiempo: una regla que relaciona
+              la evolución de las coordenadas generalizadas y de los datos de
+              cambio asociados a ellas. Si el estado se escribe como
+              \((q,\dot q)\), la ley dinámica nos dice cómo sigue la historia
+              \(q(t)\) a partir de esos datos iniciales.
+            </p>
+            <p>
+              Aquí ya se asume que la ley dinámica es
+              <strong>local</strong>: para describirla basta con especificar cómo
+              se relacionan pequeños cambios de unas partes del estado con otras
+              cuando avanzamos un tiempo infinitesimal.
+            </p>
+          </section>
+
+          <section id="mundos" class="section-card">
+            <div class="eyebrow">5. Mundos posibles</div>
+            <h2>¿Qué leyes dinámicas son posibles?</h2>
+            <p class="lede">
+              Aquí es donde podemos jugar en un playground de físicas posibles y
+              ver cuáles crean mundos interesantes, cuáles degeneran rápidamente
+              y cuáles construyen un universo demasiado distinto del que vemos.
+            </p>
+
+            <article class="world-card" style="margin-top: 24px;">
+              <div class="world-head">
+                <div>
+                  <h3>Mundo sin inercia</h3>
+                  <p>
+                    En un mundo donde
+                    \[
+                    \dot x = u(x),
+                    \]
+                    la velocidad depende solo de la posición. La posición sola
+                    fija el futuro inmediato.
+                  </p>
+                </div>
+                <button class="btn" id="reset-no-inertia" type="button">Reset</button>
+              </div>
+
+              <div class="world-body">
+                <p>
+                  Por eso puede verse como un <strong>mundo sin inercia</strong>:
+                  no hay un dato independiente de movimiento además de la
+                  posición. En el ejemplo
+                </p>
+                <p>
+                  \[
+                  \dot x = x,
+                  \]
+                </p>
+                <p>
+                  las partículas situadas en \(x>0\) se escapan hacia
+                  \(x\to+\infty\), las situadas en \(x<0\) se escapan hacia
+                  \(x\to-\infty\), y una partícula en \(x=0\) se queda allí.
+                </p>
+
+                <div class="world-grid">
+                  <div>
+                    <div id="viz-no-inertia" class="viz-shell"></div>
+                    <div class="control-row">
+                      <label for="gain">intensidad del campo</label>
+                      <input id="gain" type="range" min="0.35" max="1.8" step="0.05" value="1" />
+                      <span class="mini-label" id="gain-value">\(k=1.00\)</span>
+                    </div>
+                  </div>
+
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Estructura general</h4>
+                      <p>
+                        La misma posición implica siempre el mismo futuro. No
+                        puedes pasar por el mismo punto una vez hacia la derecha
+                        y otra hacia la izquierda.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Consecuencias</h4>
+                      <p>
+                        No hay memoria inercial, no hay oscilaciones genuinas en
+                        una línea y no hay overshoot. El sistema queda demasiado
+                        pegado a la posición instantánea.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Remate fuerte</h4>
+                      <p>
+                        Si el espacio es homogéneo e isótropo, la ley libre
+                        tendría que ser trivial: una partícula verdaderamente
+                        libre no podría hacer otra cosa que permanecer en
+                        reposo.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="world-card" style="margin-top: 22px;">
+              <div class="world-head">
+                <div>
+                  <h3>Mundo con demasiada memoria</h3>
+                  <p>
+                    En el extremo opuesto, imaginemos una ley libre de tercer
+                    orden:
+                    \[
+                    x^{(3)} = 0.
+                    \]
+                  </p>
+                </div>
+                <button class="btn secondary" id="reset-memory" type="button">Reset</button>
+              </div>
+
+              <div class="world-body">
+                <p>
+                  En ese caso, para determinar el futuro ya no bastaría con dar
+                  la posición y la velocidad en un instante. Haría falta también
+                  la aceleración inicial:
+                </p>
+                <p>
+                  \[
+                  x(t_0), \qquad \dot x(t_0), \qquad \ddot x(t_0).
+                  \]
+                </p>
+                <p>
+                  La solución general libre tiene la forma
+                </p>
+                <p>
+                  \[
+                  x(t)=x_0+v_0(t-t_0)+\frac{1}{2}a_0(t-t_0)^2,
+                  \]
+                </p>
+                <p>
+                  de modo que dos partículas podrían pasar por el mismo punto
+                  con la misma velocidad y, sin embargo, tener futuros distintos
+                  si su aceleración inicial fuese distinta.
+                </p>
+
+                <div class="world-grid">
+                  <div>
+                    <div id="viz-memory" class="viz-shell"></div>
+                    <div class="control-row">
+                      <label for="time-window">horizonte temporal</label>
+                      <input id="time-window" type="range" min="2.5" max="6" step="0.25" value="4.5" />
+                      <span class="mini-label" id="time-window-value">\(T=4.5\)</span>
+                    </div>
+                  </div>
+
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Exceso de memoria</h4>
+                      <p>
+                        El presente arrastra un dato extra, \(\ddot x(t_0)\),
+                        que influye en el futuro aunque no haya ninguna
+                        interacción externa actuando sobre la partícula.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Consecuencias</h4>
+                      <p>
+                        Una partícula libre puede curvar su historia por sí
+                        sola, y el movimiento uniforme deja de ser la forma
+                        privilegiada del movimiento libre.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Lección de fondo</h4>
+                      <p>
+                        La frontera entre movimiento libre y movimiento forzado
+                        se vuelve borrosa. Entra demasiada libertad en el estado
+                        y el futuro se vuelve artificialmente maleable.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      let noInertiaController;
+
+      window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ]
+        });
+
+        initNoInertiaSketch();
+        initMemoryWorld();
+      });
+
+      function renderInlineMath(container) {
+        renderMathInElement(container, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ]
+        });
+      }
+
+      function initNoInertiaSketch() {
+        const host = document.getElementById("viz-no-inertia");
+        const gainInput = document.getElementById("gain");
+        const gainValue = document.getElementById("gain-value");
+        const resetButton = document.getElementById("reset-no-inertia");
+        const seed = [-1.6, -1.05, -0.35, 0.32, 0.96, 1.48];
+
+        const controller = {
+          time: 0,
+          reset() {
+            this.time = 0;
+          }
+        };
+        noInertiaController = controller;
+
+        const sketch = (p) => {
+          function vizHeight() {
+            const width = host.clientWidth;
+            if (width < 420) return 248;
+            if (width < 640) return 280;
+            return 340;
+          }
+
+          function scaledX(x, width) {
+            const normalized = Math.tanh(x / 2.25);
+            return p.map(normalized, -1, 1, 38, width - 38);
+          }
+
+          p.setup = () => {
+            const canvas = p.createCanvas(host.clientWidth, vizHeight());
+            canvas.parent(host);
+            p.pixelDensity(2);
+          };
+
+          p.windowResized = () => {
+            p.resizeCanvas(host.clientWidth, vizHeight());
+          };
+
+          p.draw = () => {
+            const gain = Number(gainInput.value);
+            gainValue.textContent = `k=${gain.toFixed(2)}`;
+            controller.time += p.deltaTime * 0.00055;
+
+            p.clear();
+            p.background(252, 248, 240);
+
+            const axisY = p.height * 0.58;
+            const zeroX = scaledX(0, p.width);
+            const tiny = p.width < 430;
+
+            p.noStroke();
+            for (let i = 0; i < 7; i += 1) {
+              p.fill(14, 114, 120, 13 - i);
+              p.circle(p.width * 0.16, p.height * 0.2, 190 + i * 26);
+            }
+
+            p.stroke(27, 40, 48, 46);
+            p.strokeWeight(1);
+            p.line(28, axisY, p.width - 28, axisY);
+
+            p.stroke(27, 40, 48, 86);
+            p.strokeWeight(2);
+            p.line(zeroX, axisY - 28, zeroX, axisY + 28);
+
+            p.noStroke();
+            p.fill(96, 113, 128);
+            p.textAlign(p.LEFT, p.CENTER);
+            p.textSize(tiny ? 10 : 12);
+            p.text("misma posición, mismo futuro", 18, 20);
+            p.text("x = 0", zeroX - 10, axisY + (tiny ? 38 : 46));
+
+            const particles = seed.map((x0) => x0 * Math.exp(gain * controller.time));
+
+            particles.forEach((x, index) => {
+              const xPos = scaledX(x, p.width);
+              const y = axisY + ((index % 3) - 1) * 18;
+              const color = index < 3 ? "#d16f2b" : "#0e7278";
+
+              p.stroke(color + "55");
+              p.strokeWeight(1.5);
+              p.line(xPos, y, xPos, axisY);
+
+              p.noStroke();
+              p.fill(color);
+              p.circle(xPos, y, 12 + (index % 2) * 2);
+            });
+          };
+        };
+
+        new p5(sketch);
+
+        gainInput.addEventListener("input", () => {
+          renderInlineMath(gainValue.parentElement);
+        });
+
+        resetButton.addEventListener("click", () => controller.reset());
+      }
+
+      function initMemoryWorld() {
+        const host = document.getElementById("viz-memory");
+        const slider = document.getElementById("time-window");
+        const label = document.getElementById("time-window-value");
+        const resetButton = document.getElementById("reset-memory");
+        const accelerations = [-1.4, -0.8, -0.2, 0.55, 1.2];
+        const colors = ["#b6421f", "#d16f2b", "#1b2830", "#0e7278", "#2b9892"];
+        const x0 = 0;
+        const v0 = 1;
+
+        function buildData(T) {
+          return accelerations.map((a) => ({
+            a,
+            values: d3.range(0, T + 0.001, T / 100).map((t) => ({
+              t,
+              x: x0 + v0 * t + 0.5 * a * t * t
+            }))
+          }));
+        }
+
+        function animatePaths(selection) {
+          selection.each(function () {
+            const length = this.getTotalLength();
+            d3.select(this)
+              .attr("stroke-dasharray", `${length} ${length}`)
+              .attr("stroke-dashoffset", length)
+              .transition()
+              .duration(1500)
+              .ease(d3.easeCubicOut)
+              .attr("stroke-dashoffset", 0);
+          });
+        }
+
+        function render(restart = true) {
+          const T = Number(slider.value);
+          label.textContent = `T=${T.toFixed(1)}`;
+          host.innerHTML = "";
+
+          const width = host.clientWidth;
+          const height = width < 420 ? 248 : width < 640 ? 280 : 340;
+          const margin = { top: 24, right: 42, bottom: 42, left: 48 };
+          const small = width < 500;
+          const data = buildData(T);
+          const yExtent = d3.extent(data.flatMap((curve) => curve.values.map((d) => d.x)));
+          const pad = (yExtent[1] - yExtent[0]) * 0.16 || 1;
+
+          const x = d3.scaleLinear().domain([0, T]).range([margin.left, width - margin.right]);
+          const y = d3.scaleLinear().domain([yExtent[0] - pad, yExtent[1] + pad]).range([height - margin.bottom, margin.top]);
+
+          const svg = d3
+            .select(host)
+            .append("svg")
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("width", width)
+            .attr("height", height);
+
+          svg
+            .append("rect")
+            .attr("x", margin.left)
+            .attr("y", margin.top)
+            .attr("width", width - margin.left - margin.right)
+            .attr("height", height - margin.top - margin.bottom)
+            .attr("rx", 18)
+            .attr("fill", "rgba(255,255,255,0.46)");
+
+          const grid = svg.append("g").attr("stroke", "rgba(27,40,48,0.08)");
+          x.ticks(6).forEach((tick) => {
+            grid
+              .append("line")
+              .attr("x1", x(tick))
+              .attr("x2", x(tick))
+              .attr("y1", margin.top)
+              .attr("y2", height - margin.bottom);
+          });
+          y.ticks(5).forEach((tick) => {
+            grid
+              .append("line")
+              .attr("x1", margin.left)
+              .attr("x2", width - margin.right)
+              .attr("y1", y(tick))
+              .attr("y2", y(tick));
+          });
+
+          svg
+            .append("g")
+            .attr("transform", `translate(0,${height - margin.bottom})`)
+            .call(d3.axisBottom(x).ticks(6))
+            .call((g) => g.selectAll("path,line").attr("stroke", "rgba(27,40,48,0.32)"))
+            .call((g) => g.selectAll("text").attr("fill", "#607180").style("font-family", "Manrope").style("font-size", small ? "10px" : "12px"));
+
+          svg
+            .append("g")
+            .attr("transform", `translate(${margin.left},0)`)
+            .call(d3.axisLeft(y).ticks(5))
+            .call((g) => g.selectAll("path,line").attr("stroke", "rgba(27,40,48,0.32)"))
+            .call((g) => g.selectAll("text").attr("fill", "#607180").style("font-family", "Manrope").style("font-size", small ? "10px" : "12px"));
+
+          const line = d3
+            .line()
+            .x((d) => x(d.t))
+            .y((d) => y(d.x))
+            .curve(d3.curveMonotoneX);
+
+          const paths = svg
+            .append("g")
+            .selectAll("path")
+            .data(data)
+            .enter()
+            .append("path")
+            .attr("fill", "none")
+            .attr("stroke", (_, i) => colors[i])
+            .attr("stroke-width", (_, i) => (i === 2 ? 4 : 2.6))
+            .attr("d", (d) => line(d.values));
+
+          if (restart) {
+            animatePaths(paths);
+          }
+
+          data.forEach((curve, index) => {
+            const last = curve.values[curve.values.length - 1];
+            svg
+              .append("text")
+              .attr("x", x(last.t) + (small ? 6 : 10))
+              .attr("y", y(last.x))
+              .attr("fill", colors[index])
+              .attr("font-size", small ? 10 : 12)
+              .attr("font-weight", 700)
+              .text(`a₀=${curve.a.toFixed(1)}`);
+          });
+
+          svg
+            .append("circle")
+            .attr("cx", x(0))
+            .attr("cy", y(0))
+            .attr("r", 5)
+            .attr("fill", "#1b2830");
+
+          svg
+            .append("line")
+            .attr("x1", x(0))
+            .attr("y1", y(0))
+            .attr("x2", x(0.95))
+            .attr("y2", y(0.95))
+            .attr("stroke", "rgba(27,40,48,0.4)")
+            .attr("stroke-dasharray", "6 5")
+            .attr("stroke-width", 2);
+
+          svg
+            .append("text")
+            .attr("x", x(1.05))
+            .attr("y", y(1.0) - (small ? 8 : 12))
+            .attr("fill", "#607180")
+            .attr("font-size", small ? 10 : 12)
+            .text(small ? "misma tangente" : "misma tangente inicial");
+        }
+
+        render(true);
+        slider.addEventListener("input", () => render(true));
+        resetButton.addEventListener("click", () => render(true));
+        window.addEventListener("resize", () => render(false));
+      }
+    </script>
+  </body>
+</html>
