@@ -54,4 +54,12 @@ permalink: /apps/
   </a>
 </article>
 
+<article>
+  <a href="/apps/mecanica-analitica-apuntes/">
+    <img src="/apps/mecanica-analitica-apuntes/cover.png" alt="Apuntes de Mecánica Analítica">
+    <h2>Apuntes de Mecánica Analítica</h2>
+    <p>Una versión web rica e interactiva de los apuntes del curso, con matemáticas renderizadas, bloques editoriales y visualizaciones para explorar los “mundos posibles” de la mecánica.</p>
+  </a>
+</article>
+
 </div>
