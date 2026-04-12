@@ -39,6 +39,14 @@ permalink: /apps/
 </article>
 
 <article>
+  <a href="/dance-graph/">
+    <img src="/apps/dance-graph/dance-graph-cover.svg" alt="Dance Graph">
+    <h2>Dance Graph</h2>
+    <p>Model salsa or bachata as positions and transitions, explore the dance visually, and build or generate reusable sequences with local-first backups.</p>
+  </a>
+</article>
+
+<article>
   <a href="/vocabulario/">
     <img src="/vocabulario/favicon.svg" alt="Aprende Español">
     <h2>Aprende Español</h2>
