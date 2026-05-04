@@ -198,6 +198,12 @@ cues:
       - id: tiao[lead] + punch[rear@costado]
         label: Tiao y San Bu Zhang [[T35 - DIAO SHOU SAN BU ZHANG]]
         phase: contra
+      - id: gua[lead]
+        label: Gua delantera
+        phase: defensa
+      - id: gua[lead] + punch[rear@estomago]
+        label: Gua + punch
+        phase: contra
   - id: punch[lead@estomago]
     label: Puño adelantado a estómago
     responses:
@@ -231,12 +237,6 @@ cues:
       - id: tiao[lead] + punch[rear@costado]
         label: Tiao y San Bu Zhang al segundo puño [[T35 - DIAO SHOU SAN BU ZHANG]]
         phase: contra
-  - id: punch[rear@costado]
-    label: Puño trasero a costado
-    responses:
-      - id: tiao[lead]
-        label: Tiao al costado
-        phase: defensa
   - id: punch[lead@cara] + uppercut[rear@centro]
     label: Puño y uppercut en centro
     responses:
@@ -274,6 +274,18 @@ cues:
       - id: tui[rear]
         label: Tui trasera
         phase: defensa
+  - id: punch[rear@estomago]
+    label: Puño trasero a estómago
+    responses:
+      - id: kao[lead@bajo]
+        label: Kao delantero bajo
+        phase: defensa
+      - id: kao[rear@bajo]
+        label: Kao trasero bajo
+        phase: defensa
+      - id: kao[rear@bajo] + hook[lead@cara]
+        label: Kao desvio puño + gancho a la cara
+        phase: defensa
 drills:
   - id: D001
     name: Secuencia inicial - Tui simple
@@ -287,6 +299,8 @@ drills:
     starter: A
     path:
       - punch[lead@cara]:tui[rear] + punch[lead@estomago]
+      - punch[lead@estomago]:kao[rear@bajo] + punch[lead@cara]
+      - punch[lead@cara]:gua[lead] + punch[rear@estomago]
   - id: D003
     name: Secuencia inicial - Tui, contra baja, Kao y vuelta
     start: punch[lead@cara]
