@@ -1,0 +1,264 @@
+version: 2
+source: kungfu-response-tree
+graph:
+  id: eagle-claw-punos-directos
+  title: Eagle Claw - Respuestas a puño
+  style: Kung Fu
+  description: >-
+    Modelo v2 centrado en estimulo -> respuestas. El grafo y la vista A/B se derivan: cuando una respuesta termina en
+    punch, ese punch puede convertirse en el siguiente estimulo y cambia la iniciativa.
+cues:
+  - id: punch[lead@cara]
+    label: Puño adelantado a cara
+    responses:
+      - id: tui[rear]
+        label: Tui trasero
+        phase: defensa
+      - id: tui[rear] + punch[lead@cara]
+        label: Tui y puño a cara [[T04 - SHUN BU QUAN]]
+        phase: contra
+      - id: tui[rear] + punch[lead@estomago]
+        label: Tui y puño a estómago [[T04 - SHUN BU QUAN]]
+        phase: contra
+      - id: kao[rear@cara]
+        label: Kao simple
+        phase: defensa
+      - id: kao[rear@cara] + punch[lead@cara]
+        label: Kao y puño a cara
+        phase: contra
+      - id: kao[rear@cara] + punch[lead@cara] + uppercut[rear@centro]
+        label: Kao, puño y uppercut [[T01 - KAO DA]]
+        phase: contra
+      - id: tiao[lead]
+        label: Tiao simple
+        phase: defensa
+      - id: tiao[lead] + punch[rear@cara]
+        label: Tiao y puño a cara [[T02 - TIAO DA]]
+        phase: contra
+      - id: tiao[lead] + punch[rear@costado]
+        label: Tiao y San Bu Zhang [[T35 - DIAO SHOU SAN BU ZHANG]]
+        phase: contra
+  - id: punch[lead@estomago]
+    label: Puño adelantado a estómago
+    responses:
+      - id: kao[rear@bajo]
+        label: Kao bajo
+        phase: defensa
+      - id: kao[rear@bajo] + punch[lead@cara]
+        label: Kao y punch
+        phase: contra
+  - id: punch[rear@cara]
+    label: Puño trasero a cara
+    responses:
+      - id: tui[rear]
+        label: Tui al segundo puño
+        phase: defensa
+      - id: tui[rear] + punch[lead@cara]
+        label: Tui y contra al segundo puño [[T04 - SHUN BU QUAN]]
+        phase: contra
+      - id: kao[rear@cara]
+        label: Kao al segundo puño
+        phase: defensa
+      - id: kao[rear@cara] + punch[lead@cara]
+        label: Kao y contra al segundo puño
+        phase: contra
+      - id: tiao[lead]
+        label: Tiao al segundo puño
+        phase: defensa
+      - id: tiao[lead] + punch[rear@cara]
+        label: Tiao y contra al segundo puño [[T02 - TIAO DA]]
+        phase: contra
+      - id: tiao[lead] + punch[rear@costado]
+        label: Tiao y San Bu Zhang al segundo puño [[T35 - DIAO SHOU SAN BU ZHANG]]
+        phase: contra
+  - id: punch[rear@costado]
+    label: Puño trasero a costado
+    responses:
+      - id: tiao[lead]
+        label: Tiao al costado
+        phase: defensa
+  - id: punch[lead@cara] + uppercut[rear@centro]
+    label: Puño y uppercut en centro
+    responses:
+      - id: tui[rear] + ya_da + punch[rear@cara]
+        label: Tui, Ya Da y puño [[T01 - KAO DA]]
+        phase: recontra
+  - id: molesta[lead] + agarre[lead]
+    label: Guardia abierta por molestia
+    responses:
+      - id: punch[rear@cara]
+        label: Puño trasero tras abrir ventana
+        phase: continuacion
+  - id: tiao[lead] + punch[rear@cara]
+    label: Tiao y puño a la guardia
+    responses:
+      - id: tui[rear]
+        label: B defiende con Tui
+        phase: defensa
+      - id: tui[rear] + punch[lead@cara]
+        label: Tui y contra [[T04 - SHUN BU QUAN]]
+        phase: contra
+  - id: gua[lead] + punch[rear@cara]
+    label: Gua y puño contra la contra
+    responses:
+      - id: tui[rear]
+        label: Tui contra Gua Da
+        phase: defensa
+      - id: block[any@arriba]
+        label: Pi Quan y bloqueo arriba [[T03 - GUA DA]]
+        duration: 1
+        phase: defensa
+  - id: beng[lead@cara]
+    label: Beng delantera a la cara
+    responses:
+      - id: tui[rear]
+        label: Tui trasera
+        phase: defensa
+drills:
+  - id: D001
+    name: Secuencia inicial - Tui simple
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tui[rear]
+  - id: D002
+    name: Secuencia inicial - Tui, contra baja y Kao
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tui[rear] + punch[lead@estomago]
+  - id: D003
+    name: Secuencia inicial - Tui, contra baja, Kao y vuelta
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tui[rear] + punch[lead@estomago]
+  - id: D004
+    name: Kao contra un puño
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:kao[rear@cara]
+  - id: D005
+    name: Kao contra dos puños
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:kao[rear@cara]
+      - punch[rear@cara]:kao[rear@cara]
+  - id: D006
+    name: Kao contra dos puños con contra
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:kao[rear@cara]
+      - punch[rear@cara]:kao[rear@cara] + punch[lead@cara]
+  - id: D007
+    name: Kao Da completo
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:kao[rear@cara]
+      - punch[rear@cara]:kao[rear@cara] + punch[lead@cara]
+      - punch[lead@cara]:kao[rear@cara] + punch[lead@cara] + uppercut[rear@centro]
+      - punch[lead@cara] + uppercut[rear@centro]:tui[rear] + ya_da + punch[rear@cara]
+      - punch[rear@cara]:tiao[lead] + punch[rear@cara]
+  - id: D008
+    name: Tui contra un puño
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tui[rear]
+  - id: D009
+    name: Tui con contra
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tui[rear] + punch[lead@cara]
+  - id: D010
+    name: Tui contra dos puños
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tui[rear]
+      - punch[rear@cara]:tui[rear]
+  - id: D011
+    name: Tui contra dos puños con contra
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tui[rear]
+      - punch[rear@cara]:tui[rear] + punch[lead@cara]
+  - id: D012
+    name: Tiao y puño a la guardia
+    start: tiao[lead] + punch[rear@cara]
+    starter: A
+    path:
+      - tiao[lead] + punch[rear@cara]:tui[rear]
+  - id: D013
+    name: Tiao contra un puño
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tiao[lead]
+  - id: D014
+    name: Tiao con contra
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tiao[lead] + punch[rear@cara]
+  - id: D015
+    name: Tiao contra dos puños
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tiao[lead]
+      - punch[rear@cara]:tiao[lead]
+  - id: D016
+    name: Tiao contra dos puños con contra
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tiao[lead]
+      - punch[rear@cara]:tiao[lead] + punch[rear@cara]
+  - id: D017
+    name: Tiao y luego Tui
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tiao[lead]
+      - punch[rear@cara]:tui[rear]
+  - id: D018
+    name: Tiao y luego Tui con contra
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tiao[lead]
+      - punch[rear@cara]:tui[rear] + punch[lead@cara]
+  - id: D019
+    name: Tui y luego Tiao
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tui[rear]
+      - punch[rear@cara]:tiao[lead]
+  - id: D020
+    name: Tui y luego Tiao con San Bu Zhang
+    start: punch[lead@cara]
+    starter: A
+    path:
+      - punch[lead@cara]:tui[rear]
+      - punch[rear@cara]:tiao[lead] + punch[rear@costado]
+  - id: D021
+    name: Abrir ventana y puño trasero
+    start: molesta[lead] + agarre[lead]
+    starter: A
+    path:
+      - molesta[lead] + agarre[lead]:punch[rear@cara]
+  - id: D022
+    name: Gua Da
+    start: gua[lead] + punch[rear@cara]
+    starter: A
+    path:
+      - gua[lead] + punch[rear@cara]:tui[rear]
+      - gua[lead] + punch[rear@cara]:block[any@arriba]

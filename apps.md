@@ -47,6 +47,14 @@ permalink: /apps/
 </article>
 
 <article>
+  <a href="/apps/kungfu-graph/dist/">
+    <img src="/apps/kungfu-graph/dist/visuals/raster/eagleclaw-logo.png" alt="KungFu Response Tree">
+    <h2>Eagle Claw - Respuestas a puño</h2>
+    <p>Explora estímulos, respuestas y drills de trabajo en pareja con un modelo local-first basado en YAML y una lectura visual por turnos A/B.</p>
+  </a>
+</article>
+
+<article>
   <a href="/vocabulario/">
     <img src="/vocabulario/favicon.svg" alt="Aprende Español">
     <h2>Aprende Español</h2>
