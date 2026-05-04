@@ -10,3 +10,7 @@ node_modules/
 apps/sport-planner/diario_del_guerrero*.sql
 apps/sport-planner/*.upsert.sql
 apps/sport-planner/diario_del_guerrero_sql/
+apps/kungfu-graph/.playwright-cli/
+apps/kungfu-graph/output/
+apps/kungfu-graph/tmp/
+apps/kungfu-graph/src-tauri/target/

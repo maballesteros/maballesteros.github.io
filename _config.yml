@@ -57,7 +57,7 @@ owner:
   codepen: #username
 
 include: [".htaccess"]
-exclude: ["sample", "lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "**/node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
+exclude: ["sample", "lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "**/node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md", "apps/kungfu-graph/index.html", "apps/kungfu-graph/src", "apps/kungfu-graph/src-tauri", "apps/kungfu-graph/public", "apps/kungfu-graph/output", "apps/kungfu-graph/tmp", "apps/kungfu-graph/.playwright-cli", "apps/kungfu-graph/package.json", "apps/kungfu-graph/package-lock.json", "apps/kungfu-graph/tsconfig.json", "apps/kungfu-graph/tsconfig.tsbuildinfo", "apps/kungfu-graph/vite.config.ts", "apps/kungfu-graph/README.md", "apps/kungfu-graph/specs.md"]
 
 languages: ["es", "en"]
 default_lang: "es"
