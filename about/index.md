@@ -1,20 +1,39 @@
 ---
 layout: page
 title: About me
-tags: [about]
+excerpt: "Professional profile and historical CV of Miguel Ángel Ballesteros: CTO, co-founder and AI product engineering leader."
+tags: [about, cto, ai, engineering, gokoan]
 ---
 
-I’m the CTO and co-founder of [GoKoan](https://www.gokoan.com), a startup I launched in 2018 alongside my partners, Clara and Elena. GoKoan is an innovative online platform designed to help students prepare for competitive exams. Our platform is built around a proprietary algorithm that allows students to input their available study time and receive a customized daily study plan to ensure they are fully prepared by exam day. One of our key early successes was a trial conducted with students from the University of Valencia. The final exam results were significantly better for the students who used GoKoan, validating our approach and technology.
+I’m Miguel Ángel Ballesteros, CTO and co-founder of [GoKoan](https://www.gokoan.com), based in Valencia, Spain. I also lead the technical/product work behind [Koanly](https://koanly.com), a GoKoan product for AI-powered educational content production.
 
-Since 2019, we’ve been heavily involved in AI, initially working with T5 models, which proved time-consuming for data collection, preparation, and training. However, gaining early access to the GPT-3 beta in late 2020 was a game-changer. It enabled us to perform hundreds of different tasks with experiments that took mere minutes. Since then, we’ve become experts in generative AI, applying it extensively to educational content creation, such as generating multiple-choice questions, flashcards, true/false activities, fill-in-the-blank exercises, and even summarizing study material. We’ve also developed AI tutors to assist our students, as we don’t have human teachers on staff.
+I work at the intersection of **AI product engineering, learning systems and agentic software development**. My main focus is turning complex knowledge into tools that people can actually use: study planners, AI tutors, educational content pipelines, feedback loops for engineering teams and software workflows where AI agents can help without lowering quality.
 
-As we continue to grow GoKoan, my focus remains on advancing our AI capabilities and expanding the platform to provide even more value to our users. My core value proposition is to leverage cutting-edge technology to simplify complex problems, enabling students to achieve their goals more efficiently and effectively.
+At GoKoan we built an online platform to help students prepare for competitive exams through planning, learning science and adaptive study. One of our early validations was a trial with students from the University of Valencia, where students using GoKoan achieved significantly better final exam results. Since 2019 we have applied AI to educational content generation, study assistance and tutoring: multiple-choice questions, flashcards, true/false activities, fill-in-the-blank exercises, summaries and conversational support.
 
-If you’re interested in more details or want to discuss related topics, feel free to contact me via email or LinkedIn.
+My career started long before the current AI wave. I have worked as developer, Java architect, project director, product director, engineering lead and CTO across Ford, Tissat, Indra, Akamon and GoKoan. That background matters: I like new tools, but I care more about architecture, reliability, team practices, maintainability and whether technology creates real leverage.
+
+These days I write mostly about:
+
+- AI applied to real products.
+- Agentic software engineering and safe autonomy.
+- Engineering quality, feedback loops and repo-level operating systems.
+- Learning systems, metacognition and personalization.
+- The craft of building useful software with small teams.
+
+Good entry points:
+
+- [Professional profile](/professional/)
+- [Selected work](/selected-work/)
+- [The blog](/blog/)
+
+If you want to discuss CTO work, AI product engineering, learning systems or agentic software workflows, you can reach me by email or LinkedIn.
 
 ----
 
-# Curriculum Vitae (ES)
+# Curriculum Vitae histórico (ES)
+
+Esta sección conserva un CV más largo y cronológico. No pretende ser una fotografía ejecutiva completa de mi trabajo actual; para eso es mejor empezar por el [perfil profesional](/professional/) y los [casos seleccionados](/selected-work/).
 
 ## Education
 
@@ -28,9 +47,9 @@ If you’re interested in more details or want to discuss related topics, feel f
 
 ![Akamon](/images/akamon-logo.png)
 
-### Akamon Entertainment (Abril 2014 - Actualidad)
+### Akamon Entertainment / PlayJoy / NoSpoon ecosystem (desde abril 2014, por etapas)
 
-Actualmente ocupo un puesto de Tech Lead, focalizando esfuerzos en el servidor de juegos asíncronos de la compañía.
+Etapa de liderazgo técnico y producto en plataformas de juego online, inicialmente en Akamon y posteriormente en el ecosistema NoSpoon/PlayJoy. Trabajo centrado en arquitectura, backend, sistemas asíncronos, operación de producto y mejora continua de ingeniería.
 
 ![Indra](/images/indra-logo.png)
 
@@ -40,12 +59,11 @@ En mi última posición en Indra trabajó como miembro del equipo de gerentes de
 
 En esta empresa obtuvo la certificación de Scrum Master y de Arquitecto Certificado Indra, así como el 2º premio +IDEAS otorgado por el departamento de I+D (y dotado en 2.000€) por una innovadora propuesta en el ámbito sanitario.
 
-#### Obtubre 2013 – Actualmente: Director del proyecto ICM Educación en Valencia
+#### Octubre 2013 – Marzo 2014: Director del proyecto ICM Educación en Valencia
 
   - Responsable del equipo de Valencia para el proyecto multisede (Madrid, Málaga, y Valencia) de centralización y unificación de todos los sistemas actuales de la Consejería de Educación de Madrid (el equivalente al proyecto ITACA en Valencia).
 
-  - Actualmente se encuentra en fase de análisis funcional y planificando el equipo
-de desarrollo (en torno a unas 40 personas en total) para trabajar con la arquitectura ATLAS de ICM.
+  - En esa fase se trabajó en análisis funcional y planificación del equipo de desarrollo (en torno a unas 40 personas en total) para trabajar con la arquitectura ATLAS de ICM.
 
 #### Marzo 2011 – Octubre 2013: Arquitecto/DP de la Evolución Tecnológica de SIA
 
@@ -127,17 +145,17 @@ Tissat era una empresa de desarrollo y explotación de nuevas tecnologías (Inte
 
 Trabaja como consultor tecnológico y arquitecto Java, participando en proyectos como SERVEF-Actualicación de Currículum, Infoville21 (Comunidades Virtuales en Internet), CASER-PAP (CRM para compañías de seguros). En este periodo, fruto de una marcada creencia en la reutilización y la calidad del software, crea piezas de construcción de alto valor añadido para la compañía (frameworks), que son reaprovechadas después en múltiples proyectos:
 
-  - [WAM (2001, 2002, 2003, 2004): Web Application Maker](/blog/2001/12/01/wam/). Framework propietario similar a las actuales JSF, pero creado antes de que naciera Struts. Durante años ha permitido afrontar proyectos con una importantísima ventaja competitiva. Actualmente sustituido por JSF.
+  - [WAM (2001, 2002, 2003, 2004): Web Application Maker](/blog/wam/). Framework propietario similar a las actuales JSF, pero creado antes de que naciera Struts. Durante años ha permitido afrontar proyectos con una importantísima ventaja competitiva. Posteriormente fue sustituido por JSF.
 
   - DBFramework (2001, 2002): Herramienta de mapeo objeto-relacional, que genera todas las clases Java de acceso a BBDD. Junto con WAM, esta herramienta tuvo un tremendo impacto en los tiempos de desarrollo de nuestros proyectos. La capa de persistencia se genera automáticamente según un patrón de diseño bien estudiado, aportando reducción en tiempo, uniformidad del código, y total ausencia de errores de codificación.
 
-  - [OQL (2001)](/blog/2001/08/01/oql-jec/): OQL es un evaluador de expresiones a partir de un objeto java raíz, permitiendo navegar en tiempo de ejecución por el grafo de objetos que parten del contexto inicial. WAM utiliza OQL como motor para enlazar sus componentes visuales a los datos de negocio.
+  - [OQL (2001)](/blog/oql-jec/): OQL es un evaluador de expresiones a partir de un objeto java raíz, permitiendo navegar en tiempo de ejecución por el grafo de objetos que parten del contexto inicial. WAM utiliza OQL como motor para enlazar sus componentes visuales a los datos de negocio.
 
   - Canales (2002): Framework que permite crear aplicaciones web con sólo hojas de transformación XSL y webservices. El objetivo era lograr una herramienta con la que un administrador pudiera componer aplicaciones sencillas a partir de funciones de negocio expuestas como webservices.
 
   - WSF (2002): Web Service Framework. Proyecto metodológico en el que se recopilan las mejores prácticas actuales para el manejo de webservices. Aglutina conocimiento y librerías para abordar cualquier proyecto de integración basada en webservices, con autenticación/autorización, seguridad SSL, y cualquier plataforma (entornos Microsoft, entornos Java, Lotus Domino, Cold Fusion, etc.).
 
-  - [JEC (2003)](/blog/2001/08/01/oql-jec/): Java Expression Compiler. Sucesor de OQL, evaluador de expresiones de navegación por objetos. Donado a la comunidad Open Source [http://jec.sourceforge.net/](http://jec.sourceforge.net/)
+  - [JEC (2003)](/blog/oql-jec/): Java Expression Compiler. Sucesor de OQL, evaluador de expresiones de navegación por objetos. Donado a la comunidad Open Source [http://jec.sourceforge.net/](http://jec.sourceforge.net/)
 
 #### Junio 2000 – Junio 2001: Analista/programador Java senior.
 
