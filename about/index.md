@@ -5,7 +5,7 @@ excerpt: "Professional profile and historical CV of Miguel Ángel Ballesteros: C
 tags: [about, cto, ai, engineering, gokoan]
 ---
 
-I’m Miguel Ángel Ballesteros, CTO and co-founder of [GoKoan](https://www.gokoan.com), based in Valencia, Spain. I also lead the technical/product work behind [Koanly](https://koanly.com), a GoKoan product for AI-powered educational content production.
+I’m Miguel Ángel Ballesteros, CTO and co-founder of [GoKoan](https://www.gokoan.com), based in Valencia, Spain. I also lead the technical/product work behind [Koanly](https://www.koanly.com), a GoKoan product for AI-powered educational content production.
 
 I work at the intersection of **AI product engineering, learning systems and agentic software development**. My main focus is turning complex knowledge into tools that people can actually use: study planners, AI tutors, educational content pipelines, feedback loops for engineering teams and software workflows where AI agents can help without lowering quality.
 

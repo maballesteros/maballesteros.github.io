@@ -32,9 +32,9 @@ Related reading:
 - [Feedback loop de resolución de errores técnicos en GoKoan](/blog/feedback-loop-resolucion-errores-gokoan/)
 - [La futura crisis de propósito](/blog/la-futura-crisis-de-proposito/)
 
-## Koanly: AI content production for education
+## [Koanly](https://www.koanly.com): AI content production for education
 
-**Context.** Koanly is a GoKoan product for AI-powered educational content production.
+**Context.** [Koanly](https://www.koanly.com) is a GoKoan product for AI-powered educational content production.
 
 **My role.** Technical and product leadership around the generative AI workflows behind the product.
 
