@@ -7,7 +7,7 @@ tags: [cto, ai, agents, engineering, product]
 lang: en
 ---
 
-I’m Miguel Ángel Ballesteros, CTO and co-founder of [GoKoan](https://www.gokoan.com). I also lead the technical/product work behind [Koanly](https://koanly.com), a GoKoan product for AI-powered educational content production.
+I’m Miguel Ángel Ballesteros, CTO and co-founder of [GoKoan](https://www.gokoan.com). I also lead the technical/product work behind [Koanly](https://www.koanly.com), a GoKoan product for AI-powered educational content production.
 
 I help turn complex knowledge into useful software: AI learning products, educational content systems, AI tutors, engineering feedback loops and agentic workflows that let small teams move faster without losing control of quality.
 
