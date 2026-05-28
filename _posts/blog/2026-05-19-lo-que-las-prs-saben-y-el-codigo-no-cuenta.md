@@ -16,6 +16,10 @@ El otro día, en una reunión de equipo sobre uso de IA, volvió a salir una que
 
 Al principio esto suena a crítica contra la IA. Pero cuanto más lo pensaba, más claro veía que el problema no era solo el agente. El problema era nuestro.
 
+Este texto complementa la serie [AI Product Engineering sin humo](/ai-product-engineering/) desde el lado del equipo y del repo: cómo convertir IA y agentes en una práctica de ingeniería real, no solo en una herramienta de generación de código.
+
+Este es un paso más dentro del [cambio de paradigma en la programación](/blog/cambio-de-paradigma-en-programacion/). Si el trabajo del ingeniero se desplaza de escribir cada línea a especificar, revisar y orquestar, entonces las instrucciones que recibe el agente dejan de ser documentación auxiliar. Se convierten en parte del sistema de producción.
+
 Le estábamos pidiendo a Codex que se comportara como “uno más del equipo”, pero muchas de las cosas que definen cómo trabaja ese equipo no estaban escritas en ningún sitio. Vivían en la cabeza de la gente. O peor: vivían dispersas en cientos de comentarios de PR.
 
 Lo esencial es esto:
@@ -138,6 +142,8 @@ Después de minar PRs puedes decir cosas mucho más útiles:
 
 Esto ya no es una recomendación bonita. Es memoria operativa.
 
+También es una forma muy concreta de reducir la carga mental del dev-orquestador. En [cuando la IA va más rápido que tu cabeza](/blog/cuando-la-ia-va-mas-rapido-que-tu-cabeza/) hablaba de los loops abiertos que genera trabajar con agentes. Una checklist buena cierra parte de esos loops: no depende de que yo recuerde cada manía del repo en cada revisión, sino de que el sistema me la ponga delante cuando toca.
+
 ¿Qué nos enseña esto? Que una buena guía agéntica no debería describir solo cómo nos gustaría programar. Debería codificar las correcciones que ya hemos repetido demasiadas veces.
 
 ---
@@ -175,6 +181,8 @@ Una guía operativa dice:
 
 La diferencia es enorme. Una es documentación. La otra empieza a parecerse a un sistema inmunológico.
 
+Esto conecta directamente con las [leyes del desarrollo en un mundo agéntico](/blog/las-7-leyes-desarrollo-mundo-agentico-parte-1-constitucion/): la coherencia no puede depender solo de que alguien revise con memoria infinita. Hay que desplazar parte de esa coherencia a invariantes, ownership, checks y contratos de handoff.
+
 ¿Qué nos enseña esto? Que el objetivo no es tener más docs. Es reducir comentarios repetidos en futuras PRs.
 
 ---
@@ -192,6 +200,8 @@ Debería entrar en un loop:
 3. Aparece un comentario útil y reaprovechable.
 4. Ese comentario se convierte en guía, checklist o regla.
 5. La siguiente ejecución del agente ya parte con ese aprendizaje.
+
+La versión editorial de esta misma idea aparece en [guardrails ejecutables: políticas vivas](/blog/guardrails-ejecutables-politicas-vivas-no-documentos-bonitos/). Allí el feedback humano alimenta políticas de contenido. Aquí alimenta guías, checklists e instrucciones de repo. El patrón de fondo es el mismo: una corrección repetible no debería quedarse como comentario; debería convertirse en mecanismo.
 
 Esto cambia bastante la sensación emocional de las revisiones.
 

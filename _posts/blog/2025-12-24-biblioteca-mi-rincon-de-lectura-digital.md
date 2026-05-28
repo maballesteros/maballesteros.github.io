@@ -5,6 +5,7 @@ tags: [ia, lectura, pkm, estrategia, biblioteca]
 date: 2025-12-24
 modified: 2025-12-24
 comments: true
+ref: biblioteca-mi-rincon-de-lectura-digital
 ---
 
 ### Biblioteca: Lectura activa para la era de los copilotos

@@ -5,6 +5,7 @@ tags: [ia, productividad, dev-experience, mental-health]
 date: 2025-11-23
 modified: 2025-11-23
 comments: true
+ref: cuando-la-ia-va-mas-rapido-que-tu-cabeza
 ---
 
 ## Cuando la IA va más rápido que tu cabeza

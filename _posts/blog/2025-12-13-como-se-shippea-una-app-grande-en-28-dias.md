@@ -5,6 +5,7 @@ tags: [ia, codex, productividad, estrategia, android]
 date: 2025-12-13
 modified: 2025-12-13
 comments: true
+ref: como-se-shippea-una-app-grande-en-28-dias
 ---
 
 ### Cómo se “shippea” una app grande en 28 días (sin convertir el código en una hoguera): lecciones de Sora para Android con Codex

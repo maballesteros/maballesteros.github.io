@@ -5,6 +5,7 @@ tags: [ia, escritura, metacognicion, aprendizaje]
 date: 2025-10-18
 modified: 2025-10-18
 comments: true
+ref: ia-me-enseno
 ---
 
 El otro día se me ocurrió la idea de transformar (con IA, que si no es un pateo) un texto escrito dándole la forma en la que yo mismo la hubiera escrito. ¿El resultado? Un texto que "sonaba a mi" (resonancia cognitiva) y que entendía mucho mejor.

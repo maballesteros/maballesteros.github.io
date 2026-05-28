@@ -4,10 +4,12 @@ title: "Selected work"
 excerpt: "Selected work by Miguel Ángel Ballesteros across AI learning products, agentic software engineering, technical leadership and enterprise architecture."
 permalink: /selected-work/
 tags: [selected-work, ai, cto, engineering, agents]
-lang: es
+lang: en
 ---
 
 These are representative examples of the kind of work I do. Some details are intentionally high-level when they involve private systems, customers or internal codebases.
+
+I also keep a focused series on the product engineering patterns behind this work: [AI Product Engineering without hype](/en/ai-product-engineering/).
 
 ## GoKoan: learning science, planning and AI tutors
 
@@ -26,6 +28,7 @@ These are representative examples of the kind of work I do. Some details are int
 
 Related reading:
 
+- [AI Product Engineering without hype](/en/ai-product-engineering/)
 - [Feedback loop de resolución de errores técnicos en GoKoan](/blog/feedback-loop-resolucion-errores-gokoan/)
 - [La futura crisis de propósito](/blog/la-futura-crisis-de-proposito/)
 

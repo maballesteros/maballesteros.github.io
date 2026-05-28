@@ -5,6 +5,7 @@ tags: [ia, educacion, producto, vocabulario]
 date: 2025-10-22
 modified: 2025-10-22
 comments: true
+ref: del-papel-al-pixel
 ---
 
 Todo empezó con una ficha. Bueno, con varias. Cristina, mi mujer, tiene un alumno extranjero recién llegado a la [ESO](https://es.wikipedia.org/wiki/Educaci%C3%B3n_Secundaria_Obligatoria) que no sabía una palabra de español. Me pidió unas [láminas visuales](https://es.wikipedia.org/wiki/Tarjeta_did%C3%A1ctica) con vocabulario básico —de esas con letra grande, dibujos sencillos y palabras en inglés y en castellano— para ayudarle a arrancar. Hice un par, pero enseguida me di cuenta de que aquello era un túnel sin salida: cada ficha llevaba tiempo, los temas se multiplicaban y cualquier cambio implicaba volver a maquetar todo. En resumen: un rollo.

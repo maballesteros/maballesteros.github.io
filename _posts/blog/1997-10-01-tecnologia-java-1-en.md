@@ -23,7 +23,7 @@ permalink: /en/blog/java-technology-1/
 
 This was my second publication in a professional magazine: RPP (Revista Profesional de Programadores).
 
-This is the first of a 3-part series. See the [2nd](/blog/tecnologia-java-2/) and [3rd](/blog/tecnologia-java-3/) parts.
+This is the first of a 3-part series. See the [2nd](/en/blog/java-technology-2/) and [3rd](/en/blog/java-technology-3/) parts.
 
 <figure class="half">
     <a href="/images/1997-tecnologia-java/cover-1.jpg"><img src="/images/1997-tecnologia-java/cover-1.jpg"></a>
