@@ -4,7 +4,7 @@ title: "CTO, AI Product Engineering & Agentic Software"
 excerpt: "Professional profile of Miguel Ángel Ballesteros: CTO, co-founder, AI product engineering leader and builder of agentic software workflows."
 permalink: /professional/
 tags: [cto, ai, agents, engineering, product]
-lang: es
+lang: en
 ---
 
 I’m Miguel Ángel Ballesteros, CTO and co-founder of [GoKoan](https://www.gokoan.com). I also lead the technical/product work behind [Koanly](https://koanly.com), a GoKoan product for AI-powered educational content production.
@@ -43,6 +43,7 @@ For concrete examples, see [Selected work](/selected-work/).
 
 ## Writing that represents my current work
 
+- [AI Product Engineering without hype](/en/ai-product-engineering/)
 - [Lo que las PRs saben y el código no cuenta](/blog/lo-que-las-prs-saben-y-el-codigo-no-cuenta/)
 - [Las 7 leyes del desarrollo en un mundo agéntico - Parte 1](/blog/las-7-leyes-desarrollo-mundo-agentico-parte-1-constitucion/)
 - [Las 7 leyes del desarrollo en un mundo agéntico - Parte 2](/blog/las-7-leyes-desarrollo-mundo-agentico-parte-2-operacion-segura/)

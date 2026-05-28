@@ -5,6 +5,7 @@ tags: [estrategia, habitos, lectura, ebook, ia]
 date: 2025-12-08
 modified: 2025-12-08
 comments: true
+ref: camino-del-guerrero-dieta-de-informacion
 ---
 
 ## Camino del Guerrero: dieta de información para alimentar al estratega interior
