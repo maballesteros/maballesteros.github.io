@@ -49,7 +49,7 @@ function getHtmlContent(text) {
             const base64 = items.toString('base64');
             const mimeType = absolutePath.endsWith('.png') ? 'image/png' : 'image/jpeg';
             const src = `data:${mimeType};base64,${base64}`;
-            return `<img src="${src}" alt="${text}" style="width:100%; max-height: 8cm; object-fit: cover; display:block; margin: 1rem auto 1.5rem auto; border-radius: 2px;" />`;
+            return `<img src="${src}" alt="${text}" style="max-width:100%; max-height: 8cm; width:auto; height:auto; object-fit: contain; display:block; margin: 1rem auto 1.5rem auto; border-radius: 2px;" />`;
         } else {
             console.warn(`Warning: Image not found at ${absolutePath}`);
             return `<img src="" alt="Image Not Found: ${text}" />`;
