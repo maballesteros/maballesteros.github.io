@@ -23,6 +23,8 @@ The Moonwater Hotel stood at the end of a long beach, where the road became narr
 
 Nora noticed the shells immediately.
 
+![Nora touches the shells in the wall of the Moonwater Hotel](../images/chapter-01-arrival-shells.png)
+
 “Look at that,” she said, touching the wall beside the main door. “There are shells inside the stone.”
 
 Her younger brother, Sam, looked up from his backpack and smiled.
@@ -80,6 +82,8 @@ Mr Vale smiled again.
 “Old pipes. Old hotel. Old stories. Nothing important.”
 
 Aunt Iris gave the children a look that clearly meant: do not ask more questions. But that only made Nora more interested.
+
+![Sam reaches for the strange reception bell as Mr Vale gives Aunt Iris the key to room 214](../images/chapter-01-reception-bell.png)
 
 They went upstairs to their room, which had two small beds, one larger bed, a round window and a view of the sea. The water was grey-blue under the afternoon sky, and far away, on a black rock, a lighthouse stood alone. It looked thin and serious, like a guard who had been standing there for a hundred years without sitting down.
 
@@ -160,6 +164,8 @@ Near three black rocks, the cat stopped. It scratched at the wet sand with its w
 Sam knelt down.
 
 “There is something here.”
+
+![Nora and Sam uncover a small wooden box on the beach while Morrow watches](../images/chapter-01-wooden-box.png)
 
 Together, they pushed the sand away until their fingers touched wood. A few minutes later, they had uncovered a small wooden box. It was dark, heavy and covered with tiny marks that looked like waves, stars and birds.
 
@@ -290,6 +296,8 @@ Iris Bell.
 Below their names, one more sentence appeared.
 
 **The first door has opened. The first guardian must choose: sand, sea or sky.**
+
+![The blue door rises from the tide as the Guest Book writes Nora, Sam and Iris Bell](../images/chapter-01-blue-door.png)
 
 The music below the beach grew louder.
 
