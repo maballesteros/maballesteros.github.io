@@ -38,5 +38,13 @@
         "cover": "/ebooks/ethical_power/images/cover.png",
         "description": "Training manual on ethical power dynamics.",
         "path": "/ebooks/ethical_power/index.json"
+    },
+    {
+        "id": "the-moonwater-hotel-first-door",
+        "title": "The Moonwater Hotel: The First Door",
+        "author": "M. A. Ballesteros",
+        "cover": "/ebooks/the_moonwater_hotel_first_door/images/cover.png",
+        "description": "A mysterious A2+/B1 English reading adventure for families.",
+        "path": "/ebooks/the_moonwater_hotel_first_door/index.json"
     }
 ]
