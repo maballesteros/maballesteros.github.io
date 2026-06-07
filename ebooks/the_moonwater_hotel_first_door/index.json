@@ -1,0 +1,100 @@
+{
+    "title": "The Moonwater Hotel: The First Door",
+    "basePath": "/ebooks/the_moonwater_hotel_first_door/",
+    "chapters": [
+        {
+            "id": "front_matter",
+            "title": "Start Here",
+            "sections": [
+                {
+                    "title": "Title Page",
+                    "path": "front_matter/00_title_page.md"
+                },
+                {
+                    "title": "Copyright and Usage Note",
+                    "path": "front_matter/01_usage_note.md"
+                },
+                {
+                    "title": "Foreword",
+                    "path": "front_matter/02_foreword.md"
+                },
+                {
+                    "title": "How to Use This Book",
+                    "path": "front_matter/03_how_to_use.md"
+                },
+                {
+                    "title": "Main Characters",
+                    "path": "front_matter/04_main_characters.md"
+                }
+            ]
+        },
+        {
+            "id": "chapters",
+            "title": "Story",
+            "sections": [
+                {
+                    "title": "Chapter 1 - The Door Beneath the Tide",
+                    "path": "chapters/01_the_door_beneath_the_tide.md"
+                },
+                {
+                    "title": "Chapter 2 - Sand, Sea or Sky",
+                    "path": "chapters/02_sand_sea_or_sky.md"
+                },
+                {
+                    "title": "Chapter 3 - The Sand Room",
+                    "path": "chapters/03_the_sand_room.md"
+                },
+                {
+                    "title": "Chapter 4 - The Rule of the Tide",
+                    "path": "chapters/04_the_rule_of_the_tide.md"
+                },
+                {
+                    "title": "Chapter 5 - The Girl in the Photograph",
+                    "path": "chapters/05_the_girl_in_the_photograph.md"
+                },
+                {
+                    "title": "Chapter 6 - The Sea Corridor",
+                    "path": "chapters/06_the_sea_corridor.md"
+                },
+                {
+                    "title": "Chapter 7 - The Drowned Model",
+                    "path": "chapters/07_the_drowned_model.md"
+                },
+                {
+                    "title": "Chapter 8 - The Lighthouse Choice",
+                    "path": "chapters/08_the_lighthouse_choice.md"
+                },
+                {
+                    "title": "Chapter 9 - The Three Keys",
+                    "path": "chapters/09_the_three_keys.md"
+                },
+                {
+                    "title": "Chapter 10 - The First Guardian",
+                    "path": "chapters/10_the_first_guardian.md"
+                }
+            ]
+        },
+        {
+            "id": "back_matter",
+            "title": "After the Story",
+            "sections": [
+                {
+                    "title": "Final Recap",
+                    "path": "back_matter/01_final_recap.md"
+                },
+                {
+                    "title": "Vocabulary Bank",
+                    "path": "back_matter/02_vocabulary_bank.md"
+                },
+                {
+                    "title": "Family Reading Challenges",
+                    "path": "back_matter/03_family_reading_challenges.md"
+                },
+                {
+                    "title": "About This Reader",
+                    "path": "back_matter/04_about_this_reader.md"
+                }
+            ]
+        }
+    ]
+}

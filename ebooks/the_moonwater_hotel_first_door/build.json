@@ -1,0 +1,15 @@
+{
+    "title": "The Moonwater Hotel: The First Door",
+    "author": "M.A. Ballesteros",
+    "lang": "en",
+    "epubFilename": "the_moonwater_hotel_first_door.epub",
+    "pdfFilename": "the_moonwater_hotel_first_door.pdf",
+    "parts": [
+        "front_matter",
+        "chapters",
+        "back_matter"
+    ],
+    "iconMap": [],
+    "epubCss": "body { font-family: Georgia, serif; line-height: 1.6; color: #1f2933; } h1 { text-align: center; color: #0f2742; margin-bottom: 1em; } h2 { color: #16456f; margin-top: 1.5em; } p { margin: 0 0 1em 0; } table { width: 100%; border-collapse: collapse; margin: 1em 0; } th, td { border: 1px solid #d6e0ea; padding: 0.45em; } blockquote { border-left: 4px solid #2f80a7; background: #eef8fb; margin: 1.5em 0; padding: 0.8em 1em; } img { max-width: 100%; height: auto; display: block; margin: 1.5em auto; }",
+    "pdfCss": "@page { size: A5; margin: 18mm 14mm; } @page :first { margin: 0; } body { font-family: Georgia, serif; font-size: 9.5pt; line-height: 1.48; color: #1f2933; margin: 0; } .cover-page { width: 148mm; height: 210mm; page-break-after: always; overflow: hidden; } .chapter { page-break-after: always; } h1, h2, h3 { font-family: Arial, sans-serif; color: #0f2742; page-break-after: avoid; } h1 { font-size: 17pt; text-align: center; margin-top: 1.2rem; margin-bottom: 1.5rem; } h2 { font-size: 12pt; color: #16456f; margin-top: 1.2rem; border-bottom: 1px solid #d6e0ea; padding-bottom: 0.15rem; } h3 { font-size: 10.5pt; color: #2f5d7c; margin-top: 1rem; } p { margin-bottom: 0.75em; orphans: 3; widows: 3; } table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 8.5pt; } th, td { border: 1px solid #c9d8e4; padding: 0.35em 0.45em; vertical-align: top; } th { background: #eef8fb; } blockquote { border-left: 4px solid #2f80a7; background: #eef8fb; color: #12384f; margin: 1.2em 0; padding: 0.7em 1em; } ul, ol { margin-left: 1.2em; padding-left: 0.8em; } img { max-width: 100%; height: auto; display: block; margin: 1rem auto; }"
+}
