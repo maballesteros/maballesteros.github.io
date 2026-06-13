@@ -68,9 +68,9 @@ function App() {
                   </span>
                 </h1>
                 <p className="max-w-full break-words text-lg leading-8 text-[var(--muted)] sm:max-w-3xl sm:text-xl">
-                  Una guía visual para llegar con el viaje ya vivido en la cabeza: qué está cerrado,
-                  qué se ve cada día, por qué merece la pena cada parada y cómo moverse sin convertir
-                  Londres en una carrera.
+                  Una guía narrativa para llegar con el viaje ya vivido en la cabeza: qué está cerrado,
+                  qué se ve cada día, qué pasó en cada lugar, por qué importa y cómo moverse sin
+                  convertir Londres en una carrera.
                 </p>
               </div>
 
@@ -148,8 +148,8 @@ function App() {
                 </h2>
               </div>
               <p className="max-w-2xl text-sm leading-6 text-[var(--muted)]">
-                Cada jornada combina logística real con lectura turística: qué ver primero, qué os
-                cuenta la ciudad en cada tramo y dónde conviene bajar el ritmo.
+                Cada jornada combina logística real con historia viva: qué ver primero, qué pasó en
+                cada lugar, qué anécdotas contar y dónde conviene bajar el ritmo.
               </p>
             </div>
 

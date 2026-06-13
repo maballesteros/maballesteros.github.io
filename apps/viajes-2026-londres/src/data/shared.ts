@@ -2,7 +2,7 @@ import type { QuickLink, SupportCard } from './types';
 
 export const tripMeta = {
   title: 'Londres 2026',
-  subtitle: 'Guía visual y operativa del viaje familiar',
+  subtitle: 'Guía narrativa y operativa del viaje familiar',
   dateRange: '24-28 julio 2026',
   base: 'Kennington, Zona 1',
   travellers: '5 viajeros',
@@ -19,6 +19,15 @@ export const generalSupportCards: SupportCard[] = [
       'Pagos y transporte definidos: adultos con contactless, Oyster para el menor que la necesita y niño pequeño gratis acompañado.',
       'Tickets críticos en la carpeta real ViajeLondres2026, que se descargará en los móviles.',
       'Últimos pendientes reales: £100 en efectivo, adaptadores/batería, taxi a Manises y check-in.',
+    ],
+  },
+  {
+    title: 'Cómo leer el viaje',
+    summary: 'Cada parada tiene una pequeña historia para que no sea solo una foto bonita.',
+    bullets: [
+      'Preguntar siempre: qué pasó aquí, por qué importó y qué detalle curioso recordaremos.',
+      'No hace falta memorizar datos: basta con llevar 1-2 historias por parada.',
+      'La guía pública da contexto; los tickets y datos privados siguen solo en Drive.',
     ],
   },
   {
