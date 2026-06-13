@@ -10,7 +10,11 @@ export const day4: DayPlan = {
     'El lunes equilibra gran museo, barrio con personalidad y una de las mejores secuencias arquitectónicas del viaje: St Paul’s y Millennium Bridge.',
   highlight:
     'Es un día muy completo porque alterna piezas maestras, atmósferas distintas y un cierre urbano con mucha elegancia.',
-  fixed: ['Sin ticket pagado con hora cerrada.', 'Decisión cerrada: sin teatro.'],
+  fixed: [
+    'British Museum reservado a las 10:00.',
+    'Entradas gratuitas: 4 Standard + 1 Child.',
+    'Decisión cerrada: sin teatro.',
+  ],
   stops: [
     {
       time: '09:00-09:30',
@@ -35,13 +39,23 @@ export const day4: DayPlan = {
       title: 'British Museum (por dentro)',
       area: 'Bloomsbury',
       narrative:
-        'Un museo inmenso tratado con disciplina: no se trata de verlo todo, sino de entrar, localizar grandes hitos y salir antes de saturarse. La combinación de Rosetta, Egipto, Partenón y Asiria da una mañana cultural potentísima.',
+        'Un museo inmenso tratado con disciplina y con franja real ya cerrada a las 10:00. No se trata de verlo todo, sino de entrar, localizar grandes hitos y salir antes de saturarse. La combinación de Rosetta, Egipto, Partenón y Asiria da una mañana cultural potentísima sin convertir el museo en una maratón.',
       details: [
         'Abrió en 1759.',
         'Fue el primer gran museo público nacional de acceso gratuito.',
         'Hoy guarda más de ocho millones de objetos en colección.',
+        'Reserva gratuita cerrada: 4 entradas Standard + 1 Child.',
       ],
       supportCards: [
+        {
+          title: 'Reserva cerrada',
+          summary: 'Aunque es gratuito, la franja ya está cogida y manda la mañana.',
+          bullets: [
+            'Entrada a las 10:00 del lunes 27/07.',
+            'Llevar tickets reales en la carpeta offline del viaje.',
+            'Llegar sin apurar para pasar control y arrancar con calma.',
+          ],
+        },
         {
           title: 'Recorrido corto que sí compensa',
           summary: 'La clave aquí es seleccionar y no dejarse tragar por la escala del museo.',

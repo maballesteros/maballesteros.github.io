@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   base: '/viajes/2026-londres/',
   plugins: [react()],
+  publicDir: 'public-safe',
   build: {
     outDir: '../../viajes/2026-londres',
     emptyOutDir: true,

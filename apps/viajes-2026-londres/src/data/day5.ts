@@ -1,5 +1,4 @@
 import type { DayPlan } from './types';
-import { docsBase } from './shared';
 
 export const day5: DayPlan = {
   id: 'day5',
@@ -14,22 +13,23 @@ export const day5: DayPlan = {
   fixed: [
     'Check-out formal a las 10:00',
     'Transfer privado Mobio a las 12:10',
-    'Matthew permite dejar maletas con los cleaners hasta la hora del transfer',
+    'El propietario permite dejar maletas con los cleaners hasta la hora del transfer',
     'Vuelo BA408 a las 16:10 como hora base',
   ],
   stops: [
     {
-      time: '10:00',
-      title: 'Check-out (fijo)',
+      time: '09:20-09:35',
+      title: 'Pre-cierre del apartamento + salida ligera',
       area: 'Apartamento',
       narrative:
-        'Formalmente el check-out del apartamento es a las 10:00, pero Matthew ya ha aceptado que podáis dejar el equipaje mientras pasan los cleaners y salir hasta la hora del transfer. Ese detalle cambia por completo la calidad del último día porque evita despedirse de Londres con maletas a cuestas.',
+        'Antes de regalaros la última mañana compacta, conviene dejar el apartamento casi cerrado: maletas agrupadas, documentación controlada y solo lo necesario encima. Formalmente el check-out es a las 10:00, pero el propietario ya ha aceptado que podáis dejar el equipaje mientras pasan los cleaners y salir hasta la hora del transfer.',
       details: [
         'La flexibilidad confirmada convierte la última mañana en un cierre elegante y no en un trámite incómodo.',
+        'El turismo de esta mañana solo funciona si a la vuelta queda recoger y cerrar, no rehacer maletas.',
       ],
       supportCards: [
         {
-          title: 'Maletas con Matthew',
+          title: 'Maletas con el propietario',
           summary: 'Respuesta operativa ya confirmada por el propietario.',
           bullets: [
             'Podéis dejar equipaje en la propiedad con los cleaners hasta la hora del transfer.',
@@ -38,7 +38,6 @@ export const day5: DayPlan = {
           ],
         },
       ],
-      links: [{ label: 'Reserva apartamento', href: `${docsBase}/reserva-apartamento.pdf` }],
     },
     {
       time: '09:35-10:00',
@@ -181,7 +180,7 @@ export const day5: DayPlan = {
     {
       time: '11:55-12:10',
       title: 'Espera operativa en la puerta / punto de recogida',
-      area: '1A Kennington Lane',
+      area: 'Kennington',
       narrative:
         'A esta hora ya no toca improvisar nada: todo el grupo listo, teléfonos con batería y equipaje controlado. Este bloque existe para que el transfer se sienta como una salida estable y no como el sprint final del viaje.',
       details: ['Si el coche no pudiera acceder exactamente a la puerta, el conductor debería llamar o escribir para fijar punto cercano.'],
@@ -195,7 +194,6 @@ export const day5: DayPlan = {
           ],
         },
       ],
-      links: [{ label: 'Voucher Mobio', href: `${docsBase}/transfer-apartamento-lhr.pdf` }],
     },
     {
       time: '12:10',
@@ -203,31 +201,29 @@ export const day5: DayPlan = {
       area: 'Kennington -> LHR',
       narrative:
         'Este bloque ya está cerrado y manda sobre todo lo demás. El objetivo no es llegar por los pelos, sino convertir la salida al aeropuerto en un trámite previsible y sin tensión.',
-      reservation: 'Mobio Transfers · confirmación MOZ8632893 · recogida 12:10',
-      details: ['Espera incluida: 15 minutos.', 'Emergencia: +31 20 303 0777.'],
+      reservation: 'Transfer privado reservado · recogida 12:10',
+      details: ['Espera incluida: 15 minutos.', 'Datos completos del conductor/proveedor en la carpeta privada del viaje.'],
       supportCards: [
         {
-          title: 'Resumen Mobio',
+          title: 'Resumen transfer vuelta',
           summary: 'Datos que importan de verdad del traslado de vuelta.',
           bullets: [
-            'Confirmación MOZ8632893.',
             'Estar listos 15 min antes de la recogida.',
             'Espera incluida: 15 min; luego GBP 2/min.',
-            'Teléfono proveedor UK: +44 808 168 9338.',
+            'Teléfonos y voucher completo: solo en Drive/offline.',
           ],
         },
         {
           title: 'Si el coche no aparece',
           summary: 'Escalado simple y rápido, sin perder minutos en duda.',
           bullets: [
-            'Primero llamar al proveedor UK: +44 808 168 9338.',
-            'Si no responde o hay incidencia clara: emergencia Mobio +31 20 303 0777.',
+            'Primero usar el contacto del proveedor guardado en la carpeta privada.',
+            'Si no responde o hay incidencia clara: usar el contacto de emergencia del voucher.',
             'Con el margen previsto, un pequeño retraso aún deja día cómodo de aeropuerto.',
           ],
         },
       ],
-      links: [{ label: 'Voucher Mobio', href: `${docsBase}/transfer-apartamento-lhr.pdf` }],
-      practical: 'Proveedor Mobio / contacto operativo UK: +44 808 168 9338',
+      practical: 'Voucher y teléfonos completos guardados solo en la carpeta privada del viaje.',
     },
     {
       time: '13:45-14:00',
@@ -248,10 +244,6 @@ export const day5: DayPlan = {
           ],
         },
       ],
-      links: [
-        { label: 'Reserva vuelos', href: `${docsBase}/reserva-vuelos.pdf` },
-        { label: 'Asientos BA', href: `${docsBase}/asientos-ba-vuelta.pdf` },
-      ],
     },
     {
       time: '15:50',
@@ -269,10 +261,6 @@ export const day5: DayPlan = {
             'Última oportunidad cómoda para baño, agua y reorganizar mochilas.',
           ],
         },
-      ],
-      links: [
-        { label: 'Reserva vuelos', href: `${docsBase}/reserva-vuelos.pdf` },
-        { label: 'Asientos BA', href: `${docsBase}/asientos-ba-vuelta.pdf` },
       ],
     },
   ],

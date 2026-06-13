@@ -1,5 +1,4 @@
 import type { DayPlan } from './types';
-import { docsBase } from './shared';
 
 export const day1: DayPlan = {
   id: 'day1',
@@ -19,16 +18,16 @@ export const day1: DayPlan = {
   ],
   stops: [
     {
-      time: '10:00-11:35',
+      time: '10:30-11:30',
       title: 'Vuelo',
       area: 'VLC -> LTN',
       narrative:
-        'El viaje arranca de verdad aquí: vuelo W9 5368, primer cambio de chip a modo Londres y la sensación de que toda la preparación previa ya se convierte en viaje real. Aunque este tramo no sea turístico, marca mucho el tono del día: si se gestiona con calma, la tarde se vuelve suave y muy disfrutable.',
+        'El viaje arranca de verdad aquí: vuelo W9 5368, ya con el último cambio horario de Wizz incorporado. Salida a las 10:30, llegada prevista a Luton a las 11:30 y primer cambio de chip a modo Londres.',
       details: [
         'Buen momento para repasar con los peques el plan visual de la tarde: río, Big Ben, luces y London Eye.',
         'Llegar con esa película mental hace que el primer paseo se viva con más ilusión.',
       ],
-      reservation: 'W9 5368 · salida 10:00 · llegada prevista 11:35',
+      reservation: 'W9 5368 · salida 10:30 · llegada prevista 11:30',
       supportCards: [
         {
           title: 'Referencia de vuelo',
@@ -40,12 +39,9 @@ export const day1: DayPlan = {
           ],
         },
       ],
-      links: [
-        { label: 'Reserva vuelos', href: `${docsBase}/reserva-vuelos.pdf` },
-      ],
     },
     {
-      time: '11:35-12:20',
+      time: '11:30-12:20',
       title: 'Llegada + control + equipaje',
       area: 'LTN',
       narrative:
@@ -61,7 +57,7 @@ export const day1: DayPlan = {
           bullets: [
             'Pasaportes, equipaje y salida por llegadas sin dispersarse.',
             'Al recuperar datos/WiFi, revisar si hay mensaje del conductor.',
-            'Si veis atasco claro en esta fase, avisar cuanto antes al transfer.',
+            'El transfer de las 12:20 sigue bien encajado porque Limowide confirmó seguimiento de vuelo y 60 min de espera gratuita.',
           ],
         },
       ],
@@ -76,23 +72,18 @@ export const day1: DayPlan = {
         'Evita correr y os permite entrar a Londres por la puerta grande, sin fricción.',
         'Prioridad absoluta si hay incidencia: avisar al transfer.',
       ],
-      reservation: 'Limowide · localizador 2107972',
-      practical: 'Teléfono rápido transfer llegada: +44 7458 148595',
+      reservation: 'Transfer privado reservado · recogida 12:20',
       supportCards: [
         {
           title: 'Incidencias transfer LTN',
           summary: 'Qué hacer si no aparece el conductor o el aeropuerto se atasca.',
           bullets: [
             'Buscar cartel del titular al salir por llegadas.',
-            'Si no aparece en 5-10 min: escribir o llamar a +44 7458 148595.',
-            'Escalada adicional 24/7: +91 98842 73784.',
-            'Si no se resuelve: soporte eDreams +1 855 980 5669.',
+            'Si no aparece en 5-10 min: usar los teléfonos guardados en la carpeta privada del viaje.',
+            'Si no se resuelve: activar plan B desde la guía privada de llegada.',
             'Plan B inmediato: coach a Victoria + taxi al apartamento.',
           ],
         },
-      ],
-      links: [
-        { label: 'Transfer llegada', href: `${docsBase}/transfer-ltn-apartamento.pdf` },
       ],
     },
     {
@@ -107,14 +98,11 @@ export const day1: DayPlan = {
           title: 'Base del viaje',
           summary: 'El piso ya os deja bien colocados para el resto de Londres.',
           bullets: [
-            'Dirección base: 1A Kennington Lane, SE11 4RG.',
+            'Base en Kennington, bien colocada para entrar al centro.',
             'Check-in previsto desde las 14:00.',
             'Buena ubicación para moverse rápido al centro sin vivir en el ruido del centro.',
           ],
         },
-      ],
-      links: [
-        { label: 'Reserva apartamento', href: `${docsBase}/reserva-apartamento.pdf` },
       ],
     },
     {
@@ -137,9 +125,6 @@ export const day1: DayPlan = {
             'Agua, snacks y cualquier básico de peques antes del bloque del Eye.',
           ],
         },
-      ],
-      links: [
-        { label: 'Reserva apartamento', href: `${docsBase}/reserva-apartamento.pdf` },
       ],
     },
     {
@@ -246,9 +231,6 @@ export const day1: DayPlan = {
           ],
         },
       ],
-      links: [
-        { label: 'Tickets London Eye', href: `${docsBase}/tickets-london-eye.pdf` },
-      ],
     },
     {
       time: '19:15-19:30',
@@ -269,9 +251,6 @@ export const day1: DayPlan = {
             'Llegar así evita tensión y deja disfrutar el entorno antes de entrar.',
           ],
         },
-      ],
-      links: [
-        { label: 'Tickets London Eye', href: `${docsBase}/tickets-london-eye.pdf` },
       ],
     },
     {
@@ -296,9 +275,6 @@ export const day1: DayPlan = {
             'Muy buena primera gran experiencia porque mezcla emoción y orientación.',
           ],
         },
-      ],
-      links: [
-        { label: 'Tickets London Eye', href: `${docsBase}/tickets-london-eye.pdf` },
       ],
       image:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/London-Eye-2009.JPG/1280px-London-Eye-2009.JPG',

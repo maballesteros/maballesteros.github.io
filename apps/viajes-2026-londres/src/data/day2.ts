@@ -1,5 +1,4 @@
 import type { DayPlan } from './types';
-import { docsBase } from './shared';
 
 export const day2: DayPlan = {
   id: 'day2',
@@ -11,7 +10,12 @@ export const day2: DayPlan = {
     'El sábado exprime los iconos mayores de Londres con una lógica de cercanía impecable: abadía, guardias, palacio, río, fortaleza, puente y cierre en el West End.',
   highlight:
     'Es el día más gran capital europea del viaje y el que reúne más postales potentes en menos distancia mental.',
-  fixed: ['No hay ticket cerrado, pero Westminster Abbey debería reservarse.'],
+  fixed: [
+    'Westminster Abbey reservado: entrada general 09:30-10:00.',
+    "Queen's Diamond Jubilee Galleries reservado: 10:00-10:30.",
+    'City Cruises reservado: ticket flexible por fecha para el 25/07.',
+    'Tower Bridge decidido: cruzarlo por fuera, sin reservar interior.',
+  ],
   stops: [
     {
       time: '08:30-09:00',
@@ -20,6 +24,8 @@ export const day2: DayPlan = {
       narrative:
         'El sábado arranca sin prisas y con una idea muy clara: este es el gran día monumental del viaje, así que interesa salir bien desayunados y con el grupo descansado. Londres hoy no se visita a trompicones; se encadena con lógica, casi como si una parada fuera empujando a la siguiente.',
       details: [
+        'Salida recomendada desde Kennington: 08:50-09:00 andando hacia Westminster Abbey.',
+        'Objetivo operativo: estar en la Abbey sobre 09:20-09:25.',
         'La gracia del día está en cómo se enlazan los iconos por cercanía y no en correr entre ellos.',
       ],
       supportCards: [
@@ -35,21 +41,23 @@ export const day2: DayPlan = {
       ],
     },
     {
-      time: '09:30-10:40',
-      title: 'Westminster Abbey (por dentro)',
+      time: '09:30-10:50',
+      title: 'Westminster Abbey + Galleries (por dentro)',
       area: 'Westminster',
       narrative:
-        'Entráis en uno de los lugares más simbólicos del Reino Unido: coronaciones, bodas reales y sepulturas de figuras clave de la historia británica. Empezar aquí le da al día un peso cultural enorme desde el minuto uno y hace que todo lo demás se lea con más contexto.',
+        'Entráis con reserva cerrada en uno de los lugares más simbólicos del Reino Unido: coronaciones, bodas reales y sepulturas de figuras clave de la historia británica. El bloque incluye la entrada general de 09:30 a 10:00 y las Queen\'s Diamond Jubilee Galleries de 10:00 a 10:30, así que la mañana empieza con patrimonio de mucho peso y sin depender de improvisar cola.',
       details: [
         'Aquí se coronan los monarcas ingleses desde 1066.',
         'También descansan Newton, Darwin o Dickens.',
+        "Reserva cerrada con entrada general y Queen's Diamond Jubilee Galleries.",
       ],
       supportCards: [
         {
-          title: 'Claves para entrar bien',
-          summary: 'La abadía merece visita con foco, no en modo museo infinito.',
+          title: 'Reserva cerrada',
+          summary: 'La abadía ya no es tarea pendiente: es el bloque fijo que manda la mañana.',
           bullets: [
-            'Reservar franja previa para no depender de colas del sábado.',
+            'Entrada general: 09:30-10:00.',
+            "Queen's Diamond Jubilee Galleries: 10:00-10:30.",
             'Núcleo que no debería faltar: nave, Coronation Chair si está accesible y Poets\' Corner.',
             'Mejor salir con energía que agotar el día en la primera gran visita.',
           ],
@@ -182,6 +190,7 @@ export const day2: DayPlan = {
           title: 'Embarque y plan B',
           summary: 'Conviene llevar este tramo muy resuelto para no perder la inercia del día.',
           bullets: [
+            'Ticket City Cruises reservado para el 25/07, flexible por fecha y sin hora fija cerrada.',
             'Embarque con margen y buscando sitio con buena vista al salir de Westminster.',
             'Si hubiese mucha cola o incidencia, plan B limpio: metro hasta Tower Hill sin tocar el resto del día.',
             'En el barco interesa mirar más que hacer mil fotos: ayuda mucho a ordenar mentalmente Londres.',
@@ -250,22 +259,22 @@ export const day2: DayPlan = {
     },
     {
       time: '14:15-15:45',
-      title: 'Tower Bridge',
+      title: 'Tower Bridge (cruce exterior)',
       area: 'Tower Bridge',
       narrative:
-        'Luego llega el puente más icónico de Londres, que funciona incluso sin entrar. Cruzarlo a pie os da estructura, río, skyline y uno de los mejores paisajes urbanos del viaje.',
+        'Luego llega el puente más icónico de Londres, y aquí la decisión ya está tomada: verlo y cruzarlo por fuera. Menos gasto, menos presión y más tranquilidad, manteniendo exactamente lo que más compensa de esta parada: río, skyline, estructura y una de las mejores postales urbanas del viaje.',
       details: [
         'Se inauguró en 1894 para no frenar el paso de barcos altos hacia el puerto interior.',
-        'Versión rápida: cruce y fotos. Versión premium: pasarelas altas y suelo de cristal.',
+        'Decisión cerrada: no reservar pasarelas ni interior; cruce exterior y fotos.',
       ],
       supportCards: [
         {
-          title: 'Dos maneras de vivirlo',
-          summary: 'El puente ya compensa mucho por fuera; entrar es un extra, no una obligación.',
+          title: 'Decisión cerrada',
+          summary: 'El puente ya compensa mucho por fuera y el día gana calma sin el interior.',
           bullets: [
             'Exterior: puente, entorno, vistas al río y skyline del este.',
-            'Interior opcional: pasarelas altas y exposición del mecanismo si os apetece subir nivel.',
-            'Es una de las mejores postales familiares del viaje, así que merece algo de tiempo real.',
+            'Sin pasarelas altas ni suelo de cristal: ahorro y menos presión de horarios.',
+            'Merece tiempo real para cruzarlo, mirar hacia la Torre y sacar fotos sin correr.',
           ],
         },
       ],

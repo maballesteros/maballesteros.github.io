@@ -1,5 +1,4 @@
 import type { DayPlan } from './types';
-import { docsBase } from './shared';
 
 export const day3: DayPlan = {
   id: 'day3',
@@ -33,7 +32,6 @@ export const day3: DayPlan = {
           ],
         },
       ],
-      links: [{ label: 'Reserva Warner', href: `${docsBase}/booking-warner.pdf` }],
     },
     {
       time: '08:45-09:05',
@@ -68,12 +66,11 @@ export const day3: DayPlan = {
           summary: 'Lo más útil aquí es tener muy visible el dato del tour.',
           bullets: [
             'Studio Tour reservado para las 10:30.',
-            'Order number 6975945 en la confirmación/tickets.',
+            'Tickets reales guardados en la carpeta privada del viaje.',
             'Objetivo operativo real: estar en la entrada sobre las 10:10.',
           ],
         },
       ],
-      links: [{ label: 'Reserva Warner', href: `${docsBase}/booking-warner.pdf` }],
     },
     {
       time: '09:45-10:00',
@@ -95,7 +92,6 @@ export const day3: DayPlan = {
           ],
         },
       ],
-      links: [{ label: 'Reserva Warner', href: `${docsBase}/booking-warner.pdf` }],
       image:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warner_Bros._Studios%2C_Leavesden%2C_September_2023.JPG/1280px-Warner_Bros._Studios%2C_Leavesden%2C_September_2023.JPG',
       imageAlt: 'Warner Bros Studios Leavesden',
@@ -126,7 +122,7 @@ export const day3: DayPlan = {
       area: 'Warner Bros Studio Tour London',
       narrative:
         'Este es el bloque estrella del viaje: sets, utilería, atmósfera cinematográfica y la sensación muy potente de que el mundo de la saga existe físicamente y no solo en pantalla. La mejor estrategia aquí no es intentar verlo todo, sino disfrutarlo bien y dejar que cada zona tenga su propio ritmo.',
-      reservation: 'Entrada reservada a las 10:30 · order 6975945',
+      reservation: 'Entrada reservada a las 10:30',
       details: [
         'Great Hall para arrancar fuerte.',
         'Sets interiores principales y zonas técnicas.',
@@ -156,7 +152,6 @@ export const day3: DayPlan = {
         },
       ],
       links: [
-        { label: 'Reserva Warner', href: `${docsBase}/booking-warner.pdf` },
         {
           label: 'Web Warner Studio Tour',
           href: 'https://www.wbstudiotour.co.uk/',

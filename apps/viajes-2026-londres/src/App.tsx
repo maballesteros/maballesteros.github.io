@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { contacts, days, generalSupportCards, lockedMoments, mustSee, practicalNotes, tripDocs, tripMeta } from './data';
 
+const posterSrc = '/viajes/2026-londres/assets/londres-reveal-poster.png';
+
 function App() {
   const [activeDayId, setActiveDayId] = useState(days[0].id);
 
@@ -33,8 +35,8 @@ function App() {
 
       <main className="mx-auto flex w-full min-w-0 max-w-[1500px] flex-col gap-6 px-4 pb-16 pt-4 sm:gap-8 sm:px-6 sm:pt-6 lg:px-8">
         <section className="hero-shell overflow-hidden rounded-[36px] border border-white/45 px-5 py-6 shadow-[0_30px_120px_rgba(43,32,24,0.16)] sm:px-8 sm:py-8 lg:px-10 lg:py-10">
-          <div className="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
-            <div className="space-y-6">
+          <div className="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-start">
+            <div className="min-w-0 space-y-6">
               <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--muted-strong)]">
                 <span className="editorial-chip">
                   <Sparkles className="h-4 w-4" />
@@ -48,19 +50,24 @@ function App() {
                   <BedDouble className="h-4 w-4" />
                   {tripMeta.base}
                 </span>
+                <span className="editorial-chip">
+                  <Clock3 className="h-4 w-4" />
+                  Actualizado 13/06/2026
+                </span>
               </div>
 
               <div className="space-y-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.38em] text-[var(--accent-deep)]">
                   Londres a fuego lento
                 </p>
-                <h1 className="hero-title max-w-4xl">
-                  {tripMeta.title}
-                  <span className="block text-[0.48em] font-semibold tracking-[0.02em] text-[var(--accent-soft)]">
+                <h1 className="hero-title max-w-full break-words">
+                  <span className="block">Londres</span>
+                  <span className="block">2026</span>
+                  <span className="block text-[0.48em] font-semibold leading-[1.05] tracking-[0.02em] text-[var(--accent-soft)]">
                     {tripMeta.subtitle}
                   </span>
                 </h1>
-                <p className="max-w-3xl text-lg leading-8 text-[var(--muted)] sm:text-xl">
+                <p className="max-w-full break-words text-lg leading-8 text-[var(--muted)] sm:max-w-3xl sm:text-xl">
                   Una guía visual para llegar con el viaje ya vivido en la cabeza: qué está cerrado,
                   qué se ve cada día, por qué merece la pena cada parada y cómo moverse sin convertir
                   Londres en una carrera.
@@ -89,28 +96,41 @@ function App() {
               </div>
             </div>
 
-            <div className="rounded-[30px] border border-white/55 bg-[linear-gradient(160deg,rgba(124,71,39,0.08),rgba(255,255,255,0.72))] p-5 backdrop-blur-xl">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[var(--accent-deep)]">
-                    Resumen táctico
-                  </p>
-                  <h2 className="mt-2 font-display text-2xl text-[var(--ink)]">Lo que ya manda</h2>
-                </div>
-                <div className="rounded-full border border-white/60 bg-white/55 p-3 text-[var(--accent-deep)]">
-                  <CheckCircle2 className="h-5 w-5" />
-                </div>
-              </div>
+            <div className="min-w-0 space-y-4">
+              <figure className="overflow-hidden rounded-[30px] border border-white/60 bg-white/55 shadow-[0_18px_70px_rgba(43,32,24,0.12)] backdrop-blur-xl">
+                <img
+                  src={posterSrc}
+                  alt="Póster recuerdo para contar a los nenes el viaje a Londres 2026"
+                  className="h-[360px] w-full object-cover object-center sm:h-[430px] lg:h-[500px]"
+                />
+                <figcaption className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--muted-strong)]">
+                  El póster de la sorpresa
+                </figcaption>
+              </figure>
 
-              <div className="mt-5 space-y-3">
-                {lockedMoments.map((moment) => (
-                  <div
-                    key={moment}
-                    className="rounded-2xl border border-white/60 bg-white/65 px-4 py-3 text-sm leading-6 text-[var(--muted)] shadow-[0_10px_30px_rgba(98,67,44,0.08)]"
-                  >
-                    {moment}
+              <div className="rounded-[30px] border border-white/55 bg-[linear-gradient(160deg,rgba(124,71,39,0.08),rgba(255,255,255,0.72))] p-5 backdrop-blur-xl">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[var(--accent-deep)]">
+                      Resumen táctico
+                    </p>
+                    <h2 className="mt-2 font-display text-2xl text-[var(--ink)]">Lo que ya manda</h2>
                   </div>
-                ))}
+                  <div className="rounded-full border border-white/60 bg-white/55 p-3 text-[var(--accent-deep)]">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </div>
+                </div>
+
+                <div className="mt-5 space-y-3">
+                  {lockedMoments.map((moment) => (
+                    <div
+                      key={moment}
+                      className="rounded-2xl border border-white/60 bg-white/65 px-4 py-3 text-sm leading-6 text-[var(--muted)] shadow-[0_10px_30px_rgba(98,67,44,0.08)]"
+                    >
+                      {moment}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -318,8 +338,12 @@ function App() {
           </div>
 
           <aside className="min-w-0 space-y-4">
-            <Panel eyebrow="Documentación" title="Acceso rápido" icon={<FileText className="h-5 w-5" />}>
-              <DocLinks links={tripDocs} />
+            <Panel eyebrow="Documentación" title="Pack privado en Drive" icon={<FileText className="h-5 w-5" />}>
+              <p className="text-sm leading-7 text-[var(--muted)]">
+                Esta página es la guía bonita y consultable. Tickets, QRs, localizadores, teléfonos y
+                PDFs de reserva se guardan solo en la carpeta real del viaje en Drive, descargada sin
+                conexión en los móviles.
+              </p>
             </Panel>
 
             <Panel eyebrow="Operativa viva" title="Tarjetas útiles" icon={<Compass className="h-5 w-5" />}>
@@ -351,20 +375,22 @@ function App() {
               </ul>
             </Panel>
 
-            <Panel eyebrow="Siempre a mano" title="Contactos rápidos" icon={<Phone className="h-5 w-5" />}>
-              <ul className="space-y-3">
-                {contacts.map((contact) => (
-                  <li
-                    key={`${contact.label}-${contact.value}`}
-                    className="rounded-[22px] border border-[var(--line)] bg-white/74 px-4 py-4"
-                  >
-                    <p className="text-sm font-semibold text-[var(--ink)]">{contact.label}</p>
-                    <p className="mt-1 font-mono text-sm text-[var(--accent-deep)]">{contact.value}</p>
-                    <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{contact.note}</p>
-                  </li>
-                ))}
-              </ul>
-            </Panel>
+            {contacts.length ? (
+              <Panel eyebrow="Siempre a mano" title="Contactos rápidos" icon={<Phone className="h-5 w-5" />}>
+                <ul className="space-y-3">
+                  {contacts.map((contact) => (
+                    <li
+                      key={`${contact.label}-${contact.value}`}
+                      className="rounded-[22px] border border-[var(--line)] bg-white/74 px-4 py-4"
+                    >
+                      <p className="text-sm font-semibold text-[var(--ink)]">{contact.label}</p>
+                      <p className="mt-1 font-mono text-sm text-[var(--accent-deep)]">{contact.value}</p>
+                      <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{contact.note}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Panel>
+            ) : null}
 
             <Panel eyebrow="Mapa mental" title="Cómo leer este viaje" icon={<Sparkles className="h-5 w-5" />}>
               <div className="space-y-4 text-sm leading-7 text-[var(--muted)]">
