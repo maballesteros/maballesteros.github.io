@@ -57,7 +57,7 @@ export const day1: DayPlan = {
           bullets: [
             'Pasaportes, equipaje y salida por llegadas sin dispersarse.',
             'Al recuperar datos/WiFi, revisar si hay mensaje del conductor.',
-            'El transfer de las 12:20 sigue bien encajado porque Limowide confirmó seguimiento de vuelo y 60 min de espera gratuita.',
+            'El transfer de las 12:20 sigue bien encajado porque el proveedor confirmó seguimiento de vuelo y 60 min de espera gratuita.',
           ],
         },
       ],
@@ -155,8 +155,12 @@ export const day1: DayPlan = {
       time: '16:50-17:20',
       title: 'Westminster Bridge + Big Ben (exterior)',
       area: 'Westminster',
-      narrative:
-        'Ahora sí: la primera gran postal del viaje, pero con historia dentro. El Parlamento que veis es heredero del viejo palacio medieval de Westminster, destruido casi por completo por el gran incendio de 1834 y reconstruido después como ese decorado neogótico inmenso que hoy parece “Londres de siempre”. Big Ben, además, no es la torre: es la gran campana. La torre se llama Elizabeth Tower desde 2012.',
+      narrative: [
+        'Ahora sí: la primera gran postal del viaje, pero con historia dentro. Al plantaros en Westminster Bridge no estáis mirando solo una torre famosa: estáis delante del punto donde Londres junta Parlamento, río, monarquía, reconstrucción y memoria pública en una sola imagen.',
+        'El Parlamento actual es heredero del viejo palacio medieval de Westminster, que durante siglos fue residencia real y centro político. En 1834 un incendio destruyó casi todo el complejo, y la reconstrucción victoriana eligió un lenguaje neogótico deliberadamente solemne: debía parecer antiguo, nacional y casi inevitable, aunque en realidad era una obra nueva nacida de una catástrofe.',
+        'Big Ben, además, es una pequeña trampa perfecta para contar a los peques: no es la torre. Big Ben es la gran campana. La torre se llama Elizabeth Tower desde 2012. Así que cuando alguien diga “foto con Big Ben”, podéis sonreír: realmente estáis fotografiando una torre victoriana que guarda una campana famosa.',
+        'La gracia de esta parada es mirar la ciudad como teatro político. Al otro lado está Westminster Abbey, muy cerca Parliament Square, y debajo fluye el Támesis. En pocos metros Londres junta religión, monarquía, Parlamento, memoria pública y río.',
+      ],
       details: [
         'La torre del reloj se completó en 1859, dentro de la gran reconstrucción victoriana del Parlamento.',
         'El conjunto funciona como símbolo democrático, pero también como una pieza teatral: Londres convirtió un incendio enorme en una fachada política reconocible en todo el mundo.',
@@ -180,8 +184,12 @@ export const day1: DayPlan = {
       time: '17:20-17:45',
       title: 'Paseo por South Bank',
       area: 'South Bank / County Hall / Jubilee Gardens',
-      narrative:
-        'Al cruzar a South Bank, Londres cambia de tono: menos institución, más paseo, más vida. Esta ribera no siempre fue el paseo cultural amable de hoy; durante mucho tiempo tuvo almacenes, industria ligera y una relación mucho más dura con el río. El gran giro simbólico llegó con el Festival of Britain de 1951, cuando el país quiso sacudirse la austeridad de posguerra y mostrar ciencia, diseño, arquitectura y optimismo moderno justo aquí, en la ribera sur.',
+      narrative: [
+        'Al cruzar a South Bank, Londres cambia de tono. Dejáis atrás el lado más institucional de Westminster y entráis en una ribera más abierta: paseo, artistas, familias, terrazas, música de calle y vistas. Es perfecto para el primer día porque no exige “entenderlo todo”; basta con dejar que la ciudad empiece a moverse alrededor.',
+        'Pero esta zona no siempre fue el paseo cultural amable de hoy. Durante mucho tiempo la ribera sur tuvo almacenes, industria ligera, muelles y una relación mucho más áspera con el río. Londres no era una postal limpia: el Támesis era trabajo, mercancía, humo, olor, transporte y frontera.',
+        'El gran giro simbólico llegó con el Festival of Britain de 1951. Después de la guerra y de años de austeridad, el país quiso enseñar ciencia, diseño, arquitectura y optimismo moderno. South Bank se convirtió en escaparate de futuro: una forma de decir que Londres no solo sobrevivía, también podía reinventarse.',
+        'Por eso este paseo tiene una lectura preciosa para los niños: al otro lado queda el poder antiguo; aquí, una ciudad que transformó una ribera industrial en espacio cultural y ciudadano. No es solo caminar hacia el Eye; es cruzar de un Londres solemne a un Londres más público y vivido.',
+      ],
       details: [
         'South Bank pasó de frente industrial a uno de los paseos culturales más queridos de la ciudad.',
         'La zona permite contar una idea bonita: Londres no solo conserva historia, también reutiliza heridas, muelles y espacios industriales para convertirlos en cultura pública.',
@@ -269,8 +277,12 @@ export const day1: DayPlan = {
       time: '20:00',
       title: 'London Eye (fijo)',
       area: 'Ribera del Támesis',
-      narrative:
-        'El primer gran wow del viaje. El London Eye no solo impresiona: os da mapa mental real de la ciudad. Fue pensado inicialmente con permiso temporal, como muchos proyectos del milenio, pero gustó tanto que acabó quedándose. Desde arriba se entiende muy bien Londres como capas: Westminster y el poder político, el río como columna vertebral, la City más antigua y los rascacielos que llegaron después.',
+      narrative: [
+        'El primer gran wow del viaje. El London Eye funciona de maravilla como experiencia inicial porque no os obliga a escoger una sola historia de Londres: os las enseña todas a la vez, desde arriba, como si la ciudad se abriera en capas.',
+        'La rueda nació como icono del cambio de milenio. Fue diseñada por Marks Barfield Architects y se inauguró en el año 2000, en una época en la que Londres quería proyectar una imagen moderna sin borrar su pasado. De hecho, al principio tenía vocación temporal; gustó tanto y encajó tan bien en el perfil del río que terminó quedándose.',
+        'También es una pieza de ingeniería muy reconocible. No es una noria tradicional apoyada simétricamente: se asoma al Támesis en voladizo, sostenida desde un lado, como si la ciudad hubiera instalado una gran brújula vertical para mirarse a sí misma.',
+        'Desde arriba se entiende muy bien el resto del viaje: Westminster y el poder político, el río como columna vertebral, la City antigua y financiera, los puentes, las curvas del Támesis y los rascacielos contemporáneos. Es una atracción, sí, pero también una clase de geografía londinense con emoción.',
+      ],
       reservation: 'Entrada reservada para las 20:00',
       details: [
         'La hora del ticket corresponde a la cola, no al embarque directo.',

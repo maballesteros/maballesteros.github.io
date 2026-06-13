@@ -123,8 +123,13 @@ export const day3: DayPlan = {
       time: '10:30-14:00 (aprox.)',
       title: 'Studio Tour',
       area: 'Warner Bros Studio Tour London',
-      narrative:
-        'Este es el bloque estrella del viaje: sets, utilería, atmósfera cinematográfica y la sensación muy potente de que el mundo de la saga existe físicamente y no solo en pantalla. La gracia es mirar como detectives de cine. El Gran Comedor fue uno de los primeros grandes sets construidos para la primera película y acabó apareciendo en casi toda la saga. En Dumbledore, muchos libros no son libros antiguos mágicos, sino guías telefónicas encuadernadas para llenar estanterías. Y el Knight Bus de Azkaban no fue solo CGI: se construyó físicamente combinando piezas de autobuses de dos pisos.',
+      narrative: [
+        'Este es el bloque estrella del viaje: sets, utilería, atmósfera cinematográfica y la sensación muy potente de que el mundo de la saga existe físicamente y no solo en pantalla. La clave es entrar con una idea clara para los peques: hoy no vais a “ver Harry Potter”, vais a descubrir cómo se fabricó.',
+        'Leavesden tiene una historia anterior a la magia. El lugar nació ligado a la industria aeronáutica y a grandes espacios de producción; después se reconvirtió en estudio cinematográfico. Esa escala explica por qué allí podían construirse decorados enormes, guardar piezas durante años y rodar una saga completa sin que todo dependiera de localizaciones temporales.',
+        'El Gran Comedor es el arranque emocional perfecto. Fue uno de los primeros grandes sets construidos para la primera película y acabó apareciendo en casi toda la saga. Mirarlo así cambia la visita: no es una sala “decorada”, sino un espacio físico donde carpintería, pintura, iluminación, continuidad y cámara trabajaron juntos para crear un lugar que todos reconocemos.',
+        'Luego viene lo más bonito para mirar como detectives de cine. En el despacho de Dumbledore, muchos libros antiguos no eran libros mágicos, sino guías telefónicas encuadernadas para llenar estanterías. El Knight Bus no fue solo un truco digital: se construyó físicamente combinando piezas de autobuses de dos pisos. Parte de la magia consiste precisamente en que muchísimas cosas eran reales, pesadas, pintadas, cosidas o envejecidas a mano.',
+        'La visita gana si la convertís en una búsqueda de oficios: quién hizo las varitas, quién envejeció las paredes, quién diseñó criaturas, quién cosió túnicas, quién construyó puertas y quién decidió qué objeto había en cada estantería. Después de todo, el recuerdo no será solo “he visto Hogwarts”, sino “he entendido que la magia también se construye con trabajo humano”.',
+      ],
       reservation: 'Entrada reservada a las 10:30',
       details: [
         'Great Hall para arrancar fuerte: decorado real y uno de los grandes iconos de la saga.',

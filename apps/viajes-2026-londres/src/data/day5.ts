@@ -12,7 +12,7 @@ export const day5: DayPlan = {
     'Todo el diseño del día busca llegar a Heathrow con control total y aun así regalar una despedida con mucha historia: comida, teatro, comercio fluvial, piedra medieval y rascacielos.',
   fixed: [
     'Check-out formal a las 10:00',
-    'Transfer privado Mobio a las 12:10',
+    'Transfer privado al aeropuerto a las 12:10',
     'El propietario permite dejar maletas con los cleaners hasta la hora del transfer',
     'Vuelo BA408 a las 16:10 como hora base',
   ],
@@ -61,8 +61,12 @@ export const day5: DayPlan = {
       time: '10:00-10:35',
       title: 'Borough Market',
       area: 'Borough',
-      narrative:
-        'La última mañana no va de apurar, sino de regalaros una despedida con sabor. Borough Market funciona muy bien porque no es un mercado inventado para turistas: la zona aparece ligada al comercio desde época medieval, junto al viejo London Bridge y a las rutas que entraban a la City. Durante siglos, Southwark fue lugar de paso, comida, ruido, animales, carros y comercio. Hoy queda convertido en mercado gourmet, pero bajo el café y los puestos sigue latiendo esa historia de abastecer Londres.',
+      narrative: [
+        'La última mañana no va de apurar, sino de regalaros una despedida con sabor. Borough Market funciona muy bien porque no es un mercado inventado para turistas: está colocado en una zona que lleva siglos viviendo del paso, la comida y el comercio junto al río.',
+        'Southwark, al sur del Támesis, fue durante mucho tiempo el “otro lado” de la City. Por aquí entraban caminos, viajeros, comerciantes, animales, carros y mercancías. Junto a London Bridge, vender comida tenía todo el sentido: había que alimentar a quienes cruzaban, trabajaban, negociaban o llegaban a Londres.',
+        'El mercado actual tiene cafés, puestos gourmet y mucho visitante, pero debajo sigue latiendo una historia muy antigua de abastecimiento urbano. Antes de supermercados y reparto a domicilio, una ciudad comía porque existían lugares como este: ruidosos, útiles, mezclados y pegados a las rutas de entrada.',
+        'Es un cierre sensorial perfecto para el viaje. Londres no se recuerda solo por torres y palacios; también por olor a pan, fruta, café, puestos, voces y ese pequeño caos amable de mercado que hace que una ciudad parezca viva.',
+      ],
       details: [
         'Borough Market reivindica una historia que arranca al menos en la Edad Media y suele asociarse a 1014 como referencia simbólica.',
         'Su posición junto a London Bridge lo convirtió en un punto natural para vender comida a quienes entraban y salían de la City.',
@@ -94,8 +98,12 @@ export const day5: DayPlan = {
       time: '10:35-10:50',
       title: 'Southwark Cathedral',
       area: 'Southwark',
-      narrative:
-        'Después del mercado, la catedral introduce un contraste sereno y muy londinense: piedra, silencio, historia y el recuerdo del viejo Southwark comercial y teatral al sur del río. Southwark Cathedral se levanta junto al antiguo punto de cruce hacia la City; su historia escrita llega al Domesday Book de 1086 y tuvo vida como priorato medieval. Además, conecta con el Londres de Shakespeare: su hermano Edmund está enterrado allí, y el barrio estaba muy ligado a los teatros del Bankside isabelino.',
+      narrative: [
+        'Después del mercado, la catedral introduce un contraste sereno y muy londinense: piedra, silencio, historia y el recuerdo del viejo Southwark comercial y teatral al sur del río. En pocos pasos pasáis de puestos de comida a un edificio que baja mucho el volumen.',
+        'Southwark Cathedral se levanta junto al antiguo punto de cruce hacia la City. Su historia documentada llega al Domesday Book de 1086 y tuvo vida como priorato medieval, así que no es solo una iglesia bonita al lado del mercado: es una pieza muy antigua del Londres que creció alrededor del puente.',
+        'Además conecta con el Bankside de Shakespeare. Este lado del río fue zona de teatros, tabernas y vida más libre que la City. El hermano de Shakespeare, Edmund, está enterrado aquí, y la catedral conserva ese vínculo con el Londres teatral y algo desordenado que alimentó parte del teatro isabelino.',
+        'También aparecen otros nombres que abren puertas: John Gower, poeta asociado a Chaucer, y John Harvard, bautizado en esta parroquia. Es una parada corta, pero muy rica: mercado, puente, literatura, religión y emigración intelectual caben en un mismo lugar.',
+      ],
       details: [
         'Es una de las iglesias góticas más antiguas de Londres.',
         'Su historia está ligada al viejo Southwark de comercio, tabernas y teatros.',
@@ -128,8 +136,12 @@ export const day5: DayPlan = {
       time: '10:50-11:05',
       title: "Hay's Galleria + foto rápida de The Shard",
       area: "Hay's Galleria / London Bridge",
-      narrative:
-        'El cierre visual de la mañana compacta combina dos piezas muy buenas. Hay’s Galleria fue muelle y almacén portuario: por aquí entraban mercancías en el Londres comercial del río, y la zona llegó a asociarse con el té y los productos secos hasta ganarse el apodo de “despensa de Londres”. Luego, cuando el puerto se desplazó hacia instalaciones modernas y contenedores, estos muelles quedaron obsoletos y se reconvirtieron. Al lado, The Shard hace el contrapunto: una “ciudad vertical” del siglo XXI diseñada por Renzo Piano.',
+      narrative: [
+        'El cierre visual de la mañana compacta combina dos piezas muy buenas: un antiguo muelle reconvertido y un rascacielos contemporáneo. Es una despedida perfecta porque resume el viaje en una imagen: Londres reutiliza lo viejo y levanta lo nuevo justo al lado.',
+        'Hay’s Galleria fue muelle y almacén portuario. Por aquí entraban mercancías en el Londres comercial del río, y la zona llegó a asociarse con el té y los productos secos hasta ganarse el apodo de “despensa de Londres”. No era una galería bonita: era infraestructura de una ciudad que dependía de barcos, cajas, grúas y almacenes.',
+        'Cuando el puerto se desplazó hacia instalaciones modernas y contenedores, muchos muelles interiores quedaron obsoletos. Londres pudo abandonarlos, pero en muchos casos los reconvirtió. Hay’s Galleria cuenta esa transformación: del trabajo portuario al paseo cubierto, del almacén a la memoria urbana reutilizada.',
+        'Al lado, The Shard hace el contrapunto del siglo XXI. Diseñado por Renzo Piano e inaugurado en 2012, funciona como “ciudad vertical”: oficinas, hotel, restaurantes, mirador y viviendas apilados en una aguja de vidrio. La anécdota familiar es buenísima: durante la construcción encontraron un zorro en la planta 72 y lo llamaron Romeo.',
+      ],
       details: [
         "Hay's Galleria fue un muelle y almacén portuario reconvertido en galería comercial cubierta.",
         'The Shard, inaugurado en 2012 y diseñado por Renzo Piano, marcó el salto contemporáneo del skyline.',
@@ -267,7 +279,7 @@ export const day5: DayPlan = {
           title: 'Checklist final de puerta',
           summary: 'A estas alturas la misión es no dejar cabos sueltos tontos.',
           bullets: [
-            'Pasaportes, boarding y fila 19 ya localizados.',
+            'Pasaportes y tarjetas de embarque ya localizados.',
             'Última oportunidad cómoda para baño, agua y reorganizar mochilas.',
             'Mini ritual final: que cada uno diga su momento favorito antes de volver a Valencia.',
           ],

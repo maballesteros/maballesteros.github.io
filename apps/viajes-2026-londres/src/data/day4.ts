@@ -41,8 +41,13 @@ export const day4: DayPlan = {
       time: '10:00-12:15',
       title: 'British Museum (por dentro)',
       area: 'Bloomsbury',
-      narrative:
-        'Un museo inmenso tratado con disciplina y con franja real ya cerrada a las 10:00. El British Museum nació en 1753 y abrió en 1759 como uno de los primeros grandes museos públicos nacionales gratuitos. Eso es muy bonito, pero también complejo: muchas piezas llegaron por colecciones privadas, excavaciones, compras y contextos coloniales que hoy se discuten. La visita gana si se mira así: no solo “tesoros del mundo”, sino también la historia de cómo Europa quiso ordenar y poseer el mundo.',
+      narrative: [
+        'Un museo inmenso tratado con disciplina y con franja real ya cerrada a las 10:00. El British Museum no conviene mirarlo como “vamos a verlo todo”, porque eso lo convierte en una paliza. Conviene entrar con una misión: escoger pocas piezas y usarlas como puertas a historias enormes.',
+        'El museo nació en 1753 a partir de la colección de Hans Sloane y abrió al público en 1759. Eso ya es muy potente: uno de los primeros grandes museos públicos nacionales, pensado para que el conocimiento no quedara solo encerrado en palacios o colecciones privadas. La Great Court, con su techo contemporáneo, funciona muy bien como símbolo de esa ambición de abrir y ordenar el mundo.',
+        'Pero el British Museum también es incómodo, y eso lo hace más interesante. Muchas piezas llegaron por compras, excavaciones, donaciones, conquistas, redes imperiales y contextos coloniales que hoy se discuten. La visita gana si no lo simplificáis: no son solo “tesoros del mundo”, también son preguntas sobre quién recoge la historia, quién la cuenta y quién debería custodiar ciertos objetos.',
+        'La Rosetta Stone es perfecta para los peques porque parece una piedra “normal” pero cambió nuestra relación con Egipto: permitió descifrar los jeroglíficos al comparar varios sistemas de escritura. Las esculturas del Partenón, en cambio, sirven para contar otra cosa: algo puede ser bellísimo y, al mismo tiempo, estar rodeado de un debate histórico y político muy serio.',
+        'La idea de salida puede ser esta: el British Museum es fascinante porque enseña maravillas, pero también obliga a mirar con preguntas. No vais solo a ver objetos antiguos; vais a ver cómo una ciudad imperial intentó reunir el mundo bajo un mismo techo.',
+      ],
       details: [
         'Abrió en 1759 tras la compra pública de la colección de Hans Sloane.',
         'Fue el primer gran museo público nacional de acceso gratuito.',
@@ -117,8 +122,12 @@ export const day4: DayPlan = {
       time: '12:35-13:30',
       title: 'Notting Hill (paseo barrio)',
       area: 'Portobello Road',
-      narrative:
-        'Cambio radical de registro: de museo enciclopédico a barrio de color, fachada bonita y textura urbana. Notting Hill no es solo casas pastel y película romántica. Durante el siglo XX fue zona de alquileres baratos, llegada de comunidades inmigrantes, tensiones raciales y cultura caribeña. De ahí nace parte de la importancia del carnaval de Notting Hill, que convirtió calle, música y comunidad en una afirmación cultural enorme. Portobello Road añade otra capa: mercado, antigüedades, comida y turismo.',
+      narrative: [
+        'Cambio radical de registro: de museo enciclopédico a barrio de color, fachada bonita y textura urbana. Notting Hill entra fácil por los ojos, con casas pastel, puertas bonitas y la sombra de la película romántica, pero quedarse solo ahí sería perderse lo importante.',
+        'Durante el siglo XX, Notting Hill fue también zona de alquileres baratos, llegada de comunidades inmigrantes, tensiones raciales y vida obrera. No siempre fue el barrio codiciado y fotogénico que se ve hoy. Ese contraste es útil para contarlo en familia: las ciudades cambian, y a veces una fachada preciosa tapa historias bastante más duras.',
+        'La cultura caribeña es una de las claves del barrio. El Carnaval de Notting Hill no nació simplemente como fiesta bonita, sino como afirmación comunitaria, música en la calle, orgullo cultural y respuesta a tensiones sociales. Hoy es uno de los grandes eventos de Londres, pero conserva esa raíz de barrio que se hace visible celebrando.',
+        'Portobello Road añade otra capa: mercado, antigüedades, comida, turismo y paseo. Es buen sitio para no ir con checklist, sino con ojos abiertos. El valor está en notar cómo una calle puede ser mercado, escenario cinematográfico, escaparate turístico y memoria social al mismo tiempo.',
+      ],
       details: [
         'Notting Hill pasó de zona humilde e inmigrante a barrio muy codiciado sin perder del todo su identidad cultural.',
         'Portobello Road empezó como mercado más cotidiano y acabó asociándose mucho a antigüedades y turismo.',
@@ -165,8 +174,13 @@ export const day4: DayPlan = {
       time: '14:00-15:30',
       title: "St Paul's Cathedral (por dentro)",
       area: 'City of London',
-      narrative:
-        'La cúpula de St Paul’s cambia la escala del día. La catedral actual es la gran respuesta arquitectónica al Gran Incendio de 1666, que arrasó buena parte de la City medieval. Christopher Wren no solo diseñó una catedral: ayudó a imaginar cómo podía renacer Londres. Durante la Segunda Guerra Mundial, su silueta entre humo y bombas se convirtió otra vez en símbolo de resistencia. Entrar aquí es entrar en una idea muy poderosa: Londres se cae, pero se rehace.',
+      narrative: [
+        'La cúpula de St Paul’s cambia la escala del día. Después de museo y barrio, entráis en uno de los grandes símbolos de reconstrucción de Londres. La catedral actual no es solo un edificio religioso: es una respuesta arquitectónica a una ciudad que ardió.',
+        'El Gran Incendio de 1666 arrasó buena parte de la City medieval, incluida la vieja catedral. Christopher Wren recibió la oportunidad de levantar algo que no solo sustituyera lo perdido, sino que proyectara una ciudad nueva. Su St Paul’s no intenta parecer una ruina medieval reparada: se presenta como un Londres ambicioso, clásico, ordenado y capaz de renacer.',
+        'La cúpula es la gran protagonista. Durante siglos fue una de las referencias visuales absolutas de la ciudad, antes de que los rascacielos cambiaran el skyline. Mirar hacia arriba dentro de St Paul’s ayuda a entender que la arquitectura también puede ser una declaración de ánimo colectivo.',
+        'La Segunda Guerra Mundial añadió otra capa. Durante el Blitz, la imagen de la cúpula resistiendo entre humo y bombas se convirtió en símbolo de Londres aguantando. Por eso la catedral habla dos veces de reconstrucción: después del fuego del siglo XVII y después de la guerra del siglo XX.',
+        'Y hay un detalle precioso para cerrar: Wren está enterrado en St Paul’s, y su epitafio se resume en una idea muy sencilla: si buscas su monumento, mira a tu alrededor. Es una frase perfecta para los chicos porque convierte todo el edificio en una respuesta.',
+      ],
       details: [
         'La catedral actual es obra de Christopher Wren.',
         'Su reconstrucción siguió al Gran Incendio de 1666.',
@@ -221,8 +235,12 @@ export const day4: DayPlan = {
       time: '16:00-16:45',
       title: 'Millennium Bridge + ribera',
       area: 'Ribera del Támesis',
-      narrative:
-        'Es uno de los paseos fotográficos más agradecidos del viaje: St Paul’s a un lado, skyline contemporáneo al otro y el río cosiéndolo todo. Y tiene una anécdota perfecta: el Millennium Bridge abrió en 2000, pero la gente lo apodó enseguida “Wobbly Bridge” porque empezó a oscilar de forma alarmante con los pasos sincronizados de los peatones. Lo cerraron, lo corrigieron con amortiguadores y volvió convertido en lección de ingeniería.',
+      narrative: [
+        'Es uno de los paseos fotográficos más agradecidos del viaje: St Paul’s a un lado, Tate Modern y la ribera contemporánea al otro, y el río cosiéndolo todo. El puente parece muy ligero, casi una línea dibujada entre dos mundos.',
+        'La idea urbana es buenísima: une la cúpula clásica de Wren con Bankside, el arte contemporáneo y la antigua central eléctrica convertida en museo. En pocos minutos pasáis de la City histórica a una ribera más cultural y moderna.',
+        'Y tiene una anécdota perfecta. El Millennium Bridge abrió en 2000, pero la gente lo apodó enseguida “Wobbly Bridge” porque empezó a oscilar de forma alarmante cuando los peatones sincronizaban sus pasos sin darse cuenta. Lo cerraron, lo estudiaron y lo corrigieron con amortiguadores.',
+        'Contado a los peques, funciona como una mini lección de ingeniería: incluso una obra moderna, diseñada por expertos, puede aprender de la realidad cuando miles de pies empiezan a comportarse de una forma inesperada. Londres también se equivoca, corrige y sigue caminando.',
+      ],
       details: [
         'El puente se hizo famoso al inaugurarse por una oscilación lateral inesperada y tuvo que cerrarse temporalmente.',
         'Une simbólicamente St Paul’s con Bankside y Tate Modern: vieja cúpula, arte contemporáneo y río en una sola línea.',
@@ -246,8 +264,12 @@ export const day4: DayPlan = {
       time: '17:00-17:30',
       title: 'Somerset House Courtyard',
       area: 'Strand',
-      narrative:
-        'Somerset House aporta una pausa elegante antes del cierre más animado. El lugar ha tenido muchas vidas: palacio aristocrático y cortesano, espacio ligado a reinas, y después gran edificio administrativo del Estado. La versión actual, alrededor del gran patio, recuerda un Londres más ilustrado y burocrático: impuestos, archivos, administración, cultura y poder civil.',
+      narrative: [
+        'Somerset House aporta una pausa elegante antes del cierre más animado. El patio tiene algo muy londinense: parece tranquilo, casi decorativo, pero debajo hay varias capas de poder y administración.',
+        'El lugar tuvo una vida palaciega y cortesana, ligada a grandes casas aristocráticas y a reinas. Después, con el edificio actual, pasó a representar otro Londres: el del Estado que administra, registra, recauda, archiva y organiza.',
+        'Por eso funciona tan bien como bisagra. No es una parada de “gran monumento” como St Paul’s, ni de ambiente puro como Covent Garden. Es un patio donde se nota que el poder también vive en oficinas, instituciones, archivos y edificios civiles.',
+        'La visita puede ser corta, pero conviene no correrla. Entrar al patio, bajar el ruido de la calle y mirar la escala del conjunto ya cuenta bastante: Londres no solo se exhibe con coronas y cúpulas, también con arquitectura administrativa elegante.',
+      ],
       details: [
         'Somerset House fue residencia Tudor y luego gran edificio estatal.',
         'El patio funciona muy bien como pausa porque cambia el ruido de calle por una escala casi palaciega.',
@@ -278,8 +300,12 @@ export const day4: DayPlan = {
       time: '17:45-19:30',
       title: "Covent Garden + Neal's Yard + cena",
       area: 'Covent Garden',
-      narrative:
-        'La tarde se cierra con vida de plaza, artistas callejeros, patios comerciales y un rincón con color como Neal’s Yard. Covent Garden nació como convent garden, huerto de la abadía de Westminster, luego se convirtió en plaza planificada, mercado de frutas y verduras, zona de teatros y finalmente espacio de ocio urbano. Es una parada perfecta para enseñar que una ciudad cambia de uso muchas veces sin perder memoria.',
+      narrative: [
+        'La tarde se cierra con vida de plaza, artistas callejeros, patios comerciales y un rincón con color como Neal’s Yard. Después de tanta historia grande, Covent Garden aporta algo muy importante: una ciudad que se vive en la calle.',
+        'El nombre conserva una pista de origen: fue el convent garden, el huerto de la abadía de Westminster. Luego se transformó en plaza planificada, mercado de frutas y verduras, zona de teatros y, finalmente, espacio de ocio urbano. Es una parada perfecta para enseñar que una ciudad cambia de uso muchas veces sin borrar del todo las capas anteriores.',
+        'El mercado actual tiene un aire muy ordenado y turístico, pero durante mucho tiempo Covent Garden fue un mercado de abastecimiento real, con carros, cajas, voces, madrugones y mercancía fresca. La ciudad elegante que veis hoy viene de una ciudad bastante más trabajadora.',
+        'Neal’s Yard añade el toque de cuento: un patio pequeño, colorido y algo escondido, ideal para cerrar con sorpresa. Y los artistas callejeros conectan con la tradición teatral del West End: Londres también cuenta historias con gente actuando en plazas, no solo en museos e iglesias.',
+      ],
       details: [
         'Covent Garden fue durante siglos mercado de frutas y verduras antes de reinventarse como zona de ocio.',
         'Los artistas callejeros actuales conectan con el viejo Londres teatral del West End.',

@@ -10,6 +10,17 @@ export const tripMeta = {
 
 export const tripDocs: QuickLink[] = [];
 
+export const apartmentShowcase = {
+  title: 'Apartamento en Kennington',
+  summary:
+    'La base del viaje: un apartamento familiar en Zona 1, cerca del metro y bien colocado para entrar y salir del centro.',
+  href: 'https://www.vrbo.com/es-es/p350981vb?pwaThumbnailDialog=thumbnail-gallery',
+  bullets: [
+    'Sirve para enseñar a los chicos dónde dormiremos y ver la galería del alojamiento.',
+    'La web mantiene solo el enlace público; fotos, datos de reserva y detalles privados se quedan fuera.',
+  ],
+};
+
 export const generalSupportCards: SupportCard[] = [
   {
     title: 'Checklist de preparación',

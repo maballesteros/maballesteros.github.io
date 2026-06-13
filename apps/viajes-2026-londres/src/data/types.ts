@@ -14,7 +14,7 @@ export type Stop = {
   time: string;
   title: string;
   area: string;
-  narrative: string;
+  narrative: string | string[];
   details?: string[];
   image?: string;
   imageAlt?: string;

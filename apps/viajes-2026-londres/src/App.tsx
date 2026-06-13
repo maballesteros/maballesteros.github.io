@@ -16,7 +16,17 @@ import {
   Star,
   Ticket,
 } from 'lucide-react';
-import { contacts, days, generalSupportCards, lockedMoments, mustSee, practicalNotes, tripDocs, tripMeta } from './data';
+import {
+  apartmentShowcase,
+  contacts,
+  days,
+  generalSupportCards,
+  lockedMoments,
+  mustSee,
+  practicalNotes,
+  tripDocs,
+  tripMeta,
+} from './data';
 
 const posterSrc = '/viajes/2026-londres/assets/londres-reveal-poster.png';
 
@@ -292,7 +302,7 @@ function App() {
                   <div className="min-w-0 space-y-5">
                     <div className="space-y-3">
                       <h3 className="font-display text-3xl leading-tight text-[var(--ink)]">{stop.title}</h3>
-                      <p className="max-w-4xl text-lg leading-8 text-[var(--muted)]">{stop.narrative}</p>
+                      <NarrativeParagraphs narrative={stop.narrative} />
                     </div>
 
                     {stop.image ? (
@@ -344,6 +354,29 @@ function App() {
                 PDFs de reserva se guardan solo en la carpeta real del viaje en Drive, descargada sin
                 conexión en los móviles.
               </p>
+            </Panel>
+
+            <Panel eyebrow="Nuestra base" title={apartmentShowcase.title} icon={<BedDouble className="h-5 w-5" />}>
+              <div className="space-y-4 text-sm leading-7 text-[var(--muted)]">
+                <p>{apartmentShowcase.summary}</p>
+                <ul className="space-y-2">
+                  {apartmentShowcase.bullets.map((bullet) => (
+                    <li key={bullet} className="flex items-start gap-2">
+                      <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--accent-soft)]" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={apartmentShowcase.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[var(--accent-soft)] bg-[var(--accent-deep)] px-4 py-3 text-sm font-semibold text-white shadow-[0_14px_34px_rgba(66,42,30,0.2)] transition hover:-translate-y-0.5 hover:bg-[var(--ink)]"
+                >
+                  <span>Ver fotos en Vrbo</span>
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </div>
             </Panel>
 
             <Panel eyebrow="Operativa viva" title="Tarjetas útiles" icon={<Compass className="h-5 w-5" />}>
@@ -486,6 +519,18 @@ function InfoBand({
         <span className="text-xs font-semibold uppercase tracking-[0.24em]">{label}</span>
       </div>
       <p className="mt-2 text-sm leading-7 text-[var(--muted)]">{content}</p>
+    </div>
+  );
+}
+
+function NarrativeParagraphs({ narrative }: { narrative: string | string[] }) {
+  const paragraphs = Array.isArray(narrative) ? narrative : [narrative];
+
+  return (
+    <div className="max-w-4xl space-y-4 text-lg leading-8 text-[var(--muted)]">
+      {paragraphs.map((paragraph) => (
+        <p key={paragraph}>{paragraph}</p>
+      ))}
     </div>
   );
 }
