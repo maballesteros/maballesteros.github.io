@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   BedDouble,
   CalendarDays,
@@ -27,19 +27,56 @@ import {
   tripDocs,
   tripMeta,
 } from './data';
+import type { Stop } from './data';
 
 const posterSrc = '/viajes/2026-londres/assets/londres-reveal-poster.png';
 
 function App() {
   const [activeDayId, setActiveDayId] = useState(days[0].id);
+  const [expandedStopKeys, setExpandedStopKeys] = useState<Set<string>>(() => new Set());
+  const isCompactStops = useMediaQuery('(max-width: 1023px)');
+  const dayContentRef = useRef<HTMLElement | null>(null);
 
   const activeDay = useMemo(
     () => days.find((day) => day.id === activeDayId) ?? days[0],
     [activeDayId],
   );
 
+  useEffect(() => {
+    if (isCompactStops) {
+      setExpandedStopKeys(new Set());
+    }
+  }, [activeDayId, isCompactStops]);
+
+  const handleDaySelect = (dayId: string) => {
+    if (dayId === activeDayId) return;
+
+    setActiveDayId(dayId);
+    setExpandedStopKeys(new Set());
+
+    if (isCompactStops) {
+      window.requestAnimationFrame(() => {
+        dayContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  };
+
+  const toggleStop = (stopKey: string) => {
+    setExpandedStopKeys((current) => {
+      const next = new Set(current);
+
+      if (next.has(stopKey)) {
+        next.delete(stopKey);
+      } else {
+        next.add(stopKey);
+      }
+
+      return next;
+    });
+  };
+
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[var(--paper)] text-[var(--ink)]">
+    <div className="min-h-screen overflow-x-clip bg-[var(--paper)] text-[var(--ink)]">
       <div className="page-glow page-glow-left" />
       <div className="page-glow page-glow-right" />
 
@@ -146,6 +183,12 @@ function App() {
           </div>
         </section>
 
+        <MobileDayDock
+          activeDayId={activeDay.id}
+          activeDayMeta={`${activeDay.date} · ${activeDay.theme}`}
+          onSelectDay={handleDaySelect}
+        />
+
         <section className="grid min-w-0 gap-4">
           <div className="min-w-0 rounded-[28px] border border-[var(--line)] bg-white/72 p-4 shadow-[0_20px_70px_rgba(43,32,24,0.08)] backdrop-blur-xl sm:p-5">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -163,27 +206,6 @@ function App() {
               </p>
             </div>
 
-            <div className="mt-5 flex gap-2 overflow-x-auto pb-1 lg:hidden">
-              {days.map((day) => {
-                const isActive = day.id === activeDay.id;
-                return (
-                  <button
-                    key={`${day.id}-pill`}
-                    type="button"
-                    onClick={() => setActiveDayId(day.id)}
-                    className={[
-                      'shrink-0 rounded-full border px-4 py-2.5 text-sm font-semibold transition',
-                      isActive
-                        ? 'border-[var(--accent-soft)] bg-[var(--accent-deep)] text-white shadow-[0_12px_30px_rgba(66,42,30,0.22)]'
-                        : 'border-[var(--line)] bg-white/78 text-[var(--muted)]',
-                    ].join(' ')}
-                  >
-                    {day.label}
-                  </button>
-                );
-              })}
-            </div>
-
             <div className="mt-5 hidden gap-3 lg:flex lg:overflow-x-auto lg:pb-1">
               {days.map((day) => {
                 const isActive = day.id === activeDay.id;
@@ -191,7 +213,7 @@ function App() {
                   <button
                     key={day.id}
                     type="button"
-                    onClick={() => setActiveDayId(day.id)}
+                    onClick={() => handleDaySelect(day.id)}
                     className={[
                       'group min-w-[260px] rounded-[24px] border px-4 py-4 text-left transition duration-300',
                       isActive
@@ -228,7 +250,7 @@ function App() {
           </div>
         </section>
 
-        <section className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+        <section ref={dayContentRef} className="scroll-mt-24 grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
           <div className="min-w-0 space-y-6">
             <article className="rounded-[32px] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(255,248,242,0.88))] p-5 shadow-[0_20px_90px_rgba(43,32,24,0.09)] sm:p-8">
               <div className="flex flex-col gap-6 border-b border-[var(--line)] pb-6 lg:flex-row lg:items-end lg:justify-between">
@@ -284,66 +306,20 @@ function App() {
             </article>
 
             <section className="min-w-0 space-y-5">
-              {activeDay.stops.map((stop, index) => (
-                <article
-                  key={`${stop.time}-${stop.title}`}
-                  className="timeline-card grid min-w-0 gap-5 overflow-hidden rounded-[30px] border border-[var(--line)] bg-white/78 p-4 shadow-[0_18px_60px_rgba(43,32,24,0.08)] backdrop-blur-xl sm:p-5 lg:grid-cols-[150px_minmax(0,1fr)]"
-                >
-                  <div className="flex flex-col justify-between gap-4 rounded-[24px] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(247,236,225,0.95),rgba(255,255,255,0.82))] p-4">
-                    <div>
-                      <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[var(--accent-deep)]">
-                        Parada {String(index + 1).padStart(2, '0')}
-                      </p>
-                      <p className="mt-3 font-mono text-2xl text-[var(--ink)]">{stop.time}</p>
-                    </div>
-                    <p className="text-sm leading-6 text-[var(--muted)]">{stop.area}</p>
-                  </div>
+              {activeDay.stops.map((stop, index) => {
+                const stopKey = `${activeDay.id}-${stop.time}-${stop.title}`;
+                const isStopOpen = !isCompactStops || expandedStopKeys.has(stopKey);
 
-                  <div className="min-w-0 space-y-5">
-                    <div className="space-y-3">
-                      <h3 className="font-display text-3xl leading-tight text-[var(--ink)]">{stop.title}</h3>
-                      <NarrativeParagraphs narrative={stop.narrative} />
-                    </div>
-
-                    {stop.image ? (
-                      <JourneyImage src={stop.image} alt={stop.imageAlt ?? stop.title} />
-                    ) : null}
-
-                    {stop.details?.length ? (
-                      <div className="grid gap-3 sm:grid-cols-2">
-                        {stop.details.map((detail) => (
-                          <div
-                            key={detail}
-                            className="rounded-[22px] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,240,232,0.86))] px-4 py-4 text-sm leading-7 text-[var(--muted)]"
-                          >
-                            {detail}
-                          </div>
-                        ))}
-                      </div>
-                    ) : null}
-
-                    <SupportCards cards={stop.supportCards ?? []} />
-                    <DocLinks links={stop.links ?? []} />
-
-                    <div className="grid gap-3 lg:grid-cols-2">
-                      {stop.reservation ? (
-                        <InfoBand
-                          icon={<Ticket className="h-4 w-4" />}
-                          label="Reserva / bloque fijo"
-                          content={stop.reservation}
-                        />
-                      ) : null}
-                      {stop.practical ? (
-                        <InfoBand
-                          icon={<Compass className="h-4 w-4" />}
-                          label="Nota operativa"
-                          content={stop.practical}
-                        />
-                      ) : null}
-                    </div>
-                  </div>
-                </article>
-              ))}
+                return (
+                  <StopCard
+                    key={stopKey}
+                    index={index}
+                    isOpen={isStopOpen}
+                    onToggle={() => toggleStop(stopKey)}
+                    stop={stop}
+                  />
+                );
+              })}
             </section>
           </div>
 
@@ -523,6 +499,193 @@ function InfoBand({
   );
 }
 
+function MobileDayDock({
+  activeDayId,
+  activeDayMeta,
+  onSelectDay,
+}: {
+  activeDayId: string;
+  activeDayMeta: string;
+  onSelectDay: (dayId: string) => void;
+}) {
+  return (
+    <section className="sticky top-0 z-40 -mx-4 border-y border-[var(--line)] bg-[rgba(251,246,241,0.92)] px-4 py-3 shadow-[0_14px_34px_rgba(43,32,24,0.12)] backdrop-blur-xl lg:hidden">
+      <div className="space-y-2">
+        <p className="truncate text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[var(--accent-deep)]">
+          {activeDayMeta}
+        </p>
+        <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+          {days.map((day) => {
+            const isActive = day.id === activeDayId;
+
+            return (
+              <button
+                key={`${day.id}-mobile-dock`}
+                type="button"
+                aria-current={isActive ? 'page' : undefined}
+                onClick={() => onSelectDay(day.id)}
+                className={[
+                  'shrink-0 rounded-full border px-4 py-2.5 text-sm font-semibold transition',
+                  isActive
+                    ? 'border-[var(--accent-soft)] bg-[var(--accent-deep)] text-white shadow-[0_12px_26px_rgba(66,42,30,0.2)]'
+                    : 'border-[var(--line)] bg-white/78 text-[var(--muted)]',
+                ].join(' ')}
+              >
+                {day.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StopCard({
+  stop,
+  index,
+  isOpen,
+  onToggle,
+}: {
+  stop: Stop;
+  index: number;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  const stopNumber = String(index + 1).padStart(2, '0');
+  const durationLabel = getStopDurationLabel(stop.time);
+
+  return (
+    <article className="timeline-card min-w-0 overflow-hidden rounded-[30px] border border-[var(--line)] bg-white/78 shadow-[0_18px_60px_rgba(43,32,24,0.08)] backdrop-blur-xl lg:grid lg:gap-5 lg:p-5 lg:grid-cols-[150px_minmax(0,1fr)]">
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left sm:px-5 lg:hidden"
+      >
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span className="text-[0.66rem] font-semibold uppercase tracking-[0.28em] text-[var(--accent-deep)]">
+              Parada {stopNumber}
+            </span>
+            <span className="font-mono text-sm font-semibold text-[var(--ink)]">{stop.time}</span>
+            {durationLabel ? <StopDurationBadge label={durationLabel} /> : null}
+          </div>
+          <h3 className="mt-2 break-words font-display text-2xl leading-tight text-[var(--ink)]">{stop.title}</h3>
+          <p className="mt-1 truncate text-sm text-[var(--muted)]">{stop.area}</p>
+        </div>
+        <ChevronDown
+          className={[
+            'h-5 w-5 shrink-0 text-[var(--accent-deep)] transition-transform',
+            isOpen ? 'rotate-180' : '',
+          ].join(' ')}
+        />
+      </button>
+
+      <div className={[isOpen ? 'grid' : 'hidden', 'min-w-0 gap-5 p-4 pt-0 sm:p-5 sm:pt-0 lg:contents'].join(' ')}>
+        <div className="hidden flex-col justify-between gap-4 rounded-[24px] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(247,236,225,0.95),rgba(255,255,255,0.82))] p-4 lg:flex">
+          <div>
+            <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[var(--accent-deep)]">
+              Parada {stopNumber}
+            </p>
+            <p className="mt-3 font-mono text-2xl text-[var(--ink)]">{stop.time}</p>
+            {durationLabel ? (
+              <div className="mt-3">
+                <StopDurationBadge label={durationLabel} />
+              </div>
+            ) : null}
+          </div>
+          <p className="text-sm leading-6 text-[var(--muted)]">{stop.area}</p>
+        </div>
+
+        <div className="min-w-0 space-y-5">
+          <div className="space-y-3">
+            <h3 className="hidden font-display text-3xl leading-tight text-[var(--ink)] lg:block">{stop.title}</h3>
+            <NarrativeParagraphs narrative={stop.narrative} />
+          </div>
+
+          {stop.image ? (
+            <JourneyImage src={stop.image} alt={stop.imageAlt ?? stop.title} />
+          ) : null}
+
+          {stop.details?.length ? (
+            <div className="grid gap-3 sm:grid-cols-2">
+              {stop.details.map((detail) => (
+                <div
+                  key={detail}
+                  className="rounded-[22px] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,240,232,0.86))] px-4 py-4 text-sm leading-7 text-[var(--muted)]"
+                >
+                  {detail}
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          <SupportCards cards={stop.supportCards ?? []} />
+          <DocLinks links={stop.links ?? []} />
+
+          <div className="grid gap-3 lg:grid-cols-2">
+            {stop.reservation ? (
+              <InfoBand
+                icon={<Ticket className="h-4 w-4" />}
+                label="Reserva / bloque fijo"
+                content={stop.reservation}
+              />
+            ) : null}
+            {stop.practical ? (
+              <InfoBand
+                icon={<Compass className="h-4 w-4" />}
+                label="Nota operativa"
+                content={stop.practical}
+              />
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function StopDurationBadge({ label }: { label: string }) {
+  return (
+    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[rgba(157,94,58,0.28)] bg-[rgba(157,94,58,0.1)] px-2.5 py-1 text-[0.68rem] font-semibold leading-none text-[var(--accent-deep)]">
+      <Clock3 className="h-3 w-3" />
+      <span>{label}</span>
+    </span>
+  );
+}
+
+function getStopDurationLabel(time: string) {
+  if (time.toLowerCase().includes('en adelante')) {
+    return 'flexible';
+  }
+
+  const range = time.match(/(\d{1,2}):(\d{2})\s*[-–]\s*(\d{1,2}):(\d{2})/);
+  if (!range) return null;
+
+  const [, startHour, startMinute, endHour, endMinute] = range;
+  const start = Number(startHour) * 60 + Number(startMinute);
+  let end = Number(endHour) * 60 + Number(endMinute);
+
+  if (end < start) {
+    end += 24 * 60;
+  }
+
+  const totalMinutes = end - start;
+  if (totalMinutes <= 0) return null;
+
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  const parts = [
+    hours ? `${hours} h` : null,
+    minutes ? `${minutes} min` : null,
+  ].filter(Boolean);
+
+  const suffix = /aprox/i.test(time) ? ' aprox.' : '';
+
+  return `${parts.join(' ')}${suffix}`;
+}
+
 function NarrativeParagraphs({ narrative }: { narrative: string | string[] }) {
   const paragraphs = Array.isArray(narrative) ? narrative : [narrative];
 
@@ -533,6 +696,25 @@ function NarrativeParagraphs({ narrative }: { narrative: string | string[] }) {
       ))}
     </div>
   );
+}
+
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia(query).matches;
+  });
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const handleChange = () => setMatches(media.matches);
+
+    handleChange();
+    media.addEventListener('change', handleChange);
+
+    return () => media.removeEventListener('change', handleChange);
+  }, [query]);
+
+  return matches;
 }
 
 function DocLinks({ links }: { links: { label: string; href: string; external?: boolean }[] }) {

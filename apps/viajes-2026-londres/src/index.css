@@ -42,7 +42,7 @@ body {
 
 body,
 #root {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body::before {
