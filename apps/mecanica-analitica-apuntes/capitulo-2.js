@@ -1,12 +1,7 @@
+const Demo = window.CourseDemos;
+
 window.addEventListener("DOMContentLoaded", () => {
-  renderMathInElement(document.body, {
-    delimiters: [
-      { left: "$$", right: "$$", display: true },
-      { left: "\\[", right: "\\]", display: true },
-      { left: "\\(", right: "\\)", display: false },
-      { left: "$", right: "$", display: false }
-    ]
-  });
+  Demo.renderMath(document.body);
 
   initHistoryFamilySketch();
   initStationaryActionSketch();
@@ -46,22 +41,15 @@ function initHistoryFamilySketch() {
     }
 
     function curveVertices(originX, originY, w, h, lambda) {
-      const pts = [];
-      for (let i = 0; i <= 60; i += 1) {
-        const u = i / 60;
-        pts.push(screenPoint(p, originX, originY, w, h, pathPoint(u, lambda)));
-      }
-      return pts;
+      return Demo.sampleCurve(60, (u) => screenPoint(p, originX, originY, w, h, pathPoint(u, lambda)));
     }
 
     p.setup = () => {
-      const canvas = p.createCanvas(host.clientWidth, vizHeight());
-      canvas.parent(host);
-      p.pixelDensity(2);
+      Demo.setupP5Canvas(p, host, vizHeight);
     };
 
     p.windowResized = () => {
-      p.resizeCanvas(host.clientWidth, vizHeight());
+      Demo.resizeP5Canvas(p, host, vizHeight);
     };
 
     p.draw = () => {
@@ -301,13 +289,11 @@ function initStationaryActionSketch() {
     }
 
     p.setup = () => {
-      const canvas = p.createCanvas(host.clientWidth, vizHeight());
-      canvas.parent(host);
-      p.pixelDensity(2);
+      Demo.setupP5Canvas(p, host, vizHeight);
     };
 
     p.windowResized = () => {
-      p.resizeCanvas(host.clientWidth, vizHeight());
+      Demo.resizeP5Canvas(p, host, vizHeight);
     };
 
     p.draw = () => {
@@ -370,27 +356,8 @@ function initGhostModel() {
     };
   }
 
-  function addState(a, b, factor) {
-    return {
-      q1: a.q1 + b.q1 * factor,
-      v1: a.v1 + b.v1 * factor,
-      q2: a.q2 + b.q2 * factor,
-      v2: a.v2 + b.v2 * factor
-    };
-  }
-
   function rk4Step(state, epsilon, w1, w2, dt) {
-    const k1 = deriv(state, epsilon, w1, w2);
-    const k2 = deriv(addState(state, k1, dt / 2), epsilon, w1, w2);
-    const k3 = deriv(addState(state, k2, dt / 2), epsilon, w1, w2);
-    const k4 = deriv(addState(state, k3, dt), epsilon, w1, w2);
-
-    return {
-      q1: state.q1 + (dt / 6) * (k1.q1 + 2 * k2.q1 + 2 * k3.q1 + k4.q1),
-      v1: state.v1 + (dt / 6) * (k1.v1 + 2 * k2.v1 + 2 * k3.v1 + k4.v1),
-      q2: state.q2 + (dt / 6) * (k1.q2 + 2 * k2.q2 + 2 * k3.q2 + k4.q2),
-      v2: state.v2 + (dt / 6) * (k1.v2 + 2 * k2.v2 + 2 * k3.v2 + k4.v2)
-    };
+    return Demo.rk4Object(state, dt, (candidate) => deriv(candidate, epsilon, w1, w2));
   }
 
   function energies(state, epsilon, w1, w2) {
@@ -543,13 +510,11 @@ function initGhostModel() {
     }
 
     p.setup = () => {
-      const canvas = p.createCanvas(host.clientWidth, vizHeight());
-      canvas.parent(host);
-      p.pixelDensity(2);
+      Demo.setupP5Canvas(p, host, vizHeight);
     };
 
     p.windowResized = () => {
-      p.resizeCanvas(host.clientWidth, vizHeight());
+      Demo.resizeP5Canvas(p, host, vizHeight);
     };
 
     p.draw = () => {

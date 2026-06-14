@@ -25,7 +25,7 @@
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <link rel="stylesheet" href="./course.css" />
+    <link rel="stylesheet" href="./course.css?v=2026-05-08-ch1" />
   </head>
   <body>
     <div class="page">
@@ -35,11 +35,11 @@
             <div class="eyebrow">Curso visual interactivo · Capítulo 1</div>
             <h1>1. Qué hay que saber antes de escribir una ley</h1>
             <p>
-              Este primer capítulo no arranca preguntando por fuerzas o por una
-              ecuación concreta. Arranca antes: qué parte del mundo escogemos,
-              cómo se describe una configuración, cuántos grados de libertad
-              tiene de verdad un sistema y qué clase de memoria necesita una ley
-              dinámica para parecerse al mundo que observamos.
+              Históricamente la mecánica suele arrancar con <em>F=ma</em>. Aquí
+              haremos lo contrario: antes de aceptar una ecuación concreta,
+              construiremos el tipo de descripción sobre el que una ley podría
+              actuar: principios rectores, pregunta física, sistema, modelo,
+              configuración, grados de libertad, ley dinámica y estado mínimo.
             </p>
             <div class="hero-actions">
               <a class="btn secondary" href="./index.html">Índice del curso</a>
@@ -48,12 +48,11 @@
           </div>
 
           <aside class="quote-card">
-            <div class="label">La pregunta buena</div>
-            <div class="equation">\( \text{estado} \neq \text{foto} \)</div>
+            <div class="label">Principio rector</div>
+            <div class="equation">\( \text{física} \neq \text{etiquetas} \)</div>
             <p>
-              La configuración te dice cómo está el sistema. El estado te dice
-              cuánto necesitas saber para no perder su futuro. Si esa idea queda
-              clara, el resto del curso empieza a encajar.
+              Las coordenadas pueden revelar u ocultar la estructura, pero no
+              deben cambiar el contenido físico.
             </p>
           </aside>
         </div>
@@ -63,164 +62,318 @@
         <aside class="toc">
           <h2>Capítulo 1</h2>
           <nav>
-            <a href="#foto">1.1 Lo que una foto no te dice</a>
-            <a href="#sistema-configuracion">1.2 Sistema y configuración</a>
-            <a href="#modelar">1.3 Modelar es decidir qué dejamos dentro</a>
-            <a href="#grados-libertad">1.4 Grados de libertad y coordenadas</a>
-            <a href="#ley">1.5 Qué es una ley dinámica</a>
-            <a href="#mundos">1.6 Tres clases de mundo posibles</a>
-            <a href="#reversibilidad">1.7 Reversibilidad</a>
-            <a href="#estado">1.8 Estado</a>
-            <a href="#espacio-estados">1.9 Espacio de estados</a>
-            <a href="#punto-de-partida">1.10 Punto de partida</a>
-            <a href="#nueva-pregunta">1.11 Nueva pregunta</a>
+            <a href="#inicio">1.1 Por qué no empezar por F=ma</a>
+            <a href="#principios-rectores">1.2 Principios rectores</a>
+            <a href="#fenomeno">1.3 Del fenómeno a la pregunta física</a>
+            <a href="#sistema">1.4 Qué llamaremos sistema</a>
+            <a href="#modelar">1.5 Modelar es decidir qué conservamos</a>
+            <a href="#configuracion">1.6 Qué llamaremos configuración</a>
+            <a href="#coordenadas-etiquetas">1.7 Las coordenadas son etiquetas, no física</a>
+            <a href="#grados-libertad">1.8 Grados de libertad y coordenadas generalizadas</a>
+            <a href="#movimiento">1.9 Movimiento como curva en el espacio de configuraciones</a>
+            <a href="#ley">1.10 Qué es una ley dinámica</a>
+            <a href="#local-determinista">1.11 Qué significan local y determinista</a>
+            <a href="#flujo-presente">1.12 Una ley local como campo de flechas</a>
+            <a href="#intento-solo-configuracion">1.13 Intento 1: solo configuración</a>
+            <a href="#intento-dato-cambio">1.14 Intento 2: configuración + dato de cambio</a>
+            <a href="#intento-mas-memoria">1.15 Intento 3: añadir más memoria</a>
+            <a href="#reversibilidad">1.16 Una precisión sobre reversibilidad</a>
+            <a href="#estado">1.17 Estado mínimo y punto de partida</a>
+            <a href="#resumen-visual">1.18 Resumen visual</a>
+            <a class="toc-next" href="./capitulo-2.html">Capítulo siguiente: 2. Del modelo a las leyes posibles</a>
           </nav>
         </aside>
 
         <main class="content">
 
-          <section id="foto" class="section-card">
-            <div class="eyebrow">1.1 Foto</div>
-            <h2>Lo que una foto no te dice</h2>
+          <section id="inicio" class="section-card">
+            <div class="eyebrow">1.1 Inicio</div>
+            <h2>Por qué no empezar por F=ma</h2>
             <p>
-              Si quieres aprender mecánica desde primeros principios, hay una
-              idea muy simple con la que conviene empezar. No es una ecuación.
-              Es una pregunta.
-            </p>
-            <p>
-              Supón que te doy una fotografía de una partícula moviéndose sobre
-              una línea. En la foto ves que, en cierto instante \(t_0\), la
-              partícula está en
+              En la enseñanza habitual de la mecánica, la primera gran frase
+              suele ser
             </p>
             <div class="equation-box">
               \[
-              x(t_0)=0.
+              F=ma.
               \]
             </div>
             <p>
-              ¿Has aprendido ya todo lo importante? Todavía no. La partícula
-              puede estar yendo hacia la derecha, hacia la izquierda o puede
-              estar detenida justo en ese instante.
+              Eso parece natural, pero si quieres entender la física desde
+              primeros principios introduce un sesgo muy fuerte desde el primer
+              minuto. Ya has aceptado que la ley va a escribirse en términos de
+              fuerzas, que la aceleración es el objeto central a predecir y que
+              el tipo de presente que necesita la teoría ya viene decidido.
             </p>
             <p>
-              La foto te dice dónde está, pero no te dice qué va a hacer a
-              continuación.
+              Todo eso puede ser correcto para la mecánica ordinaria. Lo que no
+              conviene es fingir que cae del cielo.
             </p>
             <p>
-              Éste es el primer hecho serio de la mecánica: conocer la posición
-              no siempre basta para predecir el movimiento. Hace falta, además,
-              algún dato sobre cómo está cambiando el sistema.
+              En este capítulo vamos a hacer algo más lento y más limpio. En
+              lugar de empezar por la ecuación, vamos a construir el tipo de
+              descripción sobre el que una ley podría actuar.
             </p>
             <p>
-              Si prefieres un ejemplo menos abstracto, piensa en un péndulo. En
-              un cierto instante puede pasar por el mismo ángulo \(\theta\) dos
-              veces: una cuando sube y otra cuando baja. La geometría
-              instantánea es la misma, pero el futuro inmediato no. Luego
-              tampoco ahí basta una fotografía.
+              Primero fijaremos algunos principios rectores: qué cosas no puede
+              decidir una elección de descripción y qué clase de leyes vamos a
+              estudiar. Después aclararemos qué fenómeno queremos explicar y qué
+              pregunta física estamos intentando responder. Luego decidiremos
+              qué parte del mundo cuenta como sistema. A continuación
+              construiremos un modelo: qué idealizaciones aceptamos, qué efectos
+              conservamos y qué dejamos fuera. Solo entonces hablaremos de
+              configuración, de grados de libertad, de coordenadas, de leyes
+              dinámicas y del estado mínimo que hace falta para continuar la
+              historia sin contradicciones.
             </p>
             <p>
-              Así que la primera pregunta de la mecánica no es todavía “qué
-              fuerza actúa?”. La primera pregunta es más modesta y más profunda:
-              <em>¿qué hay que saber en un instante para no equivocarse sobre el
-              instante siguiente?</em>
+              La idea no es negar Newton. La idea es llegar a él sin meterlo por
+              la puerta trasera.
             </p>
-
-            <article class="world-card" style="margin-top: 22px;">
-              <div class="world-head">
-                <div>
-                  <h3>Demo interactiva: misma configuración, dos futuros</h3>
-                  <p>
-                    El contrato pedagógico aquí es muy concreto: hacer visible
-                    que una misma configuración instantánea no fija por sí sola
-                    el futuro inmediato.
-                  </p>
-                </div>
-                <button class="btn secondary" id="reset-photo-state" type="button">Reset</button>
-              </div>
-
-              <div class="world-body">
-                <p>
-                  Cómo leerla: la foto fija el ángulo \(\theta\), pero no el
-                  signo de \(\dot\theta\). En cuanto haces visible ese dato de
-                  cambio, aparecen dos presentes distintos saliendo de la misma
-                  configuración.
-                </p>
-
-                <div class="world-grid">
-                  <div>
-                    <div id="viz-photo-state" class="viz-shell"></div>
-                  </div>
-
-                  <div class="world-side">
-                    <div class="stat-box">
-                      <h4>La foto</h4>
-                      <p>
-                        Fija la configuración: aquí, el ángulo \(\theta\). Eso
-                        te dice dónde está la masa, pero no si viene de un lado
-                        o del otro.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Lo que falta</h4>
-                      <p>
-                        Hace falta, además, algún dato sobre cómo está
-                        cambiando el sistema. En este ejemplo, el signo de
-                        \(\dot\theta\).
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Moraleja</h4>
-                      <p>
-                        La primera pregunta de la mecánica no es todavía “qué
-                        fuerza actúa”, sino “qué hay que saber en un instante
-                        para no equivocarse sobre el instante siguiente?”.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
           </section>
 
-          <section id="sistema-configuracion" class="section-card">
-            <div class="eyebrow">1.2 Sistema y configuración</div>
-            <h2>Sistema y configuración</h2>
+          <section id="principios-rectores" class="section-card">
+            <div class="eyebrow">1.2 Principios rectores</div>
+            <h2>Principios rectores: qué no puede decidir una descripción</h2>
             <p>
-              Ahora sí podemos poner nombres. La primera palabra es
-              <strong>sistema</strong>. Eso significa simplemente:
-              <em>qué parte del mundo hemos decidido estudiar</em>. Si digo “voy
-              a estudiar un péndulo”, esa decisión viene primero. Todavía no he
-              dicho cómo lo voy a describir; solo he dicho cuál es mi objeto.
+              Antes de empezar a recortar sistemas y escribir variables,
+              conviene fijar unas reglas de juego. No son axiomas absolutos
+              sobre todo lo que puede llamarse física. Son
+              <strong>criterios de admisibilidad</strong> para la clase de
+              mecánica que queremos construir: condiciones que no nos dicen
+              todavía cuál es la ley correcta, pero sí descartan leyes que han
+              metido estructura espuria.
             </p>
             <p>
-              La segunda palabra es <strong>configuración</strong>. Una vez
-              fijado el sistema, la configuración dice cómo está colocado en ese
-              instante. Para una partícula en una línea, la configuración puede
-              quedar dada por \(x\). Para un péndulo, por el ángulo \(\theta\).
-              Si estudias muchas partículas sin vínculos, la configuración será
-              el conjunto de sus posiciones.
+              No todos tienen el mismo estatuto. Algunos son higiene de
+              descripción, otros son simetrías del espacio y del tiempo, y otros
+              son hipótesis de trabajo sobre la clase de leyes que queremos
+              estudiar. Pero todos cumplen la misma función: si una ley los
+              viola, debe pagar el precio explicando qué estructura física
+              adicional ha introducido.
+            </p>
+
+            <ol>
+              <li id="criterio-covariancia">
+                <p>
+                  <strong>Covariancia descriptiva, o independencia de coordenadas.</strong>
+                  La física no puede depender de nuestras etiquetas. Puedes
+                  describir el mismo sistema con coordenadas cartesianas,
+                  ángulos, distancias o cualquier otro sistema regular de
+                  nombres. Las ecuaciones pueden cambiar de forma al cambiar de
+                  coordenadas; lo que no puede cambiar es el contenido físico:
+                  qué movimientos son posibles, cuántos grados de libertad hay
+                  y qué predicciones se hacen. Una coordenada puede revelar la
+                  estructura; no puede crearla.
+                </p>
+              </li>
+              <li id="criterio-simetrias">
+                <p>
+                  <strong>Compatibilidad con las simetrías del modelo.</strong>
+                  Si el modelo físico no distingue dos situaciones, la ley no
+                  puede distinguirlas por su cuenta. Dicho de otro modo: una
+                  simetría del sistema debe transformar soluciones admisibles en
+                  soluciones admisibles. Ésta es la versión práctica del
+                  principio de Curie: una asimetría en el comportamiento debe
+                  venir de alguna asimetría en la situación física, no de la
+                  notación.
+                </p>
+              </li>
+              <li id="criterio-homogeneidad-espacio">
+                <p>
+                  <strong>Homogeneidad del espacio.</strong>
+                  En espacio vacío, ningún punto está marcado. Una ley para un
+                  sistema libre no puede señalar un origen, un centro o una
+                  posición atractora salvo que el modelo contenga algo que haga
+                  físicamente especial ese lugar: una pared, un anclaje, un
+                  campo externo, un medio o una condición de contorno.
+                </p>
+              </li>
+              <li id="criterio-isotropia-espacio">
+                <p>
+                  <strong>Isotropía del espacio.</strong>
+                  En espacio vacío, ninguna dirección ni ningún sentido están
+                  marcados. Una ley libre no puede traer incorporada una flecha
+                  espacial universal. Si aparece una dirección privilegiada,
+                  debe haber una estructura física que la sostenga: un campo,
+                  una rotación externa, una guía, un flujo del medio o alguna
+                  anisotropía real.
+                </p>
+              </li>
+              <li id="criterio-homogeneidad-tiempo">
+                <p>
+                  <strong>Homogeneidad del tiempo.</strong>
+                  Para un sistema aislado, las reglas no deben depender del
+                  instante elegido como origen temporal. Si haces hoy el mismo
+                  experimento ideal que ayer, con la misma preparación física,
+                  la ley no debería cambiar solo porque el reloj marque otro
+                  valor. Una dependencia explícita del tiempo puede ser
+                  legítima, pero entonces suele señalar algo externo: un motor,
+                  una fuerza aplicada desde fuera, un parámetro que se modifica
+                  o un entorno que no hemos incluido como parte del sistema.
+                </p>
+              </li>
+              <li id="criterio-relatividad-galileana">
+                <p>
+                  <strong>Principio de relatividad galileana.</strong>
+                  En mecánica no relativista, ningún sistema inercial debe ser
+                  privilegiado. Si un laboratorio se mueve con velocidad
+                  constante respecto de otro, las leyes mecánicas internas deben
+                  tener la misma forma. Esto no dice que todas las velocidades
+                  sean iguales dentro de una preparación; dice que una velocidad
+                  uniforme común de todo el laboratorio no debe convertirse en
+                  una propiedad absoluta del mundo. Más adelante este principio
+                  será decisivo para entender por qué la partícula libre no
+                  puede depender de \(v\) de cualquier manera.
+                </p>
+              </li>
+              <li id="criterio-localidad-temporal">
+                <p>
+                  <strong>Localidad temporal.</strong>
+                  Una ley local decide la continuación inmediata usando
+                  información del presente, no consultando toda la historia
+                  pasada ni un tramo entero del futuro. La razón pedagógica para
+                  empezar por leyes locales es simple: solo entonces tiene
+                  sentido preguntar cuál es el paquete mínimo de datos que debe
+                  contener el presente. Una ley no local no es absurda, pero
+                  cambia el problema: la memoria que parecía faltar quizá vive
+                  en una historia previa, en variables eliminadas o en
+                  condiciones globales sobre la trayectoria completa.
+                </p>
+              </li>
+              <li id="criterio-determinismo-local">
+                <p>
+                  <strong>Determinismo local, o unicidad de continuación.</strong>
+                  Si dos historias comparten exactamente el mismo presente
+                  físico suficiente, una ley determinista no puede hacerlas
+                  separarse inmediatamente. Si se separan, o falta información
+                  en el presente, o la ley no es determinista, o el modelo no
+                  pertenece a la familia que estamos construyendo.
+                </p>
+              </li>
+              <li id="criterio-reversibilidad-temporal">
+                <p>
+                  <strong>Reversibilidad temporal del núcleo ideal.</strong>
+                  Para la mecánica ideal que tomaremos como punto de partida, no
+                  basta con poder integrar una ecuación hacia atrás. Pediremos
+                  algo más fuerte: si una película del movimiento es admisible,
+                  la película invertida debe ser admisible en la misma clase de
+                  ley, cambiando de signo las magnitudes impares bajo inversión
+                  temporal. Cuando una descripción no es reversible, puede
+                  seguir siendo útil: puede describir rozamiento, relajación,
+                  promediado de variables o un sistema abierto. Pero entonces ya
+                  no estamos viendo el núcleo mecánico desnudo, sino una
+                  dinámica efectiva donde algo quedó fuera.
+                </p>
+              </li>
+              <li id="criterio-estado-minimo">
+                <p>
+                  <strong>Completitud y minimalidad del estado.</strong>
+                  El presente debe contener suficiente información física para
+                  continuar la historia, pero no debe contener memoria libre sin
+                  interpretación. Si una ley exige un dato inicial extra, hay que
+                  preguntar qué entidad física representa ese dato. Si no
+                  sabemos decirlo, quizá hemos escrito una descripción con
+                  demasiada memoria, o quizá hemos eliminado grados de libertad
+                  que deberían volver al modelo.
+                </p>
+              </li>
+            </ol>
+
+            <p>
+              Estas reglas son potentes precisamente porque tienen forma
+              negativa. No dicen: “la ley debe ser tal fórmula”. Dicen: “dado
+              que la física no sabe qué coordenadas elegimos, no puede depender
+              de eso”; “dado que el espacio vacío es homogéneo e isótropo, no
+              puede aparecer un lugar ni una dirección especial sin causa
+              física”; “dado que queremos una ley local, la memoria necesaria
+              debe estar en el presente”; “dado que queremos una mecánica ideal
+              reversible, no basta con una regla que solo fluye en un sentido
+              del tiempo”.
             </p>
             <p>
-              Todavía no hemos dicho qué información mínima hace falta para
-              continuar la historia. Eso no se decide solo mirando la
-              configuración. Se decide cuando también aclaras
-              <em>qué clase de ley dinámica</em> va a gobernar el movimiento.
+              Éste será el hilo conductor del capítulo. Cada vez que una
+              posibilidad parezca matemática pero sospechosa, preguntaremos qué
+              criterio está violando o qué estructura física nueva exige para
+              dejar de violarlo.
+            </p>
+          </section>
+
+          <section id="fenomeno" class="section-card">
+            <div class="eyebrow">1.3 Pregunta física</div>
+            <h2>Del fenómeno a la pregunta física</h2>
+            <p>
+              El mundo no viene dividido de antemano en problemas de mecánica.
+              Viene como fenómeno. Ves un péndulo oscilar, una bola subir y
+              bajar, un planeta recorrer el cielo o una molécula vibrar.
             </p>
             <p>
-              Por eso conviene separar bien las preguntas. La configuración dice
-              cómo está colocado el sistema. La cuestión de qué más hace falta
-              saber para no perder el futuro la dejaremos para después, cuando
-              comparemos mundos posibles con leyes de distinto orden.
+              Pero todavía no hay una teoría. Ni siquiera hay un problema bien
+              formulado. Antes de escribir una ecuación hay que decidir qué
+              queremos explicar.
+            </p>
+            <p>
+              Con el mismo péndulo puedes hacer preguntas muy distintas. Puedes
+              querer calcular su periodo. Puedes querer saber cuándo se rompe el
+              hilo. Puedes estudiar cómo pierde energía por rozamiento. Puedes
+              investigar si el soporte vibra. Cada pregunta cambia qué detalles
+              son esenciales y cuáles pueden quedar, por ahora, fuera de foco.
+            </p>
+            <p>
+              Éste es el primer gesto constructivo: una descripción física no
+              empieza con símbolos, sino con una pregunta que da criterio al
+              recorte. Sin una pregunta, “simplificar” sería solo quitar cosas
+              al azar. Con una pregunta, simplificar puede convertirse en una
+              decisión controlada.
+            </p>
+          </section>
+
+          <section id="sistema" class="section-card">
+            <div id="sistema-configuracion"></div>
+            <div class="eyebrow">1.4 Sistema</div>
+            <h2>Qué llamaremos sistema</h2>
+            <p>
+              Una vez tienes una pregunta, puedes aislar la
+              primera palabra importante: <strong>sistema</strong>.
+            </p>
+            <p>
+              Un sistema no es todavía una ecuación ni un conjunto de
+              coordenadas. Es la parte del mundo que has decidido poner dentro
+              del problema.
+            </p>
+            <p>
+              Si dices “voy a estudiar un péndulo”, puedes querer decir cosas
+              ligeramente distintas. Tal vez incluyes solo la masa y la varilla.
+              Tal vez añades el soporte. Tal vez dejas fuera el aire de la
+              habitación, las deformaciones microscópicas del material y todo lo
+              demás que no quieres seguir en detalle.
+            </p>
+            <p>
+              La cuestión no es que exista un único recorte correcto. La
+              cuestión es que siempre hay un recorte. Y ese recorte organiza
+              desde el principio lo que cuenta como interior y lo que queda
+              fuera.
+            </p>
+            <p>
+              Todo lo que dejas fuera puede seguir importando, pero ya no como
+              parte del sistema mismo. Entrará, si hace falta, como entorno,
+              como parámetro, como restricción o como influencia efectiva.
+            </p>
+            <p>
+              Antes de cualquier ley, la mecánica empieza con este acto de
+              contabilidad: decidir qué entra en el problema y qué queda fuera
+              de foco.
             </p>
 
             <article class="world-card" style="margin-top: 22px;">
               <div class="world-head">
                 <div>
-                  <h3>Demo interactiva: primero el recorte, luego la colocación</h3>
+                  <h3>Demo interactiva: qué eliges como sistema</h3>
                   <p>
-                    Aquí la idea no es todavía hablar del estado. Es distinguir
-                    con limpieza dos decisiones distintas: qué parte del mundo
-                    metes dentro y cómo describes su colocación.
+                    La visualización no introduce todavía una ley. Solo deja
+                    visible que, al cambiar qué queda dentro del problema,
+                    cambia también la clase de descripción geométrica que tendrá
+                    sentido después.
                   </p>
                 </div>
                 <button class="btn secondary" id="reset-system-config" type="button">Reset</button>
@@ -229,8 +382,9 @@
               <div class="world-body">
                 <p>
                   Cambia entre partícula, péndulo y péndulo doble. El panel de
-                  la izquierda representa el sistema elegido. El de la derecha,
-                  la configuración natural que lo describe.
+                  la izquierda representa el sistema elegido. El de la derecha
+                  anticipa la clase de configuración natural que ese recorte va
+                  a pedir.
                 </p>
                 <div class="control-row">
                   <label>caso</label>
@@ -245,8 +399,14 @@
           </section>
 
           <section id="modelar" class="section-card">
-            <div class="eyebrow">1.3 Modelado</div>
-            <h2>Modelar es decidir qué dejamos dentro</h2>
+            <div class="eyebrow">1.5 Modelado</div>
+            <h2>Modelar es decidir qué conservamos</h2>
+            <p>
+              Elegir el sistema todavía no basta. Una vez sabes qué parte del
+              mundo vas a estudiar, tienes que decidir con qué nivel de detalle
+              la vas a representar. A eso lo llamaremos aquí construir un
+              modelo.
+            </p>
             <p>
               Volvamos al péndulo. El péndulo real no es una bolita ideal
               colgando de una línea perfecta. Hay rozamiento con el aire,
@@ -254,22 +414,24 @@
               calentamiento imperceptible y mil detalles más.
             </p>
             <p>
-              Sin embargo, si lo que queremos entender es el movimiento
-              principal, no hace falta cargar desde el principio con todo eso.
-              Podemos empezar por una versión más sobria del problema: una masa
-              puntual, una longitud fija y un ángulo \(\theta(t)\) que cambia
-              con el tiempo.
+              Sin embargo, si la pregunta es entender el movimiento principal,
+              no hace falta cargar desde el principio con todo eso. Podemos
+              empezar por una versión más sobria del problema: una masa puntual,
+              una longitud fija y un ángulo \(\theta(t)\) que cambia con el
+              tiempo.
             </p>
             <p>
-              Eso es modelar. No negar que existan más efectos, sino decidir
-              cuáles son los primeros que merece la pena conservar. Una buena
-              simplificación no es una fantasía: es una versión del problema que
-              todavía deja visible lo esencial.
+              Eso es modelar. No negar que existan más efectos. Decidir cuáles
+              son los primeros que merece la pena conservar porque son los que
+              responden a la pregunta planteada. Una buena simplificación no es
+              una fantasía: es una versión del problema que todavía deja visible
+              lo esencial.
             </p>
             <p>
               Y esto importa mucho para lo que vendrá después. Antes de elegir
-              ecuaciones, ya has elegido un sistema, unas variables y una
-              frontera entre lo que entra y lo que queda fuera. Esa primera poda
+              ecuaciones, ya has elegido una pregunta, un sistema, unas
+              idealizaciones y una frontera entre lo que entra de forma explícita
+              y lo que queda como entorno o corrección. Esa primera poda
               conceptual condiciona toda la teoría.
             </p>
 
@@ -304,23 +466,131 @@
             </article>
           </section>
 
-          <section id="grados-libertad" class="section-card">
-            <div class="eyebrow">1.4 Grados de libertad</div>
-            <h2>Grados de libertad y coordenadas</h2>
+          <section id="configuracion" class="section-card">
+            <div id="observamos"></div>
+            <div class="eyebrow">1.6 Configuración</div>
+            <h2>Qué llamaremos configuración</h2>
             <p>
-              Una vez has decidido qué sistema estudias, todavía queda otra
-              elección: <em>cómo describirlo</em>. Y aquí conviene distinguir dos
-              ideas que a veces se mezclan.
+              Una vez fijado el sistema, la siguiente pregunta ya no es qué hay
+              dentro ni qué idealizaciones aceptas, sino cómo está colocado ese
+              sistema en un instante. A eso lo llamaremos
+              <strong>configuración</strong>.
+            </p>
+            <p>
+              Para una partícula en una línea, la configuración puede quedar
+              dada por \(x\). Para un péndulo, por el ángulo \(\theta\). Si
+              estudias muchas partículas sin vínculos, la configuración será el
+              conjunto de sus posiciones.
+            </p>
+            <p>
+              La configuración es, por así decir, la foto geométrica del
+              sistema. Te dice cómo está. No te dice todavía cómo está
+              cambiando.
+            </p>
+            <p>
+              La configuración responde a una pregunta geométrica:
+              <em>qué forma tiene el sistema en ese instante</em>. Todavía no
+              estamos preguntando si esa información basta o no para continuar
+              la historia.
+            </p>
+            <p>
+              El conjunto de todas las configuraciones admitidas por el modelo
+              se llama <strong>espacio de configuraciones</strong>. Lo
+              denotaremos a menudo por \(Q\). Cada configuración concreta es un
+              punto de \(Q\).
+            </p>
+            <p>
+              Esta idea es más importante de lo que parece. Si el modelo de
+              péndulo impone longitud fija, no todas las posiciones \((x,y)\)
+              del plano son configuraciones admitidas. La masa solo puede ocupar
+              puntos de una circunferencia. El espacio de configuraciones no es
+              entonces todo el plano: es la geometría que queda viva después de
+              imponer los vínculos del modelo.
+            </p>
+            <p>
+              La siguiente cuestión será ésta: <em>cómo describir \(Q\) sin
+              redundancias</em>. Ahí aparecerán los grados de libertad y las
+              coordenadas generalizadas.
+            </p>
+          </section>
+
+          <section id="coordenadas-etiquetas" class="section-card">
+            <div class="eyebrow">1.7 Descripción</div>
+            <h2>Las coordenadas son etiquetas, no física</h2>
+            <p>
+              Antes de elegir coordenadas, conviene volver al criterio de
+              <a href="#criterio-covariancia">covariancia descriptiva</a>:
+              <strong>la física no puede depender de cómo etiquetamos las
+              configuraciones</strong>.
+            </p>
+            <p>
+              Una configuración es un punto de \(Q\). Las coordenadas son nombres
+              que ponemos a esos puntos. Pueden ser nombres muy útiles, o nombres
+              torpes, pero no son la cosa física misma.
+            </p>
+            <p>
+              Piensa en una ciudad. Puedes localizar el mismo lugar con una
+              dirección postal, con latitud y longitud o con coordenadas en un
+              mapa local. El lugar no cambia. Cambia el sistema de etiquetas.
+            </p>
+            <p>
+              Con un sistema mecánico ocurre lo mismo. Si una afirmación cambia
+              al cambiar de coordenadas, hay que sospechar: quizá no hemos
+              formulado todavía una afirmación física, sino una afirmación sobre
+              nuestra manera de describir.
+            </p>
+            <p>
+              Esto no significa que todas las coordenadas sean igual de buenas.
+              Una mala elección puede esconder vínculos, introducir redundancias
+              o hacer que una idea simple parezca complicada. Una buena elección,
+              en cambio, deja visible la geometría del problema. Pero la elección
+              no debe alterar el contenido físico.
+            </p>
+            <div class="concept-card" style="margin-top: 22px;">
+              <h3>Principio rector</h3>
+              <p>
+                La física no sabe cómo la hemos etiquetado.
+              </p>
+            </div>
+          </section>
+
+          <section id="grados-libertad" class="section-card">
+            <div class="eyebrow">1.8 Grados de libertad</div>
+            <h2>Grados de libertad y coordenadas generalizadas</h2>
+            <p>
+              Una vez has fijado qué sistema estudias y cuál es su espacio de
+              configuraciones, todavía queda otra elección:
+              <em>cómo parametrizar ese espacio</em>. Y ahora el principio
+              anterior se vuelve operativo. No buscamos coordenadas porque la
+              física las necesite como objetos fundamentales. Las buscamos porque
+              necesitamos etiquetas que describan \(Q\) sin engañarnos.
+            </p>
+            <p>
+              Aquí conviene distinguir dos ideas que a veces se mezclan.
             </p>
             <p>
               La primera es el <strong>grado de libertad</strong>: cuántos
               parámetros independientes hacen falta para fijar la configuración.
-              La segunda es la <strong>coordenada</strong>: qué etiquetas
-              concretas vas a usar para describir esa configuración.
+              La segunda es la <strong>coordenada generalizada</strong>: qué
+              etiquetas independientes vas a usar para describirla sin
+              redundancias.
             </p>
             <p>
               En los ejemplos más simples, ambas cosas casi se confunden. Pero
               en cuanto aparecen vínculos, la diferencia se vuelve decisiva.
+            </p>
+            <p>
+              Lo profundo aquí no es cuántos símbolos escribes al principio,
+              sino cuántos parámetros independientes hacen falta de verdad. Ese
+              número es el número de grados de libertad. Una vez lo conoces, una
+              elección de coordenadas generalizadas es una forma de etiquetar los
+              puntos de \(Q\) sin arrastrar redundancias innecesarias. No cambia
+              el sistema: cambia la claridad con que lo estamos nombrando.
+              Aquí actúan a la vez la
+              <a href="#criterio-covariancia">covariancia descriptiva</a> y la
+              <a href="#criterio-estado-minimo">minimalidad de la descripción
+              física</a>: escribir variables redundantes no crea nuevos grados
+              de libertad.
             </p>
             <p>
               Piensa otra vez en el péndulo. Puedes describir la masa por sus
@@ -339,8 +609,16 @@
             </p>
             <p>
               El ángulo \(\theta\) ve desde el principio lo que las coordenadas
-              cartesianas esconden: que el movimiento real ocurre sobre una
-              familia muy particular de configuraciones.
+              cartesianas esconden: que las configuraciones admitidas viven
+              sobre una familia muy particular dentro del plano. Por eso
+              \(\theta\) es una buena coordenada generalizada: una variable
+              independiente basta para fijar la configuración efectiva.
+            </p>
+            <p>
+              El péndulo no se vuelve distinto al usar \(\theta\). Simplemente
+              dejamos de pedirle a la descripción que recuerde, mediante una
+              restricción, algo que la coordenada angular ya respeta desde el
+              principio.
             </p>
 
             <article class="world-card" style="margin-top: 22px;">
@@ -360,7 +638,7 @@
                 <p>
                   Mueve el ángulo y compara ambos paneles. A la izquierda ves
                   cartesianas con restricción. A la derecha, una coordenada
-                  adaptada que ya incorpora la geometría del problema.
+                  generalizada que ya incorpora la geometría del problema.
                 </p>
 
                 <div class="world-grid">
@@ -391,12 +669,11 @@
                       </p>
                     </div>
                     <div class="stat-box">
-                      <h4>Coordenada adaptada</h4>
+                      <h4>Coordenada generalizada</h4>
                       <p>
                         El ángulo \(\theta\) ve desde el principio lo que las
-                        cartesianas esconden: el movimiento real del sistema
-                        ocurre sobre una familia muy particular de
-                        configuraciones.
+                        cartesianas esconden: las configuraciones admitidas
+                        viven sobre una familia muy particular dentro del plano.
                       </p>
                     </div>
                   </div>
@@ -406,7 +683,8 @@
 
             <p>
               En un sistema algo más rico, la diferencia entre una descripción
-              torpe y una descripción adaptada se vuelve mucho más visible.
+              torpe y una descripción en coordenadas generalizadas se vuelve
+              mucho más visible.
               Piensa en un péndulo doble.
             </p>
             <p>
@@ -438,9 +716,10 @@
                 <div>
                   <h3>Demo interactiva: péndulo doble</h3>
                   <p>
-                    El contraste relevante aquí no es “difícil vs fácil”, sino
-                    “descripción redundante vs descripción adaptada a la
-                    geometría real del sistema”.
+                  El contraste relevante aquí no es “difícil vs fácil”, sino
+                  “descripción redundante vs descripción en coordenadas
+                  generalizadas y respetuosas con la
+                  geometría real del sistema”.
                   </p>
                 </div>
                 <button class="btn secondary" id="reset-double-pendulum-config" type="button">Reset</button>
@@ -486,12 +765,12 @@
                       </p>
                     </div>
                     <div class="stat-box">
-                      <h4>Coordenadas adaptadas</h4>
+                      <h4>Coordenadas generalizadas</h4>
                       <p>
                         Los ángulos \((\theta_1,\theta_2)\) muestran desde el
-                        principio qué puede cambiar de verdad. La dinámica sigue
-                        siendo rica, pero deja de estar sepultada bajo
-                        redundancias.
+                        principio qué puede cambiar de verdad. La descripción
+                        sigue teniendo geometría rica, pero deja de estar
+                        sepultada bajo redundancias.
                       </p>
                     </div>
                   </div>
@@ -500,23 +779,65 @@
             </article>
 
             <p>
-              En coordenadas adaptadas se vuelve mucho más visible que las dos
-              barras están acopladas: mover la superior arrastra a la inferior.
-              Incluso para pequeñas oscilaciones aparece intercambio de energía
-              entre modos. Y cuando las amplitudes crecen, la dinámica puede
-              hacerse muy sensible a las condiciones iniciales.
+              En coordenadas generalizadas se vuelve mucho más visible la
+              geometría real del sistema: la posición de la segunda masa depende
+              de ambos ángulos, no de cuatro coordenadas libres. El péndulo
+              doble no es “dos puntos cualesquiera del plano”, sino una familia
+              de configuraciones construida por dos giros encadenados.
             </p>
             <p>
               No hace falta desarrollar aquí el péndulo doble completo. Lo
               importante es notar esto: cuando las coordenadas respetan la
-              geometría del sistema, la complejidad real aparece ordenada;
-              cuando no la respetan, primero peleas con la descripción y solo
-              mucho después con la física.
+              geometría del sistema, la descripción empieza ordenada; cuando no
+              la respetan, primero peleas con redundancias y solo mucho después
+              puedes ver la física. La teoría que construiremos debe sobrevivir
+              a ese cambio de etiquetas.
+            </p>
+          </section>
+
+          <section id="movimiento" class="section-card">
+            <div class="eyebrow">1.9 Movimiento</div>
+            <h2>Movimiento como curva en el espacio de configuraciones</h2>
+            <p>
+              Hasta ahora no hemos escrito ninguna ley. Solo hemos construido el
+              escenario. Tenemos un sistema, un modelo, un espacio de
+              configuraciones \(Q\) y unas coordenadas \(q\) que etiquetan sus
+              puntos.
+            </p>
+            <p>
+              ¿Qué sería entonces un movimiento? Antes de hablar de fuerzas o de
+              acciones, un movimiento es simplemente una sucesión de
+              configuraciones: una curva en \(Q\). En símbolos,
+            </p>
+            <div class="equation-box">
+              \[
+              t \longmapsto q(t)\in Q.
+              \]
+            </div>
+            <p>
+              La notación \(q(t)\) no debe engañarnos. No significa que la
+              historia física dependa de una letra concreta \(q\). Significa que
+              hemos elegido unas coordenadas para seguir una curva en \(Q\). Otra
+              elección de coordenadas describiría la misma historia con otros
+              números.
+            </p>
+            <p>
+              Ésta es una distinción crucial. La cinemática te dice qué historias
+              tienen sentido geométrico: qué curvas podrían dibujarse en el
+              espacio de configuraciones. La dinámica todavía no ha hablado. La
+              dinámica será la regla que diga cuáles de esas historias son
+              físicamente posibles o cómo se prolonga una historia a partir de la
+              información presente.
+            </p>
+            <p>
+              Así aparece la siguiente pregunta de forma natural: no basta con
+              saber qué configuraciones existen; queremos saber qué reglas
+              seleccionan sus continuaciones.
             </p>
           </section>
 
           <section id="ley" class="section-card">
-            <div class="eyebrow">1.5 Ley dinámica</div>
+            <div class="eyebrow">1.10 Ley dinámica</div>
             <h2>Qué es una ley dinámica</h2>
             <p>
               Llegados aquí ya podemos formular mejor la pregunta. Una
@@ -536,17 +857,27 @@
               cumple: relacionar el presente del sistema con su continuación.
             </p>
             <p>
-              Aquí aparece una conexión importante con todo lo anterior. No
-              decides en el vacío cuánta información inicial hará falta. Eso se
-              aclara junto con la clase de leyes que estás dispuesto a
-              considerar. Si la ley necesita dos datos iniciales por grado de
-              libertad, tu descripción del presente tendrá que contenerlos. Si
-              necesitase uno, o tres, esa cantidad cambiaría con ella.
+              Para entender qué debe contener el presente, empezaremos por una
+              familia especialmente limpia de leyes: leyes locales y
+              deterministas, escritas como ecuaciones diferenciales. No porque
+              toda la física tenga que tener esa forma, sino porque ahí se ve
+              con mucha claridad una idea esencial: una ley de este tipo solo
+              puede continuar el movimiento si el presente contiene toda la
+              información física que la continuación necesita.
+              Ésta es la primera aplicación operativa de los criterios de
+              <a href="#criterio-localidad-temporal">localidad temporal</a> y
+              <a href="#criterio-determinismo-local">determinismo local</a>.
             </p>
             <p>
-              De modo que la pregunta correcta ya no es solo “¿qué hay que saber
-              ahora?”. Es también “¿qué clase de ley creemos que gobierna el
-              movimiento?”.
+              Aquí aparece una conexión importante con todo lo anterior. No
+              decides primero una lista de variables y luego obligas a la
+              naturaleza a obedecerla. El presente que buscas se aclara junto
+              con la clase de leyes que aceptas. Debe ser suficientemente rico
+              para que la ley no ramifique, pero no tan rico que guarde memoria
+              sin entidad física. Y esos datos deben entenderse como información
+              física mínima, no como apego a una coordenada particular.
+              Antes de usar esa familia de leyes, hay que aclarar qué estamos
+              comprando con las palabras “local” y “determinista”.
             </p>
 
             <article class="world-card" style="margin-top: 22px;">
@@ -580,59 +911,391 @@
             </article>
           </section>
 
-          <section id="mundos" class="section-card">
-            <div class="eyebrow">1.6 Mundos posibles</div>
-            <h2>Tres clases de mundo posibles</h2>
+          <section id="local-determinista" class="section-card">
+            <div class="eyebrow">1.11 Hipótesis</div>
+            <h2>Qué significan local y determinista</h2>
             <p>
-              Para ver esto sin palabras grandes, imagina tres mundos
-              matemáticamente razonables:
+              Ya hemos anunciado la
+              <a href="#criterio-localidad-temporal">localidad temporal</a> como
+              principio rector. Ahora hay que convertir esa palabra en una
+              condición operativa, porque de ella dependerá cuántos datos debe
+              contener el presente.
+            </p>
+            <p>
+              Aquí <strong>local</strong> quiere decir local en el tiempo. La
+              ley decide la continuación inmediata usando información del
+              presente, no una consulta a toda la historia pasada ni a un tramo
+              entero del futuro. Si en el instante \(t\) conoces los datos
+              físicos adecuados, la ley te dice qué ocurre en un intervalo
+              infinitesimal alrededor de \(t\).
+            </p>
+            <p>
+              Una ley no local en el tiempo sería de otra naturaleza. Podría
+              depender, por ejemplo, de una integral sobre todo el pasado o de
+              una condición global sobre la trayectoria completa. Eso no es
+              absurdo, pero cambia la pregunta. Ya no bastaría buscar un pequeño
+              paquete llamado “presente” que cierre por sí solo la predicción
+              local.
+            </p>
+            <p>
+              Aquí
+              <a href="#criterio-determinismo-local"><strong>determinista</strong></a>
+              quiere decir que, una vez fijado un presente admisible, la ley
+              selecciona una continuación única, al menos localmente en el
+              tiempo y bajo condiciones regulares. No estamos haciendo todavía
+              una afirmación metafísica sobre el universo. Estamos imponiendo
+              una condición operativa: si dos historias comparten exactamente el
+              mismo presente físico y la ley es determinista, no pueden
+              separarse inmediatamente sin que faltase algún dato en ese
+              presente.
+            </p>
+            <p>
+              Si la ley fuese probabilística, o si permitiese ramificación real
+              desde el mismo presente, el análisis cambiaría. Tendríamos que
+              hablar de distribuciones, amplitudes, reglas de transición o datos
+              ocultos. Todo eso puede ser física, pero no es la familia limpia
+              que queremos usar ahora para entender qué significa que un
+              presente contenga “lo suficiente”.
+            </p>
+            <p>
+              Con esto, la pregunta ya no es solo “¿qué hay que saber ahora?”.
+              Es también “¿qué clase de continuación local estamos pidiendo que
+              exista?”.
+            </p>
+            <p>
+              La forma geométrica de responder aparecerá en la sección
+              siguiente: representar un presente candidato como un punto,
+              dibujar en cada punto la flecha que la ley permite seguir y
+              comprobar si ese espacio de presentes era suficiente, físico y
+              mínimo.
+            </p>
+          </section>
+
+          <section id="flujo-presente" class="section-card">
+            <div class="eyebrow">1.12 Flujo local</div>
+            <h2>Una ley local como campo de flechas</h2>
+            <p>
+              Ahora conviene cambiar el punto de vista. No empezaremos
+              comparando fórmulas del tipo “primer orden”, “segundo orden” o
+              “tercer orden”. Eso ya viene demasiado cargado de tradición.
+              Empezaremos con una pregunta más elemental:
+              <em>qué vamos a aceptar como presente completo</em>.
+            </p>
+            <p>
+              Llamemos \(s\) a ese presente candidato. Si la ley es local y
+              determinista, su forma mental más limpia es
+            </p>
+            <div class="equation-box">
+              \[
+              \dot s = X(s,t).
+              \]
+            </div>
+            <p>
+              Esto no dice todavía cuál es la ley correcta. Dice cómo debe
+              comportarse cualquier ley de esta familia: cada punto del espacio
+              de presentes recibe una flecha. Seguir esas flechas produce una
+              historia.
+            </p>
+            <p>
+              La imagen es muy concreta. Piensa en un campo de agua. En cada
+              punto hay una flecha que indica hacia dónde sería arrastrada una
+              partícula. En mecánica pasa lo mismo, pero el campo de flechas no
+              vive necesariamente en el espacio físico ordinario. Vive en el
+              espacio donde has decidido representar el presente completo del
+              sistema.
+            </p>
+            <p>
+              Para un sistema con una sola coordenada de configuración \(q\),
+              probaremos tres candidatos:
             </p>
             <div class="equation-box">
               \[
               \begin{array}{rcl}
-              \text{mundo A:} & \dot x &= u(x),\\[0.3em]
-              \text{mundo B:} & \dddot x &= w(x),\\[0.3em]
-              \text{mundo C:} & m\ddot x &= -\dfrac{dV}{dx}.
+              \text{intento 1:} & s &= q,\\[0.3em]
+              \text{intento 2:} & s &= (q,\eta),\\[0.3em]
+              \text{intento 3:} & s &= (q,\eta,\alpha).
               \end{array}
               \]
             </div>
             <p>
-              En el mundo A, bastaría conocer \(x(t_0)\): la propia ley diría
-              inmediatamente hacia dónde empieza a moverse la partícula. En el
-              mundo B, posición y velocidad todavía no bastarían; haría falta
-              además saber la aceleración inicial. En el mundo C, que es el de
-              la mecánica newtoniana ordinaria, la ley es de segundo orden. Por
-              eso hacen falta dos datos iniciales por grado de libertad.
-            </p>
-
-            <h3>Extra A. Un mundo con demasiado poca memoria</h3>
-            <p>
-              Si el mundo fuese del tipo \(\dot x=u(x)\), cada posición llevaría
-              asociada una única velocidad. Eso significa que el sistema estaría
-              demasiado “pegado” a la posición instantánea: al pasar por un
-              punto dado, ya quedaría fijado si sube, baja o se detiene.
+              Aquí \(\eta\) es solo un nombre neutral para un dato independiente
+              de cambio: aquello que distingue preparaciones que comparten la
+              misma configuración. Y \(\alpha\) representa un posible dato
+              adicional, cuya entidad física todavía tendríamos que justificar.
             </p>
             <p>
-              Físicamente, esto se aleja mucho de lo que vemos. Una bola lanzada
-              hacia arriba atraviesa la misma altura dos veces: una al subir y
-              otra al bajar. Un péndulo atraviesa el mismo ángulo con dos
-              sentidos distintos. En un mundo de primer orden autónomo, ese
-              desdoblamiento no existiría: el mismo punto del espacio no podría
-              corresponder a dos historias cinemáticas distintas.
-            </p>
-            <p>
-              Dicho de otro modo, un mundo así tendría muy poca inercia. La
-              posición mandaría demasiado. El movimiento recordaría demasiado
-              poco de cómo fue preparado el sistema.
+              Esta forma de hablar evita un anclaje mental peligroso. La física
+              no empieza sabiendo que quiere una ecuación de segundo orden.
+              Primero pregunta qué datos hacen falta para que el presente pueda
+              continuar sin ambigüedad, sin meter estructura arbitraria y sin
+              recordar más de lo que el modelo puede explicar. El orden de la
+              ecuación aparece después, cuando proyectamos ese flujo sobre las
+              coordenadas de configuración.
             </p>
 
             <article class="world-card" style="margin-top: 24px;">
               <div class="world-head">
                 <div>
-                  <h3>Demo interactiva: mundo sin inercia</h3>
+                  <h3>Demo interactiva: una ley local como campo de flechas</h3>
                   <p>
-                    La visualización sirve para inspeccionar un mundo donde la
-                    velocidad queda completamente pegada a la posición.
+                    La visualización fija la gramática común: eliges qué cuenta
+                    como presente, pintas flechas sobre ese espacio y sigues una
+                    curva.
+                  </p>
+                </div>
+                <button class="btn secondary" id="reset-state-flow" type="button">Reset</button>
+              </div>
+
+              <div class="world-body">
+                <p>
+                  Cómo leerla: el modo no cambia la idea de ley local. Cambia
+                  el espacio sobre el que esa ley intenta pintar flechas:
+                  configuración sola, configuración más dato de cambio, o un
+                  presente todavía más grande.
+                </p>
+
+                <div class="world-grid">
+                  <div>
+                    <div id="viz-state-flow" class="viz-shell"></div>
+                    <div class="control-row">
+                      <label>presente candidato</label>
+                      <button class="btn" id="state-flow-q" type="button">q</button>
+                      <button class="btn secondary" id="state-flow-qeta" type="button">(q,η)</button>
+                      <button class="btn secondary" id="state-flow-qetaalpha" type="button">(q,η,α)</button>
+                      <span class="mini-label" id="state-flow-caption">el punto q intenta decidirlo todo</span>
+                    </div>
+                  </div>
+
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Espacio elegido</h4>
+                      <p>
+                        Una ley local no flota en abstracto: vive sobre el
+                        espacio que has elegido para representar el presente.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Flecha local</h4>
+                      <p>
+                        Cada punto recibe una flecha \(\dot s=X(s,t)\). Si dos
+                        presentes comparten punto, la ley no puede separarlos.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Criterio</h4>
+                      <p>
+                        El presente debe ser suficiente para no ramificar, pero
+                        mínimo para no introducir memoria sin entidad física.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="intento-solo-configuracion" class="section-card">
+            <div class="eyebrow">1.13 Intento 1</div>
+            <h2>Solo configuración</h2>
+            <p>
+              Probemos primero el candidato más austero: el presente es solo la
+              configuración. Para una partícula en una línea, eso significa
+              \(s=x\). Una ley local determinista sobre ese espacio tendría la
+              forma
+            </p>
+            <div class="equation-box">
+              \[
+              \dot x=f(x,t).
+              \]
+            </div>
+            <p>
+              Si además hablamos de un sistema aislado, la
+              <a href="#criterio-homogeneidad-tiempo">homogeneidad del
+              tiempo</a> nos empuja a quitar la dependencia explícita del
+              instante elegido como origen. Queda entonces una ley autónoma:
+            </p>
+            <div class="equation-box">
+              \[
+              \dot x=u(x).
+              \]
+            </div>
+            <p>
+              En este intento, conocer \(x(t_0)\) bastaría. La propia ley
+              pintaría en cada punto de la recta la flecha de continuación. El
+              punto \(x\) decidiría por sí solo la velocidad.
+            </p>
+            <p>
+              Antes de seguir con la recta, conviene ver la misma idea en dos
+              dimensiones. Si el presente fuese solo la posición \(\mathbf r\)
+              en un plano, una ley local podría cubrir el plano con flechas que
+              apuntan hacia un punto \(A\). Por ejemplo,
+            </p>
+            <div class="equation-box">
+              \[
+              \dot{\mathbf r}=-k(\mathbf r-\mathbf a),
+              \qquad k>0.
+              \]
+            </div>
+            <p>
+              Matemáticamente es una ley perfectamente local: cada punto trae su
+              flecha. Pero el dibujo ya delata el precio: \(\mathbf a\) no es un
+              punto cualquiera. La ley lo ha marcado como lugar especial. Eso
+              puede ser correcto si hay una estructura física allí; no puede
+              aparecer gratis en un espacio vacío homogéneo.
+            </p>
+
+            <article class="world-card" style="margin-top: 22px;">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: campo hacia un atractor</h3>
+                  <p>
+                    Todas las flechas se calculan desde la posición actual. El
+                    punto marcado no es una etiqueta: es una estructura añadida
+                    al modelo.
+                  </p>
+                </div>
+                <button class="btn secondary" id="reset-attractor-field" type="button">Reset</button>
+              </div>
+
+              <div class="world-body">
+                <p>
+                  Cómo leerla: las flechas viven sobre el plano de
+                  configuraciones. Si todas apuntan hacia \(A\), la ley ha
+                  declarado que \(A\) es especial. Sin una causa física para ese
+                  punto, se viola la homogeneidad del espacio.
+                </p>
+
+                <div class="world-grid">
+                  <div>
+                    <div id="viz-attractor-field" class="viz-shell"></div>
+                    <div class="control-row">
+                      <label for="attractor-field-k">intensidad</label>
+                      <input id="attractor-field-k" type="range" min="0.45" max="1.6" step="0.05" value="0.95" />
+                      <span class="mini-label" id="attractor-field-k-value">\(k=0.95\)</span>
+                    </div>
+                  </div>
+
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Campo local</h4>
+                      <p>
+                        En cada punto, la posición basta para pintar la flecha.
+                        No hay dato independiente de lanzamiento.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Lugar marcado</h4>
+                      <p>
+                        El atractor \(A\) selecciona una localización concreta
+                        del plano. Eso es una estructura física adicional.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Criterio</h4>
+                      <p>
+                        En espacio vacío homogéneo no puede aparecer un punto
+                        preferente solo porque la ecuación lo haya escrito.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <p>
+              Esto puede parecer razonable si pensamos en procesos de
+              relajación. Por ejemplo,
+            </p>
+            <div class="equation-box">
+              \[
+              \dot x=-kx,\qquad k>0,
+              \]
+            </div>
+            <p>
+              describe un movimiento que cae hacia \(x=0\). El punto \(x=0\) es
+              un atractor: si estás a la derecha, te mueves hacia la izquierda;
+              si estás a la izquierda, te mueves hacia la derecha. La posición
+              basta para saber hacia dónde va el sistema.
+            </p>
+            <p>
+              Ese ejemplo es útil, pero no debe engañarnos. Un atractor no es
+              “espacio vacío”. Un atractor señala una estructura física: un
+              equilibrio, un medio disipativo, un mecanismo de control, un baño
+              térmico, algo que distingue ese punto de los demás. Para muchos
+              sistemas efectivos eso está muy bien. Una variable que se relaja,
+              una partícula sobreamortiguada en un fluido o una temperatura que
+              se acerca a la del ambiente pueden tener leyes de primer orden muy
+              naturales. Pero eso no describe una partícula libre con inercia.
+            </p>
+            <p>
+              Aquí entran dos criterios rectores muy potentes:
+              <a href="#criterio-homogeneidad-espacio">homogeneidad del
+              espacio</a> e <a href="#criterio-isotropia-espacio">isotropía del
+              espacio</a>. Si hablamos de una partícula libre en un espacio sin
+              estructura, ningún lugar puede venir privilegiado por la ley. La
+              física no puede saber que \(x=0\) es especial si \(x=0\) solo es
+              el origen que hemos elegido en el papel. Por tanto, una ley libre
+              de primer orden no puede tener un \(u(x)\) que cambie de un punto
+              a otro, porque eso convertiría algunos lugares en físicamente
+              distintos.
+            </p>
+            <p>
+              Queda la posibilidad
+            </p>
+            <div class="equation-box">
+              \[
+              \dot x=c.
+              \]
+            </div>
+            <p>
+              Pero si la recta tampoco trae un sentido privilegiado, un
+              \(c\neq 0\) distingue derecha de izquierda. La ley habría
+              incorporado una especie de cinta transportadora universal. En
+              ausencia de un medio o de una estructura externa que marque esa
+              dirección, eso también es sospechoso. La única opción
+              completamente homogénea y sin sentido privilegiado sería
+            </p>
+            <div class="equation-box">
+              \[
+              \dot x=0.
+              \]
+            </div>
+            <p>
+              La homogeneidad elimina atractores arbitrarios; la isotropía
+              elimina una deriva universal.
+            </p>
+            <p>
+              Ésta es la conclusión fuerte: si la configuración es el único dato
+              del presente, una partícula verdaderamente libre no puede llevar
+              memoria de cómo fue lanzada. O bien todos los puntos caen hacia
+              algún atractor, lo cual introduce un lugar especial, o bien hay
+              una deriva incorporada, lo cual introduce un sentido especial, o
+              bien no se mueve nada.
+            </p>
+            <p>
+              Pero eso no es lo que observamos. Una bola lanzada hacia arriba
+              atraviesa la misma altura dos veces: una al subir y otra al bajar.
+              Un péndulo atraviesa el mismo ángulo con dos sentidos distintos.
+              Una partícula libre puede pasar por el mismo punto con velocidades
+              distintas. Por tanto, la velocidad no puede estar escrita ya en el
+              punto de configuración. Tiene que ser parte de la preparación
+              física del sistema.
+            </p>
+            <p>
+              Así que el problema del primer intento no es que sea
+              matemáticamente incoherente. El problema es que el espacio de
+              presentes elegido era demasiado pequeño. Sirve para procesos de
+              relajación o para modelos efectivos donde ya hemos eliminado la
+              inercia. No sirve como estructura básica de la mecánica
+              ordinaria.
+            </p>
+
+            <article class="world-card" style="margin-top: 24px;">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: el trilema del primer orden</h3>
+                  <p>
+                    La visualización no muestra una trayectoria concreta, sino
+                    el callejón lógico de una ley que solo conoce la posición.
                   </p>
                 </div>
                 <button class="btn" id="reset-no-inertia" type="button">Reset</button>
@@ -640,91 +1303,368 @@
 
               <div class="world-body">
                 <p>
-                  Cómo leerla: cada punto de la recta impone ya un único sentido
-                  de marcha. La demo no introduce una fuerza escondida, sino
-                  justo la ausencia de un dato inercial independiente.
+                  Cómo leerla: en cada fila, la posición \(x\) intenta decidir
+                  por sí sola la velocidad. La pregunta no es si la ecuación se
+                  puede escribir, sino qué estructura física introduce para
+                  poder mover algo.
                 </p>
 
                 <div class="world-grid">
                   <div>
                     <div id="viz-no-inertia" class="viz-shell"></div>
                     <div class="control-row">
-                      <label for="gain">intensidad del campo</label>
-                      <input id="gain" type="range" min="0.35" max="1.8" step="0.05" value="1" />
-                      <span class="mini-label" id="gain-value">\(k=1.00\)</span>
+                      <label>caso destacado</label>
+                      <button class="btn" id="no-inertia-all" type="button">Los tres</button>
+                      <button class="btn secondary" id="no-inertia-attractor" type="button">Atractor</button>
+                      <button class="btn secondary" id="no-inertia-drift" type="button">Deriva</button>
+                      <button class="btn secondary" id="no-inertia-rest" type="button">Reposo</button>
+                      <span class="mini-label" id="no-inertia-caption">todas las salidas posibles rompen algo</span>
                     </div>
                   </div>
 
                   <div class="world-side">
                     <div class="stat-box">
-                      <h4>Estructura general</h4>
+                      <h4>Atractor</h4>
                       <p>
-                        La misma posición implica siempre el mismo futuro. No
-                        puedes pasar por el mismo punto una vez hacia la derecha
-                        y otra hacia la izquierda.
+                        \(\dot x=-kx\) mueve, pero convierte \(x=0\) en un
+                        lugar físico especial. Eso puede describir relajación,
+                        no una partícula libre en espacio vacío.
                       </p>
                     </div>
                     <div class="stat-box">
-                      <h4>Consecuencias</h4>
+                      <h4>Deriva</h4>
                       <p>
-                        No hay memoria inercial, no hay oscilaciones genuinas en
-                        una línea y no hay overshoot. El sistema queda demasiado
-                        pegado a la posición instantánea.
+                        \(\dot x=c\) respeta que todos los lugares se parezcan,
+                        pero instala un sentido universal de marcha. La derecha
+                        y la izquierda ya no son equivalentes.
                       </p>
                     </div>
                     <div class="stat-box">
-                      <h4>Remate fuerte</h4>
+                      <h4>Reposo</h4>
                       <p>
-                        Si el espacio es homogéneo e isótropo, la ley libre
-                        tendría que ser trivial: una partícula verdaderamente
-                        libre no podría hacer otra cosa que permanecer en
-                        reposo.
+                        \(\dot x=0\) no privilegia ni lugar ni sentido, pero
+                        entonces el sistema no puede recordar cómo fue lanzado.
+                        Falta un dato inercial independiente.
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
             </article>
+          </section>
 
-            <h3>Extra B. Un mundo con demasiada memoria</h3>
+          <section id="intento-dato-cambio" class="section-card">
+            <div class="eyebrow">1.14 Intento 2</div>
+            <h2>Configuración más dato de cambio</h2>
             <p>
-              Si el mundo fuese del tipo \(\dddot x=w(x)\), ocurriría lo
-              contrario: posición y velocidad ya no bastarían para fijar el
-              futuro. Dos sistemas preparados con la misma posición y la misma
-              velocidad todavía podrían divergir si difieren en la aceleración
-              inicial.
+              El fallo del intento anterior nos dice qué falta. La misma
+              configuración puede ser atravesada con preparaciones distintas.
+              Por tanto, si queremos conservar una ley local y determinista,
+              tenemos que ampliar el presente.
             </p>
             <p>
-              Eso introduciría una libertad extra muy poco familiar. Para
-              reproducir un experimento mecánico ya no bastaría decir “lo puse
-              aquí con tal velocidad”: habría que controlar además una especie
-              de “curvatura inicial” del movimiento. El sistema recordaría
-              demasiado de su preparación.
-            </p>
-            <p>
-              Se ve incluso en el caso libre. Si \(w(x)=0\), la ecuación sería
-              \(\dddot x=0\), cuya solución general es
+              Añadamos un dato independiente de cambio, que llamaremos \(\eta\):
             </p>
             <div class="equation-box">
               \[
-              x(t)=a+bt+\frac{1}{2}ct^2.
+              s=(q,\eta).
               \]
             </div>
             <p>
-              Es decir, incluso sin fuerzas aparecería una familia extra de
-              movimientos parabólicos determinados por la aceleración inicial
-              \(c\). La partícula libre no sería simplemente inercial: llevaría
-              una memoria adicional que no observamos en la mecánica ordinaria.
+              La letra \(\eta\) es deliberadamente neutral. En ejemplos
+              sencillos puede coincidir con una velocidad. Pero aquí cumple una
+              función más elemental: distinguir cómo está cambiando la
+              configuración. No es una etiqueta con teoría escondida. Es el dato
+              mínimo que el primer intento no podía contener.
+            </p>
+            <p>
+              Una ley local y determinista sobre este espacio tiene la forma
+            </p>
+            <div class="equation-box">
+              \[
+              \dot q=f(q,\eta,t),
+              \qquad
+              \dot \eta=g(q,\eta,t).
+              \]
+            </div>
+            <p>
+              Ésta es la imagen limpia. El espacio de presentes \((q,\eta)\)
+              está cubierto por flechas. Cada punto representa un presente
+              completo, y la ley asigna a ese punto una única continuación
+              inmediata.
+            </p>
+            <p>
+              Ahora la misma configuración \(q\) puede aparecer en varios
+              estados. Una partícula puede estar en el mismo punto moviéndose
+              hacia la derecha, hacia la izquierda o momentáneamente sin
+              cambio. Eso ya no es una contradicción: no son el mismo presente.
+              Solo comparten la misma proyección sobre el espacio de
+              configuraciones.
+            </p>
+            <p>
+              En una coordenada regular donde podemos tomar \(\eta=\dot q\), la
+              ley se escribe como
+            </p>
+            <div class="equation-box">
+              \[
+              \dot q=\eta,
+              \qquad
+              \dot \eta=G(q,\eta,t).
+              \]
+            </div>
+            <p>
+              Si miramos solo \(q\), esto aparece como
+            </p>
+            <div class="equation-box">
+              \[
+              \ddot q = G(q,\dot q,t).
+              \]
+            </div>
+            <p>
+              Dicho de otro modo: el segundo orden no es lo más profundo. Es la
+              sombra que deja, sobre el espacio de configuraciones, un flujo de
+              primer orden que vive en un espacio de presentes más rico.
+            </p>
+            <p>
+              En el caso libre, si ningún punto ni ningún sentido del espacio
+              está físicamente privilegiado, la opción mínima en una coordenada
+              inercial es
+            </p>
+            <div class="equation-box">
+              \[
+              \dot q=\eta,
+              \qquad
+              \dot \eta=0.
+              \]
+            </div>
+            <p>
+              La solución es
+            </p>
+            <div class="equation-box">
+              \[
+              q(t)=q_0+\eta_0(t-t_0).
+              \]
+            </div>
+            <p>
+              La ley libre no señala un origen especial, no instala una
+              velocidad universal y no obliga a todo a quedarse quieto. Permite
+              cualquier \(\eta_0\), pero ese dato no lo decide el punto \(q\):
+              lo trae la preparación física del sistema.
+            </p>
+            <p>
+              Cuando aparece estructura física real, el segundo miembro puede
+              dejar de ser cero. Puede depender de un vínculo, de un campo
+              externo, de un medio, de un anclaje o de una condición de
+              contorno. Pero entonces esa dependencia debe estar pagada por el
+              modelo. El origen \(q=0\) no importa por llamarse cero; importa
+              solo si algo físico distingue esa configuración.
+            </p>
+            <p>
+              Este intento resuelve justo lo que fallaba antes. Tiene memoria
+              suficiente para que exista inercia: la misma configuración puede
+              llevar varios futuros. Pero no ha añadido todavía memoria libre
+              sin explicación. Por eso será nuestro candidato natural para la
+              mecánica ordinaria ideal: un presente mínimo formado por
+              configuración y un dato independiente de cambio por grado de
+              libertad.
             </p>
 
             <article class="world-card" style="margin-top: 22px;">
               <div class="world-head">
                 <div>
-                  <h3>Demo interactiva: mundo con demasiada memoria</h3>
+                  <h3>Demo interactiva: flujo sobre \((x,\eta)\)</h3>
                   <p>
-                    Aquí la comparación buena es entre trayectorias que arrancan
-                    con la misma posición y la misma velocidad, pero no con la
-                    misma aceleración inicial.
+                    Mira el plano \((x,\eta)\) como un campo de agua. Cada
+                    punto es un presente completo, y cada flecha dice hacia
+                    dónde se mueve ese presente.
+                  </p>
+                </div>
+                <button class="btn secondary" id="reset-phase-projection" type="button">Reset</button>
+              </div>
+
+              <div class="world-body">
+                <p>
+                  En la demo usamos el caso limpio \(\dot x=\eta\),
+                  \(\dot\eta=-x\). Lo importante no es el oscilador en sí, sino
+                  la estructura: en \((x,\eta)\) la ley ya no necesita una
+                  segunda derivada; solo asigna una flecha local a cada estado.
+                </p>
+                <div class="world-grid">
+                  <div>
+                    <div id="viz-phase-projection" class="viz-shell viz-tall"></div>
+                    <div class="control-row">
+                      <label for="phase-energy">tamaño de la órbita</label>
+                      <input id="phase-energy" type="range" min="0.45" max="1" step="0.01" value="0.72" />
+                      <span class="mini-label" id="phase-energy-value">radio = 0.72</span>
+                    </div>
+                  </div>
+
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Campo de flechas</h4>
+                      <p>
+                        En cada punto \((x,\eta)\), la ley dibuja una flecha:
+                        \((\dot x,\dot\eta)=(\eta,-x)\). Esa flecha es la
+                        continuación inmediata del estado.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Flujo</h4>
+                      <p>
+                        La curva azul no se elige punto a punto. Aparece al
+                        dejar que el estado sea arrastrado por el campo de
+                        flechas.
+                      </p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Proyección</h4>
+                      <p>
+                        Si miras solo \(x(t)\), el mismo \(x\) se repite. En el
+                        plano \((x,\eta)\), esas visitas son estados distintos.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="intento-mas-memoria" class="section-card">
+            <div class="eyebrow">1.15 Intento 3</div>
+            <h2>Añadir más memoria</h2>
+            <p>
+              Podríamos seguir ampliando el presente. Nada nos impide escribir
+            </p>
+            <div class="equation-box">
+              \[
+              s=(q,\eta,\alpha).
+              \]
+            </div>
+            <p>
+              Entonces la ley volvería a ser un flujo de primer orden, pero
+              ahora sobre un espacio más grande:
+            </p>
+            <div class="equation-box">
+              \[
+              \dot q=f(q,\eta,\alpha,t),
+              \qquad
+              \dot \eta=g(q,\eta,\alpha,t),
+              \qquad
+              \dot \alpha=h(q,\eta,\alpha,t).
+              \]
+            </div>
+            <p>
+              Matemáticamente esto no es incoherente. Si el presente completo
+              incluye tres datos, la ley puede asignar una flecha única a cada
+              punto de ese espacio.
+            </p>
+            <p>
+              Pero el precio físico ha subido. Dos experimentos con la misma
+              configuración \(q_0\) y el mismo dato de cambio \(\eta_0\) todavía
+              podrían separarse inmediatamente si difieren en \(\alpha_0\).
+              Entonces la frase “lo puse aquí con tal estado de cambio” ya no
+              describe completamente la preparación. Habría que añadir: “y
+              además lo puse con tal curvatura inicial de la trayectoria”.
+            </p>
+            <p>
+              El caso libre muestra la rareza de forma limpia. En una coordenada
+              donde \(\eta=\dot x\) y \(\alpha=\ddot x\), un modelo libre puede
+              escribirse como el campo
+            </p>
+            <div class="equation-box">
+              \[
+              \dot x=\eta,
+              \qquad
+              \dot \eta=\alpha,
+              \qquad
+              \dot \alpha=0.
+              \]
+            </div>
+            <p>
+              Proyectado sobre \(x\), esto equivale a
+            </p>
+            <div class="equation-box">
+              \[
+              x^{(3)}=0
+              \]
+            </div>
+            <p>
+              y a tomar \(\alpha_0\) como dato libre constante. La solución
+              general alrededor de \(t_0\) es
+            </p>
+            <div class="equation-box">
+              \[
+              x(t)
+              =
+              x_0+\eta_0(t-t_0)+\frac{1}{2}\alpha_0(t-t_0)^2.
+              \]
+            </div>
+            <p>
+              El parámetro \(\alpha_0\) es una memoria adicional. No aparece
+              porque haya una interacción, ni porque exista un potencial, ni
+              porque el espacio tenga un punto especial. Aparece simplemente
+              porque el espacio de presentes elegido ha decidido que esa
+              curvatura inicial también es un dato libre.
+            </p>
+            <p>
+              Eso cambia la idea de movimiento libre. En la mecánica ordinaria,
+              si no hay interacción, la partícula libre conserva su dato de
+              cambio. En este intento, una partícula libre podría curvar su
+              trayectoria solo porque fue preparada con una \(\alpha_0\)
+              distinta de cero. La curvatura inicial deja de ser una respuesta
+              dinámica y se convierte en una pieza adicional del presente.
+            </p>
+            <p>
+              Esto no significa que toda ecuación con derivadas más altas sea
+              absurda. Puede ocurrir que una ecuación de orden alto sea una
+              descripción efectiva: quizá hemos eliminado variables internas,
+              quizá hemos resumido la influencia de un campo, quizá estamos
+              mirando una aproximación donde hay memoria escondida. Pero
+              entonces la pregunta honesta es: ¿qué representa físicamente ese
+              dato extra? Ésta es una aplicación directa del criterio de
+              <a href="#criterio-estado-minimo">completitud y minimalidad del
+              estado</a>: todo dato inicial libre debe tener interpretación
+              física. Si \(\alpha_0\) es parte real del presente, hay que darle
+              entidad física. Si no sabemos darle entidad, la teoría está
+              pidiendo memoria de más.
+            </p>
+            <p>
+              Ésta es la lección del tercer intento: agrandar el espacio de
+              presentes siempre exige pagar el coste conceptual. No basta con
+              decir que la ecuación es local y determinista. También hay que
+              justificar por qué cada dato inicial adicional corresponde a una
+              diferencia física real, y no a una libertad artificial introducida
+              por nuestra descripción.
+            </p>
+
+            <div class="concept-card" style="margin-top: 22px;">
+              <strong>Nota matemática.</strong>
+              Cuando una ecuación diferencial regular se escribe explícitamente
+              como
+              \[
+              q^{(r)}
+              =
+              F\bigl(q,\dot q,\ldots,q^{(r-1)},t\bigr),
+              \]
+              la teoría local de EDOs dice que una solución queda fijada por
+              \[
+              q(t_0),\dot q(t_0),\ldots,q^{(r-1)}(t_0).
+              \]
+              Eso no es una preferencia física por las derivadas. Es una forma
+              de contar la dimensión local de la familia de soluciones: \(r\)
+              datos por grado de libertad, una vez eliminadas redundancias y
+              vínculos. Si cambias de coordenadas de forma regular, los números
+              cambian, pero el número de datos independientes no.
+            </div>
+
+            <article class="world-card" style="margin-top: 22px;">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: el campo con un eje extra</h3>
+                  <p>
+                    La comparación clave está en el campo local: el mismo
+                    \((x_0,\eta_0)\) proyectado puede vivir en capas distintas
+                    de \(\alpha_0\), y en cada capa recibe otra flecha.
                   </p>
                 </div>
                 <button class="btn secondary" id="reset-memory" type="button">Reset</button>
@@ -732,10 +1672,11 @@
 
               <div class="world-body">
                 <p>
-                  Mueve el horizonte temporal y fíjate en la apertura entre las
-                  curvas. La divergencia no nace de una fuerza nueva, sino de un
-                  dato extra de memoria que el sistema arrastra desde el
-                  instante inicial.
+                  Cómo leerla: arriba no hay todavía trayectorias, solo flechas
+                  locales del campo \((\dot x,\dot\eta,\dot\alpha)=(\eta,\alpha,0)\).
+                  Abajo ves qué ocurre cuando proyectas esas curvas sobre
+                  \(x(t)\): lo que parecía un solo presente visible se abre en
+                  varios futuros.
                 </p>
 
                 <div class="world-grid">
@@ -750,132 +1691,27 @@
 
                   <div class="world-side">
                     <div class="stat-box">
-                      <h4>Exceso de memoria</h4>
+                      <h4>Presente incompleto</h4>
                       <p>
-                        El presente arrastra un dato extra, \(\ddot x(t_0)\),
-                        que influye en el futuro aunque no haya ninguna
-                        interacción externa actuando sobre la partícula.
+                        Si solo das \(x_0\) y \(\eta_0\), todos los casos
+                        parecen el mismo presente. En el tercer intento todavía
+                        no has especificado el estado completo.
                       </p>
                     </div>
                     <div class="stat-box">
-                      <h4>Consecuencias</h4>
+                      <h4>Campo ampliado</h4>
                       <p>
-                        Una partícula libre puede curvar su historia por sí
-                        sola, y el movimiento uniforme deja de ser la forma
-                        privilegiada del movimiento libre.
+                        El eje \(\alpha_0\) no es decoración: separa capas del
+                        espacio de presentes. La ley puede ser local, pero ahora
+                        necesita una flecha para cada capa.
                       </p>
                     </div>
                     <div class="stat-box">
-                      <h4>Lección de fondo</h4>
+                      <h4>Lección</h4>
                       <p>
-                        La frontera entre movimiento libre y movimiento forzado
-                        se vuelve borrosa. Entra demasiada libertad en el estado
-                        y el futuro se vuelve artificialmente maleable.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <p>
-              Tomemos entonces el ejemplo más austero del tercer caso: una
-              partícula de masa \(m\) moviéndose en una dimensión bajo un
-              potencial \(V(x)\), con ecuación
-            </p>
-            <div class="equation-box">
-              \[
-              m\ddot x = -\dv{V}{x}.
-              \]
-            </div>
-            <p>
-              Lo interesante no es solo que esta ecuación te permita calcular
-              una trayectoria. También te está diciendo qué clase de información
-              necesita la teoría para ponerse en marcha.
-            </p>
-            <p>
-              Como aparece una segunda derivada respecto del tiempo, no basta
-              con saber la posición en \(t_0\). Necesitas dos datos iniciales,
-              por ejemplo
-            </p>
-            <div class="equation-box">
-              \[
-              x(t_0), \qquad \dot x(t_0).
-              \]
-            </div>
-            <p>
-              Puedes pensarlo con una imagen muy cotidiana. Si lanzas una bola
-              hacia arriba desde la misma altura, el futuro cambia
-              completamente según la lances rápido, despacio o simplemente la
-              sueltes. La altura inicial puede ser la misma; la velocidad
-              inicial no.
-            </p>
-            <p>
-              La ecuación, por tanto, hace dos trabajos a la vez. Te dice cómo
-              cambia el sistema y te dice también qué presente hay que
-              especificar para que la predicción tenga sentido. Por eso una ley
-              dinámica no es solo una fórmula: es una fórmula escrita para un
-              tipo preciso de datos iniciales.
-            </p>
-
-            <article class="world-card" style="margin-top: 22px;">
-              <div class="world-head">
-                <div>
-                  <h3>Demo interactiva: nuestro mundo, la memoria justa</h3>
-                  <p>
-                    Esta demo no quiere justificar todavía toda la dinámica
-                    newtoniana. Quiere fijar por contraste por qué en la
-                    mecánica ordinaria bastan posición y velocidad.
-                  </p>
-                </div>
-                <button class="btn" id="reset-real-world" type="button">Reset</button>
-              </div>
-
-              <div class="world-body">
-                <p>
-                  Qué mirar: con \(k=0\), todas las partículas parten del mismo
-                  punto, pero cada velocidad inicial genera su historia. Si
-                  introduces una fuerza restauradora, las trayectorias se curvan
-                  porque la dinámica lo ordena, no porque el estado esconda una
-                  memoria extra.
-                </p>
-
-                <div class="world-grid">
-                  <div>
-                    <div id="viz-real-world" class="viz-shell"></div>
-                    <div class="control-row">
-                      <label for="spring-k">fuerza restauradora</label>
-                      <input id="spring-k" type="range" min="0" max="0.65" step="0.05" value="0" />
-                      <span class="mini-label" id="spring-k-value">k = 0.00</span>
-                    </div>
-                  </div>
-
-                  <div class="world-side">
-                    <div class="stat-box">
-                      <h4>Memoria justa</h4>
-                      <p>
-                        La posición sola no basta, porque el sistema conserva
-                        inercia. Pero la aceleración inicial tampoco hace falta:
-                        el presente no arrastra un grado de libertad extra.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Partícula libre</h4>
-                      <p>
-                        Con \(k=0\), todas las partículas parten del mismo
-                        punto, pero cada velocidad inicial genera su historia.
-                        El movimiento uniforme pasa a ser la forma natural del
-                        movimiento libre.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Cuando aparece una fuerza</h4>
-                      <p>
-                        Si aumentas \(k\), aparece una causa que curva las
-                        trayectorias. Aquí \(k\) solo hace visible esa idea de
-                        forma simple: cuando la velocidad cambia, queremos que
-                        sea por efecto de la dinámica y no porque el estado
-                        esconda memoria extra.
+                        Si no sabes qué entidad física tiene \(\alpha_0\), la
+                        ley está pidiendo más memoria de la que tu modelo había
+                        justificado.
                       </p>
                     </div>
                   </div>
@@ -885,19 +1721,34 @@
           </section>
 
           <section id="reversibilidad" class="section-card">
-            <div class="eyebrow">1.7 Reversibilidad</div>
+            <div class="eyebrow">1.16 Reversibilidad</div>
             <h2>Una precisión sobre reversibilidad</h2>
+            <p>
+              La <a href="#criterio-reversibilidad-temporal">reversibilidad
+              temporal del núcleo ideal</a> ya apareció como uno de los
+              criterios de admisibilidad para la mecánica ideal. Ahora toca
+              separar dos ideas que se confunden con facilidad.
+            </p>
             <p>
               Hay dos ideas distintas que conviene no mezclar.
             </p>
             <p>
               La primera es poder reconstruir el pasado a partir del presente.
-              La segunda es algo más exigente: que, si una película del
-              movimiento es posible, la película al revés también lo sea bajo la
-              misma ley.
+              La segunda es más exigente: que, si una película del movimiento es
+              posible, la película al revés también sea posible bajo la misma ley
+              física.
             </p>
             <p>
-              En una ley de primer orden escrita solo con la posición,
+              En lenguaje de campos de flechas, una trayectoria posible es una
+              curva que sigue el campo. Invertir la película no significa solo
+              recorrer la curva hacia atrás. También significa transformar
+              correctamente las magnitudes que cambian de signo al invertir el
+              tiempo. Una posición no cambia de signo por mirar la película al
+              revés. Un dato de cambio sí.
+            </p>
+            <p>
+              Esto muestra por qué el primer intento era demasiado pobre. Si el
+              presente fuese solo \(x\), una ley local tendría la forma
             </p>
             <div class="equation-box">
               \[
@@ -905,52 +1756,42 @@
               \]
             </div>
             <p>
-              puede ocurrir lo primero: si conoces \(x(t_0)\), la ecuación fija
-              también la evolución hacia tiempos anteriores.
-            </p>
-            <p>
-              Pero, salvo casos triviales, falla lo segundo. Si una trayectoria
-              \(x(t)\) obedece la ley, la película invertida sería
+              En el punto \(x\), el campo solo puede pintar una flecha. Pero la
+              película invertida de un movimiento que pasa por ese mismo \(x\)
+              necesita la flecha opuesta. La misma ley no puede asignar
+              simultáneamente \(u(x)\) y \(-u(x)\) al mismo presente, salvo que
             </p>
             <div class="equation-box">
               \[
-              x_{\mathrm{rev}}(t)=x(-t).
-              \]
-            </div>
-            <p>Entonces</p>
-            <div class="equation-box">
-              \[
-              \dot x_{\mathrm{rev}}(t)=-\dot x(-t)=-u(x(-t)).
+              u(x)=0.
               \]
             </div>
             <p>
-              Para que la película invertida obedeciese la misma ley, haría
-              falta también
-            </p>
-            <div class="equation-box">
-              \[
-              \dot x_{\mathrm{rev}}(t)=u(x_{\mathrm{rev}}(t))=u(x(-t)).
-              \]
-            </div>
-            <p>Luego necesitaríamos</p>
-            <div class="equation-box">
-              \[
-              -u(x)=u(x),
-              \]
-            </div>
-            <p>
-              es decir, \(u(x)=0\).
-            </p>
-            <p>
-              Así que una ley no trivial de primer orden escrita solo en la
-              posición no es reversible en el sentido de inversión temporal.
-              Distingue un sentido privilegiado del tiempo.
+              Así que una ley no trivial escrita solo sobre configuraciones no
+              puede ser reversible en el sentido fuerte de inversión temporal. O
+              introduce un sentido temporal privilegiado, o se queda en reposo.
             </p>
 
             <p>
+              En cambio, si el presente es \((q,\eta)\), la inversión temporal
+              no tiene por qué colapsar sobre el mismo punto:
+            </p>
+            <div class="equation-box">
+              \[
+              (q,\eta)\longmapsto(q,-\eta).
+              \]
+            </div>
+            <p>
+              La misma configuración puede llevar datos de cambio opuestos.
+              Ahora el espacio de presentes es suficientemente rico para
+              expresar una ley reversible sin obligar a que todo esté parado.
+              Que una ley concreta lo sea o no dependerá de sus simetrías, pero
+              al menos el lenguaje ya tiene sitio para formular la condición.
+            </p>
+            <p>
               Ésta es una pista importante. Si queremos una ley local y
-              reversible, la posición sola no basta como estado. Hace falta
-              ampliarlo.
+              reversible, la configuración sola no basta como estado. Hace falta
+              ampliarla con el dato mínimo de cambio.
             </p>
 
             <article class="world-card" style="margin-top: 22px;">
@@ -998,363 +1839,153 @@
           </section>
 
           <section id="estado" class="section-card">
-              <div class="eyebrow">1.8 Estado</div>
-              <h2>¿Qué llamaremos estado?</h2>
+              <span id="punto-de-partida"></span>
+              <span id="nueva-pregunta"></span>
+              <div class="eyebrow">1.17 Cierre</div>
+              <h2>Estado mínimo y punto de partida</h2>
               <p>
                 Ahora sí estamos en condiciones de poner el último nombre
-                importante. Llamaremos <strong>estado</strong> a la información
-                mínima que hay que dar en un instante si queremos poder
-                continuar la evolución.
+                importante. Llamaremos <strong>estado</strong> al presente
+                físico mínimo sobre el que la ley puede pintar una flecha única
+                de continuación. Ésta es la aplicación directa del criterio de
+                <a href="#criterio-estado-minimo">completitud y minimalidad del
+                estado</a>.
               </p>
               <p>
-                Por eso configuración y estado no son lo mismo. La configuración
-                te dice cómo está el sistema. El estado te dice cuánto
-                necesitas saber para no perder su futuro.
+                La palabra <em>mínimo</em> importa tanto como la palabra
+                <em>presente</em>. El estado debe contener lo suficiente para
+                que una ley local y determinista no tenga que consultar nada
+                más. Pero tampoco debe contener memoria libre sin interpretación
+                física. Por eso el estado no es una lista universal de
+                variables: depende de la clase de leyes que aceptamos y del
+                espacio de presentes que haya sobrevivido a los criterios de
+                admisibilidad.
               </p>
               <p>
-                Los tres mundos anteriores dejan muy clara la diferencia. En un
-                mundo de primer orden, bastaría la posición. En uno de tercer
-                orden, posición y velocidad todavía no bastarían. En el caso
-                ordinario que queremos entender, la ley es de segundo orden, y
-                por eso hacen falta dos datos iniciales por grado de libertad.
+                Con esto se cierra el recorrido del capítulo. La
+                configuración \(q\) dice cómo está colocado el sistema. El estado
+                dice qué punto del espacio de presentes ocupa, y por tanto qué
+                flecha local debe seguir. El primer intento, \(s=q\), era
+                demasiado pobre para una mecánica libre, reversible e inercial.
+                El segundo intento, \(s=(q,\eta)\), añade justo el dato
+                independiente de cambio que distingue preparaciones con la misma
+                configuración. El tercero, \(s=(q,\eta,\alpha)\), también
+                permite un flujo local, pero exige explicar qué realidad física
+                representa esa memoria adicional.
               </p>
               <p>
-                Para una partícula en una línea, eso suele escribirse como
-              </p>
-              <div class="equation-box">
-                \[
-                x(t_0), \qquad \dot x(t_0).
-                \]
-              </div>
-              <p>
-                Para un péndulo, la descripción natural será algo como
-              </p>
-              <div class="equation-box">
-                \[
-                (\theta,\dot\theta).
-                \]
-              </div>
-              <p>
-                Pero aquí conviene no caer en una simplificación engañosa. No es
-                verdad que el estado se obtenga siempre “añadiendo una velocidad
-                por cada partícula”. Lo correcto es otra cosa: en mecánica
-                clásica ordinaria, el estado suele añadir <em>un dato
-                independiente de cambio por cada grado de libertad
-                independiente</em>.
-              </p>
-              <p>
-                Un ejemplo lo deja claro. Imagina dos partículas moviéndose
-                sobre una línea, pero unidas rígidamente de modo que la distancia
-                entre ellas es siempre \( \ell \). Si llamas \(x_1\) y \(x_2\)
-                a sus posiciones, esas dos coordenadas no son libres:
+                Para una partícula en una línea, el estado ordinario puede
+                escribirse como
               </p>
               <div class="equation-box">
                 \[
-                x_2-x_1=\ell.
+                s(t_0)=\bigl(x(t_0),\eta(t_0)\bigr),
                 \]
               </div>
               <p>
-                Puedes escribir ambas, pero no puedes escogerlas
-                independientemente. En realidad, la configuración tiene un solo
-                grado de libertad. Por ejemplo, basta dar la posición del centro
-                de masas \(X\).
+                y, cuando la velocidad es una coordenada adecuada del dato de
+                cambio, como
+              </p>
+              <div class="equation-box">
+                \[
+                s(t_0)=\bigl(x(t_0),\dot x(t_0)\bigr).
+                \]
+              </div>
+              <p>
+                Para \(n\) grados de libertad independientes, la forma
+                correspondiente es
+              </p>
+              <div class="equation-box">
+                \[
+                s=(q^1,\ldots,q^n;\eta^1,\ldots,\eta^n).
+                \]
+              </div>
+              <p>
+                Estas escrituras son coordenadas del estado, no el estado como
+                objeto físico último. Sirven porque etiquetan la información
+                mínima que cierra la predicción. Otra elección regular de
+                coordenadas debería describir el mismo presente físico con otros
+                números. Aquí vuelve a actuar la
+                <a href="#criterio-covariancia">covariancia descriptiva</a>,
+                ahora aplicada al espacio de estados.
               </p>
               <p>
-                Entonces el estado no necesita “dos posiciones y dos
-                velocidades”. En una descripción adaptada, necesita una
-                coordenada independiente, \(X\), y un dato independiente sobre
-                cómo cambia, por ejemplo \(\dot X\).
+                También queda evitada una simplificación engañosa: el estado no
+                se obtiene añadiendo “una velocidad por partícula”, sino
+                añadiendo un dato independiente de cambio por cada grado de
+                libertad independiente. Si dos partículas están unidas por un
+                vínculo rígido, por ejemplo \(x_2-x_1=\ell\), no hay dos
+                posiciones independientes. En una descripción adaptada puede
+                bastar el centro de masas \(X\); entonces el estado mínimo usa
+                \(X\) y un dato de cambio \(\eta_X\), no dos pares redundantes
+                de posiciones y velocidades.
               </p>
 
               <div class="callout">
-                <h3>Conclusión fuerte</h3>
-                <p>
-                  El estado no se cuenta por partículas, sino por grados de
-                  libertad. Si escribes coordenadas redundantes, también
-                  aparecerán velocidades redundantes. El contenido físico del
-                  estado, sin embargo, sigue siendo el mínimo conjunto de datos
-                  independientes que permite continuar la evolución.
-                </p>
+                <h3>Punto de partida para lo que sigue</h3>
+                <ol>
+                  <li>Estudiaremos sistemas con un número finito de grados de libertad.</li>
+                  <li>Las coordenadas serán etiquetas descriptivas, no ingredientes físicos absolutos.</li>
+                  <li>Una ley local y determinista se leerá como un flujo sobre un espacio de presentes.</li>
+                  <li>En la mecánica ordinaria tomaremos como estado mínimo \(s=(q,\eta)\).</li>
+                  <li>El segundo orden aparece al proyectar ese flujo sobre la configuración.</li>
+                  <li>Más memoria inicial no está prohibida, pero debe tener interpretación física.</li>
+                </ol>
               </div>
+
               <p>
-                La imagen mental buena sigue siendo ésta: la configuración se
-                parece a una foto; el estado se parece a la nota mínima que
-                necesitas para continuar la película.
+                Todavía no hemos elegido ninguna acción, ningún Hamiltoniano ni
+                ninguna fuerza. Solo sabemos qué forma mínima debe tener una ley
+                local sobre un presente suficiente.
               </p>
               <p>
-                Una forma más precisa de decirlo es ésta: en mecánica clásica
-                ordinaria, el estado suele estar formado por la configuración y
-                por un dato independiente de cambio para cada grado de libertad,
-                y eso puede escribirse como \(q\) junto con \(\dot q\), o de
-                manera equivalente como \(q\) junto con \(p\). Lo profundo no es
-                la palabra “velocidad”, sino la idea de <em>dato mínimo que
-                cierra la predicción</em>. En otras teorías, esa noción puede
-                cambiar.
+                La pregunta del capítulo siguiente es más modesta y más previa:
+                antes de elegir el campo \(X\),
+                <em>¿qué dependencias puede tener sin introducir estructura que el
+                modelo no contiene?</em>
               </p>
-          </section>
-
-          <section id="espacio-estados" class="section-card">
-            <div class="eyebrow">1.9 Espacio de estados</div>
-            <h2>El segundo orden visto desde el espacio de estados</h2>
-            <p>
-              Aquí aparece una limpieza conceptual importante. Lo profundo no es
-              que la naturaleza “prefiera” ecuaciones de segundo orden. Lo
-              profundo es otra cosa: una vez elegido el estado completo, la
-              dinámica quiere escribirse como una ley de primer orden en ese
-              espacio de estados.
-            </p>
-            <p>
-              Si el estado se describe por una configuración \(q\) y por un
-              dato independiente de cambio, que por brevedad llamaremos \(p\),
-              la ley tiene la forma
-            </p>
-            <div class="equation-box">
-              \[
-              \dot q = f(q,p,t),
-              \qquad
-              \dot p = g(q,p,t).
-              \]
-            </div>
-            <p>
-              Eso ya es toda la dinámica. Es una ley de primer orden, pero no
-              en el espacio de configuraciones, sino en el espacio de estados.
-            </p>
-            <p>
-              Si luego eliminas \(p\) y miras solo la configuración, la misma
-              dinámica aparece como una ecuación de segundo orden:
-            </p>
-            <div class="equation-box">
-              \[
-              \ddot q = F(q,\dot q,t).
-              \]
-            </div>
-            <p>
-              Dicho de otro modo: el segundo orden no es lo más profundo. Es la
-              sombra, sobre el espacio de configuraciones, de una ley de primer
-              orden en un espacio más grande.
-            </p>
-
-            <article class="world-card" style="margin-top: 22px;">
-              <div class="world-head">
-                <div>
-                  <h3>Demo interactiva: la misma posición, dos estados distintos</h3>
-                  <p>
-                    La intención no es repetir la teoría, sino hacer visible la
-                    ambigüedad de la configuración y su desaparición en el
-                    espacio de estados.
-                  </p>
-                </div>
-                <button class="btn secondary" id="reset-state-slice" type="button">Reset</button>
-              </div>
-
-              <div class="world-body">
-                <p>
-                  Sobre la recta de posiciones, el mismo \(x_0\) parece un único
-                  presente. En el plano \((x,v)\), en cambio, aparecen dos
-                  estados distintos en cuanto haces visible el signo de la
-                  velocidad.
-                </p>
-                <div class="world-grid">
-                  <div>
-                    <div id="viz-state-slice" class="viz-shell"></div>
-                    <div class="control-row">
-                      <label for="state-slice-x0">posición</label>
-                      <input id="state-slice-x0" type="range" min="-0.8" max="0.8" step="0.01" value="0.35" />
-                      <span class="mini-label" id="state-slice-x0-value">x₀ = 0.35</span>
-                    </div>
-                    <div class="control-row">
-                      <label for="state-slice-v0">velocidad</label>
-                      <input id="state-slice-v0" type="range" min="0.25" max="1.2" step="0.01" value="0.72" />
-                      <span class="mini-label" id="state-slice-v0-value">v₀ = 0.72</span>
-                    </div>
-                    <div class="control-row">
-                      <button class="btn secondary" id="toggle-state-velocity" type="button">Ocultar velocidad</button>
-                      <span class="mini-label" id="state-velocity-mode">velocidad visible</span>
-                    </div>
-                  </div>
-
-                  <div class="world-side">
-                    <div class="stat-box">
-                      <h4>Configuración</h4>
-                      <p>
-                        Sobre la recta de posiciones, el mismo \(x_0\) parece
-                        un único presente. Si ocultas la velocidad, ambos casos
-                        se confunden.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Espacio de estados</h4>
-                      <p>
-                        En el plano \((x,v)\), los dos presentes se separan de
-                        inmediato. Lo que parecía uno eran dos estados
-                        físicamente distintos.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Lección</h4>
-                      <p>
-                        En la configuración hay ambigüedad. En el espacio de
-                        estados no.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="world-card" style="margin-top: 22px;">
-              <div class="world-head">
-                <div>
-                  <h3>Demo interactiva: el segundo orden como proyección</h3>
-                  <p>
-                    Esta segunda visualización deja ver que el flujo simple vive
-                    realmente en \((x,v)\), y que \(x(t)\) y \(v(t)\) son solo
-                    proyecciones coordinadas de esa dinámica.
-                  </p>
-                </div>
-                <button class="btn secondary" id="reset-phase-projection" type="button">Reset</button>
-              </div>
-
-              <div class="world-body">
-                <p>
-                  Lo que parece “repetirse” en la configuración no se repite
-                  como estado: solo estás viendo dos sombras distintas del mismo
-                  flujo de fase.
-                </p>
-                <div class="world-grid">
-                  <div>
-                    <div id="viz-phase-projection" class="viz-shell"></div>
-                  </div>
-
-                  <div class="world-side">
-                    <div class="stat-box">
-                      <h4>Primera vista</h4>
-                      <p>
-                        En \(x(t)\), la partícula pasa por la misma posición dos
-                        veces por periodo. Si miras solo esa proyección, parece
-                        que el presente se repite.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Segunda vista</h4>
-                      <p>
-                        En \(v(t)\), esas dos visitas quedan separadas por el
-                        signo de la velocidad. La diferencia estaba ahí todo el
-                        tiempo; solo no la estabas mirando.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Plano de fase</h4>
-                      <p>
-                        En \((x,v)\), la dinámica se vuelve un flujo de primer
-                        orden. El segundo orden en la configuración aparece
-                        después, al proyectar.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-            <p>
-              Ésta es también la razón por la que el mismo punto \(q\) puede
-              corresponder a dos futuros inmediatos distintos: porque en
-              realidad no estás en el mismo estado. Solo estás viendo la misma
-              configuración.
-            </p>
-          </section>
-
-          <section id="punto-de-partida" class="section-card">
-            <div class="eyebrow">1.10 Punto de partida</div>
-            <h2>Qué tomamos como punto de partida</h2>
-            <p>
-              Ya estamos en condiciones de decir con honestidad qué vamos a
-              asumir en este tutorial. No estamos intentando clasificar todas
-              las leyes concebibles del universo. Estamos intentando entender la
-              mecánica clásica ordinaria de la manera más limpia posible.
-            </p>
-            <p>
-              Eso significa, de entrada, cuatro cosas. Primera: vamos a estudiar
-              sistemas con un número finito de grados de libertad, descritos por
-              coordenadas de configuración bien elegidas.
-            </p>
-            <p>
-              Segunda: tomaremos como caso guía una dinámica determinista, en la
-              que fijar el estado en un instante basta para continuar la
-              evolución.
-            </p>
-            <p>
-              Tercera: el caso ordinario que queremos comprender mejor aparece
-              como de segundo orden cuando miramos solo la configuración, pero
-              su organización más profunda es la de un estado mínimo formado por
-              una configuración y un dato conjugado independiente por grado de
-              libertad.
-            </p>
-            <p>
-              Cuarta: todavía no hemos decidido que la ley tenga que venir de
-              una acción. Ésa será una hipótesis adicional del capítulo
-              siguiente, no una verdad lógica que caiga del cielo.
-            </p>
-
-            <div class="callout">
-              <h3>Honestidad sobre el alcance</h3>
               <p>
-                Hay dinámicas que admiten formulación lagrangiana y otras que
-                no. Ese problema se estudia en el llamado problema inverso del
-                cálculo de variaciones, y sus condiciones de compatibilidad se
-                recogen en las condiciones de Helmholtz. Del mismo modo, las
-                derivadas temporales más altas no son ilegítimas por definición:
-                lo que ocurre es que el caso genérico no degenerado cae bajo el
-                tipo de inestabilidad asociado al teorema de Ostrogradsky.
-                Existen, sin embargo, teorías degeneradas que pueden evitar ese
-                problema. Por eso la forma de primer orden en el lagrangiano es
-                el punto de partida sano de la mecánica ordinaria, no una
-                prohibición lógica absoluta contra toda derivada más alta.
+                Ése será el trabajo del capítulo 2. Allí aprenderemos a leer una
+                ley como una declaración de modelo: qué lugares, direcciones,
+                relojes, medios o interacciones está introduciendo cada término.
               </p>
-              <p style="margin-top: 10px;">
-                La idea importante aquí no es esconder esas fronteras, sino
-                hacerlas visibles. Vamos a avanzar en una clase de teorías
-                concreta, no a fingir que toda teoría imaginable tiene que
-                encajar en ella.
-              </p>
-            </div>
           </section>
 
-          <section id="nueva-pregunta" class="section-card">
-            <div class="eyebrow">1.11 Apertura</div>
-            <h2>La nueva pregunta</h2>
+          <section id="resumen-visual" class="section-card">
+            <div class="eyebrow">1.18 Resumen visual</div>
+            <h2>La cadena constructiva del capítulo</h2>
             <p>
-              Llegados aquí, ya tenemos una pequeña brújula. Primero, una foto
-              no basta: para predecir hace falta elegir un estado. Segundo, la
-              forma de la ley dinámica decide qué datos deben entrar en ese
-              estado. Tercero, incluso antes de escribir la ley conviene elegir
-              coordenadas que no oculten los grados de libertad reales del
-              sistema.
+              Esta lámina recoge el hilo lógico completo: antes de escribir una
+              ley concreta, fijamos criterios de admisibilidad, elegimos sistema
+              y modelo, construimos el espacio de configuraciones, probamos qué
+              presentes pueden sostener un flujo local y llegamos al estado
+              mínimo que permite cerrar la evolución.
             </p>
-            <p>
-              Pero fíjate en algo importante. Hasta aquí no hemos elegido
-              todavía ni Newton, ni Lagrange, ni Hamilton. Solo hemos preparado
-              el terreno. Hemos aclarado qué cuenta como sistema, qué cuenta
-              como configuración, qué cuenta como estado y qué tipo de ley
-              queremos estudiar.
-            </p>
-            <p>
-              La pregunta siguiente añade una exigencia nueva. En lugar de
-              actualizar estados paso a paso,
-              <em>¿podemos comparar historias completas de manera coherente?</em>
-              Y si la respuesta es sí,
-              <em>¿qué premisas adicionales hacen natural describir la dinámica
-              mediante una acción?</em>
-            </p>
-            <p>
-              Ése será el trabajo del capítulo siguiente. Allí no partiremos de
-              la nada. Partiremos exactamente de las piezas que acabamos de
-              ordenar.
-            </p>
+            <figure class="infographic-frame">
+              <img
+                src="./assets/capitulo-1-resumen-infografia.svg"
+                alt="Infografía resumen del capítulo 1: criterios, flujo local, intentos constructivos y estado mínimo"
+                loading="lazy"
+              />
+              <figcaption>
+                Resumen del capítulo 1 como cadena: descripción, criterios,
+                configuración, flujo local, intentos constructivos y estado mínimo.
+              </figcaption>
+            </figure>
           </section>
+
+          <nav class="chapter-nav" aria-label="Navegación entre capítulos">
+            <a class="chapter-nav-link next" href="./capitulo-2.html">
+              <span>Capítulo siguiente</span>
+              <strong>2. Del modelo a las leyes posibles</strong>
+              <small>Qué estructura física declara cada término de una ley.</small>
+            </a>
+          </nav>
         </main>
       </div>
     </div>
 
-    <script defer src="./capitulo-1.js"></script>
+    <script defer src="./course-demos.js?v=20260509-demo-fwk"></script>
+    <script defer src="./capitulo-1.js?v=20260509-demo-fwk"></script>
   </body>
 </html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mecánica Analítica — Capítulo 6</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2830'/%3E%3Cpath d='M12 40c10-18 30-18 40 0' fill='none' stroke='%23f4ede0' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='40' r='4' fill='%23d16f2b'/%3E%3Ccircle cx='44' cy='40' r='4' fill='%230e7278'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    ></script>
+    <link rel="stylesheet" href="./course.css?v=2026-05-09-constructive" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Curso visual interactivo · Capítulo 6</div>
+            <h1>6. Estructura hamiltoniana y problemas clásicos</h1>
+            <p>Los problemas clásicos se reorganizan por simetrías, generadores, reducción, transformaciones canónicas e invariantes de acción.</p>
+            <div class="hero-actions">
+              <a class="btn secondary" href="./index.html">Índice del curso</a>
+              <a class="btn secondary" href="./capitulo-5.html">Capítulo 5</a>
+              <a class="btn" href="./capitulo-7.html">Capítulo 7</a>
+            </div>
+          </div>
+
+          <aside class="quote-card">
+            <div class="label">Cadena constructiva</div>
+            <div class="equation">estado → simetrías → generadores → fase</div>
+            <p>
+              El formalismo entra solo cuando resuelve una necesidad conceptual previa.
+            </p>
+          </aside>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="toc">
+          <h2>Capítulo 6</h2>
+          <nav>
+            <a href="#1-consolidar-no-es-volver-a-recetas">6.1 Consolidar no es volver a recetas</a>
+            <a href="#2-osciladores-que-rompe-y-que-conserva-la-simetria">6.2 Osciladores: qué rompe y qué conserva la simetría</a>
+            <a href="#3-modos-normales-elegir-coordenadas-que-revelan-la-estructura">6.3 Modos normales: elegir coordenadas que revelan la estructura</a>
+            <a href="#4-potenciales-centrales-reduccion-por-rotaciones">6.4 Potenciales centrales: reducción por rotaciones</a>
+            <a href="#5-restricciones-y-coordenadas-adaptadas">6.5 Restricciones y coordenadas adaptadas</a>
+            <a href="#6-transformaciones-canonicas">6.6 Transformaciones canónicas</a>
+            <a href="#7-liouville-el-flujo-hamiltoniano-no-comprime-fase">6.7 Liouville: el flujo hamiltoniano no comprime fase</a>
+            <a href="#8-variables-accion-angulo">6.8 Variables acción–ángulo</a>
+            <a href="#9-hamilton-jacobi">6.9 Hamilton–Jacobi</a>
+            <a href="#10-que-conviene-retener">6.10 Qué conviene retener</a>
+            <a class="toc-next" href="./capitulo-5.html">Capítulo anterior: 5</a>
+            <a class="toc-next" href="./capitulo-7.html">Capítulo siguiente: 7</a>
+          </nav>
+        </aside>
+
+        <main class="content">
+          <section id="1-consolidar-no-es-volver-a-recetas" class="section-card">
+            <div class="eyebrow">6.1</div>
+            <h2>Consolidar no es volver a recetas</h2>
+            <p>Ya tenemos la cadena principal:</p>
+            <div class="equation-box">\[
+            \begin{gathered}
+                \text{estado}
+                \to
+                \text{ley local}
+                \to
+                \text{simetrías}
+                \to
+                \text{fase}
+                \\
+                \to
+                \text{generadores}
+                \to
+                \text{conservación}
+                \\
+                \to
+                \text{acción canónica}
+                \to
+                \text{Lagrange como proyección}.
+                \end{gathered}
+            \]</div>
+            <p>Ahora conviene usarla en problemas clásicos sin regresar a una lista de recetas.</p>
+            <p>La rutina será:</p>
+            <ol>
+              <li><p>identificar el espacio de configuración \(Q\);</p></li>
+              <li><p>pasar al espacio de fases \(T^*Q\);</p></li>
+              <li><p>escribir o restringir \(\mathcal{H}\) usando las simetrías del modelo;</p></li>
+              <li><p>buscar generadores conservados;</p></li>
+              <li><p>reducir el problema antes de resolver ecuaciones largas;</p></li>
+              <li><p>usar Lagrange solo si la proyección a \((q,\dot q)\) simplifica.</p></li>
+            </ol>
+
+          </section>
+
+          <section id="2-osciladores-que-rompe-y-que-conserva-la-simetria" class="section-card">
+            <div class="eyebrow">6.2</div>
+            <h2>Osciladores: qué rompe y qué conserva la simetría</h2>
+            <p>El oscilador armónico unidimensional tiene</p>
+            <div class="equation-box">\[
+            \mathcal{H}=\frac{p^2}{2m}+\frac12 kx^2.
+            \]</div>
+            <p>El término \(kx^2/2\) marca un punto especial: \(x=0\). Por eso no describe una partícula libre en un espacio homogéneo, sino una partícula ligada a una estructura física que selecciona un centro.</p>
+            <p>En dos dimensiones,</p>
+            <div class="equation-box">\[
+            \mathcal{H}=
+                \frac{p_x^2+p_y^2}{2m}
+                +
+                \frac12 k_xx^2+\frac12 k_yy^2.
+            \]</div>
+            <p>Si \(k_x\neq k_y\), el modelo distingue direcciones. Hay anisotropía real. Si \(k_x=k_y\), el Hamiltoniano es invariante bajo rotaciones y el momento angular</p>
+            <div class="equation-box">\[
+            L_z=xp_y-yp_x
+            \]</div>
+            <p>se conserva.</p>
+            <p>La degeneración de frecuencias en el oscilador isotrópico no es un accidente algebraico. Es la huella de una simetría más grande.</p>
+
+          </section>
+
+          <section id="3-modos-normales-elegir-coordenadas-que-revelan-la-estructura" class="section-card">
+            <div class="eyebrow">6.3</div>
+            <h2>Modos normales: elegir coordenadas que revelan la estructura</h2>
+            <p>Cuando varios osciladores están acoplados linealmente, una descripción inicial puede mezclar variables:</p>
+            <div class="equation-box">\[
+            \mathcal{H}=
+                \frac12 p^T M^{-1}p
+                +
+                \frac12 q^T Kq.
+            \]</div>
+            <p>El problema no consiste en “probar trucos” hasta desacoplar. Consiste en encontrar coordenadas adaptadas a las direcciones propias de la forma cuadrática que define el modelo.</p>
+            <p>Al diagonalizar el problema aparecen modos normales. Cada modo se comporta como un oscilador independiente:</p>
+            <div class="equation-box">\[
+            \mathcal{H}=
+                \sum_a
+                \left(
+                    \frac{P_a^2}{2}
+                    +
+                    \frac12\omega_a^2 Q_a^2
+                \right),
+            \]</div>
+            <p>en coordenadas normalizadas.</p>
+            <p>La lección conceptual es la misma que en el capítulo 1: una buena coordenada no crea física, pero puede revelar una separación que estaba oculta.</p>
+
+          </section>
+
+          <section id="4-potenciales-centrales-reduccion-por-rotaciones" class="section-card">
+            <div class="eyebrow">6.4</div>
+            <h2>Potenciales centrales: reducción por rotaciones</h2>
+            <p>Para una partícula en un potencial central,</p>
+            <div class="equation-box">\[
+            \mathcal{H}=
+                \frac{\mathbf p^2}{2m}+V(r),
+                \qquad r=\|\mathbf q\|.
+            \]</div>
+            <p>La simetría rotacional implica conservación del momento angular</p>
+            <div class="equation-box">\[
+            \mathbf L=\mathbf q\times \mathbf p.
+            \]</div>
+            <p>Esa conservación reduce el movimiento a un plano. En coordenadas polares dentro de ese plano,</p>
+            <div class="equation-box">\[
+            \mathcal{H}=
+                \frac{p_r^2}{2m}
+                +
+                \frac{p_\varphi^2}{2mr^2}
+                +
+                V(r).
+            \]</div>
+            <p>Como \(\varphi\) no aparece, \(p_\varphi\) se conserva. Entonces la dinámica radial se lee con un potencial efectivo:</p>
+            <div class="equation-box">\[
+            V_{\mathrm{eff}}(r)=V(r)+\frac{\ell^2}{2mr^2}.
+            \]</div>
+            <p>La barrera centrífuga no es una nueva fuerza misteriosa. Es el precio geométrico de reducir una dinámica con momento angular fijo.</p>
+
+          </section>
+
+          <section id="5-restricciones-y-coordenadas-adaptadas" class="section-card">
+            <div class="eyebrow">6.5</div>
+            <h2>Restricciones y coordenadas adaptadas</h2>
+            <p>Un vínculo reduce el espacio de configuraciones. Si una partícula está obligada a moverse sobre una superficie, no deberíamos empezar con coordenadas redundantes y olvidar luego que hay restricciones. Lo limpio es identificar el verdadero \(Q\) y trabajar en \(T^*Q\).</p>
+            <p>Para un péndulo simple, \(Q\) es un círculo. Una coordenada angular \(\theta\) describe directamente el grado de libertad. En fase usamos</p>
+            <div class="equation-box">\[
+            (\theta,p_\theta).
+            \]</div>
+            <p>El Hamiltoniano típico es</p>
+            <div class="equation-box">\[
+            \mathcal{H}=
+                \frac{p_\theta^2}{2m\ell^2}
+                +
+                mg\ell(1-\cos\theta).
+            \]</div>
+            <p>La elección angular no es un capricho: respeta el vínculo y evita introducir componentes cartesianas que no son independientes.</p>
+            <p>Cuando el vínculo depende del tiempo o se impone mediante un agente externo, hay que declarar esa estructura. Puede romper homogeneidad temporal, introducir trabajo externo o impedir una reducción simple.</p>
+
+          </section>
+
+          <section id="6-transformaciones-canonicas" class="section-card">
+            <div class="eyebrow">6.6</div>
+            <h2>Transformaciones canónicas</h2>
+            <p>No todo cambio de variables en fase conserva la estructura hamiltoniana. Las transformaciones admisibles deben preservar la forma simpléctica:</p>
+            <div class="equation-box">\[
+            \omega=dq^i\wedge dp_i.
+            \]</div>
+            <p>Una transformación que preserva \(\omega\) se llama canónica.</p>
+            <p>Esto refina la idea de covariancia descriptiva. En configuración, podíamos cambiar coordenadas \(q\mapsto Q(q)\) y transformar \(p\) como covector. En fase, podemos permitir cambios más amplios que mezclen \(q\) y \(p\), pero solo si conservan la estructura que hace posible el corchete de Poisson.</p>
+            <p>La pregunta correcta no es “¿puedo escribir variables nuevas?”. Siempre puedo. La pregunta es:</p>
+            <div class="equation-box">\[
+            \text{¿las variables nuevas conservan qué significa generar un flujo?}
+            \]</div>
+
+          </section>
+
+          <section id="7-liouville-el-flujo-hamiltoniano-no-comprime-fase" class="section-card">
+            <div class="eyebrow">6.7</div>
+            <h2>Liouville: el flujo hamiltoniano no comprime fase</h2>
+            <p>El flujo hamiltoniano preserva volumen en el espacio de fases. Éste es el contenido del teorema de Liouville.</p>
+            <p>En dos dimensiones de fase, la idea se ve así: un conjunto pequeño de estados puede estirarse, doblarse y deformarse, pero su área de fase se conserva. En más dimensiones se conserva el volumen simpléctico correspondiente.</p>
+            <p>Esto no es un detalle técnico. Distingue los flujos hamiltonianos de dinámicas disipativas efectivas. Un atractor que comprime volúmenes de fase puede ser útil para describir rozamiento o relajación, pero no pertenece al núcleo hamiltoniano cerrado sin añadir estructura externa o variables eliminadas.</p>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: deformar no es comprimir</h3>
+                  <p>La misma nube bajo un flujo hamiltoniano y bajo uno disipativo. Una se deforma conservando área; la otra cae hacia un atractor.</p>
+                </div>
+                <div class="world-actions">
+                  
+                  <button class="btn" type="button" data-demo-choice="liouville-cloud" data-value="hamiltonian">Hamiltoniano</button>
+                  <button class="btn secondary" type="button" data-demo-choice="liouville-cloud" data-value="dissipative">Disipativo</button>
+                  <button class="btn secondary" type="button" data-demo-reset="liouville-cloud">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="liouville-cloud" aria-label="Demo interactiva: deformar no es comprimir"></div>
+                  <div class="world-side">
+                    
+                    <div class="stat-box">
+                      <h4>Lectura</h4>
+                      <p data-demo-readout="liouville-cloud"></p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>Un atractor útil para rozamiento no pertenece al núcleo hamiltoniano cerrado sin estructura externa.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="8-variables-accion-angulo" class="section-card">
+            <div class="eyebrow">6.8</div>
+            <h2>Variables acción–ángulo</h2>
+            <p>En sistemas ligados e integrables aparece una posibilidad muy especial: elegir variables \((I,\theta)\) tales que</p>
+            <div class="equation-box">\[
+            \mathcal{H}=\mathcal{H}(I),
+                \qquad
+                \dot I=0,
+                \qquad
+                \dot\theta=\Omega(I).
+            \]</div>
+            <p>Las variables \(I\) son acciones. En una dimensión ligada,</p>
+            <div class="equation-box">\[
+            I=\frac{1}{2\pi}\oint p\,dq.
+            \]</div>
+            <p>Esta integral mide un área de fase. Por eso la palabra acción no aparece solo como principio variacional: también nombra un invariante geométrico asociado a ciclos en fase.</p>
+            <p>El oscilador armónico es el ejemplo limpio. Sus órbitas en fase son curvas cerradas, y el área encerrada determina la acción \(I\). En esas variables, la dinámica se vuelve rotación uniforme.</p>
+
+          </section>
+
+          <section id="9-hamilton-jacobi" class="section-card">
+            <div class="eyebrow">6.9</div>
+            <h2>Hamilton–Jacobi</h2>
+            <p>La teoría de Hamilton–Jacobi busca una transformación canónica que vuelva la dinámica trivial. La función principal \(S(q,t)\) satisface</p>
+            <div class="equation-box">\[
+            \frac{\partial S}{\partial t}
+                +
+                \mathcal{H}\left(q,\frac{\partial S}{\partial q},t\right)
+                =
+                0.
+            \]</div>
+            <p>Aquí \(p=\partial S/\partial q\). La acción vuelve a aparecer como función que genera una transformación y organiza familias de soluciones.</p>
+            <p>Hamilton–Jacobi no es una técnica aislada. Es la culminación clásica de la idea de generadores: si encuentras la función generadora adecuada, resolver la dinámica se convierte en cambiar a variables donde el flujo es simple.</p>
+
+          </section>
+
+          <section id="10-que-conviene-retener" class="section-card">
+            <div class="eyebrow">6.10</div>
+            <h2>Qué conviene retener</h2>
+            <ol>
+              <li><p>Los problemas clásicos se leen primero por sus simetrías y su espacio     de fases.</p></li>
+              <li><p>Las cantidades conservadas reducen la dimensión efectiva del flujo.</p></li>
+              <li><p>Las coordenadas adaptadas revelan estructura; no inventan física.</p></li>
+              <li><p>Las transformaciones canónicas son los cambios de variables que     preservan la estructura generadora.</p></li>
+              <li><p>Liouville distingue el núcleo hamiltoniano cerrado de descripciones     disipativas efectivas.</p></li>
+              <li><p>Acción–ángulo y Hamilton–Jacobi muestran que la acción también es     geometría de fase, no solo integral lagrangiana.</p></li>
+            </ol>
+            <p>Con esto el edificio clásico queda en una forma más coherente con el camino constructivo. Falta mirar qué sobrevive cuando la mecánica deja de asignar una única historia clásica y empieza a sumar amplitudes.</p>
+
+          </section>
+
+          <nav class="chapter-nav" aria-label="Navegación entre capítulos">
+            <a class="chapter-nav-link previous" href="./capitulo-5.html">
+              <span>Capítulo anterior</span>
+              <strong>5</strong>
+            </a>
+            <a class="chapter-nav-link next" href="./capitulo-7.html">
+              <span>Capítulo siguiente</span>
+              <strong>7</strong>
+            </a>
+          </nav>
+        </main>
+      </div>
+    </div>
+
+    <script defer src="./course-demos.js?v=20260509-demo-fwk"></script>
+    <script defer src="./constructive-demos.js?v=20260509-constructive-demos"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        window.CourseDemos?.renderMath(document.body);
+      });
+    </script>
+  </body>
+</html>

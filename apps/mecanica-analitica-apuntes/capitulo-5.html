@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mecánica Analítica — Capítulo 5</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2830'/%3E%3Cpath d='M12 40c10-18 30-18 40 0' fill='none' stroke='%23f4ede0' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='40' r='4' fill='%23d16f2b'/%3E%3Ccircle cx='44' cy='40' r='4' fill='%230e7278'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    ></script>
+    <link rel="stylesheet" href="./course.css?v=2026-05-09-constructive" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Curso visual interactivo · Capítulo 5</div>
+            <h1>5. Acción canónica y Lagrange como proyección</h1>
+            <p>La acción reaparece primero en fase; la formulación lagrangiana surge cuando el momento puede eliminarse de forma regular.</p>
+            <div class="hero-actions">
+              <a class="btn secondary" href="./index.html">Índice del curso</a>
+              <a class="btn secondary" href="./capitulo-4.html">Capítulo 4</a>
+              <a class="btn" href="./capitulo-6.html">Capítulo 6</a>
+            </div>
+          </div>
+
+          <aside class="quote-card">
+            <div class="label">Cadena constructiva</div>
+            <div class="equation">estado → simetrías → generadores → fase</div>
+            <p>
+              El formalismo entra solo cuando resuelve una necesidad conceptual previa.
+            </p>
+          </aside>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="toc">
+          <h2>Capítulo 5</h2>
+          <nav>
+            <a href="#1-por-que-la-accion-reaparece">5.1 Por qué la acción reaparece</a>
+            <a href="#2-que-mide-el-termino-p-dq">5.2 Qué mide el término \(p_i\dot q^i\)</a>
+            <a href="#3-variar-la-accion-canonica">5.3 Variar la acción canónica</a>
+            <a href="#4-que-significa-estacionaria-aqui">5.4 Qué significa estacionaria aquí</a>
+            <a href="#5-cuando-aparece-un-lagrangiano">5.5 Cuándo aparece un lagrangiano</a>
+            <a href="#6-euler-lagrange-como-sombra-de-hamilton">5.6 Euler–Lagrange como sombra de Hamilton</a>
+            <a href="#7-derivadas-totales-y-equivalencia-variacional">5.7 Derivadas totales y equivalencia variacional</a>
+            <a href="#8-noether-en-su-lugar-natural">5.8 Noether en su lugar natural</a>
+            <a href="#9-por-que-no-subir-de-orden-alegremente">5.9 Por qué no subir de orden alegremente</a>
+            <a href="#10-que-conviene-retener">5.10 Qué conviene retener</a>
+            <a class="toc-next" href="./capitulo-4.html">Capítulo anterior: 4</a>
+            <a class="toc-next" href="./capitulo-6.html">Capítulo siguiente: 6</a>
+          </nav>
+        </aside>
+
+        <main class="content">
+          <section id="1-por-que-la-accion-reaparece" class="section-card">
+            <div class="eyebrow">5.1</div>
+            <h2>Por qué la acción reaparece</h2>
+            <p>Hasta aquí no hemos necesitado empezar por una acción. Construimos primero un espacio de presentes, filtramos leyes por simetrías, introdujimos el espacio de fases y vimos que las funciones pueden generar transformaciones.</p>
+            <p>Entonces, ¿para qué volver a hablar de acción?</p>
+            <p>Porque una formulación variacional hace visible otra organización del mismo contenido dinámico. En lugar de seguir el flujo punto a punto, compara curvas completas. Esa comparación resulta especialmente potente para conectar con geometría, aproximaciones semiclásicas, teoría de campos y mecánica cuántica.</p>
+            <p>La clave es no cambiar de fundamento sin darnos cuenta. La acción no sustituye la idea local de flujo: la reexpresa bajo condiciones adecuadas. Si una curva es la solución física, entonces cada pequeño tramo ya obedece el campo hamiltoniano; la formulación variacional empaqueta esa misma exigencia como una condición sobre historias completas.</p>
+            <p>Pero la acción que aparece de forma natural ahora no es primero</p>
+            <div class="equation-box">\[
+            S[q]=\int \mathcal{L}(q,\dot q,t)\,dt.
+            \]</div>
+            <p>Esa será una proyección posterior. La acción que vive directamente en el espacio donde ya estamos trabajando es la acción canónica:</p>
+            <div class="equation-box">\[
+            S[q,p]
+                =
+                \int_{t_1}^{t_2}
+                \left(
+                    p_i\dot q^i-\mathcal{H}(q,p,t)
+                \right)dt.
+            \]</div>
+            <p>La frase guía es:</p>
+            <div class="equation-box">\[
+            \boxed{\text{no construimos Hamilton desde Lagrange; construimos Lagrange como sombra de Hamilton}.}
+            \]</div>
+
+          </section>
+
+          <section id="2-que-mide-el-termino-p-dq" class="section-card">
+            <div class="eyebrow">5.2</div>
+            <h2>Qué mide el término \(p_i\dot q^i\)</h2>
+            <p>El término</p>
+            <div class="equation-box">\[
+            p_i\dot q^i\,dt
+            \]</div>
+            <p>es la forma canónica evaluada sobre la curva:</p>
+            <div class="equation-box">\[
+            p_i\,dq^i.
+            \]</div>
+            <p>Por eso encaja con el capítulo 3. No es un truco algebraico: integra a lo largo de una historia el emparejamiento natural entre el dato conjugado y el desplazamiento de configuración.</p>
+            <p>La acción canónica compara dos ingredientes:</p>
+            <div class="equation-box">\[
+            \text{emparejamiento fase-configuración}
+                \quad-\quad
+                \text{generador temporal}.
+            \]</div>
+            <p>En forma compacta:</p>
+            <div class="equation-box">\[
+            S=\int(\Theta-\mathcal{H}\,dt).
+            \]</div>
+            <p>Esto explica por qué la acción no entra como un objeto extraño. Es la integral de la estructura de fase a lo largo de una curva, corregida por el Hamiltoniano que genera el avance temporal.</p>
+
+          </section>
+
+          <section id="3-variar-la-accion-canonica" class="section-card">
+            <div class="eyebrow">5.3</div>
+            <h2>Variar la acción canónica</h2>
+            <p>Tomamos variaciones de \(q^i(t)\) y \(p_i(t)\), fijando los extremos de \(q\):</p>
+            <div class="equation-box">\[
+            \delta q^i(t_1)=\delta q^i(t_2)=0.
+            \]</div>
+            <p>La variación de</p>
+            <div class="equation-box">\[
+            S[q,p]=\int
+                \left(
+                    p_i\dot q^i-\mathcal{H}(q,p,t)
+                \right)dt
+            \]</div>
+            <p>es</p>
+            <div class="equation-box">\[
+            \delta S
+                =
+                \int
+                \left(
+                    \delta p_i\,\dot q^i
+                    +
+                    p_i\,\delta\dot q^i
+                    -
+                    \frac{\partial \mathcal{H}}{\partial q^i}\delta q^i
+                    -
+                    \frac{\partial \mathcal{H}}{\partial p_i}\delta p_i
+                \right)dt.
+            \]</div>
+            <p>Integramos por partes el término \(p_i\,\delta\dot q^i\):</p>
+            <div class="equation-box">\[
+            \int p_i\,\delta\dot q^i\,dt
+                =
+                \left[p_i\delta q^i\right]_{t_1}^{t_2}
+                -
+                \int \dot p_i\,\delta q^i\,dt.
+            \]</div>
+            <p>El término de borde desaparece por las condiciones fijadas sobre \(q\). Queda</p>
+            <div class="equation-box">\[
+            \delta S
+                =
+                \int
+                \left[
+                    \left(
+                        \dot q^i-\frac{\partial \mathcal{H}}{\partial p_i}
+                    \right)\delta p_i
+                    -
+                    \left(
+                        \dot p_i+\frac{\partial \mathcal{H}}{\partial q^i}
+                    \right)\delta q^i
+                \right]dt.
+            \]</div>
+            <p>Para que \(\delta S=0\) bajo variaciones arbitrarias, debe cumplirse</p>
+            <div class="equation-box">\[
+            \dot q^i=\frac{\partial \mathcal{H}}{\partial p_i},
+                \qquad
+                \dot p_i=-\frac{\partial \mathcal{H}}{\partial q^i}.
+            \]</div>
+            <p>La acción canónica reproduce Hamilton.</p>
+
+          </section>
+
+          <section id="4-que-significa-estacionaria-aqui" class="section-card">
+            <div class="eyebrow">5.4</div>
+            <h2>Qué significa estacionaria aquí</h2>
+            <p>La condición no dice que la naturaleza “pruebe todas las historias” ni que la acción tenga que ser mínima. Dice algo más preciso: entre curvas cercanas en el espacio de fases, la curva física hace que el cambio de \(S\) no tenga término lineal.</p>
+            <p>La palabra correcta es estacionaria:</p>
+            <div class="equation-box">\[
+            \delta S=0.
+            \]</div>
+            <p>Puede ser mínimo, máximo o punto de silla. Lo importante es que la condición variacional empaqueta las ecuaciones locales de Hamilton en una afirmación sobre historias completas.</p>
+            <p>Esto no contradice la localidad temporal del capítulo 1. La ecuación local y la acción son dos maneras de organizar el mismo contenido, bajo hipótesis de regularidad y condiciones de borde adecuadas.</p>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: estación de una historia en fase</h3>
+                  <p>Mueve una familia de curvas alrededor de la curva física. El residuo local desaparece justo cuando la historia sigue el campo hamiltoniano.</p>
+                </div>
+                <div class="world-actions">
+                  
+                  <label class="mini-label">desvío <input type="range" min="-1" max="1" step="0.02" value="0.45" data-demo-slider="canonical-action" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="canonical-action">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="canonical-action" aria-label="Demo interactiva: estación de una historia en fase"></div>
+                  <div class="world-side">
+                    
+                    <div class="stat-box">
+                      <h4>Residuo</h4>
+                      <p data-demo-readout="canonical-action"></p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>La acción estacionaria empaqueta la misma condición local del flujo; no introduce una memoria no local.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="5-cuando-aparece-un-lagrangiano" class="section-card">
+            <div class="eyebrow">5.5</div>
+            <h2>Cuándo aparece un lagrangiano</h2>
+            <p>La acción canónica usa \(q\) y \(p\) como variables independientes. Para llegar a una acción solo en configuración necesitamos poder despejar \(p\) a partir de</p>
+            <div class="equation-box">\[
+            \dot q^i=\frac{\partial \mathcal{H}}{\partial p_i}.
+            \]</div>
+            <p>Si esa relación es invertible, podemos escribir</p>
+            <div class="equation-box">\[
+            p_i=p_i(q,\dot q,t).
+            \]</div>
+            <p>Entonces definimos</p>
+            <div class="equation-box">\[
+            \mathcal{L}(q,\dot q,t)
+                =
+                p_i(q,\dot q,t)\dot q^i
+                -
+                \mathcal{H}(q,p(q,\dot q,t),t).
+            \]</div>
+            <p>Y la acción canónica se proyecta a</p>
+            <div class="equation-box">\[
+            S[q]=\int \mathcal{L}(q,\dot q,t)\,dt.
+            \]</div>
+            <p>Éste es el lugar natural de Lagrange en este curso:</p>
+            <div class="equation-box">\[
+            \boxed{\mathcal{L} \text{ aparece cuando eliminamos }p\text{ de una descripción de fase regular}.}
+            \]</div>
+            <p>No es el origen lógico de toda la mecánica. Es una traducción muy útil cuando la proyección a \(TQ\) es regular.</p>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: cuándo se puede eliminar p</h3>
+                  <p>Compara un caso regular, donde cada velocidad elige un p único, con un caso degenerado, donde la proyección pierde información.</p>
+                </div>
+                <div class="world-actions">
+                  
+                  <button class="btn" type="button" data-demo-choice="eliminate-p" data-value="regular">Regular</button>
+                  <button class="btn secondary" type="button" data-demo-choice="eliminate-p" data-value="degenerate">Degenerado</button>
+                  <button class="btn secondary" type="button" data-demo-reset="eliminate-p">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="eliminate-p" aria-label="Demo interactiva: cuándo se puede eliminar p"></div>
+                  <div class="world-side">
+                    
+                    <div class="stat-box">
+                      <h4>Lectura</h4>
+                      <p data-demo-readout="eliminate-p"></p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>Lagrange aparece si la proyección a (q, qdot) no colapsa datos de fase físicamente distintos.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="6-euler-lagrange-como-sombra-de-hamilton" class="section-card">
+            <div class="eyebrow">5.6</div>
+            <h2>Euler–Lagrange como sombra de Hamilton</h2>
+            <p>Una vez definida \(\mathcal{L}(q,\dot q,t)\), la condición \(\delta S[q]=0\) conduce a</p>
+            <div class="equation-box">\[
+            \frac{d}{dt}
+                \left(
+                    \frac{\partial \mathcal{L}}{\partial \dot q^i}
+                \right)
+                -
+                \frac{\partial \mathcal{L}}{\partial q^i}
+                =
+                0.
+            \]</div>
+            <p>Éstas son las ecuaciones de Euler–Lagrange.</p>
+            <p>En la exposición tradicional parecen el centro. Aquí tienen otro papel: son la forma que adoptan las ecuaciones de Hamilton cuando la variable \(p\) se ha eliminado de manera regular.</p>
+            <p>La definición</p>
+            <div class="equation-box">\[
+            p_i=\frac{\partial \mathcal{L}}{\partial \dot q^i}
+            \]</div>
+            <p>no entra como punto de partida. Entra como consecuencia de la proyección lagrangiana. Por eso el momento canónico no debe entenderse primero como una derivada formal de \(\mathcal{L}\), sino como el covector conjugado que ya vivía en \(T^*Q\).</p>
+
+          </section>
+
+          <section id="7-derivadas-totales-y-equivalencia-variacional" class="section-card">
+            <div class="eyebrow">5.7</div>
+            <h2>Derivadas totales y equivalencia variacional</h2>
+            <p>Si cambiamos el lagrangiano por</p>
+            <div class="equation-box">\[
+            \mathcal{L}'=\mathcal{L}+\frac{dF(q,t)}{dt},
+            \]</div>
+            <p>la acción cambia por</p>
+            <div class="equation-box">\[
+            S'[q]=S[q]+F(q(t_2),t_2)-F(q(t_1),t_1).
+            \]</div>
+            <p>Con extremos fijos, ese cambio de borde no altera las ecuaciones de Euler–Lagrange.</p>
+            <p>Esto no es lo mismo que un cambio de coordenadas, ni lo mismo que una simetría física. Son tres equivalencias distintas:</p>
+            <div class="equation-box">\[
+            \text{cambio de etiquetas}
+                \neq
+                \text{derivada total}
+                \neq
+                \text{simetría física}.
+            \]</div>
+            <p>La primera cambia la descripción. La segunda cambia el representante lagrangiano sin cambiar el problema variacional con esos bordes. La tercera transforma situaciones físicas de un modelo en situaciones físicamente equivalentes para la ley.</p>
+
+          </section>
+
+          <section id="8-noether-en-su-lugar-natural" class="section-card">
+            <div class="eyebrow">5.8</div>
+            <h2>Noether en su lugar natural</h2>
+            <p>Ahora sí podemos enunciar la versión lagrangiana de Noether sin convertirla en fundamento.</p>
+            <p>Si una transformación continua cambia la acción solo por un término de borde, entonces existe una cantidad conservada a lo largo de las soluciones. En una coordenada, si</p>
+            <div class="equation-box">\[
+            \delta q=\varepsilon\,\xi(q,t),
+                \qquad
+                \delta \mathcal{L}=\varepsilon\,\frac{dB}{dt},
+            \]</div>
+            <p>la cantidad asociada tiene la forma</p>
+            <div class="equation-box">\[
+            J
+                =
+                \frac{\partial \mathcal{L}}{\partial \dot q}\,\xi
+                -
+                B.
+            \]</div>
+            <p>En varias coordenadas:</p>
+            <div class="equation-box">\[
+            J
+                =
+                \frac{\partial \mathcal{L}}{\partial \dot q^i}\,\xi^i
+                -
+                B.
+            \]</div>
+            <p>Pero ahora sabemos leer esto de otro modo. El término</p>
+            <div class="equation-box">\[
+            \frac{\partial \mathcal{L}}{\partial \dot q^i}
+            \]</div>
+            <p>es el \(p_i\) que aparece al proyectar desde fase. Por tanto \(J\) es el generador hamiltoniano escrito en el idioma lagrangiano cuando esa traducción es válida.</p>
+            <p>Noether no dice que las conservaciones nazcan de una fórmula aislada. Dice que la simetría de la acción expresa, en lenguaje variacional, la compatibilidad entre un generador y la evolución.</p>
+
+          </section>
+
+          <section id="9-por-que-no-subir-de-orden-alegremente" class="section-card">
+            <div class="eyebrow">5.9</div>
+            <h2>Por qué no subir de orden alegremente</h2>
+            <p>Una acción lagrangiana podría depender de aceleraciones:</p>
+            <div class="equation-box">\[
+            S[q]=\int \mathcal{L}(q,\dot q,\ddot q,t)\,dt.
+            \]</div>
+            <p>Matemáticamente se puede estudiar. Pero constructivamente hay que preguntar qué memoria física adicional se ha introducido.</p>
+            <p>Una dependencia regular en \(\ddot q\) suele llevar a ecuaciones de orden más alto. Eso exige más datos iniciales. En el lenguaje del capítulo 1:</p>
+            <div class="equation-box">\[
+            \text{más orden} \quad \Longleftrightarrow \quad \text{más memoria de presente}.
+            \]</div>
+            <p>Si esa memoria tiene entidad física, quizá hemos eliminado grados de libertad que deberían estar presentes. Si no la tiene, el modelo está añadiendo estructura sin justificación.</p>
+            <p>Hay además fenómenos de inestabilidad asociados a teorías regulares de orden alto. Pero esa idea debe tratarse con cuidado y no sustituye al argumento básico de este curso: antes de aceptar datos iniciales extra, hay que explicar qué representan físicamente.</p>
+
+          </section>
+
+          <section id="10-que-conviene-retener" class="section-card">
+            <div class="eyebrow">5.10</div>
+            <h2>Qué conviene retener</h2>
+            <ol>
+              <li><p>La acción reaparece primero en fase:</p>
+            <div class="equation-box">\[
+            S[q,p]=\int(p_i\dot q^i-\mathcal{H})\,dt.
+            \]</div></li>
+              <li><p>La variación de esa acción da directamente las ecuaciones de Hamilton.</p></li>
+              <li><p>Lagrange aparece si podemos eliminar \(p\) de forma regular.</p></li>
+              <li><p>Euler–Lagrange es la sombra de Hamilton proyectada al espacio de     configuraciones y velocidades.</p></li>
+              <li><p>Derivadas totales, cambios de coordenadas y simetrías físicas son     equivalencias distintas.</p></li>
+              <li><p>Noether lagrangiano es una traducción variacional de la cadena     simetría, generador y conservación.</p></li>
+            </ol>
+            <p>Con esto recuperamos el lenguaje tradicional sin dejar que gobierne la construcción. Ahora podemos volver a problemas clásicos, pero leyéndolos desde la estructura: simetrías, fase, generadores, reducción y, cuando convenga, proyección lagrangiana.</p>
+
+          </section>
+
+          <nav class="chapter-nav" aria-label="Navegación entre capítulos">
+            <a class="chapter-nav-link previous" href="./capitulo-4.html">
+              <span>Capítulo anterior</span>
+              <strong>4</strong>
+            </a>
+            <a class="chapter-nav-link next" href="./capitulo-6.html">
+              <span>Capítulo siguiente</span>
+              <strong>6</strong>
+            </a>
+          </nav>
+        </main>
+      </div>
+    </div>
+
+    <script defer src="./course-demos.js?v=20260509-demo-fwk"></script>
+    <script defer src="./constructive-demos.js?v=20260509-constructive-demos"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        window.CourseDemos?.renderMath(document.body);
+      });
+    </script>
+  </body>
+</html>

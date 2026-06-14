@@ -1,72 +1,23 @@
+      const Demo = window.CourseDemos;
       let noInertiaController;
-      let realWorldController;
 
       window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.body, {
-          delimiters: [
-            { left: "$$", right: "$$", display: true },
-            { left: "\\[", right: "\\]", display: true },
-            { left: "\\(", right: "\\)", display: false },
-            { left: "$", right: "$", display: false }
-          ],
-          macros: {
-            "\\dv": "\\frac{d#1}{d#2}",
-            "\\dddot": "\\dot{\\ddot{#1}}"
-          }
-        });
+        Demo.renderMath(document.body);
 
         initSystemVsConfigurationViz();
         initModelPruningViz();
-        initPhotoVsStateSketch();
         initPendulumConfigViz();
         initLawRuleViz();
         initReversibilitySketch();
+        initStateFlowSketch();
+        initAttractorFieldSketch();
         initNoInertiaSketch();
         initMemoryWorld();
-        initRealWorldSketch();
-        initStateSliceSketch();
         initPhaseProjectionSketch();
       });
 
       function renderInlineMath(container) {
-        renderMathInElement(container, {
-          delimiters: [
-            { left: "$$", right: "$$", display: true },
-            { left: "\\[", right: "\\]", display: true },
-            { left: "\\(", right: "\\)", display: false },
-            { left: "$", right: "$", display: false }
-          ],
-          macros: {
-            "\\dv": "\\frac{d#1}{d#2}",
-            "\\dddot": "\\dot{\\ddot{#1}}"
-          }
-        });
-      }
-
-      function drawArrow(p, x1, y1, x2, y2, color, weight = 1.6) {
-        const angle = Math.atan2(y2 - y1, x2 - x1);
-        const size = 7;
-        p.stroke(color);
-        p.strokeWeight(weight);
-        p.line(x1, y1, x2, y2);
-        p.line(
-          x2,
-          y2,
-          x2 - size * Math.cos(angle - Math.PI / 6),
-          y2 - size * Math.sin(angle - Math.PI / 6)
-        );
-        p.line(
-          x2,
-          y2,
-          x2 - size * Math.cos(angle + Math.PI / 6),
-          y2 - size * Math.sin(angle + Math.PI / 6)
-        );
-      }
-
-      function setButtonVariant(button, active) {
-        if (!button) return;
-        button.classList.add("btn");
-        button.classList.toggle("secondary", !active);
+        Demo.renderMath(container);
       }
 
       function initSystemVsConfigurationViz() {
@@ -98,9 +49,11 @@
         };
 
         function syncButtons() {
-          setButtonVariant(particleButton, controller.mode === "particle");
-          setButtonVariant(pendulumButton, controller.mode === "pendulum");
-          setButtonVariant(doubleButton, controller.mode === "double");
+          Demo.syncButtons({
+            particle: particleButton,
+            pendulum: pendulumButton,
+            double: doubleButton
+          }, controller.mode);
         }
 
         function panelFrame(svg, x, y, w, h, title, subtitle) {
@@ -417,9 +370,9 @@
         };
 
         function syncButtons() {
-          setButtonVariant(dragButton, controller.drag);
-          setButtonVariant(supportButton, controller.support);
-          setButtonVariant(elasticityButton, controller.elasticity);
+          Demo.setButtonVariant(dragButton, controller.drag);
+          Demo.setButtonVariant(supportButton, controller.support);
+          Demo.setButtonVariant(elasticityButton, controller.elasticity);
         }
 
         function syncCaption() {
@@ -646,7 +599,7 @@
 
         const labels = {
           flow: "continuación local a partir del presente",
-          map: "salto discreto de un estado al siguiente",
+          map: "salto discreto de un presente al siguiente",
           histories: "selección global entre historias completas"
         };
 
@@ -663,9 +616,11 @@
         };
 
         function syncButtons() {
-          setButtonVariant(flowButton, controller.mode === "flow");
-          setButtonVariant(mapButton, controller.mode === "map");
-          setButtonVariant(historiesButton, controller.mode === "histories");
+          Demo.syncButtons({
+            flow: flowButton,
+            map: mapButton,
+            histories: historiesButton
+          }, controller.mode);
         }
 
         function render() {
@@ -832,7 +787,7 @@
               .attr("y", height - 36)
               .attr("fill", "#607180")
               .attr("font-size", 12)
-              .text("aquí la ley no deriva: actualiza el estado en pasos discretos");
+              .text("aquí la ley no deriva: actualiza el presente en pasos discretos");
           }
 
           if (controller.mode === "histories") {
@@ -948,171 +903,6 @@
         resetButton.addEventListener("click", () => controller.reset());
         window.addEventListener("resize", render);
         syncUi();
-      }
-
-      function initPhotoVsStateSketch() {
-        const host = document.getElementById("viz-photo-state");
-        const resetButton = document.getElementById("reset-photo-state");
-        if (!host || !resetButton) return;
-
-        const controller = {
-          time: 0,
-          reset() {
-            this.time = 0;
-          }
-        };
-
-        const sketch = (p) => {
-          const theta0 = 0.62;
-
-          function vizHeight() {
-            const width = host.clientWidth;
-            if (width < 420) return 252;
-            if (width < 640) return 286;
-            return 332;
-          }
-
-          function bobPoint(cx, cy, radius, theta) {
-            return {
-              x: cx + radius * Math.sin(theta),
-              y: cy + radius * Math.cos(theta)
-            };
-          }
-
-          p.setup = () => {
-            const canvas = p.createCanvas(host.clientWidth, vizHeight());
-            canvas.parent(host);
-            p.pixelDensity(2);
-          };
-
-          p.windowResized = () => {
-            p.resizeCanvas(host.clientWidth, vizHeight());
-          };
-
-          p.draw = () => {
-            controller.time += p.deltaTime * 0.001;
-            if (controller.time > 5.4) controller.time = 0;
-
-            p.clear();
-            p.background(252, 248, 240);
-
-            const width = p.width;
-            const height = p.height;
-            const small = width < 430;
-            const stacked = width < 620;
-            const margin = 18;
-            const gap = 18;
-            const panelWidth = stacked ? width - margin * 2 : (width - margin * 2 - gap) / 2;
-            const panelHeight = stacked ? (height - margin * 2 - gap) / 2 : height - margin * 2;
-            const leftTop = { x: margin, y: margin };
-            const rightTop = stacked
-              ? { x: margin, y: margin + panelHeight + gap }
-              : { x: margin + panelWidth + gap, y: margin };
-
-            [leftTop, rightTop].forEach((top) => {
-              p.noStroke();
-              p.fill(255, 255, 255, 170);
-              p.rect(top.x, top.y, panelWidth, panelHeight, 20);
-            });
-
-            p.fill(96, 113, 128);
-            p.textAlign(p.LEFT, p.TOP);
-            p.textSize(small ? 11 : 13);
-            p.textStyle(p.BOLD);
-            p.text("la foto", leftTop.x + 18, leftTop.y + 16);
-            p.text("dos futuros posibles", rightTop.x + 18, rightTop.y + 16);
-
-            const leftPivot = {
-              x: leftTop.x + panelWidth * 0.5,
-              y: leftTop.y + panelHeight * 0.24
-            };
-            const rightPivot = {
-              x: rightTop.x + panelWidth * 0.5,
-              y: rightTop.y + panelHeight * 0.24
-            };
-            const radius = Math.min(panelWidth, panelHeight) * 0.34;
-
-            const staticBob = bobPoint(leftPivot.x, leftPivot.y, radius, theta0);
-            const warmup = Math.max(controller.time - 0.8, 0);
-            const spread = Math.min(warmup * 0.42, 0.72);
-            const thetaA = theta0 - spread;
-            const thetaB = theta0 + spread;
-            const bobA = bobPoint(rightPivot.x, rightPivot.y, radius, thetaA);
-            const bobB = bobPoint(rightPivot.x, rightPivot.y, radius, thetaB);
-            const originBob = bobPoint(rightPivot.x, rightPivot.y, radius, theta0);
-
-            function drawReference(pivot, top) {
-              p.stroke(27, 40, 48, 55);
-              p.strokeWeight(1.4);
-              p.line(pivot.x, top.y + 22, pivot.x, top.y + panelHeight - 22);
-              p.noStroke();
-              p.fill(96, 113, 128);
-              p.textSize(small ? 11 : 12);
-              p.textStyle(p.NORMAL);
-              p.text("misma θ(t₀)", pivot.x - (small ? 34 : 40), top.y + panelHeight - 18);
-            }
-
-            drawReference(leftPivot, leftTop);
-            drawReference(rightPivot, rightTop);
-
-            p.stroke(27, 40, 48);
-            p.strokeWeight(3);
-            p.line(leftPivot.x, leftPivot.y, staticBob.x, staticBob.y);
-            p.fill(27, 40, 48);
-            p.circle(leftPivot.x, leftPivot.y, 9);
-            p.fill(209, 111, 43);
-            p.circle(staticBob.x, staticBob.y, 16);
-
-            p.stroke(27, 40, 48, 70);
-            p.strokeWeight(2);
-            p.line(rightPivot.x, rightPivot.y, originBob.x, originBob.y);
-
-            p.stroke("#0e7278");
-            p.strokeWeight(3);
-            p.line(rightPivot.x, rightPivot.y, bobA.x, bobA.y);
-            p.stroke("#d16f2b");
-            p.line(rightPivot.x, rightPivot.y, bobB.x, bobB.y);
-
-            p.noStroke();
-            p.fill(27, 40, 48);
-            p.circle(rightPivot.x, rightPivot.y, 9);
-            p.fill("#0e7278");
-            p.circle(bobA.x, bobA.y, 14);
-            p.fill("#d16f2b");
-            p.circle(bobB.x, bobB.y, 14);
-
-            p.fill(14, 114, 120);
-            p.textSize(small ? 10 : 12);
-            p.text("θ̇ < 0", bobA.x - (small ? 14 : 18), bobA.y - 26);
-            p.fill(209, 111, 43);
-            p.text("θ̇ > 0", bobB.x - (small ? 14 : 18), bobB.y + 14);
-
-            p.stroke(14, 114, 120, 170);
-            p.strokeWeight(2);
-            p.line(bobA.x + 6, bobA.y - 8, bobA.x - 18, bobA.y - 22);
-            p.line(bobA.x - 18, bobA.y - 22, bobA.x - 14, bobA.y - 12);
-            p.line(bobA.x - 18, bobA.y - 22, bobA.x - 7, bobA.y - 24);
-
-            p.stroke(209, 111, 43, 180);
-            p.line(bobB.x - 6, bobB.y + 8, bobB.x + 18, bobB.y + 22);
-            p.line(bobB.x + 18, bobB.y + 22, bobB.x + 8, bobB.y + 24);
-            p.line(bobB.x + 18, bobB.y + 22, bobB.x + 14, bobB.y + 12);
-
-            p.noStroke();
-            p.fill(96, 113, 128);
-            p.textAlign(p.LEFT, p.TOP);
-            p.textSize(small ? 10 : 12);
-            p.text(
-              "la misma configuración no basta para fijar la historia",
-              rightTop.x + 18,
-              rightTop.y + panelHeight - 34,
-              panelWidth - 36
-            );
-          };
-        };
-
-        new p5(sketch);
-        resetButton.addEventListener("click", () => controller.reset());
       }
 
       function initPendulumConfigViz() {
@@ -1792,7 +1582,7 @@
 
             p.fill("#1b2830");
             p.circle(px, lineY, 12);
-            drawArrow(
+            Demo.drawArrow(
               p,
               px,
               lineY - 24,
@@ -1851,7 +1641,7 @@
             p.line(scaleX(0), lineY - 14, scaleX(0), lineY + 14);
 
             [-1.45, -0.85, -0.35].forEach((value) => {
-              drawArrow(
+              Demo.drawArrow(
                 p,
                 scaleX(value),
                 lineY - 30,
@@ -1862,7 +1652,7 @@
               );
             });
             [0.35, 0.85, 1.45].forEach((value) => {
-              drawArrow(
+              Demo.drawArrow(
                 p,
                 scaleX(value),
                 lineY - 30,
@@ -1905,7 +1695,7 @@
             p.stroke(color);
             p.strokeWeight(2.4);
             p.line(scaleX(inverted ? end : start), lineY + 24, scaleX(xPos), lineY + 24);
-            drawArrow(
+            Demo.drawArrow(
               p,
               scaleX(xPos),
               lineY + 24,
@@ -1941,14 +1731,11 @@
           }
 
           p.setup = () => {
-            const canvas = p.createCanvas(host.clientWidth, vizHeight());
-            canvas.parent(host);
-            p.pixelDensity(2);
-            syncPauseUi();
+            Demo.setupP5Canvas(p, host, vizHeight, { onSetup: syncPauseUi });
           };
 
           p.windowResized = () => {
-            p.resizeCanvas(host.clientWidth, vizHeight());
+            Demo.resizeP5Canvas(p, host, vizHeight);
           };
 
           p.draw = () => {
@@ -2047,194 +1834,274 @@
         pauseButton.addEventListener("click", () => controller.togglePause());
       }
 
-      function initStateSliceSketch() {
-        const host = document.getElementById("viz-state-slice");
-        const xInput = document.getElementById("state-slice-x0");
-        const vInput = document.getElementById("state-slice-v0");
-        const xValue = document.getElementById("state-slice-x0-value");
-        const vValue = document.getElementById("state-slice-v0-value");
-        const toggleButton = document.getElementById("toggle-state-velocity");
-        const modeLabel = document.getElementById("state-velocity-mode");
-        const resetButton = document.getElementById("reset-state-slice");
-        if (!host || !xInput || !vInput || !xValue || !vValue || !toggleButton || !modeLabel || !resetButton) return;
+      function initStateFlowSketch() {
+        const host = document.getElementById("viz-state-flow");
+        const resetButton = document.getElementById("reset-state-flow");
+        const qButton = document.getElementById("state-flow-q");
+        const qetaButton = document.getElementById("state-flow-qeta");
+        const qetaalphaButton = document.getElementById("state-flow-qetaalpha");
+        const caption = document.getElementById("state-flow-caption");
+        if (!host || !resetButton || !qButton || !qetaButton || !qetaalphaButton || !caption) return;
+
+        const labels = {
+          q: "el punto q intenta decidirlo todo",
+          qeta: "cada punto (q,η) trae una flecha completa",
+          qetaalpha: "el tercer dato abre flechas distintas desde el mismo (q,η)"
+        };
 
         const controller = {
-          showVelocity: true,
-          reset() {
-            xInput.value = "0.35";
-            vInput.value = "0.72";
-            this.showVelocity = true;
+          mode: "q",
+          time: 0,
+          setMode(mode) {
+            this.mode = mode;
             syncUi();
           },
-          toggle() {
-            this.showVelocity = !this.showVelocity;
+          reset() {
+            this.time = 0;
             syncUi();
           }
         };
 
         function syncUi() {
-          xValue.textContent = `x₀ = ${Number(xInput.value).toFixed(2)}`;
-          vValue.textContent = `v₀ = ${Number(vInput.value).toFixed(2)}`;
-          toggleButton.textContent = controller.showVelocity
-            ? "Ocultar velocidad"
-            : "Mostrar velocidad";
-          modeLabel.textContent = controller.showVelocity
-            ? "velocidad visible"
-            : "solo ves la configuración";
+          Demo.syncButtons({
+            q: qButton,
+            qeta: qetaButton,
+            qetaalpha: qetaalphaButton
+          }, controller.mode);
+          caption.textContent = labels[controller.mode];
         }
 
         const sketch = (p) => {
           function vizHeight() {
             const width = host.clientWidth;
-            if (width < 420) return 270;
-            if (width < 700) return 360;
-            return 320;
+            if (width < 430) return 430;
+            if (width < 720) return 440;
+            return 400;
           }
 
-          function scaleConfig(x, left, width) {
-            return p.map(x, -1, 1, left + 32, left + width - 32);
+          function panel(x, y, w, h, title, subtitle) {
+            p.noStroke();
+            p.fill(255, 255, 255, 168);
+            p.rect(x, y, w, h, 20);
+            p.stroke(27, 40, 48, 18);
+            p.strokeWeight(1);
+            p.rect(x, y, w, h, 20);
+            p.noStroke();
+            p.fill(27, 40, 48);
+            p.textAlign(p.LEFT, p.TOP);
+            p.textStyle(p.BOLD);
+            p.textSize(p.width < 430 ? 11 : 13);
+            p.text(title, x + 16, y + 15);
+            p.textStyle(p.NORMAL);
+            p.fill(96, 113, 128);
+            p.textSize(p.width < 430 ? 10 : 11);
+            p.text(subtitle, x + 16, y + 37, w - 32);
           }
 
-          function scaleStateX(x, left, width) {
-            return p.map(x, -1, 1, left + 36, left + width - 28);
+          function drawFormula(text, x, y) {
+            p.noStroke();
+            p.fill(96, 113, 128);
+            p.textAlign(p.LEFT, p.TOP);
+            p.textStyle(p.BOLD);
+            p.textSize(p.width < 430 ? 11 : 13);
+            p.text(text, x, y);
           }
 
-          function scaleStateY(v, top, height) {
-            return p.map(v, -1.4, 1.4, top + height - 30, top + 28);
+          function drawQMode(x0, y0, w, h) {
+            panel(x0, y0, w, h, "presente candidato: s = q", "la configuración intenta traer una sola flecha");
+            const axisY = y0 + h * 0.56;
+            const left = x0 + 54;
+            const right = x0 + w - 42;
+            p.stroke(27, 40, 48, 38);
+            p.strokeWeight(1.4);
+            p.line(left, axisY, right, axisY);
+            p.noStroke();
+            p.fill(96, 113, 128);
+            p.textSize(11);
+            p.text("q", right - 8, axisY + 12);
+
+            [-0.9, -0.45, 0.05, 0.55, 0.95].forEach((q) => {
+              const x = p.map(q, -1, 1, left, right);
+              const u = -0.52 * q;
+              const end = x + u * 70;
+              Demo.drawArrow(p, x - Math.sign(u || 1) * 12, axisY - 20, end, axisY - 20, "rgba(14,114,120,0.62)", 2);
+              p.noStroke();
+              p.fill("#0e7278");
+              p.circle(x, axisY, 8);
+            });
+
+            const q = 0.82 * Math.cos(controller.time * 0.85);
+            const x = p.map(q, -1, 1, left, right);
+            p.noStroke();
+            p.fill("#d16f2b");
+            p.circle(x, axisY + 30, 13);
+            drawFormula("s = q    →    q̇ = f(q,t)", x0 + 22, y0 + h - 42);
+          }
+
+          function drawQEtaMode(x0, y0, w, h) {
+            panel(x0, y0, w, h, "presente candidato: s = (q,η)", "el flujo vive en un plano de presentes");
+            const cx = x0 + w * 0.52;
+            const cy = y0 + h * 0.57;
+            const rx = Math.min(w * 0.31, 150);
+            const ry = Math.min(h * 0.28, 92);
+            const viewport = new Demo.Viewport2D(p, {
+              left: cx - rx,
+              right: cx + rx,
+              top: cy - ry,
+              bottom: cy + ry
+            }, {
+              x: [-1, 1],
+              y: [-1, 1]
+            });
+
+            p.stroke(27, 40, 48, 38);
+            p.strokeWeight(1.3);
+            p.line(cx - rx - 22, cy, cx + rx + 22, cy);
+            p.line(cx, cy + ry + 22, cx, cy - ry - 22);
+            p.noStroke();
+            p.fill(96, 113, 128);
+            p.textSize(11);
+            p.text("q", cx + rx + 20, cy + 6);
+            p.text("η", cx + 8, cy - ry - 24);
+
+            Demo.drawVectorField(p, viewport, {
+              xs: Demo.range(-1, 1, 1 / 3),
+              ys: Demo.range(-1, 1, 0.5),
+              field: ({ x: q, y: eta }) => ({ x: eta, y: -q }),
+              length: 20,
+              color: "rgba(96,113,128,0.48)",
+              weight: 1.2
+            });
+
+            p.noFill();
+            p.stroke("#0e7278");
+            p.strokeWeight(2.6);
+            p.ellipse(cx, cy, rx * 1.55, ry * 1.55);
+            const theta = controller.time * 0.75;
+            const q = 0.78 * Math.cos(theta);
+            const eta = -0.78 * Math.sin(theta);
+            const pt = viewport.point({ x: q, y: eta });
+            p.noStroke();
+            p.fill("#0e7278");
+            p.circle(pt.x, pt.y, 13);
+            drawFormula("s = (q,η)    →    (q̇,η̇)=X(q,η,t)", x0 + 22, y0 + h - 42);
+          }
+
+          function drawQEtaAlphaMode(x0, y0, w, h) {
+            panel(x0, y0, w, h, "presente candidato: s = (q,η,α)", "la misma sombra (q,η) puede esconder varios α");
+            const cx = x0 + w * 0.47;
+            const cy = y0 + h * 0.56;
+            const rx = Math.min(w * 0.28, 132);
+            const ry = Math.min(h * 0.25, 82);
+
+            p.stroke(27, 40, 48, 34);
+            p.strokeWeight(1.3);
+            p.line(cx - rx - 20, cy, cx + rx + 20, cy);
+            p.line(cx, cy + ry + 20, cx, cy - ry - 20);
+            p.noStroke();
+            p.fill(96, 113, 128);
+            p.textSize(11);
+            p.text("q", cx + rx + 19, cy + 6);
+            p.text("η", cx + 8, cy - ry - 23);
+
+            const base = { x: cx - rx * 0.32, y: cy + ry * 0.12 };
+            p.stroke(27, 40, 48, 24);
+            p.line(base.x, cy - ry - 18, base.x, cy + ry + 18);
+            p.noStroke();
+            p.fill("#1b2830");
+            p.circle(base.x, base.y, 12);
+
+            const branches = [
+              { alpha: "-α", color: "#b6421f", dy: 58 },
+              { alpha: "0", color: "#1b2830", dy: 10 },
+              { alpha: "+α", color: "#0e7278", dy: -42 }
+            ];
+            branches.forEach((branch, index) => {
+              const endX = base.x + rx * 0.82;
+              const endY = base.y + branch.dy;
+              Demo.drawArrow(p, base.x + 6, base.y + (index - 1) * 2, endX, endY, branch.color, 2.4);
+              p.noStroke();
+              p.fill(branch.color);
+              p.textStyle(p.BOLD);
+              p.textSize(11);
+              p.text(branch.alpha, endX + 10, endY - 6);
+            });
+
+            p.noStroke();
+            p.fill(96, 113, 128);
+            p.textStyle(p.NORMAL);
+            p.textSize(p.width < 430 ? 10 : 11);
+            p.text("mismo (q,η), flechas distintas si α es libre", x0 + 22, y0 + h - 64, w - 44);
+            drawFormula("s = (q,η,α)    →    más memoria pide más física", x0 + 22, y0 + h - 42);
           }
 
           p.setup = () => {
-            const canvas = p.createCanvas(host.clientWidth, vizHeight());
-            canvas.parent(host);
-            p.pixelDensity(2);
-            syncUi();
+            Demo.setupP5Canvas(p, host, vizHeight, { font: "Manrope" });
           };
 
           p.windowResized = () => {
-            p.resizeCanvas(host.clientWidth, vizHeight());
+            Demo.resizeP5Canvas(p, host, vizHeight);
           };
 
           p.draw = () => {
-            syncUi();
-
-            const x0 = Number(xInput.value);
-            const v0 = Number(vInput.value);
-
+            controller.time += p.deltaTime * 0.001;
             p.clear();
             p.background(252, 248, 240);
 
-            const stacked = p.width < 700;
-            const margin = 18;
-            const gap = 18;
-            const panelWidth = stacked
-              ? p.width - margin * 2
-              : (p.width - margin * 2 - gap) / 2;
-            const panelHeight = stacked
-              ? (p.height - margin * 2 - gap) / 2
-              : p.height - margin * 2;
-            const leftTop = { x: margin, y: margin };
-            const rightTop = stacked
-              ? { x: margin, y: margin + panelHeight + gap }
-              : { x: margin + panelWidth + gap, y: margin };
-
-            [leftTop, rightTop].forEach((top) => {
-              p.noStroke();
-              p.fill(255, 255, 255, 170);
-              p.rect(top.x, top.y, panelWidth, panelHeight, 20);
-            });
-
-            p.fill(96, 113, 128);
-            p.textAlign(p.LEFT, p.TOP);
-            p.textSize(p.width < 430 ? 10 : 12);
-            p.textStyle(p.BOLD);
-            p.text("configuración", leftTop.x + 16, leftTop.y + 14);
-            p.text("espacio de estados", rightTop.x + 16, rightTop.y + 14);
-
-            const axisY = leftTop.y + panelHeight * 0.56;
-            const xPos = scaleConfig(x0, leftTop.x, panelWidth);
-            p.stroke(27, 40, 48, 45);
-            p.strokeWeight(1.4);
-            p.line(leftTop.x + 24, axisY, leftTop.x + panelWidth - 24, axisY);
-            p.stroke(27, 40, 48, 72);
-            p.line(xPos, axisY - 18, xPos, axisY + 18);
             p.noStroke();
-            p.fill(27, 40, 48);
-            p.circle(xPos, axisY, 12);
-            p.fill(96, 113, 128);
-            p.textStyle(p.NORMAL);
-            p.text("x₀", xPos - 8, axisY + 22);
-
-            if (controller.showVelocity) {
-              drawArrow(p, xPos, axisY - 26, xPos + 46, axisY - 26, "#0e7278", 2.4);
-              drawArrow(p, xPos, axisY + 26, xPos - 46, axisY + 26, "#d16f2b", 2.4);
-              p.noStroke();
-              p.fill("#0e7278");
-              p.text("+\u2009v₀", xPos + 54, axisY - 36);
-              p.fill("#d16f2b");
-              p.text("−\u2009v₀", xPos - 76, axisY + 16);
-            } else {
-              p.fill(96, 113, 128);
-              p.textAlign(p.CENTER, p.CENTER);
-              p.textSize(p.width < 430 ? 20 : 28);
-              p.text("?", xPos, axisY - 42);
+            for (let i = 0; i < 7; i += 1) {
+              p.fill(14, 114, 120, 10 - i);
+              p.circle(p.width * 0.83, p.height * 0.18, 170 + i * 22);
             }
 
-            const stateAxisX = scaleStateX(0, rightTop.x, panelWidth);
-            const stateAxisY = scaleStateY(0, rightTop.y, panelHeight);
-            const stateX = scaleStateX(x0, rightTop.x, panelWidth);
-            const stateYPlus = scaleStateY(v0, rightTop.y, panelHeight);
-            const stateYMinus = scaleStateY(-v0, rightTop.y, panelHeight);
-
-            p.stroke(27, 40, 48, 42);
-            p.strokeWeight(1.3);
-            p.line(rightTop.x + 26, stateAxisY, rightTop.x + panelWidth - 24, stateAxisY);
-            p.line(stateAxisX, rightTop.y + 22, stateAxisX, rightTop.y + panelHeight - 24);
-            p.stroke(27, 40, 48, 22);
-            p.line(stateX, rightTop.y + 22, stateX, rightTop.y + panelHeight - 24);
-
-            p.noStroke();
-            p.fill("#0e7278");
-            p.circle(stateX, stateYPlus, 12);
-            p.fill("#d16f2b");
-            p.circle(stateX, stateYMinus, 12);
-
-            p.fill("#0e7278");
-            p.textAlign(p.LEFT, p.CENTER);
-            p.textSize(p.width < 430 ? 10 : 12);
-            p.text("(x₀,+v₀)", stateX + 10, stateYPlus);
-            p.fill("#d16f2b");
-            p.text("(x₀,−v₀)", stateX + 10, stateYMinus);
-            p.fill(96, 113, 128);
-            p.text("x", rightTop.x + panelWidth - 14, stateAxisY - 14);
-            p.text("v", stateAxisX + 8, rightTop.y + 18);
+            const margin = 18;
+            const x = margin;
+            const y = margin;
+            const w = p.width - margin * 2;
+            const h = p.height - margin * 2;
+            if (controller.mode === "q") drawQMode(x, y, w, h);
+            if (controller.mode === "qeta") drawQEtaMode(x, y, w, h);
+            if (controller.mode === "qetaalpha") drawQEtaAlphaMode(x, y, w, h);
           };
         };
 
         new p5(sketch);
-        xInput.addEventListener("input", syncUi);
-        vInput.addEventListener("input", syncUi);
-        toggleButton.addEventListener("click", () => controller.toggle());
+        qButton.addEventListener("click", () => controller.setMode("q"));
+        qetaButton.addEventListener("click", () => controller.setMode("qeta"));
+        qetaalphaButton.addEventListener("click", () => controller.setMode("qetaalpha"));
         resetButton.addEventListener("click", () => controller.reset());
+        syncUi();
       }
 
       function initPhaseProjectionSketch() {
         const host = document.getElementById("viz-phase-projection");
         const resetButton = document.getElementById("reset-phase-projection");
-        if (!host || !resetButton) return;
+        const energyInput = document.getElementById("phase-energy");
+        const energyValue = document.getElementById("phase-energy-value");
+        if (!host || !resetButton || !energyInput || !energyValue) return;
 
         const controller = {
           time: 0,
+          radius: Number(energyInput.value),
           reset() {
             this.time = 0;
+            this.radius = 0.72;
+            energyInput.value = String(this.radius);
+            syncUi();
           }
         };
+
+        function syncUi() {
+          controller.radius = Number(energyInput.value);
+          energyValue.textContent = `radio = ${controller.radius.toFixed(2)}`;
+        }
 
         const sketch = (p) => {
           function vizHeight() {
             const width = host.clientWidth;
-            if (width < 420) return 340;
-            if (width < 760) return 430;
-            return 340;
+            if (width < 430) return 720;
+            if (width < 760) return 650;
+            return 600;
           }
 
           function graphPoint(originX, originY, w, h, t, y, yMin, yMax) {
@@ -2244,60 +2111,74 @@
             };
           }
 
+          function panel(x, y, w, h, title, subtitle) {
+            p.noStroke();
+            p.fill(255, 255, 255, 172);
+            p.rect(x, y, w, h, 20);
+            p.fill(96, 113, 128);
+            p.textAlign(p.LEFT, p.TOP);
+            p.textStyle(p.BOLD);
+            p.textSize(p.width < 430 ? 10 : 12);
+            p.text(title, x + 16, y + 14);
+            if (subtitle) {
+              p.textStyle(p.NORMAL);
+              p.textSize(p.width < 430 ? 9.5 : 11);
+              p.fill(96, 113, 128, 215);
+              p.text(subtitle, x + 16, y + 34, w - 32);
+            }
+          }
+
           p.setup = () => {
-            const canvas = p.createCanvas(host.clientWidth, vizHeight());
-            canvas.parent(host);
-            p.pixelDensity(2);
+            Demo.setupP5Canvas(p, host, vizHeight, { font: "Manrope", onSetup: syncUi });
           };
 
           p.windowResized = () => {
-            p.resizeCanvas(host.clientWidth, vizHeight());
+            Demo.resizeP5Canvas(p, host, vizHeight);
           };
 
           p.draw = () => {
+            syncUi();
             controller.time += p.deltaTime * 0.0007;
             const theta = (0.55 + controller.time) % (2 * Math.PI);
             const mirrorTheta = (2 * Math.PI - theta) % (2 * Math.PI);
-            const x = Math.cos(theta);
-            const v = -Math.sin(theta);
-            const mirrorX = Math.cos(mirrorTheta);
-            const mirrorV = -Math.sin(mirrorTheta);
+            const radius = controller.radius;
+            const x = radius * Math.cos(theta);
+            const v = -radius * Math.sin(theta);
+            const mirrorX = radius * Math.cos(mirrorTheta);
+            const mirrorV = -radius * Math.sin(mirrorTheta);
 
             p.clear();
             p.background(252, 248, 240);
 
-            const stacked = p.width < 760;
             const margin = 18;
             const gap = 16;
-            if (stacked) {
-              const panelHeight = (p.height - margin * 2 - gap * 2) / 3;
-              drawXPanel(margin, margin, p.width - margin * 2, panelHeight, theta, mirrorTheta);
-              drawVPanel(margin, margin + panelHeight + gap, p.width - margin * 2, panelHeight, theta, mirrorTheta);
-              drawPhasePanel(margin, margin + 2 * (panelHeight + gap), p.width - margin * 2, panelHeight, x, v, mirrorX, mirrorV);
+            const phaseHeight = p.width < 560 ? p.height * 0.56 : p.height * 0.58;
+            const phaseX = margin;
+            const phaseY = margin;
+            const phaseW = p.width - margin * 2;
+            const phaseH = phaseHeight - margin;
+            drawPhasePanel(phaseX, phaseY, phaseW, phaseH, x, v, mirrorX, mirrorV, radius);
+
+            const bottomY = phaseY + phaseH + gap;
+            const bottomH = p.height - bottomY - margin;
+            if (p.width < 620) {
+              const half = (bottomH - gap) / 2;
+              drawProjectionPanel(margin, bottomY, phaseW, half, theta, mirrorTheta, radius, "x(t)", "misma posición, dos visitas", (t) => radius * Math.cos(t));
+              drawProjectionPanel(margin, bottomY + half + gap, phaseW, half, theta, mirrorTheta, radius, "η(t)", "datos de cambio opuestos", (t) => -radius * Math.sin(t));
             } else {
-              const leftWidth = p.width * 0.56;
-              const rightWidth = p.width - margin * 2 - gap - leftWidth;
-              const panelHeight = (p.height - margin * 2 - gap) / 2;
-              drawXPanel(margin, margin, leftWidth, panelHeight, theta, mirrorTheta);
-              drawVPanel(margin, margin + panelHeight + gap, leftWidth, panelHeight, theta, mirrorTheta);
-              drawPhasePanel(margin + leftWidth + gap, margin, rightWidth, p.height - margin * 2, x, v, mirrorX, mirrorV);
+              const panelW = (phaseW - gap) / 2;
+              drawProjectionPanel(margin, bottomY, panelW, bottomH, theta, mirrorTheta, radius, "x(t)", "misma posición, dos visitas", (t) => radius * Math.cos(t));
+              drawProjectionPanel(margin + panelW + gap, bottomY, panelW, bottomH, theta, mirrorTheta, radius, "η(t)", "datos de cambio opuestos", (t) => -radius * Math.sin(t));
             }
           };
 
-          function drawXPanel(x0, y0, w, h, theta, mirrorTheta) {
-            p.noStroke();
-            p.fill(255, 255, 255, 170);
-            p.rect(x0, y0, w, h, 18);
-            p.fill(96, 113, 128);
-            p.textAlign(p.LEFT, p.TOP);
-            p.textSize(p.width < 430 ? 10 : 12);
-            p.textStyle(p.BOLD);
-            p.text("x(t)", x0 + 14, y0 + 12);
+          function drawProjectionPanel(x0, y0, w, h, theta, mirrorTheta, radius, title, subtitle, valueAt) {
+            panel(x0, y0, w, h, title, subtitle);
 
             const plotX = x0 + 18;
-            const plotY = y0 + 36;
+            const plotY = y0 + 52;
             const plotW = w - 36;
-            const plotH = h - 54;
+            const plotH = h - 72;
 
             p.stroke(27, 40, 48, 36);
             p.strokeWeight(1.2);
@@ -2309,13 +2190,13 @@
             p.beginShape();
             for (let i = 0; i <= 100; i += 1) {
               const t = (2 * Math.PI * i) / 100;
-              const pt = graphPoint(plotX, plotY, plotW, plotH, t, Math.cos(t), -1.2, 1.2);
+              const pt = graphPoint(plotX, plotY, plotW, plotH, t, valueAt(t), -1.1, 1.1);
               p.vertex(pt.x, pt.y);
             }
             p.endShape();
 
-            const current = graphPoint(plotX, plotY, plotW, plotH, theta, Math.cos(theta), -1.2, 1.2);
-            const mirror = graphPoint(plotX, plotY, plotW, plotH, mirrorTheta, Math.cos(mirrorTheta), -1.2, 1.2);
+            const current = graphPoint(plotX, plotY, plotW, plotH, theta, valueAt(theta), -1.1, 1.1);
+            const mirror = graphPoint(plotX, plotY, plotW, plotH, mirrorTheta, valueAt(mirrorTheta), -1.1, 1.1);
             p.stroke(27, 40, 48, 24);
             p.line(current.x, plotY, current.x, plotY + plotH);
             p.line(mirror.x, plotY, mirror.x, plotY + plotH);
@@ -2324,195 +2205,456 @@
             p.circle(current.x, current.y, 10);
             p.fill("#d16f2b");
             p.circle(mirror.x, mirror.y, 10);
-            p.fill(96, 113, 128);
-            p.textStyle(p.NORMAL);
-            p.text("mismo x", plotX + 12, plotY + plotH - 16);
           }
 
-          function drawVPanel(x0, y0, w, h, theta, mirrorTheta) {
-            p.noStroke();
-            p.fill(255, 255, 255, 170);
-            p.rect(x0, y0, w, h, 18);
-            p.fill(96, 113, 128);
-            p.textAlign(p.LEFT, p.TOP);
-            p.textSize(p.width < 430 ? 10 : 12);
-            p.textStyle(p.BOLD);
-            p.text("v(t)", x0 + 14, y0 + 12);
-
-            const plotX = x0 + 18;
-            const plotY = y0 + 36;
-            const plotW = w - 36;
-            const plotH = h - 54;
-
-            p.stroke(27, 40, 48, 36);
-            p.strokeWeight(1.2);
-            p.line(plotX, plotY + plotH / 2, plotX + plotW, plotY + plotH / 2);
-
-            p.noFill();
-            p.stroke(27, 40, 48, 180);
-            p.strokeWeight(2);
-            p.beginShape();
-            for (let i = 0; i <= 100; i += 1) {
-              const t = (2 * Math.PI * i) / 100;
-              const pt = graphPoint(plotX, plotY, plotW, plotH, t, -Math.sin(t), -1.2, 1.2);
-              p.vertex(pt.x, pt.y);
-            }
-            p.endShape();
-
-            const current = graphPoint(plotX, plotY, plotW, plotH, theta, -Math.sin(theta), -1.2, 1.2);
-            const mirror = graphPoint(plotX, plotY, plotW, plotH, mirrorTheta, -Math.sin(mirrorTheta), -1.2, 1.2);
-            p.noStroke();
-            p.fill("#0e7278");
-            p.circle(current.x, current.y, 10);
-            p.fill("#d16f2b");
-            p.circle(mirror.x, mirror.y, 10);
-            p.fill(96, 113, 128);
-            p.textStyle(p.NORMAL);
-            p.text("v opuesta", plotX + 12, plotY + plotH - 16);
-          }
-
-          function drawPhasePanel(x0, y0, w, h, x, v, mirrorX, mirrorV) {
-            p.noStroke();
-            p.fill(255, 255, 255, 170);
-            p.rect(x0, y0, w, h, 18);
-            p.fill(96, 113, 128);
-            p.textAlign(p.LEFT, p.TOP);
-            p.textSize(p.width < 430 ? 10 : 12);
-            p.textStyle(p.BOLD);
-            p.text("plano (x,v)", x0 + 14, y0 + 12);
+          function drawPhasePanel(x0, y0, w, h, x, v, mirrorX, mirrorV, radius) {
+            panel(x0, y0, w, h, "plano de estados (x,η)", "cada flecha es la continuación local: (ẋ,η̇)=(η,−x)");
 
             const cx = x0 + w * 0.5;
             const cy = y0 + h * 0.56;
-            const rx = Math.min(w * 0.3, 95);
-            const ry = Math.min(h * 0.26, 80);
+            const rx = Math.min(w * 0.34, 170);
+            const ry = Math.min(h * 0.34, 120);
+            const viewport = new Demo.Viewport2D(p, {
+              left: cx - rx,
+              right: cx + rx,
+              top: cy - ry,
+              bottom: cy + ry
+            }, {
+              x: [-1, 1],
+              y: [-1, 1]
+            });
 
             p.stroke(27, 40, 48, 40);
             p.strokeWeight(1.2);
             p.line(cx - rx - 24, cy, cx + rx + 24, cy);
             p.line(cx, cy + ry + 24, cx, cy - ry - 24);
 
-            p.noFill();
-            p.stroke(27, 40, 48);
-            p.strokeWeight(2);
-            p.ellipse(cx, cy, rx * 2, ry * 2);
+            Demo.drawVectorField(p, viewport, {
+              xs: Demo.range(-1, 1, 0.25),
+              ys: Demo.range(-1, 1, 1 / 3),
+              field: ({ x: stateX, y: stateV }) => ({ x: stateV, y: -stateX }),
+              length: Math.min(24, Math.max(12, Math.min(rx, ry) * 0.12)),
+              color: "rgba(96,113,128,0.48)",
+              weight: 1.25
+            });
 
-            const px = cx + rx * x;
-            const py = cy - ry * v;
-            const mx = cx + rx * mirrorX;
-            const my = cy - ry * mirrorV;
+            p.noFill();
+            p.stroke("#0e7278");
+            p.strokeWeight(2.7);
+            p.ellipse(cx, cy, rx * radius * 2, ry * radius * 2);
+
+            const current = viewport.point({ x, y: v });
+            const mirror = viewport.point({ x: mirrorX, y: mirrorV });
             p.stroke(27, 40, 48, 24);
-            p.line(px, py, mx, my);
+            p.line(current.x, current.y, mirror.x, mirror.y);
+
+            viewport.drawVector({ x, y: v }, { x: v, y: -x }, {
+              anchor: "tail",
+              color: "#0e7278",
+              length: 46,
+              weight: 3
+            });
+
             p.noStroke();
             p.fill("#0e7278");
-            p.circle(px, py, 11);
+            p.circle(current.x, current.y, 13);
             p.fill("#d16f2b");
-            p.circle(mx, my, 11);
+            p.circle(mirror.x, mirror.y, 11);
             p.fill(96, 113, 128);
+            p.textAlign(p.LEFT, p.TOP);
             p.textStyle(p.NORMAL);
-            p.text("misma proyección en x, distinto estado", x0 + 14, y0 + h - 22, w - 28);
+            p.textSize(p.width < 430 ? 10 : 12);
+            p.text("azul: estado actual; naranja: misma x, η opuesta", x0 + 16, y0 + h - 26, w - 32);
           }
         };
 
         new p5(sketch);
+        energyInput.addEventListener("input", syncUi);
+        resetButton.addEventListener("click", () => controller.reset());
+        syncUi();
+      }
+
+      function initAttractorFieldSketch() {
+        const host = document.getElementById("viz-attractor-field");
+        const kInput = document.getElementById("attractor-field-k");
+        const kValue = document.getElementById("attractor-field-k-value");
+        const resetButton = document.getElementById("reset-attractor-field");
+        if (!host || !kInput || !kValue || !resetButton) return;
+
+        const attractor = { x: 0.45, y: 0.15 };
+        const controller = {
+          time: 0,
+          reset() {
+            this.time = 0;
+            kInput.value = "0.95";
+            syncUi();
+          }
+        };
+
+        const starts = [
+          { x: -1.75, y: 1.25 },
+          { x: -1.55, y: -1.2 },
+          { x: -0.25, y: 1.55 },
+          { x: 1.75, y: 1.0 },
+          { x: 1.55, y: -1.35 },
+          { x: -1.95, y: 0.05 }
+        ];
+
+        function syncUi() {
+          kValue.textContent = `k=${Number(kInput.value).toFixed(2)}`;
+        }
+
+        function drawAttractor(p, viewport) {
+          const { x: ax, y: ay } = viewport.point(attractor);
+          p.noStroke();
+          for (let i = 0; i < 5; i += 1) {
+            p.fill(209, 111, 43, 30 - i * 4);
+            p.circle(ax, ay, 76 + i * 18);
+          }
+
+          p.noFill();
+          p.stroke("#d16f2b");
+          p.strokeWeight(2.4);
+          p.circle(ax, ay, 56);
+          p.stroke("rgba(209,111,43,0.65)");
+          p.strokeWeight(1.6);
+          p.circle(ax, ay, 34);
+          p.line(ax - 34, ay, ax + 34, ay);
+          p.line(ax, ay - 34, ax, ay + 34);
+
+          p.noStroke();
+          p.fill("#b6421f");
+          p.circle(ax, ay, 12);
+          p.fill("#1b2830");
+          p.textAlign(p.LEFT, p.BOTTOM);
+          p.textStyle(p.BOLD);
+          p.textSize(p.width < 440 ? 13 : 15);
+          p.text("A", ax + 13, ay - 9);
+          p.textStyle(p.NORMAL);
+          p.fill(96, 113, 128);
+          p.textSize(p.width < 440 ? 10 : 11);
+          p.text("lugar marcado", ax + 13, ay + 8);
+        }
+
+        function drawParticles(p, viewport, k) {
+          const cycle = 4.6;
+          starts.forEach((start, index) => {
+            const tau = (controller.time + index * 0.55) % cycle;
+            const point = Demo.exponentialToward(start, attractor, k * 0.9, tau);
+            const previous = Demo.exponentialToward(start, attractor, k * 0.9, Math.max(0, tau - 0.32));
+
+            viewport.drawSegment(previous, point, { color: "rgba(14,114,120,0.35)", weight: 2 });
+            viewport.drawPoint(point, { color: "#0e7278", radius: index === 1 ? 12 : 10 });
+          });
+        }
+
+        Demo.createP5Demo(host, {
+          font: "Manrope",
+          height(width) {
+            return Demo.responsiveHeight(width, [
+              { max: 430, height: 390 },
+              { max: 680, height: 430 }
+            ], 380);
+          },
+          setup: syncUi,
+          draw(p, { dt }) {
+            const k = Number(kInput.value);
+            controller.time += dt;
+            syncUi();
+
+            p.noStroke();
+            p.fill(255, 255, 255, 156);
+            p.rect(16, 16, p.width - 32, p.height - 32, 18);
+
+            const bounds = {
+              left: 34,
+              right: p.width - 34,
+              top: 34,
+              bottom: p.height - 48
+            };
+
+            const viewport = new Demo.Viewport2D(p, bounds, {
+              x: [-2.2, 2.2],
+              y: [-1.75, 1.75]
+            });
+
+            viewport.drawGrid({
+              color: "rgba(27,40,48,0.08)",
+              xTicks: Demo.range(-2, 2, 0.5),
+              yTicks: Demo.range(-1.5, 1.5, 0.5)
+            });
+            viewport.drawAxes({ color: "rgba(27,40,48,0.22)", weight: 1.4 });
+
+            p.noStroke();
+            p.fill(96, 113, 128);
+            p.textSize(p.width < 440 ? 10 : 11);
+            p.textAlign(p.RIGHT, p.TOP);
+            p.text("plano de configuraciones", bounds.right, bounds.top + 2);
+
+            Demo.drawVectorField(p, viewport, {
+              xs: Demo.range(-1.75, 1.75, 0.58),
+              ys: Demo.range(-1.25, 1.25, 0.5),
+              field: ({ x, y }) => ({ x: attractor.x - x, y: attractor.y - y }),
+              skip: ({ norm }) => norm < 0.16,
+              length: ({ norm }) => p.constrain(18 + 8 * k + norm * 2, 18, 34),
+              color: "rgba(96,113,128,0.52)",
+              weight: 1.25
+            });
+
+            drawParticles(p, viewport, k);
+            drawAttractor(p, viewport);
+
+            p.noStroke();
+            p.fill(96, 113, 128);
+            p.textAlign(p.LEFT, p.BOTTOM);
+            p.textStyle(p.NORMAL);
+            p.textSize(p.width < 440 ? 10 : 11);
+            p.text("campo local: ṙ = -k(r - A)", 34, p.height - 18);
+          }
+        });
+
+        kInput.addEventListener("input", syncUi);
         resetButton.addEventListener("click", () => controller.reset());
       }
 
       function initNoInertiaSketch() {
         const host = document.getElementById("viz-no-inertia");
-        const gainInput = document.getElementById("gain");
-        const gainValue = document.getElementById("gain-value");
         const resetButton = document.getElementById("reset-no-inertia");
-        const seed = [-1.6, -1.05, -0.35, 0.32, 0.96, 1.48];
+        const allButton = document.getElementById("no-inertia-all");
+        const attractorButton = document.getElementById("no-inertia-attractor");
+        const driftButton = document.getElementById("no-inertia-drift");
+        const restButton = document.getElementById("no-inertia-rest");
+        const caption = document.getElementById("no-inertia-caption");
+
+        if (!host || !resetButton || !allButton || !attractorButton || !driftButton || !restButton || !caption) return;
+
+        const labels = {
+          all: "todas las salidas posibles rompen algo",
+          attractor: "mueve, pero inventa un lugar especial",
+          drift: "mueve, pero inventa un sentido especial",
+          rest: "no privilegia nada, pero tampoco permite lanzamiento"
+        };
 
         const controller = {
           time: 0,
+          mode: "all",
+          setMode(mode) {
+            this.mode = mode;
+            syncUi();
+          },
           reset() {
             this.time = 0;
           }
         };
         noInertiaController = controller;
 
+        function syncButtons() {
+          Demo.syncButtons({
+            all: allButton,
+            attractor: attractorButton,
+            drift: driftButton,
+            rest: restButton
+          }, controller.mode);
+        }
+
+        function syncUi() {
+          syncButtons();
+          caption.textContent = labels[controller.mode];
+        }
+
         const sketch = (p) => {
           function vizHeight() {
             const width = host.clientWidth;
-            if (width < 420) return 248;
-            if (width < 640) return 280;
-            return 340;
+            if (width < 420) return 470;
+            if (width < 640) return 490;
+            return 450;
           }
 
-          function scaledX(x, width) {
-            const normalized = Math.tanh(x / 2.25);
-            return p.map(normalized, -1, 1, 38, width - 38);
+          function scaledX(x) {
+            return p.map(x, -2, 2, 56, p.width - 56);
+          }
+
+          function focusAlpha(key) {
+            return controller.mode === "all" || controller.mode === key ? 1 : 0.32;
+          }
+
+          function laneTextSize() {
+            if (p.width < 430) return 10;
+            return 12;
+          }
+
+          function drawSoftText(text, x, y, maxWidth) {
+            p.noStroke();
+            p.fill(96, 113, 128);
+            p.textSize(laneTextSize());
+            p.textStyle(p.NORMAL);
+            p.text(text, x, y, maxWidth);
+          }
+
+          function drawLaneFrame(y, h, alpha) {
+            p.noStroke();
+            p.fill(255, 255, 255, 54 + alpha * 120);
+            p.rect(18, y, p.width - 36, h, 18);
+            p.stroke(27, 40, 48, 18 + alpha * 38);
+            p.strokeWeight(1);
+            p.line(44, y + h * 0.62, p.width - 44, y + h * 0.62);
+          }
+
+          function drawParticle(x, y, rgb, alpha, radius = 10) {
+            p.noStroke();
+            p.fill(rgb[0], rgb[1], rgb[2], 210 * alpha);
+            p.circle(scaledX(x), y, radius);
+          }
+
+          function drawAttractor(y, h, t, alpha) {
+            const axisY = y + h * 0.62;
+            const zeroX = scaledX(0);
+            const color = [182, 66, 31];
+            const arrowY = axisY - 20;
+            const arrowPoints = [-1.55, -0.8, 0.8, 1.55];
+
+            p.stroke(color[0], color[1], color[2], 70 + alpha * 120);
+            p.strokeWeight(2);
+            p.line(zeroX, y + 26, zeroX, y + h - 18);
+            p.noStroke();
+            p.fill(color[0], color[1], color[2], 220 * alpha);
+            p.circle(zeroX, axisY, 9);
+
+            arrowPoints.forEach((x) => {
+              const startX = scaledX(x);
+              const endX = scaledX(x * 0.72);
+              Demo.drawArrow(p, startX, arrowY, endX, arrowY, `rgba(182, 66, 31, ${0.25 + alpha * 0.55})`, 2);
+            });
+
+            [-1.45, -0.7, 0.55, 1.35].forEach((x0, index) => {
+              const x = x0 * Math.exp(-0.9 * t);
+              drawParticle(x, axisY + ((index % 2) * 2 - 1) * 12, color, alpha, 11);
+            });
+
+            drawSoftText("lugar especial: x = 0", zeroX + 10, y + h - 26, 150);
+          }
+
+          function drawDrift(y, h, t, alpha) {
+            const axisY = y + h * 0.62;
+            const color = [14, 114, 120];
+            const arrowY = axisY - 20;
+            [-1.45, -0.65, 0.15, 0.95].forEach((x) => {
+              Demo.drawArrow(p, scaledX(x), arrowY, scaledX(x + 0.42), arrowY, `rgba(14, 114, 120, ${0.25 + alpha * 0.55})`, 2);
+            });
+
+            const phase = (t * 0.45) % 4;
+            [-1.75, -1.05, -0.35, 0.35].forEach((x0, index) => {
+              const wrapped = ((x0 + phase + 2) % 4) - 2;
+              drawParticle(wrapped, axisY + ((index % 2) * 2 - 1) * 12, color, alpha, 11);
+            });
+
+            drawSoftText("sentido especial: todas las flechas miran igual", 42, y + h - 26, p.width - 84);
+          }
+
+          function drawRest(y, h, alpha) {
+            const axisY = y + h * 0.62;
+            const color = [27, 40, 48];
+            [-1.4, -0.55, 0.45, 1.3].forEach((x, index) => {
+              const xPos = scaledX(x);
+              p.stroke(color[0], color[1], color[2], 55 + alpha * 80);
+              p.strokeWeight(2);
+              p.line(xPos - 7, axisY - 20, xPos + 7, axisY - 20);
+              drawParticle(x, axisY + ((index % 2) * 2 - 1) * 12, color, alpha, 10);
+            });
+
+            p.stroke(96, 113, 128, 70 * alpha);
+            p.strokeWeight(2);
+            const x0 = scaledX(0.65);
+            p.line(x0 - 16, axisY - 38, x0 + 16, axisY - 10);
+            p.line(x0 + 16, axisY - 38, x0 - 16, axisY - 10);
+            drawSoftText("sin dato de lanzamiento: no hay memoria inercial", 42, y + h - 26, p.width - 84);
+          }
+
+          function drawLaneHeader(y, title, formula, summary, alpha) {
+            p.noStroke();
+            p.fill(27, 40, 48, 235 * alpha);
+            p.textStyle(p.BOLD);
+            p.textAlign(p.LEFT, p.TOP);
+            p.textSize(p.width < 430 ? 11 : 13);
+            p.text(title, 36, y + 18);
+            p.textStyle(p.NORMAL);
+            p.fill(96, 113, 128, 235 * alpha);
+            p.textSize(p.width < 430 ? 10 : 12);
+            p.text(formula, 36, y + 40);
+            if (p.width > 500) {
+              p.text(summary, p.width * 0.45, y + 19, p.width * 0.45);
+            } else {
+              p.text(summary, 120, y + 18, p.width - 150);
+            }
           }
 
           p.setup = () => {
-            const canvas = p.createCanvas(host.clientWidth, vizHeight());
-            canvas.parent(host);
-            p.pixelDensity(2);
+            Demo.setupP5Canvas(p, host, vizHeight);
           };
 
           p.windowResized = () => {
-            p.resizeCanvas(host.clientWidth, vizHeight());
+            Demo.resizeP5Canvas(p, host, vizHeight);
           };
 
           p.draw = () => {
-            const gain = Number(gainInput.value);
-            gainValue.textContent = `k=${gain.toFixed(2)}`;
-            controller.time += p.deltaTime * 0.00055;
+            controller.time += p.deltaTime * 0.001;
+            const t = controller.time % 5.2;
 
             p.clear();
             p.background(252, 248, 240);
 
-            const axisY = p.height * 0.58;
-            const zeroX = scaledX(0, p.width);
-            const tiny = p.width < 430;
-
             p.noStroke();
             for (let i = 0; i < 7; i += 1) {
-              p.fill(14, 114, 120, 13 - i);
-              p.circle(p.width * 0.16, p.height * 0.2, 190 + i * 26);
+              p.fill(14, 114, 120, 10 - i);
+              p.circle(p.width * 0.12, p.height * 0.08, 160 + i * 24);
             }
 
-            p.stroke(27, 40, 48, 46);
-            p.strokeWeight(1);
-            p.line(28, axisY, p.width - 28, axisY);
+            const top = 18;
+            const gap = 12;
+            const laneH = (p.height - top * 2 - gap * 2) / 3;
 
-            p.stroke(27, 40, 48, 86);
-            p.strokeWeight(2);
-            p.line(zeroX, axisY - 28, zeroX, axisY + 28);
+            const lanes = [
+              {
+                key: "attractor",
+                title: "Atractor",
+                formula: "dx/dt = -kx",
+                summary: "mueve, pero marca un origen físico",
+                draw: (y, h, alpha) => drawAttractor(y, h, t, alpha)
+              },
+              {
+                key: "drift",
+                title: "Deriva",
+                formula: "dx/dt = c",
+                summary: "mueve, pero marca una dirección física",
+                draw: (y, h, alpha) => drawDrift(y, h, t, alpha)
+              },
+              {
+                key: "rest",
+                title: "Reposo",
+                formula: "dx/dt = 0",
+                summary: "no privilegia nada, pero no hay lanzamiento",
+                draw: (y, h, alpha) => drawRest(y, h, alpha)
+              }
+            ];
 
-            p.noStroke();
-            p.fill(96, 113, 128);
-            p.textAlign(p.LEFT, p.CENTER);
-            p.textSize(tiny ? 10 : 12);
-            p.text("misma posición, mismo futuro", 18, 20);
-            p.text("x = 0", zeroX - 10, axisY + (tiny ? 38 : 46));
-
-            const particles = seed.map((x0) => x0 * Math.exp(gain * controller.time));
-
-            particles.forEach((x, index) => {
-              const xPos = scaledX(x, p.width);
-              const y = axisY + ((index % 3) - 1) * 18;
-              const color = index < 3 ? "#d16f2b" : "#0e7278";
-
-              p.stroke(color + "55");
-              p.strokeWeight(1.5);
-              p.line(xPos, y, xPos, axisY);
-
-              p.noStroke();
-              p.fill(color);
-              p.circle(xPos, y, 12 + (index % 2) * 2);
+            lanes.forEach((lane, index) => {
+              const y = top + index * (laneH + gap);
+              const alpha = focusAlpha(lane.key);
+              drawLaneFrame(y, laneH, alpha);
+              drawLaneHeader(y, lane.title, lane.formula, lane.summary, alpha);
+              lane.draw(y, laneH, alpha);
             });
           };
         };
 
         new p5(sketch);
 
-        gainInput.addEventListener("input", () => {
-          renderInlineMath(gainValue.parentElement);
-        });
-
         resetButton.addEventListener("click", () => controller.reset());
+        allButton.addEventListener("click", () => controller.setMode("all"));
+        attractorButton.addEventListener("click", () => controller.setMode("attractor"));
+        driftButton.addEventListener("click", () => controller.setMode("drift"));
+        restButton.addEventListener("click", () => controller.setMode("rest"));
+        syncUi();
       }
 
       function initMemoryWorld() {
@@ -2520,17 +2662,20 @@
         const slider = document.getElementById("time-window");
         const label = document.getElementById("time-window-value");
         const resetButton = document.getElementById("reset-memory");
-        const accelerations = [-1.4, -0.8, -0.2, 0.55, 1.2];
+        const alphas = [-1.25, -0.65, 0, 0.65, 1.25];
         const colors = ["#b6421f", "#d16f2b", "#1b2830", "#0e7278", "#2b9892"];
         const x0 = 0;
-        const v0 = 1;
+        const eta0 = 1;
+
+        if (!host || !slider || !label || !resetButton) return;
 
         function buildData(T) {
-          return accelerations.map((a) => ({
-            a,
+          return alphas.map((alpha) => ({
+            alpha,
             values: d3.range(0, T + 0.001, T / 100).map((t) => ({
               t,
-              x: x0 + v0 * t + 0.5 * a * t * t
+              x: x0 + eta0 * t + 0.5 * alpha * t * t,
+              eta: eta0 + alpha * t
             }))
           }));
         }
@@ -2551,12 +2696,18 @@
         function render(restart = true) {
           const T = Number(slider.value);
           label.textContent = `T=${T.toFixed(1)}`;
-          host.innerHTML = "";
 
           const width = host.clientWidth;
-          const height = width < 420 ? 248 : width < 640 ? 280 : 340;
-          const margin = { top: 24, right: 42, bottom: 42, left: 48 };
-          const small = width < 500;
+          const small = width < 520;
+          const height = small ? 570 : width < 760 ? 560 : 510;
+          const topPanel = {
+            x: 18,
+            y: 18,
+            w: width - 36,
+            h: small ? 244 : 218
+          };
+          const graphTop = topPanel.y + topPanel.h + 28;
+          const margin = { top: graphTop + 52, right: 38, bottom: 42, left: 48 };
           const data = buildData(T);
           const yExtent = d3.extent(data.flatMap((curve) => curve.values.map((d) => d.x)));
           const pad = (yExtent[1] - yExtent[0]) * 0.16 || 1;
@@ -2564,21 +2715,93 @@
           const x = d3.scaleLinear().domain([0, T]).range([margin.left, width - margin.right]);
           const y = d3.scaleLinear().domain([yExtent[0] - pad, yExtent[1] + pad]).range([height - margin.bottom, margin.top]);
 
-          const svg = d3
-            .select(host)
-            .append("svg")
-            .attr("viewBox", `0 0 ${width} ${height}`)
-            .attr("width", width)
-            .attr("height", height);
+          const svg = Demo.createSvg(host, height);
+          Demo.addSvgArrowMarker(svg, "memory-arrow");
+
+          Demo.svgPanel(svg, {
+            x: topPanel.x,
+            y: topPanel.y,
+            w: topPanel.w,
+            h: topPanel.h,
+            title: "campo en el espacio ampliado",
+            subtitle: "ejemplo: (ẋ,η̇,α̇)=(η,α,0)"
+          });
+
+          const layerX0 = topPanel.x + (small ? 26 : 34);
+          const layerX1 = topPanel.x + topPanel.w - (small ? 24 : 34);
+          const layerTop = topPanel.y + 70;
+          const layerBottom = topPanel.y + topPanel.h - 34;
+          const layerY = d3.scaleLinear().domain([1.35, -1.35]).range([layerTop, layerBottom]);
+          const stateX = layerX0 + (layerX1 - layerX0) * 0.37;
+          const arrowDx = small ? 46 : 64;
 
           svg
-            .append("rect")
-            .attr("x", margin.left)
-            .attr("y", margin.top)
-            .attr("width", width - margin.left - margin.right)
-            .attr("height", height - margin.top - margin.bottom)
-            .attr("rx", 18)
-            .attr("fill", "rgba(255,255,255,0.46)");
+            .append("text")
+            .attr("x", layerX0)
+            .attr("y", topPanel.y + topPanel.h - 13)
+            .attr("fill", "#607180")
+            .attr("font-size", small ? 10 : 11)
+            .text("mismo (x₀,η₀); capas α distintas pintan flechas distintas");
+
+          alphas.forEach((alpha, index) => {
+            const yLayer = layerY(alpha);
+            const arrowDy = -alpha * (small ? 18 : 22);
+            const color = colors[index];
+
+            svg
+              .append("line")
+              .attr("x1", layerX0)
+              .attr("x2", layerX1)
+              .attr("y1", yLayer)
+              .attr("y2", yLayer)
+              .attr("stroke", "rgba(27,40,48,0.10)")
+              .attr("stroke-width", 1.2);
+
+            svg
+              .append("text")
+              .attr("x", layerX0)
+              .attr("y", yLayer - 7)
+              .attr("fill", color)
+              .attr("font-size", small ? 9 : 10)
+              .attr("font-weight", 800)
+              .text(`α=${alpha.toFixed(index === 2 ? 0 : 2)}`);
+
+            svg
+              .append("circle")
+              .attr("cx", stateX)
+              .attr("cy", yLayer)
+              .attr("r", index === 2 ? 6.5 : 5.4)
+              .attr("fill", color);
+
+            svg
+              .append("line")
+              .attr("x1", stateX + 8)
+              .attr("y1", yLayer)
+              .attr("x2", stateX + arrowDx)
+              .attr("y2", yLayer + arrowDy)
+              .attr("stroke", color)
+              .attr("stroke-width", index === 2 ? 3 : 2.2)
+              .attr("marker-end", "url(#memory-arrow)");
+
+            if (!small) {
+              svg
+                .append("text")
+                .attr("x", stateX + arrowDx + 12)
+                .attr("y", yLayer + arrowDy + 4)
+                .attr("fill", "#607180")
+                .attr("font-size", 10)
+                .text(alpha === 0 ? "η no cambia" : alpha > 0 ? "η aumenta" : "η disminuye");
+            }
+          });
+
+          Demo.svgPanel(svg, {
+            x: margin.left - 18,
+            y: margin.top - 14,
+            w: width - margin.left - margin.right + 36,
+            h: height - margin.top - margin.bottom + 34,
+            title: "proyección sobre x(t)",
+            subtitle: "al olvidar α, un solo presente visible abre futuros distintos"
+          });
 
           const grid = svg.append("g").attr("stroke", "rgba(27,40,48,0.08)");
           x.ticks(6).forEach((tick) => {
@@ -2637,12 +2860,13 @@
             const last = curve.values[curve.values.length - 1];
             svg
               .append("text")
-              .attr("x", x(last.t) + (small ? 6 : 10))
+              .attr("x", x(last.t) - 8)
               .attr("y", y(last.x))
               .attr("fill", colors[index])
               .attr("font-size", small ? 10 : 12)
               .attr("font-weight", 700)
-              .text(`a₀=${curve.a.toFixed(1)}`);
+              .attr("text-anchor", "end")
+              .text(`α₀=${curve.alpha.toFixed(1)}`);
           });
 
           svg
@@ -2668,134 +2892,14 @@
             .attr("y", y(1.0) - (small ? 8 : 12))
             .attr("fill", "#607180")
             .attr("font-size", small ? 10 : 12)
-            .text(small ? "misma tangente" : "misma tangente inicial");
+            .text(small ? "mismo η₀" : "mismo dato de cambio η₀");
         }
 
         render(true);
         slider.addEventListener("input", () => render(true));
-        resetButton.addEventListener("click", () => render(true));
+        resetButton.addEventListener("click", () => {
+          slider.value = "4.5";
+          render(true);
+        });
         window.addEventListener("resize", () => render(false));
-      }
-
-      function initRealWorldSketch() {
-        const host = document.getElementById("viz-real-world");
-        const springInput = document.getElementById("spring-k");
-        const springValue = document.getElementById("spring-k-value");
-        const resetButton = document.getElementById("reset-real-world");
-        const baseVelocities = [-1.45, -0.75, -0.15, 0.7, 1.4];
-        const colors = ["#b6421f", "#d16f2b", "#1b2830", "#0e7278", "#2b9892"];
-
-        const controller = {
-          particles: [],
-          reset() {
-            this.particles = baseVelocities.map((v, index) => ({
-              x: 0,
-              v,
-              lane: index,
-              trail: [0]
-            }));
-          }
-        };
-        controller.reset();
-        realWorldController = controller;
-
-        const sketch = (p) => {
-          function vizHeight() {
-            const width = host.clientWidth;
-            if (width < 420) return 252;
-            if (width < 640) return 286;
-            return 340;
-          }
-
-          function trackY(index) {
-            const center = p.height * 0.58;
-            return center + (index - 2) * (p.width < 440 ? 18 : 22);
-          }
-
-          function scaledX(x, width) {
-            const normalized = Math.tanh(x / 2.8);
-            return p.map(normalized, -1, 1, 40, width - 40);
-          }
-
-          p.setup = () => {
-            const canvas = p.createCanvas(host.clientWidth, vizHeight());
-            canvas.parent(host);
-            p.pixelDensity(2);
-          };
-
-          p.windowResized = () => {
-            p.resizeCanvas(host.clientWidth, vizHeight());
-          };
-
-          p.draw = () => {
-            const k = Number(springInput.value);
-            springValue.textContent = `k = ${k.toFixed(2)}`;
-
-            const rawDt = Math.min(p.deltaTime * 0.00105, 0.028);
-            const substeps = 2;
-            const dt = rawDt / substeps;
-
-            for (let step = 0; step < substeps; step += 1) {
-              controller.particles.forEach((particle) => {
-                particle.v += -k * particle.x * dt;
-                particle.x += particle.v * dt;
-                particle.trail.push(particle.x);
-                if (particle.trail.length > 150) particle.trail.shift();
-              });
-            }
-
-            p.clear();
-            p.background(252, 248, 240);
-
-            const axisX = scaledX(0, p.width);
-            const tiny = p.width < 430;
-
-            p.noStroke();
-            for (let i = 0; i < 6; i += 1) {
-              p.fill(209, 111, 43, 11 - i);
-              p.circle(p.width * 0.82, p.height * 0.2, 180 + i * 24);
-            }
-
-            p.stroke(27, 40, 48, 38);
-            p.strokeWeight(1.2);
-            controller.particles.forEach((particle) => {
-              const y = trackY(particle.lane);
-              p.line(34, y, p.width - 34, y);
-            });
-
-            p.stroke(27, 40, 48, 82);
-            p.strokeWeight(2);
-            p.line(axisX, 28, axisX, p.height - 30);
-
-            p.noStroke();
-            p.fill(96, 113, 128);
-            p.textAlign(p.LEFT, p.CENTER);
-            p.textSize(tiny ? 10 : 12);
-            p.text(k === 0 ? "misma posición, futuros distintos por la velocidad" : "la fuerza curva historias, no inventa el estado", 18, 20);
-            p.text("x = 0", axisX - 10, p.height - (tiny ? 12 : 10));
-
-            controller.particles.forEach((particle, index) => {
-              const y = trackY(index);
-
-              p.noFill();
-              p.stroke(colors[index] + "80");
-              p.strokeWeight(index === 2 ? 2.8 : 2.2);
-              p.beginShape();
-              particle.trail.forEach((trailX) => {
-                p.vertex(scaledX(trailX, p.width), y);
-              });
-              p.endShape();
-
-              const xPos = scaledX(particle.x, p.width);
-              p.noStroke();
-              p.fill(colors[index]);
-              p.circle(xPos, y, index === 2 ? 12 : 11);
-            });
-          };
-        };
-
-        new p5(sketch);
-
-        springInput.addEventListener("input", () => controller.reset());
-        resetButton.addEventListener("click", () => controller.reset());
       }

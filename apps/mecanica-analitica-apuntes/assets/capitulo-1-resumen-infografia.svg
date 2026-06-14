@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" role="img" aria-labelledby="title desc">
+  <title id="title">Capítulo 1: cadena constructiva</title>
+  <desc id="desc">Infografía del capítulo 1: criterios de admisibilidad, configuración, flujo local, intentos constructivos y estado mínimo.</desc>
+  <rect width="1200" height="1500" fill="#fbf6ec"/>
+  <rect x="52" y="52" width="1096" height="1396" rx="30" fill="#fffaf1" stroke="#d8cbb8" stroke-width="2"/>
+
+  <text x="100" y="130" font-family="Georgia, 'Times New Roman', serif" font-size="54" font-weight="700" fill="#1b2830">Capítulo 1</text>
+  <text x="100" y="188" font-family="Georgia, 'Times New Roman', serif" font-size="44" font-weight="700" fill="#1b2830">Antes de escribir una ley</text>
+  <text x="100" y="238" font-family="Inter, Manrope, Arial, sans-serif" font-size="22" fill="#607180">Construir la descripción suficiente antes de invocar fórmulas heredadas.</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0e7278"/>
+    </marker>
+    <style>
+      .box { fill: #ffffff; stroke: #ded4c6; stroke-width: 2; }
+      .box-accent { fill: #f8efe2; stroke: #d16f2b; stroke-width: 2; }
+      .label { font-family: Inter, Manrope, Arial, sans-serif; font-size: 16px; fill: #607180; }
+      .head { font-family: Inter, Manrope, Arial, sans-serif; font-size: 24px; font-weight: 800; fill: #1b2830; }
+      .sub { font-family: Inter, Manrope, Arial, sans-serif; font-size: 18px; fill: #607180; }
+      .mini { font-family: Inter, Manrope, Arial, sans-serif; font-size: 15px; fill: #607180; }
+      .formula { font-family: Georgia, 'Times New Roman', serif; font-size: 27px; font-weight: 700; fill: #0e7278; }
+      .arrow { stroke: #0e7278; stroke-width: 3; marker-end: url(#arrow); fill: none; }
+    </style>
+  </defs>
+
+  <g transform="translate(100 300)">
+    <rect class="box" x="0" y="0" width="465" height="112" rx="18"/>
+    <text class="head" x="28" y="42">1. No empezar por F=ma</text>
+    <text class="sub" x="28" y="76">Primero construimos qué significa describir.</text>
+    <line class="arrow" x1="232" y1="124" x2="232" y2="170"/>
+
+    <rect class="box-accent" x="0" y="180" width="465" height="150" rx="18"/>
+    <text class="head" x="28" y="222">2. Criterios de admisibilidad</text>
+    <text class="sub" x="28" y="257">Sin etiquetas arbitrarias ni privilegios ocultos.</text>
+    <text class="mini" x="28" y="294">covariancia · simetrías · localidad · determinismo</text>
+    <text class="mini" x="28" y="318">reversibilidad · estado mínimo</text>
+    <line class="arrow" x1="232" y1="342" x2="232" y2="388"/>
+
+    <rect class="box" x="0" y="398" width="465" height="112" rx="18"/>
+    <text class="head" x="28" y="440">3. Sistema y modelo</text>
+    <text class="sub" x="28" y="474">Recortar qué queda dentro y qué se idealiza.</text>
+    <line class="arrow" x1="232" y1="522" x2="232" y2="568"/>
+
+    <rect class="box" x="0" y="578" width="465" height="112" rx="18"/>
+    <text class="head" x="28" y="620">4. Configuración Q</text>
+    <text class="sub" x="28" y="654">Una foto geométrica del sistema.</text>
+  </g>
+
+  <g transform="translate(635 300)">
+    <rect class="box" x="0" y="0" width="465" height="112" rx="18"/>
+    <text class="head" x="28" y="42">5. Coordenadas generalizadas</text>
+    <text class="sub" x="28" y="76">Etiquetas independientes, no física nueva.</text>
+    <line class="arrow" x1="232" y1="124" x2="232" y2="170"/>
+
+    <rect class="box" x="0" y="180" width="465" height="112" rx="18"/>
+    <text class="head" x="28" y="222">6. Movimiento</text>
+    <text class="sub" x="28" y="256">Una curva q(t) en Q.</text>
+    <path d="M 290 246 C 322 198, 374 202, 407 236" stroke="#d16f2b" stroke-width="4" fill="none"/>
+    <circle cx="320" cy="220" r="7" fill="#0e7278"/>
+    <line class="arrow" x1="232" y1="304" x2="232" y2="350"/>
+
+    <rect class="box-accent" x="0" y="360" width="465" height="150" rx="18"/>
+    <text class="head" x="28" y="402">7. Ley local determinista</text>
+    <text class="sub" x="28" y="437">Un campo de flechas sobre presentes.</text>
+    <text class="formula" x="28" y="482">s&#775; = X(s,t)</text>
+    <g stroke="#607180" stroke-width="2" opacity="0.65">
+      <line x1="295" y1="424" x2="323" y2="410" marker-end="url(#arrow)"/>
+      <line x1="350" y1="424" x2="378" y2="424" marker-end="url(#arrow)"/>
+      <line x1="405" y1="424" x2="430" y2="444" marker-end="url(#arrow)"/>
+      <line x1="295" y1="470" x2="323" y2="486" marker-end="url(#arrow)"/>
+      <line x1="350" y1="470" x2="378" y2="458" marker-end="url(#arrow)"/>
+      <line x1="405" y1="470" x2="430" y2="470" marker-end="url(#arrow)"/>
+    </g>
+    <line class="arrow" x1="232" y1="522" x2="232" y2="568"/>
+
+    <rect class="box" x="0" y="578" width="465" height="112" rx="18"/>
+    <text class="head" x="28" y="620">8. Intentos constructivos</text>
+    <text class="sub" x="28" y="654">Probar qué contiene el presente.</text>
+  </g>
+
+  <line class="arrow" x1="565" y1="934" x2="635" y2="934"/>
+
+  <g transform="translate(100 1045)">
+    <text x="0" y="0" font-family="Inter, Manrope, Arial, sans-serif" font-size="26" font-weight="800" fill="#1b2830">Tres intentos de presente</text>
+    <rect class="box" x="0" y="32" width="320" height="155" rx="18"/>
+    <text class="formula" x="26" y="78">s = q</text>
+    <text class="sub" x="26" y="112">Atractor, deriva o reposo.</text>
+    <text class="mini" x="26" y="144">No guarda memoria del lanzamiento.</text>
+
+    <rect class="box-accent" x="360" y="32" width="320" height="155" rx="18"/>
+    <text class="formula" x="386" y="78">s = (q,η)</text>
+    <text class="sub" x="386" y="112">Mínimo para inercia.</text>
+    <text class="mini" x="386" y="144">El flujo vive en estados.</text>
+
+    <rect class="box" x="720" y="32" width="320" height="155" rx="18"/>
+    <text class="formula" x="746" y="78">s = (q,η,α)</text>
+    <text class="sub" x="746" y="112">Posible como flujo.</text>
+    <text class="mini" x="746" y="144">Hay que justificar α.</text>
+  </g>
+
+  <g transform="translate(100 1280)">
+    <rect x="0" y="0" width="1000" height="108" rx="22" fill="#eaf4f2" stroke="#0e7278" stroke-width="2"/>
+    <text x="32" y="43" font-family="Inter, Manrope, Arial, sans-serif" font-size="24" font-weight="800" fill="#1b2830">Conclusión</text>
+    <text x="32" y="78" font-family="Inter, Manrope, Arial, sans-serif" font-size="21" fill="#425464">El segundo orden no se asume: aparece al proyectar sobre configuración</text>
+    <text x="32" y="104" font-family="Inter, Manrope, Arial, sans-serif" font-size="21" fill="#425464">un flujo mínimo en el espacio de presentes.</text>
+  </g>
+</svg>

@@ -134,6 +134,9 @@
       }
 
       .quote-card {
+        justify-self: start;
+        width: min(100%, 290px);
+        margin-left: -72px;
         padding: 24px;
         border-radius: var(--radius-lg);
         color: #f8f3ea;
@@ -191,6 +194,10 @@
         position: sticky;
         top: 24px;
         align-self: start;
+        display: flex;
+        flex-direction: column;
+        max-height: calc(100dvh - 48px);
+        overflow: hidden;
         padding: 18px;
         border-radius: var(--radius-lg);
         background: var(--paper);
@@ -210,6 +217,11 @@
       .toc nav {
         display: grid;
         gap: 10px;
+        overflow-y: auto;
+        padding-right: 4px;
+        margin-right: -4px;
+        scrollbar-color: rgba(14, 114, 120, 0.38) transparent;
+        scrollbar-width: thin;
       }
 
       .toc a {
@@ -227,6 +239,18 @@
         background: rgba(209, 111, 43, 0.09);
       }
 
+      .toc a.toc-next {
+        margin-top: 8px;
+        color: #fff9f1;
+        background: linear-gradient(135deg, var(--accent-2), #1e9199);
+        border-color: rgba(14, 114, 120, 0.2);
+        box-shadow: 0 12px 24px rgba(14, 114, 120, 0.18);
+      }
+
+      .toc a.toc-next:hover {
+        background: linear-gradient(135deg, #0f7d85, #22a2ab);
+      }
+
       .content {
         display: grid;
         gap: 24px;
@@ -234,6 +258,52 @@
 
       .content > * {
         scroll-margin-top: 18px;
+      }
+
+      .chapter-nav {
+        display: grid;
+        gap: 14px;
+      }
+
+      .chapter-nav-link {
+        display: grid;
+        gap: 6px;
+        padding: 22px 24px;
+        border-radius: var(--radius-lg);
+        text-decoration: none;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 92% 18%, rgba(14, 114, 120, 0.12), transparent 24%),
+          linear-gradient(135deg, rgba(255, 252, 247, 0.96), rgba(246, 238, 226, 0.92));
+        border: 1px solid rgba(27, 40, 48, 0.09);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .chapter-nav-link span {
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent-2);
+      }
+
+      .chapter-nav-link strong {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.85rem, 3vw, 2.6rem);
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+
+      .chapter-nav-link small {
+        max-width: 58ch;
+        font-size: 0.96rem;
+        line-height: 1.65;
+        color: var(--muted);
+      }
+
+      .chapter-nav-link:hover {
+        border-color: rgba(14, 114, 120, 0.28);
+        transform: translateY(-1px);
       }
 
       .chapter-index {
@@ -333,6 +403,21 @@
         font-size: 1rem;
         line-height: 1.85;
         color: var(--muted);
+      }
+
+      .section-card p a,
+      .concept-card a {
+        color: var(--accent-2);
+        font-weight: 800;
+        text-decoration-color: rgba(14, 114, 120, 0.45);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.18em;
+      }
+
+      .section-card p a:hover,
+      .concept-card a:hover {
+        color: var(--accent-3);
+        text-decoration-color: rgba(182, 66, 31, 0.58);
       }
 
       .section-card .lede {
@@ -531,9 +616,65 @@
         min-height: 540px;
       }
 
+      .viz-shell.viz-tall {
+        min-height: 600px;
+      }
+
+      .constructive-demo-card {
+        margin-top: 22px;
+      }
+
+      .constructive-viz {
+        min-height: 390px;
+      }
+
+      .constructive-viz svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-height: 360px;
+      }
+
+      .constructive-demo-card .world-actions label {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .constructive-demo-card .world-actions input[type="range"] {
+        width: min(180px, 38vw);
+        accent-color: var(--accent);
+      }
+
       .world-side {
         display: grid;
         gap: 16px;
+      }
+
+      .infographic-frame {
+        margin: 22px 0 0;
+      }
+
+      .infographic-frame img {
+        display: block;
+        width: min(100%, 960px);
+        margin: 0 auto;
+        border-radius: 24px;
+        border: 1px solid rgba(27, 40, 48, 0.1);
+        box-shadow: 0 22px 70px rgba(71, 49, 23, 0.16);
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      .infographic-frame figcaption {
+        max-width: 760px;
+        margin: 14px auto 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.55;
+        text-align: center;
       }
 
       .stat-box {
@@ -612,6 +753,40 @@
         max-width: 100%;
       }
 
+      @media (min-width: 1151px) and (max-width: 1350px) {
+        .hero {
+          padding: 34px 32px 30px;
+        }
+
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 18px;
+          align-items: start;
+        }
+
+        .hero-copy {
+          max-width: 760px;
+        }
+
+        .hero h1 {
+          max-width: 10ch;
+          font-size: clamp(3rem, 6vw, 4.9rem);
+          line-height: 0.95;
+        }
+
+        .hero p {
+          max-width: 42ch;
+          font-size: 1.04rem;
+          line-height: 1.74;
+        }
+
+        .quote-card {
+          margin-left: 0;
+          max-width: 620px;
+          width: 100%;
+        }
+      }
+
       @media (max-width: 1150px) {
         .layout,
         .subgrid,
@@ -658,9 +833,19 @@
 
         .toc {
           position: static;
+          display: block;
+          max-height: none;
+          overflow: visible;
+        }
+
+        .toc nav {
+          overflow-y: visible;
+          padding-right: 0;
+          margin-right: 0;
         }
 
         .quote-card {
+          margin-left: 0;
           max-width: 620px;
           width: 100%;
         }
@@ -839,6 +1024,7 @@
           display: flex;
           gap: 8px;
           overflow-x: auto;
+          overflow-y: hidden;
           padding-bottom: 4px;
           scrollbar-width: none;
         }
@@ -852,6 +1038,10 @@
           padding: 10px 12px;
           font-size: 0.98rem;
           border-radius: 12px;
+        }
+
+        .toc a.toc-next {
+          margin-top: 0;
         }
 
         .section-card {
