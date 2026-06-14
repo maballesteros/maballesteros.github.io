@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mecánica Analítica — Capítulo 4</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2830'/%3E%3Cpath d='M12 40c10-18 30-18 40 0' fill='none' stroke='%23f4ede0' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='40' r='4' fill='%23d16f2b'/%3E%3Ccircle cx='44' cy='40' r='4' fill='%230e7278'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    ></script>
+    <link rel="stylesheet" href="./course.css?v=2026-05-09-constructive" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Curso visual interactivo · Capítulo 4</div>
+            <h1>4. Generadores, conservación y reducción</h1>
+            <p>Las funciones en espacio de fases generan transformaciones; de ahí emergen conservación, reducción y el Hamiltoniano libre por simetrías.</p>
+            <div class="hero-actions">
+              <a class="btn secondary" href="./index.html">Índice del curso</a>
+              <a class="btn secondary" href="./capitulo-3.html">Capítulo 3</a>
+              <a class="btn" href="./capitulo-5.html">Capítulo 5</a>
+            </div>
+          </div>
+
+          <aside class="quote-card">
+            <div class="label">Cadena constructiva</div>
+            <div class="equation">estado → simetrías → generadores → fase</div>
+            <p>
+              El formalismo entra solo cuando resuelve una necesidad conceptual previa.
+            </p>
+          </aside>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="toc">
+          <h2>Capítulo 4</h2>
+          <nav>
+            <a href="#1-el-algebra-interna-del-espacio-de-fases">4.1 El álgebra interna del espacio de fases</a>
+            <a href="#2-la-evolucion-temporal-como-transformacion-generada">4.2 La evolución temporal como transformación generada</a>
+            <a href="#3-cuando-una-cantidad-se-conserva">4.3 Cuándo una cantidad se conserva</a>
+            <a href="#4-generadores-elementales">4.4 Generadores elementales</a>
+            <a href="#5-primero-simetria-luego-generador-luego-conservacion">4.5 Primero simetría, luego generador, luego conservación</a>
+            <a href="#6-la-particula-libre-sin-lagrangiano">4.6 La partícula libre sin lagrangiano</a>
+            <a href="#7-conservacion-y-reduccion">4.7 Conservación y reducción</a>
+            <a href="#8-donde-queda-noether">4.8 Dónde queda Noether</a>
+            <a href="#9-que-conviene-retener">4.9 Qué conviene retener</a>
+            <a class="toc-next" href="./capitulo-3.html">Capítulo anterior: 3</a>
+            <a class="toc-next" href="./capitulo-5.html">Capítulo siguiente: 5</a>
+          </nav>
+        </aside>
+
+        <main class="content">
+          <section id="1-el-algebra-interna-del-espacio-de-fases" class="section-card">
+            <div class="eyebrow">4.1</div>
+            <h2>El álgebra interna del espacio de fases</h2>
+            <p>El capítulo anterior introdujo el espacio de fases como algo más que una lista de pares \((q,p)\). Su estructura simpléctica permite asociar a una función \(G(q,p,t)\) un campo de transformación.</p>
+            <p>Ahora necesitamos una operación que diga cómo interactúan dos funciones cuando se leen como generadores. Esa operación es el corchete de Poisson:</p>
+            <div class="equation-box">\[
+            \Pois{f}{g}
+                =
+                \frac{\partial f}{\partial q^i}
+                \frac{\partial g}{\partial p_i}
+                -
+                \frac{\partial f}{\partial p_i}
+                \frac{\partial g}{\partial q^i}.
+            \]</div>
+            <p>No es una fórmula para memorizar aislada. Es la manera coordenada de expresar la estructura simpléctica.</p>
+            <p>Si \(G\) genera una transformación infinitesimal, el cambio de cualquier observable \(f\) viene dado por</p>
+            <div class="equation-box">\[
+            \delta f = \varepsilon\,\Pois{f}{G}.
+            \]</div>
+            <p>Aquí una función deja de ser solo una lectura del estado. También puede actuar sobre el estado.</p>
+
+          </section>
+
+          <section id="2-la-evolucion-temporal-como-transformacion-generada" class="section-card">
+            <div class="eyebrow">4.2</div>
+            <h2>La evolución temporal como transformación generada</h2>
+            <p>El Hamiltoniano es el generador de la evolución temporal. Por tanto, para cualquier observable \(f(q,p,t)\),</p>
+            <div class="equation-box">\[
+            \dot f
+                =
+                \Pois{f}{\mathcal{H}}
+                +
+                \frac{\partial f}{\partial t}.
+            \]</div>
+            <p>Las ecuaciones de Hamilton son el caso particular \(f=q^i\) y \(f=p_i\):</p>
+            <div class="equation-box">\[
+            \dot q^i=\Pois{q^i}{\mathcal{H}}
+                =
+                \frac{\partial \mathcal{H}}{\partial p_i},
+                \qquad
+                \dot p_i=\Pois{p_i}{\mathcal{H}}
+                =
+                -\frac{\partial \mathcal{H}}{\partial q^i}.
+            \]</div>
+            <p>Este punto es clave para el enfoque constructivo:</p>
+            <div class="equation-box">\[
+            \boxed{\text{la dinámica es una transformación de un parámetro: el flujo generado por } \mathcal{H}.}
+            \]</div>
+            <p>El tiempo no se añade como una receta externa. Avanzar en el tiempo es aplicar el flujo que genera una función especial del espacio de fases.</p>
+            <p>Si el sistema es autónomo, esos avances forman una familia con composición: avanzar \(\tau_1\) y luego \(\tau_2\) equivale a avanzar \(\tau_1+\tau_2\). Por eso se parece formalmente a una simetría continua. Pero conceptualmente no conviene mezclar los papeles: una cosa es el flujo temporal que define la dinámica y otra una simetría física adicional que transforma soluciones en soluciones.</p>
+
+          </section>
+
+          <section id="3-cuando-una-cantidad-se-conserva" class="section-card">
+            <div class="eyebrow">4.3</div>
+            <h2>Cuándo una cantidad se conserva</h2>
+            <p>Una cantidad \(G(q,p,t)\) se conserva si no cambia a lo largo de la evolución:</p>
+            <div class="equation-box">\[
+            \dot G=0.
+            \]</div>
+            <p>Usando el corchete de Poisson,</p>
+            <div class="equation-box">\[
+            \frac{dG}{dt}
+                =
+                \frac{\partial G}{\partial t}
+                +
+                \Pois{G}{\mathcal{H}}.
+            \]</div>
+            <p>Por tanto,</p>
+            <div class="equation-box">\[
+            \boxed{
+                \frac{\partial G}{\partial t}
+                +
+                \Pois{G}{\mathcal{H}}
+                =
+                0
+                }
+            \]</div>
+            <p>es la condición de conservación.</p>
+            <p>Si \(G\) no depende explícitamente del tiempo, queda</p>
+            <div class="equation-box">\[
+            \Pois{G}{\mathcal{H}}=0.
+            \]</div>
+            <p>En palabras: \(G\) se conserva cuando su flujo generado conmuta con el flujo temporal.</p>
+            <p>Esto completa la idea que en el capítulo 2 dejamos abierta. Una simetría era una transformación que manda soluciones en soluciones. En espacio de fases, cuando esa transformación tiene un generador \(G\), la compatibilidad con la evolución se lee como conservación de \(G\).</p>
+
+          </section>
+
+          <section id="4-generadores-elementales" class="section-card">
+            <div class="eyebrow">4.4</div>
+            <h2>Generadores elementales</h2>
+            <p>Veamos por qué esta lectura es tan fértil.</p>
+            <p>En una dimensión,</p>
+            <div class="equation-box">\[
+            G=p
+            \]</div>
+            <p>genera traslaciones espaciales, porque</p>
+            <div class="equation-box">\[
+            \delta q = \varepsilon\Pois{q}{p}=\varepsilon,
+                \qquad
+                \delta p = \varepsilon\Pois{p}{p}=0.
+            \]</div>
+            <p>El momento no aparece primero como “masa por velocidad”. Aparece como el generador de desplazamientos.</p>
+            <p>En el plano, el momento angular</p>
+            <div class="equation-box">\[
+            L_z=xp_y-yp_x
+            \]</div>
+            <p>genera rotaciones:</p>
+            <div class="equation-box">\[
+            \delta x=\varepsilon\Pois{x}{L_z}=-\varepsilon y,
+                \qquad
+                \delta y=\varepsilon\Pois{y}{L_z}=\varepsilon x.
+            \]</div>
+            <p>La forma concreta de \(L_z\) no es una casualidad. Es la función cuyo flujo en fase rota simultáneamente posiciones y momentos.</p>
+            <p>Y el Hamiltoniano genera evolución temporal:</p>
+            <div class="equation-box">\[
+            G=\mathcal{H}
+                \quad\Longrightarrow\quad
+                \delta f=\varepsilon\Pois{f}{\mathcal{H}}.
+            \]</div>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: laboratorio de generadores</h3>
+                  <p>Elige una función generadora y mira qué campo de transformación pinta sobre una nube de estados.</p>
+                </div>
+                <div class="world-actions">
+                  
+                  <button class="btn" type="button" data-demo-choice="generator-lab" data-value="translation">G=p</button>
+                  <button class="btn secondary" type="button" data-demo-choice="generator-lab" data-value="rotation">G=L</button>
+                  <button class="btn secondary" type="button" data-demo-choice="generator-lab" data-value="time">G=H</button>
+                  <button class="btn secondary" type="button" data-demo-reset="generator-lab">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="generator-lab" aria-label="Demo interactiva: laboratorio de generadores"></div>
+                  <div class="world-side">
+                    
+                    <div class="stat-box">
+                      <h4>Generador activo</h4>
+                      <p data-demo-readout="generator-lab"></p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>Momento, momento angular y Hamiltoniano se entienden primero por el flujo que generan.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="5-primero-simetria-luego-generador-luego-conservacion" class="section-card">
+            <div class="eyebrow">4.5</div>
+            <h2>Primero simetría, luego generador, luego conservación</h2>
+            <p>Ahora podemos ordenar la cadena sin pasar por Lagrange:</p>
+            <div class="equation-box">\[
+            \begin{gathered}
+                \text{simetría del modelo}
+                \longrightarrow
+                \text{transformación de fase}
+                \longrightarrow
+                \text{generador }G
+                \\
+                \longrightarrow
+                \text{conservación si } \partial_tG+\Pois{G}{\mathcal{H}}=0.
+                \end{gathered}
+            \]</div>
+            <p>La simetría no es consecuencia del formalismo. Es una restricción física previa. Lo que aporta el formalismo hamiltoniano es una traducción poderosa: cuando la simetría es hamiltoniana, existe una función generadora.</p>
+            <p>No todas las transformaciones de un espacio de estados arbitrario tienen por qué venir de una función generadora. Ésa es precisamente la ganancia de la estructura simpléctica: permite formular y comprobar esa relación.</p>
+
+          </section>
+
+          <section id="6-la-particula-libre-sin-lagrangiano" class="section-card">
+            <div class="eyebrow">4.6</div>
+            <h2>La partícula libre sin lagrangiano</h2>
+            <p>Construyamos ahora el Hamiltoniano libre usando simetrías, no una acción lagrangiana.</p>
+            <p>Para una partícula libre en una dimensión, la homogeneidad espacial impide que el Hamiltoniano dependa de la posición:</p>
+            <div class="equation-box">\[
+            \mathcal{H}=\mathcal{H}(p).
+            \]</div>
+            <p>En más dimensiones, la isotropía exige que dependa solo de \(p^2\):</p>
+            <div class="equation-box">\[
+            \mathcal{H}=h(p^2).
+            \]</div>
+            <p>Todavía no sabemos que sea cuadrático.</p>
+            <p>La relatividad galileana añade el generador de boosts. En una dimensión, para una partícula libre, el boost se representa por</p>
+            <div class="equation-box">\[
+            K=mq-pt.
+            \]</div>
+            <p>Aquí \(m\) no se introduce como “masa por aceleración”, ni como una definición previa \(p=m\dot q\). Es la escala física que caracteriza cómo esa partícula realiza la simetría galileana. Más adelante se leerá como masa inercial, pero en este punto entra por la estructura de la simetría, no por una receta dinámica importada.</p>
+            <p>Si todos los laboratorios inerciales son equivalentes, \(K\) debe ser una cantidad conservada para la partícula libre:</p>
+            <div class="equation-box">\[
+            \frac{dK}{dt}=0.
+            \]</div>
+            <p>Calculamos:</p>
+            <div class="equation-box">\[
+            \frac{dK}{dt}
+                =
+                m\dot q-p.
+            \]</div>
+            <p>Por tanto,</p>
+            <div class="equation-box">\[
+            m\dot q=p.
+            \]</div>
+            <p>Pero en la formulación hamiltoniana</p>
+            <div class="equation-box">\[
+            \dot q=\frac{\partial \mathcal{H}}{\partial p}.
+            \]</div>
+            <p>Luego</p>
+            <div class="equation-box">\[
+            \frac{\partial \mathcal{H}}{\partial p}=\frac{p}{m}.
+            \]</div>
+            <p>Integrando:</p>
+            <div class="equation-box">\[
+            \mathcal{H}=\frac{p^2}{2m}+\text{constante}.
+            \]</div>
+            <p>Hemos obtenido el Hamiltoniano libre sin empezar por \(\mathcal{L}=\frac12m\dot q^2\). La forma cuadrática sale de exigir que el flujo en fase respete las simetrías del modelo, en especial los boosts galileanos.</p>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Figura interactiva: cómo los boosts fijan la parábola libre</h3>
+                  <p>Homogeneidad e isotropía dejan muchas funciones de p. La compatibilidad galileana fija la pendiente dH/dp=p/m.</p>
+                </div>
+                <div class="world-actions">
+                  
+                  <label class="mini-label">m <input type="range" min="0.7" max="2.4" step="0.05" value="1.25" data-demo-slider="free-hamiltonian-boost" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="free-hamiltonian-boost">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="free-hamiltonian-boost" aria-label="Figura interactiva: cómo los boosts fijan la parábola libre"></div>
+                  <div class="world-side">
+                    
+                    <div class="stat-box">
+                      <h4>Lectura</h4>
+                      <p data-demo-readout="free-hamiltonian-boost"></p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>La cuadrática no se mete por tradición: aparece al exigir compatibilidad con laboratorios inerciales.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="7-conservacion-y-reduccion" class="section-card">
+            <div class="eyebrow">4.7</div>
+            <h2>Conservación y reducción</h2>
+            <p>Una cantidad conservada no solo ahorra cálculo. Reduce el problema.</p>
+            <p>Si \(p\) se conserva, el movimiento en la dirección asociada a traslaciones se desacopla. Si \(L_z\) se conserva, un problema central plano puede reducirse a una dinámica radial efectiva. Si \(\mathcal{H}\) se conserva, las trayectorias quedan contenidas en superficies de energía constante.</p>
+            <p>La reducción no es un truco posterior. Es la consecuencia práctica de haber identificado generadores que conmutan con la evolución. Menos variables cambian de forma independiente; el flujo queda confinado a subespacios compatibles con las constantes de movimiento.</p>
+            <p>Ésta será la manera limpia de leer muchos problemas clásicos: antes de derivar ecuaciones largas, mirar qué simetrías tiene el modelo y qué generadores se conservan.</p>
+
+          </section>
+
+          <section id="8-donde-queda-noether" class="section-card">
+            <div class="eyebrow">4.8</div>
+            <h2>Dónde queda Noether</h2>
+            <p>El teorema de Noether no desaparece. Cambia de lugar.</p>
+            <p>En el camino tradicional, se presenta a menudo como:</p>
+            <div class="equation-box">\[
+            \mathcal{L}
+                \longrightarrow
+                \text{simetría de la acción}
+                \longrightarrow
+                \text{cantidad conservada}.
+            \]</div>
+            <p>Ese camino es correcto dentro del marco variacional lagrangiano, pero no es el fundamento conceptual que necesitamos aquí.</p>
+            <p>Nuestro camino ha sido:</p>
+            <div class="equation-box">\[
+            \text{simetría del modelo}
+                \longrightarrow
+                \text{compatibilidad de la ley}
+                \longrightarrow
+                \text{generador hamiltoniano}
+                \longrightarrow
+                \text{conservación}.
+            \]</div>
+            <p>Más adelante, cuando introduzcamos la acción, veremos que Noether es la versión variacional de esta misma arquitectura. No será una magia nueva, sino otra traducción de una relación que ya conocemos.</p>
+
+          </section>
+
+          <section id="9-que-conviene-retener" class="section-card">
+            <div class="eyebrow">4.9</div>
+            <h2>Qué conviene retener</h2>
+            <ol>
+              <li><p>En espacio de fases, una función puede generar una transformación.</p></li>
+              <li><p>El corchete de Poisson mide cómo actúa un generador sobre un observable.</p></li>
+              <li><p>El Hamiltoniano genera la evolución temporal.</p></li>
+              <li><p>Una cantidad se conserva cuando su generador conmuta con la evolución,     salvo dependencia temporal explícita.</p></li>
+              <li><p>Momento, momento angular y energía se entienden primero como     generadores; después se leen como cantidades conservadas cuando la simetría     correspondiente está presente.</p></li>
+              <li><p>La forma libre \(\mathcal{H}=p^2/(2m)\) puede obtenerse desde simetrías     galileanas, sin introducir antes un lagrangiano.</p></li>
+            </ol>
+            <p>La pregunta pendiente ya no es cómo escribir la ley local. Ahora sabemos hacerlo en fase. La pregunta es por qué una formulación por acción sigue siendo útil y cómo aparece Lagrange sin convertirlo en fundamento.</p>
+
+          </section>
+
+          <nav class="chapter-nav" aria-label="Navegación entre capítulos">
+            <a class="chapter-nav-link previous" href="./capitulo-3.html">
+              <span>Capítulo anterior</span>
+              <strong>3</strong>
+            </a>
+            <a class="chapter-nav-link next" href="./capitulo-5.html">
+              <span>Capítulo siguiente</span>
+              <strong>5</strong>
+            </a>
+          </nav>
+        </main>
+      </div>
+    </div>
+
+    <script defer src="./course-demos.js?v=20260509-demo-fwk"></script>
+    <script defer src="./constructive-demos.js?v=20260509-constructive-demos"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        window.CourseDemos?.renderMath(document.body);
+      });
+    </script>
+  </body>
+</html>

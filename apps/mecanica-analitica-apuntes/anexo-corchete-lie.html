@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mecánica Analítica — Anexo: de las dos rutas a [Y,X]=0</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2830'/%3E%3Cpath d='M12 40c10-18 30-18 40 0' fill='none' stroke='%23f4ede0' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='40' r='4' fill='%23d16f2b'/%3E%3Ccircle cx='44' cy='40' r='4' fill='%230e7278'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    ></script>
+    <link rel="stylesheet" href="./course.css?v=2026-05-09-constructive" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Anexo matemático · Capítulo 2</div>
+            <h1>De las dos rutas a \([Y,X]=0\)</h1>
+            <p>La condición de simetría no es una fórmula aislada: es la versión infinitesimal de exigir que dos maneras de recorrer una película corta den el mismo resultado.</p>
+            <div class="hero-actions">
+              <a class="btn secondary" href="./index.html">Índice del curso</a>
+              <a class="btn" href="./capitulo-2.html#4-simetria-fisica-una-indiferencia-del-modelo">Volver al 2.4</a>
+            </div>
+          </div>
+
+          <aside class="quote-card">
+            <div class="label">Idea guía</div>
+            <div class="equation">dos rutas → mismo primer orden</div>
+            <p>El corchete de Lie mide el fallo local de conmutar dos movimientos infinitesimales.</p>
+          </aside>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="toc">
+          <h2>Anexo</h2>
+          <nav>
+            <a href="#objetivo">A.1 Qué queremos justificar</a>
+            <a href="#flujo">A.2 Campo y flujo</a>
+            <a href="#pushforward">A.3 Transportar una flecha</a>
+            <a href="#simetria-finita">A.4 Simetría finita</a>
+            <a href="#familia-continua">A.5 Familia continua</a>
+            <a href="#corchete">A.6 Dónde aparece el corchete</a>
+            <a href="#ejemplo">A.7 Ejemplo mínimo</a>
+            <a class="toc-next" href="./capitulo-2.html#4-simetria-fisica-una-indiferencia-del-modelo">Volver al 2.4</a>
+          </nav>
+        </aside>
+
+        <main class="content">
+          <section id="objetivo" class="section-card">
+            <div class="eyebrow">A.1</div>
+            <h2>Qué queremos justificar</h2>
+            <p>En el capítulo usamos esta condición para una simetría finita \(\Phi\):</p>
+            <div class="equation-box">\[
+            \Phi_*X_s=X_{\Phi(s)}.
+            \]</div>
+            <p>Leída sin geometría, dice algo muy concreto: si transportas la flecha que la ley pinta en \(s\), obtienes la misma flecha que la ley pinta directamente en el punto transformado \(\Phi(s)\).</p>
+            <p>Cuando la simetría depende de un parámetro continuo y está generada por un campo \(Y\), esa misma condición se escribe de forma infinitesimal como</p>
+            <div class="equation-box">\[
+            [Y,X]=0.
+            \]</div>
+            <p>El objetivo de este anexo es ver por qué esas dos frases son la misma idea escrita a dos escalas distintas.</p>
+          </section>
+
+          <section id="flujo" class="section-card">
+            <div class="eyebrow">A.2</div>
+            <h2>Campo y flujo</h2>
+            <p>Un campo vectorial \(X\) asigna a cada estado \(s\) una flecha \(X_s\). Si sigues esas flechas durante un tiempo \(t\), obtienes una transformación del espacio de estados:</p>
+            <div class="equation-box">\[
+            \varphi_t^X(s).
+            \]</div>
+            <p>Esto se llama flujo del campo \(X\). Por definición, al empezar en \(t=0\) tienes</p>
+            <div class="equation-box">\[
+            \varphi_0^X(s)=s,
+            \qquad
+            \left.\frac{d}{dt}\right|_{t=0}\varphi_t^X(s)=X_s.
+            \]</div>
+            <p>En lenguaje del curso: el campo pinta las flechas; el flujo es la película que sale al seguirlas.</p>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Visual: del campo al flujo</h3>
+                  <p>El campo \(X\) está dibujado como flechas locales. El punto naranja es \(\varphi_t^X(s)\): el resultado de seguir esas flechas durante un tiempo \(t\).</p>
+                </div>
+                <div class="world-actions">
+                  <label class="mini-label">tiempo \(t\) <input type="range" min="0.00" max="4.60" step="0.05" value="1.15" data-demo-slider="annex-flow" data-param="time" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="annex-flow">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="annex-flow" aria-label="Visual: del campo al flujo"></div>
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Estado inicial</h4>
+                      <p>Partimos de \(s=\)<span data-demo-value="annex-flow-start">(0.88, 0.18)</span>. La flecha local allí es \(X_s=\)<span data-demo-value="annex-flow-vector">(-0.18, 0.88)</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Flujo</h4>
+                      <p>Tras \(t=\)<span data-demo-value="annex-flow-time">1.15</span>, el estado queda en \(\varphi_t^X(s)=\)<span data-demo-value="annex-flow-end">(0.21, 0.87)</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>El campo es local: dice cómo empieza la continuación en cada punto. El flujo es global: reconstruye la película al encadenar esas continuaciones.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="pushforward" class="section-card">
+            <div class="eyebrow">A.3</div>
+            <h2>Transportar una flecha</h2>
+            <p>Una transformación \(\Phi:M\to M\) no solo mueve puntos. También mueve flechas pegadas a esos puntos. Si \(v\in T_sM\), la flecha transportada se define mirando una curva con esa velocidad:</p>
+            <div class="equation-box">\[
+            \Phi_*v
+            =
+            \left.\frac{d}{d\epsilon}\right|_{\epsilon=0}
+            \Phi\bigl(\gamma(\epsilon)\bigr),
+            \qquad
+            \gamma(0)=s,\quad \dot\gamma(0)=v.
+            \]</div>
+            <p>En coordenadas, esto no es más que multiplicar por el jacobiano de \(\Phi\). Pero la lectura importante es física: transportar una flecha significa transformar una pequeña película completa, no solo su punto inicial.</p>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Visual: transportar una flecha</h3>
+                  <p>La flecha de la derecha no se inventa en el punto transformado. Sale de aplicar \(\Phi\) a la cola y a la punta de una flecha pequeña.</p>
+                </div>
+                <div class="world-actions">
+                  <label class="mini-label">giro <input type="range" min="-1.00" max="1.15" step="0.05" value="0.55" data-demo-slider="annex-pushforward" data-param="angle" /></label>
+                  <label class="mini-label">escala <input type="range" min="0.65" max="1.70" step="0.05" value="1.25" data-demo-slider="annex-pushforward" data-param="stretch" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="annex-pushforward">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="annex-pushforward" aria-label="Visual: transportar una flecha"></div>
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Antes</h4>
+                      <p>La flecha inicial tiene componente \(v=\)<span data-demo-value="annex-push-v">(0.74, 0.42)</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Después</h4>
+                      <p>Con giro <span data-demo-value="annex-push-angle">0.55</span> y escala <span data-demo-value="annex-push-stretch">1.25</span>, la flecha transportada tiene componente \(\Phi_*v=\)<span data-demo-value="annex-push-phiv">(0.57, 0.84)</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>El pushforward no pregunta qué ley hay en el destino. Solo transporta una flecha ya dada mediante la transformación \(\Phi\).</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="simetria-finita" class="section-card">
+            <div class="eyebrow">A.4</div>
+            <h2>Simetría finita</h2>
+            <p>Si \(\Phi\) es una simetría de la ley, transformar una solución debe producir otra solución de la misma ley. Eso se escribe como conmutación de películas:</p>
+            <div class="equation-box">\[
+            \Phi\bigl(\varphi_t^X(s)\bigr)
+            =
+            \varphi_t^X\bigl(\Phi(s)\bigr).
+            \]</div>
+            <p>La izquierda es la ruta A: primero avanzas con la dinámica y luego transformas. La derecha es la ruta B: primero transformas y luego avanzas con la misma dinámica.</p>
+            <p>Deriva ambos lados respecto de \(t\) en \(t=0\). En la izquierda aparece la flecha transportada; en la derecha, la flecha que la ley asigna directamente al punto transformado:</p>
+            <div class="equation-box">\[
+            \left.\frac{d}{dt}\right|_{0}\Phi\bigl(\varphi_t^X(s)\bigr)
+            =
+            \Phi_*X_s,
+            \qquad
+            \left.\frac{d}{dt}\right|_{0}\varphi_t^X\bigl(\Phi(s)\bigr)
+            =
+            X_{\Phi(s)}.
+            \]</div>
+            <p>Por tanto, la condición finita de simetría implica</p>
+            <div class="equation-box">\[
+            \Phi_*X_s=X_{\Phi(s)}.
+            \]</div>
+          </section>
+
+          <section id="familia-continua" class="section-card">
+            <div class="eyebrow">A.5</div>
+            <h2>Familia continua</h2>
+            <p>Ahora supón que la simetría forma una familia continua \(\Phi_\lambda\), con \(\Phi_0=\mathrm{id}\). Su generador es un campo \(Y\):</p>
+            <div class="equation-box">\[
+            \left.\frac{d}{d\lambda}\right|_{\lambda=0}\Phi_\lambda(s)=Y_s.
+            \]</div>
+            <p>La simetría finita exige que el flujo de \(Y\) y el flujo dinámico de \(X\) encajen:</p>
+            <div class="equation-box">\[
+            \Phi_\lambda\bigl(\varphi_t^X(s)\bigr)
+            =
+            \varphi_t^X\bigl(\Phi_\lambda(s)\bigr).
+            \]</div>
+            <p>En palabras: avanzar un poco con \(X\) y luego mover con \(Y\) debe coincidir con mover con \(Y\) y luego avanzar con \(X\).</p>
+          </section>
+
+          <section id="corchete" class="section-card">
+            <div class="eyebrow">A.6</div>
+            <h2>Dónde aparece el corchete</h2>
+            <p>El corchete de Lie es el objeto que mide el primer fallo de conmutación entre dos flujos infinitesimales. En coordenadas, si</p>
+            <div class="equation-box">\[
+            X=X^i\frac{\partial}{\partial s^i},
+            \qquad
+            Y=Y^i\frac{\partial}{\partial s^i},
+            \]</div>
+            <p>usaremos la convención</p>
+            <div class="equation-box">\[
+            [Y,X]^i
+            =
+            Y^j\frac{\partial X^i}{\partial s^j}
+            -
+            X^j\frac{\partial Y^i}{\partial s^j}.
+            \]</div>
+            <p>Si haces un pequeño rectángulo de movimientos —un poco con \(X\), un poco con \(Y\), deshacer \(X\), deshacer \(Y\)— el primer término que no se cancela es proporcional a \(t\lambda [Y,X]\). Si el rectángulo cierra a primer orden no trivial, el corchete se anula.</p>
+            <div class="equation-box">\[
+            \boxed{[Y,X]=0}
+            \]</div>
+            <p>Por eso esta igualdad no añade un principio físico nuevo. Es la escritura infinitesimal de la misma exigencia: las dos rutas deben representar la misma película física.</p>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Visual: el hueco que mide el corchete</h3>
+                  <p>Compara dos rutas pequeñas: primero \(X\) y luego \(Y\), o primero \(Y\) y luego \(X\). Si el rectángulo no cierra, aparece el corchete.</p>
+                </div>
+                <div class="world-actions">
+                  <button class="btn secondary" type="button" data-demo-choice="annex-bracket" data-value="commute">Conmutan</button>
+                  <button class="btn" type="button" data-demo-choice="annex-bracket" data-value="fail">No conmutan</button>
+                  <label class="mini-label">paso \(X\) <input type="range" min="0.25" max="0.95" step="0.03" value="0.72" data-demo-slider="annex-bracket" data-param="eps" /></label>
+                  <label class="mini-label">paso \(Y\) <input type="range" min="0.25" max="0.95" step="0.03" value="0.72" data-demo-slider="annex-bracket" data-param="lambda" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="annex-bracket">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="annex-bracket" aria-label="Visual: el hueco que mide el corchete"></div>
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Campos</h4>
+                      <p>Tomamos \(X=\partial_q\). El campo \(Y\) es <span data-demo-value="annex-bracket-field">vertical proporcional a q</span>. Los pasos son \(\varepsilon=\)<span data-demo-value="annex-bracket-eps">0.72</span> y \(\lambda=\)<span data-demo-value="annex-bracket-lambda">0.72</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Resultado</h4>
+                      <p><strong><span data-demo-value="annex-bracket-verdict">las rutas dejan un hueco</span></strong>. El desplazamiento entre finales es <span data-demo-value="annex-bracket-gap">(0.00, 0.52)</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>El corchete captura el primer término de ese hueco cuando los dos pasos se hacen infinitesimales.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="ejemplo" class="section-card">
+            <div class="eyebrow">A.7</div>
+            <h2>Ejemplo mínimo</h2>
+            <p>En el plano \((q,\eta)\), una rotación infinitesimal está generada por</p>
+            <div class="equation-box">\[
+            Y
+            =
+            -\eta\frac{\partial}{\partial q}
+            +
+            q\frac{\partial}{\partial \eta}.
+            \]</div>
+            <p>Si el campo dinámico es el mismo campo de rotación, \(X=Y\), entonces</p>
+            <div class="equation-box">\[
+            [Y,X]=[Y,Y]=0.
+            \]</div>
+            <p>Eso expresa que rotar la película de una rotación produce otra película compatible con la misma ley.</p>
+            <p>En cambio, si la ley pinta siempre una flecha horizontal fija,</p>
+            <div class="equation-box">\[
+            X=\frac{\partial}{\partial q},
+            \]</div>
+            <p>entonces</p>
+            <div class="equation-box">\[
+            [Y,X]
+            =
+            -\frac{\partial}{\partial \eta}
+            \neq 0.
+            \]</div>
+            <p>La rotación cambia la dirección de la flecha física, pero la ley insiste en pintar la misma flecha horizontal. La transformación ha revelado que la ley contenía una dirección privilegiada.</p>
+            <div class="callout">
+              <h3>Retener</h3>
+              <p>\([Y,X]=0\) significa que el movimiento generado por la simetría y el movimiento generado por la dinámica son compatibles localmente. No es una receta para encontrar leyes; es un test de coherencia entre una ley y una indiferencia del modelo.</p>
+            </div>
+          </section>
+
+          <nav class="chapter-nav" aria-label="Navegación">
+            <a class="chapter-nav-link previous" href="./capitulo-2.html#4-simetria-fisica-una-indiferencia-del-modelo">
+              <span>Volver</span>
+              <strong>2.4</strong>
+            </a>
+            <a class="chapter-nav-link next" href="./capitulo-3.html">
+              <span>Capítulo siguiente</span>
+              <strong>3</strong>
+            </a>
+          </nav>
+        </main>
+      </div>
+    </div>
+
+    <script defer src="./course-demos.js?v=20260509-demo-fwk"></script>
+    <script defer src="./constructive-demos.js?v=20260509-constructive-demos"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        window.CourseDemos?.renderMath(document.body);
+      });
+    </script>
+  </body>
+</html>

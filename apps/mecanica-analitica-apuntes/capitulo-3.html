@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mecánica Analítica — Capítulo 3</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2830'/%3E%3Cpath d='M12 40c10-18 30-18 40 0' fill='none' stroke='%23f4ede0' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='40' r='4' fill='%23d16f2b'/%3E%3Ccircle cx='44' cy='40' r='4' fill='%230e7278'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    ></script>
+    <link rel="stylesheet" href="./course.css?v=2026-05-09-constructive" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Curso visual interactivo · Capítulo 3</div>
+            <h1>3. Del dato de cambio al dato conjugado</h1>
+            <p>El segundo dato deja de ser solo cambio: se vuelve covector conjugado y abre la estructura de fase.</p>
+            <div class="hero-actions">
+              <a class="btn secondary" href="./index.html">Índice del curso</a>
+              <a class="btn secondary" href="./capitulo-2.html">Capítulo 2</a>
+              <a class="btn" href="./capitulo-4.html">Capítulo 4</a>
+            </div>
+          </div>
+
+          <aside class="quote-card">
+            <div class="label">Cadena constructiva</div>
+            <div class="equation">estado → simetrías → generadores → fase</div>
+            <p>
+              El formalismo entra solo cuando resuelve una necesidad conceptual previa.
+            </p>
+          </aside>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="toc">
+          <h2>Capítulo 3</h2>
+          <nav>
+            <a href="#1-que-falta-despues-del-estado-minimo">3.1 Qué falta después del estado mínimo</a>
+            <a href="#2-tangentes-y-covectores">3.2 Tangentes y covectores</a>
+            <a href="#3-el-emparejamiento-conjugado">3.3 El emparejamiento conjugado</a>
+            <a href="#4-ejemplo-coordenada-angular">3.4 Ejemplo: coordenada angular</a>
+            <a href="#5-el-espacio-natural-el-cotangente">3.5 El espacio natural: el cotangente</a>
+            <a href="#6-la-forma-canonica">3.6 La forma canónica</a>
+            <a href="#7-la-forma-de-fase">3.7 La forma de fase</a>
+            <a href="#8-como-una-funcion-genera-una-flecha">3.8 Cómo una función genera una flecha</a>
+            <a href="#9-la-dinamica-hamiltoniana-como-caso-especial">3.9 La dinámica hamiltoniana como caso especial</a>
+            <a href="#10-que-leyes-quedan-fuera">3.10 Qué leyes quedan fuera</a>
+            <a href="#11-que-conviene-retener">3.11 Qué conviene retener</a>
+            <a class="toc-next" href="./capitulo-2.html">Capítulo anterior: 2</a>
+            <a class="toc-next" href="./capitulo-4.html">Capítulo siguiente: 4</a>
+          </nav>
+        </aside>
+
+        <main class="content">
+          <section id="1-que-falta-despues-del-estado-minimo" class="section-card">
+            <div class="eyebrow">3.1</div>
+            <h2>Qué falta después del estado mínimo</h2>
+            <p>El capítulo 1 construyó un presente mínimo:</p>
+            <div class="equation-box">\[
+            s=(q,\eta).
+            \]</div>
+            <p>La configuración \(q\) dice dónde está el sistema en su espacio de configuraciones. El dato \(\eta\) dice cómo está cruzando localmente ese espacio. Sin ese segundo dato, una misma configuración podría continuar de varias maneras sin que la ley local supiera distinguir las preparaciones.</p>
+            <p>El capítulo 2 añadió otra idea: una ley no se juzga sola, sino contra el modelo físico que declara qué estructuras existen. También vimos que una simetría como transformación de soluciones todavía no es una cantidad conservada. Para hablar de momento, momento angular o energía como generadores necesitamos más estructura.</p>
+            <p>La pregunta de este capítulo es:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \begin{gathered}
+                \text{¿qué estructura convierte un estado mínimo}\\
+                \text{en un espacio donde las funciones pueden generar transformaciones?}
+                \end{gathered}
+                }
+            \]</div>
+            <p>La respuesta no será cambiar la letra \(\eta\) por \(p\). Ese sería el error conceptual. El salto real es que \(\eta\) y \(p\) viven en espacios de tipo distinto.</p>
+            <div class="equation-box">\[
+            \boxed{
+                \text{tener un dato de cambio no es todavía tener un momento conjugado.}
+                }
+            \]</div>
+
+          </section>
+
+          <section id="2-tangentes-y-covectores" class="section-card">
+            <div class="eyebrow">3.2</div>
+            <h2>Tangentes y covectores</h2>
+            <p>Un dato de cambio como \(\eta\) es una dirección en el espacio de configuraciones. Si el sistema está en \(q\in Q\), entonces</p>
+            <div class="equation-box">\[
+            \eta\in T_qQ.
+            \]</div>
+            <p>Esto quiere decir: \(\eta\) es tangente a \(Q\). Describe hacia dónde atraviesa el sistema el espacio de configuraciones.</p>
+            <p>Un dato conjugado \(p\) no es otra dirección de movimiento. Es algo que evalúa direcciones:</p>
+            <div class="equation-box">\[
+            p\in T_q^*Q.
+            \]</div>
+            <p>Si \(\delta q\in T_qQ\) es un pequeño desplazamiento virtual de configuración, entonces \(p\) produce un número:</p>
+            <div class="equation-box">\[
+            p(\delta q).
+            \]</div>
+            <p>En coordenadas,</p>
+            <div class="equation-box">\[
+            p(\delta q)=p_i\,\delta q^i.
+            \]</div>
+            <p>La diferencia conceptual es ésta:</p>
+            <div class="equation-box">\[
+            \begin{array}{c}
+                \eta \text{ atraviesa el espacio de configuraciones},\\[4pt]
+                p \text{ evalúa desplazamientos del espacio de configuraciones}.
+                \end{array}
+            \]</div>
+            <p>Por eso pasar de \(\eta\) a \(p\) no es gratis. Hace falta una estructura física que diga cómo el dato de cambio se empareja con desplazamientos. En modelos ordinarios esa estructura estará relacionada con la inercia. En una partícula libre familiar acabaremos encontrando algo como \(p=m\dot q\). Pero no debe entrar como dogma inicial.</p>
+            <div class="equation-box">\[
+            \boxed{
+                \eta\in T_qQ,
+                \qquad
+                p\in T_q^*Q.
+                }
+            \]</div>
+
+          </section>
+
+          <section id="3-el-emparejamiento-conjugado" class="section-card">
+            <div class="eyebrow">3.3</div>
+            <h2>El emparejamiento conjugado</h2>
+            <p>Lo que debe sobrevivir a un cambio de coordenadas no es el número aislado \(p_i\). Es el emparejamiento completo:</p>
+            <div class="equation-box">\[
+            p_i\,dq^i.
+            \]</div>
+            <p>Aquí \(dq^i\) representa un desplazamiento infinitesimal de configuración, y \(p_i\) es el objeto que lo evalúa.</p>
+            <p>Veámoslo en una línea. Supongamos que cambiamos de coordenada mediante</p>
+            <div class="equation-box">\[
+            Q=q^3.
+            \]</div>
+            <p>Entonces</p>
+            <div class="equation-box">\[
+            dQ=3q^2\,dq.
+            \]</div>
+            <p>Si el emparejamiento debe ser el mismo,</p>
+            <div class="equation-box">\[
+            p\,dq=P\,dQ,
+            \]</div>
+            <p>entonces</p>
+            <div class="equation-box">\[
+            P=\frac{p}{3q^2}.
+            \]</div>
+            <p>El número que nombra al covector cambia, pero cambia justo de la manera inversa al desplazamiento. Así el producto total no depende de la etiqueta usada.</p>
+            <p>La lección es:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \text{el número }p\text{ cambia; el emparejamiento }p\,dq\text{ no.}
+                }
+            \]</div>
+            <p>En varias dimensiones, si</p>
+            <div class="equation-box">\[
+            Q^a=Q^a(q),
+            \]</div>
+            <p>los desplazamientos transforman como</p>
+            <div class="equation-box">\[
+            dQ^a=
+                \frac{\partial Q^a}{\partial q^i}\,dq^i.
+            \]</div>
+            <p>Pedir</p>
+            <div class="equation-box">\[
+            P_a\,dQ^a=p_i\,dq^i
+            \]</div>
+            <p>obliga a</p>
+            <div class="equation-box">\[
+            P_a=
+                p_i\frac{\partial q^i}{\partial Q^a}.
+            \]</div>
+            <p>Ésa es la regla de transformación de un covector.</p>
+
+          </section>
+
+          <section id="4-ejemplo-coordenada-angular" class="section-card">
+            <div class="eyebrow">3.4</div>
+            <h2>Ejemplo: coordenada angular</h2>
+            <p>Un péndulo simple ayuda a separar intuiciones. Su configuración puede describirse por un ángulo:</p>
+            <div class="equation-box">\[
+            q=\theta.
+            \]</div>
+            <p>El dato de cambio cinemático es</p>
+            <div class="equation-box">\[
+            \eta=\dot\theta.
+            \]</div>
+            <p>Pero el momento conjugado al ángulo no es, en el modelo ordinario, simplemente \(\dot\theta\). Cuando añadimos la estructura inercial del péndulo, aparece</p>
+            <div class="equation-box">\[
+            p_\theta=m\ell^2\dot\theta.
+            \]</div>
+            <p>No usamos esta fórmula como definición fundacional. La usamos para ver el tipo de diferencia: \(p_\theta\) contiene la escala inercial y geométrica del sistema.</p>
+            <p>El emparejamiento natural no es</p>
+            <div class="equation-box">\[
+            \dot\theta\,d\theta,
+            \]</div>
+            <p>sino</p>
+            <div class="equation-box">\[
+            p_\theta\,d\theta.
+            \]</div>
+            <p>Un pequeño giro \(d\theta\) es evaluado por el covector conjugado \(p_\theta\). Por eso \(p_\theta\) no es “la velocidad angular con otro nombre”.</p>
+            <div class="equation-box">\[
+            \boxed{
+                \begin{gathered}
+                \text{la velocidad describe cómo cambia la configuración;}\\
+                \text{el momento conjugado evalúa desplazamientos de configuración.}
+                \end{gathered}
+                }
+            \]</div>
+
+          </section>
+
+          <section id="5-el-espacio-natural-el-cotangente" class="section-card">
+            <div class="eyebrow">3.5</div>
+            <h2>El espacio natural: el cotangente</h2>
+            <p>Si a cada configuración \(q\in Q\) le asociamos no otra configuración, sino un covector \(p\in T_q^*Q\), obtenemos el cotangente:</p>
+            <div class="equation-box">\[
+            T^*Q.
+            \]</div>
+            <p>Un punto de este espacio se escribe localmente como</p>
+            <div class="equation-box">\[
+            z=(q^i,p_i).
+            \]</div>
+            <p>Pero la escritura local no debe engañarnos. \(T^*Q\) no es \(Q\times Q\), ni una duplicación de coordenadas. Es el espacio de configuraciones junto con todos sus covectores conjugados.</p>
+            <p>La frase útil es:</p>
+            <div class="equation-box">\[
+            \boxed{
+                T^*Q
+                \text{ es el lugar donde }q\text{ y }p\text{ viven como pareja conjugada.}
+                }
+            \]</div>
+            <p>En el capítulo 1, \(s=(q,\eta)\) cerraba la predicción local. Ahora, al pasar a \(z=(q,p)\), no estamos negando eso. Estamos añadiendo la estructura que permite hablar de emparejamientos, generadores y flujo hamiltoniano.</p>
+
+          </section>
+
+          <section id="6-la-forma-canonica" class="section-card">
+            <div class="eyebrow">3.6</div>
+            <h2>La forma canónica</h2>
+            <p>En \(T^*Q\) existe un objeto natural:</p>
+            <div class="equation-box">\[
+            \Theta=p_i\,dq^i.
+            \]</div>
+            <p>Se llama forma canónica. El nombre importa menos que su función: guarda de forma geométrica el emparejamiento entre covectores y desplazamientos de configuración.</p>
+            <p>Si cambiamos de coordenadas,</p>
+            <div class="equation-box">\[
+            p_i\,dq^i=P_a\,dQ^a.
+            \]</div>
+            <p>Por tanto \(\Theta\) no depende de la etiqueta local. La coordenada cambia; el emparejamiento no.</p>
+            <p>Podemos leer \(\Theta\) como la memoria geométrica de que \(p\) no es otra coordenada de configuración, sino el dato que evalúa desplazamientos de \(q\).</p>
+            <div class="equation-box">\[
+            \boxed{
+                \Theta \text{ conserva el emparejamiento }p_i\,dq^i
+                \text{ sin casarse con una coordenada.}
+                }
+            \]</div>
+
+          </section>
+
+          <section id="7-la-forma-de-fase" class="section-card">
+            <div class="eyebrow">3.7</div>
+            <h2>La forma de fase</h2>
+            <p>La forma canónica guarda el emparejamiento. Para convertir funciones en campos de flechas necesitamos una estructura derivada de ella:</p>
+            <div class="equation-box">\[
+            \omega=dq^i\wedge dp_i.
+            \]</div>
+            <p>Según la convención de signo, también se escribe \(\omega=-d\Theta\). Aquí mantendremos la convención anterior.</p>
+            <p>En una dimensión, \(\omega=dq\wedge dp\) mide áreas orientadas elementales en el plano \((q,p)\). Pero no conviene pensar en ella como una métrica. No mide longitudes de flechas ni ángulos. Mide la estructura conjugada entre direcciones de \(q\) y direcciones de \(p\).</p>
+            <div class="equation-box">\[
+            \boxed{
+                \omega \text{ no mide distancias en fase; mide conjugación.}
+                }
+            \]</div>
+            <p>Ésta es la geometría nueva. En un espacio con métrica, una función produce un gradiente: una dirección de máximo crecimiento. En un espacio de fase, una función produce otra cosa: un campo de transformación que respeta la estructura simpléctica.</p>
+
+          </section>
+
+          <section id="8-como-una-funcion-genera-una-flecha" class="section-card">
+            <div class="eyebrow">3.8</div>
+            <h2>Cómo una función genera una flecha</h2>
+            <p>Ahora hagamos la operación en una dimensión antes de escribirla de forma compacta. Sea</p>
+            <div class="equation-box">\[
+            G=G(q,p).
+            \]</div>
+            <p>Su diferencial es</p>
+            <div class="equation-box">\[
+            dG=
+                \frac{\partial G}{\partial q}\,dq
+                +
+                \frac{\partial G}{\partial p}\,dp.
+            \]</div>
+            <p>La estructura de fase convierte ese diferencial en una flecha:</p>
+            <div class="equation-box">\[
+            X_G
+                =
+                \frac{\partial G}{\partial p}\frac{\partial}{\partial q}
+                -
+                \frac{\partial G}{\partial q}\frac{\partial}{\partial p}.
+            \]</div>
+            <p>Es decir, bajo una transformación infinitesimal generada por \(G\),</p>
+            <div class="equation-box">\[
+            \delta q=
+                \varepsilon\frac{\partial G}{\partial p},
+                \qquad
+                \delta p=
+                -\varepsilon\frac{\partial G}{\partial q}.
+            \]</div>
+            <p>Esto ya muestra qué significa “generar”. Si</p>
+            <div class="equation-box">\[
+            G=p,
+            \]</div>
+            <p>entonces</p>
+            <div class="equation-box">\[
+            \delta q=\varepsilon,
+                \qquad
+                \delta p=0.
+            \]</div>
+            <p>El momento conjugado \(p\) genera traslaciones de \(q\).</p>
+            <p>Si</p>
+            <div class="equation-box">\[
+            G=q,
+            \]</div>
+            <p>entonces</p>
+            <div class="equation-box">\[
+            \delta q=0,
+                \qquad
+                \delta p=-\varepsilon.
+            \]</div>
+            <p>La coordenada \(q\) genera traslaciones de \(p\), con el signo fijado por la estructura de fase.</p>
+            <p>La forma compacta de todo esto es</p>
+            <div class="equation-box">\[
+            \iota_{X_G}\omega=dG.
+            \]</div>
+            <p>Pero ahora la fórmula ya no cae del cielo: es el mecanismo que convierte el diferencial de una función en una flecha de transformación.</p>
+            <div class="equation-box">\[
+            \boxed{
+                \text{una función genera una transformación cuando el espacio sabe convertir diferenciales en flechas.}
+                }
+            \]</div>
+
+          </section>
+
+          <section id="9-la-dinamica-hamiltoniana-como-caso-especial" class="section-card">
+            <div class="eyebrow">3.9</div>
+            <h2>La dinámica hamiltoniana como caso especial</h2>
+            <p>Si la función que genera el flujo temporal se llama \(\mathcal{H}\), entonces</p>
+            <div class="equation-box">\[
+            X_\mathcal{H}
+                =
+                \frac{\partial \mathcal{H}}{\partial p_i}\frac{\partial}{\partial q^i}
+                -
+                \frac{\partial \mathcal{H}}{\partial q^i}\frac{\partial}{\partial p_i}.
+            \]</div>
+            <p>Seguir ese campo en el tiempo da</p>
+            <div class="equation-box">\[
+            \dot q^i=
+                \frac{\partial \mathcal{H}}{\partial p_i},
+                \qquad
+                \dot p_i=
+                -\frac{\partial \mathcal{H}}{\partial q^i}.
+            \]</div>
+            <p>Éstas son las ecuaciones de Hamilton.</p>
+            <p>En este curso no aparecen como una transformación de Legendre aplicada a un lagrangiano previo. Aparecen porque hemos enriquecido el estado hasta tener una estructura de fase, y esa estructura permite leer una función como generador de un flujo.</p>
+            <p>El orden conceptual es:</p>
+            <div class="equation-box">\[
+            \mathcal{H}
+                \quad\overset{\omega}{\longmapsto}\quad
+                X_\mathcal{H}
+                \quad\longmapsto\quad
+                \text{flujo temporal}.
+            \]</div>
+            <div class="equation-box">\[
+            \boxed{
+                \mathcal{H} \text{ es primero generador temporal; su lectura como energía viene después.}
+                }
+            \]</div>
+
+          </section>
+
+          <section id="10-que-leyes-quedan-fuera" class="section-card">
+            <div class="eyebrow">3.10</div>
+            <h2>Qué leyes quedan fuera</h2>
+            <p>No todo campo de flechas sobre \((q,p)\) es hamiltoniano. Éste es un filtro nuevo.</p>
+            <p>En una dimensión, un campo general en fase tiene la forma</p>
+            <div class="equation-box">\[
+            \dot q=A(q,p),
+                \qquad
+                \dot p=B(q,p).
+            \]</div>
+            <p>Para que exista una función \(\mathcal{H}\) tal que</p>
+            <div class="equation-box">\[
+            A=\frac{\partial\mathcal{H}}{\partial p},
+                \qquad
+                B=-\frac{\partial\mathcal{H}}{\partial q},
+            \]</div>
+            <p>debe cumplirse, al menos localmente,</p>
+            <div class="equation-box">\[
+            \frac{\partial A}{\partial q}
+                +
+                \frac{\partial B}{\partial p}
+                =
+                0.
+            \]</div>
+            <p>En el plano \((q,p)\), esta condición dice que el flujo no comprime área de fase.</p>
+            <p>El oscilador ideal</p>
+            <div class="equation-box">\[
+            \dot q=\frac{p}{m},
+                \qquad
+                \dot p=-kq
+            \]</div>
+            <p>cumple</p>
+            <div class="equation-box">\[
+            \frac{\partial \dot q}{\partial q}
+                +
+                \frac{\partial \dot p}{\partial p}
+                =
+                0+0=0.
+            \]</div>
+            <p>De hecho viene de</p>
+            <div class="equation-box">\[
+            \mathcal{H}(q,p)=
+                \frac{p^2}{2m}
+                +
+                \frac12kq^2.
+            \]</div>
+            <p>En cambio, si añadimos rozamiento efectivo,</p>
+            <div class="equation-box">\[
+            \dot q=\frac{p}{m},
+                \qquad
+                \dot p=-kq-\gamma p,
+            \]</div>
+            <p>entonces</p>
+            <div class="equation-box">\[
+            \frac{\partial \dot q}{\partial q}
+                +
+                \frac{\partial \dot p}{\partial p}
+                =
+                -\gamma.
+            \]</div>
+            <p>El flujo comprime área de fase. Eso no describe un sistema cerrado hamiltoniano en las dos variables \((q,p)\). Puede describir un sistema abierto, un medio eliminado o una dinámica efectiva.</p>
+            <div class="equation-box">\[
+            \boxed{
+                \text{Hamilton no es una notación para cualquier ley local.}
+                }
+            \]</div>
+            <div class="equation-box">\[
+            \boxed{
+                \text{Selecciona campos que preservan la estructura de fase.}
+                }
+            \]</div>
+
+          </section>
+
+          <section id="11-que-conviene-retener" class="section-card">
+            <div class="eyebrow">3.11</div>
+            <h2>Qué conviene retener</h2>
+            <p>El capítulo no ha duplicado variables. Ha cambiado el tipo del segundo dato.</p>
+            <ol>
+              <li><p>\(s=(q,\eta)\) cierra la predicción local.</p></li>
+              <li><p>\(\eta\in T_qQ\) es un dato tangente de cambio.</p></li>
+              <li><p>\(p\in T_q^*Q\) es un dato conjugado que evalúa desplazamientos.</p></li>
+              <li><p>\(T^*Q\) es el espacio natural de pares \((q,p)\).</p></li>
+              <li><p>\(\Theta=p_i\,dq^i\) conserva el emparejamiento.</p></li>
+              <li><p>\(\omega=dq^i\wedge dp_i\) permite convertir funciones en campos.</p></li>
+              <li><p>Una función \(G\) genera una transformación mediante \(X_G\).</p></li>
+              <li><p>La dinámica hamiltoniana es el caso en que el generador elegido es     \(\mathcal{H}\).</p></li>
+              <li><p>No todo campo en fase es hamiltoniano; debe preservar la estructura de     fase.</p></li>
+            </ol>
+            <p>La pregunta siguiente ya puede formularse con precisión:</p>
+            <div class="equation-box">\[
+            \text{si las funciones generan transformaciones, ¿cómo se combinan entre sí?}
+            \]</div>
+            <p>La respuesta será el corchete de Poisson. Ahí aparecerá con claridad la cadena: generador, simetría y conservación.</p>
+
+          </section>
+
+          <nav class="chapter-nav" aria-label="Navegación entre capítulos">
+            <a class="chapter-nav-link previous" href="./capitulo-2.html">
+              <span>Capítulo anterior</span>
+              <strong>2</strong>
+            </a>
+            <a class="chapter-nav-link next" href="./capitulo-4.html">
+              <span>Capítulo siguiente</span>
+              <strong>4</strong>
+            </a>
+          </nav>
+        </main>
+      </div>
+    </div>
+
+    <script defer src="./course-demos.js?v=20260509-demo-fwk"></script>
+    <script defer src="./constructive-demos.js?v=20260509-constructive-demos"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        window.CourseDemos?.renderMath(document.body);
+      });
+    </script>
+  </body>
+</html>

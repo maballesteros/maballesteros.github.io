@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mecánica Analítica — Capítulo 7</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2830'/%3E%3Cpath d='M12 40c10-18 30-18 40 0' fill='none' stroke='%23f4ede0' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='40' r='4' fill='%23d16f2b'/%3E%3Ccircle cx='44' cy='40' r='4' fill='%230e7278'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    ></script>
+    <link rel="stylesheet" href="./course.css?v=2026-05-09-constructive" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Curso visual interactivo · Capítulo 7</div>
+            <h1>7. Del flujo hamiltoniano a la amplitud cuántica</h1>
+            <p>El puente cuántico se construye desde estados, generadores, corchetes y acción canónica como fase.</p>
+            <div class="hero-actions">
+              <a class="btn secondary" href="./index.html">Índice del curso</a>
+              <a class="btn secondary" href="./capitulo-6.html">Capítulo 6</a>
+
+            </div>
+          </div>
+
+          <aside class="quote-card">
+            <div class="label">Cadena constructiva</div>
+            <div class="equation">estado → simetrías → generadores → fase</div>
+            <p>
+              El formalismo entra solo cuando resuelve una necesidad conceptual previa.
+            </p>
+          </aside>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="toc">
+          <h2>Capítulo 7</h2>
+          <nav>
+            <a href="#1-que-debe-cruzar-el-puente">7.1 Qué debe cruzar el puente</a>
+            <a href="#2-la-arquitectura-que-si-se-conserva">7.2 La arquitectura que sí se conserva</a>
+            <a href="#3-hamiltoniano-como-generador-unitario">7.3 Hamiltoniano como generador unitario</a>
+            <a href="#4-simetrias-de-flujos-a-operadores-unitarios">7.4 Simetrías: de flujos a operadores unitarios</a>
+            <a href="#5-la-accion-que-cruza-primero-es-la-canonica">7.5 La acción que cruza primero es la canónica</a>
+            <a href="#6-fase-estacionaria-de-la-accion-de-fase">7.6 Fase estacionaria de la acción de fase</a>
+            <a href="#7-suma-sobre-historias-en-fase">7.7 Suma sobre historias en fase</a>
+            <a href="#8-cuando-miramos-solo-q-t-aparece-lagrange">7.8 Cuando miramos solo q(t): aparece Lagrange</a>
+            <a href="#9-hamilton-jacobi-y-wkb">7.9 Hamilton–Jacobi y WKB</a>
+            <a href="#10-accion-angulo-y-cuantizacion-semiclasica">7.10 Acción–ángulo y cuantización semiclásica</a>
+            <a href="#11-que-conviene-retener">7.11 Qué conviene retener</a>
+            <a class="toc-next" href="./capitulo-6.html">Capítulo anterior: 6</a>
+          </nav>
+        </aside>
+
+        <main class="content">
+          <section id="1-que-debe-cruzar-el-puente" class="section-card">
+            <div class="eyebrow">7.1</div>
+            <h2>Qué debe cruzar el puente</h2>
+            <p>La mecánica clásica que hemos construido no es solo una colección de trayectorias. Su núcleo es más estructural: elegir un presente suficiente, pintar sobre ese espacio un campo de continuación, y exigir que ese campo respete las simetrías y la estructura geométrica del modelo.</p>
+            <p>En la mecánica ordinaria ese presente suficiente es un punto de fase,</p>
+            <div class="equation-box">\[
+            z=(q,p).
+            \]</div>
+            <p>Una vez elegido el Hamiltoniano, la ley se escribe como un flujo:</p>
+            <div class="equation-box">\[
+            \dot z=X_\mathcal{H}(z,t).
+            \]</div>
+            <p>Si miramos una observable \(f(q,p,t)\), la misma idea se expresa como</p>
+            <div class="equation-box">\[
+            \frac{df}{dt}
+                =
+                \Pois{f}{\mathcal{H}}
+                +
+                \frac{\partial f}{\partial t}.
+            \]</div>
+            <p>El Hamiltoniano no es aquí simplemente “la energía”. Es el generador de la evolución temporal.</p>
+            <p>Al pasar a cuántica cambia qué objeto merece llamarse estado. El presente suficiente ya no es un punto \((q,p)\), sino un estado cuántico, por ejemplo</p>
+            <div class="equation-box">\[
+            |\psi(t)\rangle.
+            \]</div>
+            <p>Pero la pregunta constructiva conserva la misma forma:</p>
+            <div class="equation-box">\[
+            \text{¿cuál es el objeto mínimo sobre el que una ley local puede continuar
+                la historia?}
+            \]</div>
+            <p>La ecuación de Schrödinger responde:</p>
+            <div class="equation-box">\[
+            i\hbar\frac{d}{dt}|\psi(t)\rangle
+                =
+                \hat H|\psi(t)\rangle.
+            \]</div>
+            <p>O, despejando la derivada,</p>
+            <div class="equation-box">\[
+            \frac{d}{dt}|\psi(t)\rangle
+                =
+                -\frac{i}{\hbar}\hat H|\psi(t)\rangle.
+            \]</div>
+            <p>También aquí hay un campo de flechas, solo que ahora vive en el espacio de estados cuánticos. Las predicciones de medida son probabilísticas, pero la propagación unitaria del estado sigue siendo local y determinista sobre el objeto adecuado.</p>
+
+          </section>
+
+          <section id="2-la-arquitectura-que-si-se-conserva" class="section-card">
+            <div class="eyebrow">7.2</div>
+            <h2>La arquitectura que sí se conserva</h2>
+            <p>El puente cuántico no debería empezar preguntando cómo salvar las trayectorias clásicas. Esa pregunta llega demasiado tarde. La pregunta más limpia es qué estructura clásica puede sobrevivir cuando el estado deja de ser un punto de fase.</p>
+            <p>La respuesta no son las trayectorias. Lo que sobrevive primero es la arquitectura generadora:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \text{Hamiltoniano, corchete, generadores, simetrías y acción de fase.}
+                }
+            \]</div>
+            <p>En forma esquemática:</p>
+            <div class="equation-box">\[
+            f(q,p)
+                \quad\longrightarrow\quad
+                \hat f,
+            \]</div>
+            <div class="equation-box">\[
+            \Pois{f}{g}
+                \quad\longrightarrow\quad
+                \frac{1}{i\hbar}[\hat f,\hat g],
+            \]</div>
+            <div class="equation-box">\[
+            \Pois{q^i}{p_j}=\delta^i_j
+                \quad\longrightarrow\quad
+                [\hat q^i,\hat p_j]=i\hbar\delta^i_j.
+            \]</div>
+            <p>Esto no es todavía una receta universal de cuantización. Hay problemas de ordenación, dominios, topología y elección de representación. Pero sí muestra la continuidad conceptual que nos interesa: la cuántica no copia las órbitas clásicas; deforma su sintaxis de generadores.</p>
+
+          </section>
+
+          <section id="3-hamiltoniano-como-generador-unitario" class="section-card">
+            <div class="eyebrow">7.3</div>
+            <h2>Hamiltoniano como generador unitario</h2>
+            <p>En clásica, si una observable no depende explícitamente del tiempo, su cambio viene dado por</p>
+            <div class="equation-box">\[
+            \dot f=\Pois{f}{\mathcal{H}}.
+            \]</div>
+            <p>En cuántica, la versión de Heisenberg tiene la misma silueta:</p>
+            <div class="equation-box">\[
+            \frac{d\hat A}{dt}
+                =
+                \frac{1}{i\hbar}[\hat A,\hat H]
+                +
+                \frac{\partial \hat A}{\partial t}.
+            \]</div>
+            <p>El corchete de Poisson se ha convertido en conmutador, y el Hamiltoniano sigue siendo el generador de evolución.</p>
+            <p>Visto sobre estados, el mismo hecho se expresa mediante el operador unitario</p>
+            <div class="equation-box">\[
+            U(t)=
+                \exp\left(-\frac{i}{\hbar}t\hat H\right),
+            \]</div>
+            <p>cuando \(\hat H\) no depende del tiempo. Esta fórmula dice algo muy concreto: \(\hat H\) no solo asigna un número de energía. Genera desplazamiento temporal en el espacio de estados cuánticos.</p>
+            <p>Así queda la primera línea del puente:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \text{flujo hamiltoniano clásico}
+                \quad\longrightarrow\quad
+                \text{evolución unitaria cuántica}.
+                }
+            \]</div>
+
+          </section>
+
+          <section id="4-simetrias-de-flujos-a-operadores-unitarios" class="section-card">
+            <div class="eyebrow">7.4</div>
+            <h2>Simetrías: de flujos a operadores unitarios</h2>
+            <p>La misma lectura vale para las simetrías. En fase clásica, una función \(G(q,p)\) genera una transformación infinitesimal:</p>
+            <div class="equation-box">\[
+            \delta f
+                =
+                \varepsilon\Pois{f}{G}.
+            \]</div>
+            <p>Si \(G\) es compatible con la evolución,</p>
+            <div class="equation-box">\[
+            \Pois{G}{\mathcal{H}}=0,
+            \]</div>
+            <p>entonces \(G\) se conserva.</p>
+            <p>En cuántica, el generador correspondiente produce una familia unitaria:</p>
+            <div class="equation-box">\[
+            U(\varepsilon)
+                =
+                \exp\left(
+                    -\frac{i}{\hbar}\varepsilon\hat G
+                \right),
+            \]</div>
+            <p>y su acción infinitesimal sobre observables es</p>
+            <div class="equation-box">\[
+            \delta\hat A
+                =
+                \frac{\varepsilon}{i\hbar}
+                [\hat A,\hat G].
+            \]</div>
+            <p>La conservación se traduce, en ausencia de dependencia explícita del tiempo, en</p>
+            <div class="equation-box">\[
+            \Pois{G}{\mathcal{H}}=0
+                \quad\longrightarrow\quad
+                [\hat G,\hat H]=0.
+            \]</div>
+            <p>Esto da una lectura unificada:</p>
+            <div class="equation-box">\[
+            G=p
+                \quad\text{genera traslaciones},
+            \]</div>
+            <div class="equation-box">\[
+            G=L_z=xp_y-yp_x
+                \quad\text{genera rotaciones alrededor de }z,
+            \]</div>
+            <div class="equation-box">\[
+            G=\mathcal{H}
+                \quad\text{genera evolución temporal}.
+            \]</div>
+            <p>En cuántica aparecen \(\hat p\), \(\hat L_z\) y \(\hat H\) cumpliendo el mismo papel generador. Las simetrías no son decoración posterior; son parte del esqueleto que hace reconocible la teoría al cruzar el puente.</p>
+
+          </section>
+
+          <section id="5-la-accion-que-cruza-primero-es-la-canonica" class="section-card">
+            <div class="eyebrow">7.5</div>
+            <h2>La acción que cruza primero es la canónica</h2>
+            <p>La acción que vive de forma natural en el espacio que hemos construido no es primero una función de \(q\) y \(\dot q\). Es la acción de fase:</p>
+            <div class="equation-box">\[
+            S[q,p]
+                =
+                \int_{t_a}^{t_b}
+                \left(
+                    p_i\dot q^i-\mathcal{H}(q,p,t)
+                \right)dt.
+            \]</div>
+            <p>Geométricamente, a lo largo de una curva \(\Gamma\) en el espacio de estados extendido,</p>
+            <div class="equation-box">\[
+            S[\Gamma]
+                =
+                \int_\Gamma
+                \left(
+                    p_i\,dq^i-\mathcal{H}\,dt
+                \right).
+            \]</div>
+            <p>Esta expresión contiene las dos piezas esenciales: \(p_i\,dq^i\), que mide la fase geométrica acumulada en el espacio de fases, y \(\mathcal{H}\,dt\), que descuenta la evolución temporal generada por el Hamiltoniano.</p>
+            <p>La idea clave es:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \text{Hamilton organiza el flujo; la acción canónica organiza la fase.}
+                }
+            \]</div>
+            <p>La formulación lagrangiana no desaparece, pero no es la puerta conceptual más directa hacia la cuántica. Aparece cuando decidimos mirar esa fase solo desde historias \(q(t)\).</p>
+
+          </section>
+
+          <section id="6-fase-estacionaria-de-la-accion-de-fase" class="section-card">
+            <div class="eyebrow">7.6</div>
+            <h2>Fase estacionaria de la acción de fase</h2>
+            <p>Variar la acción canónica muestra por qué su papel es tan natural. Partimos de</p>
+            <div class="equation-box">\[
+            S[q,p]
+                =
+                \int
+                \left(
+                    p_i\dot q^i-\mathcal{H}(q,p,t)
+                \right)dt.
+            \]</div>
+            <p>Una variación independiente de \(q\) y \(p\) da</p>
+            <div class="equation-box">\[
+            \delta S
+                =
+                \int
+                \left[
+                    \left(
+                        \dot q^i-\frac{\partial\mathcal{H}}{\partial p_i}
+                    \right)\delta p_i
+                    -
+                    \left(
+                        \dot p_i+\frac{\partial\mathcal{H}}{\partial q^i}
+                    \right)\delta q^i
+                \right]dt
+                +
+                \left[p_i\delta q^i\right]_{t_a}^{t_b}.
+            \]</div>
+            <p>Si fijamos los extremos de la configuración,</p>
+            <div class="equation-box">\[
+            \delta q(t_a)=\delta q(t_b)=0,
+            \]</div>
+            <p>el término de borde desaparece. Pedir \(\delta S=0\) para variaciones arbitrarias deja</p>
+            <div class="equation-box">\[
+            \dot q^i
+                =
+                \frac{\partial\mathcal{H}}{\partial p_i},
+                \qquad
+                \dot p_i
+                =
+                -\frac{\partial\mathcal{H}}{\partial q^i}.
+            \]</div>
+            <p>Es decir, la fase estacionaria de la acción canónica produce directamente las ecuaciones de Hamilton. No hace falta rodear por Euler–Lagrange para ver la estructura que va a cruzar a cuántica.</p>
+
+          </section>
+
+          <section id="7-suma-sobre-historias-en-fase" class="section-card">
+            <div class="eyebrow">7.7</div>
+            <h2>Suma sobre historias en fase</h2>
+            <p>En cuántica, la acción entra dividida por \(\hbar\):</p>
+            <div class="equation-box">\[
+            \exp\left(\frac{i}{\hbar}S\right).
+            \]</div>
+            <p>Por eso la versión más fiel al camino construido es la suma formal sobre historias de fase:</p>
+            <div class="equation-box">\[
+            K(q_b,t_b;q_a,t_a)
+                \sim
+                \int\mathcal Dq\,\mathcal Dp\,
+                \exp\left[
+                    \frac{i}{\hbar}
+                    \int_{t_a}^{t_b}
+                    \left(
+                        p_i\dot q^i-\mathcal{H}(q,p,t)
+                    \right)dt
+                \right].
+            \]</div>
+            <p>No debemos leer esta expresión, de entrada, como una integral ordinaria sobre un espacio infinito dimensional. Su lectura conceptual basta: cada historia de fase aporta una flecha compleja; las flechas se suman antes de tomar módulo cuadrado.</p>
+            <p>Las historias no estacionarias no son ilegales. Contribuyen con fases que cambian muy deprisa respecto a las historias vecinas, y por eso tienden a cancelarse. Cerca de una historia estacionaria, la acción no cambia a primer orden; las fases vecinas apuntan casi en la misma dirección y la contribución sobrevive.</p>
+            <p>Ésta es la frase que conviene retener:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \text{la trayectoria clásica no se elige antes de sumar; aparece como fase
+                estacionaria.}
+                }
+            \]</div>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: fase estacionaria</h3>
+                  <p>Cada historia de fase aporta un fasor. Donde la acción cambia deprisa, los fasores se cancelan; cerca del punto estacionario apuntan casi juntos.</p>
+                </div>
+                <div class="world-actions">
+                  
+                  <label class="mini-label">hbar efectivo <input type="range" min="0.12" max="0.9" step="0.01" value="0.34" data-demo-slider="stationary-phase" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="stationary-phase">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="stationary-phase" aria-label="Demo interactiva: fase estacionaria"></div>
+                  <div class="world-side">
+                    
+                    <div class="stat-box">
+                      <h4>Suma resultante</h4>
+                      <p data-demo-readout="stationary-phase"></p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>La trayectoria clásica no se elige antes de sumar; sobrevive porque las fases vecinas se suman coherentemente.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="8-cuando-miramos-solo-q-t-aparece-lagrange" class="section-card">
+            <div class="eyebrow">7.8</div>
+            <h2>Cuando miramos solo q(t): aparece Lagrange</h2>
+            <p>Ahora sí podemos recuperar la acción lagrangiana, pero con otro estatuto. Partimos de</p>
+            <div class="equation-box">\[
+            \dot q^i
+                =
+                \frac{\partial\mathcal{H}}{\partial p_i}.
+            \]</div>
+            <p>Si esta relación puede invertirse para escribir</p>
+            <div class="equation-box">\[
+            p_i=p_i(q,\dot q,t),
+            \]</div>
+            <p>entonces definimos</p>
+            <div class="equation-box">\[
+            \mathcal{L}(q,\dot q,t)
+                =
+                p_i(q,\dot q,t)\dot q^i
+                -
+                \mathcal{H}(q,p(q,\dot q,t),t).
+            \]</div>
+            <p>Al sustituir en la acción de fase,</p>
+            <div class="equation-box">\[
+            S[q,p]
+                \longrightarrow
+                S[q]=
+                \int \mathcal{L}(q,\dot q,t)\,dt.
+            \]</div>
+            <p>La misma operación puede verse en la integral de camino: si la integración en \(p\) es regular, la suma de historias de fase se proyecta a una suma de historias de configuración:</p>
+            <div class="equation-box">\[
+            \int\mathcal Dq\,\mathcal Dp\,
+                e^{\frac{i}{\hbar}\int(p_i\dot q^i-\mathcal{H})dt}
+                \quad\longrightarrow\quad
+                \int\mathcal Dq\,
+                e^{\frac{i}{\hbar}\int\mathcal{L}(q,\dot q,t)dt}.
+            \]</div>
+            <p>Para</p>
+            <div class="equation-box">\[
+            \mathcal{H}(q,p)=\frac{p^2}{2m}+V(q),
+            \]</div>
+            <p>la integración formal en \(p\) es gaussiana, y aparece</p>
+            <div class="equation-box">\[
+            \mathcal{L}(q,\dot q)=
+                \frac12m\dot q^2-V(q).
+            \]</div>
+            <p>Así queda claro qué ha pasado: \(\mathcal{L}\) no era la entrada obligatoria hacia la cuántica. Es la forma que toma la acción canónica cuando el problema permite proyectar limpiamente a historias de configuración.</p>
+
+          </section>
+
+          <section id="9-hamilton-jacobi-y-wkb" class="section-card">
+            <div class="eyebrow">7.9</div>
+            <h2>Hamilton–Jacobi y WKB</h2>
+            <p>Hamilton–Jacobi encaja ahora como bisagra natural. En clásica, una función \(S(q,t)\) puede organizar una familia de momentos mediante</p>
+            <div class="equation-box">\[
+            p_i
+                =
+                \frac{\partial S}{\partial q^i}.
+            \]</div>
+            <p>La ecuación correspondiente es</p>
+            <div class="equation-box">\[
+            \frac{\partial S}{\partial t}
+                +
+                \mathcal{H}\left(
+                    q,
+                    \frac{\partial S}{\partial q},
+                    t
+                \right)
+                =
+                0.
+            \]</div>
+            <p>En WKB se escribe una función de onda como</p>
+            <div class="equation-box">\[
+            \psi(q,t)
+                =
+                A(q,t)
+                \exp\left(
+                    \frac{i}{\hbar}S(q,t)
+                \right).
+            \]</div>
+            <p>Al sustituir en Schrödinger y tomar el orden dominante en \(\hbar\), reaparece Hamilton–Jacobi. La fase cuántica contiene la función generatriz clásica.</p>
+            <p>Por eso Hamilton–Jacobi no es una técnica lateral. Es el punto donde la clásica ya está escrita en el lenguaje que la cuántica va a convertir en amplitud.</p>
+
+          </section>
+
+          <section id="10-accion-angulo-y-cuantizacion-semiclasica" class="section-card">
+            <div class="eyebrow">7.10</div>
+            <h2>Acción–ángulo y cuantización semiclásica</h2>
+            <p>Algo parecido ocurre con las variables acción–ángulo. Para un movimiento periódico unidimensional, la acción</p>
+            <div class="equation-box">\[
+            J
+                =
+                \frac{1}{2\pi}
+                \oint p\,dq
+            \]</div>
+            <p>es un invariante geométrico de la órbita en fase.</p>
+            <p>La cuantización semiclásica selecciona valores discretos de ese invariante:</p>
+            <div class="equation-box">\[
+            J_n
+                \approx
+                \left(
+                    n+\frac12
+                \right)\hbar,
+            \]</div>
+            <p>con correcciones que dependen de la geometría de los puntos de retorno y de la topología del problema.</p>
+            <p>La lectura correcta no es que “la energía se cuantiza” por decreto. Primero se discretizan invariantes de acción en el espacio de fases; la energía queda discretizada cuando el Hamiltoniano relaciona esos invariantes con sus niveles.</p>
+
+          </section>
+
+          <section id="11-que-conviene-retener" class="section-card">
+            <div class="eyebrow">7.11</div>
+            <h2>Qué conviene retener</h2>
+            <p>El puente cuántico queda mucho más limpio si no intentamos preservar primero la imagen de una partícula siguiendo una trayectoria. Lo que se preserva es más abstracto y más robusto:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \text{la cuántica no hereda de la clásica sus trayectorias;}
+                }
+            \]</div>
+            <div class="equation-box">\[
+            \boxed{
+                \text{hereda su arquitectura generadora.}
+                }
+            \]</div>
+            <p>La cadena conceptual es:</p>
+            <div class="equation-box">\[
+            \begin{gathered}
+                \text{estado clásico }(q,p)
+                \to
+                \text{estado cuántico }|\psi\rangle,
+                \\
+                \text{Hamiltoniano como generador clásico}
+                \to
+                \text{Hamiltoniano como generador unitario},
+                \\
+                \text{corchete de Poisson}
+                \to
+                \text{conmutador},
+                \\
+                \text{simetría como flujo generado}
+                \to
+                \text{simetría como operador unitario},
+                \\
+                \int(p_i\,dq^i-\mathcal{H}\,dt)
+                \to
+                \exp(iS/\hbar).
+                \end{gathered}
+            \]</div>
+            <p>La fórmula-guía del capítulo es:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \begin{gathered}
+                \text{Hamilton organiza el flujo;}\\
+                \text{las simetrías organizan los generadores;}\\
+                \text{la acción canónica organiza la fase.}
+                \end{gathered}
+                }
+            \]</div>
+            <p>Lagrange sigue siendo útil, pero aparece con el estatuto correcto: es la forma que toma esa fase cuando elegimos mirar el movimiento solo desde \(q(t)\) y la proyección desde fase es regular.</p>
+
+          </section>
+
+          <nav class="chapter-nav" aria-label="Navegación entre capítulos">
+            <a class="chapter-nav-link previous" href="./capitulo-6.html">
+              <span>Capítulo anterior</span>
+              <strong>6</strong>
+            </a>
+
+          </nav>
+        </main>
+      </div>
+    </div>
+
+    <script defer src="./course-demos.js?v=20260509-demo-fwk"></script>
+    <script defer src="./constructive-demos.js?v=20260509-constructive-demos"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        window.CourseDemos?.renderMath(document.body);
+      });
+    </script>
+  </body>
+</html>

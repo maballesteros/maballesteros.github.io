@@ -23,8 +23,7 @@
       defer
       src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
     ></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
-    <link rel="stylesheet" href="./course.css" />
+    <link rel="stylesheet" href="./course.css?v=2026-05-09-constructive" />
   </head>
   <body>
     <div class="page">
@@ -32,28 +31,20 @@
         <div class="hero-grid">
           <div class="hero-copy">
             <div class="eyebrow">Curso visual interactivo · Capítulo 2</div>
-            <h1>2. Cómo emerge la acción</h1>
-            <p>
-              El capítulo anterior terminaba con una pregunta muy concreta:
-              una vez elegidos el estado, las coordenadas y la clase de ley que
-              queremos estudiar, ¿de dónde sale la ley de movimiento? Este
-              capítulo cambia de punto de vista: deja de mirar solo estados
-              instantáneos y empieza a comparar historias completas.
-            </p>
+            <h1>2. Del modelo a las leyes posibles</h1>
+            <p>Una ecuación no solo predice movimiento: también declara qué estructura física contiene el modelo.</p>
             <div class="hero-actions">
-              <a class="btn secondary" href="./">Índice del curso</a>
-              <a class="btn" href="./capitulo-1.html">Capítulo 1</a>
+              <a class="btn secondary" href="./index.html">Índice del curso</a>
+              <a class="btn secondary" href="./capitulo-1.html">Capítulo 1</a>
+              <a class="btn" href="./capitulo-3.html">Capítulo 3</a>
             </div>
           </div>
 
           <aside class="quote-card">
-            <div class="label">La pregunta buena</div>
-            <div class="equation">\( \text{de estados} \rightarrow \text{historias completas} \)</div>
+            <div class="label">Cadena constructiva</div>
+            <div class="equation">estado → simetrías → generadores → fase</div>
             <p>
-              Newton empuja el sistema instante a instante. Lagrange propone
-              otra mirada: entre dos extremos dados, ¿qué historia merece el
-              título de historia física y qué premisas hacen natural ese modo
-              de compararlas?
+              El formalismo entra solo cuando resuelve una necesidad conceptual previa.
             </p>
           </aside>
         </div>
@@ -63,1100 +54,247 @@
         <aside class="toc">
           <h2>Capítulo 2</h2>
           <nav>
-            <a href="#historias">2.1 De estados a historias</a>
-            <a href="#premisas">2.2 Premisas nuevas</a>
-            <a href="#integral">2.3 Por qué aparece una integral</a>
-            <a href="#estacionaria">2.4 Acción estacionaria</a>
-            <a href="#euler-lagrange">2.5 Euler–Lagrange</a>
-            <a href="#libre">2.6 La \(\mathcal{L}\) libre</a>
-            <a href="#interacciones">2.7 Interacciones</a>
-            <a href="#orden-superior">2.8 Derivadas altas</a>
-            <a href="#alcance">2.9 Qué explica y qué no</a>
-            <a href="#feynman">2.10 La intuición Feynman</a>
-            <a href="#retener">2.11 Qué retener</a>
+            <a href="#1-una-ley-no-se-juzga-sola">2.1 Una ley no se juzga sola</a>
+            <a href="#2-tres-estatutos-de-restriccion">2.2 Tres estatutos de restricción</a>
+            <a href="#3-filtro-universal-las-etiquetas-no-son-fisica">2.3 Filtro universal: las etiquetas no son física</a>
+            <a href="#4-simetria-fisica-una-indiferencia-del-modelo">2.4 Simetría física: una indiferencia del modelo</a>
+            <a href="./anexo-corchete-lie.html">Anexo: de las dos rutas a \([Y,X]=0\)</a>
+            <a href="#5-leer-una-ley-como-factura-fisica">2.5 Leer una ley como factura física</a>
+            <a href="#6-modelo-i-particula-libre">2.6 Modelo I: partícula libre</a>
+            <a href="#7-modelo-ii-oscilador-anclado">2.7 Modelo II: oscilador anclado</a>
+            <a href="#8-modelo-iii-campo-uniforme">2.8 Modelo III: campo uniforme</a>
+            <a href="#9-modelo-iv-rozamiento-en-un-medio">2.9 Modelo IV: rozamiento en un medio</a>
+            <a href="#10-modelo-v-interaccion-interna">2.10 Modelo V: interacción interna</a>
+            <a href="#11-modelo-vi-pendulo">2.11 Modelo VI: péndulo</a>
+            <a href="#12-que-hemos-aprendido">2.12 Qué hemos aprendido</a>
+            <a href="#13-puente-de-transformaciones-a-cantidades">2.13 Puente: de transformaciones a cantidades</a>
+            <a class="toc-next" href="./capitulo-1.html">Capítulo anterior: 1</a>
+            <a class="toc-next" href="./capitulo-3.html">Capítulo siguiente: 3</a>
           </nav>
         </aside>
 
         <main class="content">
-          
-          <section id="recap" class="section-card">
-            <div class="eyebrow">Recapitulación</div>
-            <h2>¿Qué tenemos hasta ahora?</h2>
-            <p class="lede">
-              Este capítulo no nace de cero. Llega después de haber aclarado,
-              en el capítulo 1, qué entendemos por sistema, configuración, ley
-              y estado.
-            </p>
-
-            <p class="lede">
-              Empezamos fijando nuestro foco en un
-              <a class="chapter-link" href="./capitulo-1.html#sistema">sistema</a>:
-              qué parte del mundo queremos estudiar. Después vimos, en
-              <a class="chapter-link" href="./capitulo-1.html#observamos">¿Qué observamos?</a>,
-              que lo que realmente tenemos delante son historias en el tiempo,
-              y que la <strong>configuración</strong> no tiene por qué
-              escribirse siempre en cartesianas. Un péndulo deja ver muy bien
-              esa idea: puedes describir la masa con \((x,y)\), pero la ligadura
-              hace visible que una sola coordenada, el ángulo, captura mejor la
-              geometría real del problema.
-            </p>
-
-            <p class="lede">
-              Cuando pasamos a
-              <a class="chapter-link" href="./capitulo-1.html#ley">Ley dinámica</a>
-              y a
-              <a class="chapter-link" href="./capitulo-1.html#mundos">Mundos posibles</a>,
-              apareció la pregunta decisiva: ¿qué clase de ecuación puede
-              describir la evolución temporal de esa configuración? Ahí
-              comparamos tres posibilidades. A las leyes de primer orden les
-              faltaba inercia: la misma posición fijaba demasiado del futuro. A
-              las de tercer orden les sobraba memoria: pedían un dato extra que
-              ya no se parece a la mecánica ordinaria. Pero la moraleja fina no
-              era “la naturaleza ama el segundo orden”. La moraleja era otra:
-              el estado mínimo debía cerrar la predicción sin romper la
-              reversibilidad ordinaria.
-            </p>
-
-            <p class="lede">
-              Y eso nos llevó, por fin, al
-              <a class="chapter-link" href="./capitulo-1.html#estado">estado</a>
-              y, más limpiamente todavía, al
-              <a class="chapter-link" href="./capitulo-1.html#espacio-estados">espacio de estados</a>.
-              Allí vimos la formulación más nítida: lo fundamental es una ley
-              de primer orden en un espacio más grande, donde cada grado de
-              libertad lleva una configuración y un dato independiente de
-              cambio. Cuando proyectas esa dinámica sobre las configuraciones,
-              aparece la forma de segundo orden. En coordenadas generalizadas,
-              y contando solo grados de libertad efectivos, el presente mínimo
-              se escribe de forma natural como
-            </p>
-
-            <div class="equation-box">
-              \[
-              (q(t_0),\dot q(t_0)).
-              \]
-            </div>
-
-            <div class="equation-panel">
-              <div>
-                <h3>La forma general que hemos retenido</h3>
-                <div class="equation-box">
-                  \[
-                  \ddot x = a(x,\dot x,t)
-                  \]
-                </div>
-                <p>
-                  Todavía no sabemos cuál es la ley concreta de nuestro mundo.
-                  Lo que sí hemos fijado es la arquitectura mínima del caso
-                  ordinario: una evolución de primer orden en espacio de
-                  estados que, vista solo desde la configuración, toma la forma
-                  de una ecuación de segundo orden.
-                </p>
-                <p>
-                  Así que la pregunta ya tiene forma limpia: ¿cuál es esa ley y
-                  puede formularse a partir de lo que observamos, de esas
-                  historias en el tiempo?
-                </p>
-                <p>
-                  Eso es exactamente lo que vamos a construir aquí.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section id="historias" class="section-card">
-            
-            <div class="eyebrow">2.1 De estados a historias</div>
-            <h2>¿De dónde sale la ley de movimiento?</h2>
-            <p class="lede">
-              Newton nos da una respuesta local: en cada instante, a partir del estado
-              presente -coordenadas y velocidades generalizadas-, calcula la aceleración 
-              y empuja el sistema paso a paso hacia el siguiente estado. El sistema evoluciona
-              en pequeños incrementos infinitesimales del estado.
-              </p>
-            <p class="lede">
-              La formulación lagrangiana propone otra
-              mirada: fijar un comienzo, fijar un final y mirar historias
-              completas entre ambos.
-            </p>
-
-            <article class="world-card" style="margin-top: 22px;">
-              <div class="world-head">
-                <div>
-                  <h3>Muchos caminos, los mismos extremos</h3>
-
-                  <p>
-                    Piensa en una partícula en una línea. Si fijas
-                    \[
-                    x(t_1)=x_1,\qquad x(t_2)=x_2,
-                    \]
-                    entre esos extremos hay muchísimas historias cinemáticamente
-                    posibles. La nueva pregunta ya no es “qué empuje instantáneo toca
-                    ahora”, sino “cómo comparar, entre todas esas curvas posibles, la
-                    que realiza la naturaleza”.
-                  </p>
-
-                  <p>
-                    Todas las curvas de esta familia salen del mismo punto en
-                    \(t_1\) y llegan al mismo punto en \(t_2\). Lo que cambia es
-                    la historia completa entre medias.
-                  </p>
-                </div>
-                <button class="btn secondary" id="reset-history-family" type="button">Reset</button>
-              </div>
-
-              <div class="world-body">
-                <p>
-                  Aquí conviene separar dos ingredientes. El primero es
-                  <strong>cinemático</strong>: una vez has dicho cuál es el
-                  espacio de configuraciones y qué extremos fijas, ya sabes qué
-                  historias son admisibles. El segundo es
-                  <strong>dinámico</strong>: hace falta una regla que permita
-                  compararlas y decidir cuál de ellas merece el título de
-                  historia física.
-                </p>
-
-                <div class="world-grid">
-                  <div>
-                    <div id="viz-history-family" class="viz-shell"></div>
-                    <div class="control-row">
-                      <label for="history-family-lambda">familia \(\lambda\)</label>
-                      <input id="history-family-lambda" type="range" min="-1" max="1" step="0.01" value="0" />
-                      <span class="mini-label" id="history-family-lambda-value">\(\lambda=0.00\)</span>
-                    </div>
-                  </div>
-
-                  <div class="world-side">
-                    <div class="stat-box">
-                      <h4>Cinemática</h4>
-                      <p>
-                        Dice qué historias están permitidas una vez fijas el
-                        sistema, las coordenadas y los extremos.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Dinámica</h4>
-                      <p>
-                        No basta con saber qué historias son posibles. Hace
-                        falta una regla que permita compararlas y seleccionar 
-                        la que realmente realiza la naturaleza.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>El giro conceptual</h4>
-                      <p>
-                        La formulación lagrangiana cambia la unidad básica de
-                        pensamiento: de la foto instantánea pasa a la película
-                        entera entre dos instantes.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-          </section>
-
-          <section id="premisas" class="section-card">
-            <div class="eyebrow">2.2 Premisas nuevas</div>
-            <h2>¿Qué añadimos para poder comparar historias completas?</h2>
-            <p class="lede">
-              Hasta aquí habíamos aceptado cosas bastante básicas: sistemas,
-              estados, coordenadas y la idea de que la mecánica ordinaria se
-              organiza con un estado mínimo reversible. Ahora añadimos una capa
-              nueva: condiciones que debe satisfacer cualquier criterio sensato
-              para comparar historias completas.
-            </p>
-
-            <div class="subgrid">
-              <article class="concept-card">
-                <h3>Premisa 1 · Un número por historia</h3>
-                <p>
-                  Si queremos comparar historias, debemos asignar a cada
-                  candidata una cantidad escalar. Llamemos \(S[q;t_1,t_2]\) a
-                  esa cantidad.
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Premisa 2 · Composicionalidad temporal</h3>
-                <p>
-                  Si una historia va de \(t_1\) a \(t_3\) pasando por \(t_2\), la
-                  cantidad asociada al tramo total debe componerse a partir de
-                  los dos subtramos.
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Premisa 3 · Localidad temporal</h3>
-                <p>
-                  Queremos que la contribución de un intervalo muy pequeño
-                  dependa solo de lo que la historia está haciendo en ese trozo,
-                  no de información remota de toda la trayectoria.
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Premisa 4 · La clase ordinaria de teorías</h3>
-                <p>
-                  La razón profunda no es que adoremos las segundas derivadas.
-                  Es que, en la clase ordinaria de teorías reversibles, el
-                  estado mínimo por grado de libertad contiene una
-                  configuración y un dato independiente de cambio. Cuando
-                  reescribimos esa estructura usando solo configuraciones, la
-                  dependencia natural pasa por \(q\), por \(\dot q\) y por el
-                  tiempo.
-                </p>
-              </article>
-            </div>
-
-            <div class="equation-panel">
-              <div>
-                <h3>Composicionalidad temporal</h3>
-                <div class="equation-box">
-                  \[
-                  S[q;t_1,t_3]=S[q;t_1,t_2]+S[q;t_2,t_3]
-                  \]
-                </div>
-                <p>
-                  La cantidad asignada a la historia completa debe poder
-                  descomponerse en trozos temporales.
-                </p>
-              </div>
-              <div>
-                <h3>Lectura correcta</h3>
-                <p>
-                  La acción no nace de un truco algebraico. Nace del paquete de
-                  premisas que acabamos de aceptar: una forma de comparar
-                  historias que sea componible en el tiempo y local por trozos.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section id="integral" class="section-card">
-            <div class="eyebrow">2.3 Por qué eso lleva a una integral</div>
-            <h2>¿Por qué aparece una integral y no otra cosa?</h2>
-            <p class="lede">
-              Si la cantidad asociada a la historia es componible por intervalos
-              y local por trozos, el tramo infinitesimal \([t,t+dt]\) debe
-              aportar algo como
-            </p>
-
-            <div class="equation-panel">
-              <div>
-                <h3>Contribución infinitesimal</h3>
-                <div class="equation-box">
-                  \[
-                  dS=\mathcal{L}(q,\dot q,t)\,dt
-                  \]
-                </div>
-                <p>
-                  \(\mathcal{L}\) es simplemente el nombre de la densidad local
-                  que estamos introduciendo. Todavía no sabemos cuál es su forma
-                  concreta.
-                </p>
-              </div>
-              <div>
-                <h3>Acción total</h3>
-                <div class="equation-box">
-                  \[
-                  S[q]=\int_{t_1}^{t_2}\mathcal{L}(q,\dot q,t)\,dt
-                  \]
-                </div>
-                <p>
-                  La integral no aparece por elegancia literaria. Aparece
-                  porque hemos pedido una regla sobre historias que sea aditiva
-                  en el tiempo y local por intervalos.
-                </p>
-              </div>
-            </div>
-
-            <article class="world-card" style="margin-top: 22px;">
-              <div class="world-head">
-                <div>
-                  <h3>Descomponer la historia en trozos</h3>
-                  <p>
-                    Si el criterio sobre la historia completa debe nacer de
-                    sumar contribuciones locales, la forma integral aparece de
-                    manera natural.
-                  </p>
-                </div>
-              </div>
-
-              <div class="world-body">
-                <div class="world-grid">
-                  <div>
-                    <div class="viz-shell" style="display:flex;align-items:center;justify-content:center;padding:12px;">
-                      <svg viewBox="0 0 760 250" width="100%" height="100%" aria-label="Descomposición temporal de la acción">
-                        <rect x="28" y="36" width="704" height="178" rx="22" fill="rgba(255,255,255,0.52)" stroke="rgba(27,40,48,0.08)" />
-                        <line x1="76" y1="124" x2="682" y2="124" stroke="rgba(27,40,48,0.38)" stroke-width="3" />
-                        <line x1="134" y1="108" x2="134" y2="140" stroke="#1b2830" stroke-width="4" />
-                        <line x1="340" y1="108" x2="340" y2="140" stroke="#1b2830" stroke-width="4" />
-                        <line x1="620" y1="108" x2="620" y2="140" stroke="#1b2830" stroke-width="4" />
-                        <line x1="134" y1="84" x2="340" y2="84" stroke="#0e7278" stroke-width="8" stroke-linecap="round" />
-                        <line x1="340" y1="84" x2="620" y2="84" stroke="#d16f2b" stroke-width="8" stroke-linecap="round" />
-                        <line x1="134" y1="168" x2="620" y2="168" stroke="#1b2830" stroke-width="8" stroke-linecap="round" />
-                        <text x="118" y="170" text-anchor="end" fill="#607180" font-size="20" font-family="Manrope">t₁</text>
-                        <text x="340" y="170" text-anchor="middle" fill="#607180" font-size="20" font-family="Manrope">t₂</text>
-                        <text x="636" y="170" fill="#607180" font-size="20" font-family="Manrope">t₃</text>
-                        <text x="238" y="68" text-anchor="middle" fill="#0e7278" font-size="22" font-family="Manrope" font-weight="700">S[q; t₁, t₂]</text>
-                        <text x="480" y="68" text-anchor="middle" fill="#d16f2b" font-size="22" font-family="Manrope" font-weight="700">S[q; t₂, t₃]</text>
-                        <text x="377" y="206" text-anchor="middle" fill="#1b2830" font-size="24" font-family="Manrope" font-weight="700">S[q; t₁, t₃]</text>
-                      </svg>
-                    </div>
-                  </div>
-
-                  <div class="world-side">
-                    <div class="stat-box">
-                      <h4>Lo que sí hemos fijado</h4>
-                      <p>
-                        Hemos fijado la arquitectura del problema: historias
-                        completas, composicionalidad temporal y localidad por
-                        trozos.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Lo que aún no</h4>
-                      <p>
-                        No hemos dicho todavía cuál es la \(\mathcal{L}\) del
-                        mundo real. Solo hemos explicado por qué la forma
-                        integral aparece de manera natural.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Matiz importante</h4>
-                      <p>
-                        Nada obliga por lógica pura a que \(\mathcal{L}\)
-                        dependa solo de \(q\) y \(\dot q\). Eso depende de la
-                        clase de teorías que queremos estudiar aquí.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <div class="callout">
-              <h3>La limpieza importante de esta sección</h3>
-              <p>
-                No estamos diciendo “el universo tuvo que escoger una acción
-                local de primer orden”. Estamos diciendo algo más preciso: si
-                queremos comparar historias completas, componer intervalos en el
-                tiempo, trabajar localmente por trozos y permanecer en la clase
-                ordinaria de teorías donde la evolución se organiza con
-                \(q\) y un dato independiente de cambio, entonces la forma
-                natural es
-                \[
-                S[q]=\int \mathcal{L}(q,\dot q,t)\,dt.
-                \]
-              </p>
-            </div>
-          </section>
-
-          <section id="estacionaria" class="section-card">
-            <div class="eyebrow">2.4 Acción estacionaria</div>
-            <h2>¿Qué significa que la acción sea estacionaria?</h2>
-            <p class="lede">
-              La trayectoria física no se obtiene, en general, haciendo la
-              acción mínima. La palabra correcta es
-              <strong>estacionaria</strong>. Igual que en cálculo ordinario, una
-              variación de primer orden que se anula puede corresponder a un
-              mínimo, a un máximo o a un caso más sutil.
-            </p>
-
-            <div class="equation-panel">
-              <div>
-                <h3>Deformar una historia</h3>
-                <div class="equation-box">
-                  \[
-                  q(t)\to q(t)+\varepsilon\,\eta(t),\qquad \eta(t_1)=\eta(t_2)=0
-                  \]
-                </div>
-                <p>
-                  \(\eta(t)\) fija la forma de la deformación y \(\varepsilon\)
-                  mide su tamaño. Los extremos se mantienen fijos.
-                </p>
-              </div>
-              <div>
-                <h3>La condición de estacionariedad</h3>
-                <div class="equation-box">
-                  \[
-                  \Phi_\eta(\varepsilon)=S[q+\varepsilon\eta],\qquad
-                  \left.\frac{d\Phi_\eta}{d\varepsilon}\right|_{\varepsilon=0}=0
-                  \]
-                </div>
-                <p>
-                  La acción se convierte, para cada deformación concreta, en una
-                  función ordinaria de \(\varepsilon\). La trayectoria física es
-                  aquella para la cual esa función no cambia en primer orden.
-                </p>
-              </div>
-            </div>
-
-            <article class="world-card" style="margin-top: 22px;">
-              <div class="world-head">
-                <div>
-                  <h3>Deformar la historia y mirar la acción</h3>
-                  <p>
-                    A la izquierda ves una familia de trayectorias con los
-                    mismos extremos. A la derecha, la acción como función de
-                    \(\varepsilon\) en un caso simple tipo mínimo.
-                  </p>
-                </div>
-                <button class="btn secondary" id="reset-stationary" type="button">Reset</button>
-              </div>
-
-              <div class="world-body">
-                <p>
-                  La palabra correcta sigue siendo
-                  <strong>estacionaria</strong>, no mínima. Aquí visualizamos un
-                  caso especialmente simple para que se vea la idea: en
-                  \(\varepsilon=0\), la acción tiene derivada nula y la
-                  trayectoria central queda destacada frente a sus vecinas.
-                </p>
-
-                <div class="world-grid">
-                  <div>
-                    <div id="viz-stationary-action" class="viz-shell"></div>
-                    <div class="control-row">
-                      <label for="stationary-epsilon">\(\varepsilon\)</label>
-                      <input id="stationary-epsilon" type="range" min="-1" max="1" step="0.01" value="0" />
-                      <span class="mini-label" id="stationary-epsilon-value">\(\varepsilon=0.00\)</span>
-                    </div>
-                  </div>
-
-                  <div class="world-side">
-                    <div class="stat-box">
-                      <h4>La idea de fondo</h4>
-                      <p>
-                        No estás moviendo un número, sino una trayectoria
-                        entera. La acción se convierte en una función corriente
-                        cuando mides cuánto deformas esa historia.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Por qué fijamos los extremos</h4>
-                      <p>
-                        En este primer problema variacional no estamos
-                        preguntando dónde empieza o termina la partícula. Eso ya
-                        está decidido. Comparamos historias que conectan los
-                        mismos extremos.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Lo que viene después</h4>
-                      <p>
-                        El siguiente paso será convertir esta condición global
-                        sobre historias completas en una ecuación diferencial
-                        local: Euler–Lagrange.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <div class="callout">
-              <h3>Precisión importante sobre la frontera</h3>
-              <p>
-                La acción, por sí sola, no define todavía todo el problema
-                variacional. Hace falta decir además qué variaciones se permiten
-                en la frontera. En nuestro caso escogemos una clase muy
-                concreta: fijamos \(q(t_1)\) y \(q(t_2)\), y por eso las
-                deformaciones admisibles cumplen \(\eta(t_1)=\eta(t_2)=0\).
-                Otra elección de datos de borde exigiría replantear el término
-                de frontera de la acción.
-              </p>
-            </div>
-
-            <div class="callout" style="border-left-color: var(--accent-2); background: linear-gradient(180deg, rgba(14,114,120,0.08), rgba(14,114,120,0.03));">
-              <h3>Ahora viene el paso decisivo</h3>
-              <p>
-                Ya tenemos la arquitectura del problema variacional: historias
-                completas, una cantidad escalar por historia, composicionalidad,
-                localidad y una condición de estacionariedad. El siguiente paso
-                convierte esa condición global en una ecuación local y empieza
-                a preguntar qué forma concreta tiene la \(\mathcal{L}\) del
-                mundo ordinario.
-              </p>
-            </div>
-          </section>
-
-          <section id="euler-lagrange" class="section-card">
-            <div class="eyebrow">2.5 Euler–Lagrange</div>
-            <h2>¿Cómo se convierte una condición global en una ecuación local?</h2>
-            <p class="lede">
-              Aquí llega el paso más bonito del capítulo: la condición sobre
-              historias completas va a convertirse en una ecuación diferencial
-              local. Pero conviene separar dos preguntas que suelen mezclarse:
-              qué ecuación sale de \(\delta S=0\) para una
-              \(\mathcal{L}(q,\dot q,t)\) cualquiera, y qué forma concreta de
-              \(\mathcal{L}\) describe de hecho el mundo ordinario.
-            </p>
-
-            <p>
-              Vamos a hacerlo sin atajos. Partimos de una trayectoria candidata
-              \(q(t)\) y la deformamos ligeramente:
-            </p>
-
-            <div class="equation-panel">
-              <div>
-                <h3>Deformación admisible</h3>
-                <div class="equation-box">
-                  \[
-                  q_\varepsilon(t)=q(t)+\varepsilon\,\eta(t),
-                  \qquad
-                  \eta(t_1)=\eta(t_2)=0
-                  \]
-                </div>
-                <p>
-                  \(\eta(t)\) fija la forma de la deformación y \(\varepsilon\)
-                  mide su tamaño. Los extremos se mantienen fijos porque éste
-                  sigue siendo el mismo problema variacional del apartado
-                  anterior.
-                </p>
-              </div>
-              <div>
-                <h3>Acción deformada</h3>
-                <div class="equation-box">
-                  \[
-                  \Phi_\eta(\varepsilon)
-                  =
-                  S[q_\varepsilon]
-                  =
-                  \int_{t_1}^{t_2}
-                  \mathcal{L}\bigl(q+\varepsilon\eta,\dot q+\varepsilon\dot\eta,t\bigr)\,dt
-                  \]
-                </div>
-                <p>
-                  Para cada deformación concreta, la acción se convierte ahora
-                  en una función ordinaria de \(\varepsilon\). La condición de
-                  estacionariedad pide
-                  \[
-                  \left.\frac{d\Phi_\eta}{d\varepsilon}\right|_{\varepsilon=0}=0.
-                  \]
-                </p>
-              </div>
-            </div>
-
-            <div class="subgrid" style="margin-top: 22px;">
-              <article class="concept-card">
-                <h3>Paso 1 · Derivar bajo la integral</h3>
-                <p>
-                  Aplicamos la regla de la cadena a
-                  \(\mathcal{L}(q+\varepsilon\eta,\dot q+\varepsilon\dot\eta,t)\).
-                  Como \(\mathcal{L}\) depende de \(q\) y de \(\dot q\),
-                  aparecen exactamente dos contribuciones.
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Paso 2 · Evaluar en \(\varepsilon=0\)</h3>
-                <p>
-                  Al poner \(\varepsilon=0\) recuperamos la trayectoria original
-                  \(q(t)\). Lo que queda es la primera variación de la acción,
-                  que llamamos \(\delta S\).
-                </p>
-              </article>
-            </div>
-
-            <div class="equation-panel">
-              <div>
-                <h3>Derivación explícita</h3>
-                <div class="equation-box">
-                  \[
-                  \frac{d\Phi_\eta}{d\varepsilon}
-                  =
-                  \int_{t_1}^{t_2}
-                  \left[
-                  \frac{\partial \mathcal{L}}{\partial q}\,\eta
-                  +
-                  \frac{\partial \mathcal{L}}{\partial \dot q}\,\dot\eta
-                  \right]dt
-                  \]
-                </div>
-                <p>
-                  Aquí las derivadas parciales de \(\mathcal{L}\) se evalúan en
-                  \((q+\varepsilon\eta,\dot q+\varepsilon\dot\eta,t)\). Al poner
-                  \(\varepsilon=0\), obtenemos
-                </p>
-                <div class="equation-box">
-                  \[
-                  \delta S=
-                  \int_{t_1}^{t_2}
-                  \left(
-                  \frac{\partial \mathcal{L}}{\partial q}\eta
-                  +
-                  \frac{\partial \mathcal{L}}{\partial \dot q}\dot\eta
-                  \right)dt.
-                  \]
-                </div>
-              </div>
-              <div>
-                <h3>El problema técnico</h3>
-                <p>
-                  El segundo término contiene \(\dot\eta\), y eso no conviene.
-                  La arbitrariedad de la deformación debería quedar toda
-                  concentrada en \(\eta\), no en su derivada. Si no hacemos nada,
-                  aún no podemos leer de aquí una condición local limpia sobre
-                  \(q\).
-                </p>
-              </div>
-            </div>
-
-            <div class="subgrid" style="margin-top: 22px;">
-              <article class="concept-card">
-                <h3>Paso 3 · Integración por partes</h3>
-                <p>
-                  Reescribimos el término con \(\dot\eta\) para desplazar la
-                  derivada temporal fuera de la deformación y dejarla actuando
-                  sobre \(\partial\mathcal{L}/\partial\dot q\).
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Paso 4 · Separar bulk y borde</h3>
-                <p>
-                  Al integrar por partes, la variación se descompone de manera
-                  natural en un término de borde y un término interior. Ésa es
-                  la arquitectura real del problema variacional.
-                </p>
-              </article>
-            </div>
-
-            <div class="equation-panel">
-              <div>
-                <h3>Integración por partes completa</h3>
-                <div class="equation-box">
-                  \[
-                  \int_{t_1}^{t_2}
-                  \frac{\partial \mathcal{L}}{\partial \dot q}\dot\eta\,dt
-                  =
-                  \left[
-                  \frac{\partial\mathcal{L}}{\partial \dot q}\eta
-                  \right]_{t_1}^{t_2}
-                  -
-                  \int_{t_1}^{t_2}
-                  \frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial \dot q}\right)\eta\,dt.
-                  \]
-                </div>
-                <p>
-                  Sustituyendo esto en \(\delta S\), resulta
-                </p>
-                <div class="equation-box">
-                  \[
-                  \delta S=
-                  \left[
-                  \frac{\partial\mathcal{L}}{\partial \dot q}\eta
-                  \right]_{t_1}^{t_2}
-                  +
-                  \int_{t_1}^{t_2}
-                  \left[
-                  \frac{\partial\mathcal{L}}{\partial q}
-                  -
-                  \frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial \dot q}\right)
-                  \right]\eta\,dt.
-                  \]
-                </div>
-              </div>
-              <div>
-                <h3>Cancelación del borde</h3>
-                <p>
-                  Como las deformaciones admisibles cumplen
-                  \(\eta(t_1)=\eta(t_2)=0\), el término de borde desaparece:
-                </p>
-                <div class="equation-box">
-                  \[
-                  \left[
-                  \frac{\partial\mathcal{L}}{\partial \dot q}\eta
-                  \right]_{t_1}^{t_2}=0.
-                  \]
-                </div>
-                <p>
-                  Queda, por tanto,
-                </p>
-                <div class="equation-box">
-                  \[
-                  \delta S=
-                  \int_{t_1}^{t_2}
-                  \left[
-                  \frac{\partial\mathcal{L}}{\partial q}
-                  -
-                  \frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial \dot q}\right)
-                  \right]\eta\,dt.
-                  \]
-                </div>
-              </div>
-            </div>
-
-            <article class="world-card" style="margin-top: 22px;">
-              <div class="world-head">
-                <div>
-                  <h3>Bulk y borde</h3>
-                  <p>
-                    La variación de la acción se separa en dos piezas: un
-                    término de borde, que vive en los extremos, y un término de
-                    bulk, que vive en el interior del intervalo.
-                  </p>
-                </div>
-              </div>
-
-              <div class="world-body">
-                <div class="world-grid">
-                  <div>
-                    <div class="viz-shell" style="display:flex;align-items:center;justify-content:center;padding:12px;">
-                      <svg viewBox="0 0 760 300" width="100%" height="100%" aria-label="Separación entre bulk y borde en la variación">
-                        <rect x="28" y="30" width="704" height="240" rx="22" fill="rgba(255,255,255,0.52)" stroke="rgba(27,40,48,0.08)" />
-                        <line x1="96" y1="150" x2="664" y2="150" stroke="rgba(27,40,48,0.38)" stroke-width="3" />
-                        <line x1="142" y1="132" x2="142" y2="168" stroke="#1b2830" stroke-width="4" />
-                        <line x1="618" y1="132" x2="618" y2="168" stroke="#1b2830" stroke-width="4" />
-                        <rect x="210" y="86" width="340" height="128" rx="20" fill="rgba(14,114,120,0.12)" stroke="rgba(14,114,120,0.3)" stroke-width="2" />
-                        <rect x="118" y="72" width="48" height="156" rx="18" fill="rgba(209,111,43,0.14)" stroke="rgba(209,111,43,0.34)" stroke-width="2" />
-                        <rect x="594" y="72" width="48" height="156" rx="18" fill="rgba(209,111,43,0.14)" stroke="rgba(209,111,43,0.34)" stroke-width="2" />
-                        <text x="380" y="118" text-anchor="middle" fill="#0e7278" font-size="24" font-family="Manrope" font-weight="700">bulk</text>
-                        <text x="380" y="152" text-anchor="middle" fill="#1b2830" font-size="22" font-family="Manrope">la ecuación vive aquí</text>
-                        <text x="380" y="186" text-anchor="middle" fill="#607180" font-size="20" font-family="Manrope">el integrando debe anularse en el interior</text>
-                        <text x="142" y="58" text-anchor="middle" fill="#d16f2b" font-size="18" font-family="Manrope" font-weight="700">borde</text>
-                        <text x="618" y="58" text-anchor="middle" fill="#d16f2b" font-size="18" font-family="Manrope" font-weight="700">borde</text>
-                        <text x="142" y="252" text-anchor="middle" fill="#607180" font-size="18" font-family="Manrope">t₁</text>
-                        <text x="618" y="252" text-anchor="middle" fill="#607180" font-size="18" font-family="Manrope">t₂</text>
-                      </svg>
-                    </div>
-                  </div>
-
-                  <div class="world-side">
-                    <div class="stat-box">
-                      <h4>La ecuación local</h4>
-                      <p>
-                        Como \(\eta(t)\) es arbitraria en el interior, el
-                        corchete que la multiplica tiene que anularse punto a
-                        punto:
-                        \[
-                        \frac{\partial\mathcal{L}}{\partial q}
-                        -
-                        \frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial \dot q}\right)=0.
-                        \]
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Lo importante</h4>
-                      <p>
-                        Hasta aquí no ha aparecido todavía la receta \(T-V\).
-                        Euler–Lagrange no nace de una forma concreta del
-                        lagrangiano. Nace de la arquitectura variacional misma.
-                      </p>
-                    </div>
-                    <div class="stat-box">
-                      <h4>Generalización natural</h4>
-                      <p>
-                        Si el sistema tiene \(n\) grados de libertad y
-                        coordenadas \(q=(q_1,\dots,q_n)\), aparece una ecuación
-                        de Euler–Lagrange para cada coordenada \(q_i\).
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <p style="margin-top: 20px;">
-              Ahora llega la idea clave. La deformación \(\eta(t)\) es
-              arbitraria en el interior del intervalo. Así que, para que
-              \(\delta S\) se anule para toda deformación admisible, el
-              corchete que multiplica a \(\eta\) tiene que anularse:
-            </p>
-
-            <div class="equation-panel">
-              <div>
-                <h3>Ecuación de Euler–Lagrange</h3>
-                <div class="equation-box">
-                  \[
-                  \frac{\partial\mathcal{L}}{\partial q}
-                  -
-                  \frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial \dot q}\right)=0.
-                  \]
-                </div>
-                <p>
-                  Ésta es la ecuación buscada. Lo importante es que no nace de
-                  una forma particular del lagrangiano, sino del hecho de que la
-                  acción sea estacionaria frente a deformaciones admisibles.
-                </p>
-              </div>
-              <div>
-                <h3>Generalización a varios grados de libertad</h3>
-                <div class="equation-box">
-                  \[
-                  \frac{\partial\mathcal{L}}{\partial q_i}
-                  -
-                  \frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial \dot q_i}\right)=0,
-                  \qquad i=1,\dots,n.
-                  \]
-                </div>
-                <p>
-                  Nada esencial dependía de que la coordenada se llamara \(q\)
-                  ni de que fuese una posición cartesiana. Los \(q_i\) son
-                  simplemente etiquetas para describir configuraciones, y los
-                  \(\dot q_i\) son sus tasas de cambio.
-                </p>
-              </div>
-            </div>
-
-            <div class="callout">
-              <h3>¿Por qué el integrando tiene que ser cero?</h3>
-              <p>
-                Porque \(\eta(t)\) puede elegirse con soporte muy localizado.
-                Si el corchete fuese positivo en una pequeña región, podríamos
-                escoger allí una \(\eta\) positiva y la integral no se anularía.
-                Si fuese negativo, elegiríamos una \(\eta\) negativa. La única
-                forma de que \(\delta S\) sea cero para toda deformación
-                admisible es que ese corchete valga cero punto a punto.
-              </p>
-            </div>
-
-            <div class="callout" style="border-left-color: var(--accent-2); background: linear-gradient(180deg, rgba(14,114,120,0.08), rgba(14,114,120,0.03));">
-              <h3>Lo verdaderamente importante de esta derivación</h3>
-              <p>
-                Hasta aquí no ha aparecido todavía la receta \(T-V\). Eso es
-                exactamente lo que hay que retener. Euler–Lagrange no nace de
-                una forma concreta del lagrangiano. Nace de la arquitectura
-                variacional misma. Vale para cualquier candidata
-                \(\mathcal{L}(q,\dot q,t)\) que queramos poner a prueba.
-              </p>
-            </div>
-          </section>
-
-          <section id="libre" class="section-card">
-            <div class="eyebrow">2.6 La \(\mathcal{L}\) de la partícula libre</div>
-            <h2>¿Qué fija la forma del lagrangiano libre?</h2>
-            <p class="lede">
-              Ahora sí podemos volver a la pregunta física aplazada: qué forma
-              concreta de \(\mathcal{L}\) describe la mecánica ordinaria. En el
-              caso más sobrio —una partícula libre— la respuesta no sale de una
-              costumbre escolar, sino de una cadena de simetrías.
-            </p>
-
-            <div class="subgrid">
-              <article class="concept-card">
-                <h3>Homogeneidad espacial</h3>
-                <p>
-                  Si no hay lugar privilegiado, \(\mathcal{L}\) no puede
-                  depender explícitamente de la posición:
-                  \[
-                  \mathcal{L}=\mathcal{L}(\dot{\mathbf{x}},t).
-                  \]
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Homogeneidad temporal</h3>
-                <p>
-                  Si no hay instante privilegiado, tampoco puede depender
-                  explícitamente del tiempo:
-                  \[
-                  \mathcal{L}=\mathcal{L}(\dot{\mathbf{x}}).
-                  \]
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Isotropía</h3>
-                <p>
-                  Si no hay dirección privilegiada, no puede depender de la
-                  dirección de la velocidad, sino solo de su módulo:
-                  \[
-                  \mathcal{L}=f(v^2).
-                  \]
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Boosts galileanos</h3>
-                <p>
-                  La equivalencia entre marcos inerciales no exige invariancia
-                  estricta, sino cuasi-invariancia:
-                  \[
-                  \mathcal{L}'=\mathcal{L}+\frac{dF}{dt}.
-                  \]
-                </p>
-              </article>
-            </div>
-
-            <div class="equation-panel">
-              <div>
-                <h3>Restricción estructural</h3>
-                <div class="equation-box">
-                  \[
-                  \delta \mathcal{L}
-                  =
-                  -2f'(v^2)\,\mathbf{v}\cdot\mathbf{u}
-                  \]
-                </div>
-                <p>
-                  Bajo un boost infinitesimal, la variación del lagrangiano debe
-                  poder escribirse como una derivada total, es decir, como algo
-                  a lo sumo afín en \(\mathbf{v}\).
-                </p>
-              </div>
-              <div>
-                <h3>Conclusión</h3>
-                <div class="equation-box">
-                  \[
-                  f'(v^2)=\text{constante}
-                  \quad\Rightarrow\quad
-                  \mathcal{L}_{\text{libre}}=\frac12 m v^2+\text{const.}
-                  \]
-                </div>
-                <p>
-                  La constante es irrelevante dinámicamente. Lo que fijan las
-                  simetrías es la forma cuadrática; el valor numérico de \(m\)
-                  lo fija el experimento.
-                </p>
-              </div>
-            </div>
-
-            <article class="world-card" style="margin-top: 22px;">
-              <div class="world-head">
-                <div>
-                  <h3>Cadena de rigidez estructural</h3>
-                  <p>
-                    La cuadrática \(\frac12 m v^2\) no sale de memorizar \(T\),
-                    sino de imponer homogeneidad, isotropía y cuasi-invariancia
-                    galileana.
-                  </p>
-                </div>
-              </div>
-
-              <div class="world-body">
-                <div class="viz-shell" style="display:flex;align-items:center;justify-content:center;padding:12px;">
-                  <svg viewBox="0 0 940 240" width="100%" height="100%" aria-label="Cadena de simetrías que fija el lagrangiano libre">
-                    <rect x="26" y="48" width="174" height="96" rx="22" fill="rgba(255,255,255,0.62)" stroke="rgba(27,40,48,0.08)" />
-                    <rect x="252" y="48" width="184" height="96" rx="22" fill="rgba(255,255,255,0.62)" stroke="rgba(27,40,48,0.08)" />
-                    <rect x="488" y="48" width="192" height="96" rx="22" fill="rgba(255,255,255,0.62)" stroke="rgba(27,40,48,0.08)" />
-                    <rect x="732" y="48" width="182" height="96" rx="22" fill="rgba(255,255,255,0.62)" stroke="rgba(27,40,48,0.08)" />
-                    <text x="113" y="82" text-anchor="middle" fill="#1b2830" font-size="24" font-family="Manrope" font-weight="700">espacio y tiempo</text>
-                    <text x="113" y="112" text-anchor="middle" fill="#607180" font-size="20" font-family="Manrope">homogéneos</text>
-                    <text x="344" y="82" text-anchor="middle" fill="#1b2830" font-size="24" font-family="Manrope" font-weight="700">isotropía</text>
-                    <text x="344" y="112" text-anchor="middle" fill="#607180" font-size="20" font-family="Manrope">\(\mathcal{L}=f(v^2)\)</text>
-                    <text x="584" y="82" text-anchor="middle" fill="#1b2830" font-size="24" font-family="Manrope" font-weight="700">boosts +</text>
-                    <text x="584" y="112" text-anchor="middle" fill="#607180" font-size="20" font-family="Manrope">\(\mathcal{L}\sim \mathcal{L}+\frac{dF}{dt}\)</text>
-                    <text x="823" y="82" text-anchor="middle" fill="#1b2830" font-size="24" font-family="Manrope" font-weight="700">resultado</text>
-                    <text x="823" y="114" text-anchor="middle" fill="#0e7278" font-size="24" font-family="Manrope" font-weight="700">\(\frac12 m v^2\)</text>
-                    <line x1="200" y1="96" x2="252" y2="96" stroke="#d16f2b" stroke-width="6" stroke-linecap="round" />
-                    <line x1="436" y1="96" x2="488" y2="96" stroke="#d16f2b" stroke-width="6" stroke-linecap="round" />
-                    <line x1="680" y1="96" x2="732" y2="96" stroke="#d16f2b" stroke-width="6" stroke-linecap="round" />
-                  </svg>
-                </div>
-              </div>
-            </article>
-
-            <div class="callout">
-              <h3>Comprobación con un boost finito</h3>
-              <p>
-                Si
-                \[
-                \mathcal{L}=\frac12 mv^2
-                \]
-                y hacemos un boost \(\mathbf{v}'=\mathbf{v}-\mathbf{u}\),
-                entonces
-                \[
-                \mathcal{L}'-\mathcal{L}
+          <section id="1-una-ley-no-se-juzga-sola" class="section-card">
+            <div class="eyebrow">2.1</div>
+            <h2>Una ley no se juzga sola</h2>
+            <p>El capítulo anterior no terminó con una fuerza ni con una energía. Terminó con una idea más básica: para que una ley local y determinista pueda continuar una historia, el presente debe contener información suficiente. En la mecánica ordinaria que vamos a construir, ese presente mínimo tendrá la forma</p>
+            <div class="equation-box">\[
+            s=(q,\eta),
+            \]</div>
+            <p>donde \(q\) describe la configuración y \(\eta\) contiene el dato de cambio que distingue preparaciones con la misma configuración.</p>
+            <p>Una vez elegido el espacio de presentes, una ley local tiene la forma</p>
+            <div class="equation-box">\[
+            \dot s=X(s,t).
+            \]</div>
+            <p>Esto debe leerse literalmente. \(X\) asigna a cada presente una flecha de continuación inmediata. Si el presente es \(s=(q,\eta)\), entonces la flecha tiene dos componentes:</p>
+            <div class="equation-box">\[
+            X(q,\eta,t)
                 =
-                -m\mathbf{u}\cdot\mathbf{v}+\frac12 mu^2
+                \bigl(\dot q,\dot\eta\bigr).
+            \]</div>
+            <p>En la familia mecánica más habitual escribiremos esa misma idea como</p>
+            <div class="equation-box">\[
+            X(q,\eta,t)=\bigl(\eta,A(q,\eta,t)\bigr).
+            \]</div>
+            <p>La primera componente dice que \(\eta\) es el ritmo al que cambia \(q\). La segunda componente, \(A\), dice cómo cambia ese ritmo.</p>
+            <p>Antes de juzgar ninguna ley, conviene mirar varios campos posibles sobre el mismo espacio \((q,\eta)\). Por ejemplo,</p>
+            <div class="equation-box">\[
+            X(q,\eta)=(\eta,0)
+            \]</div>
+            <p>representa continuación inercial: el dato de cambio se conserva. En cambio,</p>
+            <div class="equation-box">\[
+            X(q,\eta)=(\eta,-\omega^2q)
+            \]</div>
+            <p>hace que las flechas miren hacia un centro. La ley</p>
+            <div class="equation-box">\[
+            X(q,\eta)=(\eta,-\gamma\eta)
+            \]</div>
+            <p>frena respecto de un reposo especial. Y</p>
+            <div class="equation-box">\[
+            X(q,\eta)=(\eta,a)
+            \]</div>
+            <p>incluye una aceleración constante.</p>
+            <p>Todos esos campos son matemáticamente legítimos. Todos pintan una flecha en cada presente. Pero no dicen el mismo mundo. Unos señalan un centro, otros introducen un sentido de aceleración, otros distinguen el reposo de un medio.</p>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: varios campos sobre el mismo presente</h3>
+                  <p>El espacio de presentes es el mismo en los cuatro paneles. Lo que cambia es la regla que asigna una flecha a cada punto \((q,\eta)\).</p>
+                </div>
+                <div class="world-actions">
+                  <label class="mini-label">intensidad <input type="range" min="0.20" max="1.45" step="0.05" value="0.85" data-demo-slider="field-examples" data-param="strength" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="field-examples">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="field-examples" aria-label="Demo interactiva: varios campos sobre el mismo presente"></div>
+                  <div class="world-side">
+                    <div class="stat-box">
+                      <h4>Presente de prueba</h4>
+                      <p>El punto azul es el mismo presente \(s=(q,\eta)=\)<span data-demo-value="field-sample">(0.82, 0.65)</span>. Cada campo le asigna una continuación \(X_s\) distinta.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Flechas en ese punto</h4>
+                      <p><strong>Libre:</strong> <span data-demo-value="field-free-vector">(0.65, 0.00)</span>. <strong>Centro:</strong> <span data-demo-value="field-anchor-vector">(0.65, -0.70)</span>. <strong>Medio:</strong> <span data-demo-value="field-medium-vector">(0.65, -0.55)</span>. <strong>Aceleración:</strong> <span data-demo-value="field-uniform-vector">(0.65, 0.85)</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>Un campo no es todavía una fuerza, una acción ni un Hamiltoniano. Es la tabla local de futuros inmediatos: si el presente es éste, la continuación empieza por esta flecha.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <p>La pregunta no es si esas leyes son matemáticamente posibles. Lo son. La pregunta correcta es otra:</p>
+            <div class="equation-box">\[
+            \boxed{\text{¿admisibles respecto de qué modelo?}}
+            \]</div>
+            <p>Un modelo físico no contiene solo variables. Contiene también estructura declarada: qué objetos existen, qué se considera parte del sistema, qué queda fuera, qué lugares o direcciones son físicamente especiales y qué transformaciones no deberían cambiar la situación descrita.</p>
+            <p>Por eso una ecuación no solo predice movimiento. También declara qué mundo estás modelando. Cada término que escribimos en \(X\) debe poder pagar su precio físico: un centro, una dirección externa, un reloj, un medio, una interacción o alguna otra estructura.</p>
+            <p>Ésta será la regla de lectura del capítulo:</p>
+            <div class="equation-box">\[
+            \boxed{\text{un filtro no prohíbe una ecuación; exige declarar qué estructura física la justifica.}}
+            \]</div>
+
+          </section>
+
+          <section id="2-tres-estatutos-de-restriccion" class="section-card">
+            <div class="eyebrow">2.2</div>
+            <h2>Tres estatutos de restricción</h2>
+            <p>Conviene separar desde el principio tres niveles que suelen mezclarse.</p>
+            <ol>
+              <li><p><strong>Higiene descriptiva.</strong>     Aquí entra la     <a href="./capitulo-1.html#criterio-covariancia">covariancia descriptiva</a>.     Aplica siempre. Cambiar etiquetas no puede cambiar el contenido físico.</p></li>
+              <li><p><strong>Hipótesis de la familia de teorías.</strong>     Aquí entran localidad temporal, determinismo local, reversibilidad ideal y     minimalidad del estado. No son verdades sobre toda física posible. Son el     programa que hemos elegido para construir primero el núcleo mecánico limpio.</p></li>
+              <li><p><strong>Simetrías del modelo.</strong>     Aquí entran homogeneidad espacial, isotropía, homogeneidad temporal,     relatividad galileana y simetrías internas de cada sistema. No aplican     siempre. Aplican cuando el modelo declara que no hay estructura física que     distinga esos casos.</p></li>
+            </ol>
+            <p>Esta distinción elimina una confusión importante. La covariancia descriptiva no depende de si estudias una partícula libre, un oscilador, un péndulo o dos cuerpos. En cambio, la homogeneidad espacial sí depende del modelo. Una partícula libre en espacio vacío no tiene centro; un oscilador anclado sí.</p>
+            <p>La pregunta de este capítulo no será:</p>
+            <div class="equation-box">\[
+            \text{¿qué fórmulas están permitidas para siempre?}
+            \]</div>
+            <p>Sino:</p>
+            <div class="equation-box">\[
+            \text{¿qué estructura física estoy introduciendo al escribir este término?}
+            \]</div>
+
+          </section>
+
+          <section id="3-filtro-universal-las-etiquetas-no-son-fisica" class="section-card">
+            <div class="eyebrow">2.3</div>
+            <h2>Filtro universal: las etiquetas no son física</h2>
+            <p>Empecemos por el filtro que no depende del modelo. Una coordenada no es una pieza de física; es una forma de poner nombres a los estados físicos. Puedes describir el mismo punto con una etiqueta \(q\), o con otra etiqueta regular</p>
+            <div class="equation-box">\[
+            Q=Q(q),
+            \]</div>
+            <p>Mientras \(Q(q)\) sea una buena etiqueta, no has movido el sistema. Solo has cambiado el idioma.</p>
+            <p>La imagen correcta es la de una flecha. Supongamos que, en la etiqueta \(q\), la ley dice</p>
+            <div class="equation-box">\[
+            \dot q=X(q).
+            \]</div>
+            <p>Eso significa: si ahora estás en el punto etiquetado como \(q\), la continuación inmediata tiene componente \(X(q)\) medida con la regla \(q\). Si cambias a la regla \(Q\), la flecha física es la misma, pero su componente numérica puede cambiar, porque la nueva regla puede estar más estirada o más comprimida.</p>
+            <p>El caso más simple es</p>
+            <div class="equation-box">\[
+            Q=2q.
+            \]</div>
+            <p>Si en la etiqueta \(q\) la ley dice</p>
+            <div class="equation-box">\[
+            \dot q=1
+            \]</div>
+            <p>entonces en la etiqueta \(Q\) la misma marcha se escribe</p>
+            <div class="equation-box">\[
+            \dot Q=2\dot q=2.
+            \]</div>
+            <p>No ha cambiado la física. Avanzar una unidad de \(q\) equivale a avanzar dos unidades de \(Q\). Por eso exigir que en la nueva etiqueta vuelva a cumplirse</p>
+            <div class="equation-box">\[
+            \dot Q=1
+            \]</div>
+            <p>sería un error: eso ya describe otro movimiento.</p>
+            <p>El mismo punto se ve mejor con una regla deformada. Si</p>
+            <div class="equation-box">\[
+            \dot q=1
+            \]</div>
+            <p>y usamos</p>
+            <div class="equation-box">\[
+            Q=q^3,
+            \]</div>
+            <p>entonces</p>
+            <div class="equation-box">\[
+            \dot Q=3q^2=3Q^{2/3}.
+            \]</div>
+            <p>La velocidad numérica en \(Q\) ya no es constante, porque la regla \(Q=q^3\) no está estirada igual en todos los puntos. Cerca de \(q=0\) cambia despacio; lejos de \(q=0\), cambia deprisa. La ley parece distinta, pero la historia física es la misma.</p>
+            <p>Ahora sí, la fórmula general no tiene misterio. Si \(Q=Q(q)\), entonces la regla de la cadena da</p>
+            <div class="equation-box">\[
+            \dot Q
                 =
-                \frac{d}{dt}\left(-m\mathbf{u}\cdot\mathbf{x}+\frac12 mu^2t\right).
-                \]
-                El lagrangiano libre cuadrático no es estrictamente invariante:
-                es cuasi-invariante, y eso es exactamente lo que hace falta.
-              </p>
-            </div>
-          </section>
+                \frac{dQ}{dq}\dot q
+                =
+                \frac{dQ}{dq}X(q).
+            \]</div>
+            <p>Por tanto la ley escrita en \(Q\) es</p>
+            <div class="equation-box">\[
+            \tilde X(Q)
+                =
+                \frac{dQ}{dq}X(q),
+                \qquad q=q(Q).
+            \]</div>
+            <p>No hemos elegido una ley nueva. Hemos transportado la misma flecha a otra descripción.</p>
+            <p>La misma idea aparece en el plano. La rotación uniforme</p>
+            <div class="equation-box">\[
+            \dot x=-\omega y,
+                \qquad
+                \dot y=\omega x
+            \]</div>
+            <p>se convierte en coordenadas polares en</p>
+            <div class="equation-box">\[
+            \dot r=0,
+                \qquad
+                \dot\theta=\omega.
+            \]</div>
+            <p>No es la misma forma escrita, pero sí la misma curva física.</p>
+            <p>Ésta es la base que no se negocia:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \begin{gathered}
+                \text{una coordenada puede revelar estructura;}\\
+                \text{no puede crear física nueva.}
+                \end{gathered}
+                }
+            \]</div>
 
-          <section id="interacciones" class="section-card">
-            <div class="eyebrow">2.7 Interacciones</div>
-            <h2>¿Cómo aparecen las interacciones?</h2>
-            <p class="lede">
-              Una vez entendido el caso libre, la pregunta siguiente es qué
-              añadimos cuando ya no estamos en el vacío dinámico. Si la
-              interacción es conservativa y depende solo de la posición y del
-              tiempo, la elección natural es
-            </p>
-
-            <div class="equation-panel">
-              <div>
-                <h3>Potencial escalar</h3>
-                <div class="equation-box">
-                  \[
-                  \mathcal{L}=\frac12 mv^2 - V(x,t)
-                  \]
-                </div>
-                <p>
-                  En una dimensión, Euler–Lagrange devuelve precisamente
-                  \[
-                  m\ddot x=-\frac{\partial V}{\partial x}.
-                  \]
-                </p>
-              </div>
-              <div>
-                <h3>Idea estructural</h3>
-                <p>
-                  La moraleja no es memorizar la receta \(T-V\). Es entender que,
-                  una vez fijada la arquitectura variacional, la forma concreta
-                  de \(\mathcal{L}\) viene determinada por las simetrías del
-                  sistema y por el tipo de interacción que decides permitir.
-                </p>
-              </div>
-            </div>
-
-            <article class="world-card" style="margin-top: 22px;">
+            <article class="world-card constructive-demo-card">
               <div class="world-head">
                 <div>
-                  <h3>Por qué el signo importa</h3>
-                  <p>
-                    Si cambiásemos \(T-V\) por \(T+V\), la partícula aceleraría
-                    cuesta arriba del potencial. Matemáticamente es una teoría
-                    posible; físicamente no describe la mecánica ordinaria.
-                  </p>
+                  <h3>Demo interactiva: el vector no sabe de coordenadas</h3>
+                  <p>La flecha azul es el objeto geométrico. Mueve la base naranja: la flecha no cambia, solo cambian sus componentes.</p>
+                </div>
+                <div class="world-actions">
+                  
+                  <button class="btn" type="button" data-demo-choice="coordinate-covariance" data-value="correct">Componentes correctas</button>
+                  <button class="btn secondary" type="button" data-demo-choice="coordinate-covariance" data-value="wrong">Copiar números</button>
+                  <label class="mini-label">giro φ <input type="range" min="-1.10" max="1.10" step="0.02" value="0.55" data-demo-slider="coordinate-covariance" data-param="angle" /></label>
+                  <label class="mini-label">escala E1 <input type="range" min="0.70" max="1.80" step="0.05" value="1.35" data-demo-slider="coordinate-covariance" data-param="stretch" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="coordinate-covariance">Reset</button>
                 </div>
               </div>
-
               <div class="world-body">
                 <div class="world-grid">
-                  <div>
-                    <div class="viz-shell" style="display:flex;align-items:center;justify-content:center;padding:12px;">
-                      <svg viewBox="0 0 760 260" width="100%" height="100%" aria-label="Comparación entre T menos V y T más V">
-                        <rect x="26" y="28" width="334" height="204" rx="22" fill="rgba(255,255,255,0.62)" stroke="rgba(27,40,48,0.08)" />
-                        <rect x="400" y="28" width="334" height="204" rx="22" fill="rgba(255,255,255,0.62)" stroke="rgba(27,40,48,0.08)" />
-                        <text x="193" y="60" text-anchor="middle" fill="#1b2830" font-size="26" font-family="Manrope" font-weight="700">\(T-V\)</text>
-                        <text x="567" y="60" text-anchor="middle" fill="#1b2830" font-size="26" font-family="Manrope" font-weight="700">\(T+V\)</text>
-                        <path d="M78 170 C126 104, 260 104, 308 170" fill="none" stroke="#1b2830" stroke-width="4" />
-                        <path d="M452 170 C500 104, 634 104, 682 170" fill="none" stroke="#1b2830" stroke-width="4" />
-                        <circle cx="262" cy="138" r="8" fill="#d16f2b" />
-                        <circle cx="636" cy="138" r="8" fill="#d16f2b" />
-                        <line x1="262" y1="138" x2="212" y2="148" stroke="#0e7278" stroke-width="4" />
-                        <line x1="212" y1="148" x2="224" y2="138" stroke="#0e7278" stroke-width="4" />
-                        <line x1="212" y1="148" x2="226" y2="154" stroke="#0e7278" stroke-width="4" />
-                        <line x1="636" y1="138" x2="688" y2="118" stroke="#b6421f" stroke-width="4" />
-                        <line x1="688" y1="118" x2="676" y2="118" stroke="#b6421f" stroke-width="4" />
-                        <line x1="688" y1="118" x2="681" y2="129" stroke="#b6421f" stroke-width="4" />
-                        <text x="193" y="216" text-anchor="middle" fill="#607180" font-size="18" font-family="Manrope">la aceleración baja potencial</text>
-                        <text x="567" y="216" text-anchor="middle" fill="#607180" font-size="18" font-family="Manrope">la aceleración subiría potencial</text>
-                      </svg>
-                    </div>
-                  </div>
-
+                  <div class="viz-shell constructive-viz" data-demo="coordinate-covariance" aria-label="Demo interactiva: el vector no sabe de coordenadas"></div>
                   <div class="world-side">
+                    
                     <div class="stat-box">
-                      <h4>Lectura física</h4>
-                      <p>
-                        Si el potencial crece hacia la derecha, la aceleración
-                        apunta hacia la izquierda: el sistema tiende a bajar
-                        potencial.
-                      </p>
+                      <h4>Objeto físico</h4>
+                      <p>La flecha \(v\) sale del mismo presente \(s\). Al cambiar de base, el vector no se entera: no gira, no se estira y no cambia de dirección.</p>
                     </div>
                     <div class="stat-box">
-                      <h4>Más allá de \(T-V\)</h4>
-                      <p>
-                        Si además permites términos lineales en la velocidad,
-                        aparece una clase más amplia:
-                        \[
-                        \mathcal{L}=\frac12 mv^2+\mathbf{A}\cdot\mathbf{v}-\phi.
-                        \]
-                        Ésa es la puerta de entrada natural a la estructura
-                        electromagnética.
-                      </p>
+                      <h4>Componentes</h4>
+                      <p><strong>En la base gris:</strong> \([v]_q=\)<span data-demo-value="cov-vq">(0.95, 0.55)</span>. <strong>En la base naranja:</strong> \([v]_Q=\)<span data-demo-value="cov-vQ">(0.82, 0.00)</span>. Giro \(\varphi=\)<span data-demo-value="cov-angle">0.55</span>, escala \(E_1=\)<span data-demo-value="cov-stretch">1.35</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p><strong>Resultado:</strong> <span data-demo-value="cov-verdict">el vector permanece; cambian sus componentes</span>. La covariancia descriptiva exige transformar los números, no copiar la fórmula.</p>
                     </div>
                   </div>
                 </div>
@@ -1164,142 +302,88 @@
             </article>
           </section>
 
-          <section id="orden-superior" class="section-card">
-            <div class="eyebrow">2.8 Derivadas altas</div>
-            <h2>¿Por qué no subimos de orden alegremente?</h2>
-            <p class="lede">
-              Hasta aquí hemos explicado por qué la forma
-              \[
-              S[q]=\int \mathcal{L}(q,\dot q,t)\,dt
-              \]
-              es el punto de partida natural de la mecánica ordinaria. Queda
-              una pregunta honesta: si eso funciona, ¿por qué no permitir sin
-              más lagrangianos con \(\ddot q\), \(\dddot q\) y más arriba?
-            </p>
+          <section id="4-simetria-fisica-una-indiferencia-del-modelo" class="section-card">
+            <div class="eyebrow">2.4</div>
+            <h2>Simetría física: una indiferencia del modelo</h2>
+            <p>Una simetría física no es un cambio de etiqueta. Es una transformación que lleva una situación física a otra que el modelo considera equivalente.</p>
+            <p>Sea \(M\) el espacio de presentes y sea</p>
+            <div class="equation-box">\[
+            \dot s=X(s)
+            \]</div>
+            <p>una ley autónoma. Una transformación \(\Phi:M\to M\) es una simetría de la ley si transforma soluciones en soluciones. Si \(s(t)\) sigue el campo \(X\), entonces \(\Phi(s(t))\) debe seguir el mismo campo.</p>
+            <p>La frase anterior puede sonar demasiado global, así que hagámosla local. Toma un presente \(s\). La ley pinta allí una flecha \(X_s\). Durante un intervalo muy pequeño \(\varepsilon\), esa flecha produce una película mínima:</p>
+            <div class="equation-box">\[
+            s
+                \longmapsto
+                s_\varepsilon
+                =
+                s+\varepsilon X_s+O(\varepsilon^2),
+            \]</div>
+            <p>donde la suma solo pretende fijar la imagen en unas coordenadas locales: cola en \(s\), punta en \(s_\varepsilon\).</p>
+            <p>Ahora hay dos formas de comparar esa película con la situación transformada. La primera ruta es:</p>
+            <div class="equation-box">\[
+            s
+                \xrightarrow{\;X\;}
+                s_\varepsilon
+                \xrightarrow{\;\Phi\;}
+                \Phi(s_\varepsilon).
+            \]</div>
+            <p>Es decir: primero dejas que la ley avance un instante y después transformas la cola y la punta. Al mirar el resultado cerca de \(\Phi(s)\), la flecha obtenida es la flecha transportada:</p>
+            <div class="equation-box">\[
+            \Phi(s_\varepsilon)
+                =
+                \Phi(s)+\varepsilon\,\Phi_*X_s+O(\varepsilon^2).
+            \]</div>
+            <p>La segunda ruta es:</p>
+            <div class="equation-box">\[
+            s
+                \xrightarrow{\;\Phi\;}
+                \Phi(s)
+                \xrightarrow{\;X\;}
+                \Phi(s)+\varepsilon X_{\Phi(s)}+O(\varepsilon^2).
+            \]</div>
+            <p>Es decir: primero transformas el presente y después preguntas qué flecha pinta la misma ley en el presente transformado.</p>
+            <p>Si \(\Phi\) expresa una verdadera indiferencia del modelo, las dos películas infinitesimales deben coincidir hasta primer orden. Por tanto,</p>
+            <div class="equation-box">\[
+            \Phi_*X_s=X_{\Phi(s)}.
+            \]</div>
+            <p>Esta igualdad no es decoración geométrica. Dice que la ley no puede distinguir dos presentes que el modelo había declarado equivalentes.</p>
+            <p>Si ya disponemos del lenguaje matemático de campos vectoriales, la misma idea puede escribirse de forma infinitesimal. Cuando la simetría depende de un parámetro continuo, \(\Phi_\lambda\), su generador es otro campo \(Y\). Entonces la condición anterior dice que el flujo de \(Y\) y el flujo dinámico de \(X\) conmutan, al menos localmente. El corchete de Lie mide justamente el fallo infinitesimal de esa conmutación. Por eso la compatibilidad se resume en</p>
+            <div class="equation-box">\[
+            [Y,X]=0.
+            \]</div>
+            <p>No necesitamos que esta fórmula lleve el peso narrativo. Solo comprime el test de dos rutas: avanzar un poco con la dinámica y luego aplicar la simetría debe dar lo mismo, a primer orden, que aplicar la simetría y luego avanzar con la dinámica. La derivación matemática completa está separada en el <a href="./anexo-corchete-lie.html">anexo sobre el corchete de Lie</a>; aquí basta retener la lectura física.</p>
 
-            <div class="subgrid">
-              <article class="concept-card">
-                <h3>Primera consecuencia: más memoria</h3>
-                <p>
-                  Si la ecuación de movimiento sube de orden, hacen falta más
-                  datos iniciales para arrancarla. El sistema recuerda más
-                  cosas de su pasado inmediato. Ése es el efecto que ya
-                  habíamos visto en el capítulo 1.
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Problema más serio: energía sin suelo</h3>
-                <p>
-                  En el caso no degenerado, al pasar a la formulación
-                  hamiltoniana aparecen grados de libertad extra y el
-                  hamiltoniano deja de estar acotado inferiormente. La energía
-                  ya no tiene fondo.
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Lo peligroso no es solo recordar más</h3>
-                <p>
-                  Si una parte del sistema puede ganar energía positiva mientras
-                  otra compensa con energía negativa, la conservación total no
-                  protege. Solo deja abierta la puerta al intercambio ilimitado.
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>La carga de la prueba cambia</h3>
-                <p>
-                  No toda teoría con derivadas superiores está condenada. Hay
-                  casos degenerados especiales que evitan este problema. Pero
-                  salir de \(\mathcal{L}(q,\dot q,t)\) ya no es gratis: exige
-                  una estructura adicional muy particular.
-                </p>
-              </article>
-            </div>
-
-            <div class="equation-panel">
-              <div>
-                <h3>La intuición mínima</h3>
-                <div class="equation-box">
-                  \[
-                  H_{\text{toy}}
-                  =
-                  \frac12\left(P_1^2+\omega_1^2Q_1^2\right)
-                  -
-                  \frac12\left(P_2^2+\omega_2^2Q_2^2\right)
-                  \]
-                </div>
-                <p>
-                  La primera parte se parece a un oscilador ordinario. La
-                  segunda viene con el signo malo. Eso basta para perder la
-                  idea de “suelo” energético.
-                </p>
-              </div>
-              <div>
-                <h3>Moraleja física</h3>
-                <p>
-                  El salto conceptual importante es separar dos cosas. Una
-                  teoría de orden alto puede pedir <em>más memoria</em> sin que
-                  eso sea todavía un drama. El drama llega cuando esa memoria
-                  extra se organiza en modos con energía positiva y negativa a
-                  la vez. Ahí nace la intuición que luego bautizamos con el
-                  apellido <strong>Ostrogradsky</strong>.
-                </p>
-              </div>
-            </div>
-
-            <article class="world-card" style="margin-top: 22px;">
+            <article class="world-card constructive-demo-card">
               <div class="world-head">
                 <div>
-                  <h3>Maqueta de una energía sin suelo</h3>
-                  <p>
-                    Esta demo no es una derivación literal del teorema de
-                    Ostrogradsky. Es una maqueta pedagógica: un modo de energía
-                    positiva acoplado a otro de energía negativa. Lo que debe
-                    verse es que el total puede mantenerse casi fijo mientras
-                    \(E_+\) y \(E_-\) crecen en magnitud.
-                  </p>
+                  <h3>Demo interactiva: la misma flecha por dos rutas</h3>
+                  <p>La igualdad se entiende con una película infinitesimal: avanza desde \(s\), transforma cola y punta, y compara con lo que la ley manda directamente en \(\Phi(s)\).</p>
                 </div>
-                <div class="inline-actions">
-                  <button class="btn secondary" id="reset-ghost-model" type="button">Reset</button>
-                  <button class="btn" id="perturb-ghost-model" type="button">Perturbar</button>
+                <div class="world-actions">
+                  
+                  <button class="btn" type="button" data-demo-choice="equivariant-field" data-value="compatible">Campo compatible</button>
+                  <button class="btn secondary" type="button" data-demo-choice="equivariant-field" data-value="broken">Dirección fija</button>
+                  <label class="mini-label">rotación φ <input type="range" min="0.25" max="1.35" step="0.05" value="0.75" data-demo-slider="equivariant-field" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="equivariant-field">Reset</button>
                 </div>
               </div>
-
               <div class="world-body">
                 <div class="world-grid">
-                  <div>
-                    <div id="viz-ghost-model" class="viz-shell"></div>
-                    <div class="control-row">
-                      <label for="ghost-coupling">acoplamiento \(\varepsilon\)</label>
-                      <input id="ghost-coupling" type="range" min="0.00" max="0.22" step="0.005" value="0.09" />
-                      <span class="mini-label" id="ghost-coupling-value">\(\varepsilon=0.090\)</span>
-                    </div>
-                  </div>
-
+                  <div class="viz-shell constructive-viz" data-demo="equivariant-field" aria-label="Demo interactiva: la misma flecha por dos rutas"></div>
                   <div class="world-side">
+                    
                     <div class="stat-box">
-                      <h4>Qué mirar</h4>
-                      <p>
-                        La barra \(E_{\rm total}\) cambia poco. En cambio,
-                        \(E_+\) y \(E_-\) pueden separarse cada vez más. Ésa es
-                        justamente la intuición de una energía sin fondo.
-                      </p>
+                      <h4>Ruta A: avanzar y transformar</h4>
+                      <p>En \(s=\)<span data-demo-value="equiv-s">(0.58,0.28)</span>, la ley pinta \(X_s=\)<span data-demo-value="equiv-xs">(-0.28,0.58)</span>. Un paso corto deja la punta en \(s+\varepsilon X_s=\)<span data-demo-value="equiv-tip">(0.44,0.57)</span>. Luego aplicas \(\Phi\) a la cola y a esa punta.</p>
                     </div>
                     <div class="stat-box">
-                      <h4>Por qué esto importa</h4>
-                      <p>
-                        Una teoría así no falla porque “recuerde demasiado”.
-                        Falla porque permite reorganizar la energía sin un nivel
-                        mínimo que detenga el proceso.
-                      </p>
+                      <h4>Ruta B: transformar y avanzar</h4>
+                      <p>Empiezas directamente en \(\Phi(s)=\)<span data-demo-value="equiv-phi">(0.22,0.61)</span>. Allí no heredas una flecha: preguntas otra vez a la misma ley. La ruta B usa \(X_{\Phi(s)}=\)<span data-demo-value="equiv-direct">(-0.61,0.22)</span>.</p>
                     </div>
                     <div class="stat-box">
-                      <h4>Lectura correcta</h4>
-                      <p>
-                        Primero ves la enfermedad: no hay suelo. Después le
-                        pones el apellido: ésa es la clase de inestabilidad que
-                        hace sospechoso el caso no degenerado de derivadas
-                        altas.
-                      </p>
+                      <h4>Test local</h4>
+                      <p>La ruta A produce la punta transportada <span data-demo-value="equiv-transported-tip">(-0.08,0.70)</span>. La ruta B produce la punta directa <span data-demo-value="equiv-direct-tip">(-0.12,0.73)</span>. Con \(\varphi=\)<span data-demo-value="equiv-angle">0.75</span>, <strong><span data-demo-value="equiv-verdict">las dos flechas coinciden</span></strong>. <span data-demo-value="equiv-reason">La transformación no ha sacado a la trayectoria del campo.</span></p>
                     </div>
                   </div>
                 </div>
@@ -1307,164 +391,465 @@
             </article>
           </section>
 
-          <section id="alcance" class="section-card">
-            <div class="eyebrow">2.9 Alcance</div>
-            <h2>¿Qué explica esto y qué no?</h2>
-            <p class="lede">
-              Ya podemos formular con honestidad lo que hemos conseguido y lo
-              que no. Hemos mostrado una cadena lógica bastante limpia, pero no
-              hemos probado que toda ley física concebible tenga que escribirse
-              como acción local de primer orden.
-            </p>
+          <section id="5-leer-una-ley-como-factura-fisica" class="section-card">
+            <div class="eyebrow">2.5</div>
+            <h2>Leer una ley como factura física</h2>
+            <p>Para bajar la idea a tierra, tomemos un estado mínimo unidimensional</p>
+            <div class="equation-box">\[
+            s=(q,\eta)
+            \]</div>
+            <p>y escribamos una familia muy general:</p>
+            <div class="equation-box">\[
+            \dot q=\eta,
+                \qquad
+                \dot\eta=A(q,\eta,t).
+            \]</div>
+            <p>La función \(A\) no es solo un símbolo. Sus dependencias dicen qué estructura ha entrado en el modelo.</p>
+            <p>Si</p>
+            <div class="equation-box">\[
+            A=0,
+            \]</div>
+            <p>la ley no señala centro, no señala dirección de aceleración, no introduce un reloj externo y no frena respecto de un medio. Es el caso desnudo.</p>
+            <p>Si</p>
+            <div class="equation-box">\[
+            A(q,\eta,t)=-\omega^2 q,
+            \]</div>
+            <p>la ley señala \(q=0\). Eso no puede describir una partícula libre en espacio homogéneo, pero puede describir un oscilador unido a un anclaje.</p>
+            <p>Si en tres dimensiones escribimos</p>
+            <div class="equation-box">\[
+            \dot{\boldsymbol\eta}=\mathbf g,
+            \]</div>
+            <p>hemos introducido un vector fijo \(\mathbf g\). Eso no vale para espacio vacío isótropo, pero sí para un campo externo uniforme.</p>
+            <p>Si</p>
+            <div class="equation-box">\[
+            A(q,\eta,t)=-\gamma\eta,
+            \]</div>
+            <p>la ley marca el reposo \(\eta=0\). Eso no pertenece al núcleo galileano libre, pero puede describir rozamiento respecto de un medio.</p>
+            <p>Si</p>
+            <div class="equation-box">\[
+            A(q,\eta,t)=f(t),
+            \]</div>
+            <p>hay un reloj o accionamiento externo. La dependencia temporal no es pecado, pero el modelo debe contener algo que marque el ritmo.</p>
+            <p>La regla queda así:</p>
+            <div class="equation-box">\[
+            \boxed{\text{cuando una ley rompe una simetría, pregunta qué cosa física la ha roto.}}
+            \]</div>
 
-            <div class="subgrid">
-              <article class="concept-card">
-                <h3>Lo que sí explica</h3>
-                <p>
-                  Si quieres comparar historias completas, componer intervalos,
-                  trabajar localmente por trozos y mantenerte en la clase
-                  ordinaria de teorías organizada por \(q\) y \(\dot q\),
-                  entonces el objeto natural es
-                  \[
-                  S[q]=\int \mathcal{L}(q,\dot q,t)\,dt.
-                  \]
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Lo que no demuestra</h3>
-                <p>
-                  No demuestra que cualquier dinámica imaginable deba escribirse
-                  así. El problema inverso del cálculo de variaciones muestra
-                  precisamente que unas ecuaciones admiten formulación
-                  lagrangiana y otras no.
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Derivadas altas</h3>
-                <p>
-                  Tampoco demuestra que toda derivada temporal más alta sea
-                  ilegítima. Lo fino es otra cosa: el caso genérico no
-                  degenerado introduce dificultades profundas, y por eso la
-                  forma de primer orden es el punto de partida sano de la
-                  mecánica ordinaria.
-                </p>
-              </article>
-              <article class="concept-card">
-                <h3>Alcance de Noether</h3>
-                <p>
-                  Noether no dice “cualquier simetría imaginable produce una
-                  conservación por magia”. Dentro del marco variacional, la
-                  invariancia de la acción bajo simetrías continuas implica
-                  identidades de divergencia y, en problemas unidimensionales,
-                  primeras integrales o cantidades conservadas.
-                </p>
-              </article>
-            </div>
-          </section>
-
-          <section id="feynman" class="section-card">
-            <div class="eyebrow">2.10 La intuición Feynman</div>
-            <h2>¿Por qué esta formulación deja de sonar misteriosa en cuántica?</h2>
-            <p class="lede">
-              En formulación clásica,
-              \[
-              \delta S=0
-              \]
-              es un postulado. Si te quedas solo ahí, la formulación global
-              puede parecer misteriosa, casi como si la partícula supiera de
-              antemano el futuro.
-            </p>
-
-            <div class="equation-panel">
-              <div>
-                <h3>La regla cuántica</h3>
-                <div class="equation-box">
-                  \[
-                  e^{iS[q]/\hbar}
-                  \]
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: leer una ley como factura física</h3>
+                  <p>Elige un término para \(A(q,\eta,t)\). El campo siempre es matemáticamente posible; la pregunta es qué estructura física acaba de comprar.</p>
                 </div>
-                <p>
-                  En cuántica no desaparecen las trayectorias vecinas: todas
-                  contribuyen, pero cada una con una fase determinada por la
-                  acción.
-                </p>
-              </div>
-              <div>
-                <h3>La lectura de fase estacionaria</h3>
-                <p>
-                  Si al deformar un poco el camino, \(S\) cambia a primer
-                  orden, la fase gira rápidamente y las contribuciones vecinas
-                  se cancelan. Si \(\delta S=0\), las fases permanecen alineadas
-                  más tiempo y su contribución se refuerza.
-                </p>
-              </div>
-            </div>
-
-            <div class="callout">
-              <h3>La limpieza conceptual</h3>
-              <p>
-                El principio de acción estacionaria deja de sonar a teleología y
-                pasa a leerse así: en el límite clásico sobreviven las familias
-                de caminos cuyas fases no se desajustan linealmente. La
-                formulación global y la formulación local no compiten: la local
-                es excelente para calcular paso a paso; la global reorganiza la
-                misma física y hace visibles estructuras que luego se vuelven
-                centrales.
-              </p>
-            </div>
-          </section>
-
-          <section id="retener" class="section-card">
-            <div class="eyebrow">2.11 Qué conviene retener</div>
-            <h2>La cadena lógica antes de seguir</h2>
-            <p class="lede">
-              Si miramos el capítulo desde arriba, la idea ya no debería verse
-              como una receta, sino como una construcción.
-            </p>
-
-            <div class="equation-panel">
-              <div>
-                <h3>Cadena del capítulo</h3>
-                <div class="equation-box">
-                  \[
-                  \text{estados}
-                  \rightarrow
-                  \text{historias}
-                  \rightarrow
-                  \text{acción}
-                  \rightarrow
-                  \delta S=0
-                  \rightarrow
-                  \text{Euler–Lagrange}
-                  \]
+                <div class="world-actions">
+                  
+                  <button class="btn" type="button" data-demo-choice="law-invoice" data-value="free">Libre</button>
+                  <button class="btn secondary" type="button" data-demo-choice="law-invoice" data-value="anchor">Anclaje</button>
+                  <button class="btn secondary" type="button" data-demo-choice="law-invoice" data-value="uniform">Campo</button>
+                  <button class="btn secondary" type="button" data-demo-choice="law-invoice" data-value="medium">Medio</button>
+                  <button class="btn secondary" type="button" data-demo-choice="law-invoice" data-value="driven">Reloj</button>
+                  <label class="mini-label">intensidad <input type="range" min="0.20" max="1.45" step="0.05" value="0.80" data-demo-slider="law-invoice" data-param="strength" /></label>
+                  <label class="mini-label">centro / fase <input type="range" min="-1.20" max="1.20" step="0.05" value="0.25" data-demo-slider="law-invoice" data-param="shift" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="law-invoice">Reset</button>
                 </div>
-                <p>
-                  Primero preparamos el problema en términos de estados y
-                  coordenadas. Después decidimos comparar historias completas.
-                  Para hacerlo con limpieza, aceptamos composicionalidad
-                  temporal y localidad por trozos.
-                </p>
               </div>
-              <div>
-                <h3>La recompensa</h3>
-                <p>
-                  Eso hace emerger una acción. Pedir que la acción sea
-                  estacionaria produce Euler–Lagrange. Y las simetrías del
-                  sistema empiezan a fijar qué forma concreta puede tener
-                  \(\mathcal{L}\).
-                </p>
-                <p>
-                  El capítulo siguiente recogerá exactamente esa recompensa:
-                  simetrías, coordenadas generalizadas y el teorema de Noether
-                  como organización profunda de la dinámica.
-                </p>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="law-invoice" aria-label="Demo interactiva: leer una ley como factura física"></div>
+                  <div class="world-side">
+                    
+                    <div class="stat-box">
+                      <h4>Ley actual</h4>
+                      <p><strong>Modo:</strong> <span data-demo-value="invoice-mode">libre</span>. <strong>Término:</strong> <span data-demo-value="invoice-formula">A=0</span>. Intensidad <span data-demo-value="invoice-strength">0.80</span>, parámetro <span data-demo-value="invoice-shift">0.25</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Factura física</h4>
+                      <p><strong>Compra:</strong> <span data-demo-value="invoice-structure">no compra centro, dirección, medio ni reloj</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>El campo no se juzga en abstracto. Se juzga contra el modelo: libre, anclado, con campo externo, con medio o con accionamiento.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            </article>
           </section>
+
+          <section id="6-modelo-i-particula-libre" class="section-card">
+            <div class="eyebrow">2.6</div>
+            <h2>Modelo I: partícula libre</h2>
+            <p>El modelo más desnudo es una partícula libre en espacio vacío. Declaramos ausentes:</p>
+            <div class="equation-box">\[
+            \text{centro},\quad
+                \text{dirección externa},\quad
+                \text{reloj externo},\quad
+                \text{medio},\quad
+                \text{interacción}.
+            \]</div>
+            <p>Sobre el estado \((q,\eta)\), una ley general sería</p>
+            <div class="equation-box">\[
+            \dot q=F(q,\eta,t),
+                \qquad
+                \dot\eta=G(q,\eta,t).
+            \]</div>
+            <p>La homogeneidad temporal elimina la dependencia explícita en \(t\), si el sistema está aislado:</p>
+            <div class="equation-box">\[
+            F(q,\eta,t)=F(q,\eta),
+                \qquad
+                G(q,\eta,t)=G(q,\eta).
+            \]</div>
+            <p>La homogeneidad espacial elimina la dependencia en la posición absoluta:</p>
+            <div class="equation-box">\[
+            F(q,\eta)=F(\eta),
+                \qquad
+                G(q,\eta)=G(\eta).
+            \]</div>
+            <p>Ahora entra la relatividad galileana. Si cambiamos a un laboratorio que se mueve con velocidad constante \(u\),</p>
+            <div class="equation-box">\[
+            q'=q-ut,
+                \qquad
+                \eta'=\eta-u.
+            \]</div>
+            <p>La forma de la ley libre no debe depender del laboratorio inercial. En las variables primadas,</p>
+            <div class="equation-box">\[
+            \dot q'=\dot q-u=F(\eta)-u,
+                \qquad
+                \dot\eta'=\dot\eta=G(\eta).
+            \]</div>
+            <p>Pero la misma ley, escrita en el nuevo laboratorio, debería decir</p>
+            <div class="equation-box">\[
+            \dot q'=F(\eta'),
+                \qquad
+                \dot\eta'=G(\eta').
+            \]</div>
+            <p>Como \(\eta'=\eta-u\), esto exige</p>
+            <div class="equation-box">\[
+            F(\eta-u)=F(\eta)-u,
+                \qquad
+                G(\eta-u)=G(\eta)
+                \quad
+                \text{para todo }u.
+            \]</div>
+            <p>La primera condición deja</p>
+            <div class="equation-box">\[
+            F(\eta)=\eta+c.
+            \]</div>
+            <p>El término \(c\) sería una velocidad fija añadida por la ley, o una mala elección del cero del dato de cambio. En el modelo libre no hay velocidad natural privilegiada, así que tomamos la escala y el origen de \(\eta\) de modo que</p>
+            <div class="equation-box">\[
+            \dot q=\eta.
+            \]</div>
+            <p>La segunda condición dice que \(G\) no puede depender de \(\eta\). Solo podría ser una constante. Pero una aceleración constante marcaría una dirección externa en más dimensiones, o un sentido privilegiado en la línea. Como el modelo no contiene campo externo, medio ni interacción, queda</p>
+            <div class="equation-box">\[
+            \dot\eta=0.
+            \]</div>
+            <p>Así obtenemos</p>
+            <div class="equation-box">\[
+            \boxed{\dot q=\eta,\qquad \dot\eta=0.}
+            \]</div>
+            <p>No hemos descubierto una ley universal para todos los sistemas. Hemos leído qué forma queda cuando el modelo no contiene estructura adicional.</p>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: test galileano</h3>
+                  <p>Cambia de laboratorio inercial. Una partícula libre no debe revelar reposo absoluto; el rozamiento sí revela un medio.</p>
+                </div>
+                <div class="world-actions">
+                  
+                  <button class="btn" type="button" data-demo-choice="galilean-boost" data-value="free">Libre</button>
+                  <button class="btn secondary" type="button" data-demo-choice="galilean-boost" data-value="drag">Rozamiento</button>
+                  <button class="btn secondary" type="button" data-demo-choice="galilean-boost" data-value="preferred">Velocidad preferida</button>
+                  <label class="mini-label">velocidad u <input type="range" min="-1.20" max="1.20" step="0.05" value="0.80" data-demo-slider="galilean-boost" data-param="u" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="galilean-boost">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="galilean-boost" aria-label="Demo interactiva: test galileano"></div>
+                  <div class="world-side">
+                    
+                    <div class="stat-box">
+                      <h4>Cambio de laboratorio</h4>
+                      <p><strong>Boost:</strong> \(q'=q-ut\), \(\eta'=\eta-u\), con \(u=\)<span data-demo-value="boost-u">0.80</span>. Modo: <span data-demo-value="boost-mode">libre</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Reposo detectado</h4>
+                      <p><strong>Velocidad privilegiada en B:</strong> <span data-demo-value="boost-rest">ninguno</span>. <span data-demo-value="boost-verdict">no aparece velocidad privilegiada</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>El problema no es que una ley frene. El problema es llamar libre a una ley que ya contiene un medio o una velocidad especial.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="7-modelo-ii-oscilador-anclado" class="section-card">
+            <div class="eyebrow">2.7</div>
+            <h2>Modelo II: oscilador anclado</h2>
+            <p>Añadamos ahora una estructura nueva: un centro físico. El punto \(q=0\) ya no es un origen arbitrario de coordenadas; es el lugar donde está el anclaje o la posición de equilibrio.</p>
+            <p>Entonces una ley como</p>
+            <div class="equation-box">\[
+            \dot q=\eta,
+                \qquad
+                \dot\eta=-\omega^2q
+            \]</div>
+            <p>ya no es sospechosa. El término \(-\omega^2q\) compra exactamente la estructura que necesita: un centro.</p>
+            <p>Si trasladamos solo la coordenada,</p>
+            <div class="equation-box">\[
+            q'=q+a,
+            \]</div>
+            <p>la ecuación se escribe</p>
+            <div class="equation-box">\[
+            \dot\eta=-\omega^2(q'-a).
+            \]</div>
+            <p>Eso no contradice la covariancia descriptiva. Al contrario: la ecuación recuerda dónde está el centro físico en la nueva etiqueta. Lo que no podemos hacer es usar \(-\omega^2q\) para una partícula libre y fingir que \(q=0\) no significa nada.</p>
+            <p>La lección es:</p>
+            <div class="equation-box">\[
+            \boxed{-\omega^2q\text{ no es una mala ecuación; es una ecuación con anclaje.}}
+            \]</div>
+
+          </section>
+
+          <section id="8-modelo-iii-campo-uniforme" class="section-card">
+            <div class="eyebrow">2.8</div>
+            <h2>Modelo III: campo uniforme</h2>
+            <p>En tres dimensiones, un campo uniforme idealizado puede escribirse como</p>
+            <div class="equation-box">\[
+            \dot{\mathbf q}=\boldsymbol\eta,
+                \qquad
+                \dot{\boldsymbol\eta}=\mathbf g.
+            \]</div>
+            <p>Este modelo no marca una posición especial: el mismo \(\mathbf g\) actúa en todos los puntos. Por tanto puede conservar homogeneidad espacial.</p>
+            <p>Pero sí marca una dirección. Si rotamos solo la partícula y dejamos fijo el campo externo, la ley cambia. La isotropía del espacio vacío ya no es una simetría del modelo de la partícula en ese fondo, porque el modelo contiene una flecha física real: \(\mathbf g\).</p>
+            <p>Esto no contradice la covariancia descriptiva. Podemos rotar las coordenadas y rotar también las componentes de \(\mathbf g\); entonces solo hemos cambiado de idioma. Lo que ya no es cierto es que todas las direcciones físicas sean equivalentes con el fondo \(\mathbf g\) fijado.</p>
+            <p>Este ejemplo separa dos ideas que a veces se confunden:</p>
+            <div class="equation-box">\[
+            \text{homogeneidad espacial}
+                \neq
+                \text{isotropía}.
+            \]</div>
+            <p>Un mundo puede no distinguir lugares y, aun así, distinguir direcciones.</p>
+
+          </section>
+
+          <section id="9-modelo-iv-rozamiento-en-un-medio" class="section-card">
+            <div class="eyebrow">2.9</div>
+            <h2>Modelo IV: rozamiento en un medio</h2>
+            <p>Consideremos ahora</p>
+            <div class="equation-box">\[
+            \dot q=\eta,
+                \qquad
+                \dot\eta=-\gamma\eta,
+                \qquad \gamma>0.
+            \]</div>
+            <p>Esta ley no marca una posición especial. Si el medio es homogéneo, todos los puntos del espacio pueden seguir siendo equivalentes.</p>
+            <p>Tampoco tiene por qué marcar una dirección espacial fija. En varias dimensiones, un rozamiento proporcional a \(-\boldsymbol\eta\) puede ser compatible con un medio isótropo.</p>
+            <p>Pero sí marca una velocidad especial: el reposo respecto del medio. Por eso no pertenece al núcleo galileano libre. Cambiar a un laboratorio inercial con otra velocidad cambia qué estado se considera reposo.</p>
+            <p>Además, el término \(-\gamma\eta\) borra memoria de la preparación inicial: las velocidades se relajan hacia cero. Eso rompe la reversibilidad temporal del núcleo ideal que tomamos como punto de partida.</p>
+            <p>La conclusión no es que el rozamiento sea falso. La conclusión es:</p>
+            <div class="equation-box">\[
+            \boxed{\text{rozamiento significa sistema abierto, medio incluido o variables eliminadas.}}
+            \]</div>
+
+          </section>
+
+          <section id="10-modelo-v-interaccion-interna" class="section-card">
+            <div class="eyebrow">2.10</div>
+            <h2>Modelo V: interacción interna</h2>
+            <p>Una ley puede depender de posiciones sin depender de una posición absoluta. Ésta es una distinción crucial.</p>
+            <p>Para dos partículas aisladas en una línea, una interacción interna puede tener la forma esquemática</p>
+            <div class="equation-box">\[
+            \dot q_1=\eta_1,
+                \qquad
+                \dot q_2=\eta_2,
+            \]</div>
+            <div class="equation-box">\[
+            \dot\eta_1=A(q_1-q_2),
+                \qquad
+                \dot\eta_2=-A(q_1-q_2).
+            \]</div>
+            <p>La ley depende de \(q_1-q_2\), no de \(q_1\) o \(q_2\) por separado.</p>
+            <p>Si trasladamos todo el sistema,</p>
+            <div class="equation-box">\[
+            q_1\mapsto q_1+a,
+                \qquad
+                q_2\mapsto q_2+a,
+            \]</div>
+            <p>la separación no cambia:</p>
+            <div class="equation-box">\[
+            (q_1+a)-(q_2+a)=q_1-q_2.
+            \]</div>
+            <p>Por tanto la ley puede seguir siendo homogénea espacialmente. Ha introducido relación interna, no centro externo.</p>
+            <p>En tres dimensiones, una interacción central depende solo de</p>
+            <div class="equation-box">\[
+            r=|\mathbf q_1-\mathbf q_2|.
+            \]</div>
+            <p>Eso conserva rotaciones globales: no hay dirección absoluta, solo la dirección relativa entre las partículas.</p>
+            <p>Este ejemplo enseña una regla importante:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \begin{gathered}
+                \text{no toda dependencia posicional rompe homogeneidad;}\\
+                \text{la rompe la dependencia de posición absoluta.}
+                \end{gathered}
+                }
+            \]</div>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Demo interactiva: posición absoluta o relación interna</h3>
+                  <p>Traslada dos partículas a la vez. Una interacción interna depende de la separación; un anclaje externo mira al origen.</p>
+                </div>
+                <div class="world-actions">
+                  
+                  <button class="btn" type="button" data-demo-choice="internal-relation" data-value="internal">Relación interna</button>
+                  <button class="btn secondary" type="button" data-demo-choice="internal-relation" data-value="absolute">Origen absoluto</button>
+                  <label class="mini-label">traslación a <input type="range" min="-1.20" max="1.20" step="0.05" value="0.65" data-demo-slider="internal-relation" data-param="a" /></label>
+                  <label class="mini-label">separación r <input type="range" min="0.60" max="2.30" step="0.05" value="1.35" data-demo-slider="internal-relation" data-param="r" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="internal-relation">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="internal-relation" aria-label="Demo interactiva: posición absoluta o relación interna"></div>
+                  <div class="world-side">
+                    
+                    <div class="stat-box">
+                      <h4>Datos visibles</h4>
+                      <p><strong>Traslación:</strong> <span data-demo-value="relation-a">0.65</span>. <strong>Separación:</strong> <span data-demo-value="relation-r">1.35</span>. Posiciones: \(q_1=\)<span data-demo-value="relation-q1">-0.03</span>, \(q_2=\)<span data-demo-value="relation-q2">1.33</span>.</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p><strong>Resultado:</strong> <span data-demo-value="relation-verdict">la traslación global no cambia la ley</span>. Depender de posiciones relativas no es depender de un lugar absoluto.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="11-modelo-vi-pendulo" class="section-card">
+            <div class="eyebrow">2.11</div>
+            <h2>Modelo VI: péndulo</h2>
+            <p>El péndulo simple muestra otra manera de introducir estructura física. Aquí el espacio de configuración no es el plano libre. La longitud fija y el soporte reducen la configuración a un ángulo:</p>
+            <div class="equation-box">\[
+            Q=S^1.
+            \]</div>
+            <p>Un estado local puede escribirse como</p>
+            <div class="equation-box">\[
+            s=(\theta,\eta).
+            \]</div>
+            <p>Con gravedad uniforme y soporte fijo aparece una ley típica:</p>
+            <div class="equation-box">\[
+            \dot\theta=\eta,
+                \qquad
+                \dot\eta=-\omega^2\sin\theta.
+            \]</div>
+            <p>Esta ecuación no debe juzgarse como si describiera una partícula libre en el plano. El modelo ya contiene soporte, longitud fija y campo gravitatorio. Por eso no conserva traslaciones espaciales ordinarias ni isotropía completa.</p>
+            <p>Sí puede conservar homogeneidad temporal si el soporte no se mueve y la gravedad no cambia. También puede tener simetrías discretas propias cuando elegimos la posición de equilibrio como referencia.</p>
+            <p>La lección es que las simetrías se leen en el modelo y en su espacio de configuración real, no en una imagen cartesiana redundante que ya incluía vínculos eliminados.</p>
+
+            <article class="world-card constructive-demo-card">
+              <div class="world-head">
+                <div>
+                  <h3>Figura interactiva: qué estructura trae un péndulo</h3>
+                  <p>El péndulo no es una partícula libre mal escrita. El soporte, la longitud fija y la gravedad cambian el espacio de configuración y sus simetrías.</p>
+                </div>
+                <div class="world-actions">
+                  
+                  <label class="mini-label">ángulo θ <input type="range" min="-1.10" max="1.10" step="0.02" value="0.58" data-demo-slider="pendulum-structure" data-param="theta" /></label>
+                  <button class="btn secondary" type="button" data-demo-reset="pendulum-structure">Reset</button>
+                </div>
+              </div>
+              <div class="world-body">
+                <div class="world-grid">
+                  <div class="viz-shell constructive-viz" data-demo="pendulum-structure" aria-label="Figura interactiva: qué estructura trae un péndulo"></div>
+                  <div class="world-side">
+                    
+                    <div class="stat-box">
+                      <h4>Configuración real</h4>
+                      <p><strong>Estado local:</strong> \((\theta,\eta)\), con \(\theta=\)<span data-demo-value="pendulum-theta">0.58</span>. El espacio de configuraciones ya no es el plano libre: es \(S^1\).</p>
+                    </div>
+                    <div class="stat-box">
+                      <h4>Retener</h4>
+                      <p>Las simetrías se leen en el modelo construido, no en una imagen cartesiana redundante. Aquí hay pivote, vínculo de longitud y vertical física.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="12-que-hemos-aprendido" class="section-card">
+            <div class="eyebrow">2.12</div>
+            <h2>Qué hemos aprendido</h2>
+            <p>El capítulo no ha elegido todavía una acción, ni un Hamiltoniano, ni una fuerza universal. Ha enseñado a leer leyes antes de resolverlas.</p>
+            <ol>
+              <li><p>Una ley local es un campo de flechas sobre un espacio de presentes.</p></li>
+              <li><p>Ese campo no es admisible o inadmisible en abstracto; se juzga respecto     de un modelo.</p></li>
+              <li><p>La covariancia descriptiva aplica siempre: las etiquetas no son física.</p></li>
+              <li><p>Las simetrías físicas dependen de la estructura que el modelo declara     ausente o presente.</p></li>
+              <li><p>Romper una simetría no vuelve falsa una ley; obliga a declarar qué la     rompe.</p></li>
+              <li><p>Una ecuación también es una contabilidad de estructura física.</p></li>
+            </ol>
+            <p>La frase central es:</p>
+            <div class="equation-box">\[
+            \boxed{\text{una ecuación no solo predice movimiento; declara qué mundo estás modelando.}}
+            \]</div>
+
+          </section>
+
+          <section id="13-puente-de-transformaciones-a-cantidades" class="section-card">
+            <div class="eyebrow">2.13</div>
+            <h2>Puente: de transformaciones a cantidades</h2>
+            <p>Hasta aquí, una simetría ha significado una transformación que manda soluciones en soluciones. Eso ya restringe mucho la forma de las leyes posibles. Pero aún no hemos explicado cuándo una simetría viene acompañada por una cantidad física: momento, momento angular, energía.</p>
+            <p>En un espacio de estados desnudo, una función \(C(s)\) solo asigna un número a cada estado. No hay todavía una razón geométrica para que ese número genere una transformación. Para convertir cantidades en generadores, el estado necesita una estructura adicional.</p>
+            <p>La pregunta siguiente no es todavía “¿qué se conserva?”. Es más básica:</p>
+            <div class="equation-box">\[
+            \boxed{
+                \begin{gathered}
+                \text{¿qué debe ser el segundo dato del estado}\\
+                \text{para emparejarse con desplazamientos de configuración?}
+                \end{gathered}
+                }
+            \]</div>
+            <p>Esa pregunta llevará de</p>
+            <div class="equation-box">\[
+            s=(q,\eta)
+            \]</div>
+            <p>a</p>
+            <div class="equation-box">\[
+            z=(q,p),
+            \]</div>
+            <p>y con ello al espacio de fases.</p>
+
+          </section>
+
+          <nav class="chapter-nav" aria-label="Navegación entre capítulos">
+            <a class="chapter-nav-link previous" href="./capitulo-1.html">
+              <span>Capítulo anterior</span>
+              <strong>1</strong>
+            </a>
+            <a class="chapter-nav-link next" href="./capitulo-3.html">
+              <span>Capítulo siguiente</span>
+              <strong>3</strong>
+            </a>
+          </nav>
         </main>
       </div>
     </div>
 
-    <script defer src="./capitulo-2.js"></script>
+    <script defer src="./course-demos.js?v=20260509-demo-fwk"></script>
+    <script defer src="./constructive-demos.js?v=20260509-constructive-demos"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        window.CourseDemos?.renderMath(document.body);
+      });
+    </script>
   </body>
 </html>
