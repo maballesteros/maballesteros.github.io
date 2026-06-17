@@ -23,9 +23,11 @@ El contexto profesional más sintético está en [Professional profile](/profess
 3. 2025-10-17 - [Ranking pragmático: heurísticas, LLM barato y validación determinista](/blog/ranking-pragmatico-heuristicas-llm-validacion/)
 4. 2025-12-05 - [Sofía y el problema real de los tutores IA](/blog/sofia-y-el-problema-real-de-los-tutores-ia/)
 5. 2026-02-10 - [El coste de la IA también es arquitectura](/blog/coste-ia-tambien-es-arquitectura/)
-6. 2026-02-20 - [Guardrails ejecutables: políticas vivas, no documentos bonitos](/blog/guardrails-ejecutables-politicas-vivas-no-documentos-bonitos/)
-7. 2026-04-24 - [Evaluar agentes no es preguntar si la respuesta parece buena](/blog/evaluar-agentes-no-es-preguntar-si-parece-buena/)
-8. 2026-06-17 - [Commits revisables: cómo hacer legibles las PRs generadas con IA](/blog/commits-revisables-como-hacer-legibles-las-prs-generadas-con-ia/)
+6. 2026-02-17 - [Codex y AWS: convertir intención en operación](/blog/codex-y-aws-convertir-intencion-en-operacion/)
+7. 2026-02-20 - [Guardrails ejecutables: políticas vivas, no documentos bonitos](/blog/guardrails-ejecutables-politicas-vivas-no-documentos-bonitos/)
+8. 2026-04-24 - [Evaluar agentes no es preguntar si la respuesta parece buena](/blog/evaluar-agentes-no-es-preguntar-si-parece-buena/)
+9. 2026-06-05 - [Codex y AWS: convertir la factura en plan operativo](/blog/codex-y-aws-convertir-la-factura-en-plan-operativo/)
+10. 2026-06-17 - [Commits revisables: cómo hacer legibles las PRs generadas con IA](/blog/commits-revisables-como-hacer-legibles-las-prs-generadas-con-ia/)
 
 ## La tesis
 
