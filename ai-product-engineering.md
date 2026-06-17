@@ -25,6 +25,7 @@ El contexto profesional más sintético está en [Professional profile](/profess
 5. 2026-02-10 - [El coste de la IA también es arquitectura](/blog/coste-ia-tambien-es-arquitectura/)
 6. 2026-02-20 - [Guardrails ejecutables: políticas vivas, no documentos bonitos](/blog/guardrails-ejecutables-politicas-vivas-no-documentos-bonitos/)
 7. 2026-04-24 - [Evaluar agentes no es preguntar si la respuesta parece buena](/blog/evaluar-agentes-no-es-preguntar-si-parece-buena/)
+8. 2026-06-17 - [Commits revisables: cómo hacer legibles las PRs generadas con IA](/blog/commits-revisables-como-hacer-legibles-las-prs-generadas-con-ia/)
 
 ## La tesis
 
