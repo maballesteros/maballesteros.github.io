@@ -1,14 +1,18 @@
 ---
-title: "El compilador como supervisor: Rust, Go, Python y TypeScript en la era agéntica"
-excerpt: "Una comparación pragmática de cómo distintos lenguajes devuelven feedback a los agentes de código y qué errores desplazan antes de runtime."
+title: "Lenguajes para agentes (2/3): el compilador como supervisor"
+excerpt: "Segunda entrega de la miniserie: una comparación pragmática de cómo Rust, Go, Kotlin, TypeScript, Effect y Python devuelven feedback temprano a los agentes de código."
 tags: [ia, agentes, lenguajes, rust, engineering]
-date: 2026-06-18
+date: 2026-06-18 12:02:00 +0200
 modified: 2026-06-18
 comments: true
 ref: el-compilador-como-supervisor-rust-go-python-typescript-era-agentica
 ---
 
-Primera entrega: [El lenguaje importa más cuando programa un agente](/blog/el-lenguaje-importa-mas-cuando-programa-un-agente/).
+Miniserie **Lenguajes para agentes**: entrega **2/3**.
+
+Anterior: [El lenguaje importa más](/blog/el-lenguaje-importa-mas-cuando-programa-un-agente/).
+
+Siguiente: [Repos que devuelven feedback](/blog/repos-que-devuelven-feedback-como-disenar-loop-programacion-agentica/).
 
 La idea de fondo era esta: en programación agéntica, el lenguaje no importa menos. Importa más, porque se convierte en una superficie de feedback.
 

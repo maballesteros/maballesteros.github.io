@@ -1,16 +1,18 @@
 ---
-title: "Repos que devuelven feedback: cómo diseñar el loop de programación agéntica"
-excerpt: "El lenguaje ayuda, pero la velocidad real aparece cuando el repo tiene comandos, contratos, tests y revisión diseñados para que los agentes se corrijan pronto."
+title: "Lenguajes para agentes (3/3): repos que devuelven feedback"
+excerpt: "Tercera entrega de la miniserie: el lenguaje ayuda, pero la velocidad real aparece cuando el repo tiene comandos, contratos, tests y revisión diseñados para que los agentes se corrijan pronto."
 tags: [ia, agentes, repos, software, engineering]
-date: 2026-06-18
+date: 2026-06-18 12:01:00 +0200
 modified: 2026-06-18
 comments: true
 ref: repos-que-devuelven-feedback-como-disenar-loop-programacion-agentica
 ---
 
-Primera entrega: [El lenguaje importa más cuando programa un agente](/blog/el-lenguaje-importa-mas-cuando-programa-un-agente/).
+Miniserie **Lenguajes para agentes**: entrega **3/3**.
 
-Segunda entrega: [El compilador como supervisor: Rust, Go, Python y TypeScript en la era agéntica](/blog/el-compilador-como-supervisor-rust-go-python-typescript-era-agentica/).
+Anterior: [El compilador como supervisor](/blog/el-compilador-como-supervisor-rust-go-python-typescript-era-agentica/).
+
+Inicio: [El lenguaje importa más](/blog/el-lenguaje-importa-mas-cuando-programa-un-agente/).
 
 Hasta ahora hemos hablado del lenguaje.
 

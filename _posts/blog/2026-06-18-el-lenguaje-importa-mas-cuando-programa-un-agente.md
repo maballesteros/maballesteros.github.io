@@ -1,12 +1,16 @@
 ---
-title: "El lenguaje importa más cuando programa un agente"
-excerpt: "A partir de la apuesta de OpenAI por Rust, una tesis: en programación agéntica los lenguajes, tipos y compiladores se convierten en parte del loop de velocidad."
+title: "Lenguajes para agentes (1/3): el lenguaje importa más"
+excerpt: "Primera entrega de la miniserie: a partir de la apuesta de OpenAI por Rust, por qué los lenguajes, tipos y compiladores se convierten en parte del loop de velocidad agéntica."
 tags: [ia, agentes, lenguajes, software, engineering]
-date: 2026-06-18
+date: 2026-06-18 12:03:00 +0200
 modified: 2026-06-18
 comments: true
 ref: el-lenguaje-importa-mas-cuando-programa-un-agente
 ---
+
+Miniserie **Lenguajes para agentes**: entrega **1/3**.
+
+Siguiente: [El compilador como supervisor](/blog/el-compilador-como-supervisor-rust-go-python-typescript-era-agentica/).
 
 El detonante de esta serie fue una noticia muy concreta: la [Rust Foundation anunció que OpenAI se incorporaba como Platinum Member y aportaba 600.000 dólares al ecosistema Rust](https://rustfoundation.org/media/rust-foundation-welcomes-openai-as-platinum-member-announces-donation-to-rust-project/).
 
