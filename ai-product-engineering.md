@@ -28,6 +28,9 @@ El contexto profesional más sintético está en [Professional profile](/profess
 8. 2026-04-24 - [Evaluar agentes no es preguntar si la respuesta parece buena](/blog/evaluar-agentes-no-es-preguntar-si-parece-buena/)
 9. 2026-06-05 - [Codex y AWS: convertir la factura en plan operativo](/blog/codex-y-aws-convertir-la-factura-en-plan-operativo/)
 10. 2026-06-17 - [Commits revisables: cómo hacer legibles las PRs generadas con IA](/blog/commits-revisables-como-hacer-legibles-las-prs-generadas-con-ia/)
+11. 2026-06-18 - [El lenguaje importa más cuando programa un agente](/blog/el-lenguaje-importa-mas-cuando-programa-un-agente/)
+12. 2026-06-18 - [El compilador como supervisor: Rust, Go, Python y TypeScript en la era agéntica](/blog/el-compilador-como-supervisor-rust-go-python-typescript-era-agentica/)
+13. 2026-06-18 - [Repos que devuelven feedback: cómo diseñar el loop de programación agéntica](/blog/repos-que-devuelven-feedback-como-disenar-loop-programacion-agentica/)
 
 ## La tesis
 
