@@ -31,6 +31,9 @@ El contexto profesional más sintético está en [Professional profile](/profess
 11. 2026-06-18 - [Lenguajes para agentes (1/3): el lenguaje importa más](/blog/el-lenguaje-importa-mas-cuando-programa-un-agente/)
 12. 2026-06-18 - [Lenguajes para agentes (2/3): el compilador como supervisor](/blog/el-compilador-como-supervisor-rust-go-python-typescript-era-agentica/)
 13. 2026-06-18 - [Lenguajes para agentes (3/3): repos que devuelven feedback](/blog/repos-que-devuelven-feedback-como-disenar-loop-programacion-agentica/)
+14. 2026-06-19 - [Fronteras para agentes (1/3): el contrato SPA-API](/blog/fronteras-para-agentes-contrato-spa-api/)
+15. 2026-06-19 - [Fronteras para agentes (2/3): backend y base de datos](/blog/fronteras-para-agentes-backend-base-de-datos/)
+16. 2026-06-19 - [Fronteras para agentes (3/3): dónde vive la fuente de verdad](/blog/fronteras-para-agentes-fuente-de-verdad/)
 
 ## La tesis
 
